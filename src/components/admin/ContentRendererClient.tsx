@@ -3,6 +3,8 @@ import { useSearchParams } from 'next/navigation';
 import { QualitySelector } from '../QualitySelector';
 import { VideoPlayerSegment } from '@/components/VideoPlayerSegment';
 import { useRouter } from 'next/navigation';
+import VideoContentChapters from '../VideoContentChapters';
+import { useState } from 'react';
 
 export const ContentRendererClient = ({
   metadata,
@@ -23,6 +25,7 @@ export const ContentRendererClient = ({
     description: string
   }
 }) => {
+  const [showChapters, setShowChapters] = useState(false);
   const searchParams = useSearchParams();
   const router = useRouter();
   //@ts-ignore
@@ -59,72 +62,102 @@ export const ContentRendererClient = ({
     };
   }
 
+  const toggleShowChapters = () => {
+    setShowChapters((prev) => !prev);
+  };
+
   return (
-    <div className="w-full lg:w-2/3">
-      <VideoPlayerSegment
-        contentId={content.id}
-        subtitles={metadata.subtitles}
-        thumbnails={[]}
-        segments={metadata.segments || []}
-        videoJsOptions={{
-          playbackrates: [0.5, 1, 1.25, 1.5, 1.75, 2],
-          controls: true,
-          fluid: true,
-          html5: {
-            vhs: {
-              overridenative: true,
+    <div className="flex gap-2 items-start flex-col lg:flex-row">
+      <div className="flex-1">
+        <VideoPlayerSegment
+          contentId={content.id}
+          subtitles={metadata.subtitles}
+          thumbnails={[]}
+          segments={metadata.segments || []}
+          videoJsOptions={{
+            playbackrates: [0.5, 1, 1.25, 1.5, 1.75, 2],
+            controls: true,
+            fluid: true,
+            html5: {
+              vhs: {
+                overridenative: true,
+              },
             },
-          },
-          thumbnail: metadata.thumbnail || false, // data.isComposite ? data.thumbnails[0] : null,
-          isComposite: true,
-          height: 720,
-          width: 1080,
-          delta: 30,
-          autoplay: true,
-          responsive: true,
-          sources: [source],
-        }}
-      />
-      <br />
-      <div className="flex justify-between mb-2">
-        <div className="text-gray-900 dark:text-white font-bold text-2xl">
-          {content.title}
+            thumbnail: metadata.thumbnail || false, // data.isComposite ? data.thumbnails[0] : null,
+            isComposite: true,
+            height: 720,
+            width: 1080,
+            delta: 30,
+            autoplay: true,
+            responsive: true,
+            sources: [source],
+          }}
+        />
+        <br />
+        <div className="flex justify-between mb-2">
+          <div className="text-gray-900 dark:text-white font-bold text-2xl">
+            {content.title}
+          </div>
+          <div>
+            <QualitySelector />
+            <br />
+            {metadata.slides ? (
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row-reverse',
+                  gap: '10px',
+                }}
+              >
+                <a href={metadata.slides} target="_blank">
+                  <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold rounded p-2">
+                    Slides
+                  </button>
+                </a>
+                {!showChapters && (
+                  <button
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold rounded p-2"
+                    onClick={() => {
+                      scrollTo({ top: 0, behavior: 'smooth' });
+                      toggleShowChapters();
+                    }}
+                  >
+                    View All Chapters
+                  </button>
+                )}
+              </div>
+            ) : null}
+          </div>
         </div>
-        <div>
-          <QualitySelector />
-          <br />
-          {metadata.slides ? (
-            <div style={{ display: 'flex', flexDirection: 'row-reverse' }}>
-              <a href={metadata.slides} target="_blank">
-                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold rounded p-2">
-                  Slides
-                </button>
-              </a>
-            </div>
-          ) : null}
-        </div>
+        <br />
+        <br /> <br />
+        {nextContent ? (
+          <div className="flex flex-row-reverse">
+            <button
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-4"
+              onClick={() => {
+                const originalPath = window.location.pathname;
+                const parts = originalPath.split('/');
+                parts.pop();
+                parts.push(nextContent.id.toString());
+                const newPath = parts.join('/');
+                router.push(newPath);
+              }}
+            >
+              {nextContent.title}
+            </button>{' '}
+          </div>
+        ) : null}
+        <br /> <br />
+        <br /> <br />
       </div>
-      <br />
-      <br /> <br />
-      {nextContent ? (
-        <div className="flex flex-row-reverse">
-          <button
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-4"
-            onClick={() => {
-              const originalPath = window.location.pathname;
-              const parts = originalPath.split('/');
-              parts.pop();
-              parts.push(nextContent.id.toString());
-              const newPath = parts.join('/');
-              router.push(newPath);
-            }}
-          >
-            {nextContent.title}
-          </button>{' '}
-        </div>
-      ) : null}
-      <br /> <br />
-      <br /> <br />
+
+      {showChapters && (
+        <VideoContentChapters
+          segments={metadata?.segments}
+          onCancel={toggleShowChapters}
+        />
+      )}
     </div>
   );
 };

@@ -2,7 +2,6 @@ import db from '@/db';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { ContentRendererClient } from './ContentRendererClient';
-import VideoContentChapters from '../VideoContentChapters';
 
 export const getMetadata = async (contentId: number) => {
   const session = await getServerSession(authOptions);
@@ -86,13 +85,10 @@ export const ContentRenderer = async ({
   }
 
   return (
-    <div className="flex gap-2 items-start flex-col lg:flex-row">
-      <ContentRendererClient
-        nextContent={nextContent}
-        metadata={metadata}
-        content={content}
-      />
-      <VideoContentChapters segments={metadata?.segments} />
-    </div>
+    <ContentRendererClient
+      nextContent={nextContent}
+      metadata={metadata}
+      content={content}
+    />
   );
 };

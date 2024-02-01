@@ -1,9 +1,17 @@
 'use client';
 import { Segment, formatTime } from '@/lib/utils';
+import { X } from 'lucide-react';
 import { useEffect, useState } from 'react';
+
 import videojs from 'video.js';
 
-const VideoContentChapters = ({ segments }: { segments: any }) => {
+const VideoContentChapters = ({
+  segments,
+  onCancel,
+}: {
+  segments: any
+  onCancel: () => void
+}) => {
   const [player, setPlayer] = useState<any>(null);
   const [currentTime, setCurrentTime] = useState(0);
 
@@ -27,6 +35,10 @@ const VideoContentChapters = ({ segments }: { segments: any }) => {
 
   return (
     <div className="overflow-auto w-full lg:w-1/3 rounded-md shadow-md border text-sm">
+      <div className="flex items-center justify-between p-2 py-3 bg-[#212020]">
+        <span>Chapters</span>
+        <X onClick={onCancel} className="cursor-pointer" />
+      </div>
       {(segments as Segment[]).map(({ start, end, title }, index) => {
         return (
           <>
