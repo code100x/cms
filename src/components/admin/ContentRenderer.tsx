@@ -77,7 +77,7 @@ export const ContentRenderer = async ({
     slides?: string
   }
 }) => {
-  const metadata = await getMetadata(content.id, content.type);
+  const metadata = await getMetadata(content.id);
   return (
     <ContentRendererClient
       nextContent={nextContent}
