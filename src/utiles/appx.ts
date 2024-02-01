@@ -7,7 +7,6 @@ const APPX_BASE_API = process.env.APPX_BASE_API;
 const LOCAL_CMS_PROVIDER = process.env.LOCAL_CMS_PROVIDER;
 
 export async function getPurchases(email: string) {
-  return [];
   const courses = await db.course.findMany({});
   if (LOCAL_CMS_PROVIDER) {
     return courses;
