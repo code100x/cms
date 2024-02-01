@@ -77,17 +77,3 @@
 .video-js .vjs-progress-control:hover .vjs-play-progress:after {
     display:none;
 }
-
-.video-js.vjs-fluid,
-.video-js.vjs-16-9,
-.video-js.vjs-4-3,
-video.video-js,
-video.vjs-tech {
-  max-height: calc(100vh - 100px);
-  position: relative !important;
-  width: 100%;
-  height: auto !important;
-  max-width: 100% !important;
-  padding-top: 0 !important;
-  line-height: 0;
-}
