@@ -1,5 +1,5 @@
-import db from "@/db"
-import { NextRequest, NextResponse } from "next/server";
+import db from '@/db';
+import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest) {
   const { adminSecret, email, disableDrm } = await req.json();
@@ -10,26 +10,27 @@ export async function POST(req: NextRequest) {
 
   const user = await db.user.findFirst({
     where: {
-      email
-    }
+      email,
+    },
   });
 
   if (!user) {
-    return NextResponse.json({ msg: "User not found" }, { status: 440 });
+    return NextResponse.json({ msg: 'User not found' }, { status: 440 });
   }
 
   const response = await db.user.update({
     where: {
-      id: user.id
+      id: user.id,
     },
     data: {
-      disableDrm
-    }
+      disableDrm,
+    },
   });
 
-  return NextResponse.json({ data: response }, {
-    status: 200,
-  });
-
+  return NextResponse.json(
+    { data: response },
+    {
+      status: 200,
+    },
+  );
 }
-

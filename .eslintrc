@@ -43,7 +43,6 @@ rules:
   no-unused-expressions: 1
   no-native-reassign: 1
   no-fallthrough: 1
-  sonarjs/cognitive-complexity: 1
 
   # Errors
   eqeqeq: 2

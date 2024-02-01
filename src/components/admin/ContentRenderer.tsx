@@ -4,7 +4,7 @@ import { authOptions } from '@/lib/auth';
 import { ContentRendererClient } from './ContentRendererClient';
 import VideoContentChapters from '../VideoContentChapters';
 
-export const getMetadata = async (contentId: number, type: 'video') => {
+export const getMetadata = async (contentId: number) => {
   const session = await getServerSession(authOptions);
   if (!session?.user) {
     return null;
@@ -78,7 +78,7 @@ export const ContentRenderer = async ({
     slides?: string
   }
 }) => {
-  const metadata = await getMetadata(content.id, content.type);
+  const metadata = await getMetadata(content.id);
 
   // Segments weren't working without JSON.parse
   if (metadata && metadata.segments) {
