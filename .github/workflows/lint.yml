@@ -8,7 +8,7 @@ jobs:
 
   Continuous-Integration:
 
-    name: Performs linting, formatting, type-checking and testing on the application
+    name: Performs linting, formatting on the application
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the Repository
