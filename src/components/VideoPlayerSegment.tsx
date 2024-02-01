@@ -51,7 +51,7 @@ export const VideoPlayerSegment: FunctionComponent<VideoProps> = ({
       if (mouseTimeDisplay) {
         const timeTooltip: any = mouseTimeDisplay.getChild('timeTooltip');
         if (timeTooltip) {
-          timeTooltip.update = function(
+          timeTooltip.update = function (
             seekBarRect: any,
             seekBarPoint: any,
             time: string
@@ -70,6 +70,8 @@ export const VideoPlayerSegment: FunctionComponent<VideoProps> = ({
               this.el().style.left = 'auto';
               this.el().style.width = '200px'
               this.el().style.fontSize = '14px'
+              this.el().style.lineHeight = '1'
+              this.el().style.wordWrap = 'break-word'
             }, 0);
           };
         } else {
