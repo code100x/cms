@@ -1,7 +1,7 @@
 const AboutUsSection = () => {
   return (
     <div className="w-full h-full flex flex-col items-center justify-center my-20">
-      <h2 className="text-2xl md:text-4xl font-semibold text-slate-800 dark:text-slate-300 mb-8">
+      <h2 className="text-2xl md:text-4xl font-semibold text-slate-800 dark:text-slate-200 mb-8">
         About 100xdevs
       </h2>
 
