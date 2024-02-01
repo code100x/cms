@@ -41,7 +41,7 @@ export default function RootLayout({
         <GoogleAnalytics />
         <Providers>
           <Appbar />
-          {children}
+          <div className="min-h-screen">{children}</div>
           <Footer />
         </Providers>
       </body>
