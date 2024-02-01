@@ -5,14 +5,14 @@ import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { Button } from './ui/button';
 
-export const AppbarAuth = () => {
+export const AppbarAuth = ({ isInMenu = false }: { isInMenu?: boolean }) => {
   const session = useSession();
   const router = useRouter();
 
   return (
     <Button
       size={'sm'}
-      variant={'outline'}
+      variant={isInMenu ? 'link' : 'outline'}
       id="navbar-default"
       onClick={() => {
         if (session.data?.user) {

@@ -9,6 +9,7 @@ import Logo from './landing/logo/logo';
 import { Button } from './ui/button';
 import { Sparkles } from 'lucide-react';
 import { ThemeToggler } from './ThemeToggler';
+import { NavigationMenu } from './landing/navbar/nav-menu';
 
 export const Appbar = () => {
   const session = useSession();
@@ -20,7 +21,7 @@ export const Appbar = () => {
 
         {session?.data?.user ? (
           <div className="flex items-center space-x-2">
-            <div className="flex items-center justify-around md:w-auto md:block space-x-2">
+            <div className="hidden sm:flex items-center justify-around md:w-auto md:block space-x-2">
               <Button variant={'link'} size={'sm'} asChild>
                 <JoinDiscord isNavigated={false} />
               </Button>
@@ -36,11 +37,16 @@ export const Appbar = () => {
 
               <AppbarAuth />
             </div>
+
             <ThemeToggler />
+
+            <div className="block sm:hidden">
+              <NavigationMenu />
+            </div>
           </div>
         ) : (
           <div className="flex items-center space-x-2">
-            <div className="flex items-center justify-around md:w-auto md:block space-x-3">
+            <div className="hidden sm:flex items-center justify-around md:w-auto md:block space-x-3">
               <AppbarAuth />
 
               <Button size={'sm'} asChild>
@@ -52,7 +58,12 @@ export const Appbar = () => {
                 </Link>
               </Button>
             </div>
+
             <ThemeToggler />
+
+            <div className="block sm:hidden">
+              <NavigationMenu />
+            </div>
           </div>
         )}
       </div>
