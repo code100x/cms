@@ -56,21 +56,6 @@ export const CourseView = ({
             />
           ) : null}
         </div>
-        <div className='text-center border text-2xl text-black p-20'>
-          Hello Test
-        </div>
-        <div className='text-center border text-2xl text-black p-20'>
-          Hello Test
-        </div>
-        <div className='text-center border text-2xl text-black p-20'>
-          Hello Test
-        </div>
-        <div className='text-center border text-2xl text-black p-20'>
-          Hello Test
-        </div>
-        <div className='text-center border text-2xl text-black p-20'>
-          Hello Test
-        </div>
       </div>
     </div>
   )
