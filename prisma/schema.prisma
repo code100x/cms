@@ -119,6 +119,7 @@ model User {
   videoProgress  VideoProgress[]
   discordConnect DiscordConnect?
   disableDrm     Boolean         @default(false)
+  submissions    Submission[]
 }
 
 model DiscordConnect {
@@ -145,4 +146,12 @@ model VideoProgress {
   content          Content @relation(fields: [contentId], references: [id], onDelete: Cascade)
 
   @@unique([contentId, userId])
+}
+
+model Submission {
+  id             Int    @id @default(autoincrement())
+  userId         String
+  user           User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  submissionLink String
+  week           String
 }
