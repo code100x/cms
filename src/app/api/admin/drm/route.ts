@@ -1,7 +1,7 @@
 import db from "@/db"
 import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(req: NextRequest, { params, searchParams }: { params: any; searchParams: any; }) {
+export async function POST(req: NextRequest) {
   const { adminSecret, email, disableDrm } = await req.json();
 
   if (adminSecret !== process.env.ADMIN_SECRET) {
