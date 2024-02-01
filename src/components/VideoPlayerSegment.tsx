@@ -67,9 +67,12 @@ export const VideoPlayerSegment: FunctionComponent<VideoProps> = ({
               this.el().style.right = `-${rightOffset}px`;
 
               // Adjust the left style to 'auto' to avoid conflict with the right property
+              this.el().style.padding='10px'
               this.el().style.left = 'auto';
               this.el().style.width = '200px'
               this.el().style.fontSize = '14px'
+              this.el().style.lineHeight='1'
+              this.el().style.wordWrap="break-word"
             }, 0);
           };
         } else {
