@@ -1,0 +1,24 @@
+name: Linting and formatting on PR
+on:
+  pull_request:
+    branches:
+      - '**'
+    
+jobs:
+
+  Continuous-Integration:
+
+    name: Performs linting, formatting, type-checking and testing on the application
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the Repository
+        uses: actions/checkout@v3
+
+      - name: Install Dependencies
+        run: npm install --legacy-peer-deps
+
+      - name: Run linting check
+        run: npm run lint:check
+
+      - name: Check formatting
+        run: npm run format:check
