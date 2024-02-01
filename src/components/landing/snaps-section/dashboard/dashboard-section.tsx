@@ -10,7 +10,7 @@ const DashboardSection = () => {
       <div className="w-full flex flex-col items-start justify-center px-4 md:px-12">
         <h3 className="font-medium text-sm text-neutral-500 dark:text-neutral-400">
           <span className="font-bold text-blue-600 pr-1 text-lg">|</span>The
-          best learing platform!
+          best learning platform!
         </h3>
         <h2 className="text-2xl md:text-4xl font-semibold text-neutral-800 dark:text-neutral-200 mt-2 mb-6">
           What is 100xdevs?
