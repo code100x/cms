@@ -70,7 +70,7 @@ export const createSegmentMarkerElements = (
   lastSegment: Segment,
 ) => {
   const segmentEnd = isFinite(segment.end)
-    ? (segment.end / (player.duration() || lastSegment.end)) * 100
+    ? ((segment.end + 1) / (player.duration() || lastSegment.end)) * 100
     : 100;
 
   // Create gap element
