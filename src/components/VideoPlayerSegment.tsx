@@ -1,18 +1,14 @@
-'use client';
-import React, {
-  FunctionComponent,
-  useRef,
-  useState,
-} from 'react';
-import { VideoPlayer } from '@/components/VideoPlayer2';
+"use client";
+import React, { FunctionComponent, useRef, useState } from "react";
+import { VideoPlayer } from "@/components/VideoPlayer2";
 
 import {
   createSegmentMarkersWithoutDuration,
   formatTime,
   getCurrentSegmentName,
-} from '@/lib/utils';
-import { Segment } from '@/lib/utils';
-import Player from 'video.js/dist/types/player';
+} from "@/lib/utils";
+import { Segment } from "@/lib/utils";
+import Player from "video.js/dist/types/player";
 
 export interface Thumbnail {
   public_id: string;
@@ -42,19 +38,19 @@ export const VideoPlayerSegment: FunctionComponent<VideoProps> = ({
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const overrideUpdateTime = (player: Player) => {
     const seekBar = player
-      .getChild('ControlBar')
-      ?.getChild('ProgressControl')
-      ?.getChild('SeekBar');
+      .getChild("ControlBar")
+      ?.getChild("ProgressControl")
+      ?.getChild("SeekBar");
 
     if (seekBar) {
-      const mouseTimeDisplay = seekBar.getChild('mouseTimeDisplay');
+      const mouseTimeDisplay = seekBar.getChild("mouseTimeDisplay");
       if (mouseTimeDisplay) {
-        const timeTooltip: any = mouseTimeDisplay.getChild('timeTooltip');
+        const timeTooltip: any = mouseTimeDisplay.getChild("timeTooltip");
         if (timeTooltip) {
-          timeTooltip.update = function(
+          timeTooltip.update = function (
             seekBarRect: any,
             seekBarPoint: any,
-            time: string
+            time: string,
           ) {
             const segmentName = getCurrentSegmentName(time, segments);
             this.write(`${time} - ${segmentName}`);
@@ -66,20 +62,25 @@ export const VideoPlayerSegment: FunctionComponent<VideoProps> = ({
               const rightOffset = tooltipWidth / 2;
               this.el().style.right = `-${rightOffset}px`;
 
+              if (segmentName.length > 22) {
+                this.el().style.top = "-60px";
+              }
+              this.el().style.lineHeight = "1.2";
+
               // Adjust the left style to 'auto' to avoid conflict with the right property
-              this.el().style.left = 'auto';
-              this.el().style.width = '200px'
-              this.el().style.fontSize = '14px'
+              this.el().style.left = "auto";
+              this.el().style.width = "200px";
+              this.el().style.fontSize = "14px";
             }, 0);
           };
         } else {
-          console.error('TimeTooltip component not found.');
+          console.error("TimeTooltip component not found.");
         }
       } else {
-        console.error('MouseTimeDisplay component not found.');
+        console.error("MouseTimeDisplay component not found.");
       }
     } else {
-      console.error('SeekBar component not found.');
+      console.error("SeekBar component not found.");
     }
   };
   const handlePlayerReady = async (player: Player) => {
@@ -106,7 +107,12 @@ export const VideoPlayerSegment: FunctionComponent<VideoProps> = ({
           ref={thumbnailPreviewRef}
           className="hidden absolute bg-no-repeat bg-cover w-[320px] h-[180px] pointer-events-none z-10"
         />
-        <VideoPlayer contentId={contentId} subtitles={subtitles} options={videoJsOptions} onReady={handlePlayerReady} />
+        <VideoPlayer
+          contentId={contentId}
+          subtitles={subtitles}
+          options={videoJsOptions}
+          onReady={handlePlayerReady}
+        />
       </div>
     </div>
   );
