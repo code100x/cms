@@ -1,0 +1,148 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Course {
+  id             Int             @id @default(autoincrement())
+  appxCourseId   Int
+  discordRoleId  String
+  title          String
+  imageUrl       String
+  description    String
+  openToEveryone Boolean         @default(false)
+  slug           String
+  content        CourseContent[]
+  purchasedBy    UserPurchases[]
+}
+
+model UserPurchases {
+  user       User     @relation(fields: [userId], references: [id])
+  userId     String
+  course     Course   @relation(fields: [courseId], references: [id])
+  courseId   Int
+  assignedAt DateTime @default(now())
+
+  @@id([userId, courseId])
+}
+
+model Content {
+  id               Int             @id @default(autoincrement())
+  type             String          @default("folder")
+  title            String
+  description      String?
+  thumbnail        String?
+  parentId         Int?
+  parent           Content?        @relation("ContentToContent", fields: [parentId], references: [id])
+  videoProgress    VideoProgress[]
+  children         Content[]       @relation("ContentToContent")
+  courses          CourseContent[]
+  createdAt        DateTime        @default(now())
+  VideoMetadata    VideoMetadata?
+  NotionMetadata   NotionMetadata?
+  notionMetadataId Int?
+}
+
+model CourseContent {
+  course    Course  @relation(fields: [courseId], references: [id])
+  courseId  Int
+  content   Content @relation(fields: [contentId], references: [id])
+  contentId Int
+
+  @@id([courseId, contentId])
+}
+
+model NotionMetadata {
+  id        Int     @id @default(autoincrement())
+  contentId Int
+  content   Content @relation(fields: [contentId], references: [id])
+  notionId  String
+
+  @@unique([contentId])
+}
+
+model VideoMetadata {
+  id                   Int     @id @default(autoincrement())
+  contentId            Int
+  video_1080p_mp4_1    String? // Link to 1080p mp4 quality video variant 1
+  video_1080p_mp4_2    String? // Link to 1080p mp4 quality video variant 2
+  video_1080p_mp4_3    String? // Link to 1080p mp4 quality video variant 3
+  video_1080p_mp4_4    String? // Link to 1080p mp4 quality video variant 4
+  video_1080p_1        String? // Link to 1080p quality video variant 1
+  video_1080p_2        String? // Link to 1080p quality video variant 2
+  video_1080p_3        String? // Link to 1080p quality video variant 3
+  video_1080p_4        String? // Link to 1080p quality video variant 4
+  video_720p_mp4_1     String? // Link to 720p mp4 quality video variant 1
+  video_720p_mp4_2     String? // Link to 720p mp4 quality video variant 2
+  video_720p_mp4_3     String? // Link to 720p mp4 quality video variant 3
+  video_720p_mp4_4     String? // Link to 720p mp4 quality video variant 4
+  video_720p_1         String? // Link to 720p quality video variant 1
+  video_720p_2         String? // Link to 720p quality video variant 2
+  video_720p_3         String? // Link to 720p quality video variant 3
+  video_720p_4         String? // Link to 720p quality video variant 4
+  video_360p_mp4_1     String? // Link to 360p mp4 quality video variant 1
+  video_360p_mp4_2     String? // Link to 360p mp4 quality video variant 2
+  video_360p_mp4_3     String? // Link to 360p mp4 quality video variant 3
+  video_360p_mp4_4     String? // Link to 360p mp4 quality video variant 4
+  video_360p_1         String? // Link to 360p quality video variant 1
+  video_360p_2         String? // Link to 360p quality video variant 2
+  video_360p_3         String? // Link to 360p quality video variant 3
+  video_360p_4         String? // Link to 360p quality video variant 4
+  subtitles            String? // Link to subtitles file
+  segments             Json?
+  content              Content @relation(fields: [contentId], references: [id])
+  slides               String? // link to slides
+  thumbnail_mosiac_url String?
+  duration             Int?
+
+  @@unique([contentId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id             String          @id @default(cuid())
+  name           String?
+  email          String?         @unique
+  sessions       Session[]
+  purchases      UserPurchases[]
+  videoProgress  VideoProgress[]
+  discordConnect DiscordConnect?
+  disableDrm     Boolean         @default(false)
+}
+
+model DiscordConnect {
+  id        String @id @default(cuid())
+  username  String
+  discordId String @unique
+  userId    String @unique
+  user      User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model DiscordConnectBulk {
+  id        String @id @default(cuid())
+  username  String
+  discordId String
+  userId    String
+}
+
+model VideoProgress {
+  id               Int     @id @default(autoincrement())
+  userId           String
+  contentId        Int
+  currentTimestamp Int
+  user             User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  content          Content @relation(fields: [contentId], references: [id], onDelete: Cascade)
+
+  @@unique([contentId, userId])
+}
