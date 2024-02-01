@@ -16,3 +16,5 @@ For example
  - npm run dev
  - Login using any userid and password 123456
  - You should be able to see some test courses
+
+Read [contributing guidelines](./CONTRIBUTING.md) to start making contributions
