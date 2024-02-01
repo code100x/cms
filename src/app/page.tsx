@@ -13,7 +13,7 @@ export default async function Home() {
 
   if (session?.user) {
     return (
-      <main className="max-w-screen-xl flex-col p-6 flex text-lg mx-auto">
+      <main className="max-w-screen-xl flex-col flex text-lg mx-auto">
         <div className="text-2xl">Your courses</div>
 
         <MyCourses />
@@ -23,5 +23,9 @@ export default async function Home() {
     );
   }
 
-  return <LandingPage />;
+  return (
+    <main className="pt-36 pb-20">
+      <LandingPage />
+    </main>
+  );
 }
