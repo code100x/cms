@@ -1,6 +1,7 @@
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import Player from 'video.js/dist/types/player';
+
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
