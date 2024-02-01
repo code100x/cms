@@ -41,13 +41,13 @@ export function NavigationMenu() {
           {session?.data?.user ? (
             <div className="p-4 pb-16">
               <div className="flex flex-col items-center justify-center space-y-2 text-lg">
-                <Button variant={'link'} size={'lg'} asChild>
+                <Button variant={'navLink'} size={'lg'} asChild>
                   <DrawerClose asChild>
-                    <JoinDiscord isNavigated={false} />
+                    <JoinDiscord isInMenu={true} isNavigated={false} />
                   </DrawerClose>
                 </Button>
 
-                <Button size={'lg'} variant={'link'} asChild>
+                <Button size={'lg'} variant={'navLink'} asChild>
                   <DrawerClose>
                     <Link
                       href={'https://github.com/100xdevs-cohort-2/assignments'}
@@ -64,7 +64,7 @@ export function NavigationMenu() {
           ) : (
             <div className="p-4 pb-16">
               <div className="flex flex-col items-center justify-center space-y-2">
-                <Button size={'lg'} variant={'link'} asChild>
+                <Button size={'lg'} variant={'navLink'} asChild>
                   <DrawerClose>
                     <Link
                       href={'https://harkirat.classx.co.in/new-courses'}

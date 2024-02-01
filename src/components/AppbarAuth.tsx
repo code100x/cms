@@ -12,7 +12,7 @@ export const AppbarAuth = ({ isInMenu = false }: { isInMenu?: boolean }) => {
   return (
     <Button
       size={'sm'}
-      variant={isInMenu ? 'link' : 'outline'}
+      variant={isInMenu ? 'navLink' : 'outline'}
       id="navbar-default"
       onClick={() => {
         if (session.data?.user) {

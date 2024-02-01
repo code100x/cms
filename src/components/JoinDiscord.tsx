@@ -8,8 +8,10 @@ import { Button } from './ui/button';
 
 export const JoinDiscord = ({
   isNavigated = true,
+  isInMenu = false,
 }: {
   isNavigated?: boolean
+  isInMenu?: boolean
 }) => {
   if (isNavigated) {
     return (
@@ -23,7 +25,7 @@ export const JoinDiscord = ({
 
   return (
     <Link href={getOauthUrl()} target="_blank" legacyBehavior passHref>
-      <Button variant={'link'} size={'sm'}>
+      <Button variant={isInMenu ? 'navLink' : 'link'} size={'sm'}>
         Join Discord
       </Button>
     </Link>

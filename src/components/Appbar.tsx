@@ -9,7 +9,7 @@ import Logo from './landing/logo/logo';
 import { Button } from './ui/button';
 import { Sparkles } from 'lucide-react';
 import { ThemeToggler } from './ThemeToggler';
-import { NavigationMenu } from './landing/navbar/nav-menu';
+import { NavigationMenu } from './landing/appbar/nav-menu';
 
 export const Appbar = () => {
   const session = useSession();
