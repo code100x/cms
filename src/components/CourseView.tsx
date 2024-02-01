@@ -27,7 +27,7 @@ export const CourseView = ({
   return (
     <div className='flex'>
       <Sidebar fullCourseContent={fullCourseContent} courseId={course.id} />
-      <div className='grow'>
+      <div className='grow ml-64'>
         <div className='p-2'>
           {contentType === 'notion' ? (
             <NotionRenderer id={courseContent[0]?.id} />
@@ -55,6 +55,21 @@ export const CourseView = ({
               courseId={parseInt(course.id)}
             />
           ) : null}
+        </div>
+        <div className='text-center border text-2xl text-black p-20'>
+          Hello Test
+        </div>
+        <div className='text-center border text-2xl text-black p-20'>
+          Hello Test
+        </div>
+        <div className='text-center border text-2xl text-black p-20'>
+          Hello Test
+        </div>
+        <div className='text-center border text-2xl text-black p-20'>
+          Hello Test
+        </div>
+        <div className='text-center border text-2xl text-black p-20'>
+          Hello Test
         </div>
       </div>
     </div>
