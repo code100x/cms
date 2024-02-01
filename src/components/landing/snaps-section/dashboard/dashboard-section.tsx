@@ -1,0 +1,53 @@
+import Image from 'next/image';
+import dashboard from '../../../../../public/platform/dashboard.png';
+import { Button } from '../../../ui/button';
+import Link from 'next/link';
+import { ChevronRight } from 'lucide-react';
+
+const DashboardSection = () => {
+  return (
+    <div className="w-full flex items-center justify-between my-20">
+      <div className="w-full flex flex-col items-start justify-center px-4 md:px-12">
+        <h3 className="font-medium text-sm text-neutral-500">
+          <span className="font-bold text-blue-600 pr-1">|</span>The best
+          learing platform!
+        </h3>
+        <h2 className="text-2xl md:text-4xl font-semibold text-neutral-800 mt-3 mb-6">
+          What is 100xdevs?
+        </h2>
+        <p className="text-lg text-neutral-600 font-medium">
+          100xDevs, a learning platform that offers courses on the latest trends
+          in the software engineering industry. Whether you&apos;re a beginner
+          or looking to upgrade your skills, 100xDevs provides a user-friendly
+          environment for mastering the essentials of programming. Stay ahead of
+          the curve by exploring courses curated by industry engineers.
+        </p>
+
+        <Button
+          className="mt-6 text-lg rounded-full  hover:shadow-sm"
+          size={'lg'}
+          asChild
+        >
+          <Link
+            href={'https://harkirat.classx.co.in/new-courses'}
+            target="_blank"
+          >
+            Explore courses <ChevronRight className="h-4 w-4 ml-1" />
+          </Link>
+        </Button>
+      </div>
+
+      <div className="hidden md:block py-3 md:py-6 pl-3 md:pl-6 rounded-l-xl md:rounded-l-2xl bg-slate-200 border-l border-slate-200">
+        <Image
+          src={dashboard}
+          alt={'platform'}
+          width={1400}
+          height={1260}
+          className="rounded-l-lg md:rounded-l-xl"
+        />
+      </div>
+    </div>
+  );
+};
+
+export default DashboardSection;

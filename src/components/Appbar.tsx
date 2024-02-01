@@ -1,63 +1,76 @@
 'use client';
+
 import Link from 'next/link';
 import React from 'react';
-import {
-  NavigationMenu,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  navigationMenuTriggerStyle,
-} from '@/components/ui/navigation-menu';
 import { JoinDiscord } from './JoinDiscord';
 import { AppbarAuth } from './AppbarAuth';
 import { useSession } from 'next-auth/react';
+import Logo from './landing/logo/logo';
+import { Button } from './ui/button';
+import { Sparkles } from 'lucide-react';
 
 export const Appbar = () => {
   const session = useSession();
 
   return (
-    <nav className="">
-      <div className="flex flex-wrap items-center justify-between mx-auto p-4">
-        <div className="flex">
-          <Link
-            href="/"
-            className="flex items-center space-x-3 rtl:space-x-reverse"
-          >
-            <img
-              src="https://appx-wsb.classx.co.in/subject/2023-01-17-0.17044360120951185.jpg"
-              className="h-8 rounded-full"
-              alt="Flowbite Logo"
-            />
-            <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-              100xdevs
-            </span>
-          </Link>
-          <div className="flex justify-center ml-4">
-            {session?.data?.user ? (
-              <NavigationMenu>
-                <NavigationMenuList>
-                  <NavigationMenuItem>
-                    <JoinDiscord />
-                  </NavigationMenuItem>
-                  <NavigationMenuItem>
-                    <Link
-                      href="https://github.com/100xdevs-cohort-2/assignments"
-                      legacyBehavior
-                      passHref
+    <nav className="fixed z-50 top-0 px-4 w-full h-16 border-b shadow-sm bg-background/60 backdrop-blur-md flex items-center">
+      <div className="md:max-w-screen-2xl mx-auto flex items-center justify-between w-full">
+        <Logo />
+        {/* {session?.data?.user ? (
+            <NavigationMenu>
+              <NavigationMenuList>
+                <NavigationMenuItem>
+                  <JoinDiscord />
+                </NavigationMenuItem>
+
+                <NavigationMenuItem>
+                  <Link
+                    href="https://github.com/100xdevs-cohort-2/assignments"
+                    legacyBehavior
+                    passHref
+                  >
+                    <NavigationMenuLink
+                      className={navigationMenuTriggerStyle()}
                     >
-                      <NavigationMenuLink
-                        className={navigationMenuTriggerStyle()}
-                      >
-                        Assignments
-                      </NavigationMenuLink>
-                    </Link>
-                  </NavigationMenuItem>
-                </NavigationMenuList>
-              </NavigationMenu>
-            ) : null}
+                      Assignments
+                    </NavigationMenuLink>
+                  </Link>
+                </NavigationMenuItem>
+              </NavigationMenuList>
+            </NavigationMenu>
+          ) : null} */}
+
+        {session?.data?.user ? (
+          <div className="flex items-center justify-around md:w-auto md:block space-x-2">
+            <Button variant={'outline'} size={'sm'} asChild>
+              <JoinDiscord isNavigated={false} />
+            </Button>
+
+            <Button size={'sm'} asChild>
+              <Link
+                href={'https://github.com/100xdevs-cohort-2/assignments'}
+                target="_blank"
+              >
+                Assignments
+              </Link>
+            </Button>
+
+            <AppbarAuth />
           </div>
-        </div>
-        <AppbarAuth />
+        ) : (
+          <div className="flex items-center justify-around md:w-auto md:block space-x-3">
+            <AppbarAuth />
+
+            <Button size={'sm'} asChild>
+              <Link
+                href={'https://harkirat.classx.co.in/new-courses'}
+                target="_blank"
+              >
+                Join now <Sparkles className="ml-1 h-4 w-4" />
+              </Link>
+            </Button>
+          </div>
+        )}
       </div>
     </nav>
   );
