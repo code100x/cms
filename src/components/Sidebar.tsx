@@ -115,12 +115,7 @@ export function Sidebar({
           <Accordion type='single' collapsible className='w-full'>
             {/* Render course content */}
             {renderContent(fullCourseContent)}
-            <div className='text-2xl text-black p-20 border'>Test Data</div>
-            <div className='text-2xl text-black p-20 border'>Test Data</div>
-            <div className='text-2xl text-black p-20 border'>Test Data</div>
-            <div className='text-2xl text-black p-20 border my-10'>
-              Test Data
-            </div>
+            
           </Accordion>
         </div>
       </div>
