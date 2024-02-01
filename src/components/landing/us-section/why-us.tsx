@@ -3,7 +3,7 @@ import { whyUs } from './why-us-card/why-us-content';
 
 const WhyUsSection = () => {
   return (
-    <div className="w-full h-full flex flex-col items-center justify-center bg-slate-200 py-8 my-12">
+    <div className="w-full h-full flex flex-col items-center justify-center bg-slate-200 py-12 my-12">
       <h2 className="text-2xl md:text-4xl font-semibold text-slate-800 mb-8">
         Why 100xdevs?
       </h2>

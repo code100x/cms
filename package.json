@@ -19,6 +19,7 @@
     "@discordjs/next": "^0.1.1-dev.1673526225-a580768.0",
     "@prisma/client": "^5.6.0",
     "@radix-ui/react-accordion": "^1.1.2",
+    "@radix-ui/react-dropdown-menu": "^2.0.6",
     "@radix-ui/react-navigation-menu": "^1.1.4",
     "@radix-ui/react-slot": "^1.0.2",
     "@types/jsonwebtoken": "^9.0.5",

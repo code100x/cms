@@ -8,14 +8,14 @@ const DashboardSection = () => {
   return (
     <div className="w-full flex items-center justify-between my-20">
       <div className="w-full flex flex-col items-start justify-center px-4 md:px-12">
-        <h3 className="font-medium text-sm text-neutral-500">
-          <span className="font-bold text-blue-600 pr-1">|</span>The best
-          learing platform!
+        <h3 className="font-medium text-sm text-neutral-500 dark:text-neutral-400">
+          <span className="font-bold text-blue-600 pr-1 text-lg">|</span>The
+          best learing platform!
         </h3>
-        <h2 className="text-2xl md:text-4xl font-semibold text-neutral-800 mt-3 mb-6">
+        <h2 className="text-2xl md:text-4xl font-semibold text-neutral-800 dark:text-neutral-200 mt-2 mb-6">
           What is 100xdevs?
         </h2>
-        <p className="text-lg text-neutral-600 font-medium">
+        <p className="text-lg text-neutral-600 dark:text-neutral-400 font-medium">
           100xDevs, a learning platform that offers courses on the latest trends
           in the software engineering industry. Whether you&apos;re a beginner
           or looking to upgrade your skills, 100xDevs provides a user-friendly
@@ -24,7 +24,7 @@ const DashboardSection = () => {
         </p>
 
         <Button
-          className="mt-6 text-lg rounded-full  hover:shadow-sm"
+          className="mt-6 rounded-full hover:shadow-sm"
           size={'lg'}
           asChild
         >
@@ -37,7 +37,7 @@ const DashboardSection = () => {
         </Button>
       </div>
 
-      <div className="hidden md:block py-3 md:py-6 pl-3 md:pl-6 rounded-l-xl md:rounded-l-2xl bg-slate-200 border-l border-slate-200">
+      <div className="hidden md:block py-3 md:py-6 pl-3 md:pl-6 rounded-l-xl md:rounded-l-2xl bg-slate-200 dark:bg-slate-800">
         <Image
           src={dashboard}
           alt={'platform'}

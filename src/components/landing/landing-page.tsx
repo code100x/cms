@@ -31,8 +31,8 @@ export default function LandingPage() {
           headingFont.className,
         )}
       >
-        <div className="mb-4 text-sm md:text-md font-sans font-semibold flex items-center border shadow-md py-3 px-4 md:px-6 bg-blue-50 text-blue-700 rounded-full uppercase">
-          <Medal className="h-6 w-6 mr-2" />
+        <div className="mb-4 text-sm md:text-md font-sans font-semibold flex items-center border shadow-md py-2.5 px-4 md:px-5 bg-blue-50 text-blue-700 rounded-full uppercase">
+          <Medal className="h-5 w-5 mr-2" />
           #1 learning platform
         </div>
 
@@ -40,13 +40,13 @@ export default function LandingPage() {
           100xdevs
         </h1>
 
-        <div className="text-3xl md:text-6xl text-center text-neutral-800 px-4 pb-4 w-fit">
+        <div className="text-3xl md:text-6xl text-center text-neutral-800 dark:text-neutral-200 px-4 pb-4 w-fit">
           because 10x ain&apos;t enough!
         </div>
 
         <div
           className={cn(
-            'text-sm md:text-xl text-neutral-400 mt-4 max-w-sm md:max-w-2xl text-center mx-auto',
+            'text-sm md:text-xl text-neutral-400 dark:text-neutral-500 mt-4 max-w-sm md:max-w-2xl text-center mx-auto px-2',
             textFont.className,
           )}
         >
@@ -59,7 +59,7 @@ export default function LandingPage() {
       {/* CTA Buttons */}
       <div className="flex items-center gap-2">
         <Button
-          className="mt-6 rounded-full  hover:shadow-sm"
+          className="mt-6 rounded-full hover:shadow-sm"
           size={'lg'}
           asChild
         >

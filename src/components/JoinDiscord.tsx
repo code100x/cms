@@ -23,7 +23,7 @@ export const JoinDiscord = ({
 
   return (
     <Link href={getOauthUrl()} target="_blank" legacyBehavior passHref>
-      <Button variant={'outline'} size={'sm'}>
+      <Button variant={'link'} size={'sm'}>
         Join Discord
       </Button>
     </Link>

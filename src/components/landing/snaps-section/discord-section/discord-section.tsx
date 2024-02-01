@@ -6,25 +6,26 @@ import discord from '../../../../../public/platform/discord.png';
 
 const DiscordSection = () => {
   return (
-    <div className="w-full flex items-center justify-between py-32 my-20 bg-neutral-900">
+    <div className="w-full flex items-center justify-between py-32 my-20 bg-neutral-900 dark:bg-slate-200">
       <div className="w-full flex flex-col items-start justify-center px-4 md:px-12">
-        <h3 className="font-medium text-sm text-neutral-200">
-          <span className="font-bold text-blue-500 pr-1">|</span>Discord Support
+        <h3 className="font-medium text-sm text-neutral-200 dark:text-neutral-800">
+          <span className="font-bold text-blue-600 pr-1 text-lg">|</span>Discord
+          Support
         </h3>
-        <h2 className="text-2xl md:text-4xl font-semibold text-neutral-50 mt-3 mb-6">
+        <h2 className="text-2xl md:text-4xl font-semibold text-neutral-100 dark:text-neutral-900 mt-2 mb-6">
           Never miss on anything!
         </h2>
-        <p className="text-lg text-neutral-100 font-medium mb-4">
+        <p className="text-lg text-neutral-100 dark:text-neutral-800  font-medium mb-4">
           Personal TAs make it easy for you to get your doubts solved within
           minutes. Got any doubt? Ask on the discord community.
         </p>
-        <p className="text-lg text-neutral-200 font-medium my-2">
+        <p className="text-lg text-neutral-200 dark:text-neutral-600 font-medium my-2">
           Facing any issues while setting up the environment? Get it fixed, Ask
           on the discord communtiy!
         </p>
 
         <Button
-          className="mt-6 text-lg rounded-full  hover:shadow-sm"
+          className="mt-6 rounded-full hover:shadow-sm"
           size={'lg'}
           asChild
         >

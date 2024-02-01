@@ -1,14 +1,14 @@
 import Link from 'next/link';
-import LogoLight from '../logo/logo-light';
 import { Instagram, TwitterIcon, Youtube } from 'lucide-react';
 import Image from 'next/image';
 import playstore from '/public/platform/playstore.png';
+import Logo from '../logo/logo';
 
 const Footer = () => {
   return (
-    <div className="bottom-0 w-full p-4 bg-neutral-900 px-6 lg:px-36">
+    <div className="bottom-0 w-full p-4 bg-neutral-900 dark:bg-slate-900 px-6 lg:px-36">
       <div className="md:max-w-screen-2xl mt-4 mb-20 mx-auto flex flex-col lg:flex-row items-start justify-between w-full">
-        <LogoLight />
+        <Logo onFooter={true} />
 
         <div className="flex flex-col justify-center my-8 lg:my-0">
           <h3 className="font-semibold text-neutral-100 mb-4">Quick Links</h3>
