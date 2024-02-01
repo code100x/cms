@@ -1,7 +1,7 @@
-import db from "@/db"
-import { NextRequest, NextResponse } from "next/server";
+import db from '@/db';
+import { NextRequest, NextResponse } from 'next/server';
 
-export async function POST(req: NextRequest, { params, searchParams }: { params: any; searchParams: any; }) {
+export async function POST(req: NextRequest) {
   const { adminSecret, email } = await req.json();
 
   if (adminSecret !== process.env.ADMIN_SECRET) {
@@ -10,23 +10,24 @@ export async function POST(req: NextRequest, { params, searchParams }: { params:
 
   const user = await db.user.findFirst({
     where: {
-      email
-    }
+      email,
+    },
   });
 
   if (!user) {
-    return NextResponse.json({ msg: "User not found" }, { status: 440 });
+    return NextResponse.json({ msg: 'User not found' }, { status: 440 });
   }
 
   const response = await db.discordConnect.findFirst({
     where: {
-      userId: user.id
-    }
+      userId: user.id,
+    },
   });
 
-  return NextResponse.json({ data: response }, {
-    status: 200,
-  });
-
+  return NextResponse.json(
+    { data: response },
+    {
+      status: 200,
+    },
+  );
 }
-

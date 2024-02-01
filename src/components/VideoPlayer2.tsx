@@ -10,32 +10,32 @@ import 'videojs-sprite-thumbnails';
 
 // todo correct types
 interface VideoPlayerProps {
-  options: any;
-  onReady?: (player: Player) => void;
-  subtitles?: string;
-  contentId: number;
+  options: any
+  onReady?: (player: Player) => void
+  subtitles?: string
+  contentId: number
 }
 
 export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
   options,
   contentId,
   onReady,
-  subtitles
+  subtitles,
 }) => {
   const videoRef = useRef<HTMLDivElement>(null);
   const playerRef = useRef<Player | null>(null);
   const [player, setPlayer] = useState<any>(null);
-  const [startTime, setStartTime] = useState(0);
 
   useEffect(() => {
     if (contentId && player) {
-      fetch(`/api/course/videoProgress?contentId=${contentId}`).then(async res => {
-        const json = await res.json();
-        setStartTime(json.progress || 0)
-        player.currentTime(json.progress || 0)
-      })
+      fetch(`/api/course/videoProgress?contentId=${contentId}`).then(
+        async (res) => {
+          const json = await res.json();
+          player.currentTime(json.progress || 0);
+        },
+      );
     }
-  }, [contentId, player])
+  }, [contentId, player]);
 
   useEffect(() => {
     if (!player) {
@@ -43,32 +43,32 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
     }
     const handleKeyPress = (event: any) => {
       switch (event.code) {
-        case 'Space': // Space bar for play/pause
-          if (player.paused()) {
-            player.play();
-            event.stopPropagation();
-          } else {
-            player.pause();
-            event.stopPropagation();
-          }
-          event.preventDefault()
-          break;
-        case 'ArrowRight': // Right arrow for seeking forward 5 seconds
-          player.currentTime(player.currentTime() + 5);
+      case 'Space': // Space bar for play/pause
+        if (player.paused()) {
+          player.play();
           event.stopPropagation();
-          break;
-        case 'ArrowLeft': // Left arrow for seeking backward 5 seconds
-          player.currentTime(player.currentTime() - 5);
+        } else {
+          player.pause();
           event.stopPropagation();
-          break;
-        case 'KeyF': // F key for fullscree
-          if (player.isFullscreen_) {
-            document.exitFullscreen()
-          } else {
-            player.requestFullscreen();
-          }
-          event.stopPropagation();
-          break;
+        }
+        event.preventDefault();
+        break;
+      case 'ArrowRight': // Right arrow for seeking forward 5 seconds
+        player.currentTime(player.currentTime() + 5);
+        event.stopPropagation();
+        break;
+      case 'ArrowLeft': // Left arrow for seeking backward 5 seconds
+        player.currentTime(player.currentTime() - 5);
+        event.stopPropagation();
+        break;
+      case 'KeyF': // F key for fullscree
+        if (player.isFullscreen_) {
+          document.exitFullscreen();
+        } else {
+          player.requestFullscreen();
+        }
+        event.stopPropagation();
+        break;
       }
     };
 
@@ -78,7 +78,7 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
     return () => {
       document.removeEventListener('keydown', handleKeyPress);
     };
-  }, [player])
+  }, [player]);
 
   useEffect(() => {
     const interval = window.setInterval(async () => {
@@ -93,30 +93,29 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
         }),
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
-        }
-      })
-
-    }, 10 * 1000)
+          'Content-Type': 'application/json',
+        },
+      });
+    }, 10 * 1000);
 
     return () => {
-      window.clearInterval(interval)
-    }
-  }, [player, contentId])
+      window.clearInterval(interval);
+    };
+  }, [player, contentId]);
 
   useEffect(() => {
     if (!playerRef.current && videoRef.current) {
       const videoElement = document.createElement('video-js');
       videoElement.classList.add('vjs-big-play-centered');
       if (subtitles) {
-        const subtitlesEl = document.createElement("track")
-        subtitlesEl.setAttribute("kind", "subtitles")
+        const subtitlesEl = document.createElement('track');
+        subtitlesEl.setAttribute('kind', 'subtitles');
 
-        subtitlesEl.setAttribute("label", "English")
-        subtitlesEl.setAttribute("srcLang", "en")
-        subtitlesEl.setAttribute("src", subtitles)
+        subtitlesEl.setAttribute('label', 'English');
+        subtitlesEl.setAttribute('srcLang', 'en');
+        subtitlesEl.setAttribute('src', subtitles);
 
-        videoElement.append(subtitlesEl)
+        videoElement.append(subtitlesEl);
       }
       videoRef.current.appendChild(videoElement);
       const player: any = (playerRef.current = videojs(
@@ -142,7 +141,7 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
               onReady(player);
             }
           });
-        }
+        },
       ));
 
       if (

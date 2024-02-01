@@ -1,16 +1,17 @@
-"use client"
-import Script from 'next/script';
+'use client';
 import React, { useEffect, useRef, useState } from 'react';
-
 
 // mpdUrl => https://cloudfront.enet/video/video.mp4
 // thumbnail => https://cloudfront.enet/video/thumbnail.jpg
 // subtitles => https://cloudfront.enet/video/subtitles.vtt
 //
-export const VideoPlayer = ({ mpdUrl, thumbnail, subtitles }: {
-  mpdUrl: string;
-  thumbnail: string;
-  subtitles: string;
+export const VideoPlayer = ({
+  mpdUrl,
+  subtitles,
+}: {
+  mpdUrl: string
+  thumbnail: string
+  subtitles: string
 }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [player, setPlayer] = useState<any>(null);
@@ -21,23 +22,23 @@ export const VideoPlayer = ({ mpdUrl, thumbnail, subtitles }: {
     }
     const handleKeyPress = (event: any) => {
       switch (event.code) {
-        case 'Space': // Space bar for play/pause
-          if (player.paused()) {
-            player.play();
-            event.stopPropagation();
-          } else {
-            player.pause();
-            event.stopPropagation();
-          }
-          break;
-        case 'ArrowRight': // Right arrow for seeking forward 5 seconds
-          player.currentTime(player.currentTime() + 5);
+      case 'Space': // Space bar for play/pause
+        if (player.paused()) {
+          player.play();
           event.stopPropagation();
-          break;
-        case 'ArrowLeft': // Left arrow for seeking backward 5 seconds
-          player.currentTime(player.currentTime() - 5);
+        } else {
+          player.pause();
           event.stopPropagation();
-          break;
+        }
+        break;
+      case 'ArrowRight': // Right arrow for seeking forward 5 seconds
+        player.currentTime(player.currentTime() + 5);
+        event.stopPropagation();
+        break;
+      case 'ArrowLeft': // Left arrow for seeking backward 5 seconds
+        player.currentTime(player.currentTime() - 5);
+        event.stopPropagation();
+        break;
       }
     };
 
@@ -47,12 +48,11 @@ export const VideoPlayer = ({ mpdUrl, thumbnail, subtitles }: {
     return () => {
       document.removeEventListener('keydown', handleKeyPress);
     };
-  }, [player])
+  }, [player]);
 
   useEffect(() => {
     if (!videoRef.current) {
       return;
-
     }
     window.setTimeout(() => {
       const player = (window as any).videojs(
@@ -67,7 +67,7 @@ export const VideoPlayer = ({ mpdUrl, thumbnail, subtitles }: {
             },
           },
         },
-        function() {
+        function () {
           //@ts-ignore
           player.eme();
           setPlayer(player);
@@ -77,14 +77,15 @@ export const VideoPlayer = ({ mpdUrl, thumbnail, subtitles }: {
               src: mpdUrl,
               type: 'application/dash+xml',
               keySystems: {
-                'com.widevine.alpha': 'https://widevine-dash.ezdrm.com/proxy?pX=288FF5&user_id=MTAwMA==',
+                'com.widevine.alpha':
+                  'https://widevine-dash.ezdrm.com/proxy?pX=288FF5&user_id=MTAwMA==',
               },
             });
           } else if (mpdUrl.endsWith('.m3u8')) {
             //@ts-ignore
             this.src({
               src: mpdUrl,
-              type: 'application/x-mpegURL'
+              type: 'application/x-mpegURL',
             });
           } else {
             //@ts-ignore
@@ -95,32 +96,45 @@ export const VideoPlayer = ({ mpdUrl, thumbnail, subtitles }: {
           }
 
           //@ts-ignore
-          this.on('keystatuschange', function(event: any) {
-            console.log("event: ", event);
+          this.on('keystatuschange', (event: any) => {
+            console.log('event: ', event);
           });
           player.seekButtons({
             forward: 10,
-            back: 10
+            back: 10,
           });
-
-        }
+        },
       );
     }, 1000);
 
-    return () => {
-    };
-  }, [videoRef.current])
+    return () => {};
+  }, [videoRef.current]);
 
   return (
     <div className="py-2">
-      <link href="https://cdnjs.cloudflare.com/ajax/libs/video.js/7.11.7/video-js.min.css" rel="stylesheet" />
-      <link href="https://cdn.jsdelivr.net/npm/videojs-seek-buttons/dist/videojs-seek-buttons.css" rel="stylesheet" />
-      <script defer src="https://cdnjs.cloudflare.com/ajax/libs/video.js/7.11.7/video.min.js"></script>
-      <script defer src="https://cdn.jsdelivr.net/npm/videojs-contrib-eme@3.8.0/dist/videojs-contrib-eme.js"></script>
-      <script defer src="https://cdn.jsdelivr.net/npm/videojs-seek-buttons/dist/videojs-seek-buttons.min.js"></script>
+      <link
+        href="https://cdnjs.cloudflare.com/ajax/libs/video.js/7.11.7/video-js.min.css"
+        rel="stylesheet"
+      />
+      <link
+        href="https://cdn.jsdelivr.net/npm/videojs-seek-buttons/dist/videojs-seek-buttons.css"
+        rel="stylesheet"
+      />
+      <script
+        defer
+        src="https://cdnjs.cloudflare.com/ajax/libs/video.js/7.11.7/video.min.js"
+      ></script>
+      <script
+        defer
+        src="https://cdn.jsdelivr.net/npm/videojs-contrib-eme@3.8.0/dist/videojs-contrib-eme.js"
+      ></script>
+      <script
+        defer
+        src="https://cdn.jsdelivr.net/npm/videojs-seek-buttons/dist/videojs-seek-buttons.min.js"
+      ></script>
       <video ref={videoRef} id="my-video" className="video-js">
         <track kind="subtitles" src={subtitles} srcLang="en" label="English" />
       </video>
-    </div >
+    </div>
   );
 };

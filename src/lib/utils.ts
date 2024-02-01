@@ -1,18 +1,18 @@
-import { type ClassValue, clsx } from "clsx"
-import { twMerge } from "tailwind-merge"
+import { type ClassValue, clsx } from 'clsx';
+import { twMerge } from 'tailwind-merge';
 import Player from 'video.js/dist/types/player';
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
+  return twMerge(clsx(inputs));
 }
 
 export interface VideoJsPlayer {
-  eme: () => void;
+  eme: () => void
 }
 
 export interface Segment {
-  start: number;
-  end: number;
-  title: string;
+  start: number
+  end: number
+  title: string
 }
 export const formatTime = (seconds: number): string => {
   const date = new Date(seconds * 1000);
@@ -25,11 +25,11 @@ export const formatTime = (seconds: number): string => {
 export const generateCompleteSegments = (
   userSegments: Segment[],
   videoLength: number | null,
-  defaultTitle: string = 'Video about html'
+  defaultTitle: string = 'Video about html',
 ): Segment[] => {
   userSegments.sort((a, b) => a.start - b.start);
 
-  let completeSegments = [];
+  const completeSegments = [];
   let lastEnd = 0;
 
   if (userSegments[0]?.start > 0) {
@@ -67,7 +67,7 @@ export const generateCompleteSegments = (
 export const createSegmentMarkerElements = (
   player: Player,
   segment: Segment,
-  lastSegment: Segment
+  lastSegment: Segment,
 ) => {
   const segmentEnd = isFinite(segment.end)
     ? (segment.end / (player.duration() || lastSegment.end)) * 100
@@ -77,12 +77,12 @@ export const createSegmentMarkerElements = (
   const gapEl = document.createElement('div');
   gapEl.className = 'segment-gap absolute';
   gapEl.style.left = `${segmentEnd}%`;
-  gapEl.style.height = "100%";
-  gapEl.style.width = "4px";
-  gapEl.style.background = "#2f3640"
+  gapEl.style.height = '100%';
+  gapEl.style.width = '4px';
+  gapEl.style.background = '#2f3640';
 
   return { gapEl };
-}
+};
 
 export const createSegmentMarkers = (player: any, allSegments: Segment[]) => {
   const seekBar = player.controlBar.progressControl.seekBar.el();
@@ -96,7 +96,7 @@ export const createSegmentMarkers = (player: any, allSegments: Segment[]) => {
     const { gapEl } = createSegmentMarkerElements(
       player,
       segment,
-      allSegments[allSegments.length - 1]
+      allSegments[allSegments.length - 1],
     );
 
     fragment.appendChild(gapEl);
@@ -107,7 +107,7 @@ export const createSegmentMarkers = (player: any, allSegments: Segment[]) => {
 
 export const createSegmentMarkersWithoutDuration = (
   player: any,
-  allSegments: Segment[]
+  allSegments: Segment[],
 ) => {
   const seekBar = player.controlBar.progressControl.seekBar.el();
   const fragment = document.createDocumentFragment();
@@ -120,7 +120,7 @@ export const createSegmentMarkersWithoutDuration = (
     const { gapEl } = createSegmentMarkerElements(
       player,
       segment,
-      allSegments[allSegments.length - 1]
+      allSegments[allSegments.length - 1],
     );
 
     fragment.appendChild(gapEl);
@@ -134,12 +134,11 @@ export const convertTimeToSeconds = (timeStr: string): number => {
 
 export const getCurrentSegmentName = (
   timeStr: string,
-  segments: Segment[]
+  segments: Segment[],
 ): string => {
   const timeInSeconds = convertTimeToSeconds(timeStr);
   const currentSegment = segments.find(
-    (segment) => segment.start <= timeInSeconds && timeInSeconds <= segment.end
+    (segment) => segment.start <= timeInSeconds && timeInSeconds <= segment.end,
   );
   return currentSegment ? currentSegment.title : '';
 };
-

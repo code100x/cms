@@ -1,28 +1,34 @@
-import db from "@/db";
-import CredentialsProvider from "next-auth/providers/credentials";
+import db from '@/db';
+import CredentialsProvider from 'next-auth/providers/credentials';
 
-async function validateUser(email: string, password: string): Promise<{ data: null; } | {
-  data: {
-    name: string;
-    userid: string;
-  }
-}> {
-  if (process.env.LOCAL_CMS_PROVIDER ) {
-    if (password === "123456") {
-      return {
-        data: {
-          name: "Random",
-          userid: "1"
-        }
+async function validateUser(
+  email: string,
+  password: string,
+): Promise<
+  | { data: null }
+  | {
+      data: {
+        name: string
+        userid: string
       }
     }
-    return {data: null}
+> {
+  if (process.env.LOCAL_CMS_PROVIDER) {
+    if (password === '123456') {
+      return {
+        data: {
+          name: 'Random',
+          userid: '1',
+        },
+      };
+    }
+    return { data: null };
   }
   const url = 'https://harkiratapi.classx.co.in/post/userLogin';
   const headers = {
-    'Client-Service': process.env.APPX_CLIENT_SERVICE || "",
-    'Auth-Key': process.env.APPX_AUTH_KEY || "",
-    'Content-Type': 'application/x-www-form-urlencoded'
+    'Client-Service': process.env.APPX_CLIENT_SERVICE || '',
+    'Auth-Key': process.env.APPX_AUTH_KEY || '',
+    'Content-Type': 'application/x-www-form-urlencoded',
   };
   const body = new URLSearchParams();
   body.append('email', email);
@@ -31,8 +37,8 @@ async function validateUser(email: string, password: string): Promise<{ data: nu
   try {
     const response = await fetch(url, {
       method: 'POST',
-      headers: headers,
-      body: body
+      headers,
+      body,
     });
 
     if (!response.ok) {
@@ -45,29 +51,31 @@ async function validateUser(email: string, password: string): Promise<{ data: nu
     console.error('Error validating user:', error);
   }
   return {
-    data: null
-  }
+    data: null,
+  };
 }
-
 
 export const authOptions = {
   providers: [
     CredentialsProvider({
       name: 'Credentials',
       credentials: {
-        username: { label: "email", type: "text", placeholder: "" },
-        password: { label: "password", type: "password", placeholder: "" },
+        username: { label: 'email', type: 'text', placeholder: '' },
+        password: { label: 'password', type: 'password', placeholder: '' },
       },
       async authorize(credentials: any) {
         try {
           //@ts-ignore
-          const user = await validateUser(credentials.username, credentials.password)
-          console.log(user.data)
+          const user = await validateUser(
+            credentials.username,
+            credentials.password,
+          );
+          console.log(user.data);
           if (user.data) {
             try {
               await db.user.upsert({
                 where: {
-                  id: user.data.userid
+                  id: user.data.userid,
                 },
                 create: {
                   id: user.data.userid,
@@ -78,26 +86,28 @@ export const authOptions = {
                   id: user.data.userid,
                   name: user.data.name,
                   email: credentials.username,
-                }
+                },
               });
-            } catch (e) { console.log(e) }
+            } catch (e) {
+              console.log(e);
+            }
 
             return {
               id: user.data.userid,
               name: user.data.name,
               email: credentials.username,
-            }
+            };
           }
           // Return null if user data could not be retrieved
-          return null
+          return null;
         } catch (e) {
           console.error(e);
         }
-        return null
-      }
-    })
+        return null;
+      },
+    }),
   ],
-  secret: process.env.NEXTAUTH_SECRET || "secr3t",
+  secret: process.env.NEXTAUTH_SECRET || 'secr3t',
   callbacks: {
     session: async ({ session, token }: any) => {
       if (session?.user) {
@@ -112,4 +122,4 @@ export const authOptions = {
       return token;
     },
   },
-}
+};

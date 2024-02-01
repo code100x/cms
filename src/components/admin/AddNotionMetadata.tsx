@@ -1,15 +1,26 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
-export function AddNotionMetadata({ onChange }: { onChange: (metadata: any) => void }) {
+export function AddNotionMetadata({
+  onChange,
+}: {
+  onChange: (metadata: any) => void
+}) {
   const [id, setId] = useState('');
-  
+
   useEffect(() => {
-    onChange({ notionId: id })
+    onChange({ notionId: id });
   }, [id]);
 
-  return <div>
-    <input className="text-black" type="text" placeholder="Notion id" onChange={async (e) => {
-      setId(e.target.value)
-    }} />
-  </div>
+  return (
+    <div>
+      <input
+        className="text-black"
+        type="text"
+        placeholder="Notion id"
+        onChange={async (e) => {
+          setId(e.target.value);
+        }}
+      />
+    </div>
+  );
 }

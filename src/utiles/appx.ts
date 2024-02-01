@@ -1,5 +1,5 @@
-import db from "@/db";
-import { Course } from "@/store/atoms";
+import db from '@/db';
+import { Course } from '@/store/atoms';
 
 const APPX_AUTH_KEY = process.env.APPX_AUTH_KEY;
 const APPX_CLIENT_SERVICE = process.env.APPX_CLIENT_SERVICE;
@@ -14,20 +14,26 @@ export async function getPurchases(email: string) {
 
   const baseUrl = `${APPX_BASE_API}/get/checkemailforpurchase`;
 
-  const headers = { 'Client-Service': APPX_CLIENT_SERVICE, 'Auth-Key': APPX_AUTH_KEY }
+  const headers = {
+    'Client-Service': APPX_CLIENT_SERVICE,
+    'Auth-Key': APPX_AUTH_KEY,
+  };
 
   const responses: Course[] = [];
 
   const promises = courses.map(async (course) => {
-    const params = new URLSearchParams({ email, itemtype: '10', itemid: course.appxCourseId.toString() });
+    const params = new URLSearchParams({
+      email,
+      itemtype: '10',
+      itemid: course.appxCourseId.toString(),
+    });
     //@ts-ignore
     const response = await fetch(`${baseUrl}?${params}`, { headers });
     const data = await response.json();
 
-    if (data.data === "1") {
+    if (data.data === '1') {
       responses.push(course);
     }
-
   });
 
   await Promise.all(promises);
