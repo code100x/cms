@@ -127,18 +127,18 @@ export function ToggleButton({
       className="flex flex-col justify-center items-center"
     >
       <span
-        className={`dark:bg-white bg-black block transition-all duration-300 ease-out  h-0.5 w-6 rounded-sm ${sidebarOpen ? 'rotate-45 translate-y-1' : '-translate-y-0.5'}`}
+        className={`dark:bg-white bg-black block transition-all duration-300 ease-out  h-0.5 w-6 rounded-sm ${!sidebarOpen ? 'rotate-45 translate-y-1' : '-translate-y-0.5'}`}
       ></span>
       <span
         className={`dark:bg-white bg-black block transition-all duration-300 ease-out 
                     h-0.5 w-6 rounded-sm my-0.5 ${
-    sidebarOpen ? 'opacity-0' : 'opacity-100'
+    !sidebarOpen ? 'opacity-0' : 'opacity-100'
     }`}
       ></span>
       <span
         className={`dark:bg-white bg-black block transition-all duration-300 ease-out 
                     h-0.5 w-6 rounded-sm ${
-    sidebarOpen
+    !sidebarOpen
       ? '-rotate-45 -translate-y-1'
       : 'translate-y-0.5'
     }`}
