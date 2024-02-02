@@ -3,6 +3,7 @@ import { ChevronRight } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import discord from '../../../../../public/platform/discord.png';
+import { CardContainer, CardItem } from '@/components/3dcard';
 
 const DiscordSection = () => {
   return (
@@ -33,20 +34,26 @@ const DiscordSection = () => {
             href={'https://harkirat.classx.co.in/new-courses'}
             target="_blank"
           >
-            Explore courses <ChevronRight className="h-4 w-4 ml-1" />
+            <p className="text-white">Explore courses</p>{' '}
+            <ChevronRight className="text-white h-4 w-4 ml-1 hover:translate-x-1 ease-in-out duration-200 " />
           </Link>
         </Button>
       </div>
-
-      <div className="hidden md:block py-3 pl-3 md:py-6 md:pl-6 rounded-l-xl md:rounded-l-2xl bg-neutral-800 shadow-2xl">
-        <Image
-          src={discord}
-          alt={'platform'}
-          width={1400}
-          height={1260}
-          className="rounded-l-lg md:rounded-l-xl"
-        />
-      </div>
+      <CardContainer className="w-full cursor-pointer">
+        <Link href="https://discord.gg/pusrVQsFbQ" target="_blank">
+          <div className="hidden md:block py-3 pl-3 md:py-6 md:pl-6 rounded-l-xl md:rounded-l-2xl bg-neutral-800 shadow-2xl">
+            <CardItem>
+              <Image
+                src={discord}
+                alt={'platform'}
+                width={1400}
+                height={1260}
+                className="rounded-l-lg md:rounded-l-xl"
+              />
+            </CardItem>
+          </div>
+        </Link>
+      </CardContainer>
     </div>
   );
 };
