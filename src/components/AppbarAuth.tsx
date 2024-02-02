@@ -1,13 +1,13 @@
 'use client';
 
-import { signOut } from 'next-auth/react';
+import { signIn, signOut } from 'next-auth/react';
 import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
+//import { useRouter } from 'next/navigation';
 import { Button } from './ui/button';
 
 export const AppbarAuth = ({ isInMenu = false }: { isInMenu?: boolean }) => {
   const session = useSession();
-  const router = useRouter();
+  //const router = useRouter();
 
   return (
     <Button
@@ -18,7 +18,7 @@ export const AppbarAuth = ({ isInMenu = false }: { isInMenu?: boolean }) => {
         if (session.data?.user) {
           signOut();
         } else {
-          router.push('/api/auth/signin');
+          signIn();
         }
       }}
     >
