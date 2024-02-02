@@ -7,7 +7,6 @@ import 'videojs-contrib-eme';
 import 'videojs-mobile-ui/dist/videojs-mobile-ui.css';
 import 'videojs-mobile-ui';
 import 'videojs-sprite-thumbnails';
-import { useSearchParams } from 'next/navigation';
 
 // todo correct types
 interface VideoPlayerProps {
@@ -23,8 +22,6 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
   onReady,
   subtitles,
 }) => {
-  const searchParams = useSearchParams();
-
   const videoRef = useRef<HTMLDivElement>(null);
   const playerRef = useRef<Player | null>(null);
   const [player, setPlayer] = useState<any>(null);
@@ -155,12 +152,6 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
       }
     }
   }, [options, onReady]);
-  useEffect(() => {
-    const time = searchParams.get('time');
-    if (time && playerRef.current) {
-      playerRef.current.currentTime(parseInt(time, 10));
-    }
-  }, [playerRef.current, searchParams]);
 
   useEffect(() => {
     const player = playerRef.current;

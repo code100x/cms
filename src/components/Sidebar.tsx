@@ -1,5 +1,5 @@
 'use client';
-import { usePathname, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import {
   Accordion,
   AccordionContent,
@@ -11,14 +11,8 @@ import { Button } from './ui/button';
 import { BackArrow } from '@/icons/BackArrow';
 import { useRecoilState } from 'recoil';
 import { sidebarOpen as sidebarOpenAtom } from '@/store/atoms/sidebar';
-import { useEffect, useState } from 'react';
-import { sidebarSegments as sidebarSegmentsAtom } from '../store/atoms/sidebarSegments';
-import { formatTime } from '../lib/utils';
+import { useEffect } from 'react';
 
-enum TabType {
-  Content = 'content',
-  Segments = 'segments',
-}
 export function Sidebar({
   courseId,
   fullCourseContent,
@@ -27,12 +21,7 @@ export function Sidebar({
   courseId: string
 }) {
   const router = useRouter();
-  const currentPath = usePathname();
   const [sidebarOpen, setSidebarOpen] = useRecoilState(sidebarOpenAtom);
-  const [sidebarSegments] = useRecoilState(sidebarSegmentsAtom);
-  const [tabType, setTapType] = useState<TabType.Content | TabType.Segments>(
-    TabType.Content,
-  );
 
   useEffect(() => {
     if (window.innerWidth < 500) {
@@ -67,62 +56,19 @@ export function Sidebar({
       router.push(path);
     }
   };
-  const handleTabChange = (tab: TabType) => {
-    if (tabType === tab) return;
-    setTapType(tab);
-  };
-  const handleNavigateToSegment = (start: number) => {
-    router.push(`${currentPath}?time=${start}`);
-  };
+
   const renderContent = (contents: any) => {
     return contents.map((content: any) => {
       if (content.children && content.children.length > 0) {
         // This is a folder with children
         return (
-          <div key={content.id}>
-            {sidebarSegments.length > 0 && (
-              <div className="flex justify-around my-2">
-                <button
-                  onClick={() => handleTabChange(TabType.Content)}
-                  className={`${tabType === 'content' ? 'border-gray-300' : ''} border-b-2 p-2 hover:text-gray-400`}
-                >
-                  Content
-                </button>
-                <button
-                  onClick={() => handleTabChange(TabType.Segments)}
-                  className={`${tabType !== 'content' ? 'border-gray-300' : ''} border-b-2 p-2 hover:text-gray-400`}
-                >
-                  Chapters
-                </button>
-              </div>
-            )}
-            {tabType === TabType.Content ? (
-              <AccordionItem value={`item-${content.id}`}>
-                <AccordionTrigger>{content.title}</AccordionTrigger>
-                <AccordionContent>
-                  {/* Render the children of this folder */}
-                  {renderContent(content.children)}
-                </AccordionContent>
-              </AccordionItem>
-            ) : (
-              <div>
-                <ul>
-                  {sidebarSegments.map((segment) => (
-                    <li
-                      key={`${segment.start}${segment.title}`}
-                      className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer"
-                      onClick={() => {
-                        handleNavigateToSegment(segment.start);
-                      }}
-                    >
-                      {segment.title} - {formatTime(segment.start)} -{' '}
-                      {formatTime(segment.end)}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-          </div>
+          <AccordionItem key={content.id} value={`item-${content.id}`}>
+            <AccordionTrigger>{content.title}</AccordionTrigger>
+            <AccordionContent>
+              {/* Render the children of this folder */}
+              {renderContent(content.children)}
+            </AccordionContent>
+          </AccordionItem>
         );
       }
       // This is a video or a content item without children
@@ -171,7 +117,6 @@ export function ToggleButton({
   onClick: () => void
   sidebarOpen: boolean
 }) {
-  console.log(sidebarOpen);
   return (
     <button
       onClick={onClick}
