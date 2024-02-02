@@ -78,6 +78,7 @@ export const ContentRenderer = async ({
   }
 }) => {
   const metadata = await getMetadata(content.id);
+
   return (
     <ContentRendererClient
       nextContent={nextContent}

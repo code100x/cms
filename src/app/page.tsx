@@ -1,5 +1,5 @@
-import { LoginGate } from '@/components/LoginGate';
 import { MyCourses } from '@/components/MyCourses';
+import LandingPage from '@/components/landing/landing-page';
 import { authOptions } from '@/lib/auth';
 import { getServerSession } from 'next-auth';
 
@@ -13,7 +13,7 @@ export default async function Home() {
 
   if (session?.user) {
     return (
-      <main className="max-w-screen-xl flex-col p-6 flex text-lg mx-auto">
+      <main className="max-w-screen-xl flex-col flex text-lg mx-auto">
         <div className="text-2xl">Your courses</div>
 
         <MyCourses />
@@ -23,5 +23,9 @@ export default async function Home() {
     );
   }
 
-  return <LoginGate />;
+  return (
+    <main className="pt-36 pb-20">
+      <LandingPage />
+    </main>
+  );
 }

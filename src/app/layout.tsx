@@ -6,6 +6,8 @@ import './globals.css';
 import { Appbar } from '@/components/Appbar';
 import { Providers } from './providers';
 import { GoogleAnalytics } from '@/components/analytics/GoogleAnalytics';
+import { siteConfig } from '@/config/site-config';
+import Footer from '@/components/landing/footer/footer';
 
 const fontSans = FontSans({
   subsets: ['latin'],
@@ -13,8 +15,14 @@ const fontSans = FontSans({
 });
 
 export const metadata: Metadata = {
-  title: '100xdevs cohort',
-  description: '100xdevs Cohort by Harkirat Singh',
+  title: siteConfig.title,
+  description: siteConfig.description,
+  icons: [
+    {
+      url: '/harkirat.png',
+      href: '/harkirat.png',
+    },
+  ],
 };
 
 export default function RootLayout({
@@ -33,7 +41,8 @@ export default function RootLayout({
         <GoogleAnalytics />
         <Providers>
           <Appbar />
-          {children}
+          <div className="min-h-screen">{children}</div>
+          <Footer />
         </Providers>
       </body>
     </html>

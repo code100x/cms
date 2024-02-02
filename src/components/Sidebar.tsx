@@ -62,7 +62,11 @@ export function Sidebar({
       if (content.children && content.children.length > 0) {
         // This is a folder with children
         return (
-          <AccordionItem key={content.id} value={`item-${content.id}`}>
+          <AccordionItem
+            key={content.id}
+            value={`item-${content.id}`}
+            className="text-gray-900 dark:text-white"
+          >
             <AccordionTrigger>{content.title}</AccordionTrigger>
             <AccordionContent>
               {/* Render the children of this folder */}
@@ -92,7 +96,7 @@ export function Sidebar({
 
   return (
     <div className="w-64">
-      <div className="px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800 cursor-pointer  h-[100dvh] w-full sticky top-0">
+      <div className="px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800 cursor-pointer  h-[100dvh] w-full sticky top-[64px]">
         <div className="flex">
           {/* <ToggleButton
             onClick={() => {
