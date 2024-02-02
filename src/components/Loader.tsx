@@ -21,5 +21,5 @@ export const Loader = () => {
         <span className="sr-only">Loading...</span>
       </div>
     </div>
-  );
-};
+  )
+}

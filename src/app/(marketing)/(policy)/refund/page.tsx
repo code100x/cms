@@ -13,7 +13,7 @@ const RefundAndCancellationPage = () => {
         digital course purchase.
       </p>
     </main>
-  );
-};
+  )
+}
 
-export default RefundAndCancellationPage;
+export default RefundAndCancellationPage

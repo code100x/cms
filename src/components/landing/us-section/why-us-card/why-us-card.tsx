@@ -20,7 +20,7 @@ const WhyUsCard = ({ tagline, headline, description }: IWhyUsCard) => {
         <p className="text-md text-neutral-600 font-medium">{description}</p>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default WhyUsCard;
+export default WhyUsCard

@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from 'next/server';
-import db from '@/db';
+import { NextRequest, NextResponse } from "next/server"
+import db from "@/db"
 
 export async function POST(req: NextRequest) {
   const {
@@ -11,10 +11,10 @@ export async function POST(req: NextRequest) {
     slug,
     appxCourseId,
     discordRoleId,
-  } = await req.json();
+  } = await req.json()
 
   if (adminSecret !== process.env.ADMIN_SECRET) {
-    return NextResponse.json({}, { status: 401 });
+    return NextResponse.json({}, { status: 401 })
   }
 
   await db.course.create({
@@ -27,12 +27,12 @@ export async function POST(req: NextRequest) {
       appxCourseId: parseInt(appxCourseId, 10),
       discordRoleId,
     },
-  });
+  })
 
   return NextResponse.json(
     {},
     {
       status: 200,
     },
-  );
+  )
 }

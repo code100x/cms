@@ -1,51 +1,51 @@
-import React from 'react';
-import { Course } from '@/store/atoms';
+import React from "react"
+import { Course } from "@/store/atoms"
 import {
   Content,
   Folder,
   Video,
   getCourse,
   getFullCourseContent,
-} from '@/db/course';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth';
-import { getPurchases } from '@/utiles/appx';
-import { redirect } from 'next/navigation';
-import { CourseView } from '@/components/CourseView';
+} from "@/db/course"
+import { getServerSession } from "next-auth"
+import { authOptions } from "@/lib/auth"
+import { getPurchases } from "@/utiles/appx"
+import { redirect } from "next/navigation"
+import { CourseView } from "@/components/CourseView"
 
 const checkAccess = async (courseId: string) => {
-  const session = await getServerSession(authOptions);
+  const session = await getServerSession(authOptions)
   if (!session?.user) {
-    return false;
+    return false
   }
-  const purchases = await getPurchases(session.user.email);
+  const purchases = await getPurchases(session.user.email)
   if (purchases.map((p) => p.id).includes(Number(courseId))) {
-    return true;
+    return true
   }
-  return false;
-};
+  return false
+}
 
 function findContentById(
   contents: (Folder | Video | Content)[],
   ids: number[],
 ) {
-  if (ids.length === 0) return contents;
+  if (ids.length === 0) return contents
 
-  const currentId = ids[0];
-  const remainingIds = ids.slice(1);
+  const currentId = ids[0]
+  const remainingIds = ids.slice(1)
 
-  const foundContent = contents.find((content) => content.id === currentId);
+  const foundContent = contents.find((content) => content.id === currentId)
 
   if (!foundContent) {
-    return null;
+    return null
   } else if (remainingIds.length === 0) {
-    if (foundContent.type === 'folder') {
-      return foundContent.children;
+    if (foundContent.type === "folder") {
+      return foundContent.children
     }
 
-    return [foundContent];
+    return [foundContent]
   }
-  return findContentById(foundContent.children || [], remainingIds);
+  return findContentById(foundContent.children || [], remainingIds)
 }
 
 export default async function Course({
@@ -53,23 +53,23 @@ export default async function Course({
 }: {
   params: { courseId: string[] }
 }) {
-  const courseId = params.courseId[0];
-  const rest = params.courseId.slice(1);
-  const hasAccess = await checkAccess(courseId);
-  const course = await getCourse(parseInt(courseId, 10));
+  const courseId = params.courseId[0]
+  const rest = params.courseId.slice(1)
+  const hasAccess = await checkAccess(courseId)
+  const course = await getCourse(parseInt(courseId, 10))
   const fullCourseContent: Folder[] = await getFullCourseContent(
     parseInt(courseId, 10),
-  );
+  )
   const courseContent = findContentById(
     fullCourseContent,
     rest.map((x) => parseInt(x, 10)),
-  );
+  )
   const contentType =
-    courseContent?.length === 1 ? courseContent[0]?.type : 'folder';
-  const nextContent = null; //await getNextVideo(Number(rest[rest.length - 1]))
+    courseContent?.length === 1 ? courseContent[0]?.type : "folder"
+  const nextContent = null //await getNextVideo(Number(rest[rest.length - 1]))
 
   if (!hasAccess) {
-    redirect('/api/auth/signin');
+    redirect("/api/auth/signin")
   }
 
   return (
@@ -83,5 +83,5 @@ export default async function Course({
         fullCourseContent={fullCourseContent}
       />
     </div>
-  );
+  )
 }

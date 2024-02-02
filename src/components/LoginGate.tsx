@@ -1,4 +1,4 @@
-'use client';
+"use client"
 
 export const LoginGate = () => {
   return (
@@ -8,7 +8,7 @@ export const LoginGate = () => {
       <div className="justify-center flex">
         <button
           onClick={() => {
-            window.location.href = '/api/auth/signin';
+            window.location.href = "/api/auth/signin"
           }}
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
         >
@@ -16,5 +16,5 @@ export const LoginGate = () => {
         </button>
       </div>
     </div>
-  );
-};
+  )
+}

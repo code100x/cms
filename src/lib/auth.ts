@@ -1,5 +1,5 @@
-import db from '@/db';
-import CredentialsProvider from 'next-auth/providers/credentials';
+import db from "@/db"
+import CredentialsProvider from "next-auth/providers/credentials"
 
 async function validateUser(
   email: string,
@@ -14,54 +14,54 @@ async function validateUser(
     }
 > {
   if (process.env.LOCAL_CMS_PROVIDER) {
-    if (password === '123456') {
+    if (password === "123456") {
       return {
         data: {
-          name: 'Random',
-          userid: '1',
+          name: "Random",
+          userid: "1",
         },
-      };
+      }
     }
-    return { data: null };
+    return { data: null }
   }
-  const url = 'https://harkiratapi.classx.co.in/post/userLogin';
+  const url = "https://harkiratapi.classx.co.in/post/userLogin"
   const headers = {
-    'Client-Service': process.env.APPX_CLIENT_SERVICE || '',
-    'Auth-Key': process.env.APPX_AUTH_KEY || '',
-    'Content-Type': 'application/x-www-form-urlencoded',
-  };
-  const body = new URLSearchParams();
-  body.append('email', email);
-  body.append('password', password);
+    "Client-Service": process.env.APPX_CLIENT_SERVICE || "",
+    "Auth-Key": process.env.APPX_AUTH_KEY || "",
+    "Content-Type": "application/x-www-form-urlencoded",
+  }
+  const body = new URLSearchParams()
+  body.append("email", email)
+  body.append("password", password)
 
   try {
     const response = await fetch(url, {
-      method: 'POST',
+      method: "POST",
       headers,
       body,
-    });
+    })
 
     if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
+      throw new Error(`HTTP error! Status: ${response.status}`)
     }
 
-    const data = await response.json();
-    return data as any; // Or process data as needed
+    const data = await response.json()
+    return data as any // Or process data as needed
   } catch (error) {
-    console.error('Error validating user:', error);
+    console.error("Error validating user:", error)
   }
   return {
     data: null,
-  };
+  }
 }
 
 export const authOptions = {
   providers: [
     CredentialsProvider({
-      name: 'Credentials',
+      name: "Credentials",
       credentials: {
-        username: { label: 'email', type: 'text', placeholder: '' },
-        password: { label: 'password', type: 'password', placeholder: '' },
+        username: { label: "email", type: "text", placeholder: "" },
+        password: { label: "password", type: "password", placeholder: "" },
       },
       async authorize(credentials: any) {
         try {
@@ -69,8 +69,8 @@ export const authOptions = {
           const user = await validateUser(
             credentials.username,
             credentials.password,
-          );
-          console.log(user.data);
+          )
+          console.log(user.data)
           if (user.data) {
             try {
               await db.user.upsert({
@@ -87,39 +87,39 @@ export const authOptions = {
                   name: user.data.name,
                   email: credentials.username,
                 },
-              });
+              })
             } catch (e) {
-              console.log(e);
+              console.log(e)
             }
 
             return {
               id: user.data.userid,
               name: user.data.name,
               email: credentials.username,
-            };
+            }
           }
           // Return null if user data could not be retrieved
-          return null;
+          return null
         } catch (e) {
-          console.error(e);
+          console.error(e)
         }
-        return null;
+        return null
       },
     }),
   ],
-  secret: process.env.NEXTAUTH_SECRET || 'secr3t',
+  secret: process.env.NEXTAUTH_SECRET || "secr3t",
   callbacks: {
     session: async ({ session, token }: any) => {
       if (session?.user) {
-        session.user.id = token.uid;
+        session.user.id = token.uid
       }
-      return session;
+      return session
     },
     jwt: async ({ user, token }: any) => {
       if (user) {
-        token.uid = user.id;
+        token.uid = user.id
       }
-      return token;
+      return token
     },
   },
-};
+}

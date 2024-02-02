@@ -11,7 +11,7 @@ const TrustedBySection = () => {
         Passionate developers from different parts of the world!
       </span>
     </div>
-  );
-};
+  )
+}
 
-export default TrustedBySection;
+export default TrustedBySection

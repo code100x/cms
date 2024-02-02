@@ -1,5 +1,5 @@
-'use client';
-import { Course } from '@/store/atoms';
+"use client"
+import { Course } from "@/store/atoms"
 
 export const CourseCard = ({
   course,
@@ -12,7 +12,7 @@ export const CourseCard = ({
     <div
       className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
       onClick={() => {
-        onClick();
+        onClick()
       }}
     >
       <img src={course.imageUrl} alt={course.title} className="rounded-md" />
@@ -30,8 +30,8 @@ export const CourseCard = ({
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
 export const CourseSkeleton = () => {
   return (
@@ -43,5 +43,5 @@ export const CourseSkeleton = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}

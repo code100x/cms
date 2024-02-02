@@ -1,6 +1,6 @@
-'use client';
+"use client"
 
-import { CourseSkeleton } from '@/components/CourseCard';
+import { CourseSkeleton } from "@/components/CourseCard"
 
 export default function Loading() {
   return (
@@ -9,5 +9,5 @@ export default function Loading() {
         <CourseSkeleton />
       ))}
     </div>
-  );
+  )
 }

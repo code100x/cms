@@ -1,4 +1,4 @@
-import { privacyPolicyContent } from '../../../../components/landing/footer/privacy-policy/privacy-policy';
+import { privacyPolicyContent } from "../../../../components/landing/footer/privacy-policy/privacy-policy"
 
 const PrivacyPolicyPage = () => {
   return (
@@ -14,10 +14,10 @@ const PrivacyPolicyPage = () => {
           >
             <p className="">{item.description}</p>
           </div>
-        );
+        )
       })}
     </main>
-  );
-};
+  )
+}
 
-export default PrivacyPolicyPage;
+export default PrivacyPolicyPage

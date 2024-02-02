@@ -1,25 +1,25 @@
-import { Button } from '../ui/button';
-import { ChevronRight, Medal } from 'lucide-react';
-import Link from 'next/link';
-import localFont from 'next/font/local';
-import { cn } from '@/lib/utils';
-import { Poppins } from 'next/font/google';
-import PlatformSection from './snaps-section/platform/platform-section';
-import DashboardSection from './snaps-section/dashboard/dashboard-section';
-import TrustedBySection from './trustedby-section/trusted-by';
-import WhyUsSection from './us-section/why-us';
-import AboutUsSection from './us-section/about-us';
-import DiscordSection from './snaps-section/discord-section/discord-section';
-import PreFooterSection from './footer/pre-footer/pre-footer';
+import { Button } from "../ui/button"
+import { ChevronRight, Medal } from "lucide-react"
+import Link from "next/link"
+import localFont from "next/font/local"
+import { cn } from "@/lib/utils"
+import { Poppins } from "next/font/google"
+import PlatformSection from "./snaps-section/platform/platform-section"
+import DashboardSection from "./snaps-section/dashboard/dashboard-section"
+import TrustedBySection from "./trustedby-section/trusted-by"
+import WhyUsSection from "./us-section/why-us"
+import AboutUsSection from "./us-section/about-us"
+import DiscordSection from "./snaps-section/discord-section/discord-section"
+import PreFooterSection from "./footer/pre-footer/pre-footer"
 
 const headingFont = localFont({
-  src: '../../../public/fonts/font.woff2',
-});
+  src: "../../../public/fonts/font.woff2",
+})
 
 const textFont = Poppins({
-  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
-  subsets: ['latin'],
-});
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  subsets: ["latin"],
+})
 
 export default function LandingPage() {
   return (
@@ -27,7 +27,7 @@ export default function LandingPage() {
       {/* Tagline */}
       <div
         className={cn(
-          'flex items-center justify-center flex-col',
+          "flex items-center justify-center flex-col",
           headingFont.className,
         )}
       >
@@ -46,7 +46,7 @@ export default function LandingPage() {
 
         <div
           className={cn(
-            'text-sm md:text-xl text-neutral-400 dark:text-neutral-500 mt-4 max-w-sm md:max-w-2xl text-center mx-auto px-2',
+            "text-sm md:text-xl text-neutral-400 dark:text-neutral-500 mt-4 max-w-sm md:max-w-2xl text-center mx-auto px-2",
             textFont.className,
           )}
         >
@@ -60,11 +60,11 @@ export default function LandingPage() {
       <div className="flex items-center gap-2">
         <Button
           className="mt-6 rounded-full hover:shadow-sm"
-          size={'lg'}
+          size={"lg"}
           asChild
         >
           <Link
-            href={'https://harkirat.classx.co.in/new-courses'}
+            href={"https://harkirat.classx.co.in/new-courses"}
             target="_blank"
           >
             Explore courses
@@ -73,11 +73,11 @@ export default function LandingPage() {
 
         <Button
           className="mt-6 rounded-full hover:shadow-sm"
-          size={'lg'}
-          variant={'outline'}
+          size={"lg"}
+          variant={"outline"}
           asChild
         >
-          <Link href={'#trustedby'}>
+          <Link href={"#trustedby"}>
             See more <ChevronRight className="h-4 w-4" />
           </Link>
         </Button>
@@ -104,5 +104,5 @@ export default function LandingPage() {
       {/* PreFooter Section */}
       <PreFooterSection />
     </main>
-  );
+  )
 }

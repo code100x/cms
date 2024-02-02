@@ -1,6 +1,6 @@
-'use client';
+"use client"
 
-import { Button } from './ui/button';
+import { Button } from "./ui/button"
 
 export const QualitySelector = () => {
   return (
@@ -8,9 +8,9 @@ export const QualitySelector = () => {
       <div className="pr-2">
         <Button
           onClick={() => {
-            const currentUrl = new URL(window.location.href);
-            currentUrl.searchParams.set('quality', '1080');
-            window.location.href = currentUrl.href;
+            const currentUrl = new URL(window.location.href)
+            currentUrl.searchParams.set("quality", "1080")
+            window.location.href = currentUrl.href
           }}
         >
           1080p
@@ -20,9 +20,9 @@ export const QualitySelector = () => {
       <div className="pr-2">
         <Button
           onClick={() => {
-            const currentUrl = new URL(window.location.href);
-            currentUrl.searchParams.set('quality', '720');
-            window.location.href = currentUrl.href;
+            const currentUrl = new URL(window.location.href)
+            currentUrl.searchParams.set("quality", "720")
+            window.location.href = currentUrl.href
           }}
         >
           720p
@@ -30,13 +30,13 @@ export const QualitySelector = () => {
       </div>
       <Button
         onClick={() => {
-          const currentUrl = new URL(window.location.href);
-          currentUrl.searchParams.set('quality', '360');
-          window.location.href = currentUrl.href;
+          const currentUrl = new URL(window.location.href)
+          currentUrl.searchParams.set("quality", "360")
+          window.location.href = currentUrl.href
         }}
       >
         360p
       </Button>
     </div>
-  );
-};
+  )
+}

@@ -1,8 +1,8 @@
-import { Button } from '@/components/ui/button';
-import { ChevronRight } from 'lucide-react';
-import Image from 'next/image';
-import Link from 'next/link';
-import discord from '../../../../../public/platform/discord.png';
+import { Button } from "@/components/ui/button"
+import { ChevronRight } from "lucide-react"
+import Image from "next/image"
+import Link from "next/link"
+import discord from "../../../../../public/platform/discord.png"
 
 const DiscordSection = () => {
   return (
@@ -26,11 +26,11 @@ const DiscordSection = () => {
 
         <Button
           className="mt-6 rounded-full hover:shadow-sm"
-          size={'lg'}
+          size={"lg"}
           asChild
         >
           <Link
-            href={'https://harkirat.classx.co.in/new-courses'}
+            href={"https://harkirat.classx.co.in/new-courses"}
             target="_blank"
           >
             Explore courses <ChevronRight className="h-4 w-4 ml-1" />
@@ -41,14 +41,14 @@ const DiscordSection = () => {
       <div className="hidden md:block py-3 pl-3 md:py-6 md:pl-6 rounded-l-xl md:rounded-l-2xl bg-neutral-800 shadow-2xl">
         <Image
           src={discord}
-          alt={'platform'}
+          alt={"platform"}
           width={1400}
           height={1260}
           className="rounded-l-lg md:rounded-l-xl"
         />
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default DiscordSection;
+export default DiscordSection

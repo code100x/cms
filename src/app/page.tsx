@@ -1,15 +1,15 @@
-import { MyCourses } from '@/components/MyCourses';
-import LandingPage from '@/components/landing/landing-page';
-import { authOptions } from '@/lib/auth';
-import { getServerSession } from 'next-auth';
+import { MyCourses } from "@/components/MyCourses"
+import LandingPage from "@/components/landing/landing-page"
+import { authOptions } from "@/lib/auth"
+import { getServerSession } from "next-auth"
 
 const getUserDetails = async () => {
-  const session = await getServerSession(authOptions);
-  return session;
-};
+  const session = await getServerSession(authOptions)
+  return session
+}
 
 export default async function Home() {
-  const session = await getUserDetails();
+  const session = await getUserDetails()
 
   if (session?.user) {
     return (
@@ -20,12 +20,12 @@ export default async function Home() {
 
         <br />
       </main>
-    );
+    )
   }
 
   return (
     <main className="pt-36 pb-20">
       <LandingPage />
     </main>
-  );
+  )
 }

@@ -1,18 +1,18 @@
-'use client';
+"use client"
 
-import Link from 'next/link';
-import React from 'react';
-import { JoinDiscord } from './JoinDiscord';
-import { AppbarAuth } from './AppbarAuth';
-import { useSession } from 'next-auth/react';
-import Logo from './landing/logo/logo';
-import { Button } from './ui/button';
-import { Sparkles } from 'lucide-react';
-import { ThemeToggler } from './ThemeToggler';
-import { NavigationMenu } from './landing/appbar/nav-menu';
+import Link from "next/link"
+import React from "react"
+import { JoinDiscord } from "./JoinDiscord"
+import { AppbarAuth } from "./AppbarAuth"
+import { useSession } from "next-auth/react"
+import Logo from "./landing/logo/logo"
+import { Button } from "./ui/button"
+import { Sparkles } from "lucide-react"
+import { ThemeToggler } from "./ThemeToggler"
+import { NavigationMenu } from "./landing/appbar/nav-menu"
 
 export const Appbar = () => {
-  const session = useSession();
+  const session = useSession()
 
   return (
     <>
@@ -23,13 +23,13 @@ export const Appbar = () => {
           {session?.data?.user ? (
             <div className="flex items-center space-x-2">
               <div className="hidden sm:flex items-center justify-around md:w-auto md:block space-x-2">
-                <Button variant={'link'} size={'sm'} asChild>
+                <Button variant={"link"} size={"sm"} asChild>
                   <JoinDiscord isNavigated={false} />
                 </Button>
 
-                <Button size={'sm'} variant={'link'} asChild>
+                <Button size={"sm"} variant={"link"} asChild>
                   <Link
-                    href={'https://github.com/100xdevs-cohort-2/assignments'}
+                    href={"https://github.com/100xdevs-cohort-2/assignments"}
                     target="_blank"
                   >
                     Assignments
@@ -50,9 +50,9 @@ export const Appbar = () => {
               <div className="hidden sm:flex items-center justify-around md:w-auto md:block space-x-3">
                 <AppbarAuth />
 
-                <Button size={'sm'} asChild>
+                <Button size={"sm"} asChild>
                   <Link
-                    href={'https://harkirat.classx.co.in/new-courses'}
+                    href={"https://harkirat.classx.co.in/new-courses"}
                     target="_blank"
                   >
                     Join now <Sparkles className="ml-1 h-4 w-4" />
@@ -71,5 +71,5 @@ export const Appbar = () => {
       </nav>
       <div className="h-16 w-full" />
     </>
-  );
-};
+  )
+}

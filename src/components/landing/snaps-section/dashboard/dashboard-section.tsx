@@ -1,8 +1,8 @@
-import Image from 'next/image';
-import dashboard from '../../../../../public/platform/dashboard.png';
-import { Button } from '../../../ui/button';
-import Link from 'next/link';
-import { ChevronRight } from 'lucide-react';
+import Image from "next/image"
+import dashboard from "../../../../../public/platform/dashboard.png"
+import { Button } from "../../../ui/button"
+import Link from "next/link"
+import { ChevronRight } from "lucide-react"
 
 const DashboardSection = () => {
   return (
@@ -25,11 +25,11 @@ const DashboardSection = () => {
 
         <Button
           className="mt-6 rounded-full hover:shadow-sm"
-          size={'lg'}
+          size={"lg"}
           asChild
         >
           <Link
-            href={'https://harkirat.classx.co.in/new-courses'}
+            href={"https://harkirat.classx.co.in/new-courses"}
             target="_blank"
           >
             Explore courses <ChevronRight className="h-4 w-4 ml-1" />
@@ -40,14 +40,14 @@ const DashboardSection = () => {
       <div className="hidden md:block py-3 md:py-6 pl-3 md:pl-6 rounded-l-xl md:rounded-l-2xl bg-slate-200 dark:bg-slate-800">
         <Image
           src={dashboard}
-          alt={'platform'}
+          alt={"platform"}
           width={1400}
           height={1260}
           className="rounded-l-lg md:rounded-l-xl"
         />
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default DashboardSection;
+export default DashboardSection

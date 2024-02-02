@@ -1,11 +1,11 @@
-'use client';
-import { useState } from 'react';
+"use client"
+import { useState } from "react"
 
 export default function DiscordPage() {
-  const [email, setEmail] = useState('');
-  const [segmentsJson, setSegmentsJson] = useState('');
-  const [adminSecret, setAdminSecret] = useState('');
-  const [contentId, setContentId] = useState('');
+  const [email, setEmail] = useState("")
+  const [segmentsJson, setSegmentsJson] = useState("")
+  const [adminSecret, setAdminSecret] = useState("")
+  const [contentId, setContentId] = useState("")
   return (
     <div>
       <br />
@@ -14,7 +14,7 @@ export default function DiscordPage() {
         className="text-black"
         type=" text"
         onChange={(e) => {
-          setEmail(e.target.value);
+          setEmail(e.target.value)
         }}
       />
 
@@ -23,7 +23,7 @@ export default function DiscordPage() {
         className="text-black"
         type=" text"
         onChange={(e) => {
-          setAdminSecret(e.target.value);
+          setAdminSecret(e.target.value)
         }}
       />
 
@@ -31,17 +31,17 @@ export default function DiscordPage() {
       <button
         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
         onClick={async () => {
-          await fetch('/api/admin/drm', {
+          await fetch("/api/admin/drm", {
             body: JSON.stringify({
               adminSecret,
               email,
               disableDrm: false,
             }),
-            method: 'POST',
+            method: "POST",
             headers: {
-              'Content-Type': 'application/json',
+              "Content-Type": "application/json",
             },
-          });
+          })
         }}
       >
         Enable DRM
@@ -50,17 +50,17 @@ export default function DiscordPage() {
       <button
         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
         onClick={async () => {
-          await fetch('/api/admin/drm', {
+          await fetch("/api/admin/drm", {
             body: JSON.stringify({
               adminSecret,
               email,
               disableDrm: true,
             }),
-            method: 'POST',
+            method: "POST",
             headers: {
-              'Content-Type': 'application/json',
+              "Content-Type": "application/json",
             },
-          });
+          })
         }}
       >
         Disable DRM
@@ -80,7 +80,7 @@ export default function DiscordPage() {
         placeholder="segments json"
         className="text-black"
         onChange={(e) => {
-          setSegmentsJson(e.target.value);
+          setSegmentsJson(e.target.value)
         }}
       />
       <br />
@@ -89,7 +89,7 @@ export default function DiscordPage() {
         className="text-black"
         type=" text"
         onChange={(e) => {
-          setAdminSecret(e.target.value);
+          setAdminSecret(e.target.value)
         }}
       />
       <input
@@ -97,7 +97,7 @@ export default function DiscordPage() {
         className="text-black"
         type=" text"
         onChange={(e) => {
-          setContentId(e.target.value);
+          setContentId(e.target.value)
         }}
       />
 
@@ -105,21 +105,21 @@ export default function DiscordPage() {
       <button
         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
         onClick={async () => {
-          await fetch('/api/admin/segments', {
+          await fetch("/api/admin/segments", {
             body: JSON.stringify({
               adminSecret,
               contentId,
               segmentsJson,
             }),
-            method: 'POST',
+            method: "POST",
             headers: {
-              'Content-Type': 'application/json',
+              "Content-Type": "application/json",
             },
-          });
+          })
         }}
       >
         Add segments
       </button>
     </div>
-  );
+  )
 }

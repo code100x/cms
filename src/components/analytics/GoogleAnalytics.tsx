@@ -1,8 +1,8 @@
-'use client';
+"use client"
 
-import Script from 'next/script';
+import Script from "next/script"
 
-const GA_TRACKING_ID = 'G-3Z2X5XN9DG';
+const GA_TRACKING_ID = "G-3Z2X5XN9DG"
 
 export const GoogleAnalytics = () => {
   return (
@@ -12,7 +12,7 @@ export const GoogleAnalytics = () => {
         src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
         onLoad={() => {
           //@ts-ignore
-          window.dataLayer = window.dataLayer || [];
+          window.dataLayer = window.dataLayer || []
 
           //@ts-ignore
           function gtag() {
@@ -22,12 +22,12 @@ export const GoogleAnalytics = () => {
           }
 
           //@ts-ignore
-          gtag('js', new Date());
+          gtag("js", new Date())
 
           //@ts-ignore
-          gtag('config', 'G-3Z2X5XN9DG');
+          gtag("config", "G-3Z2X5XN9DG")
         }}
       />
     </>
-  );
-};
+  )
+}

@@ -1,5 +1,5 @@
-import * as React from 'react';
-import { Button } from '@/components/ui/button';
+import * as React from "react"
+import { Button } from "@/components/ui/button"
 import {
   Drawer,
   DrawerClose,
@@ -9,15 +9,15 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-} from '@/components/ui/drawer';
-import { MenuIcon } from 'lucide-react';
-import Link from 'next/link';
-import { useSession } from 'next-auth/react';
-import { JoinDiscord } from '@/components/JoinDiscord';
-import { AppbarAuth } from '@/components/AppbarAuth';
+} from "@/components/ui/drawer"
+import { MenuIcon } from "lucide-react"
+import Link from "next/link"
+import { useSession } from "next-auth/react"
+import { JoinDiscord } from "@/components/JoinDiscord"
+import { AppbarAuth } from "@/components/AppbarAuth"
 
 export function NavigationMenu() {
-  const session = useSession();
+  const session = useSession()
 
   return (
     <Drawer>
@@ -25,7 +25,7 @@ export function NavigationMenu() {
         <Button
           variant="outline"
           className="bg-transparent border-none"
-          size={'iconSM'}
+          size={"iconSM"}
         >
           <MenuIcon className="h-5 w-5" />
         </Button>
@@ -41,16 +41,16 @@ export function NavigationMenu() {
           {session?.data?.user ? (
             <div className="p-4 pb-16">
               <div className="flex flex-col items-center justify-center space-y-2 text-lg">
-                <Button variant={'navLink'} size={'lg'} asChild>
+                <Button variant={"navLink"} size={"lg"} asChild>
                   <DrawerClose asChild>
                     <JoinDiscord isInMenu={true} isNavigated={false} />
                   </DrawerClose>
                 </Button>
 
-                <Button size={'lg'} variant={'navLink'} asChild>
+                <Button size={"lg"} variant={"navLink"} asChild>
                   <DrawerClose>
                     <Link
-                      href={'https://github.com/100xdevs-cohort-2/assignments'}
+                      href={"https://github.com/100xdevs-cohort-2/assignments"}
                       target="_blank"
                     >
                       Assignments
@@ -64,10 +64,10 @@ export function NavigationMenu() {
           ) : (
             <div className="p-4 pb-16">
               <div className="flex flex-col items-center justify-center space-y-2">
-                <Button size={'lg'} variant={'navLink'} asChild>
+                <Button size={"lg"} variant={"navLink"} asChild>
                   <DrawerClose>
                     <Link
-                      href={'https://harkirat.classx.co.in/new-courses'}
+                      href={"https://harkirat.classx.co.in/new-courses"}
                       target="_blank"
                     >
                       Join now
@@ -88,5 +88,5 @@ export function NavigationMenu() {
         </div>
       </DrawerContent>
     </Drawer>
-  );
+  )
 }

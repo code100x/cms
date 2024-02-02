@@ -1,5 +1,5 @@
-import WhyUsCard from './why-us-card/why-us-card';
-import { whyUs } from './why-us-card/why-us-content';
+import WhyUsCard from "./why-us-card/why-us-card"
+import { whyUs } from "./why-us-card/why-us-content"
 
 const WhyUsSection = () => {
   return (
@@ -32,11 +32,11 @@ const WhyUsSection = () => {
               headline={item.headline}
               description={item.description}
             />
-          );
+          )
         })}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default WhyUsSection;
+export default WhyUsSection

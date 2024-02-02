@@ -14,5 +14,5 @@ export const ContentCard = ({
         <div>{title}</div>
       </div>
     </div>
-  );
-};
+  )
+}

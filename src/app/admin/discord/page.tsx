@@ -1,10 +1,10 @@
-'use client';
-import { useState } from 'react';
+"use client"
+import { useState } from "react"
 
 export default function DiscordPage() {
-  const [email, setEmail] = useState('');
-  const [adminSecret, setAdminSecret] = useState('' as any);
-  const [userData, setUserData] = useState({} as any);
+  const [email, setEmail] = useState("")
+  const [adminSecret, setAdminSecret] = useState("" as any)
+  const [userData, setUserData] = useState({} as any)
   return (
     <div>
       <h1>Refresh discord permissions</h1>
@@ -14,7 +14,7 @@ export default function DiscordPage() {
         className="text-black"
         type=" text"
         onChange={(e) => {
-          setEmail(e.target.value);
+          setEmail(e.target.value)
         }}
       />
       <br />
@@ -28,19 +28,19 @@ export default function DiscordPage() {
       <button
         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
         onClick={async () => {
-          const response = await fetch('/api/admin/discord/refresh', {
-            method: 'POST',
+          const response = await fetch("/api/admin/discord/refresh", {
+            method: "POST",
             headers: {
-              'Content-Type': 'application/json',
+              "Content-Type": "application/json",
             },
             body: JSON.stringify({
               email,
               adminSecret,
             }),
-          });
-          const json = await response.json();
+          })
+          const json = await response.json()
           if (response.status !== 200) {
-            alert(`Something went wrong ${json.msg}`);
+            alert(`Something went wrong ${json.msg}`)
           }
         }}
       >
@@ -61,7 +61,7 @@ export default function DiscordPage() {
         className="text-black"
         type=" text"
         onChange={(e) => {
-          setEmail(e.target.value);
+          setEmail(e.target.value)
         }}
       />
       <br />
@@ -75,21 +75,21 @@ export default function DiscordPage() {
       <button
         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
         onClick={async () => {
-          const response = await fetch('/api/admin/discord/', {
-            method: 'POST',
+          const response = await fetch("/api/admin/discord/", {
+            method: "POST",
             headers: {
-              'Content-Type': 'application/json',
+              "Content-Type": "application/json",
             },
             body: JSON.stringify({
               email,
               adminSecret,
             }),
-          });
-          const json = await response.json();
+          })
+          const json = await response.json()
           if (response.status !== 200) {
-            alert(`Something went wrong ${json.msg}`);
+            alert(`Something went wrong ${json.msg}`)
           }
-          setUserData(json.data);
+          setUserData(json.data)
         }}
       >
         Get information
@@ -98,5 +98,5 @@ export default function DiscordPage() {
       <br />
       {userData.username}
     </div>
-  );
+  )
 }

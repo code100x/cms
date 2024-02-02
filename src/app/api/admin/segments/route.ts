@@ -1,11 +1,11 @@
-import db from '@/db';
-import { NextRequest, NextResponse } from 'next/server';
+import db from "@/db"
+import { NextRequest, NextResponse } from "next/server"
 
 export async function POST(req: NextRequest) {
-  const { adminSecret, contentId, segmentsJson } = await req.json();
+  const { adminSecret, contentId, segmentsJson } = await req.json()
 
   if (adminSecret !== process.env.ADMIN_SECRET) {
-    return NextResponse.json({}, { status: 401 });
+    return NextResponse.json({}, { status: 401 })
   }
 
   const response = await db.videoMetadata.update({
@@ -15,12 +15,12 @@ export async function POST(req: NextRequest) {
     data: {
       segments: JSON.parse(JSON.stringify(segmentsJson)),
     },
-  });
+  })
 
   return NextResponse.json(
     { data: response },
     {
       status: 200,
     },
-  );
+  )
 }

@@ -1,13 +1,13 @@
-'use client';
-import React, { FunctionComponent, useRef } from 'react';
-import { VideoPlayer } from '@/components/VideoPlayer2';
+"use client"
+import React, { FunctionComponent, useRef } from "react"
+import { VideoPlayer } from "@/components/VideoPlayer2"
 
 import {
   createSegmentMarkersWithoutDuration,
   getCurrentSegmentName,
-} from '@/lib/utils';
-import { Segment } from '@/lib/utils';
-import Player from 'video.js/dist/types/player';
+} from "@/lib/utils"
+import { Segment } from "@/lib/utils"
+import Player from "video.js/dist/types/player"
 
 export interface Thumbnail {
   public_id: string
@@ -31,56 +31,56 @@ export const VideoPlayerSegment: FunctionComponent<VideoProps> = ({
   segments,
   videoJsOptions,
 }) => {
-  const playerRef = useRef<Player | null>(null);
-  const thumbnailPreviewRef = useRef<HTMLDivElement>(null);
+  const playerRef = useRef<Player | null>(null)
+  const thumbnailPreviewRef = useRef<HTMLDivElement>(null)
   const overrideUpdateTime = (player: Player) => {
     const seekBar = player
-      .getChild('ControlBar')
-      ?.getChild('ProgressControl')
-      ?.getChild('SeekBar');
+      .getChild("ControlBar")
+      ?.getChild("ProgressControl")
+      ?.getChild("SeekBar")
 
     if (seekBar) {
-      const mouseTimeDisplay = seekBar.getChild('mouseTimeDisplay');
+      const mouseTimeDisplay = seekBar.getChild("mouseTimeDisplay")
       if (mouseTimeDisplay) {
-        const timeTooltip: any = mouseTimeDisplay.getChild('timeTooltip');
+        const timeTooltip: any = mouseTimeDisplay.getChild("timeTooltip")
         if (timeTooltip) {
           timeTooltip.update = function (
             seekBarRect: any,
             seekBarPoint: any,
             time: string,
           ) {
-            const segmentName = getCurrentSegmentName(time, segments);
-            this.write(`${time} - ${segmentName}`);
+            const segmentName = getCurrentSegmentName(time, segments)
+            this.write(`${time} - ${segmentName}`)
 
             // Delay the execution to ensure the tooltip width is calculated after the content update
             setTimeout(() => {
-              const tooltipWidth = this.el().offsetWidth;
+              const tooltipWidth = this.el().offsetWidth
               // Calculate the offset from the right side
-              const rightOffset = tooltipWidth / 2;
-              this.el().style.right = `-${rightOffset}px`;
+              const rightOffset = tooltipWidth / 2
+              this.el().style.right = `-${rightOffset}px`
 
               // Adjust the left style to 'auto' to avoid conflict with the right property
-              this.el().style.left = 'auto';
-              this.el().style.width = '200px';
-              this.el().style.fontSize = '14px';
-            }, 0);
-          };
+              this.el().style.left = "auto"
+              this.el().style.width = "200px"
+              this.el().style.fontSize = "14px"
+            }, 0)
+          }
         } else {
-          console.error('TimeTooltip component not found.');
+          console.error("TimeTooltip component not found.")
         }
       } else {
-        console.error('MouseTimeDisplay component not found.');
+        console.error("MouseTimeDisplay component not found.")
       }
     } else {
-      console.error('SeekBar component not found.');
+      console.error("SeekBar component not found.")
     }
-  };
+  }
   const handlePlayerReady = async (player: Player) => {
-    playerRef.current = player;
+    playerRef.current = player
 
-    createSegmentMarkersWithoutDuration(player, segments);
-    overrideUpdateTime(player);
-  };
+    createSegmentMarkersWithoutDuration(player, segments)
+    overrideUpdateTime(player)
+  }
 
   return (
     <div className="">
@@ -98,5 +98,5 @@ export const VideoPlayerSegment: FunctionComponent<VideoProps> = ({
         />
       </div>
     </div>
-  );
-};
+  )
+}
