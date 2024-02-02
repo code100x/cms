@@ -62,7 +62,11 @@ export function Sidebar({
       if (content.children && content.children.length > 0) {
         // This is a folder with children
         return (
-          <AccordionItem key={content.id} value={`item-${content.id}`} className='text-gray-900 dark:text-white'>
+          <AccordionItem
+            key={content.id}
+            value={`item-${content.id}`}
+            className="text-gray-900 dark:text-white"
+          >
             <AccordionTrigger>{content.title}</AccordionTrigger>
             <AccordionContent>
               {/* Render the children of this folder */}
