@@ -3,10 +3,12 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Toaster } from '@/components/ui/sonner';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import React, { useRef, useState } from 'react';
 
+import { toast } from 'sonner';
 const Signin = () => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
@@ -26,6 +28,13 @@ const Signin = () => {
 
     if (!res?.error) {
       router.push('/');
+    } else {
+      toast('Error Signing in', {
+        action: {
+          label: 'Close',
+          onClick: () => console.log('Closed Toast'),
+        },
+      });
     }
   };
   return (
@@ -105,6 +114,7 @@ const Signin = () => {
           </Button>
         </CardContent>
       </Card>
+      <Toaster />
     </section>
   );
 };

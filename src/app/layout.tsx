@@ -8,6 +8,7 @@ import { Providers } from './providers';
 import { GoogleAnalytics } from '@/components/analytics/GoogleAnalytics';
 import { siteConfig } from '@/config/site-config';
 import Footer from '@/components/landing/footer/footer';
+import { Toaster } from '@/components/ui/sonner';
 
 const fontSans = FontSans({
   subsets: ['latin'],
@@ -43,6 +44,7 @@ export default function RootLayout({
           <Appbar />
           <div className="min-h-screen">{children}</div>
           <Footer />
+          <Toaster />
         </Providers>
       </body>
     </html>
