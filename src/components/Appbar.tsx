@@ -5,6 +5,10 @@ import React from 'react';
 import { JoinDiscord } from './JoinDiscord';
 import { AppbarAuth } from './AppbarAuth';
 import { useSession } from 'next-auth/react';
+import { useRecoilState } from 'recoil';
+import { sidebarOpen as sidebarOpenAtom } from '../store/atoms/sidebar';
+import { ToggleButton } from './Sidebar';
+import { usePathname } from 'next/navigation';
 import Logo from './landing/logo/logo';
 import { Button } from './ui/button';
 import { Sparkles } from 'lucide-react';
@@ -13,10 +17,19 @@ import { NavigationMenu } from './landing/appbar/nav-menu';
 
 export const Appbar = () => {
   const session = useSession();
-
+  const [sidebarOpen, setSidebarOpen] = useRecoilState(sidebarOpenAtom);
+  const currentPath = usePathname();
   return (
     <>
-      <nav className="fixed z-50 top-0 px-4 w-full h-16 border-b shadow-sm bg-background/80 backdrop-blur-md flex items-center">
+      <nav className="fixed z-50 top-0 px-4 w-full h-16 border-b shadow-sm bg-background/80 backdrop-blur-md flex items-center gap-2">
+        {currentPath.includes('courses') && (
+          <ToggleButton
+            onClick={() => {
+              setSidebarOpen((p) => !p);
+            }}
+            sidebarOpen={sidebarOpen ? false : true}
+          />
+        )}
         <div className="md:max-w-screen-2xl mx-auto flex items-center justify-between w-full">
           <Logo onFooter={false} />
 

@@ -29,7 +29,9 @@ export const ContentRendererClient = ({
     metadata.segments?.length > 0,
   );
   const searchParams = useSearchParams();
+
   const router = useRouter();
+
   //@ts-ignore
   const quality: '720' | '1080' | '360' | null = searchParams.get('quality');
 

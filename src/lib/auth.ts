@@ -70,7 +70,6 @@ export const authOptions = {
             credentials.username,
             credentials.password,
           );
-          console.log(user.data);
           if (user.data) {
             try {
               await db.user.upsert({
