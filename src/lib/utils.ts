@@ -6,13 +6,13 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export interface VideoJsPlayer {
-  eme: () => void
+  eme: () => void;
 }
 
 export interface Segment {
-  start: number
-  end: number
-  title: string
+  start: number;
+  end: number;
+  title: string;
 }
 export const formatTime = (seconds: number): string => {
   const date = new Date(seconds * 1000);

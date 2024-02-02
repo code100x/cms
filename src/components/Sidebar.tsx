@@ -1,5 +1,5 @@
 'use client';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import {
   Accordion,
   AccordionContent,
@@ -11,17 +11,28 @@ import { Button } from './ui/button';
 import { BackArrow } from '@/icons/BackArrow';
 import { useRecoilState } from 'recoil';
 import { sidebarOpen as sidebarOpenAtom } from '@/store/atoms/sidebar';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { sidebarSegments as sidebarSegmentsAtom } from '../store/atoms/sidebarSegments';
+import { formatTime } from '../lib/utils';
 
+enum TabType {
+  Content = 'content',
+  Segments = 'segments',
+}
 export function Sidebar({
   courseId,
   fullCourseContent,
 }: {
-  fullCourseContent: Folder[]
-  courseId: string
+  fullCourseContent: Folder[];
+  courseId: string;
 }) {
   const router = useRouter();
+  const currentPath = usePathname();
   const [sidebarOpen, setSidebarOpen] = useRecoilState(sidebarOpenAtom);
+  const [sidebarSegments] = useRecoilState(sidebarSegmentsAtom);
+  const [tabType, setTapType] = useState<TabType.Content | TabType.Segments>(
+    TabType.Content,
+  );
 
   useEffect(() => {
     if (window.innerWidth < 500) {
@@ -40,7 +51,11 @@ export function Sidebar({
         return newPath;
       }
       if (content.children) {
-        const childPath = findPathToContent(content.children, targetId, newPath);
+        const childPath = findPathToContent(
+          content.children,
+          targetId,
+          newPath,
+        );
         if (childPath) {
           return childPath;
         }
@@ -56,19 +71,62 @@ export function Sidebar({
       router.push(path);
     }
   };
-
+  const handleTabChange = (tab: TabType) => {
+    if (tabType === tab) return;
+    setTapType(tab);
+  };
+  const handleNavigateToSegment = (start: number) => {
+    router.push(`${currentPath}?time=${start}`);
+  };
   const renderContent = (contents: any) => {
     return contents.map((content: any) => {
       if (content.children && content.children.length > 0) {
         // This is a folder with children
         return (
-          <AccordionItem key={content.id} value={`item-${content.id}`}>
-            <AccordionTrigger>{content.title}</AccordionTrigger>
-            <AccordionContent>
-              {/* Render the children of this folder */}
-              {renderContent(content.children)}
-            </AccordionContent>
-          </AccordionItem>
+          <div key={content.id}>
+            {sidebarSegments.length > 0 && (
+              <div className="flex justify-around my-2">
+                <button
+                  onClick={() => handleTabChange(TabType.Content)}
+                  className={`${tabType === 'content' ? 'border-gray-300' : ''} border-b-2 p-2 hover:text-gray-400`}
+                >
+                  Content
+                </button>
+                <button
+                  onClick={() => handleTabChange(TabType.Segments)}
+                  className={`${tabType !== 'content' ? 'border-gray-300' : ''} border-b-2 p-2 hover:text-gray-400`}
+                >
+                  Chapters
+                </button>
+              </div>
+            )}
+            {tabType === TabType.Content ? (
+              <AccordionItem value={`item-${content.id}`}>
+                <AccordionTrigger>{content.title}</AccordionTrigger>
+                <AccordionContent>
+                  {/* Render the children of this folder */}
+                  {renderContent(content.children)}
+                </AccordionContent>
+              </AccordionItem>
+            ) : (
+              <div>
+                <ul>
+                  {sidebarSegments.map((segment) => (
+                    <li
+                      key={`${segment.start}${segment.title}`}
+                      className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer"
+                      onClick={() => {
+                        handleNavigateToSegment(segment.start);
+                      }}
+                    >
+                      {segment.title} - {formatTime(segment.start)} -{' '}
+                      {formatTime(segment.end)}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
         );
       }
       // This is a video or a content item without children
@@ -87,26 +145,18 @@ export function Sidebar({
   };
 
   if (!sidebarOpen) {
-    return (
-      <div>
-        <ToggleButton
-          onClick={() => {
-            setSidebarOpen(true);
-          }}
-        />
-      </div>
-    );
+    return null;
   }
 
   return (
     <div className="w-64">
-      <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800 cursor-pointer">
+      <div className="px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800 cursor-pointer  h-[100dvh] w-full sticky top-0">
         <div className="flex">
-          <ToggleButton
+          {/* <ToggleButton
             onClick={() => {
               setSidebarOpen((s) => !s);
             }}
-          />
+          /> */}
           <GoBackButton />
         </div>
         <Accordion type="single" collapsible className="w-full">
@@ -118,22 +168,36 @@ export function Sidebar({
   );
 }
 
-export function ToggleButton({ onClick }: { onClick: () => void }) {
+export function ToggleButton({
+  onClick,
+  sidebarOpen,
+}: {
+  onClick: () => void;
+  sidebarOpen: boolean;
+}) {
+  console.log(sidebarOpen);
   return (
     <button
-      type="button"
-      className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
       onClick={onClick}
+      className="flex flex-col justify-center items-center"
     >
-      <svg
-        className="w-5 h-5"
-        aria-hidden="true"
-        xmlns="http:/ewww.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 17 14"
-      >
-        <path stroke="currentColor" d="M1 1h15M1 7h15M1 13h15" />
-      </svg>
+      <span
+        className={`dark:bg-white bg-black block transition-all duration-300 ease-out  h-0.5 w-6 rounded-sm ${sidebarOpen ? 'rotate-45 translate-y-1' : '-translate-y-0.5'}`}
+      ></span>
+      <span
+        className={`dark:bg-white bg-black block transition-all duration-300 ease-out 
+                    h-0.5 w-6 rounded-sm my-0.5 ${
+    sidebarOpen ? 'opacity-0' : 'opacity-100'
+    }`}
+      ></span>
+      <span
+        className={`dark:bg-white bg-black block transition-all duration-300 ease-out 
+                    h-0.5 w-6 rounded-sm ${
+    sidebarOpen
+      ? '-rotate-45 -translate-y-1'
+      : 'translate-y-0.5'
+    }`}
+      ></span>
     </button>
   );
 }
@@ -157,7 +221,7 @@ function GoBackButton() {
   };
 
   return (
-    <div className="w-full ml-4">
+    <div className="w-full">
       {/* Your component content */}
       <Button size={'full'} onClick={goBack}>
         <BackArrow /> <div className="pl-4">Go Back</div>

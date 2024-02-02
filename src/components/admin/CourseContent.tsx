@@ -6,12 +6,12 @@ export const AdminCourseContent = ({
   courseContent,
   courseId,
 }: {
-  courseId: number
+  courseId: number;
   courseContent: {
-    title: string
-    image: string
-    id: number
-  }[]
+    title: string;
+    image: string;
+    id: number;
+  }[];
 }) => {
   const router = useRouter();
 

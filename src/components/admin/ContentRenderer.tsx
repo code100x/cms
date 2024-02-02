@@ -64,18 +64,18 @@ export const ContentRenderer = async ({
   nextContent,
 }: {
   nextContent: {
-    id: number
-    type: string
-    title: string
-  } | null
+    id: number;
+    type: string;
+    title: string;
+  } | null;
   content: {
-    type: 'video'
-    id: number
-    title: string
-    description: string
-    thumbnail: string
-    slides?: string
-  }
+    type: 'video';
+    id: number;
+    title: string;
+    description: string;
+    thumbnail: string;
+    slides?: string;
+  };
 }) => {
   const metadata = await getMetadata(content.id);
   return (

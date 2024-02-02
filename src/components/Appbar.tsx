@@ -11,14 +11,28 @@ import {
 import { JoinDiscord } from './JoinDiscord';
 import { AppbarAuth } from './AppbarAuth';
 import { useSession } from 'next-auth/react';
+import { useRecoilState } from 'recoil';
+import { sidebarOpen as sidebarOpenAtom } from '../store/atoms/sidebar';
+import { ToggleButton } from './Sidebar';
+import { usePathname } from 'next/navigation';
 
 export const Appbar = () => {
   const session = useSession();
-
+  const [sidebarOpen, setSidebarOpen] = useRecoilState(sidebarOpenAtom);
+  const currentPath = usePathname();
   return (
     <nav className="">
       <div className="flex flex-wrap items-center justify-between mx-auto p-4">
-        <div className="flex">
+        <div className="flex gap-4">
+          {currentPath.includes('courses') && (
+            <ToggleButton
+              onClick={() => {
+                setSidebarOpen((p) => !p);
+              }}
+              sidebarOpen={sidebarOpen ? false : true}
+            />
+          )}
+
           <Link
             href="/"
             className="flex items-center space-x-3 rtl:space-x-reverse"

@@ -3,6 +3,9 @@ import { useSearchParams } from 'next/navigation';
 import { QualitySelector } from '../QualitySelector';
 import { VideoPlayerSegment } from '@/components/VideoPlayerSegment';
 import { useRouter } from 'next/navigation';
+import { useRecoilState } from 'recoil';
+import { sidebarSegments as sidebarSegmentsAtom } from '@/store/atoms/sidebarSegments';
+import { useEffect } from 'react';
 
 export const ContentRendererClient = ({
   metadata,
@@ -10,21 +13,24 @@ export const ContentRendererClient = ({
   nextContent,
 }: {
   nextContent: {
-    id: number
-    type: string
-    title: string
-  } | null
-  metadata: any
+    id: number;
+    type: string;
+    title: string;
+  } | null;
+  metadata: any;
   content: {
-    type: 'video'
-    id: number
-    title: string
-    thumbnail: string
-    description: string
-  }
+    type: 'video';
+    id: number;
+    title: string;
+    thumbnail: string;
+    description: string;
+  };
 }) => {
   const searchParams = useSearchParams();
+
   const router = useRouter();
+  const setSidebarSegments = useRecoilState(sidebarSegmentsAtom)[1];
+
   //@ts-ignore
   const quality: '720' | '1080' | '360' | null = searchParams.get('quality');
 
@@ -58,7 +64,9 @@ export const ContentRendererClient = ({
       type: 'video/mp4',
     };
   }
-
+  useEffect(() => {
+    setSidebarSegments(metadata.segments || []);
+  }, []);
   return (
     <div>
       <VideoPlayerSegment

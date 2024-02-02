@@ -2,22 +2,22 @@ import db from '@/db';
 import { Cache } from '@/db/Cache';
 
 export interface Content {
-  id: number
-  type: string
-  title: string
-  description: string | null
-  thumbnail: string | null
-  parentId: number | null
-  createdAt: string
-  children: Content[]
+  id: number;
+  type: string;
+  title: string;
+  description: string | null;
+  thumbnail: string | null;
+  parentId: number | null;
+  createdAt: string;
+  children: Content[];
 }
 
 export interface Folder extends Content {
-  type: 'folder'
+  type: 'folder';
 }
 
 export interface Video extends Content {
-  type: 'video'
+  type: 'video';
 }
 
 export async function getCourse(courseId: number) {

@@ -18,7 +18,7 @@ export const GoogleAnalytics = () => {
           function gtag() {
             // @ts-ignore
             // eslint-disable-next-line
-            dataLayer.push(arguments)
+            dataLayer.push(arguments);
           }
 
           //@ts-ignore

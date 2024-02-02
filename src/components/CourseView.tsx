@@ -12,12 +12,12 @@ export const CourseView = ({
   nextContent,
   contentType,
 }: {
-  fullCourseContent: Folder[]
-  rest: string[]
-  course: any
-  courseContent: any
-  nextContent: any
-  contentType: any
+  fullCourseContent: Folder[];
+  rest: string[];
+  course: any;
+  courseContent: any;
+  nextContent: any;
+  contentType: any;
 }) => {
   return (
     <div>

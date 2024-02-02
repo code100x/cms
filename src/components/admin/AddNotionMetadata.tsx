@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 export function AddNotionMetadata({
   onChange,
 }: {
-  onChange: (metadata: any) => void
+  onChange: (metadata: any) => void;
 }) {
   const [id, setId] = useState('');
 

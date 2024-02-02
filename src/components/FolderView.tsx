@@ -1,21 +1,26 @@
 'use client';
 import { useRouter } from 'next/navigation';
 import { ContentCard } from './ContentCard';
+import { useRecoilState } from 'recoil';
+import { sidebarSegments as sidebarSegmentsAtom } from '@/store/atoms/sidebarSegments';
+import { useEffect } from 'react';
 
 export const FolderView = ({
   courseContent,
   courseId,
   rest,
 }: {
-  courseId: number
-  rest: string[]
+  courseId: number;
+  rest: string[];
   courseContent: {
-    title: string
-    image: string
-    id: number
-  }[]
+    title: string;
+    image: string;
+    id: number;
+  }[];
 }) => {
   const router = useRouter();
+  const [sidebarSegments, setSidebarSegments] =
+    useRecoilState(sidebarSegmentsAtom);
 
   if (!courseContent.length) {
     return (
@@ -28,6 +33,12 @@ export const FolderView = ({
   for (let i = 0; i < rest.length; i++) {
     updatedRoute += `/${rest[i]}`;
   }
+  // why? because we have to reset the segments or they will be visible always after a video
+  useEffect(() => {
+    if (sidebarSegments.length > 0) {
+      setSidebarSegments([]);
+    }
+  }, []);
   return (
     <div>
       <div></div>
@@ -35,6 +46,7 @@ export const FolderView = ({
         {courseContent.map(
           (content: { image: string; id: number; title: string }) => (
             <ContentCard
+              key={content.id}
               title={content.title}
               image={content.image || ''}
               onClick={() => {
