@@ -11,10 +11,10 @@ import { useSearchParams } from 'next/navigation';
 
 // todo correct types
 interface VideoPlayerProps {
-  options: any;
-  onReady?: (player: Player) => void;
-  subtitles?: string;
-  contentId: number;
+  options: any
+  onReady?: (player: Player) => void
+  subtitles?: string
+  contentId: number
 }
 
 export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({

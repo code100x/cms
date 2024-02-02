@@ -13,18 +13,18 @@ export const ContentRendererClient = ({
   nextContent,
 }: {
   nextContent: {
-    id: number;
-    type: string;
-    title: string;
-  } | null;
-  metadata: any;
+    id: number
+    type: string
+    title: string
+  } | null
+  metadata: any
   content: {
-    type: 'video';
-    id: number;
-    title: string;
-    thumbnail: string;
-    description: string;
-  };
+    type: 'video'
+    id: number
+    title: string
+    thumbnail: string
+    description: string
+  }
 }) => {
   const searchParams = useSearchParams();
 

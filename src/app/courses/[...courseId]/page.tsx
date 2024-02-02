@@ -51,7 +51,7 @@ function findContentById(
 export default async function Course({
   params,
 }: {
-  params: { courseId: string[] };
+  params: { courseId: string[] }
 }) {
   const courseId = params.courseId[0];
   const rest = params.courseId.slice(1);

@@ -1,15 +1,11 @@
-import {
-  getCourse,
-  getCourseContent,
-  getCurrentContentType,
-} from '@/db/course';
+import { getCourse, getCourseContent, getCurrentContentType } from '@/db/course';
 import { AddContent } from '@/components/admin/AddContent';
 import { AdminCourseContent } from '@/components/admin/CourseContent';
 
 export default async function UpdateCourseContent({
   params,
 }: {
-  params: { courseId: string[] };
+  params: { courseId: string[] }
 }) {
   const courseId = params.courseId[0];
   const rest = params.courseId.slice(1);

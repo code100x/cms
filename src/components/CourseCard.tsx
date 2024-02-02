@@ -5,8 +5,8 @@ export const CourseCard = ({
   course,
   onClick,
 }: {
-  course: Course;
-  onClick: () => void;
+  course: Course
+  onClick: () => void
 }) => {
   return (
     <div

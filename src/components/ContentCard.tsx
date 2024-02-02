@@ -3,9 +3,9 @@ export const ContentCard = ({
   title,
   onClick,
 }: {
-  image: string;
-  title: string;
-  onClick: () => void;
+  image: string
+  title: string
+  onClick: () => void
 }) => {
   return (
     <div onClick={onClick}>

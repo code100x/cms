@@ -10,19 +10,19 @@ import { Segment } from '@/lib/utils';
 import Player from 'video.js/dist/types/player';
 
 export interface Thumbnail {
-  public_id: string;
-  version: number;
-  url: string;
-  secure_url: string;
-  timestamp: number;
+  public_id: string
+  version: number
+  url: string
+  secure_url: string
+  timestamp: number
 }
 
 interface VideoProps {
-  thumbnails: Thumbnail[];
-  segments: Segment[];
-  subtitles: string;
-  videoJsOptions: any;
-  contentId: number;
+  thumbnails: Thumbnail[]
+  segments: Segment[]
+  subtitles: string
+  videoJsOptions: any
+  contentId: number
 }
 
 export const VideoPlayerSegment: FunctionComponent<VideoProps> = ({

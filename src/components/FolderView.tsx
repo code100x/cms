@@ -10,13 +10,13 @@ export const FolderView = ({
   courseId,
   rest,
 }: {
-  courseId: number;
-  rest: string[];
+  courseId: number
+  rest: string[]
   courseContent: {
-    title: string;
-    image: string;
-    id: number;
-  }[];
+    title: string
+    image: string
+    id: number
+  }[]
 }) => {
   const router = useRouter();
   const [sidebarSegments, setSidebarSegments] =
