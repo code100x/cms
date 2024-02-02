@@ -1,8 +1,11 @@
+"use client";
 import { Folder } from '@/db/course';
 import { ContentRenderer } from './admin/ContentRenderer';
 import { FolderView } from './FolderView';
 import { Sidebar } from './Sidebar';
 import { NotionRenderer } from './NotionRenderer';
+import { useRecoilValue } from "recoil";
+import { sidebarOpen as sidebarOpenAtom } from "@/store/atoms/sidebar";
 
 export const CourseView = ({
   rest,
@@ -19,10 +22,11 @@ export const CourseView = ({
   nextContent: any
   contentType: any
 }) => {
+  const sidebarOpen=useRecoilValue(sidebarOpenAtom)
   return (
     <div>
       <div className="flex">
-        <Sidebar fullCourseContent={fullCourseContent} courseId={course.id} />
+      {sidebarOpen && <Sidebar fullCourseContent={fullCourseContent} courseId={course.id} />}
         <div className="grow">
           <div className="p-2">
             {contentType === 'notion' ? (

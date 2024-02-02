@@ -10,13 +10,22 @@ import { Button } from './ui/button';
 import { Sparkles } from 'lucide-react';
 import { ThemeToggler } from './ThemeToggler';
 import { NavigationMenu } from './landing/appbar/nav-menu';
+import { ToggleButton } from "./Sidebar";
+import { useSetRecoilState } from "recoil";
+import { sidebarOpen as sidebarOpenAtom } from "@/store/atoms/sidebar";
+import { usePathname } from "next/navigation";
 
 export const Appbar = () => {
   const session = useSession();
+  const setSidebarOpen = useSetRecoilState(sidebarOpenAtom)
+  const pathname=usePathname()
 
   return (
     <>
       <nav className="fixed z-50 top-0 px-4 w-full h-16 border-b shadow-sm bg-background/80 backdrop-blur-md flex items-center">
+      {pathname.includes("/courses") && <ToggleButton onClick={() => {
+            setSidebarOpen((s) => !s);
+          }} />}
         <div className="md:max-w-screen-2xl mx-auto flex items-center justify-between w-full">
           <Logo onFooter={false} />
 

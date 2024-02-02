@@ -9,8 +9,8 @@ import {
 import { Folder } from '@/db/course';
 import { Button } from './ui/button';
 import { BackArrow } from '@/icons/BackArrow';
-import { useRecoilState } from 'recoil';
-import { sidebarOpen as sidebarOpenAtom } from '@/store/atoms/sidebar';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { sidebarOpen, sidebarOpen as sidebarOpenAtom } from '@/store/atoms/sidebar';
 import { useEffect } from 'react';
 
 export function Sidebar({
@@ -86,27 +86,9 @@ export function Sidebar({
     });
   };
 
-  if (!sidebarOpen) {
-    return (
-      <div>
-        <ToggleButton
-          onClick={() => {
-            setSidebarOpen(true);
-          }}
-        />
-      </div>
-    );
-  }
-
-  return (
-    <div className="w-64">
+  return <div className="w-64">
       <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800 cursor-pointer">
         <div className="flex">
-          <ToggleButton
-            onClick={() => {
-              setSidebarOpen((s) => !s);
-            }}
-          />
           <GoBackButton />
         </div>
         <Accordion type="single" collapsible className="w-full">
@@ -115,25 +97,35 @@ export function Sidebar({
         </Accordion>
       </div>
     </div>
-  );
 }
 
 export function ToggleButton({ onClick }: { onClick: () => void }) {
+  const sidebarOpen = useRecoilValue(sidebarOpenAtom);
+  const genericHamburgerLine = `h-1 w-6 my-0.5 rounded-full dark:bg-white bg-black transition ease transform duration-300`;
   return (
     <button
-      type="button"
-      className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+      className="flex flex-col mr-2 h-10 w-12 border-2 border-black rounded justify-center items-center group hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
       onClick={onClick}
     >
-      <svg
-        className="w-5 h-5"
-        aria-hidden="true"
-        xmlns="http:/ewww.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 17 14"
-      >
-        <path stroke="currentColor" d="M1 1h15M1 7h15M1 13h15" />
-      </svg>
+      <div
+        className={`${genericHamburgerLine} ${
+          sidebarOpen
+            ? "rotate-45 translate-y-2 opacity-50 group-hover:opacity-100"
+            : "opacity-50 group-hover:opacity-100"
+        }`}
+      />
+      <div
+        className={`${genericHamburgerLine} ${
+          sidebarOpen ? "opacity-0" : "opacity-50 group-hover:opacity-100"
+        }`}
+      />
+      <div
+        className={`${genericHamburgerLine} ${
+          sidebarOpen
+            ? "-rotate-45 -translate-y-2 opacity-50 group-hover:opacity-100"
+            : "opacity-50 group-hover:opacity-100"
+        }`}
+      />
     </button>
   );
 }
@@ -157,7 +149,7 @@ function GoBackButton() {
   };
 
   return (
-    <div className="w-full ml-4">
+    <div className="w-full">
       {/* Your component content */}
       <Button size={'full'} onClick={goBack}>
         <BackArrow /> <div className="pl-4">Go Back</div>
