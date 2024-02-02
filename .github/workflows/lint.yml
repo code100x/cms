@@ -1,5 +1,5 @@
 name: Linting and formatting on PR
-on: [ push ]
+on: [ pull_request ]
 jobs:
 
   Continuous-Integration:
