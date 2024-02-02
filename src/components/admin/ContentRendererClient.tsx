@@ -25,7 +25,9 @@ export const ContentRendererClient = ({
     description: string
   }
 }) => {
-  const [showChapters, setShowChapters] = useState(false);
+  const [showChapters, setShowChapters] = useState(
+    metadata.segments?.length > 0,
+  );
   const searchParams = useSearchParams();
   const router = useRouter();
   //@ts-ignore
@@ -114,19 +116,19 @@ export const ContentRendererClient = ({
                     Slides
                   </button>
                 </a>
-                {!showChapters && (
-                  <button
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold rounded p-2"
-                    onClick={() => {
-                      scrollTo({ top: 0, behavior: 'smooth' });
-                      toggleShowChapters();
-                    }}
-                  >
-                    View All Chapters
-                  </button>
-                )}
               </div>
             ) : null}
+            {!showChapters && (
+              <button
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold rounded p-2"
+                onClick={() => {
+                  scrollTo({ top: 0, behavior: 'smooth' });
+                  toggleShowChapters();
+                }}
+              >
+                View All Chapters
+              </button>
+            )}
           </div>
         </div>
         <br />
