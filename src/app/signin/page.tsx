@@ -21,7 +21,7 @@ const Signin = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
     const res = await signIn('credentials', {
-      email: email.current,
+      username: email.current,
       password: password.current,
       redirect: false,
     });
