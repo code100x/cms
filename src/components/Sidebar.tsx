@@ -96,7 +96,7 @@ export function Sidebar({
 
   return (
     <div className="w-64">
-      <div className="px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800 cursor-pointer  h-[100dvh] w-full sticky top-[64px]">
+      <div className="px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800 cursor-pointer  w-full sticky top-[64px] self-start">
         <div className="flex">
           {/* <ToggleButton
             onClick={() => {
