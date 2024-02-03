@@ -16,7 +16,10 @@ export const ContentCard = ({
   percentComplete?: number | null
 }) => {
   return (
-    <div onClick={onClick} className="relative">
+    <div
+      onClick={onClick}
+      className="relative hover:scale-105 ease-in duration-200"
+    >
       {percentComplete !== null && percentComplete !== undefined && (
         <PercentageComplete percent={percentComplete} />
       )}

@@ -1,64 +1,88 @@
 'use client';
+
 import Link from 'next/link';
 import React from 'react';
-import {
-  NavigationMenu,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  navigationMenuTriggerStyle,
-} from '@/components/ui/navigation-menu';
 import { JoinDiscord } from './JoinDiscord';
 import { AppbarAuth } from './AppbarAuth';
 import { useSession } from 'next-auth/react';
+import { useRecoilState } from 'recoil';
+import { sidebarOpen as sidebarOpenAtom } from '../store/atoms/sidebar';
+import { ToggleButton } from './Sidebar';
+import { usePathname } from 'next/navigation';
+import Logo from './landing/logo/logo';
+import { Button } from './ui/button';
+import { Sparkles } from 'lucide-react';
+import { ThemeToggler } from './ThemeToggler';
+import { NavigationMenu } from './landing/appbar/nav-menu';
 
 export const Appbar = () => {
   const session = useSession();
-
+  const [sidebarOpen, setSidebarOpen] = useRecoilState(sidebarOpenAtom);
+  const currentPath = usePathname();
   return (
-    <nav className="">
-      <div className="flex flex-wrap items-center justify-between mx-auto p-4">
-        <div className="flex">
-          <Link
-            href="/"
-            className="flex items-center space-x-3 rtl:space-x-reverse"
-          >
-            <img
-              src="https://appx-wsb.classx.co.in/subject/2023-01-17-0.17044360120951185.jpg"
-              className="h-8 rounded-full"
-              alt="Flowbite Logo"
-            />
-            <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-              100xdevs
-            </span>
-          </Link>
-          <div className="flex justify-center ml-4">
-            {session?.data?.user ? (
-              <NavigationMenu>
-                <NavigationMenuList>
-                  <NavigationMenuItem>
-                    <JoinDiscord />
-                  </NavigationMenuItem>
-                  <NavigationMenuItem>
-                    <Link
-                      href="https://github.com/100xdevs-cohort-2/assignments"
-                      legacyBehavior
-                      passHref
-                    >
-                      <NavigationMenuLink
-                        className={navigationMenuTriggerStyle()}
-                      >
-                        Assignments
-                      </NavigationMenuLink>
-                    </Link>
-                  </NavigationMenuItem>
-                </NavigationMenuList>
-              </NavigationMenu>
-            ) : null}
-          </div>
+    <>
+      <nav className="fixed z-50 top-0 px-4 w-full h-16 border-b shadow-sm bg-background/80 backdrop-blur-md flex items-center gap-2">
+        {currentPath.includes('courses') && (
+          <ToggleButton
+            onClick={() => {
+              setSidebarOpen((p) => !p);
+            }}
+            sidebarOpen={sidebarOpen ? false : true}
+          />
+        )}
+        <div className="md:max-w-screen-2xl mx-auto flex items-center justify-between w-full">
+          <Logo onFooter={false} />
+
+          {session?.data?.user ? (
+            <div className="flex items-center space-x-2">
+              <div className="hidden sm:flex items-center justify-around md:w-auto md:block space-x-2">
+                <Button variant={'link'} size={'sm'} asChild>
+                  <JoinDiscord isNavigated={false} />
+                </Button>
+
+                <Button size={'sm'} variant={'link'} asChild>
+                  <Link
+                    href={'https://github.com/100xdevs-cohort-2/assignments'}
+                    target="_blank"
+                  >
+                    Assignments
+                  </Link>
+                </Button>
+
+                <AppbarAuth />
+              </div>
+
+              <ThemeToggler />
+
+              <div className="block sm:hidden">
+                <NavigationMenu />
+              </div>
+            </div>
+          ) : (
+            <div className="flex items-center space-x-2">
+              <div className="hidden sm:flex items-center justify-around md:w-auto md:block space-x-3">
+                <AppbarAuth />
+
+                <Button size={'sm'} asChild>
+                  <Link
+                    href={'https://harkirat.classx.co.in/new-courses'}
+                    target="_blank"
+                  >
+                    Join now <Sparkles className="ml-1 h-4 w-4" />
+                  </Link>
+                </Button>
+              </div>
+
+              <ThemeToggler />
+
+              <div className="block sm:hidden">
+                <NavigationMenu />
+              </div>
+            </div>
+          )}
         </div>
-        <AppbarAuth />
-      </div>
-    </nav>
+      </nav>
+      <div className="h-16 w-full" />
+    </>
   );
 };

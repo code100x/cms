@@ -30,20 +30,21 @@ export const FolderView = ({
   for (let i = 0; i < rest.length; i++) {
     updatedRoute += `/${rest[i]}`;
   }
+  // why? because we have to reset the segments or they will be visible always after a video
+
   return (
     <div>
       <div></div>
       <div className="max-w-screen-xl justify-between mx-auto p-4 cursor-pointer grid grid-cols-1 gap-5 md:grid-cols-3">
         {courseContent.map((content) => (
           <ContentCard
+            key={content.id}
             title={content.title}
             image={content.image || ''}
             onClick={() => {
               router.push(`${updatedRoute}/${content.id}`);
             }}
             markAsCompleted={content.markAsCompleted}
-            contentId={content.id}
-            key={content.id}
             percentComplete={content.percentComplete}
           />
         ))}
