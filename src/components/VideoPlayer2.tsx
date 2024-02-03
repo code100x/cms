@@ -44,6 +44,7 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
     if (!player) {
       return;
     }
+    let volumeSetTimeout;
     const handleKeyPress = (event: any) => {
       const isShiftPressed = event.shiftKey;
       if (isShiftPressed) {
@@ -78,7 +79,8 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
           videoRef.current?.children[0].children[6].children[3].classList.add(
             'vjs-hover',
           );
-          setTimeout(() => {
+          if (volumeSetTimeout !== null) clearTimeout(volumeSetTimeout);
+          volumeSetTimeout = setTimeout(() => {
             videoRef.current?.children[0].children[6].children[3].classList.remove(
               'vjs-hover',
             );
@@ -90,7 +92,8 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
           videoRef.current?.children[0].children[6].children[3].classList.add(
             'vjs-hover',
           );
-          setTimeout(() => {
+          if (volumeSetTimeout !== null) clearTimeout(volumeSetTimeout);
+          volumeSetTimeout = setTimeout(() => {
             videoRef.current?.children[0].children[6].children[3].classList.remove(
               'vjs-hover',
             );
