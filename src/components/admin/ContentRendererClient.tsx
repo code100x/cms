@@ -149,7 +149,7 @@ export const ContentRendererClient = ({
                 </a>
               </div>
             ) : null}
-            {!showChapters && (
+            {!showChapters && metadata.segments?.length > 0 && (
               <button
                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold rounded p-2"
                 onClick={() => {

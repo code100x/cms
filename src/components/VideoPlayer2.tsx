@@ -95,7 +95,7 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
       }
       interval = window.setInterval(
         async () => {
-          if (player.paused()) {
+          if (player?.paused()) {
             return;
           }
           const currentTime = player.currentTime();
@@ -125,8 +125,6 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
     player.on('play', handleVideoProgress);
     player.on('ended', () => handleVideoEnded(interval));
     return () => {
-      player.off('play');
-      player.off('ended', () => handleVideoEnded(interval));
       window.clearInterval(interval);
     };
   }, [player, contentId]);
