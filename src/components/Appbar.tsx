@@ -27,7 +27,7 @@ export const Appbar = () => {
             onClick={() => {
               setSidebarOpen((p) => !p);
             }}
-            sidebarOpen={sidebarOpen ? false : true}
+            sidebarOpen={sidebarOpen ? true : false}
           />
         )}
         <div className="md:max-w-screen-2xl mx-auto flex items-center justify-between w-full">
