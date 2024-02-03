@@ -1,9 +1,5 @@
 name: Linting and formatting on PR
-on:
-  pull_request:
-    branches:
-      - '**'
-    
+on: [ pull_request ]
 jobs:
 
   Continuous-Integration:
