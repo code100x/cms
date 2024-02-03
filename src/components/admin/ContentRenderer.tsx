@@ -75,14 +75,10 @@ export const ContentRenderer = async ({
     description: string
     thumbnail: string
     slides?: string
+    markAsCompleted: boolean
   }
 }) => {
   const metadata = await getMetadata(content.id);
-
-  // Segments weren't working without JSON.parse
-  if (metadata && metadata.segments) {
-    metadata.segments = JSON.parse(metadata.segments as string);
-  }
 
   return (
     <ContentRendererClient

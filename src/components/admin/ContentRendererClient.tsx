@@ -1,10 +1,10 @@
 'use client';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { QualitySelector } from '../QualitySelector';
 import { VideoPlayerSegment } from '@/components/VideoPlayerSegment';
-import { useRouter } from 'next/navigation';
 import VideoContentChapters from '../VideoContentChapters';
 import { useState } from 'react';
+import { handleMarkAsCompleted } from '@/lib/utils';
 
 export const ContentRendererClient = ({
   metadata,
@@ -23,9 +23,14 @@ export const ContentRendererClient = ({
     title: string
     thumbnail: string
     description: string
+    markAsCompleted: boolean
   }
 }) => {
   const [showChapters, setShowChapters] = useState(false);
+  const [contentCompleted, setContentCompleted] = useState(
+    content.markAsCompleted,
+  );
+  const [loadingMarkAs, setLoadingMarkAs] = useState(false);
   const searchParams = useSearchParams();
   const router = useRouter();
   //@ts-ignore
@@ -66,9 +71,19 @@ export const ContentRendererClient = ({
     setShowChapters((prev) => !prev);
   };
 
+  const handleMarkCompleted = async () => {
+    setLoadingMarkAs(true);
+    const data: any = await handleMarkAsCompleted(!contentCompleted, content.id);
+
+    if (data.contentId) {
+      setContentCompleted((prev) => !prev);
+    }
+    setLoadingMarkAs(false);
+  };
+
   return (
     <div className="flex gap-2 items-start flex-col lg:flex-row">
-      <div className="flex-1">
+      <div className="flex-1 w-full">
         <VideoPlayerSegment
           contentId={content.id}
           subtitles={metadata.subtitles}
@@ -92,12 +107,26 @@ export const ContentRendererClient = ({
             responsive: true,
             sources: [source],
           }}
+          onVideoEnd={() => {
+            setContentCompleted(true);
+          }}
         />
         <br />
         <div className="flex justify-between mb-2">
-          <div className="text-gray-900 dark:text-white font-bold text-2xl">
-            {content.title}
+          <div>
+            <div className="text-gray-900 dark:text-white font-bold text-2xl">
+              {content.title}
+            </div>
+
+            <button
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold rounded p-2 my-4"
+              disabled={loadingMarkAs}
+              onClick={handleMarkCompleted}
+            >
+              {contentCompleted ? 'Mark as Incomplete' : 'Mark as completed'}
+            </button>
           </div>
+
           <div>
             <QualitySelector />
             <br />
@@ -114,7 +143,7 @@ export const ContentRendererClient = ({
                     Slides
                   </button>
                 </a>
-                {!showChapters && (
+                {!showChapters && metadata?.segments && (
                   <button
                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold rounded p-2"
                     onClick={() => {

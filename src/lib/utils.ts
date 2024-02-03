@@ -142,3 +142,34 @@ export const getCurrentSegmentName = (
   );
   return currentSegment ? currentSegment.title : '';
 };
+
+export const handleMarkAsCompleted = async (
+  markAsCompleted: boolean,
+  contentId: number,
+) => {
+  const response = await fetch('/api/course/videoProgress/markAsCompleted', {
+    body: JSON.stringify({
+      markAsCompleted,
+      contentId,
+    }),
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+  return await response.json();
+};
+
+export const getFolderPercentCompleted = (childrenContent: any) => {
+  if (childrenContent && childrenContent.length > 0) {
+    const videos = childrenContent.filter(
+      (content: any) => content.type === 'video',
+    );
+    const totalVideosWatched = videos.filter(
+      ({ videoProgress }: any) =>
+        videoProgress && videoProgress[0]?.markAsCompleted,
+    ).length;
+    return Math.ceil((totalVideosWatched / videos.length) * 100);
+  }
+  return null;
+};

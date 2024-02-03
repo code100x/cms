@@ -39,7 +39,7 @@ const VideoContentChapters = ({
         <span>Chapters</span>
         <X onClick={onCancel} className="cursor-pointer" />
       </div>
-      {(segments as Segment[]).map(({ start, end, title }, index) => {
+      {(segments as Segment[])?.map(({ start, end, title }, index) => {
         return (
           <>
             <div

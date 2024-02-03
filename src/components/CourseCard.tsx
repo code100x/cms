@@ -1,5 +1,6 @@
 'use client';
 import { Course } from '@/store/atoms';
+import PercentageComplete from './PercentageComplete';
 
 export const CourseCard = ({
   course,
@@ -15,7 +16,17 @@ export const CourseCard = ({
         onClick();
       }}
     >
-      <img src={course.imageUrl} alt={course.title} className="rounded-md" />
+      <div className="relative">
+        {course.totalVideos !== undefined &&
+          course.totalVideosWatched !== undefined && (
+          <PercentageComplete
+            percent={Math.ceil(
+              (course.totalVideosWatched / course.totalVideos) * 100,
+            )}
+          />
+        )}
+        <img src={course.imageUrl} alt={course.title} className="rounded-md" />
+      </div>
       <div className="p-2">
         <div className="flex justify-between">
           <div className="mt-4 mb-2">{course.title} Cohort</div>

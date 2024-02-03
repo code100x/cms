@@ -14,6 +14,7 @@ export const SelectCourse = ({ courses }: { courses: Course[] }) => {
           onClick={() => {
             router.push(`/admin/content/${course.id}`);
           }}
+          key={course.id}
         />
       ))}
     </div>

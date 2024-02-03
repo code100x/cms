@@ -21,6 +21,7 @@ export const Courses = ({ courses }: { courses: Course[] }) => {
               router.push(`/courses/${course.id}`);
             }
           }}
+          key={course.id}
         />
       ))}
     </div>

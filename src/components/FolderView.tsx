@@ -13,6 +13,8 @@ export const FolderView = ({
     title: string
     image: string
     id: number
+    markAsCompleted: boolean
+    percentComplete: number | null
   }[]
 }) => {
   const router = useRouter();
@@ -32,17 +34,19 @@ export const FolderView = ({
     <div>
       <div></div>
       <div className="max-w-screen-xl justify-between mx-auto p-4 cursor-pointer grid grid-cols-1 gap-5 md:grid-cols-3">
-        {courseContent.map(
-          (content: { image: string; id: number; title: string }) => (
-            <ContentCard
-              title={content.title}
-              image={content.image || ''}
-              onClick={() => {
-                router.push(`${updatedRoute}/${content.id}`);
-              }}
-            />
-          ),
-        )}
+        {courseContent.map((content) => (
+          <ContentCard
+            title={content.title}
+            image={content.image || ''}
+            onClick={() => {
+              router.push(`${updatedRoute}/${content.id}`);
+            }}
+            markAsCompleted={content.markAsCompleted}
+            contentId={content.id}
+            key={content.id}
+            percentComplete={content.percentComplete}
+          />
+        ))}
       </div>
     </div>
   );

@@ -21,15 +21,31 @@ export async function GET(req: NextRequest) {
   });
   return NextResponse.json({
     progress: currentProgress?.currentTimestamp ?? 0,
+    markAsCompleted: currentProgress?.markAsCompleted ?? false,
   });
 }
 
-export async function POST() {
+export async function POST(req: NextRequest) {
+  const { contentId, currentTimestamp } = await req.json();
   const session = await getServerSession(authOptions);
-
   if (!session || !session?.user) {
     return NextResponse.json({}, { status: 401 });
   }
-
-  return NextResponse.json({});
+  const updatedRecord = await db.videoProgress.upsert({
+    where: {
+      contentId_userId: {
+        contentId: Number(contentId),
+        userId: session.user.id,
+      },
+    },
+    create: {
+      contentId: Number(contentId),
+      userId: session.user.id,
+      currentTimestamp,
+    },
+    update: {
+      currentTimestamp,
+    },
+  });
+  return NextResponse.json(updatedRecord);
 }
