@@ -26,7 +26,7 @@ export const ContentRendererClient = ({
   }
 }) => {
   const [showChapters, setShowChapters] = useState(
-    metadata.segments?.length > 0,
+    metadata?.segments?.length > 0,
   );
   const searchParams = useSearchParams();
 
@@ -77,7 +77,7 @@ export const ContentRendererClient = ({
           contentId={content.id}
           subtitles={metadata.subtitles}
           thumbnails={[]}
-          segments={metadata.segments || []}
+          segments={metadata?.segments || []}
           videoJsOptions={{
             playbackrates: [0.5, 1, 1.25, 1.5, 1.75, 2],
             controls: true,
