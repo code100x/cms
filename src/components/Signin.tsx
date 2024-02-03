@@ -39,12 +39,12 @@ const Signin = () => {
   };
   return (
     <section className="flex items-center justify-center h-screen">
-      <Card className="w-[30%] mx-auto">
+      <Card className="sm:w-[80%] md:w-[60%] lg:w-[40%] xl:w-[30%] mx-auto">
         <CardHeader>
           <CardTitle>Signin to your Account</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid w-full items-center gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="flex flex-col gap-4">
               <Label htmlFor="email">Email</Label>
               <Input
