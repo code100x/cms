@@ -72,7 +72,7 @@ export const ContentRendererClient = ({
 
   return (
     <div className="flex gap-2 items-start flex-col lg:flex-row">
-      <div className="flex-1">
+      <div className="flex-1 w-full">
         <VideoPlayerSegment
           contentId={content.id}
           subtitles={metadata.subtitles}
