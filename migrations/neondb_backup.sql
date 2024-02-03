@@ -160,4 +160,3 @@ SELECT pg_catalog.setval('public."VideoProgress_id_seq"', 1, false);
 --
 -- PostgreSQL database dump complete
 --
-
