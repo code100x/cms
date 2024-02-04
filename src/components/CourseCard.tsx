@@ -26,14 +26,6 @@ export const CourseCard = ({
         />
       </div>
 
-      {/* <div className="p-2">
-        <img
-          src={course.imageUrl}
-          alt={course.title}
-          className="rounded-t-md md:rounded-l-md md:rounded-r-none md:max-w-md"
-        />
-      </div> */}
-
       <div className="px-4 md:px-6 py-2 w-full h-full">
         <div className="flex flex-col w-full h-full items-start justify-between md:py-4">
           <div className="w-full items-start mb-3">
@@ -58,7 +50,7 @@ export const CourseCard = ({
 
             <div className="w-full flex justify-end">
               <Button className="group">
-                Explore Content{' '}
+                Explore Content
                 <ChevronRight className="h-4 w-4 ml-1 group-hover:translate-x-1 transition" />
               </Button>
             </div>
