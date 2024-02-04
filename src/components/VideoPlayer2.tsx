@@ -44,7 +44,7 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
     if (!player) {
       return;
     }
-    let volumeSetTimeout;
+    let volumeSetTimeout: ReturnType<typeof setInterval> | null = null;
     const handleKeyPress = (event: any) => {
       const isShiftPressed = event.shiftKey;
       if (isShiftPressed) {
