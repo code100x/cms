@@ -39,7 +39,7 @@ const Signin = () => {
   };
   return (
     <section className="flex items-center justify-center h-screen">
-      <Card className="w-[30%] mx-auto">
+      <Card className="w-[70%] mx-auto md:w-[70%] lg:w-[30%] ">
         <CardHeader>
           <CardTitle>Signin to your Account</CardTitle>
         </CardHeader>

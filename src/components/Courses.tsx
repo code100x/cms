@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 export const Courses = ({ courses }: { courses: Course[] }) => {
   const router = useRouter();
   return (
-    <div className="max-w-screen-xl justify-between mx-auto p-4 cursor-pointer grid grid-cols-1 gap-5 md:grid-cols-3">
+    <div className="max-w-screen-xl overflow-x-hidden justify-between mx-auto p-4 cursor-pointer grid grid-cols-1 gap-5 md:grid-cols-3">
       {courses?.map((course) => (
         <CourseCard
           key={course.id}
