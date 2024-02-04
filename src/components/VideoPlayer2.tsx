@@ -7,6 +7,7 @@ import 'videojs-contrib-eme';
 import 'videojs-mobile-ui/dist/videojs-mobile-ui.css';
 import 'videojs-mobile-ui';
 import 'videojs-sprite-thumbnails';
+import { handleMarkAsCompleted } from '@/lib/utils';
 
 // todo correct types
 interface VideoPlayerProps {
@@ -14,6 +15,7 @@ interface VideoPlayerProps {
   onReady?: (player: Player) => void
   subtitles?: string
   contentId: number
+  onVideoEnd: () => void
 }
 
 const PLAYBACK_RATES: number[] = [0.5, 1, 1.25, 1.5, 1.75, 2];
@@ -24,6 +26,7 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
   contentId,
   onReady,
   subtitles,
+  onVideoEnd,
 }) => {
   const videoRef = useRef<HTMLDivElement>(null);
   const playerRef = useRef<Player | null>(null);
@@ -140,23 +143,46 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
   }, [player]);
 
   useEffect(() => {
-    const interval = window.setInterval(async () => {
-      const currentTime = player.currentTime();
-      if (currentTime <= 20) {
+    if (!player) {
+      return;
+    }
+    let interval = 0;
+
+    const handleVideoProgress = () => {
+      if (!player) {
         return;
       }
-      await fetch('/api/course/videoProgress', {
-        body: JSON.stringify({
-          currentTimestamp: currentTime,
-          contentId,
-        }),
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
+      interval = window.setInterval(
+        async () => {
+          if (player?.paused()) {
+            return;
+          }
+          const currentTime = player.currentTime();
+          if (currentTime <= 20) {
+            return;
+          }
+          await fetch('/api/course/videoProgress', {
+            body: JSON.stringify({
+              currentTimestamp: currentTime,
+              contentId,
+            }),
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          });
         },
-      });
-    }, 10 * 1000);
+        Math.ceil((10 * 1000) / player.playbackRate()),
+      );
+    };
+    const handleVideoEnded = (interval: number) => {
+      handleMarkAsCompleted(true, contentId);
+      window.clearInterval(interval);
+      onVideoEnd();
+    };
 
+    player.on('play', handleVideoProgress);
+    player.on('ended', () => handleVideoEnded(interval));
     return () => {
       window.clearInterval(interval);
     };

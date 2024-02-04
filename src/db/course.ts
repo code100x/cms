@@ -81,7 +81,11 @@ async function getAllContent() {
   if (value) {
     return value;
   }
-  const allContent = await db.content.findMany({});
+  const allContent = await db.content.findMany({
+    include: {
+      videoProgress: true,
+    },
+  });
 
   Cache.getInstance().set('getAllContent', [], allContent);
 

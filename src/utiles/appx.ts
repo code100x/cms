@@ -7,7 +7,43 @@ const APPX_BASE_API = process.env.APPX_BASE_API;
 const LOCAL_CMS_PROVIDER = process.env.LOCAL_CMS_PROVIDER;
 
 export async function getPurchases(email: string) {
-  const courses = await db.course.findMany({});
+  const _courses = await db.course.findMany({
+    include: {
+      content: {
+        select: {
+          content: {
+            select: {
+              children: {
+                where: {
+                  type: 'video',
+                },
+                select: {
+                  videoProgress: true,
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  });
+  const courses = _courses.map((course) => {
+    const { content } = course;
+    let totalVideos = 0;
+    let totalVideosWatched = 0;
+    content.forEach(({ content: { children } }) => {
+      totalVideos += children.length;
+      totalVideosWatched += children.filter(
+        ({ videoProgress }) =>
+          videoProgress && videoProgress[0]?.markAsCompleted,
+      ).length;
+    });
+    return {
+      ...course,
+      ...(content.length > 0 && { totalVideos, totalVideosWatched }),
+    };
+  });
+
   if (LOCAL_CMS_PROVIDER) {
     return courses;
   }

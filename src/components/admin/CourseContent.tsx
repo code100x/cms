@@ -27,6 +27,7 @@ export const AdminCourseContent = ({
               onClick={() => {
                 router.push(`/admin/content/${courseId}/${content.id}`);
               }}
+              key={content.id}
             />
           ),
         )}

@@ -144,6 +144,7 @@ model VideoProgress {
   currentTimestamp Int
   user             User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   content          Content @relation(fields: [contentId], references: [id], onDelete: Cascade)
+  markAsCompleted  Boolean @default(false)
 
   @@unique([contentId, userId])
 }

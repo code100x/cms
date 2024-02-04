@@ -1,5 +1,6 @@
 'use client';
 import { Course } from '@/store/atoms';
+import PercentageComplete from './PercentageComplete';
 import { Button } from './ui/button';
 import { ChevronRight } from 'lucide-react';
 
@@ -17,6 +18,17 @@ export const CourseCard = ({
         onClick();
       }}
     >
+      <div className="relative">
+        {course.totalVideos !== undefined &&
+          course.totalVideosWatched !== undefined && (
+          <PercentageComplete
+            percent={Math.ceil(
+              (course.totalVideosWatched / course.totalVideos) * 100,
+            )}
+          />
+        )}
+        <img src={course.imageUrl} alt={course.title} className="rounded-md" />
+      </div>
       <div className="p-2">
         <img
           src={course.imageUrl}

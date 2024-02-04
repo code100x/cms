@@ -10,6 +10,8 @@ export type Course = {
   appxCourseId: number
   discordRoleId: string
   openToEveryone: boolean
+  totalVideos?: number
+  totalVideosWatched?: number
 }
 
 const coursesSelector = selector({
