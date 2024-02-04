@@ -18,12 +18,14 @@ export const CourseCard = ({
         onClick();
       }}
     >
+
       <div className="p-2">
         <img
           src={course.imageUrl}
           alt={course.title}
           className="rounded-t-md md:rounded-l-md md:rounded-r-none md:max-w-md"
         />
+
       </div>
 
       <div className="px-4 md:px-6 py-2 w-full h-full">

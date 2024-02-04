@@ -39,8 +39,7 @@ export const CourseView = ({
                   type: contentType || 'video',
                   description: courseContent[0]?.description || '',
                   markAsCompleted:
-                    courseContent[0]?.videoProgress[0]?.markAsCompleted ||
-                    false,
+                    courseContent[0]?.videoProgress?.markAsCompleted || false,
                 }}
               />
             ) : null}
@@ -51,8 +50,7 @@ export const CourseView = ({
                   title: x?.title || '',
                   image: x?.thumbnail || '',
                   id: x?.id || 0,
-                  markAsCompleted:
-                    x?.videoProgress[0]?.markAsCompleted || false,
+                  markAsCompleted: x?.videoProgress?.markAsCompleted || false,
                   percentComplete: getFolderPercentCompleted(x?.children),
                 }))}
                 courseId={parseInt(course.id, 10)}

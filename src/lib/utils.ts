@@ -168,7 +168,7 @@ export const getFolderPercentCompleted = (childrenContent: any) => {
     );
     const totalVideosWatched = videos.filter(
       ({ videoProgress }: any) =>
-        videoProgress && videoProgress[0]?.markAsCompleted,
+        videoProgress && videoProgress?.markAsCompleted,
     ).length;
     return Math.ceil((totalVideosWatched / videos.length) * 100);
   }
