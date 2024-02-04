@@ -25,10 +25,20 @@ export function Sidebar({
   const [sidebarOpen, setSidebarOpen] = useRecoilState(sidebarOpenAtom);
 
   useEffect(() => {
-    if (window.innerWidth < 500) {
-      setSidebarOpen(false);
+    function handleResize() {
+      if (window.innerWidth < 500) {
+        setSidebarOpen(false);
+      } else {
+        setSidebarOpen(true);
+      }
     }
-  }, []);
+
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [setSidebarOpen]);
 
   const findPathToContent = (
     contents: any,
