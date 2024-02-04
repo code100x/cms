@@ -18,17 +18,6 @@ export const CourseCard = ({
         onClick();
       }}
     >
-      <div className="relative">
-        {course.totalVideos !== undefined &&
-          course.totalVideosWatched !== undefined && (
-          <PercentageComplete
-            percent={Math.ceil(
-              (course.totalVideosWatched / course.totalVideos) * 100,
-            )}
-          />
-        )}
-        <img src={course.imageUrl} alt={course.title} className="rounded-md" />
-      </div>
       <div className="p-2">
         <img
           src={course.imageUrl}
@@ -37,7 +26,15 @@ export const CourseCard = ({
         />
       </div>
 
-      <div className="px-6 py-2 w-full h-full">
+      {/* <div className="p-2">
+        <img
+          src={course.imageUrl}
+          alt={course.title}
+          className="rounded-t-md md:rounded-l-md md:rounded-r-none md:max-w-md"
+        />
+      </div> */}
+
+      <div className="px-4 md:px-6 py-2 w-full h-full">
         <div className="flex flex-col w-full h-full items-start justify-between md:py-4">
           <div className="w-full items-start mb-3">
             <h2 className="mb-0 md:mb-2 dark:text-neutral-100 text-neutral-800 text-xl sm:text-3xl font-semibold">
@@ -49,11 +46,22 @@ export const CourseCard = ({
             </p>
           </div>
 
-          <div className="w-full flex justify-end pb-2 md:pb-0">
-            <Button className="group">
-              Explore Content{' '}
-              <ChevronRight className="h-4 w-4 ml-1 group-hover:translate-x-1 transition" />
-            </Button>
+          <div className="w-full flex items-center justify-between pb-2 md:pb-0">
+            {course.totalVideos !== undefined &&
+              course.totalVideosWatched !== undefined && (
+              <PercentageComplete
+                percent={Math.ceil(
+                  (course.totalVideosWatched / course.totalVideos) * 100,
+                )}
+              />
+            )}
+
+            <div className="w-full flex justify-end">
+              <Button className="group">
+                Explore Content{' '}
+                <ChevronRight className="h-4 w-4 ml-1 group-hover:translate-x-1 transition" />
+              </Button>
+            </div>
           </div>
         </div>
       </div>

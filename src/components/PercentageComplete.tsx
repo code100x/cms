@@ -1,9 +1,7 @@
-import React from 'react';
-
 const PercentageComplete = ({ percent }: { percent: number }) => {
   return (
-    <div className="text-xs absolute top-2 right-2 text-[#1D4ED8] border-[#1D4ED8] border py-1 px-2 rounded-full font-bold">
-      <div>{`${percent}% completed`}</div>
+    <div className="w-full text-sm flex items-center justify-center text-blue-600 py-1 px-2 rounded-full font-semibold">
+      <div className="w-full">{`${percent}% completed`}</div>
     </div>
   );
 };
