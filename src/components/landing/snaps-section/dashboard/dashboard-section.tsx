@@ -3,6 +3,7 @@ import dashboard from '../../../../../public/platform/dashboard.png';
 import { Button } from '../../../ui/button';
 import Link from 'next/link';
 import { ChevronRight } from 'lucide-react';
+import { CardContainer, CardItem } from '@/components/3dcard';
 
 const DashboardSection = () => {
   return (
@@ -32,20 +33,26 @@ const DashboardSection = () => {
             href={'https://harkirat.classx.co.in/new-courses'}
             target="_blank"
           >
-            Explore courses <ChevronRight className="h-4 w-4 ml-1" />
+            <p className="text-white">Explore courses</p>{' '}
+            <ChevronRight className="text-white h-4 w-4 ml-1 hover:translate-x-1 ease-in-out duration-200 " />
           </Link>
         </Button>
       </div>
-
-      <div className="hidden md:block py-3 md:py-6 pl-3 md:pl-6 rounded-l-xl md:rounded-l-2xl bg-slate-200 dark:bg-slate-800">
-        <Image
-          src={dashboard}
-          alt={'platform'}
-          width={1400}
-          height={1260}
-          className="rounded-l-lg md:rounded-l-xl"
-        />
-      </div>
+      <CardContainer className="w-full cursor-pointer">
+        <Link href="" target="_blank">
+          <div className="hidden md:block py-3 md:py-6 pl-3 md:pl-6 rounded-l-xl md:rounded-l-2xl bg-slate-200 dark:bg-slate-800">
+            <CardItem>
+              <Image
+                src={dashboard}
+                alt={'platform'}
+                width={1400}
+                height={1260}
+                className="rounded-l-lg md:rounded-l-xl"
+              />
+            </CardItem>
+          </div>
+        </Link>
+      </CardContainer>
     </div>
   );
 };

@@ -68,7 +68,8 @@ export const Appbar = () => {
                     href={'https://harkirat.classx.co.in/new-courses'}
                     target="_blank"
                   >
-                    Join now <Sparkles className="ml-1 h-4 w-4" />
+                    <p className="text-white">Join now</p>{' '}
+                    <Sparkles className="text-white ml-2 h-4 w-4 hover:translate-x-0.5 ease-linear duration-200" />
                   </Link>
                 </Button>
               </div>
