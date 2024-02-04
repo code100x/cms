@@ -34,6 +34,7 @@ model Content {
   id               Int             @id @default(autoincrement())
   type             String          @default("folder")
   title            String
+  hidden           Boolean         @default(false)
   description      String?
   thumbnail        String?
   parentId         Int?
