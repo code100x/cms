@@ -170,7 +170,7 @@ export const getFullCourseContent = async (courseId: number) => {
         contentMap
           .get(content.parentId)
           .children.push(contentMap.get(content.id));
-      } else if (courseContent.find((x) => x.contentId === content.id)) {
+      } else if (courseContent.find((x: any) => x.contentId === content.id)) {
         rootContents.push(contentMap.get(content.id));
       }
     });
