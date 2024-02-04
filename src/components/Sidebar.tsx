@@ -11,7 +11,8 @@ import { Button } from './ui/button';
 import { BackArrow } from '@/icons/BackArrow';
 import { useRecoilState } from 'recoil';
 import { sidebarOpen as sidebarOpenAtom } from '@/store/atoms/sidebar';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { handleMarkAsCompleted } from '@/lib/utils';
 
 export function Sidebar({
   courseId,
@@ -65,10 +66,12 @@ export function Sidebar({
           <AccordionItem
             key={content.id}
             value={`item-${content.id}`}
-            className="text-gray-900 dark:text-white"
+            className="text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer"
           >
-            <AccordionTrigger>{content.title}</AccordionTrigger>
-            <AccordionContent>
+            <AccordionTrigger className="px-2">
+              {content.title}
+            </AccordionTrigger>
+            <AccordionContent className="p-0 m-0">
               {/* Render the children of this folder */}
               {renderContent(content.children)}
             </AccordionContent>
@@ -79,12 +82,25 @@ export function Sidebar({
       return (
         <div
           key={content.id}
-          className="p-2"
+          className="p-2 flex border-gray-300 border-b hover:bg-gray-100 dark:hover:bg-gray-700 dark:border-gray-700 cursor-pointer bg-gray-50 dark:bg-gray-800"
           onClick={() => {
             navigateToContent(content.id);
           }}
         >
-          {content.title}
+          <div className="flex justify-between w-full">
+            <div className="flex">
+              <div className="pr-2">
+                {content.type === 'video' ? <VideoIcon /> : null}
+                {content.type === 'notion' ? <NotionIcon /> : null}
+              </div>
+              <div>{content.title}</div>
+            </div>
+            {content.type === 'video' ? (
+              <div className="flex flex-col justify-center ml-2">
+                <Check content={content} />
+              </div>
+            ) : null}
+          </div>
         </div>
       );
     });
@@ -95,8 +111,8 @@ export function Sidebar({
   }
 
   return (
-    <div className="w-64">
-      <div className="px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800 cursor-pointer  w-full sticky top-[64px] self-start">
+    <div className="w-84" style={{ width: '300px' }}>
+      <div className="overflow-scroll min-h-screen overflow-y-auto bg-gray-50 dark:bg-gray-800 cursor-pointer  w-full sticky top-[64px] self-start w-84">
         <div className="flex">
           {/* <ToggleButton
             onClick={() => {
@@ -166,11 +182,70 @@ function GoBackButton() {
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full p-2">
       {/* Your component content */}
       <Button size={'full'} onClick={goBack}>
         <BackArrow /> <div className="pl-4">Go Back</div>
       </Button>
     </div>
+  );
+}
+
+function VideoIcon() {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke-width="1.5"
+      stroke="currentColor"
+      class="w-6 h-6"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        d="m15.75 10.5 4.72-4.72a.75.75 0 0 1 1.28.53v11.38a.75.75 0 0 1-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25h-9A2.25 2.25 0 0 0 2.25 7.5v9a2.25 2.25 0 0 0 2.25 2.25Z"
+      />
+    </svg>
+  );
+}
+
+function NotionIcon() {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke-width="1.5"
+      stroke="currentColor"
+      class="w-6 h-6"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"
+      />
+    </svg>
+  );
+}
+
+// Todo: Fix types here
+function Check({ content }: { content: any }) {
+  const [completed, setCompleted] = useState(
+    content?.videoProgress?.markAsCompleted || false,
+  );
+  return (
+    <>
+      <input
+        defaultChecked={completed}
+        onClick={async (e) => {
+          setCompleted(!completed);
+          handleMarkAsCompleted(!completed, content.id);
+          e.stopPropagation();
+        }}
+        type="checkbox"
+        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+      />
+    </>
   );
 }

@@ -1,5 +1,7 @@
 import db from '@/db';
 import { Cache } from '@/db/Cache';
+import { authOptions } from '@/lib/auth';
+import { getServerSession } from 'next-auth';
 
 export interface Content {
   id: number
@@ -10,6 +12,10 @@ export interface Content {
   parentId: number | null
   createdAt: string
   children: Content[]
+  videoProgress?: {
+    currentTimestamp: string
+    markAsCompleted?: boolean
+  }
 }
 
 export interface Folder extends Content {
@@ -82,8 +88,8 @@ async function getAllContent() {
     return value;
   }
   const allContent = await db.content.findMany({
-    include: {
-      videoProgress: true,
+    where: {
+      hidden: false,
     },
   });
 
@@ -92,15 +98,13 @@ async function getAllContent() {
   return allContent;
 }
 
-export const getFullCourseContent = async (courseId: number) => {
-  const value = Cache.getInstance().get('getFullCourseContent', [
+async function getRootCourseContent(courseId: number) {
+  const value = Cache.getInstance().get('getRootCourseContent', [
     courseId.toString(),
   ]);
   if (value) {
     return value;
   }
-
-  const contents = await getAllContent();
   const courseContent = await db.courseContent.findMany({
     orderBy: [
       {
@@ -112,9 +116,51 @@ export const getFullCourseContent = async (courseId: number) => {
     },
     include: { content: true },
   });
+  Cache.getInstance().set(
+    'getRootCourseContent',
+    [courseId.toString()],
+    courseContent,
+  );
+  return courseContent;
+}
 
+function getVideoProgressForUser(userId: string) {
+  return db.videoProgress.findMany({
+    where: {
+      userId,
+    },
+  });
+}
+
+export const getFullCourseContent = async (courseId: number) => {
+  // const value = Cache.getInstance().get('getFullCourseContent', [
+  //   courseId.toString(),
+  // ]);
+  // if (value) {
+  //   return value;
+  // }
+  const session = await getServerSession(authOptions);
+  const contents = await getAllContent();
+  const courseContent = await getRootCourseContent(courseId);
+  const videoProgress = await getVideoProgressForUser(session?.user?.id);
   const contentMap = new Map<string, any>(
-    contents.map((content: any) => [content.id, { ...content, children: [] }]),
+    contents.map((content: any) => [
+      content.id,
+      {
+        ...content,
+        children: [],
+        videoProgress:
+          content.type === 'video'
+            ? {
+              duration: videoProgress.find((x) => x.contentId === content.id)
+                ?.currentTimestamp,
+              markAsCompleted: videoProgress.find(
+                (x) => x.contentId === content.id,
+              )?.markAsCompleted,
+            }
+            : null,
+      },
+    ]),
   );
   const rootContents: any[] = [];
   contents
