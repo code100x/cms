@@ -3,6 +3,7 @@ import { ContentRenderer } from './admin/ContentRenderer';
 import { FolderView } from './FolderView';
 import { Sidebar } from './Sidebar';
 import { NotionRenderer } from './NotionRenderer';
+import { getFolderPercentCompleted } from '@/lib/utils';
 
 export const CourseView = ({
   rest,
@@ -37,6 +38,8 @@ export const CourseView = ({
                   title: courseContent[0]?.title || '',
                   type: contentType || 'video',
                   description: courseContent[0]?.description || '',
+                  markAsCompleted:
+                    courseContent[0]?.videoProgress?.markAsCompleted || false,
                 }}
               />
             ) : null}
@@ -47,6 +50,8 @@ export const CourseView = ({
                   title: x?.title || '',
                   image: x?.thumbnail || '',
                   id: x?.id || 0,
+                  markAsCompleted: x?.videoProgress?.markAsCompleted || false,
+                  percentComplete: getFolderPercentCompleted(x?.children),
                 }))}
                 courseId={parseInt(course.id, 10)}
               />

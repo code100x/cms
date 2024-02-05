@@ -23,6 +23,7 @@ interface VideoProps {
   subtitles: string
   videoJsOptions: any
   contentId: number
+  onVideoEnd: () => void
 }
 
 export const VideoPlayerSegment: FunctionComponent<VideoProps> = ({
@@ -30,6 +31,7 @@ export const VideoPlayerSegment: FunctionComponent<VideoProps> = ({
   subtitles,
   segments,
   videoJsOptions,
+  onVideoEnd,
 }) => {
   const playerRef = useRef<Player | null>(null);
   const thumbnailPreviewRef = useRef<HTMLDivElement>(null);
@@ -95,6 +97,7 @@ export const VideoPlayerSegment: FunctionComponent<VideoProps> = ({
           subtitles={subtitles}
           options={videoJsOptions}
           onReady={handlePlayerReady}
+          onVideoEnd={onVideoEnd}
         />
       </div>
     </div>

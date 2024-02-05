@@ -40,7 +40,7 @@ const VideoContentChapters = ({
         <X onClick={onCancel} className="cursor-pointer" />
       </div>
       <div className="max-h-[70vh] overflow-auto">
-        {(segments as Segment[]).map(({ start, end, title }, index) => {
+        {(segments as Segment[])?.map(({ start, end, title }, index) => {
           return (
             <>
               <div

@@ -7,6 +7,7 @@ import 'videojs-contrib-eme';
 import 'videojs-mobile-ui/dist/videojs-mobile-ui.css';
 import 'videojs-mobile-ui';
 import 'videojs-sprite-thumbnails';
+import { handleMarkAsCompleted } from '@/lib/utils';
 
 // todo correct types
 interface VideoPlayerProps {
@@ -14,13 +15,18 @@ interface VideoPlayerProps {
   onReady?: (player: Player) => void
   subtitles?: string
   contentId: number
+  onVideoEnd: () => void
 }
+
+const PLAYBACK_RATES: number[] = [0.5, 1, 1.25, 1.5, 1.75, 2];
+const VOLUME_LEVELS: number[] = [0, 0.2, 0.4, 0.6, 0.8, 1.0];
 
 export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
   options,
   contentId,
   onReady,
   subtitles,
+  onVideoEnd,
 }) => {
   const videoRef = useRef<HTMLDivElement>(null);
   const playerRef = useRef<Player | null>(null);
@@ -41,34 +47,90 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
     if (!player) {
       return;
     }
+    let volumeSetTimeout: ReturnType<typeof setInterval> | null = null;
     const handleKeyPress = (event: any) => {
-      switch (event.code) {
-      case 'Space': // Space bar for play/pause
-        if (player.paused()) {
-          player.play();
+      const isShiftPressed = event.shiftKey;
+      if (isShiftPressed) {
+        const currentIndexPeriod: number = PLAYBACK_RATES.indexOf(
+          player.playbackRate(),
+        );
+        const newIndexPeriod: number =
+          currentIndexPeriod !== PLAYBACK_RATES.length - 1
+            ? currentIndexPeriod + 1
+            : currentIndexPeriod;
+        const currentIndexComma = PLAYBACK_RATES.indexOf(player.playbackRate());
+        const newIndexComma =
+          currentIndexComma !== 0 ? currentIndexComma - 1 : currentIndexComma;
+        const currentIndexUp = VOLUME_LEVELS.indexOf(player.volume());
+        const newIndexUp =
+          currentIndexUp !== VOLUME_LEVELS.length - 1
+            ? currentIndexUp + 1
+            : currentIndexUp;
+        const currentIndexDown = VOLUME_LEVELS.indexOf(player.volume());
+        const newIndexDown =
+          currentIndexDown !== 0 ? currentIndexDown - 1 : currentIndexDown;
+        switch (event.code) {
+        case 'Period': // Increase playback speed
+          player.playbackRate(PLAYBACK_RATES[newIndexPeriod]);
           event.stopPropagation();
-        } else {
-          player.pause();
+          break;
+        case 'Comma': // Decrease playback speed
+          player.playbackRate(PLAYBACK_RATES[newIndexComma]);
           event.stopPropagation();
+          break;
+        case 'ArrowUp': // Increase volume
+          videoRef.current?.children[0].children[6].children[3].classList.add(
+            'vjs-hover',
+          );
+          if (volumeSetTimeout !== null) clearTimeout(volumeSetTimeout);
+          volumeSetTimeout = setTimeout(() => {
+            videoRef.current?.children[0].children[6].children[3].classList.remove(
+              'vjs-hover',
+            );
+          }, 1000);
+          player.volume(VOLUME_LEVELS[newIndexUp]);
+          event.stopPropagation();
+          break;
+        case 'ArrowDown': // Decrease volume
+          videoRef.current?.children[0].children[6].children[3].classList.add(
+            'vjs-hover',
+          );
+          if (volumeSetTimeout !== null) clearTimeout(volumeSetTimeout);
+          volumeSetTimeout = setTimeout(() => {
+            videoRef.current?.children[0].children[6].children[3].classList.remove(
+              'vjs-hover',
+            );
+          }, 1000);
+          player.volume(VOLUME_LEVELS[newIndexDown]);
+          event.stopPropagation();
+          break;
         }
-        event.preventDefault();
-        break;
-      case 'ArrowRight': // Right arrow for seeking forward 5 seconds
-        player.currentTime(player.currentTime() + 5);
-        event.stopPropagation();
-        break;
-      case 'ArrowLeft': // Left arrow for seeking backward 5 seconds
-        player.currentTime(player.currentTime() - 5);
-        event.stopPropagation();
-        break;
-      case 'KeyF': // F key for fullscree
-        if (player.isFullscreen_) {
-          document.exitFullscreen();
-        } else {
-          player.requestFullscreen();
+      } else {
+        switch (event.code) {
+        case 'Space': // Space bar for play/pause
+          if (player.paused()) {
+            player.play();
+            event.stopPropagation();
+          } else {
+            player.pause();
+            event.stopPropagation();
+          }
+          event.preventDefault();
+          break;
+        case 'ArrowRight': // Right arrow for seeking forward 5 seconds
+          player.currentTime(player.currentTime() + 5);
+          event.stopPropagation();
+          break;
+        case 'ArrowLeft': // Left arrow for seeking backward 5 seconds
+          player.currentTime(player.currentTime() - 5);
+          event.stopPropagation();
+          break;
+        case 'KeyF': // F key for fullscree
+          if (player.isFullscreen_) document.exitFullscreen();
+          else player.requestFullscreen();
+          event.stopPropagation();
+          break;
         }
-        event.stopPropagation();
-        break;
       }
     };
 
@@ -81,23 +143,46 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
   }, [player]);
 
   useEffect(() => {
-    const interval = window.setInterval(async () => {
-      const currentTime = player.currentTime();
-      if (currentTime <= 20) {
+    if (!player) {
+      return;
+    }
+    let interval = 0;
+
+    const handleVideoProgress = () => {
+      if (!player) {
         return;
       }
-      await fetch('/api/course/videoProgress', {
-        body: JSON.stringify({
-          currentTimestamp: currentTime,
-          contentId,
-        }),
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
+      interval = window.setInterval(
+        async () => {
+          if (player?.paused()) {
+            return;
+          }
+          const currentTime = player.currentTime();
+          if (currentTime <= 20) {
+            return;
+          }
+          await fetch('/api/course/videoProgress', {
+            body: JSON.stringify({
+              currentTimestamp: currentTime,
+              contentId,
+            }),
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          });
         },
-      });
-    }, 10 * 1000);
+        Math.ceil((10 * 1000) / player.playbackRate()),
+      );
+    };
+    const handleVideoEnded = (interval: number) => {
+      handleMarkAsCompleted(true, contentId);
+      window.clearInterval(interval);
+      onVideoEnd();
+    };
 
+    player.on('play', handleVideoProgress);
+    player.on('ended', () => handleVideoEnded(interval));
     return () => {
       window.clearInterval(interval);
     };

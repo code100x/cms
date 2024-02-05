@@ -75,6 +75,7 @@ export const ContentRenderer = async ({
     description: string
     thumbnail: string
     slides?: string
+    markAsCompleted: boolean
   }
 }) => {
   const metadata = await getMetadata(content.id);

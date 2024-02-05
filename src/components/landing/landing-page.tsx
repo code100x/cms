@@ -67,7 +67,7 @@ export default function LandingPage() {
             href={'https://harkirat.classx.co.in/new-courses'}
             target="_blank"
           >
-            Explore courses
+            <p className="text-white">Explore courses</p>
           </Link>
         </Button>
 
@@ -78,7 +78,8 @@ export default function LandingPage() {
           asChild
         >
           <Link href={'#trustedby'}>
-            See more <ChevronRight className="h-4 w-4" />
+            See more{' '}
+            <ChevronRight className="text-white h-4 w-4 ml-1 hover:translate-x-1 ease-in-out duration-200" />
           </Link>
         </Button>
       </div>
