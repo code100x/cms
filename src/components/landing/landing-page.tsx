@@ -11,6 +11,7 @@ import WhyUsSection from './us-section/why-us';
 import AboutUsSection from './us-section/about-us';
 import DiscordSection from './snaps-section/discord-section/discord-section';
 import PreFooterSection from './footer/pre-footer/pre-footer';
+import DailyCodeSection from './snaps-section/daily-code/daily-code';
 
 const headingFont = localFont({
   src: '../../../public/fonts/font.woff2',
@@ -92,6 +93,9 @@ export default function LandingPage() {
 
       {/* Dashboard */}
       <DashboardSection />
+
+      {/* DailyCode */}
+      <DailyCodeSection />
 
       {/* Why Us? */}
       <WhyUsSection />
