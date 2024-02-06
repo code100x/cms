@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 export const Courses = ({ courses }: { courses: Course[] }) => {
   const router = useRouter();
   return (
-    <div className="max-w-screen-xl w-full mx-auto py-6 px-6 cursor-pointer grid grid-rows-1 gap-5 md:grid-rows-3">
+    <div className="max-w-screen-xl w-full mx-auto py-6 px-6 cursor-pointer grid grid-cols-1 gap-5 md:grid-cols-3">
       {courses?.map((course) => (
         <CourseCard
           key={course.id}

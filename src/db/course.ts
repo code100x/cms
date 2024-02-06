@@ -26,6 +26,94 @@ export interface Video extends Content {
   type: 'video'
 }
 
+export async function getAllCourses() {
+  const value = await Cache.getInstance().get('getAllCourses', []);
+  if (value) {
+    return value;
+  }
+  const courses = await db.course.findMany({
+    orderBy: {
+      id: 'desc',
+    },
+  });
+  Cache.getInstance().set('getAllCourses', [], courses);
+  return courses;
+}
+
+export async function getAllCoursesAndContentHierarchy(): Promise<
+  {
+    id: number
+    title: string
+    description: string
+    appxCourseId: number
+    discordRoleId: string
+    slug: string
+    imageUrl: string
+    openToEveryone: boolean
+    content: {
+      contentId: number
+    }[]
+  }[]
+  > {
+  const value = await Cache.getInstance().get(
+    'getAllCoursesAndContentHierarchy',
+    [],
+  );
+  if (value) {
+    return value;
+  }
+
+  const courses = await db.course.findMany({
+    orderBy: {
+      id: 'asc',
+    },
+    select: {
+      id: true,
+      title: true,
+      imageUrl: true,
+      description: true,
+      appxCourseId: true,
+      openToEveryone: true,
+      slug: true,
+      discordRoleId: true,
+      content: {
+        select: {
+          contentId: true,
+        },
+      },
+    },
+  });
+
+  Cache.getInstance().set('getAllCoursesAndContentHierarchy', [], courses);
+  return courses;
+}
+
+export async function getAllVideos(): Promise<
+  {
+    id: number
+    type: string
+    title: string
+    hidden: boolean
+    description: string | null
+    thumbnail: string | null
+    parentId: number | null
+    createdAt: Date
+    notionMetadataId: number | null
+  }[]
+  > {
+  const value = await Cache.getInstance().get('getAllVideos', []);
+  if (value) {
+    return value;
+  }
+  const courses = await db.content.findMany({
+    where: {
+      type: 'video',
+    },
+  });
+  Cache.getInstance().set('getAllVideos', [], courses);
+  return courses;
+}
+
 export async function getCourse(courseId: number) {
   const value = await Cache.getInstance().get('getCourse', [
     courseId.toString(),
@@ -124,10 +212,14 @@ async function getRootCourseContent(courseId: number) {
   return courseContent;
 }
 
-function getVideoProgressForUser(userId: string) {
+export function getVideoProgressForUser(
+  userId: string,
+  markAsCompleted?: boolean,
+) {
   return db.videoProgress.findMany({
     where: {
       userId,
+      markAsCompleted,
     },
   });
 }

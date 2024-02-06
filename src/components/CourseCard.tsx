@@ -13,7 +13,7 @@ export const CourseCard = ({
 }) => {
   return (
     <div
-      className="max-w-full flex flex-col md:flex-row items-center bg-slate-100 md:border rounded-lg shadow-lg dark:bg-gradient-to-t md:dark:bg-gradient-to-l dark:from-slate-900 dark:to-slate-800"
+      className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
       onClick={() => {
         onClick();
       }}
@@ -27,6 +27,31 @@ export const CourseCard = ({
             )}
           />
         )}
+      </div>
+      <img src={course.imageUrl} alt={course.title} className="rounded-md" />
+      <div className="p-2">
+        <div className="flex justify-between">
+          <div className="mt-4 mb-2">{course.title} Cohort</div>
+        </div>
+        <div>
+          <button
+            type="button"
+            className="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 w-full"
+          >
+            View Content
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+  return (
+    <div
+      className="max-w-full flex flex-col md:flex-row items-center bg-slate-100 md:border rounded-lg shadow-lg dark:bg-gradient-to-t md:dark:bg-gradient-to-l dark:from-slate-900 dark:to-slate-800"
+      onClick={() => {
+        onClick();
+      }}
+    >
+      <div className="relative">
         <div className="p-2">
           <img
             src={course.imageUrl}

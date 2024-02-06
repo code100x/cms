@@ -11,7 +11,12 @@ const rs = Poppins({
 });
 
 const getUserDetails = async () => {
+  console.log('get user details start');
+  const date = new Date();
   const session = await getServerSession(authOptions);
+  console.log(
+    `get user details end ${  (new Date().getTime() - date.getTime()) / 1000}`,
+  );
   return session;
 };
 
@@ -30,15 +35,6 @@ export default async function Home() {
           >
             Courses
           </h1>
-          <p
-            className={cn(
-              'font-medium md:text-lg text-neutral-600 dark:text-neutral-300',
-              rs.className,
-            )}
-          >
-            List of purchased courses, click on any of them to navigate through
-            curriculum, access course material, watch lectures and much more.
-          </p>
         </div>
 
         <MyCourses />
