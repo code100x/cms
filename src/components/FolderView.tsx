@@ -19,7 +19,7 @@ export const FolderView = ({
 }) => {
   const router = useRouter();
 
-  if (!courseContent.length) {
+  if (!courseContent?.length) {
     return (
       <div className="flex mt-64">
         <div className="m-auto">No content here yet!</div>

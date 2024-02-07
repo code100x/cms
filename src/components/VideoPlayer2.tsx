@@ -8,6 +8,7 @@ import 'videojs-mobile-ui/dist/videojs-mobile-ui.css';
 import 'videojs-mobile-ui';
 import 'videojs-sprite-thumbnails';
 import { handleMarkAsCompleted } from '@/lib/utils';
+import { useSearchParams } from 'next/navigation';
 
 // todo correct types
 interface VideoPlayerProps {
@@ -31,7 +32,7 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
   const videoRef = useRef<HTMLDivElement>(null);
   const playerRef = useRef<Player | null>(null);
   const [player, setPlayer] = useState<any>(null);
-
+  const searchParams = useSearchParams();
   useEffect(() => {
     if (contentId && player) {
       fetch(`/api/course/videoProgress?contentId=${contentId}`).then(
@@ -106,6 +107,16 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
           break;
         }
       } else {
+        const activeElement = document.activeElement;
+
+        // Check if there is an active element and if it's an input or textarea
+        if (
+          activeElement &&
+          (activeElement.tagName.toLowerCase() === 'input' ||
+            activeElement.tagName.toLowerCase() === 'textarea')
+        ) {
+          return; // Do nothing if the active element is an input or textarea
+        }
         switch (event.code) {
         case 'Space': // Space bar for play/pause
           if (player.paused()) {
@@ -248,6 +259,13 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
     };
   }, []);
 
+  useEffect(() => {
+    const t = searchParams.get('timestamp');
+
+    if (playerRef.current && t) {
+      playerRef.current.currentTime(parseInt(t, 10));
+    }
+  }, [searchParams, playerRef.current]);
   return (
     <div data-vjs-player>
       <div ref={videoRef} />

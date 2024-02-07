@@ -11,12 +11,12 @@ const rs = Poppins({
 });
 
 const getUserDetails = async () => {
-  console.log('get user details start');
-  const date = new Date();
+  // console.log('get user details start');
+  // const date = new Date();
   const session = await getServerSession(authOptions);
-  console.log(
-    `get user details end ${  (new Date().getTime() - date.getTime()) / 1000}`,
-  );
+  // console.log(
+  //   `get user details end ${  (new Date().getTime() - date.getTime()) / 1000}`,
+  // );
   return session;
 };
 

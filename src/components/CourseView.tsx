@@ -4,6 +4,8 @@ import { FolderView } from './FolderView';
 import { Sidebar } from './Sidebar';
 import { NotionRenderer } from './NotionRenderer';
 import { getFolderPercentCompleted } from '@/lib/utils';
+import Comments from './comment/Comments';
+import { QueryParams } from '@/actions/types';
 
 export const CourseView = ({
   rest,
@@ -12,6 +14,8 @@ export const CourseView = ({
   courseContent,
   nextContent,
   contentType,
+  searchParams,
+  possiblePath,
 }: {
   fullCourseContent: Folder[]
   rest: string[]
@@ -19,6 +23,8 @@ export const CourseView = ({
   courseContent: any
   nextContent: any
   contentType: any
+  searchParams: QueryParams
+  possiblePath: string
 }) => {
   return (
     <div>
@@ -43,10 +49,20 @@ export const CourseView = ({
                 }}
               />
             ) : null}
+            {(contentType === 'video' || contentType === 'notion') && (
+              <Comments
+                content={{
+                  id: courseContent[0]?.id || 0,
+                  commentCount: courseContent[0]?.commentsCount || 0,
+                  possiblePath,
+                }}
+                searchParams={searchParams}
+              />
+            )}
             {contentType === 'folder' ? (
               <FolderView
                 rest={rest}
-                courseContent={courseContent.map((x: any) => ({
+                courseContent={courseContent?.map((x: any) => ({
                   title: x?.title || '',
                   image: x?.thumbnail || '',
                   id: x?.id || 0,
