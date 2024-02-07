@@ -13,14 +13,7 @@ export const Courses = ({ courses }: { courses: Course[] }) => {
           key={course.id}
           course={course}
           onClick={() => {
-            if (
-              course.title.includes('Machine Learning') ||
-              course.title.includes('Harnoor')
-            ) {
-              router.push('https://harkirat.classx.co.in/');
-            } else {
-              router.push(`/courses/${course.id}`);
-            }
+            router.push(`/courses/${course.id}`);
           }}
         />
       ))}
