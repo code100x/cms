@@ -59,4 +59,5 @@
 }
 .video-js .vjs-progress-control:hover .vjs-play-progress:after {
   display: none;
+  background-color: rgb(59 130 246/var(--tw-bg-opacity));
 }

@@ -30,6 +30,7 @@
     "clsx": "^2.1.0",
     "discord-oauth2": "^2.11.0",
     "discord.js": "^14.14.1",
+    "dotenv": "^16.4.1",
     "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.321.0",
     "next": "14.0.2",

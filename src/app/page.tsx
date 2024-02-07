@@ -15,7 +15,7 @@ const getUserDetails = async () => {
   const date = new Date();
   const session = await getServerSession(authOptions);
   console.log(
-    `get user details end ${  (new Date().getTime() - date.getTime()) / 1000}`,
+    `get user details end ${(new Date().getTime() - date.getTime()) / 1000}`,
   );
   return session;
 };
