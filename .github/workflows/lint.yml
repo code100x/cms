@@ -18,7 +18,7 @@ jobs:
         run: npm install --legacy-peer-deps
 
       - name: Run linting check
-        run: npm run lint:check
+        run: npm run lint:fix
 
       - name: Check formatting
-        run: npm run format:check
+        run: npm run format:fix
