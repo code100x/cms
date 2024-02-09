@@ -26,7 +26,6 @@ export const getMetadata = async (contentId: number) => {
     },
   });
   //@ts-ignore
-  if (user?.disableDrm && metadata[`video_1080p_mp4_${userId}`]) {
     return {
       //@ts-ignore
       1080: metadata[`video_1080p_mp4_${userId}`],
@@ -40,7 +39,6 @@ export const getMetadata = async (contentId: number) => {
       //@ts-ignore
       segments: metadata['segments'],
     };
-  }
   return {
     //@ts-ignore
     1080: metadata[`video_1080p_${userId}`],
