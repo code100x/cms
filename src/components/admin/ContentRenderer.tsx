@@ -26,19 +26,19 @@ export const getMetadata = async (contentId: number) => {
     },
   });
   //@ts-ignore
-    return {
-      //@ts-ignore
-      1080: metadata[`video_1080p_mp4_${userId}`],
-      //@ts-ignore
-      720: metadata[`video_720p_mp4_${userId}`],
-      //@ts-ignore
-      360: metadata[`video_360p_mp4_${userId}`],
-      subtitles: metadata['subtitles'],
-      //@ts-ignore
-      slides: metadata['slides'],
-      //@ts-ignore
-      segments: metadata['segments'],
-    };
+  return {
+    //@ts-ignore
+    1080: metadata[`video_1080p_mp4_${userId}`],
+    //@ts-ignore
+    720: metadata[`video_720p_mp4_${userId}`],
+    //@ts-ignore
+    360: metadata[`video_360p_mp4_${userId}`],
+    subtitles: metadata['subtitles'],
+    //@ts-ignore
+    slides: metadata['slides'],
+    //@ts-ignore
+    segments: metadata['segments'],
+  };
   return {
     //@ts-ignore
     1080: metadata[`video_1080p_${userId}`],
