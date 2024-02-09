@@ -11,13 +11,13 @@ export const POST = async (req: NextRequest) => {
     metadata,
     adminPassword,
   }: {
-    type: 'video' | 'folder' | 'notion'
-    thumbnail: string
-    title: string
-    courseId: number
-    parentContentId: number
-    metadata: any
-    adminPassword: string
+    type: 'video' | 'folder' | 'notion';
+    thumbnail: string;
+    title: string;
+    courseId: number;
+    parentContentId: number;
+    metadata: any;
+    adminPassword: string;
   } = await req.json();
 
   if (adminPassword !== process.env.ADMIN_SECRET) {

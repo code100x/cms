@@ -1,3 +1,5 @@
+import { CommentFilter, QueryParams } from '@/actions/types';
+import { Prisma } from '@prisma/client';
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import Player from 'video.js/dist/types/player';
@@ -7,13 +9,13 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export interface VideoJsPlayer {
-  eme: () => void
+  eme: () => void;
 }
 
 export interface Segment {
-  start: number
-  end: number
-  title: string
+  start: number;
+  end: number;
+  title: string;
 }
 export const formatTime = (seconds: number): string => {
   const date = new Date(seconds * 1000);
@@ -173,4 +175,125 @@ export const getFolderPercentCompleted = (childrenContent: any) => {
     return Math.ceil((totalVideosWatched / videos.length) * 100);
   }
   return null;
+};
+
+interface RateLimiter {
+  timestamps: Date[];
+}
+const userRateLimits = new Map<string, RateLimiter>();
+const RATE_LIMIT_COUNT = 5; // Nums of comment s allowed in the interval
+const RATE_LIMIT_INTERVAL = 60000; // Interval in milliseconds (1 minute)
+
+export const rateLimit = (userId: string): boolean => {
+  const now = new Date();
+  const userLimiter = userRateLimits.get(userId) ?? { timestamps: [] };
+
+  userLimiter.timestamps = userLimiter.timestamps.filter(
+    (timestamp) => now.getTime() - timestamp.getTime() < RATE_LIMIT_INTERVAL,
+  );
+
+  if (userLimiter.timestamps.length >= RATE_LIMIT_COUNT) {
+    return false; // Rate limit exceeded
+  }
+
+  userLimiter.timestamps.push(now);
+  userRateLimits.set(userId, userLimiter);
+  return true;
+};
+
+export const getUpdatedUrl = (
+  path: string,
+  prevQueryParams: QueryParams,
+  newQueryParams: QueryParams,
+) => {
+  const updatedQuery = { ...prevQueryParams, ...newQueryParams };
+  const queryString = new URLSearchParams(
+    updatedQuery as Record<string, string>,
+  ).toString();
+  return `${path}?${queryString}`;
+};
+
+export const searchParamsToObject = (
+  searchParams: URLSearchParams,
+): Record<string, string | string[]> => {
+  const obj: Record<string, string | string[]> = {};
+  searchParams.forEach((value, key) => {
+    // If the key already exists, transform into an array or push to existing array
+    // todo remove eslint-disable
+    // eslint-disable-next-line no-prototype-builtins
+    if (obj.hasOwnProperty(key)) {
+      if (Array.isArray(obj[key])) {
+        (obj[key] as string[]).push(value);
+      } else {
+        obj[key] = [obj[key] as string, value];
+      }
+    } else {
+      // Add the key-value pair
+      obj[key] = value;
+    }
+  });
+  return obj;
+};
+
+export const paginationData = (searchParams: QueryParams) => {
+  const pageNumber = parseInt((searchParams.page || 1).toString(), 10);
+  const pageSize = Math.min(
+    parseInt((searchParams.limit || 30).toString(), 10) || 100,
+  );
+  const skip = (pageNumber - 1) * pageSize;
+
+  return {
+    pageNumber,
+    pageSize,
+    skip,
+  };
+};
+interface PaginationInfo {
+  pageNumber: number;
+  pageSize: number;
+  skip: number;
+}
+
+export const constructCommentPrismaQuery = (
+  searchParams: QueryParams,
+  paginationInfo: PaginationInfo,
+  contentId: number,
+): Prisma.CommentFindManyArgs => {
+  const { pageSize, skip } = paginationInfo;
+  const { commentfilter, type } = searchParams;
+
+  let orderBy: Prisma.Enumerable<Prisma.CommentOrderByWithRelationInput> = {};
+  switch (commentfilter) {
+  case CommentFilter.mu:
+    orderBy = { upvotes: 'desc' };
+    break;
+  case CommentFilter.md:
+    orderBy = { downvotes: 'desc' };
+    break;
+  case CommentFilter.mr:
+    orderBy = { createdAt: 'desc' };
+    break;
+  default:
+    orderBy = { upvotes: 'desc' };
+  }
+
+  const where: Prisma.CommentWhereInput = {};
+  if (contentId) {
+    where.contentId = contentId;
+  }
+  if (searchParams.parentId) {
+    where.parentId = parseInt(searchParams.parentId.toString(), 10);
+  }
+  if (type) {
+    where.commentType = type;
+  }
+  const query: Prisma.CommentFindManyArgs = {
+    where,
+    orderBy,
+    skip,
+    take: pageSize,
+    include: { user: true },
+  };
+
+  return query;
 };

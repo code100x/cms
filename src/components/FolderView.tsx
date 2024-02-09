@@ -7,19 +7,19 @@ export const FolderView = ({
   courseId,
   rest,
 }: {
-  courseId: number
-  rest: string[]
+  courseId: number;
+  rest: string[];
   courseContent: {
-    title: string
-    image: string
-    id: number
-    markAsCompleted: boolean
-    percentComplete: number | null
-  }[]
+    title: string;
+    image: string;
+    id: number;
+    markAsCompleted: boolean;
+    percentComplete: number | null;
+  }[];
 }) => {
   const router = useRouter();
 
-  if (!courseContent.length) {
+  if (!courseContent?.length) {
     return (
       <div className="flex mt-64">
         <div className="m-auto">No content here yet!</div>

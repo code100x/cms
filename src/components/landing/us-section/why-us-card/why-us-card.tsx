@@ -1,7 +1,7 @@
 interface IWhyUsCard {
-  tagline: string
-  headline: string
-  description: string
+  tagline: string;
+  headline: string;
+  description: string;
 }
 
 const WhyUsCard = ({ tagline, headline, description }: IWhyUsCard) => {

@@ -9,8 +9,8 @@ const VideoContentChapters = ({
   segments,
   onCancel,
 }: {
-  segments: any
-  onCancel: () => void
+  segments: any;
+  onCancel: () => void;
 }) => {
   const [player, setPlayer] = useState<any>(null);
   const [currentTime, setCurrentTime] = useState(0);
@@ -42,7 +42,7 @@ const VideoContentChapters = ({
       <div className="max-h-[70vh] overflow-auto">
         {(segments as Segment[])?.map(({ start, end, title }, index) => {
           return (
-            <>
+            <div key={`${index}-${start}${end}${title}`}>
               <div
                 className={`dark:text-white text-black p-2 py-3 flex items-center gap-3 justify-between cursor-pointer ${currentTime >= start && currentTime < end ? 'bg-[#27272A]' : ''}`}
                 onClick={() => {
@@ -56,7 +56,7 @@ const VideoContentChapters = ({
                 </div>
               </div>
               {index !== segments.length - 1 && <hr />}
-            </>
+            </div>
           );
         })}
       </div>

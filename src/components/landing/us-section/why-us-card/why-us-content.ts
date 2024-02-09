@@ -1,10 +1,10 @@
 type TwhyUs = {
-  id: number
-  icon: any
-  tagline: string
-  headline: string
-  description: string
-}[]
+  id: number;
+  icon: any;
+  tagline: string;
+  headline: string;
+  description: string;
+}[];
 
 export const whyUs: TwhyUs = [
   {

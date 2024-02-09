@@ -12,6 +12,7 @@ import { authOptions } from '@/lib/auth';
 import { getPurchases } from '@/utiles/appx';
 import { redirect } from 'next/navigation';
 import { CourseView } from '@/components/CourseView';
+import { QueryParams } from '@/actions/types';
 
 const checkAccess = async (courseId: string) => {
   const session = await getServerSession(authOptions);
@@ -50,11 +51,14 @@ function findContentById(
 
 export default async function Course({
   params,
+  searchParams,
 }: {
-  params: { courseId: string[] }
+  params: { courseId: string[] };
+  searchParams: QueryParams;
 }) {
   const courseId = params.courseId[0];
   const rest = params.courseId.slice(1);
+  const possiblePath = params.courseId.join('/');
   const hasAccess = await checkAccess(courseId);
   const course = await getCourse(parseInt(courseId, 10));
   const fullCourseContent: Folder[] = await getFullCourseContent(
@@ -81,6 +85,8 @@ export default async function Course({
         nextContent={nextContent}
         courseContent={courseContent}
         fullCourseContent={fullCourseContent}
+        searchParams={searchParams}
+        possiblePath={possiblePath}
       />
     </div>
   );

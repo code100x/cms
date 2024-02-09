@@ -4,26 +4,26 @@ import { authOptions } from '@/lib/auth';
 import { getServerSession } from 'next-auth';
 
 export interface Content {
-  id: number
-  type: string
-  title: string
-  description: string | null
-  thumbnail: string | null
-  parentId: number | null
-  createdAt: string
-  children: Content[]
+  id: number;
+  type: string;
+  title: string;
+  description: string | null;
+  thumbnail: string | null;
+  parentId: number | null;
+  createdAt: string;
+  children: Content[];
   videoProgress?: {
-    currentTimestamp: string
-    markAsCompleted?: boolean
-  }
+    currentTimestamp: string;
+    markAsCompleted?: boolean;
+  };
 }
 
 export interface Folder extends Content {
-  type: 'folder'
+  type: 'folder';
 }
 
 export interface Video extends Content {
-  type: 'video'
+  type: 'video';
 }
 
 export async function getAllCourses() {
@@ -42,17 +42,17 @@ export async function getAllCourses() {
 
 export async function getAllCoursesAndContentHierarchy(): Promise<
   {
-    id: number
-    title: string
-    description: string
-    appxCourseId: number
-    discordRoleId: string
-    slug: string
-    imageUrl: string
-    openToEveryone: boolean
+    id: number;
+    title: string;
+    description: string;
+    appxCourseId: number;
+    discordRoleId: string;
+    slug: string;
+    imageUrl: string;
+    openToEveryone: boolean;
     content: {
-      contentId: number
-    }[]
+      contentId: number;
+    }[];
   }[]
   > {
   const value = await Cache.getInstance().get(
@@ -90,15 +90,15 @@ export async function getAllCoursesAndContentHierarchy(): Promise<
 
 export async function getAllVideos(): Promise<
   {
-    id: number
-    type: string
-    title: string
-    hidden: boolean
-    description: string | null
-    thumbnail: string | null
-    parentId: number | null
-    createdAt: Date
-    notionMetadataId: number | null
+    id: number;
+    type: string;
+    title: string;
+    hidden: boolean;
+    description: string | null;
+    thumbnail: string | null;
+    parentId: number | null;
+    createdAt: Date;
+    notionMetadataId: number | null;
   }[]
   > {
   const value = await Cache.getInstance().get('getAllVideos', []);

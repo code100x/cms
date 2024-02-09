@@ -18,8 +18,8 @@ export function Sidebar({
   courseId,
   fullCourseContent,
 }: {
-  fullCourseContent: Folder[]
-  courseId: string
+  fullCourseContent: Folder[];
+  courseId: string;
 }) {
   const router = useRouter();
   const [sidebarOpen, setSidebarOpen] = useRecoilState(sidebarOpenAtom);
@@ -41,7 +41,11 @@ export function Sidebar({
         return newPath;
       }
       if (content.children) {
-        const childPath = findPathToContent(content.children, targetId, newPath);
+        const childPath = findPathToContent(
+          content.children,
+          targetId,
+          newPath,
+        );
         if (childPath) {
           return childPath;
         }
@@ -134,8 +138,8 @@ export function ToggleButton({
   onClick,
   sidebarOpen,
 }: {
-  onClick: () => void
-  sidebarOpen: boolean
+  onClick: () => void;
+  sidebarOpen: boolean;
 }) {
   return (
     <button

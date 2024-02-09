@@ -6,8 +6,8 @@ export const AddContent = ({
   courseId,
   parentContentId,
 }: {
-  courseId: number
-  parentContentId?: number
+  courseId: number;
+  parentContentId?: number;
 }) => {
   const [type, setType] = useState('folder');
   const [imageUri, setImageUri] = useState('');
@@ -93,7 +93,7 @@ const VARIANTS = 1;
 function AddVideosMetadata({
   onChange,
 }: {
-  onChange: (metadata: any) => void
+  onChange: (metadata: any) => void;
 }) {
   const [metadataGlobal, setMetadata] = useState({} as any);
 

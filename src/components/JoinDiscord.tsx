@@ -10,8 +10,8 @@ export const JoinDiscord = ({
   isNavigated = true,
   isInMenu = false,
 }: {
-  isNavigated?: boolean
-  isInMenu?: boolean
+  isNavigated?: boolean;
+  isInMenu?: boolean;
 }) => {
   if (isNavigated) {
     return (
