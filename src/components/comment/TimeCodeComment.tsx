@@ -4,10 +4,10 @@ import Link from 'next/link';
 import React from 'react';
 
 type TimeCodeCommentProps = {
-  comment: string
-  possiblePath: string
-  searchParams: QueryParams
-}
+  comment: string;
+  possiblePath: string;
+  searchParams: QueryParams;
+};
 
 const TimeCodeComment: React.FC<TimeCodeCommentProps> = ({
   comment,

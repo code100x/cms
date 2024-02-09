@@ -1,9 +1,11 @@
 'use server';
 import { getServerSession } from 'next-auth';
 import {
+  InputTypeApproveIntroComment,
   InputTypeCreateComment,
   InputTypeDeleteComment,
   InputTypeUpdateComment,
+  ReturnTypeApproveIntroComment,
   ReturnTypeCreateComment,
   ReturnTypeDeleteComment,
   ReturnTypeUpdateComment,
@@ -12,6 +14,7 @@ import { authOptions } from '@/lib/auth';
 import { rateLimit } from '@/lib/utils';
 import prisma from '@/db';
 import {
+  CommentApproveIntroSchema,
   CommentDeleteSchema,
   CommentInsertSchema,
   CommentUpdateSchema,
@@ -74,7 +77,7 @@ const parseIntroComment = (
   const lastLineParts = lines[lines.length - 1]
     .split('-')
     .map((part) => part.trim());
-  if (lastLineParts.length < 2) {
+  if (lastLineParts.length < 3) {
     return null;
   }
   const timePattern = /(\d{2}):(\d{2})/;
@@ -154,6 +157,15 @@ const createCommentHandler = async (
           | null = [];
         if (data.content.startsWith('intro:')) {
           introData = parseIntroComment(data.content);
+          if (
+            !introData ||
+            introData.length === 0 ||
+            introData[introData.length - 1].end === 0
+          ) {
+            throw new Error(
+              'Invalid intro comment format, remember to include end time on the segment. Example:  12:24- 23:43 - Introduction to the course',
+            );
+          }
           // Here you might want to store introData in a specific way, depending on your needs
         }
 
@@ -177,11 +189,12 @@ const createCommentHandler = async (
         });
       });
     }
-    revalidatePath(data.currentPath);
+    if (data.currentPath) {
+      revalidatePath(data.currentPath);
+    }
     return { data: comment };
-  } catch (error) {
-    console.log('error', error);
-    return { error: 'Failed to create comment.' };
+  } catch (error: any) {
+    return { error: error.message || 'Failed to create comment.' };
   }
 };
 const updateCommentHandler = async (
@@ -222,8 +235,66 @@ const updateCommentHandler = async (
       where: { id: commentId },
       data: updObj,
     });
-    revalidatePath(data.currentPath);
+    if (data.currentPath) {
+      revalidatePath(data.currentPath);
+    }
     return { data: updatedComment };
+  } catch (error) {
+    return { error: 'Failed to update comment.' };
+  }
+};
+const approveIntroCommentHandler = async (
+  data: InputTypeApproveIntroComment,
+): Promise<ReturnTypeApproveIntroComment> => {
+  const { content_comment_ids, approved, adminPassword } = data;
+
+  if (adminPassword !== process.env.ADMIN_SECRET) {
+    return { error: 'Unauthorized' };
+  }
+
+  const [contentId, commentId] = content_comment_ids.split(';');
+  try {
+    const existingComment = await prisma.comment.findUnique({
+      where: { id: parseInt(commentId, 10) },
+    });
+
+    if (!existingComment) {
+      return { error: 'Comment not found.' };
+    }
+
+    const introData = parseIntroComment(existingComment.content);
+
+    if (
+      !introData ||
+      introData.length === 0 ||
+      existingComment.commentType !== CommentType.INTRO
+    ) {
+      return {
+        error:
+          'Comment is not an intro comment or can not be parsed. Plese check that last segment has end time include.',
+      };
+    }
+    // Update the comment but if its admin we need to check if the comment is approved
+    const updObj = {
+      approved,
+    };
+    let updatedComment = null;
+    await prisma.$transaction(async (prisma) => {
+      updatedComment = await prisma.comment.update({
+        where: { id: parseInt(commentId, 10) },
+        data: updObj,
+      });
+      await prisma.videoMetadata.update({
+        where: {
+          contentId: Number(contentId),
+        },
+        data: {
+          segments: introData,
+        },
+      });
+    });
+
+    return { data: updatedComment! };
   } catch (error) {
     return { error: 'Failed to update comment.' };
   }
@@ -279,8 +350,12 @@ const deleteCommentHandler = async (
         where: { id: commentId },
       });
     });
-    revalidatePath(data.currentPath);
-    return { data: { message: 'Comment and its replies deleted successfully' } };
+    if (data.currentPath) {
+      revalidatePath(data.currentPath);
+    }
+    return {
+      data: { message: 'Comment and its replies deleted successfully' },
+    };
   } catch (error) {
     return { error: 'Failed to delete comment.' };
   }
@@ -297,4 +372,8 @@ export const updateMessage = createSafeAction(
 export const deleteMessage = createSafeAction(
   CommentDeleteSchema,
   deleteCommentHandler,
+);
+export const approveComment = createSafeAction(
+  CommentApproveIntroSchema,
+  approveIntroCommentHandler,
 );

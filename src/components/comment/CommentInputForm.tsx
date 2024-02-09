@@ -11,8 +11,8 @@ const CommentInputForm = ({
   contentId,
   parentId = undefined,
 }: {
-  contentId: number
-  parentId?: number | undefined
+  contentId: number;
+  parentId?: number | undefined;
 }) => {
   const currentPath = usePathname();
   const formRef = React.useRef<HTMLFormElement>(null);

@@ -113,4 +113,7 @@ const voteHandler = async (
   }
 };
 
-export const voteHandlerAction = createSafeAction(VoteHandleSchema, voteHandler);
+export const voteHandlerAction = createSafeAction(
+  VoteHandleSchema,
+  voteHandler,
+);

@@ -12,19 +12,19 @@ export const ContentRendererClient = ({
   nextContent,
 }: {
   nextContent: {
-    id: number
-    type: string
-    title: string
-  } | null
-  metadata: any
+    id: number;
+    type: string;
+    title: string;
+  } | null;
+  metadata: any;
   content: {
-    type: 'video'
-    id: number
-    title: string
-    thumbnail: string
-    description: string
-    markAsCompleted: boolean
-  }
+    type: 'video';
+    id: number;
+    title: string;
+    thumbnail: string;
+    description: string;
+    markAsCompleted: boolean;
+  };
 }) => {
   const [contentCompleted, setContentCompleted] = useState(
     content.markAsCompleted,
@@ -77,7 +77,10 @@ export const ContentRendererClient = ({
 
   const handleMarkCompleted = async () => {
     setLoadingMarkAs(true);
-    const data: any = await handleMarkAsCompleted(!contentCompleted, content.id);
+    const data: any = await handleMarkAsCompleted(
+      !contentCompleted,
+      content.id,
+    );
 
     if (data.contentId) {
       setContentCompleted((prev) => !prev);

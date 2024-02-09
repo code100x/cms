@@ -53,8 +53,8 @@ export default async function Course({
   params,
   searchParams,
 }: {
-  params: { courseId: string[] }
-  searchParams: QueryParams
+  params: { courseId: string[] };
+  searchParams: QueryParams;
 }) {
   const courseId = params.courseId[0];
   const rest = params.courseId.slice(1);

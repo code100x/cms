@@ -8,9 +8,9 @@ async function validateUser(
   | { data: null }
   | {
       data: {
-        name: string
-        userid: string
-      }
+        name: string;
+        userid: string;
+      };
     }
 > {
   if (process.env.LOCAL_CMS_PROVIDER) {

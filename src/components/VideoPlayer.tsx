@@ -9,9 +9,9 @@ export const VideoPlayer = ({
   mpdUrl,
   subtitles,
 }: {
-  mpdUrl: string
-  thumbnail: string
-  subtitles: string
+  mpdUrl: string;
+  thumbnail: string;
+  subtitles: string;
 }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [player, setPlayer] = useState<any>(null);

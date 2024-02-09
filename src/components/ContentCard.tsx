@@ -8,12 +8,12 @@ export const ContentCard = ({
   markAsCompleted,
   percentComplete,
 }: {
-  contentId?: number
-  image: string
-  title: string
-  onClick: () => void
-  markAsCompleted?: boolean
-  percentComplete?: number | null
+  contentId?: number;
+  image: string;
+  title: string;
+  onClick: () => void;
+  markAsCompleted?: boolean;
+  percentComplete?: number | null;
 }) => {
   return (
     <div

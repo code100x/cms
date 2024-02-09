@@ -9,7 +9,7 @@ import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
 import React from 'react';
 interface IPagination {
-  dataLength: number
+  dataLength: number;
 }
 const Pagination: React.FC<IPagination> = ({ dataLength = 1 }) => {
   const searchParams = useSearchParams();

@@ -12,11 +12,11 @@ import { useSearchParams } from 'next/navigation';
 
 // todo correct types
 interface VideoPlayerProps {
-  options: any
-  onReady?: (player: Player) => void
-  subtitles?: string
-  contentId: number
-  onVideoEnd: () => void
+  options: any;
+  onReady?: (player: Player) => void;
+  subtitles?: string;
+  contentId: number;
+  onVideoEnd: () => void;
 }
 
 const PLAYBACK_RATES: number[] = [0.5, 1, 1.25, 1.5, 1.75, 2];

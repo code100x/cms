@@ -2,8 +2,8 @@ export class Cache {
   private inMemoryDb: Map<
     string,
     {
-      value: any
-      expiry: number
+      value: any;
+      expiry: number;
     }
   >;
   private static instance: Cache;
@@ -12,8 +12,8 @@ export class Cache {
     this.inMemoryDb = new Map<
       string,
       {
-        value: any
-        expiry: number
+        value: any;
+        expiry: number;
       }
     >();
   }

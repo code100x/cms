@@ -12,9 +12,9 @@ const CommentVoteForm = ({
   downVotes,
   commentId,
 }: {
-  upVotes: number
-  downVotes: number
-  commentId: number
+  upVotes: number;
+  downVotes: number;
+  commentId: number;
 }) => {
   const currentPath = usePathname();
   const { execute } = useAction(voteHandlerAction, {

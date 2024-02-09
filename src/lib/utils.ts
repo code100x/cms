@@ -9,13 +9,13 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export interface VideoJsPlayer {
-  eme: () => void
+  eme: () => void;
 }
 
 export interface Segment {
-  start: number
-  end: number
-  title: string
+  start: number;
+  end: number;
+  title: string;
 }
 export const formatTime = (seconds: number): string => {
   const date = new Date(seconds * 1000);
@@ -178,7 +178,7 @@ export const getFolderPercentCompleted = (childrenContent: any) => {
 };
 
 interface RateLimiter {
-  timestamps: Date[]
+  timestamps: Date[];
 }
 const userRateLimits = new Map<string, RateLimiter>();
 const RATE_LIMIT_COUNT = 5; // Nums of comment s allowed in the interval
@@ -249,9 +249,9 @@ export const paginationData = (searchParams: QueryParams) => {
   };
 };
 interface PaginationInfo {
-  pageNumber: number
-  pageSize: number
-  skip: number
+  pageNumber: number;
+  pageSize: number;
+  skip: number;
 }
 
 export const constructCommentPrismaQuery = (

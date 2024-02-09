@@ -17,14 +17,14 @@ export const CourseView = ({
   searchParams,
   possiblePath,
 }: {
-  fullCourseContent: Folder[]
-  rest: string[]
-  course: any
-  courseContent: any
-  nextContent: any
-  contentType: any
-  searchParams: QueryParams
-  possiblePath: string
+  fullCourseContent: Folder[];
+  rest: string[];
+  course: any;
+  courseContent: any;
+  nextContent: any;
+  contentType: any;
+  searchParams: QueryParams;
+  possiblePath: string;
 }) => {
   return (
     <div>

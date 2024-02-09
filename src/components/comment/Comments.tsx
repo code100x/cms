@@ -17,17 +17,18 @@ import Pagination from '../Pagination';
 import Link from 'next/link';
 import { ArrowLeftIcon } from 'lucide-react';
 import TimeCodeComment from './TimeCodeComment';
+import CopyToClipboard from '../Copy-to-clipbord';
 dayjs.extend(relativeTime);
 const Comments = async ({
   content,
   searchParams,
 }: {
   content: {
-    id: number
-    commentCount: number
-    possiblePath: string
-  }
-  searchParams: QueryParams
+    id: number;
+    commentCount: number;
+    possiblePath: string;
+  };
+  searchParams: QueryParams;
 }) => {
   const paginationInfo = paginationData(searchParams);
   const q = constructCommentPrismaQuery(
@@ -115,6 +116,9 @@ const Comments = async ({
                     <div className="text-gray-500 text-xs dark:text-gray-400">
                       {dayjs(c.createdAt).fromNow()}
                     </div>
+                    <CopyToClipboard
+                      textToCopy={`${c.contentId};${c.id.toString()}`}
+                    />
                   </div>
                   <div>
                     <TimeCodeComment

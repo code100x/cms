@@ -1,16 +1,16 @@
 import { CommentType } from '@prisma/client';
 
 export interface QueryParams {
-  limit?: number
-  page?: number
-  commentfilter?: CommentFilter
-  search?: string
-  date?: string
-  type?: CommentType
-  parentId?: number
-  userId?: number
-  commentId?: number
-  timestamp?: number
+  limit?: number;
+  page?: number;
+  commentfilter?: CommentFilter;
+  search?: string;
+  date?: string;
+  type?: CommentType;
+  parentId?: number;
+  userId?: number;
+  commentId?: number;
+  timestamp?: number;
 }
 export enum CommentFilter {
   md = 'Most downvotes',
@@ -18,5 +18,5 @@ export enum CommentFilter {
   mr = 'Most Recent',
 }
 export type Delete = {
-  message: string
-}
+  message: string;
+};

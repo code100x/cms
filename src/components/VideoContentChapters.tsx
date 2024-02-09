@@ -9,8 +9,8 @@ const VideoContentChapters = ({
   segments,
   onCancel,
 }: {
-  segments: any
-  onCancel: () => void
+  segments: any;
+  onCancel: () => void;
 }) => {
   const [player, setPlayer] = useState<any>(null);
   const [currentTime, setCurrentTime] = useState(0);

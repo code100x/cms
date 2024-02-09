@@ -7,15 +7,15 @@ export const FolderView = ({
   courseId,
   rest,
 }: {
-  courseId: number
-  rest: string[]
+  courseId: number;
+  rest: string[];
   courseContent: {
-    title: string
-    image: string
-    id: number
-    markAsCompleted: boolean
-    percentComplete: number | null
-  }[]
+    title: string;
+    image: string;
+    id: number;
+    markAsCompleted: boolean;
+    percentComplete: number | null;
+  }[];
 }) => {
   const router = useRouter();
 
