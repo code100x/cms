@@ -44,7 +44,6 @@
     "react-notion-x": "^6.16.0",
     "react-resizable-panels": "^1.0.7",
     "recoil": "^0.7.7",
-    "sharp": "^0.33.2",
     "sonner": "^1.4.0",
     "tailwind-merge": "^2.2.1",
     "tailwindcss-animate": "^1.0.7",
