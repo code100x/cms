@@ -50,16 +50,16 @@ const Footer = () => {
             <h4 className="text-neutral-200 font-semibold mb-2">Follow us</h4>
             <div className="flex gap-x-2">
               <Link target="_blank" href={'https://twitter.com/kirat_tw'}>
-                <TwitterIcon color="white" />
+                <TwitterIcon className="text-white hover:text-blue-500" />
               </Link>
               <Link
                 target="_blank"
                 href={'https://www.instagram.com/kirat_ins/'}
               >
-                <Instagram color="white" />
+                <Instagram className="text-white hover:text-blue-500" />
               </Link>
               <Link target="_blank" href={'https://www.youtube.com/@harkirat1'}>
-                <Youtube color="white" />
+                <Youtube className="text-white hover:text-blue-500" />
               </Link>
             </div>
           </div>
