@@ -53,6 +53,7 @@ const Comments = async ({
               modifiedSearchParams,
               {},
             )}
+            scroll={false}
           >
             <div className="flex gap-2">
               <ArrowLeftIcon /> Go back
@@ -137,6 +138,7 @@ const Comments = async ({
                             parentId: c.id,
                           },
                         )}
+                        scroll={false}
                         className="flex items-center gap-1 text-gray-500 dark:text-gray-400"
                       >
                         <ReplyIcon className="w-4 h-4" />
