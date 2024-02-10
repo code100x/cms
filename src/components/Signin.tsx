@@ -21,20 +21,21 @@ const Signin = () => {
   }
 
   function validateForm() {
-    const state = {
+    let state = {
       email: '',
       password: '',
     };
+    let res = true;
     if (!email.current) {
-      setError(() => ({ ...state, email: 'Email is required' }));
-      return false;
+      state = { ...state, email: 'Email is required' };
+      res = false;
     }
     if (!password.current) {
-      setError(() => ({ ...state, password: 'Password is required' }));
-      return false;
+      state = { ...state, password: 'Password is required' };
+      res = false;
     }
     setError(() => ({ ...state }));
-    return true;
+    return res;
   }
 
   const router = useRouter();
