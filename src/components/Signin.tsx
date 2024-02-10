@@ -11,30 +11,54 @@ import React, { useRef, useState } from 'react';
 import { toast } from 'sonner';
 const Signin = () => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [error, setError] = useState({
+    email: '',
+    password: '',
+  });
 
   function togglePasswordVisibility() {
     setIsPasswordVisible((prevState: any) => !prevState);
   }
+
+  function validateForm() {
+    const state = {
+      email: '',
+      password: '',
+    };
+    if (!email.current) {
+      setError(() => ({ ...state, email: 'Email is required' }));
+      return false;
+    }
+    if (!password.current) {
+      setError(() => ({ ...state, password: 'Password is required' }));
+      return false;
+    }
+    setError(() => ({ ...state }));
+    return true;
+  }
+
   const router = useRouter();
   const email = useRef('');
   const password = useRef('');
   const handleSubmit = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    const res = await signIn('credentials', {
-      username: email.current,
-      password: password.current,
-      redirect: false,
-    });
-
-    if (!res?.error) {
-      router.push('/');
-    } else {
-      toast('Error Signing in', {
-        action: {
-          label: 'Close',
-          onClick: () => console.log('Closed Toast'),
-        },
+    if (validateForm()) {
+      const res = await signIn('credentials', {
+        username: email.current,
+        password: password.current,
+        redirect: false,
       });
+
+      if (!res?.error) {
+        router.push('/');
+      } else {
+        toast('Error Signing in', {
+          action: {
+            label: 'Close',
+            onClick: () => console.log('Closed Toast'),
+          },
+        });
+      }
     }
   };
   return (
@@ -53,6 +77,7 @@ const Signin = () => {
                 placeholder="name@email.com"
                 onChange={(e) => (email.current = e.target.value)}
               />
+              {error.email && <p className="text-red-500">{error.email}</p>}
             </div>
             <div className="flex flex-col gap-4">
               <Label>Password</Label>
@@ -107,6 +132,9 @@ const Signin = () => {
                   )}
                 </button>
               </div>
+              {error.password && (
+                <p className="text-red-500">{error.password}</p>
+              )}
             </div>
           </div>
           <Button className="my-3 w-full" onClick={handleSubmit}>
