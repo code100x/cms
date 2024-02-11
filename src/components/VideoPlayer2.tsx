@@ -147,6 +147,21 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
 
     document.addEventListener('keydown', handleKeyPress);
 
+    // Disables the right click for video downloading
+    const handleContextMenu = (event) => {
+      event.preventDefault(); // Prevent the default right-click behavior
+    };
+  
+    if (playerRef.current) {
+      playerRef.current.on('contextmenu', handleContextMenu);
+    }
+  
+    return () => {
+      if (playerRef.current) {
+        playerRef.current.off('contextmenu', handleContextMenu);
+      }
+    };
+    
     // Cleanup function
     return () => {
       document.removeEventListener('keydown', handleKeyPress);
