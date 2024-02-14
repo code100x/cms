@@ -51,6 +51,7 @@
     "video.js": "^8.6.1",
     "videojs-contrib-eme": "^3.11.1",
     "videojs-mobile-ui": "^1.1.1",
+    "videojs-seek-buttons": "^4.0.3",
     "videojs-sprite-thumbnails": "^2.1.1",
     "zod": "^3.22.4"
   },
