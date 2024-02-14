@@ -5,10 +5,13 @@ import Player from 'video.js/dist/types/player';
 import 'video.js/dist/video-js.css';
 import 'videojs-contrib-eme';
 import 'videojs-mobile-ui/dist/videojs-mobile-ui.css';
+import 'videojs-seek-buttons/dist/videojs-seek-buttons.css';
 import 'videojs-mobile-ui';
 import 'videojs-sprite-thumbnails';
+import 'videojs-seek-buttons';
 import { handleMarkAsCompleted } from '@/lib/utils';
 import { useSearchParams } from 'next/navigation';
+import './QualitySelectorControllBar';
 
 // todo correct types
 interface VideoPlayerProps {
@@ -223,6 +226,20 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
         () => {
           player.mobileUi(); // mobile ui #https://github.com/mister-ben/videojs-mobile-ui
           player.eme(); // Initialize EME
+          player.seekButtons({
+            forward: 15,
+            back: 15,
+          });
+
+          const qualitySelector = player.controlBar.addChild(
+            'QualitySelectorControllBar',
+          );
+          const controlBar = player.getChild('controlBar');
+          const fullscreenToggle = controlBar.getChild('fullscreenToggle');
+
+          controlBar
+            .el()
+            .insertBefore(qualitySelector.el(), fullscreenToggle.el());
           setPlayer(player);
           if (options.isComposite) {
             player.spriteThumbnails({
