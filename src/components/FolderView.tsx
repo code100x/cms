@@ -10,6 +10,7 @@ export const FolderView = ({
   courseId: number;
   rest: string[];
   courseContent: {
+    type: 'folder' | 'video' | 'notion';
     title: string;
     image: string;
     id: number;
