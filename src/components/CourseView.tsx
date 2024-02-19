@@ -65,6 +65,7 @@ export const CourseView = ({
                 courseContent={courseContent?.map((x: any) => ({
                   title: x?.title || '',
                   image: x?.thumbnail || '',
+                  type: x?.type || 'folder',
                   id: x?.id || 0,
                   markAsCompleted: x?.videoProgress?.markAsCompleted || false,
                   percentComplete: getFolderPercentCompleted(x?.children),
