@@ -1,3 +1,4 @@
+import { Gate } from '@/components/Gate';
 import { MyCourses } from '@/components/MyCourses';
 import LandingPage from '@/components/landing/landing-page';
 import { authOptions } from '@/lib/auth';
@@ -21,6 +22,7 @@ const getUserDetails = async () => {
 };
 
 export default async function Home() {
+  return <Gate />;
   const session = await getUserDetails();
 
   if (session?.user) {
