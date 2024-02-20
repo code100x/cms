@@ -283,6 +283,8 @@ export const constructCommentPrismaQuery = (
   }
   if (searchParams.parentId) {
     where.parentId = parseInt(searchParams.parentId.toString(), 10);
+  } else {
+    where.parent = null;
   }
   if (type) {
     where.commentType = type;
