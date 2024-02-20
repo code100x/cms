@@ -210,13 +210,13 @@ const Comments = async ({
         </div>
         <div className="grid gap-6">
           {data.comments.map((c) => (
-            <div className="text-sm flex items-start gap-4" key={c.id}>
-              <div className="flex items-start gap-4">
+            <div className="text-sm flex items-start gap-4 w-full" key={c.id}>
+              <div className="flex items-start gap-4 w-full">
                 <Avatar className="w-10 h-10 border">
                   <AvatarImage alt="@shadcn" src="/placeholder-user.jpg" />
                   <AvatarFallback>{`${(c as ExtendedComment).user?.name?.substring(0, 2)}`}</AvatarFallback>
                 </Avatar>
-                <div className="grid gap-1.5">
+                <div className="grid gap-1.5 w-full">
                   <div className="flex items-center gap-2">
                     <div className="font-semibold">
                       @{(c as ExtendedComment).user.name}
