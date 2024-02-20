@@ -50,7 +50,7 @@ export const getComments = async (
 const parseIntroComment = (
   comment: string,
 ): Array<{ start: number; end?: number; title: string }> | null => {
-  const introPattern = /^intro:\s*([\s\S]*)$/;
+  const introPattern = /^intro:\s*([\s\S]*)$/i;
   const match = comment.match(introPattern);
   if (!match) return [];
 
@@ -155,7 +155,11 @@ const createCommentHandler = async (
         let introData:
           | { start: number; end?: number | undefined; title: string }[]
           | null = [];
-        if (data.content.startsWith('intro:')) {
+        if (
+          data.content.startsWith('intro:') ||
+          data.content.startsWith('Intro:') ||
+          data.content.startsWith('INTRO:')
+        ) {
           introData = parseIntroComment(data.content);
           if (
             !introData ||

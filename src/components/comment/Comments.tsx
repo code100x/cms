@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, CardContent, CardFooter, CardHeader } from '../ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
-import { QueryParams } from '@/actions/types';
+import { CommentFilter, QueryParams } from '@/actions/types';
 import {
   constructCommentPrismaQuery,
   getUpdatedUrl,
@@ -15,9 +15,21 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import CommentVoteForm from './CommentVoteForm';
 import Pagination from '../Pagination';
 import Link from 'next/link';
-import { ArrowLeftIcon } from 'lucide-react';
+import { ArrowLeftIcon, ChevronDownIcon } from 'lucide-react';
 import TimeCodeComment from './TimeCodeComment';
 import CopyToClipboard from '../Copy-to-clipbord';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '../ui/dropdown-menu';
+import { Button } from '../ui/button';
+import { CommentType } from '@prisma/client';
+import CommentDeleteForm from './CommentDeleteForm';
+import { authOptions } from '@/lib/auth';
+import { getServerSession } from 'next-auth';
 dayjs.extend(relativeTime);
 const Comments = async ({
   content,
@@ -30,6 +42,7 @@ const Comments = async ({
   };
   searchParams: QueryParams;
 }) => {
+  const session = await getServerSession(authOptions);
   const paginationInfo = paginationData(searchParams);
   const q = constructCommentPrismaQuery(
     searchParams,
@@ -42,9 +55,8 @@ const Comments = async ({
   if (!content.id) return null;
   const modifiedSearchParams = { ...searchParams };
   delete modifiedSearchParams.parentId;
-
   return (
-    <Card key="1" className="w-full border-none max-w-[90vw]">
+    <Card key="1" className="w-full border-none  flex justify-center flex-col">
       <CardHeader className="p-6">
         {data.parentComment && (
           <Link
@@ -85,7 +97,9 @@ const Comments = async ({
               </>
             )}
 
-            <div className="text-gray-500 dark:text-gray-400">
+            <div
+              className={`text-gray-500 dark:text-gray-400 ${!data.parentComment ? 'text-xl' : ''}`}
+            >
               {!data.parentComment
                 ? `${content.commentCount} comments`
                 : `${data.parentComment.repliesCount} replies`}
@@ -95,20 +109,117 @@ const Comments = async ({
           </div>
         </div>
       </CardHeader>
-      <CardContent className="p-6">
+      <CardContent className="p-0 lg:p-6">
         <CommentInputForm
           contentId={content.id}
           parentId={data?.parentComment?.id}
         />
+        <div className="mb-5 flex mt-5">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                className="w-[200px] justify-between text-left font-normal"
+                variant="ghost"
+              >
+                <span>{searchParams.commentfilter || CommentFilter.mu}</span>
+                <ChevronDownIcon className="w-4 h-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuGroup>
+                <Link
+                  scroll={false}
+                  href={getUpdatedUrl(
+                    `/courses/${content.possiblePath}`,
+                    searchParams,
+                    {
+                      commentfilter: CommentFilter.mu,
+                    },
+                  )}
+                >
+                  <DropdownMenuItem>Most Upvoted</DropdownMenuItem>
+                </Link>
+                <Link
+                  scroll={false}
+                  href={getUpdatedUrl(
+                    `/courses/${content.possiblePath}`,
+                    searchParams,
+                    {
+                      commentfilter: CommentFilter.mr,
+                    },
+                  )}
+                >
+                  <DropdownMenuItem>Most Recent</DropdownMenuItem>{' '}
+                </Link>
+                <Link
+                  scroll={false}
+                  href={getUpdatedUrl(
+                    `/courses/${content.possiblePath}`,
+                    searchParams,
+                    {
+                      commentfilter: CommentFilter.md,
+                    },
+                  )}
+                >
+                  <DropdownMenuItem>Most downvoted</DropdownMenuItem>
+                </Link>
+              </DropdownMenuGroup>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                className="w-[200px] justify-between text-left font-normal"
+                variant="ghost"
+              >
+                <span>
+                  {searchParams.type === CommentType.INTRO
+                    ? CommentType.INTRO
+                    : 'All comments' || 'All comments'}
+                </span>
+                <ChevronDownIcon className="w-4 h-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuGroup>
+                <Link
+                  scroll={false}
+                  href={getUpdatedUrl(
+                    `/courses/${content.possiblePath}`,
+                    searchParams,
+                    {
+                      type: CommentType.DEFAULT,
+                    },
+                  )}
+                >
+                  <DropdownMenuItem>All comments</DropdownMenuItem>
+                </Link>
+
+                <Link
+                  scroll={false}
+                  href={getUpdatedUrl(
+                    `/courses/${content.possiblePath}`,
+                    searchParams,
+                    {
+                      type: CommentType.INTRO,
+                    },
+                  )}
+                >
+                  <DropdownMenuItem>Intro comments</DropdownMenuItem>
+                </Link>
+              </DropdownMenuGroup>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
         <div className="grid gap-6">
           {data.comments.map((c) => (
-            <div className="text-sm flex items-start gap-4" key={c.id}>
-              <div className="flex items-start gap-4">
+            <div className="text-sm flex items-start gap-4 w-full" key={c.id}>
+              <div className="flex items-start gap-4 w-full">
                 <Avatar className="w-10 h-10 border">
                   <AvatarImage alt="@shadcn" src="/placeholder-user.jpg" />
-                  <AvatarFallback>AC</AvatarFallback>
+                  <AvatarFallback>{`${(c as ExtendedComment).user?.name?.substring(0, 2)}`}</AvatarFallback>
                 </Avatar>
-                <div className="grid gap-1.5">
+                <div className="grid gap-1.5 w-full">
                   <div className="flex items-center gap-2">
                     <div className="font-semibold">
                       @{(c as ExtendedComment).user.name}
@@ -119,6 +230,10 @@ const Comments = async ({
                     <CopyToClipboard
                       textToCopy={`${c.contentId};${c.id.toString()}`}
                     />
+                    {session.user.id.toString() ===
+                      (c as ExtendedComment).userId.toString() && (
+                      <CommentDeleteForm commentId={c.id} />
+                    )}
                   </div>
                   <div>
                     <TimeCodeComment
