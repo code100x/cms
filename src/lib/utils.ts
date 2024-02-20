@@ -1,5 +1,5 @@
 import { CommentFilter, QueryParams } from '@/actions/types';
-import { Prisma } from '@prisma/client';
+import { CommentType, Prisma } from '@prisma/client';
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import Player from 'video.js/dist/types/player';
@@ -286,7 +286,7 @@ export const constructCommentPrismaQuery = (
   } else {
     where.parent = null;
   }
-  if (type) {
+  if (type === CommentType.INTRO) {
     where.commentType = type;
   }
   const query: Prisma.CommentFindManyArgs = {
