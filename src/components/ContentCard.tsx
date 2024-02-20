@@ -2,12 +2,13 @@ import { CheckCircle2 } from 'lucide-react';
 import PercentageComplete from './PercentageComplete';
 
 export const ContentCard = ({
-  image,
   title,
   onClick,
   markAsCompleted,
   percentComplete,
+  type,
 }: {
+  type: 'folder' | 'video' | 'notion';
   contentId?: number;
   image: string;
   title: string;
@@ -15,6 +16,13 @@ export const ContentCard = ({
   markAsCompleted?: boolean;
   percentComplete?: number | null;
 }) => {
+  let image =
+    'https://d2szwvl7yo497w.cloudfront.net/courseThumbnails/folder.png';
+  if (type === 'notion') {
+    image = 'https://d2szwvl7yo497w.cloudfront.net/courseThumbnails/notes.png';
+  } else if (type === 'video') {
+    image = 'https://d2szwvl7yo497w.cloudfront.net/courseThumbnails/video.png';
+  }
   return (
     <div
       onClick={onClick}

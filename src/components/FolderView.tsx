@@ -10,6 +10,7 @@ export const FolderView = ({
   courseId: number;
   rest: string[];
   courseContent: {
+    type: 'folder' | 'video' | 'notion';
     title: string;
     image: string;
     id: number;
@@ -38,6 +39,7 @@ export const FolderView = ({
       <div className="max-w-screen-xl justify-between mx-auto p-4 cursor-pointer grid grid-cols-1 gap-5 md:grid-cols-3">
         {courseContent.map((content) => (
           <ContentCard
+            type={content.type}
             key={content.id}
             title={content.title}
             image={content.image || ''}

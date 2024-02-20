@@ -22,6 +22,7 @@ export const AdminCourseContent = ({
         {courseContent.map(
           (content: { image: string; id: number; title: string }) => (
             <ContentCard
+              type={'folder'}
               title={content.title}
               image={content.image || ''}
               onClick={() => {
