@@ -27,6 +27,9 @@ import {
 } from '../ui/dropdown-menu';
 import { Button } from '../ui/button';
 import { CommentType } from '@prisma/client';
+import CommentDeleteForm from './CommentDeleteForm';
+import { authOptions } from '@/lib/auth';
+import { getServerSession } from 'next-auth';
 dayjs.extend(relativeTime);
 const Comments = async ({
   content,
@@ -39,6 +42,7 @@ const Comments = async ({
   };
   searchParams: QueryParams;
 }) => {
+  const session = await getServerSession(authOptions);
   const paginationInfo = paginationData(searchParams);
   const q = constructCommentPrismaQuery(
     searchParams,
@@ -51,7 +55,6 @@ const Comments = async ({
   if (!content.id) return null;
   const modifiedSearchParams = { ...searchParams };
   delete modifiedSearchParams.parentId;
-
   return (
     <Card key="1" className="w-full border-none  flex justify-center flex-col">
       <CardHeader className="p-6">
@@ -227,6 +230,10 @@ const Comments = async ({
                     <CopyToClipboard
                       textToCopy={`${c.contentId};${c.id.toString()}`}
                     />
+                    {session.user.id.toString() ===
+                      (c as ExtendedComment).userId.toString() && (
+                      <CommentDeleteForm commentId={c.id} />
+                    )}
                   </div>
                   <div>
                     <TimeCodeComment
