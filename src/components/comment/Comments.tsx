@@ -53,7 +53,7 @@ const Comments = async ({
   delete modifiedSearchParams.parentId;
 
   return (
-    <Card key="1" className="w-full border-none max-w-[90vw]">
+    <Card key="1" className="w-full border-none  flex justify-center flex-col">
       <CardHeader className="p-6">
         {data.parentComment && (
           <Link
@@ -106,12 +106,12 @@ const Comments = async ({
           </div>
         </div>
       </CardHeader>
-      <CardContent className="p-6">
+      <CardContent className="p-0 lg:p-6">
         <CommentInputForm
           contentId={content.id}
           parentId={data?.parentComment?.id}
         />
-        <div className="mb-3 flex ">
+        <div className="mb-5 flex mt-5">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button

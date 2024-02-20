@@ -64,7 +64,7 @@ const TimeCodeComment: React.FC<TimeCodeCommentProps> = ({
   };
 
   return (
-    <p>
+    <p className="break-all">
       {comment.split('\n').map((line, index) => (
         <React.Fragment key={`line-${index}`}>
           {processLine(line)}
