@@ -120,7 +120,7 @@ export function Sidebar({
       <div className="overflow-scroll min-h-screen overflow-y-auto bg-gray-50 dark:bg-gray-800 cursor-pointer  w-full sticky top-[64px] self-start w-84">
         <div className="flex">
           {/* <ToggleButton
-            onClick={() => s{
+            onClick={() => {
               setSidebarOpen((s) => !s);
             }}
           /> */}
