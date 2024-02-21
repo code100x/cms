@@ -13,6 +13,7 @@ import { useRecoilState } from 'recoil';
 import { sidebarOpen as sidebarOpenAtom } from '@/store/atoms/sidebar';
 import { useEffect, useState } from 'react';
 import { handleMarkAsCompleted } from '@/lib/utils';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 export function Sidebar({
   courseId,
@@ -115,11 +116,11 @@ export function Sidebar({
   }
 
   return (
-    <div className="w-84" style={{ width: '300px' }}>
+    <ScrollArea style={{ width: '300px' }}>
       <div className="overflow-scroll min-h-screen overflow-y-auto bg-gray-50 dark:bg-gray-800 cursor-pointer  w-full sticky top-[64px] self-start w-84">
         <div className="flex">
           {/* <ToggleButton
-            onClick={() => {
+            onClick={() => s{
               setSidebarOpen((s) => !s);
             }}
           /> */}
@@ -130,7 +131,7 @@ export function Sidebar({
           {renderContent(fullCourseContent)}
         </Accordion>
       </div>
-    </div>
+    </ScrollArea>
   );
 }
 
