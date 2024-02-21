@@ -60,3 +60,10 @@
 .video-js .vjs-progress-control:hover .vjs-play-progress:after {
   display: none;
 }
+.vjs-quality-selector .vjs-custom-dropup-menu {
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+
+}
+

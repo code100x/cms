@@ -11,6 +11,7 @@ export interface QueryParams {
   userId?: number;
   commentId?: number;
   timestamp?: number;
+  editCommentId?: number;
 }
 export enum CommentFilter {
   md = 'Most downvotes',

@@ -1,6 +1,6 @@
 'use client';
 import { useSearchParams, useRouter } from 'next/navigation';
-import { QualitySelector } from '../QualitySelector';
+// import { QualitySelector } from '../QualitySelector';
 import { VideoPlayerSegment } from '@/components/VideoPlayerSegment';
 import VideoContentChapters from '../VideoContentChapters';
 import { useState } from 'react';
@@ -135,7 +135,7 @@ export const ContentRendererClient = ({
           </div>
 
           <div>
-            <QualitySelector />
+            {/* <QualitySelector /> */}
             <br />
             {metadata.slides ? (
               <div
