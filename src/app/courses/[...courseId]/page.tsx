@@ -77,7 +77,7 @@ export default async function Course({
   }
 
   return (
-    <div className="justify-between mx-auto text-white">
+    <>
       <CourseView
         rest={rest}
         course={course}
@@ -88,6 +88,6 @@ export default async function Course({
         searchParams={searchParams}
         possiblePath={possiblePath}
       />
-    </div>
+    </>
   );
 }

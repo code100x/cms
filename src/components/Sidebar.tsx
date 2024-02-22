@@ -115,21 +115,19 @@ export function Sidebar({
   }
 
   return (
-    <div className="w-84" style={{ width: '300px' }}>
-      <div className="overflow-scroll min-h-screen overflow-y-auto bg-gray-50 dark:bg-gray-800 cursor-pointer  w-full sticky top-[64px] self-start w-84">
-        <div className="flex">
-          {/* <ToggleButton
+    <div className="overflow-scroll h-full w-[300px] min-w-[120px] overflow-y-auto bg-gray-50 dark:bg-gray-800 cursor-pointer sticky top-[64px] self-start w-84">
+      <div className="flex">
+        {/* <ToggleButton
             onClick={() => {
               setSidebarOpen((s) => !s);
             }}
           /> */}
-          <GoBackButton />
-        </div>
-        <Accordion type="single" collapsible className="w-full">
-          {/* Render course content */}
-          {renderContent(fullCourseContent)}
-        </Accordion>
+        <GoBackButton />
       </div>
+      <Accordion type="single" collapsible className="w-full">
+        {/* Render course content */}
+        {renderContent(fullCourseContent)}
+      </Accordion>
     </div>
   );
 }
