@@ -186,7 +186,7 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
             },
           });
         },
-        Math.ceil((10 * 1000) / player.playbackRate()),
+        Math.ceil((100 * 1000) / player.playbackRate()),
       );
     };
     const handleVideoEnded = (interval: number) => {
