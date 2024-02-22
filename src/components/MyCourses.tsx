@@ -12,15 +12,15 @@ const getCourses = async () => {
 
 export const MyCourses = async () => {
   const purchases = await getCourses();
-  // if (!purchases.length)
-  return (
-    <div>
-      Sorry, no Courses found associated to your account. If you think this is a
-      mistake, please mail at 100xdevs@gmail.com
-      <br />
-      Try logging in again -
-      <Logout />
-    </div>
-  );
+  if (!purchases.length)
+    return (
+      <div>
+        Sorry, no Courses found associated to your account. If you think this is
+        a mistake, please mail at 100xdevs@gmail.com
+        <br />
+        Try logging in again -
+        <Logout />
+      </div>
+    );
   return <Courses courses={purchases} />;
 };
