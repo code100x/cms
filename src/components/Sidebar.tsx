@@ -115,14 +115,17 @@ export function Sidebar({
   }
 
   return (
-    <div className="w-84" style={{ width: '300px' }}>
-      <div className="overflow-scroll min-h-screen overflow-y-auto bg-gray-50 dark:bg-gray-800 cursor-pointer  w-full sticky top-[64px] self-start w-84">
+    <div
+      className="w-84"
+      style={{ width: '300px', maxHeight: '1000px', overflowY: 'auto' }}
+    >
+      <div className="overflow-scroll min-h-screen overflow-y-auto bg-gray-50 dark:bg-gray-800 w-full sticky top-0">
         <div className="flex">
           {/* <ToggleButton
-            onClick={() => {
-              setSidebarOpen((s) => !s);
-            }}
-          /> */}
+          onClick={() => {
+            setSidebarOpen((s) => !s);
+          }}
+        /> */}
           <GoBackButton />
         </div>
         <Accordion type="single" collapsible className="w-full">
