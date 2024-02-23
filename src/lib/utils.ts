@@ -132,7 +132,7 @@ export const createSegmentMarkersWithoutDuration = (
   seekBar.appendChild(fragment);
 };
 export const convertTimeToSeconds = (timeStr: string): number => {
-  return timeStr.split(':').reduce((acc, time) => 60 * acc + +time, 0);
+  return (timeStr || '').split(':').reduce((acc, time) => 60 * acc + +time, 0);
 };
 
 export const getCurrentSegmentName = (

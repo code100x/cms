@@ -16,7 +16,7 @@ const TimeCodeComment: React.FC<TimeCodeCommentProps> = ({
 }) => {
   const convertToSeconds = (timeCode: string): number => {
     const parts = timeCode.split(':').reverse().map(Number);
-    return parts.reduce(
+    return (parts || []).reduce(
       (acc, part, index) => acc + part * Math.pow(60, index),
       0,
     );

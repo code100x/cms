@@ -22,7 +22,7 @@ export async function getPurchases(email: string) {
   const allVideos = await getAllVideos();
 
   const completedVideosLookup: { [key: string]: boolean } =
-    userVideoProgress.reduce((acc: any, progress) => {
+    userVideoProgress?.reduce((acc: any, progress) => {
       acc[progress.contentId] = true;
       return acc;
     }, {});
