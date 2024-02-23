@@ -89,7 +89,7 @@ export const ContentRendererClient = ({
   };
 
   return (
-    <div className="flex gap-2 items-start flex-col lg:flex-row">
+    <div className="flex gap-2 items-start flex-row lg:flex-row">
       <div className="flex-1 w-full">
         <VideoPlayerSegment
           contentId={content.id}
@@ -124,21 +124,21 @@ export const ContentRendererClient = ({
             <div className="text-gray-900 dark:text-white font-bold text-2xl">
               {content.title}
             </div>
+          </div>
 
+          <div className="flex flex-1 justify-end ml-2">
             <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold rounded p-2 my-4"
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold rounded p-2"
               disabled={loadingMarkAs}
               onClick={handleMarkCompleted}
             >
               {contentCompleted ? 'Mark as Incomplete' : 'Mark as completed'}
             </button>
-          </div>
 
-          <div>
             {/* <QualitySelector /> */}
-            <br />
             {metadata.slides ? (
               <div
+                className="ml-2"
                 style={{
                   display: 'flex',
                   flexDirection: 'row-reverse',
@@ -152,21 +152,26 @@ export const ContentRendererClient = ({
                 </a>
               </div>
             ) : null}
-            {!showChapters && metadata.segments?.length > 0 && (
+            {metadata.segments?.length > 0 && (
               <button
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold rounded p-2"
+                className="min-w-40 bg-blue-500 hover:bg-blue-700 text-white font-bold rounded p-2 ml-2"
                 onClick={() => {
-                  scrollTo({ top: 0, behavior: 'smooth' });
                   toggleShowChapters();
                 }}
               >
-                View All Chapters
+                {!showChapters ? 'Show Chapters' : 'Hide Chapters'}
               </button>
             )}
           </div>
         </div>
-        <br />
-        <br /> <br />
+        {showChapters && (
+          <VideoContentChapters
+            segments={metadata?.segments}
+            onCancel={toggleShowChapters}
+          />
+        )}
+        {/* <br /> */}
+        {/* <br /> <br /> */}
         {nextContent ? (
           <div className="flex flex-row-reverse">
             <button
@@ -184,16 +189,7 @@ export const ContentRendererClient = ({
             </button>{' '}
           </div>
         ) : null}
-        <br /> <br />
-        <br /> <br />
       </div>
-
-      {showChapters && (
-        <VideoContentChapters
-          segments={metadata?.segments}
-          onCancel={toggleShowChapters}
-        />
-      )}
     </div>
   );
 };
