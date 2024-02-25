@@ -47,45 +47,63 @@ export const getComments = async (
     parentComment,
   };
 };
-const parseIntroComment = (
-  comment: string,
-): Array<{ start: number; end?: number; title: string }> | null => {
+const parseIntroComment = (comment: string) => {
   const introPattern = /^intro:\s*([\s\S]*)$/i;
   const match = comment.match(introPattern);
   if (!match) return [];
 
   const lines = match[1].split('\n').filter((line) => line.trim() !== '');
-  const segments = lines.map((line) => {
+  const segments = lines.map((line: string) => {
     const parts = line.split('-').map((part) => part.trim());
-    const timePattern = /(\d{2}):(\d{2})/;
+    const timePattern = /(\d{1,2}):(\d{2}):(\d{2})|(\d{2}):(\d{2})/;
     const startTimeMatch = parts[0].match(timePattern);
 
-    const start = startTimeMatch
-      ? parseInt(startTimeMatch[1], 10) * 60 + parseInt(startTimeMatch[2], 10)
-      : 0;
-    const title = parts.length > 2 ? parts[2] : parts[1];
+    let start;
+    if (startTimeMatch) {
+      if (startTimeMatch[1]) {
+        start =
+          parseInt(startTimeMatch[1], 10) * 3600 +
+          parseInt(startTimeMatch[2], 10) * 60 +
+          parseInt(startTimeMatch[3], 10);
+      } else {
+        start =
+          parseInt(startTimeMatch[4], 10) * 60 +
+          parseInt(startTimeMatch[5], 10);
+      }
+    } else {
+      start = 0;
+    }
 
+    const title = parts.length > 2 ? parts[2] : parts[1];
     return { start, title, end: 0 };
   });
 
-  // Set 'end' to the 'start' of the next segment
   for (let i = 0; i < segments.length - 1; i++) {
     segments[i].end = segments[i + 1].start;
   }
 
-  // Handle the last segment
-  const lastLineParts = lines[lines.length - 1]
-    .split('-')
-    .map((part) => part.trim());
-  if (lastLineParts.length < 3) {
-    return null;
+  if (lines.length > 0) {
+    const lastLineParts = lines[lines.length - 1]
+      .split('-')
+      .map((part) => part.trim());
+    if (lastLineParts.length >= 3) {
+      const timePattern = /(\d{1,2}):(\d{2}):(\d{2})|(\d{2}):(\d{2})/;
+      const endTimeMatch = lastLineParts[1].match(timePattern);
+      let end;
+      if (endTimeMatch) {
+        if (endTimeMatch[1]) {
+          end =
+            parseInt(endTimeMatch[1], 10) * 3600 +
+            parseInt(endTimeMatch[2], 10) * 60 +
+            parseInt(endTimeMatch[3], 10);
+        } else {
+          end =
+            parseInt(endTimeMatch[4], 10) * 60 + parseInt(endTimeMatch[5], 10);
+        }
+        segments[segments.length - 1].end = end;
+      }
+    }
   }
-  const timePattern = /(\d{2}):(\d{2})/;
-  const endTimeMatch = lastLineParts[1].match(timePattern);
-  const end = endTimeMatch
-    ? parseInt(endTimeMatch[1], 10) * 60 + parseInt(endTimeMatch[2], 10)
-    : 0;
-  segments[segments.length - 1].end = end;
 
   return segments;
 };
