@@ -12,7 +12,6 @@ import AboutUsSection from './us-section/about-us';
 import DiscordSection from './snaps-section/discord-section/discord-section';
 import PreFooterSection from './footer/pre-footer/pre-footer';
 import DailyCodeSection from './snaps-section/daily-code/daily-code';
-import Footer from './footer/footer';
 
 const headingFont = localFont({
   src: '../../../public/fonts/font.woff2',
@@ -109,9 +108,6 @@ export default function LandingPage() {
 
       {/* PreFooter Section */}
       <PreFooterSection />
-      
-      {/* Footer Section */}
-      <Footer/>
     </main>
   );
 }

@@ -6,7 +6,7 @@ import Logo from '../logo/logo';
 
 const Footer = () => {
   return (
-    <div className="bottom-0 w-full p-4 bg-neutral-900 dark:bg-slate-900 px-6 lg:px-36">
+    <div className="bottom-0 mt-auto w-full p-4 bg-neutral-900 dark:bg-slate-900 px-6 lg:px-36">
       <div className="md:max-w-screen-2xl mt-4 mb-20 mx-auto flex flex-col lg:flex-row items-start justify-between w-full">
         <Logo onFooter={true} />
 
