@@ -115,7 +115,10 @@ export function Sidebar({
   }
 
   return (
-    <div className="w-84" style={{ width: '300px' }}>
+    <div
+      className="w-84 self-start sticky overflow-y-auto h-screen hide-scrollbar"
+      style={{ width: '300px' }}
+    >
       <div className="overflow-scroll min-h-screen overflow-y-auto bg-gray-50 dark:bg-gray-800 cursor-pointer  w-full sticky top-[64px] self-start w-84">
         <div className="flex">
           {/* <ToggleButton
