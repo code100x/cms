@@ -1,6 +1,20 @@
 import db from '@/db';
 import CredentialsProvider from 'next-auth/providers/credentials';
+import { SignJWT, importJWK } from 'jose';
 
+const generateJWT = async (payload: any) => {
+  const secret = process.env.JWT_SECRET_TOKEN || 'secret';
+
+  const jwk = await importJWK({ k: secret, alg: 'HS256', kty: 'oct' });
+
+  const jwt = await new SignJWT(payload)
+    .setProtectedHeader({ alg: 'HS256' })
+    .setIssuedAt()
+    .setExpirationTime('365d')
+    .sign(jwk);
+
+  return jwt;
+};
 async function validateUser(
   email: string,
   password: string,
@@ -71,6 +85,9 @@ export const authOptions = {
             credentials.password,
           );
           if (user.data) {
+            const jwt = await generateJWT({
+              id: user.data.userid,
+            });
             try {
               await db.user.upsert({
                 where: {
@@ -80,11 +97,13 @@ export const authOptions = {
                   id: user.data.userid,
                   name: user.data.name,
                   email: credentials.username,
+                  token: jwt,
                 },
                 update: {
                   id: user.data.userid,
                   name: user.data.name,
                   email: credentials.username,
+                  token: jwt,
                 },
               });
             } catch (e) {
@@ -95,6 +114,7 @@ export const authOptions = {
               id: user.data.userid,
               name: user.data.name,
               email: credentials.username,
+              token: jwt,
             };
           }
           // Return null if user data could not be retrieved
@@ -109,8 +129,10 @@ export const authOptions = {
   secret: process.env.NEXTAUTH_SECRET || 'secr3t',
   callbacks: {
     session: async ({ session, token }: any) => {
+      console.log('session', session, token);
       if (session?.user) {
         session.user.id = token.uid;
+        session.user.authToken = token;
       }
       return session;
     },
