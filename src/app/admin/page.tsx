@@ -63,7 +63,7 @@ export default function Courses() {
       <Input
         className="text-black dark:text-white"
         type="text"
-        placeholder="dicourd id"
+        placeholder="discord id"
         onChange={(e) => setIdDiscordRoleId(e.target.value)}
       />
       <Button
