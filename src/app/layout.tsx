@@ -7,8 +7,8 @@ import { Appbar } from '@/components/Appbar';
 import { Providers } from './providers';
 import { GoogleAnalytics } from '@/components/analytics/GoogleAnalytics';
 import { siteConfig } from '@/config/site-config';
-import Footer from '@/components/landing/footer/footer';
 import { Toaster } from '@/components/ui/sonner';
+import Footer from '@/components/landing/footer/footer';
 
 const fontSans = FontSans({
   subsets: ['latin'],
@@ -35,14 +35,14 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={cn(
-          'min-h-screen bg-background font-sans antialiased',
+          'min-h-scre en bg-background font-sans antialiased flex flex-col',
           fontSans.variable,
         )}
       >
         <GoogleAnalytics />
         <Providers>
           <Appbar />
-          <div className="h-[calc(100vh-64px)]">{children}</div>
+          <div className="flex-1">{children}</div>
           <Footer />
           <Toaster />
         </Providers>
@@ -50,3 +50,4 @@ export default function RootLayout({
     </html>
   );
 }
+
