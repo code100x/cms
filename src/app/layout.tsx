@@ -42,7 +42,7 @@ export default function RootLayout({
         <GoogleAnalytics />
         <Providers>
           <Appbar />
-          <div className="min-h-screen">{children}</div>
+          <div className="h-[calc(100vh-64px)]">{children}</div>
           <Footer />
           <Toaster />
         </Providers>
