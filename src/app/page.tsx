@@ -25,7 +25,7 @@ export default async function Home() {
 
   if (session?.user) {
     return (
-      <main className="max-w-screen-xl flex-col flex text-lg mx-auto pt-10 pb-6">
+      <main className="max-w-screen-xl flex-col flex text-lg mx-auto pt-10 pb-6 h-full overflow-y-auto no-scrollbar">
         <div className="px-6 max-w-2xl antialiased">
           <h1
             className={cn(
