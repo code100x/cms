@@ -14,7 +14,7 @@ async function validateUser(
     }
 > {
   if (process.env.LOCAL_CMS_PROVIDER) {
-    if (password === '123456') {
+    if (password === 'sargam') {
       return {
         data: {
           name: 'Random',
