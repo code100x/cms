@@ -43,7 +43,7 @@ export default async function Home() {
   }
 
   return (
-    <main className="pt-36 pb-20">
+    <main className="pt-36">
       <LandingPage />
     </main>
   );

@@ -43,7 +43,7 @@ export default function RootLayout({
         <Providers>
           <Appbar />
           <div className="h-[calc(100vh-64px)]">{children}</div>
-          <Footer />
+          {/* <Footer /> */}
           <Toaster />
         </Providers>
       </body>
