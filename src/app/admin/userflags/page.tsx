@@ -4,6 +4,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { isValidJsonString } from '@/utiles/is-valid-json';
 import { useState } from 'react';
+import { toast } from 'sonner';
 
 export default function DiscordPage() {
   const [email, setEmail] = useState('');
@@ -107,8 +108,7 @@ export default function DiscordPage() {
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
           onClick={async () => {
             if (!isValidJsonString(segmentsJson)) {
-              // TODO: Use toast or something better
-              return alert('Not a valid JSON');
+              return toast.warning('Not a valid JSON');
             }
 
             await fetch('/api/admin/segments', {
