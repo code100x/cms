@@ -24,6 +24,7 @@ async function validateUser(
       data: {
         name: string;
         userid: string;
+        token: string;
       };
     }
 > {
@@ -33,6 +34,7 @@ async function validateUser(
         data: {
           name: 'Random',
           userid: '1',
+          token: '',
         },
       };
     }

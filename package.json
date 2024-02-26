@@ -11,6 +11,7 @@
     "lint:fix": "eslint --max-warnings 0 --config .eslintrc . --fix",
     "format:fix": "prettier --write \"**/*.{ts,tsx,json}\"",
     "format:check": "prettier --check \"**/*.{ts,tsx,json}\"",
+    "dev:docker": "DATABASE_URL=postgresql://postgres:postgres@db:5432/cms?schema=public prisma migrate deploy && next dev",
     "prepare": "husky install"
   },
   "dependencies": {
