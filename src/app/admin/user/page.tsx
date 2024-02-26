@@ -1,7 +1,12 @@
 import React from 'react';
+import LogoutUserComp from './LogoutUser';
 
-const page = () => {
-  return <div>page</div>;
+const UserAdminPage = () => {
+  return (
+    <div className="flex justify-center h-[100dvh] items-center">
+      <LogoutUserComp />
+    </div>
+  );
 };
 
-export default page;
+export default UserAdminPage;
