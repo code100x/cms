@@ -3,7 +3,7 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import { SignJWT, importJWK } from 'jose';
 
 const generateJWT = async (payload: any) => {
-  const secret = process.env.JWT_SECRET_TOKEN || 'secret';
+  const secret = process.env.JWT_SECRET || 'secret';
 
   const jwk = await importJWK({ k: secret, alg: 'HS256', kty: 'oct' });
 
