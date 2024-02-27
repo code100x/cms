@@ -18,8 +18,10 @@ const Signin = () => {
   const router = useRouter();
   const email = useRef('');
   const password = useRef('');
-  const handleSubmit = async (e: React.FormEvent<HTMLButtonElement>) => {
-    e.preventDefault();
+  const handleSubmit = async (e?: React.FormEvent<HTMLButtonElement>) => {
+    if (e) {
+      e.preventDefault();
+    }
     const res = await signIn('credentials', {
       username: email.current,
       password: password.current,
@@ -63,6 +65,14 @@ const Signin = () => {
                   type={isPasswordVisible ? 'text' : 'password'}
                   id="password"
                   placeholder="••••••••"
+                  onKeyDown={async (e) => {
+                    if (e.key === 'Enter') {
+                      setIsPasswordVisible(false);
+                      console.log('Enter pressed');
+
+                      handleSubmit();
+                    }
+                  }}
                   onChange={(e) => (password.current = e.target.value)}
                 />
                 <button
