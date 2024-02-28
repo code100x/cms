@@ -1,72 +1,75 @@
 'use client';
+import React, { useCallback, memo } from 'react';
 import { voteHandlerAction } from '@/actions/commentVote';
 import { useAction } from '@/hooks/useAction';
 import { VoteType } from '@prisma/client';
-import { ThumbsDownIcon, ThumbsUpIcon } from 'lucide-react';
+import ThumbUpOffAltOutlinedIcon from '@mui/icons-material/ThumbUpOffAltOutlined';
+import ThumbDownAltOutlinedIcon from '@mui/icons-material/ThumbDownAltOutlined';
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import { usePathname } from 'next/navigation';
-import React from 'react';
 import { toast } from 'sonner';
 
-const CommentVoteForm = ({
-  upVotes,
-  downVotes,
-  commentId,
-}: {
-  upVotes: number;
-  downVotes: number;
-  commentId: number;
-}) => {
-  const currentPath = usePathname();
-  const { execute } = useAction(voteHandlerAction, {
-    onSuccess: () => {
-      toast('Comment added');
-    },
-    onError: (error) => {
-      toast.error(error);
-    },
-  });
-  const handleUpvote = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    execute({
-      commentId,
-      voteType: VoteType.UPVOTE,
-      currentPath,
+const CommentVoteForm = memo(
+  ({
+    upVotes,
+    downVotes,
+    commentId,
+  }: {
+    upVotes: number;
+    downVotes: number;
+    commentId: number;
+  }) => {
+    const currentPath = usePathname();
+    const { execute } = useAction(voteHandlerAction, {
+      onSuccess: (voteType) => {
+        console.log(voteType);
+        const message = voteType?.upvotes !== 0 ? 'Upvoted' : 'Downvoted';
+        toast(message);
+      },
+      onError: (error) => {
+        toast.error(error);
+      },
     });
-  };
-  const handleDownVote = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
 
-    execute({
-      commentId,
-      voteType: VoteType.DOWNVOTE,
-      currentPath,
-    });
-  };
-  return (
-    <div className="flex gap-2">
-      <form onSubmit={handleUpvote}>
-        <button
-          className="flex items-center gap-1 text-gray-500 dark:text-gray-400"
-          type="submit"
-        >
-          <ThumbsUpIcon className="w-4 h-4" type="submit" />
+    const UpIcon = upVotes !== 0 ? ThumbUpIcon : ThumbUpOffAltOutlinedIcon;
+    const DownIcon = downVotes !== 0 ? ThumbDownIcon : ThumbDownAltOutlinedIcon;
 
-          <span>{upVotes}</span>
-        </button>
-      </form>
-      <form onSubmit={handleDownVote}>
-        <button
-          className="flex items-center gap-1 text-gray-500 dark:text-gray-400"
-          type="submit"
-        >
-          <ThumbsDownIcon className="w-4 h-4" />
+    const handleVote = useCallback(
+      (e: React.FormEvent<HTMLFormElement>, voteType: VoteType) => {
+        e.preventDefault();
+        execute({
+          commentId,
+          voteType,
+          currentPath,
+        });
+      },
+      [execute, commentId, currentPath],
+    );
 
-          <span>{downVotes}</span>
-        </button>
-      </form>
-    </div>
-  );
-};
+    return (
+      <div className="flex gap-2">
+        <form onSubmit={(e) => handleVote(e, VoteType.UPVOTE)}>
+          <button
+            className="flex items-center gap-1 text-gray-500 dark:text-gray-400"
+            type="submit"
+          >
+            {<UpIcon fontSize="small" />}
+            <span>{upVotes}</span>
+          </button>
+        </form>
+        <form onSubmit={(e) => handleVote(e, VoteType.DOWNVOTE)}>
+          <button
+            className="flex items-center gap-1 text-gray-500 dark:text-gray-400"
+            type="submit"
+          >
+            {<DownIcon fontSize="small" />}
+            <span>{downVotes}</span>
+          </button>
+        </form>
+      </div>
+    );
+  },
+);
 
 export default CommentVoteForm;
