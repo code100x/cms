@@ -23,6 +23,7 @@ const TimeCodeComment: React.FC<TimeCodeCommentProps> = ({
   };
 
   const timeCodeRegex = /(?:(\d{1,2}):)?(\d{1,2}):(\d{1,2})/g;
+  const urlRegex = /(https?:\/\/[^\s]+)/g; // Regular expression to detect URLs
 
   const processLine = (line: string) => {
     const elements = [];
@@ -42,13 +43,43 @@ const TimeCodeComment: React.FC<TimeCodeCommentProps> = ({
       elements.push(
         <Link
           key={`timecode-${match.index}`}
-          className="text-blue-500 hover:underline"
           href={getUpdatedUrl(`/courses/${possiblePath}`, searchParams, {
             timestamp: timeInSeconds,
           })}
         >
-          {match[0]}
+          <a
+            className="text-blue-500 hover:underline"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {match[0]}
+          </a>
         </Link>,
+      );
+
+      lastIndex = match.index + match[0].length;
+    }
+
+    // Check for URLs in the remaining text
+    while ((match = urlRegex.exec(line)) !== null) {
+      if (match.index > lastIndex) {
+        elements.push(
+          <span key={`text-${lastIndex}`}>
+            {line.substring(lastIndex, match.index)}
+          </span>,
+        );
+      }
+
+      elements.push(
+        <a
+          key={`url-${match.index}`}
+          href={match[1]}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-blue-500 hover:underline"
+        >
+          {match[1]}
+        </a>,
       );
 
       lastIndex = match.index + match[0].length;
