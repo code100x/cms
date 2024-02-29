@@ -1,4 +1,3 @@
-'use client';
 
 import { deleteMessage } from '@/actions/comment';
 import { useAction } from '@/hooks/useAction';
@@ -7,9 +6,11 @@ import { usePathname } from 'next/navigation';
 import React from 'react';
 import { toast } from 'sonner';
 
-const CommentDeleteForm = ({ commentId }: { commentId: number }) => {
+const CommentDeleteForm: React.FC<{ commentId: number }> = ({ commentId }) => {
+  // Using 'const' for variables that don't change
   const currentPath = usePathname();
 
+  // Destructuring 'execute' from 'useAction'
   const { execute } = useAction(deleteMessage, {
     onSuccess: () => {
       toast('Comment deleted');
@@ -18,14 +19,14 @@ const CommentDeleteForm = ({ commentId }: { commentId: number }) => {
       toast.error(error);
     },
   });
+
+
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    execute({
-      commentId,
-      currentPath,
-    });
+    execute({ commentId, currentPath });
   };
+
   return (
     <form onSubmit={handleFormSubmit}>
       <button type="submit">
