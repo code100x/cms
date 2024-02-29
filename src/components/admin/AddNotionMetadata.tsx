@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Input } from '../ui/input';
 
 export function AddNotionMetadata({
   onChange,
@@ -12,9 +13,9 @@ export function AddNotionMetadata({
   }, [id]);
 
   return (
-    <div>
-      <input
-        className="text-black"
+    <div className="py-2">
+      <Input
+        className="dark:text-white text-black"
         type="text"
         placeholder="Notion id"
         onChange={async (e) => {

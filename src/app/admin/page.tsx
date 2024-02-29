@@ -1,7 +1,10 @@
 'use client';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import React, { useState } from 'react';
 
 export default function Courses() {
+  // TODO: Add validations for few things: imageURL, discordRoleId, etc.
   const [title, setTitle] = useState('');
   const [imageUrl, setImageUrl] = useState('');
   const [description, setDescription] = useState('');
@@ -12,57 +15,58 @@ export default function Courses() {
   const [discordRoleId, setIdDiscordRoleId] = useState('');
 
   return (
-    <div className="max-w-screen-xl justify-between mx-auto p-4 cursor-pointer grid grid-cols-1 gap-5 md:grid-cols-3">
-      Admin dashboard Create a new course
-      <input
-        className="text-black"
+    <div className="justify-between mx-auto p-4 grid grid-cols-1 gap-5 text-center max-w-md">
+      <h1 className="text-xl sm:text-2xl md:text-4xl">Admin dashboard </h1>
+      <h2 className="text-lg sm:text-xl md:text-3xl">Create a new course</h2>
+      <Input
+        className="text-black dark:text-white"
         type="text"
         placeholder="Course name"
         onChange={(e) => setTitle(e.target.value)}
       />
-      <input
-        className="text-black"
+      <Input
+        className="text-black dark:text-white"
         type="text"
         placeholder="Image url"
         onChange={(e) => setImageUrl(e.target.value)}
       />
-      <input
-        className="text-black"
+      <Input
+        className="text-black dark:text-white"
         type="text"
         placeholder="Description"
         onChange={(e) => setDescription(e.target.value)}
       />
-      <input
-        className="text-black"
+      <Input
+        className="text-black dark:text-white"
         type="text"
         placeholder="slug"
         onChange={(e) => setSlug(e.target.value)}
       />
-      <input
-        className="text-black"
+      <Input
+        className="text-black dark:text-white"
         type="text"
         placeholder="id"
         onChange={(e) => setId(e.target.value)}
       />
-      <input
-        className="text-black"
+      <Input
+        className="text-black dark:text-white"
         type="text"
         placeholder="adminSecret"
         onChange={(e) => setAdminSecret(e.target.value)}
       />
-      <input
-        className="text-black"
+      <Input
+        className="text-black dark:text-white"
         type="text"
         placeholder="appx course id"
         onChange={(e) => setAppxCourseId(e.target.value)}
       />
-      <input
-        className="text-black"
+      <Input
+        className="text-black dark:text-white"
         type="text"
-        placeholder="dicourd id"
+        placeholder="discord id"
         onChange={(e) => setIdDiscordRoleId(e.target.value)}
       />
-      <button
+      <Button
         onClick={async () => {
           await fetch('/api/admin/course', {
             body: JSON.stringify({
@@ -83,7 +87,7 @@ export default function Courses() {
         }}
       >
         Create
-      </button>
+      </Button>
     </div>
   );
 }
