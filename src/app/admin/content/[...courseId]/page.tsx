@@ -34,7 +34,7 @@ export default async function UpdateCourseContent({
 
   if (contentType === 'notion') {
     return (
-      <div className="max-w-screen-xl justify-between mx-auto p-4 text-white">
+      <div className="max-w-screen-xl justify-between mx-auto p-4 dark:text-white text-blacke">
         {/* <NotionRenderer id={courseContent[0]?.id} /> */}
         Notion doc
       </div>
@@ -42,7 +42,7 @@ export default async function UpdateCourseContent({
   }
 
   return (
-    <div className="max-w-screen-xl justify-between mx-auto p-4 text-white">
+    <div className="max-w-screen-xl justify-between mx-auto p-4 dark:text-white text-black">
       {course?.title}
       <div className="font-bold  md:text-5xl lg:text-6xl">Content</div>
       <AddContent
