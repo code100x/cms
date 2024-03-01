@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { AddNotionMetadata } from './AddNotionMetadata';
+import { Input } from '../ui/input';
 
 export const AddContent = ({
   courseId,
@@ -18,7 +19,7 @@ export const AddContent = ({
   return (
     <div>
       <div className="">
-        <div className="p-2">
+        <div className="p-2 space-x-2">
           <button
             className={`${type === 'video' ? 'bg-green-500' : 'bg-blue-500'} text-white font-bold py-2 px-4 rounded`}
             onClick={() => setType('video')}
@@ -39,21 +40,21 @@ export const AddContent = ({
           </button>
         </div>
         <br /> <br />
-        <div className="p-2">
-          <input
-            className="text-black"
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
+          <Input
+            className="dark:text-white text-black"
             type="text"
             placeholder="Title"
             onChange={(e) => setTitle(e.target.value)}
           />
-          <input
-            className="text-black"
+          <Input
+            className="dark:text-white text-black"
             type="text"
             placeholder="Image url"
             onChange={(e) => setImageUri(e.target.value)}
           />
-          <input
-            className="text-black"
+          <Input
+            className="dark:text-white text-black"
             type="text"
             placeholder="Admin password"
             onChange={(e) => setAdminPassword(e.target.value)}
@@ -127,25 +128,25 @@ function AddVideoMetadata({ onChange }: { onChange: (metadata: any) => void }) {
     onChange({ video_1080p, video_720p, video_360p });
   }, [video_1080p, video_720p, video_360p]);
   return (
-    <div>
-      <input
-        className="text-black"
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 py-2">
+      <Input
+        className="dark:text-white text-black"
         type="text"
         placeholder="1080p"
         onChange={async (e) => {
           await setVideo_1080p(e.target.value);
         }}
       />
-      <input
-        className="text-black"
+      <Input
+        className="dark:text-white text-black"
         type="text"
         placeholder="720p"
         onChange={async (e) => {
           await setVideo_720p(e.target.value);
         }}
       />
-      <input
-        className="text-black"
+      <Input
+        className="dark:text-white text-black"
         type="text"
         placeholder="360p"
         onChange={async (e) => {
