@@ -211,7 +211,7 @@ const Comments = async ({
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
-        <div className="grid gap-6">
+        <div className="grid gap-6 max-h-[400px] overflow-y-auto">
           {data.comments.map((c) => (
             <div className="text-sm flex items-start gap-4 w-full" key={c.id}>
               <div className="flex items-start gap-4 w-full">
