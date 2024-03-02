@@ -70,7 +70,7 @@ export function NavigationMenu() {
                       href={'https://harkirat.classx.co.in/new-courses'}
                       target="_blank"
                     >
-                      <p className="text-white">Join now</p>
+                      <p className="text-zinc-950 dark:text-white">Join now</p>
                     </Link>
                   </DrawerClose>
                 </Button>
