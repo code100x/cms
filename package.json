@@ -11,6 +11,8 @@
     "lint:fix": "eslint --max-warnings 0 --config .eslintrc . --fix",
     "format:fix": "prettier --write \"**/*.{ts,tsx,json}\"",
     "format:check": "prettier --check \"**/*.{ts,tsx,json}\"",
+    "dev:docker": "npm run prisma:migrate && next dev",
+    "prisma:migrate": "prisma migrate deploy",
     "prepare": "husky install"
   },
   "dependencies": {
