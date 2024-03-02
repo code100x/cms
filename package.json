@@ -11,6 +11,8 @@
     "lint:fix": "eslint --max-warnings 0 --config .eslintrc . --fix",
     "format:fix": "prettier --write \"**/*.{ts,tsx,json}\"",
     "format:check": "prettier --check \"**/*.{ts,tsx,json}\"",
+    "dev:docker": "npm run prisma:migrate && next dev",
+    "prisma:migrate": "prisma migrate deploy",
     "prepare": "husky install"
   },
   "dependencies": {
@@ -42,6 +44,7 @@
     "notion-client": "^6.16.0",
     "react": "^18",
     "react-dom": "^18",
+    "react-hook-form": "^7.50.1",
     "react-notion-x": "^6.16.0",
     "react-resizable-panels": "^1.0.7",
     "recoil": "^0.7.7",

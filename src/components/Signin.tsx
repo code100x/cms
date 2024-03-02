@@ -11,6 +11,10 @@ import React, { useRef, useState } from 'react';
 import { toast } from 'sonner';
 const Signin = () => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [requiredError, setRequiredError] = useState({
+    emailReq: false,
+    passReq: false,
+  });
 
   function togglePasswordVisibility() {
     setIsPasswordVisible((prevState: any) => !prevState);
@@ -18,10 +22,21 @@ const Signin = () => {
   const router = useRouter();
   const email = useRef('');
   const password = useRef('');
+
   const handleSubmit = async (e?: React.FormEvent<HTMLButtonElement>) => {
     if(e){
       e.preventDefault();
     }
+    
+    if (!email.current || !password.current) {
+      setRequiredError({
+        emailReq: email.current ? false : true,
+        passReq: password.current ? false : true,
+      });
+      return;
+    }
+
+
     const res = await signIn('credentials', {
       username: email.current,
       password: password.current,
@@ -53,8 +68,17 @@ const Signin = () => {
                 name="email"
                 id="email"
                 placeholder="name@email.com"
-                onChange={(e) => (email.current = e.target.value)}
+                onChange={(e) => {
+                  setRequiredError((prevState) => ({
+                    ...prevState,
+                    emailReq: false,
+                  }));
+                  email.current = e.target.value;
+                }}
               />
+              {requiredError.emailReq && (
+                <span className=" text-red-500">Email is required</span>
+              )}
             </div>
             <div className="flex flex-col gap-4">
               <Label>Password</Label>
@@ -65,14 +89,19 @@ const Signin = () => {
                   type={isPasswordVisible ? 'text' : 'password'}
                   id="password"
                   placeholder="••••••••"
-                  onChange={(e) => (password.current = e.target.value)}
+                  onChange={(e) => {
+                    setRequiredError((prevState) => ({
+                      ...prevState,
+                      passReq: false,
+                    }));
+                    password.current = e.target.value;
+                  }}
                   onKeyDown={async (e)=>{
                     if(e.key === "Enter"){
                       setIsPasswordVisible(false);
                       handleSubmit();
-                    }
-                  }}
-                />
+                    }}}
+                  />
                 <button
                   className="inset-y-0 right-0 flex items-center px-4 text-gray-600"
                   onClick={togglePasswordVisibility}
@@ -115,6 +144,9 @@ const Signin = () => {
                   )}
                 </button>
               </div>
+              {requiredError.passReq && (
+                <span className=" text-red-500">Password is required</span>
+              )}
             </div>
           </div>
           <Button className="my-3 w-full" onClick={handleSubmit}>

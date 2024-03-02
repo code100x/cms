@@ -1,5 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl-arm64-openssl-3.0.x"]
 }
 
 datasource db {
@@ -46,8 +47,8 @@ model Content {
   VideoMetadata    VideoMetadata?
   NotionMetadata   NotionMetadata?
   notionMetadataId Int?
-  comments        Comment[]
-  commentsCount   Int             @default(0)
+  comments         Comment[]
+  commentsCount    Int             @default(0)
 }
 
 model CourseContent {
@@ -155,34 +156,34 @@ model VideoProgress {
 }
 
 model Comment {
-  id              Int       @id @default(autoincrement())
-  content         String
-  commentType     CommentType @default(DEFAULT)
-  approved        Boolean   @default(false)            
-  contentId       Int
-  commentedOn     Content   @relation(fields: [contentId], references: [id])
-  parentId        Int?
-  parent          Comment?  @relation("ParentComment", fields: [parentId], references: [id])
-  children        Comment[] @relation("ParentComment")
-  userId          String
-  user            User      @relation(fields: [userId], references: [id])
-  upvotes         Int       @default(0)
-  downvotes       Int       @default(0)
-  repliesCount    Int       @default(0)
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
-  votes           Vote[]
+  id           Int         @id @default(autoincrement())
+  content      String
+  commentType  CommentType @default(DEFAULT)
+  approved     Boolean     @default(false)
+  contentId    Int
+  commentedOn  Content     @relation(fields: [contentId], references: [id])
+  parentId     Int?
+  parent       Comment?    @relation("ParentComment", fields: [parentId], references: [id])
+  children     Comment[]   @relation("ParentComment")
+  userId       String
+  user         User        @relation(fields: [userId], references: [id])
+  upvotes      Int         @default(0)
+  downvotes    Int         @default(0)
+  repliesCount Int         @default(0)
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+  votes        Vote[]
 }
 
-
 model Vote {
-  id              Int       @id @default(autoincrement())
-  commentId       Int
-  comment         Comment   @relation(fields: [commentId], references: [id])
-  userId          String
-  user            User      @relation(fields: [userId], references: [id])
-  voteType        VoteType  // enum
-  createdAt       DateTime  @default(now())
+  id        Int      @id @default(autoincrement())
+  commentId Int
+  comment   Comment  @relation(fields: [commentId], references: [id])
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  voteType  VoteType // enum
+  createdAt DateTime @default(now())
+
   @@unique([commentId, userId])
 }
 
