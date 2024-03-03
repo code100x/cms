@@ -70,10 +70,11 @@ export function NavigationMenu() {
                       href={'https://harkirat.classx.co.in/new-courses'}
                       target="_blank"
                     >
-                      <p className="text-white">Join now</p>
+                      <p className="text-black">Join now</p> 
                     </Link>
                   </DrawerClose>
                 </Button>
+
 
                 <AppbarAuth isInMenu={true} />
               </div>
