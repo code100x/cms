@@ -35,7 +35,7 @@ const VideoContentChapters = ({
 
   return (
     <div className="w-full lg:w-1/3 rounded-md shadow-md border text-sm">
-      <div className="flex items-center justify-between p-2 py-3 bg-[#212020]">
+      <div className="flex items-center justify-between p-2 py-3 dark:bg-[#212020] bg-[#F5F5F5]">
         <span>Chapters</span>
         <X onClick={onCancel} className="cursor-pointer" />
       </div>
@@ -51,7 +51,7 @@ const VideoContentChapters = ({
                 }}
               >
                 <span>{title}</span>
-                <div className="bg-[#263850] text-[#37A4FF] px-1.5 py-0.5 rounded">
+                <div className="dark:bg-[#263850] dark:text-[#37A4FF] bg-[#ffffff] text-[#040fff] px-1.5 py-0.5 rounded">
                   {formatTime(start)}
                 </div>
               </div>
