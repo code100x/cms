@@ -31,7 +31,7 @@ export const NotionRenderer = ({ id }: { id: string }) => {
   return (
     <div>
       <div style={{}}>
-        <NotionRendererLib recordMap={data} fullPage={true} darkMode={true} />
+        <NotionRendererLib recordMap={data} fullPage={true} darkMode={true} className='z-10'/>
       </div>
     </div>
   );
