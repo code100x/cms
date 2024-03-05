@@ -31,8 +31,8 @@ export async function getPurchases(email: string) {
     let totalVideos = 0;
     let totalVideosWatched = 0;
     course.content.forEach(({ contentId }) => {
-      allVideos.forEach(({ parentId, id }) => {
-        if (parentId === contentId) {
+      allVideos.forEach(({ parentId, id, hidden }) => {
+        if (parentId === contentId && !hidden) {
           totalVideos++;
           if (completedVideosLookup[id]) {
             totalVideosWatched++;
