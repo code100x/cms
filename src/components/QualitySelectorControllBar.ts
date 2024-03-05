@@ -6,6 +6,8 @@ const changeVideoQuality = (quality: string) => {
   window.location.href = currentUrl.href;
 };
 
+let quality: string = '1080';
+
 class QualitySelectorControllBar extends videojs.getComponent('Button') {
   constructor(player: any, options?: any) {
     super(player, options);
@@ -41,14 +43,16 @@ class QualitySelectorControllBar extends videojs.getComponent('Button') {
     });
     dropUpMenuElement.querySelectorAll('li').forEach((item) => {
       item.addEventListener('click', (e: any) => {
-        const quality = e.target.getAttribute('data-quality');
-        if (quality) {
+        quality = e.target.getAttribute('data-quality');
+        console.log(quality);
+        const currentUrl = new URL(window.location.href);
+        if (quality !== currentUrl.searchParams.get('quality')) {
           changeVideoQuality(quality);
         }
         dropUpMenuElement.style.display = 'none';
       });
       item.addEventListener('touchend', (e: any) => {
-        const quality = e.target.getAttribute('data-quality');
+        quality = e.target.getAttribute('data-quality');
         if (quality) {
           changeVideoQuality(quality);
         }
