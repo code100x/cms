@@ -72,7 +72,7 @@ export function Sidebar({
             value={`item-${content.id}`}
             className="text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer"
           >
-            <AccordionTrigger className="px-2">
+            <AccordionTrigger className="px-2 text-left">
               {content.title}
             </AccordionTrigger>
             <AccordionContent className="p-0 m-0">
