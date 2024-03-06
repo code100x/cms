@@ -44,7 +44,6 @@ class QualitySelectorControllBar extends videojs.getComponent('Button') {
     dropUpMenuElement.querySelectorAll('li').forEach((item) => {
       item.addEventListener('click', (e: any) => {
         quality = e.target.getAttribute('data-quality');
-        console.log(quality);
         const currentUrl = new URL(window.location.href);
         if (quality !== currentUrl.searchParams.get('quality')) {
           changeVideoQuality(quality);
