@@ -39,17 +39,17 @@ export const AddContent = ({
             Notion
           </button>
         </div>
-        <br /> <br />
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
-          <Input
-            className="dark:text-white text-black"
-            type="text"
-            placeholder="Title"
-            onChange={(e) => setTitle(e.target.value)}
-          />
-          <Input
-            className="dark:text-white text-black"
-            type="text"
+                                               <br /> <br />
+                                                                                                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
+                                                                                                          <Input
+                                                                                                            className="dark:text-white text-black"
+                                                                                                            type="text"
+                                                                                                            placeholder="Title"
+                                                                                                            onChange={(e) => setTitle(e.target.value)}
+                                                                                                          />
+                                                                                                          <Input
+                                                                                                            className="dark:text-white text-black"
+                                                                                                            type="text"
             placeholder="Image url"
             onChange={(e) => setImageUri(e.target.value)}
           />
