@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, CardContent, CardFooter, CardHeader } from '../ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
-import { CommentFilter, QueryParams } from '@/actions/types';
+import { CommentFilter, QueryParams, ROLES } from '@/actions/types';
 import {
   constructCommentPrismaQuery,
   getUpdatedUrl,
@@ -15,7 +15,7 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import CommentVoteForm from './CommentVoteForm';
 import Pagination from '../Pagination';
 import Link from 'next/link';
-import { ArrowLeftIcon, ChevronDownIcon } from 'lucide-react';
+import { ArrowLeftIcon, ChevronDownIcon, MoreVerticalIcon } from 'lucide-react';
 import TimeCodeComment from './TimeCodeComment';
 import CopyToClipboard from '../Copy-to-clipbord';
 import {
@@ -30,6 +30,8 @@ import { CommentType } from '@prisma/client';
 import CommentDeleteForm from './CommentDeleteForm';
 import { authOptions } from '@/lib/auth';
 import { getServerSession } from 'next-auth';
+import CommentPinForm from './CommentPinForm';
+import CommentApproveForm from './CommentApproveForm';
 dayjs.extend(relativeTime);
 const Comments = async ({
   content,
@@ -48,6 +50,7 @@ const Comments = async ({
     searchParams,
     paginationInfo,
     content.id,
+    session.user.id,
   );
 
   const data = await getComments(q, searchParams.parentId);
@@ -115,7 +118,7 @@ const Comments = async ({
           parentId={data?.parentComment?.id}
         />
         <div className="mb-5 flex mt-5">
-          <DropdownMenu>
+          <DropdownMenu key="1">
             <DropdownMenuTrigger asChild>
               <Button
                 className="w-[200px] justify-between text-left font-normal"
@@ -222,18 +225,54 @@ const Comments = async ({
                 <div className="grid gap-1.5 w-full">
                   <div className="flex items-center gap-2">
                     <div className="font-semibold">
-                      @{(c as ExtendedComment).user.name}
+                      @{(c as ExtendedComment).user?.name ?? ''}
                     </div>
                     <div className="text-gray-500 text-xs dark:text-gray-400">
                       {dayjs(c.createdAt).fromNow()}
                     </div>
-                    <CopyToClipboard
-                      textToCopy={`${c.contentId};${c.id.toString()}`}
-                    />
-                    {session.user.id.toString() ===
-                      (c as ExtendedComment).userId.toString() && (
-                      <CommentDeleteForm commentId={c.id} />
+                    {c.isPinned && (
+                      <div className="text-gray-500 text-xs dark:text-gray-400">
+                        Pinned
+                      </div>
                     )}
+
+                    <DropdownMenu key="2">
+                      <DropdownMenuTrigger asChild>
+                        <button>
+                          <MoreVerticalIcon className="h-4 w-4" />
+                        </button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent>
+                        <DropdownMenuItem>
+                          <CopyToClipboard
+                            textToCopy={`${c.contentId};${c.id.toString()}`}
+                          />
+                        </DropdownMenuItem>
+                        <DropdownMenuItem>
+                          {(session.user.id.toString() ===
+                            (c as ExtendedComment).userId.toString() ||
+                            session.user.role === ROLES.ADMIN) && (
+                            <CommentDeleteForm commentId={c.id} />
+                          )}
+                        </DropdownMenuItem>
+                        <DropdownMenuItem>
+                          {session.user.role === ROLES.ADMIN && (
+                            <CommentPinForm
+                              commentId={c.id}
+                              contentId={c.contentId}
+                            />
+                          )}
+                        </DropdownMenuItem>
+                        <DropdownMenuItem>
+                          {session.user.role === ROLES.ADMIN && (
+                            <CommentApproveForm
+                              commentId={c.id}
+                              contentId={c.contentId}
+                            />
+                          )}
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
                   </div>
                   <div>
                     <TimeCodeComment
@@ -242,11 +281,15 @@ const Comments = async ({
                       comment={c.content}
                     />
                   </div>
+
                   <div className="flex items-center gap-4">
                     <CommentVoteForm
                       upVotes={c.upvotes}
                       downVotes={c.downvotes}
                       commentId={c.id}
+                      voteType={
+                        (c as ExtendedComment)?.votes?.[0]?.voteType ?? null
+                      }
                     />
                     {!data.parentComment && (
                       <Link

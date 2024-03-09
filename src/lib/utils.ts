@@ -258,6 +258,7 @@ export const constructCommentPrismaQuery = (
   searchParams: QueryParams,
   paginationInfo: PaginationInfo,
   contentId: number,
+  userId: string,
 ): Prisma.CommentFindManyArgs => {
   const { pageSize, skip } = paginationInfo;
   const { commentfilter, type } = searchParams;
@@ -294,7 +295,17 @@ export const constructCommentPrismaQuery = (
     orderBy,
     skip,
     take: pageSize,
-    include: { user: true },
+    include: {
+      user: true,
+      votes: {
+        where: {
+          userId,
+        },
+        select: {
+          voteType: true, // Only fetch the voteType to determine if it's an upvote or downvote
+        },
+      },
+    },
   };
 
   return query;
