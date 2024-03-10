@@ -44,7 +44,7 @@ const VideoContentChapters = ({
           return (
             <div key={`${index}-${start}${end}${title}`}>
               <div
-                className={`dark:text-white text-black p-2 py-3 flex items-center gap-3 justify-between cursor-pointer ${currentTime >= start && currentTime < end ? 'bg-[#27272A]' : ''}`}
+                className={`dark:text-white text-black p-2 py-3 flex items-center gap-3 justify-between cursor-pointer ${currentTime >= start && currentTime < end ? 'dark:bg-[#27272A] bg-zinc-200' : ''}`}
                 onClick={() => {
                   player.currentTime(start);
                   player.play();
