@@ -1,6 +1,8 @@
 import db from '@/db';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { SignJWT, importJWK } from 'jose';
+import prisma from '@/db';
+import bcrypt from 'bcrypt';
 
 const generateJWT = async (payload: any) => {
   const secret = process.env.JWT_SECRET || 'secret';
@@ -15,54 +17,43 @@ const generateJWT = async (payload: any) => {
 
   return jwt;
 };
+
+type Nullable<T> = T | null;
+type ValidateUserReturn = {
+  data: Nullable<{
+    name: string;
+    userid: string;
+    token: string;
+  }>;
+};
+
 async function validateUser(
   email: string,
   password: string,
-): Promise<
-  | { data: null }
-  | {
-      data: {
-        name: string;
-        userid: string;
-        token: string;
-      };
-    }
-> {
-  if (process.env.LOCAL_CMS_PROVIDER) {
-    if (password === '123456') {
-      return {
-        data: {
-          name: 'Random',
-          userid: '1',
-          token: '',
-        },
-      };
-    }
-    return { data: null };
-  }
-  const url = 'https://harkiratapi.classx.co.in/post/userLogin';
-  const headers = {
-    'Client-Service': process.env.APPX_CLIENT_SERVICE || '',
-    'Auth-Key': process.env.APPX_AUTH_KEY || '',
-    'Content-Type': 'application/x-www-form-urlencoded',
-  };
-  const body = new URLSearchParams();
-  body.append('email', email);
-  body.append('password', password);
-
+): Promise<ValidateUserReturn> {
   try {
-    const response = await fetch(url, {
-      method: 'POST',
-      headers,
-      body,
+    const userFromDb = await prisma.user.findFirst({
+      where: {
+        email,
+      },
     });
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
+    if (!userFromDb) {
+      return { data: null };
     }
 
-    const data = await response.json();
-    return data as any; // Or process data as needed
+    const passwordMatch = await bcrypt.compare(password, userFromDb.password!);
+    if (!passwordMatch) {
+      return { data: null };
+    }
+
+    return {
+      data: {
+        userid: userFromDb.id,
+        name: userFromDb.name!,
+        token: userFromDb.token!,
+      },
+    };
   } catch (error) {
     console.error('Error validating user:', error);
   }
