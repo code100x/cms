@@ -53,38 +53,38 @@ export const AddContent = ({
             placeholder="Image url"
             onChange={(e) => setImageUri(e.target.value)}
           />
-                              <Input
-                                className="dark:text-white text-black"
-                                type="text"
-                                placeholder="Admin password"
-                                onChange={(e) => setAdminPassword(e.target.value)}
-                              />
+          <Input
+            className="dark:text-white text-black"
+            type="text"
+            placeholder="Admin password"
+            onChange={(e) => setAdminPassword(e.target.value)}
+          />
         </div>
         {type === 'video' && <AddVideosMetadata onChange={setMetadata} />}
         {type === 'notion' && <AddNotionMetadata onChange={setMetadata} />}
-                                                        <button
-                                                          onClick={async () => {
-                                                            await fetch('/api/admin/content', {
-                                                              body: JSON.stringify({
-                                                                type,
-                                                                description: '',
-                                                                thumbnail: imageUri,
-                                                                title,
-                                                                courseId,
-                                                                parentContentId,
-                                                                metadata,
-                                                                adminPassword,
-                                                              }),
-                                                              method: 'POST',
-                                                              headers: {
-                                                                'Content-Type': 'application/json',
-                                                              },
-                                                            });
-                                                          }}
-                                                          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                                                        >
+        <button
+          onClick={async () => {
+            await fetch('/api/admin/content', {
+              body: JSON.stringify({
+                type,
+                description: '',
+                thumbnail: imageUri,
+                title,
+                courseId,
+                parentContentId,
+                metadata,
+                adminPassword,
+              }),
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+            });
+          }}
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        >
                                                           Submit
-                                                        </button>
+        </button>
       </div>
     </div>
   );
