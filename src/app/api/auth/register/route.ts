@@ -1,18 +1,19 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/db';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
+import bcrypt from 'bcrypt';
 
 export async function POST(request: Request) {
   try {
     const { name, email, password } = await request.json();
 
     // TODO: Verify User
-    // TODO: Hash password
+    const hashedPassword = await bcrypt.hash(password, 10);
     await prisma.user.create({
       data: {
         email,
         name,
-        password,
+        password: hashedPassword,
       },
     });
 
