@@ -75,6 +75,7 @@ export function NavigationMenu() {
                   </DrawerClose>
                 </Button>
 
+
                 <AppbarAuth isInMenu={true} />
               </div>
             </div>
