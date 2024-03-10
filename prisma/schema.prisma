@@ -118,6 +118,8 @@ model User {
   id             String          @id @default(cuid())
   name           String?
   email          String?         @unique
+  password       String?
+  isVerified     Boolean         @default(false)
   token          String?
   sessions       Session[]
   purchases      UserPurchases[]

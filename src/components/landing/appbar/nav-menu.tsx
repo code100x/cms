@@ -66,10 +66,7 @@ export function NavigationMenu() {
               <div className="flex flex-col items-center justify-center space-y-2">
                 <Button size={'lg'} variant={'navLink'} asChild>
                   <DrawerClose>
-                    <Link
-                      href={'https://harkirat.classx.co.in/new-courses'}
-                      target="_blank"
-                    >
+                    <Link href={'/signup'}>
                       <p className="text-zinc-950 dark:text-white">Join now</p>
                     </Link>
                   </DrawerClose>
