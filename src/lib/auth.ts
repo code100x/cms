@@ -134,6 +134,11 @@ export const authOptions = {
       if (session?.user) {
         session.user.id = token.uid;
         session.user.jwtToken = token.jwtToken;
+        session.user.role = process.env.ADMINS?.split(',').includes(
+          session.user.email,
+        )
+          ? 'admin'
+          : 'user';
       }
 
       return session;

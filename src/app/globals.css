@@ -77,3 +77,20 @@
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 }
+
+/*Timestamp overlapping removal */
+
+.vjs-play-progress .vjs-time-tooltip {
+  display: none !important;
+}
+.vjs-time-divider {
+  display: block !important;
+}
+
+.video-js .vjs-current-time{
+  display: block !important;
+}
+
+.vjs-duration {
+  display: block !important;
+}

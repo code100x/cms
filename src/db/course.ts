@@ -108,6 +108,7 @@ export async function getAllVideos(): Promise<
   const courses = await db.content.findMany({
     where: {
       type: 'video',
+      hidden: false,
     },
   });
   Cache.getInstance().set('getAllVideos', [], courses);
