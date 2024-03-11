@@ -68,8 +68,11 @@ export const RazorPayComponent = ({ course_id, user_id }: RazorPayType) => {
 
   return (
     <main>
-      {course_id}
-      <Button onClick={makePayment} variant={'default'}>
+      <Button
+        onClick={makePayment}
+        className="dark:text-white"
+        variant={'default'}
+      >
         Pay Now
       </Button>
     </main>
