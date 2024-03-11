@@ -24,10 +24,10 @@ const Signin = () => {
   const password = useRef('');
 
   const handleSubmit = async (e?: React.FormEvent<HTMLButtonElement>) => {
-    if(e){
+    if (e) {
       e.preventDefault();
     }
-    
+
     if (!email.current || !password.current) {
       setRequiredError({
         emailReq: email.current ? false : true,
@@ -35,7 +35,6 @@ const Signin = () => {
       });
       return;
     }
-
 
     const res = await signIn('credentials', {
       username: email.current,
@@ -96,12 +95,13 @@ const Signin = () => {
                     }));
                     password.current = e.target.value;
                   }}
-                  onKeyDown={async (e)=>{
-                    if(e.key === "Enter"){
+                  onKeyDown={async (e) => {
+                    if (e.key === 'Enter') {
                       setIsPasswordVisible(false);
                       handleSubmit();
-                    }}}
-                  />
+                    }
+                  }}
+                />
                 <button
                   className="inset-y-0 right-0 flex items-center px-4 text-gray-600"
                   onClick={togglePasswordVisibility}

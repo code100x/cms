@@ -43,7 +43,7 @@ const CommentInputForm = ({
       <textarea
         id="content"
         name="content"
-        className="min-h-[50px] rounded-md dark:bg-gray-800 p-2"
+        className="min-h-[50px] rounded-md dark:bg-gray-800 border-2 text-muted-foreground p-2 "
         placeholder="Add a public comment..."
       />
       <FormErrors id="content" errors={fieldErrors} />

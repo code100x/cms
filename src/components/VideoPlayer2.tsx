@@ -284,7 +284,7 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
     }
   }, [searchParams, playerRef.current]);
   return (
-    <div 
+    <div
       data-vjs-player
       className="mx-auto md:max-w-[calc(100vw-3rem)] 2xl:max-w-[calc(100vw-17rem)]"
     >
