@@ -1,3 +1,4 @@
+
 import {
   getAllCoursesAndContentHierarchy,
   getAllVideos,
@@ -12,7 +13,21 @@ const APPX_CLIENT_SERVICE = process.env.APPX_CLIENT_SERVICE;
 const APPX_BASE_API = process.env.APPX_BASE_API;
 const LOCAL_CMS_PROVIDER = process.env.LOCAL_CMS_PROVIDER;
 
+// Initialize a simple in-memory cache
+const cache = {
+  purchases: {},
+};
+
+const CACHE_DURATION = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+
 export async function getPurchases(email: string) {
+  const now = Date.now();
+  // Check if there's cached data for this email and if it's still valid
+  const cachedEntry = cache.purchases[email];
+  if (cachedEntry && now - cachedEntry.timestamp < CACHE_DURATION) {
+    return cachedEntry.data; // return cached data
+  }
+
   const _courses = await getAllCoursesAndContentHierarchy();
   const session = await getServerSession(authOptions);
   const userVideoProgress = await getVideoProgressForUser(
@@ -21,11 +36,10 @@ export async function getPurchases(email: string) {
   );
   const allVideos = await getAllVideos();
 
-  const completedVideosLookup: { [key: string]: boolean } =
-    userVideoProgress?.reduce((acc: any, progress) => {
-      acc[progress.contentId] = true;
-      return acc;
-    }, {});
+  const completedVideosLookup = userVideoProgress?.reduce((acc, progress) => {
+    acc[progress.contentId] = true;
+    return acc;
+  }, {});
 
   const courses = _courses.map((course) => {
     let totalVideos = 0;
@@ -55,6 +69,8 @@ export async function getPurchases(email: string) {
   });
 
   if (LOCAL_CMS_PROVIDER) {
+    // Cache  result before returning
+    cache.purchases[email] = { timestamp: now, data: courses };
     return courses;
   }
 
@@ -73,7 +89,6 @@ export async function getPurchases(email: string) {
       itemtype: '10',
       itemid: course.appxCourseId.toString(),
     });
-    //@ts-ignore
     const response = await fetch(`${baseUrl}?${params}`, { headers });
     const data = await response.json();
 
@@ -91,5 +106,9 @@ export async function getPurchases(email: string) {
       }
     }
   }
+
+  // Cache result before returning
+  cache.purchases[email] = { timestamp: now, data: responses };
+
   return responses;
 }
