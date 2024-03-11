@@ -19,6 +19,21 @@ model Course {
   slug           String
   content        CourseContent[]
   purchasedBy    UserPurchases[]
+  transactions   Transaction[]
+}
+
+model Transaction {
+  id                 String   @id @default(cuid())
+  razorpay_paymet_id String   @unique
+  razorpay_order_id  String   @unique
+  razorpay_signature String
+  purchasedAt        DateTime @default(now())
+
+  purchasedCourse   Course @relation(fields: [purchasedCourseId], references: [id])
+  purchasedCourseId Int
+
+  purchasedBy   User   @relation(fields: [purchasedById], references: [id])
+  purchasedById String
 }
 
 model UserPurchases {
@@ -128,6 +143,7 @@ model User {
   votes          Vote[]
   discordConnect DiscordConnect?
   disableDrm     Boolean         @default(false)
+  transactions   Transaction[]
 }
 
 model DiscordConnect {

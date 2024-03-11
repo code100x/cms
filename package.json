@@ -45,6 +45,7 @@
     "next-themes": "^0.2.1",
     "node-fetch": "^3.3.2",
     "notion-client": "^6.16.0",
+    "razorpay": "^2.9.2",
     "react": "^18",
     "react-dom": "^18",
     "react-hook-form": "^7.51.0",
