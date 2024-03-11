@@ -1,8 +1,4 @@
-import {
-  getAllCoursesAndContentHierarchy,
-  getAllVideos,
-  getVideoProgressForUser,
-} from '@/db/course';
+import { getAllCoursesAndContentHierarchy, getAllVideos, getVideoProgressForUser } from '@/db/course';
 import { authOptions } from '@/lib/auth';
 import { Course } from '@/store/atoms';
 import { getServerSession } from 'next-auth';
@@ -12,20 +8,25 @@ const APPX_CLIENT_SERVICE = process.env.APPX_CLIENT_SERVICE;
 const APPX_BASE_API = process.env.APPX_BASE_API;
 const LOCAL_CMS_PROVIDER = process.env.LOCAL_CMS_PROVIDER;
 
+let purchasesCache = {};
+
 export async function getPurchases(email: string) {
+  // Check cache first
+  const cacheKey = email;
+  const cachedData = purchasesCache[cacheKey];
+  if (cachedData && Date.now() - cachedData.timestamp < 86400000) { // 86400000 ms in 1 day
+    return cachedData.data;
+  }
+
   const _courses = await getAllCoursesAndContentHierarchy();
   const session = await getServerSession(authOptions);
-  const userVideoProgress = await getVideoProgressForUser(
-    session?.user?.id || '',
-    true,
-  );
+  const userVideoProgress = await getVideoProgressForUser(session?.user?.id || '', true);
   const allVideos = await getAllVideos();
 
-  const completedVideosLookup: { [key: string]: boolean } =
-    userVideoProgress?.reduce((acc: any, progress) => {
-      acc[progress.contentId] = true;
-      return acc;
-    }, {});
+  const completedVideosLookup: { [key: string]: boolean } = userVideoProgress?.reduce((acc: any, progress) => {
+    acc[progress.contentId] = true;
+    return acc;
+  }, {});
 
   const courses = _courses.map((course) => {
     let totalVideos = 0;
@@ -55,6 +56,7 @@ export async function getPurchases(email: string) {
   });
 
   if (LOCAL_CMS_PROVIDER) {
+    purchasesCache[cacheKey] = { timestamp: Date.now(), data: courses };
     return courses;
   }
 
@@ -73,7 +75,6 @@ export async function getPurchases(email: string) {
       itemtype: '10',
       itemid: course.appxCourseId.toString(),
     });
-    //@ts-ignore
     const response = await fetch(`${baseUrl}?${params}`, { headers });
     const data = await response.json();
 
@@ -91,5 +92,8 @@ export async function getPurchases(email: string) {
       }
     }
   }
+
+  // Update the cache 
+  purchasesCache[cacheKey] = { timestamp: Date.now(), data: responses };
   return responses;
 }
