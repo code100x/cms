@@ -1,9 +1,10 @@
 import { Courses } from '@/components/Courses';
 import { authOptions } from '@/lib/auth';
-import { getPurchases } from '@/utiles/appx';
+import { getPurchases } from '@/utiles/getContentForUser';
 import { getServerSession } from 'next-auth';
 import { Logout } from './Logout';
 import { Course } from '@prisma/client';
+
 const getCourses = async () => {
   const session = await getServerSession(authOptions);
   // TODO: Hack might give error

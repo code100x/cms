@@ -2,7 +2,7 @@ import { giveAccess } from '@/utiles/discord';
 import { NextRequest, NextResponse } from 'next/server';
 import db from '@/db';
 import { getServerSession } from 'next-auth';
-import { getPurchases } from '@/utiles/appx';
+import { getPurchases } from '@/utiles/getContentForUser';
 import { authOptions } from '@/lib/auth';
 
 export async function POST(req: NextRequest) {
