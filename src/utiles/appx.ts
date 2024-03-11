@@ -6,6 +6,7 @@ import {
 import { authOptions } from '@/lib/auth';
 import { Course } from '@/store/atoms';
 import { getServerSession } from 'next-auth';
+import { Cache } from '@/db/Cache';
 
 const APPX_AUTH_KEY = process.env.APPX_AUTH_KEY;
 const APPX_CLIENT_SERVICE = process.env.APPX_CLIENT_SERVICE;
@@ -13,6 +14,14 @@ const APPX_BASE_API = process.env.APPX_BASE_API;
 const LOCAL_CMS_PROVIDER = process.env.LOCAL_CMS_PROVIDER;
 
 export async function getPurchases(email: string) {
+  const cacheKeyArgs = [email];
+  if (LOCAL_CMS_PROVIDER) {
+    cacheKeyArgs.push(LOCAL_CMS_PROVIDER);
+  }
+  const value = Cache.getInstance().get('courses', cacheKeyArgs);
+  if (value) {
+    return value;
+  }
   const _courses = await getAllCoursesAndContentHierarchy();
   const session = await getServerSession(authOptions);
   const userVideoProgress = await getVideoProgressForUser(
@@ -55,6 +64,7 @@ export async function getPurchases(email: string) {
   });
 
   if (LOCAL_CMS_PROVIDER) {
+    Cache.getInstance().set('courses', [email,LOCAL_CMS_PROVIDER], courses, 60 * 60 * 24);
     return courses;
   }
 
@@ -91,5 +101,6 @@ export async function getPurchases(email: string) {
       }
     }
   }
+  Cache.getInstance().set('courses', [email], responses, 60 * 60 * 24);
   return responses;
 }
