@@ -9,25 +9,30 @@ datasource db {
 }
 
 model Course {
-  id             Int             @id @default(autoincrement())
+  id             Int                    @id @default(autoincrement())
   appxCourseId   Int
+  // TODO! Write ADMIN logic for this price was added in pr 175
+  price          Int                    @default(500) // TODO! REMOVE THIS DEFAULT VALUE
   discordRoleId  String
   title          String
   imageUrl       String
   description    String
-  openToEveryone Boolean         @default(false)
+  openToEveryone Boolean                @default(false)
   slug           String
   content        CourseContent[]
   purchasedBy    UserPurchases[]
-  transactions   Transaction[]
+  transactions   TransactionForCourse[]
 }
 
-model Transaction {
+//! Learnt it the hard way model should not be named Transaction
+// Since prisma.transaction can be confused with db transactions
+model TransactionForCourse {
   id                 String   @id @default(cuid())
   razorpay_paymet_id String   @unique
   razorpay_order_id  String   @unique
   razorpay_signature String
   purchasedAt        DateTime @default(now())
+  paymentVerified    Boolean  @default(false)
 
   purchasedCourse   Course @relation(fields: [purchasedCourseId], references: [id])
   purchasedCourseId Int
@@ -130,11 +135,11 @@ model Session {
 }
 
 model User {
-  id             String          @id @default(cuid())
+  id             String                 @id @default(cuid())
   name           String?
-  email          String?         @unique
+  email          String?                @unique
   password       String?
-  isVerified     Boolean         @default(false)
+  isVerified     Boolean                @default(false)
   token          String?
   sessions       Session[]
   purchases      UserPurchases[]
@@ -142,8 +147,8 @@ model User {
   comments       Comment[]
   votes          Vote[]
   discordConnect DiscordConnect?
-  disableDrm     Boolean         @default(false)
-  transactions   Transaction[]
+  disableDrm     Boolean                @default(false)
+  transactions   TransactionForCourse[]
 }
 
 model DiscordConnect {
