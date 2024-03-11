@@ -17,6 +17,7 @@ export class Cache {
       }
     >();
   }
+
   static getInstance() {
     if (!this.instance) {
       this.instance = new Cache();
@@ -25,26 +26,27 @@ export class Cache {
     return this.instance;
   }
 
-  set(type: string, args: string[], value: any) {
+  set(type: string, args: string[], value: any, expirySeconds: number = parseInt(process.env.CACHE_EXPIRE_S || '100', 10)) {
     this.inMemoryDb.set(`${type} ${JSON.stringify(args)}`, {
       value,
-      expiry:
-        new Date().getTime() +
-        parseInt(process.env.CACHE_EXPIRE_S || '100', 10) * 1000,
+      expiry: new Date().getTime() + expirySeconds * 1000,
     });
   }
 
   get(type: string, args: string[]) {
-    const value = this.inMemoryDb.get(`${type} ${JSON.stringify(args)}`);
-    if (!value) {
+    const key = `${type} ${JSON.stringify(args)}`;
+    const entry = this.inMemoryDb.get(key);
+    if (!entry) {
       return null;
     }
-    if (new Date().getTime() > value.expiry) {
-      this.inMemoryDb.delete(`${type} ${JSON.stringify(args)}`);
+    if (new Date().getTime() > entry.expiry) {
+      this.inMemoryDb.delete(key);
       return null;
     }
-    return value.value;
+    return entry.value;
   }
 
-  evict() {}
+  evict() {
+
+  }
 }
