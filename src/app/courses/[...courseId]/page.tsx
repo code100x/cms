@@ -9,7 +9,7 @@ import {
 } from '@/db/course';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
-import { getPurchases } from '@/utiles/appx';
+import { getPurchases } from '@/utiles/getContentForUser';
 import { redirect } from 'next/navigation';
 import { CourseView } from '@/components/CourseView';
 import { QueryParams } from '@/actions/types';
