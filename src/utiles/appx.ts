@@ -6,6 +6,7 @@ import {
 import { authOptions } from '@/lib/auth';
 import { Course } from '@/store/atoms';
 import { getServerSession } from 'next-auth';
+import { Cache } from '@/db/Cache';
 
 const APPX_AUTH_KEY = process.env.APPX_AUTH_KEY;
 const APPX_CLIENT_SERVICE = process.env.APPX_CLIENT_SERVICE;
@@ -73,6 +74,10 @@ export async function getPurchases(email: string) {
       itemtype: '10',
       itemid: course.appxCourseId.toString(),
     });
+    const value = await Cache.getInstance().get('checkemailforpurchase', []);
+    if (value) {
+      return value;
+    }
     //@ts-ignore
     const response = await fetch(`${baseUrl}?${params}`, { headers });
     const data = await response.json();
@@ -91,5 +96,7 @@ export async function getPurchases(email: string) {
       }
     }
   }
+  const dayInSec = 86400;
+  Cache.getInstance().set('checkemailforpurchase', [], responses, dayInSec);
   return responses;
 }
