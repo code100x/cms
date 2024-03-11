@@ -4,6 +4,7 @@ import {
   getVideoProgressForUser,
 } from '@/db/course';
 import { authOptions } from '@/lib/auth';
+import { Cache } from '@/db/Cache';
 import { Course } from '@/store/atoms';
 import { getServerSession } from 'next-auth';
 
@@ -67,6 +68,12 @@ export async function getPurchases(email: string) {
 
   const responses: Course[] = [];
 
+  const purchases = Cache.getInstance().get('getPurchases', [email]);
+
+  if (purchases) {
+    return purchases;
+  }
+
   const promises = courses.map(async (course) => {
     const params = new URLSearchParams({
       email,
@@ -91,5 +98,6 @@ export async function getPurchases(email: string) {
       }
     }
   }
+  Cache.getInstance().set('getPurchases', [email], responses, '86400'); // 1 day expiry
   return responses;
 }

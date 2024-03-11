@@ -25,12 +25,15 @@ export class Cache {
     return this.instance;
   }
 
-  set(type: string, args: string[], value: any) {
+  set(
+    type: string,
+    args: string[],
+    value: any,
+    expiry: string = process.env.CACHE_EXPIRE_S || '100',
+  ) {
     this.inMemoryDb.set(`${type} ${JSON.stringify(args)}`, {
       value,
-      expiry:
-        new Date().getTime() +
-        parseInt(process.env.CACHE_EXPIRE_S || '100', 10) * 1000,
+      expiry: new Date().getTime() + parseInt(expiry, 10) * 1000,
     });
   }
 
