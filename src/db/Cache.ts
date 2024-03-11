@@ -13,7 +13,7 @@ export class Cache {
     return Cache.instance;
   }
 
-  set(type: string, args: string[], value: any, expiryInSeconds: number = 3600): void {
+  set(type: string, args: string[], value: any, expiryInSeconds: number = parseInt(process.env.CACHE_EXPIRE_S || '100', 10)): void {
     const currentTime = new Date().getTime();
     const expiry = currentTime + expiryInSeconds * 1000;
     this.inMemoryDb.set(`${type} ${JSON.stringify(args)}`, { value, expiry });
@@ -22,14 +22,12 @@ export class Cache {
   get(type: string, args: string[]): any | null {
     const key = `${type} ${JSON.stringify(args)}`;
     const cacheEntry = this.inMemoryDb.get(key);
-    if (cacheEntry) {
-      if (cacheEntry.expiry > new Date().getTime()) {
+    if (cacheEntry && cacheEntry.expiry > new Date().getTime()) {
         return cacheEntry.value;
-      } else {
+    } else {
         this.inMemoryDb.delete(key);
-      }
+        return null;
     }
-    return null;
   }
 
   evict(type: string, args: string[]): void {
