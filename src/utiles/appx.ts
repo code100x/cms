@@ -3,6 +3,7 @@ import {
   getAllVideos,
   getVideoProgressForUser,
 } from '@/db/course';
+import { Cache } from '@/db/Cache';
 import { authOptions } from '@/lib/auth';
 import { Course } from '@/store/atoms';
 import { getServerSession } from 'next-auth';
@@ -60,12 +61,21 @@ export async function getPurchases(email: string) {
 
   const baseUrl = `${APPX_BASE_API}/get/checkemailforpurchase`;
 
+
   const headers = {
     'Client-Service': APPX_CLIENT_SERVICE,
     'Auth-Key': APPX_AUTH_KEY,
   };
 
   const responses: Course[] = [];
+  const cacheKey = `getAllEnrolledCourses-${email}`;
+  
+
+  // Check cache for pre-existing data
+  const cachedValue = await Cache.getInstance().get(cacheKey, []);
+  if (cachedValue.length > 0) {
+    return cachedValue;
+  }
 
   const promises = courses.map(async (course) => {
     const params = new URLSearchParams({
@@ -74,7 +84,8 @@ export async function getPurchases(email: string) {
       itemid: course.appxCourseId.toString(),
     });
     //@ts-ignore
-    const response = await fetch(`${baseUrl}?${params}`, { headers });
+    const url = `${baseUrl}?${params}`;
+    const response = await fetch(url, { headers });
     const data = await response.json();
 
     if (data.data === '1') {
@@ -91,5 +102,9 @@ export async function getPurchases(email: string) {
       }
     }
   }
+
+  // Cache the fetched data for future use
+  Cache.getInstance().set(cacheKey, [], responses , 86400);
+
   return responses;
 }
