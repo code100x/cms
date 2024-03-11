@@ -3,9 +3,11 @@ import { authOptions } from '@/lib/auth';
 import { getPurchases } from '@/utiles/appx';
 import { getServerSession } from 'next-auth';
 import { Logout } from './Logout';
+import { Course } from '@prisma/client';
 const getCourses = async () => {
   const session = await getServerSession(authOptions);
-  const purchases = await getPurchases(session?.user.email || '');
+  // TODO: Hack might give error
+  const purchases = (await getPurchases(session?.user.email || '')) as Course[];
 
   return purchases;
 };

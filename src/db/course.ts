@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 import db from '@/db';
 import { Cache } from '@/db/Cache';
 import { authOptions } from '@/lib/auth';
@@ -40,7 +41,7 @@ export async function getAllCourses() {
   return courses;
 }
 
-export async function getAllCoursesAndContentHierarchy(): Promise<
+export async function getAllCoursesAndContentHierarchy(email: string): Promise<
   {
     id: number;
     title: string;
@@ -54,7 +55,7 @@ export async function getAllCoursesAndContentHierarchy(): Promise<
       contentId: number;
     }[];
   }[]
-  > {
+> {
   const value = await Cache.getInstance().get(
     'getAllCoursesAndContentHierarchy',
     [],
@@ -64,6 +65,15 @@ export async function getAllCoursesAndContentHierarchy(): Promise<
   }
 
   const courses = await db.course.findMany({
+    where: {
+      purchasedBy: {
+        some: {
+          user: {
+            email,
+          },
+        },
+      },
+    },
     orderBy: {
       id: 'asc',
     },
@@ -100,7 +110,7 @@ export async function getAllVideos(): Promise<
     createdAt: Date;
     notionMetadataId: number | null;
   }[]
-  > {
+> {
   const value = await Cache.getInstance().get('getAllVideos', []);
   if (value) {
     return value;
@@ -245,12 +255,12 @@ export const getFullCourseContent = async (courseId: number) => {
         videoProgress:
           content.type === 'video'
             ? {
-              duration: videoProgress.find((x) => x.contentId === content.id)
-                ?.currentTimestamp,
-              markAsCompleted: videoProgress.find(
-                (x) => x.contentId === content.id,
-              )?.markAsCompleted,
-            }
+                duration: videoProgress.find((x) => x.contentId === content.id)
+                  ?.currentTimestamp,
+                markAsCompleted: videoProgress.find(
+                  (x) => x.contentId === content.id,
+                )?.markAsCompleted,
+              }
             : null,
       },
     ]),

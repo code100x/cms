@@ -12,8 +12,11 @@ const APPX_CLIENT_SERVICE = process.env.APPX_CLIENT_SERVICE;
 const APPX_BASE_API = process.env.APPX_BASE_API;
 const LOCAL_CMS_PROVIDER = process.env.LOCAL_CMS_PROVIDER;
 
+// TODO: Refactor this in future
+// TODO: a lot of logic can be simplified
+//! Works but can be done in future
 export async function getPurchases(email: string) {
-  const _courses = await getAllCoursesAndContentHierarchy();
+  const _courses = await getAllCoursesAndContentHierarchy(email);
   const session = await getServerSession(authOptions);
   const userVideoProgress = await getVideoProgressForUser(
     session?.user?.id || '',
