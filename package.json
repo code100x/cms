@@ -2,6 +2,9 @@
   "name": "cms",
   "version": "0.1.0",
   "private": true,
+  "prisma": {
+    "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
+  },
   "scripts": {
     "postinstall": "prisma generate",
     "dev": "next dev",
@@ -13,6 +16,8 @@
     "format:check": "prettier --check \"**/*.{ts,tsx,json}\"",
     "dev:docker": "npm run prisma:migrate && next dev",
     "prisma:migrate": "prisma migrate deploy",
+    "db:seed": "prisma db seed",
+    "db:reset": "prisma migrate reset",
     "prepare": "husky install",
     "studio": "prisma studio"
   },
