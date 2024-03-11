@@ -6,13 +6,25 @@ import {
 import { authOptions } from '@/lib/auth';
 import { Course } from '@/store/atoms';
 import { getServerSession } from 'next-auth';
+import { LRUCache } from 'lru-cache';
 
 const APPX_AUTH_KEY = process.env.APPX_AUTH_KEY;
 const APPX_CLIENT_SERVICE = process.env.APPX_CLIENT_SERVICE;
 const APPX_BASE_API = process.env.APPX_BASE_API;
 const LOCAL_CMS_PROVIDER = process.env.LOCAL_CMS_PROVIDER;
 
+const cache = new LRUCache<string, Course[]>({
+  max: 100,
+  maxSize: 5000,
+  ttl: 1000 * 60 * 60 * 24,
+});
+
 export async function getPurchases(email: string) {
+  const cachedResponse = cache.get(email);
+  if (cachedResponse) {
+    return cachedResponse;
+  }
+
   const _courses = await getAllCoursesAndContentHierarchy();
   const session = await getServerSession(authOptions);
   const userVideoProgress = await getVideoProgressForUser(
@@ -91,5 +103,8 @@ export async function getPurchases(email: string) {
       }
     }
   }
+
+  cache.set(email, responses);
+
   return responses;
 }

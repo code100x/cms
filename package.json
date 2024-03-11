@@ -37,6 +37,7 @@
     "discord.js": "^14.14.1",
     "jose": "^5.2.2",
     "jsonwebtoken": "^9.0.2",
+    "lru-cache": "^10.2.0",
     "lucide-react": "^0.321.0",
     "next": "14.0.2",
     "next-auth": "^4.24.5",
