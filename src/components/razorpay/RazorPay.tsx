@@ -20,9 +20,10 @@ const initializeRazorpay = () => {
 
 type RazorPayType = {
   course_id: number;
+  user_id: string;
 };
 
-export const RazorPayComponent = ({ course_id }: RazorPayType) => {
+export const RazorPayComponent = ({ course_id, user_id }: RazorPayType) => {
   const makePayment = async () => {
     const res = await initializeRazorpay();
 
@@ -31,39 +32,32 @@ export const RazorPayComponent = ({ course_id }: RazorPayType) => {
       return;
     }
 
-    // Make API call to the serverless API
     const data = await fetch('/api/razorpay', {
       method: 'POST',
       body: JSON.stringify({
         course_id,
+        user_id,
       }),
     }).then((res) => res.json());
 
     console.log(data);
     const options = {
-      key: 'rzp_test_7i1GsXxyhGLsCG', // Enter the Key ID generated from the Dashboard
+      key: data.razorPayKey,
       name: '100xdevs',
       currency: data.currency,
       amount: data.amount,
       order_id: data.id,
       description: 'Thank you for purchasing course',
-      image: 'https://manuarora.in/logo.png',
+      image: '/harkirat.png',
       handler: async (response: any) => {
-        console.log('-----------------');
         console.log(response);
-        console.log('------------------');
 
         const data = await fetch('/api/razorpay/verify', {
           method: 'POST',
-          body: JSON.stringify(response),
+          body: JSON.stringify({ ...response, user_id, course_id }),
         }).then((res) => res.json());
 
         console.log(data);
-      },
-      prefill: {
-        name: 'Manu Arora',
-        email: 'manuarorawork@gmail.com',
-        contact: '9999999999',
       },
     };
 

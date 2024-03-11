@@ -4,6 +4,8 @@ import { z } from 'zod';
 import db from '@/db';
 
 const razorPayZodSchema = z.object({
+  user_id: z.string(),
+  course_id: z.number(),
   razorpay_order_id: z.string(),
   razorpay_payment_id: z.string(),
   razorpay_signature: z.string(),
@@ -24,9 +26,13 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const { razorpay_order_id, razorpay_payment_id, razorpay_signature } =
-    body.data;
-  console.log(body.data);
+  const {
+    razorpay_order_id,
+    razorpay_payment_id,
+    razorpay_signature,
+    course_id,
+    user_id,
+  } = body.data;
 
   const isPaymentValid = validatePaymentVerification(
     {
@@ -43,15 +49,15 @@ export async function POST(req: NextRequest) {
       razorpay_paymet_id: razorpay_payment_id,
       razorpay_signature,
       paymentVerified: isPaymentValid,
-      purchasedById: 'cltl5dg9u000098zzkkape0sx',
-      purchasedCourseId: 1,
+      purchasedById: user_id,
+      purchasedCourseId: course_id,
     },
   });
 
   const newUserPurchases = await db.userPurchases.create({
     data: {
-      userId: 'cltl5dg9u000098zzkkape0sx',
-      courseId: 1,
+      userId: user_id,
+      courseId: course_id,
     },
   });
 

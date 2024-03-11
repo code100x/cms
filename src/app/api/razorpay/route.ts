@@ -5,6 +5,7 @@ import { z } from 'zod';
 
 const schema = z.object({
   course_id: z.number(),
+  user_id: z.string(),
 });
 
 const razorpay = new Razorpay({
@@ -41,7 +42,7 @@ export async function POST(req: NextRequest) {
   const options = {
     amount: (amount * 100).toString(),
     currency: 'INR',
-    receipt: 'receipt_10',
+    receipt: `receipt_for_${body.data.user_id}_${body.data.course_id}`,
     payment_capture,
   };
 
@@ -52,6 +53,7 @@ export async function POST(req: NextRequest) {
       id: response.id,
       currency: response.currency,
       amount: response.amount,
+      razorPayKey: process.env.RAZORPAY_KEY_ID,
     });
   } catch (err) {
     console.log(err);
