@@ -24,7 +24,7 @@ async function main() {
         id: 1,
         appxCourseId: 1,
         discordRoleId: '2',
-        title: 'test course 100',
+        title: 'test course 1',
         imageUrl:
           'https://appx-recordings.s3.ap-south-1.amazonaws.com/drm/100x/images/test1.png',
         description: 'test course 1',
@@ -35,7 +35,7 @@ async function main() {
         id: 2,
         appxCourseId: 2,
         discordRoleId: '3',
-        title: 'test course 200',
+        title: 'test course 2',
         imageUrl:
           'https://appx-recordings.s3.ap-south-1.amazonaws.com/drm/100x/images/test2.png',
         description: 'test course 2',
