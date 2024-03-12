@@ -21,3 +21,8 @@ export enum CommentFilter {
 export type Delete = {
   message: string;
 };
+
+export enum ROLES {
+  ADMIN = 'admin',
+  USER = 'user',
+}
