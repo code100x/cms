@@ -9,8 +9,10 @@ import { useRouter } from 'next/navigation';
 import React, { useRef, useState } from 'react';
 
 import { toast } from 'sonner';
+import { Spinner } from './Spinner';
 const Signin = () => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [awaitingLogin,setAwaitingLogin]=useState(false);
   const [requiredError, setRequiredError] = useState({
     emailReq: false,
     passReq: false,
@@ -24,6 +26,7 @@ const Signin = () => {
   const password = useRef('');
 
   const handleSubmit = async (e?: React.FormEvent<HTMLButtonElement>) => {
+    setAwaitingLogin(true);
     if (e) {
       e.preventDefault();
     }
@@ -33,6 +36,7 @@ const Signin = () => {
         emailReq: email.current ? false : true,
         passReq: password.current ? false : true,
       });
+      setAwaitingLogin(false);
       return;
     }
 
@@ -41,7 +45,7 @@ const Signin = () => {
       password: password.current,
       redirect: false,
     });
-
+    setAwaitingLogin(false);
     if (!res?.error) {
       router.push('/');
     } else {
@@ -149,9 +153,12 @@ const Signin = () => {
               )}
             </div>
           </div>
-          <Button className="my-3 w-full" onClick={handleSubmit}>
+          {awaitingLogin?<div className="flex justify-center px-4 py-2 my-3">
+            <Spinner/>
+            </div>
+            :<Button className="my-3 w-full" onClick={handleSubmit}>
             Login
-          </Button>
+          </Button>}
         </CardContent>
       </Card>
       <Toaster />
