@@ -1,3 +1,4 @@
+"use client"
 export const Spinner=()=>{
     return (
     <div role="status">

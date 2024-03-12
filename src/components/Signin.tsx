@@ -9,7 +9,7 @@ import { useRouter } from 'next/navigation';
 import React, { useRef, useState } from 'react';
 
 import { toast } from 'sonner';
-import { Spinner } from './Spinner';
+import { Spinner } from './ui/Spinner';
 const Signin = () => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [awaitingLogin,setAwaitingLogin]=useState(false);
