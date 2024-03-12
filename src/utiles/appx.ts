@@ -14,11 +14,7 @@ const APPX_BASE_API = process.env.APPX_BASE_API;
 const LOCAL_CMS_PROVIDER = process.env.LOCAL_CMS_PROVIDER;
 
 export async function getPurchases(email: string) {
-  const cacheKeyArgs = [email];
-  if (LOCAL_CMS_PROVIDER) {
-    cacheKeyArgs.push(LOCAL_CMS_PROVIDER);
-  }
-  const value = Cache.getInstance().get('courses', cacheKeyArgs);
+  const value = Cache.getInstance().get('courses', [email]);
   if (value) {
     return value;
   }
@@ -64,7 +60,6 @@ export async function getPurchases(email: string) {
   });
 
   if (LOCAL_CMS_PROVIDER) {
-    Cache.getInstance().set('courses', [email,LOCAL_CMS_PROVIDER], courses, 60 * 60 * 24);
     return courses;
   }
 
