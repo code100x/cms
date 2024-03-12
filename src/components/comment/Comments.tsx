@@ -112,7 +112,7 @@ const Comments = async ({
           </div>
         </div>
       </CardHeader>
-      <CardContent className="p-0 lg:p-6">
+      <CardContent className="p-0 lg:p-8 border dark:border-primary-darker rounded-md">
         <CommentInputForm
           contentId={content.id}
           parentId={data?.parentComment?.id}
@@ -216,7 +216,10 @@ const Comments = async ({
         </div>
         <div className="grid gap-6 max-h-[400px] overflow-y-auto">
           {data.comments.map((c) => (
-            <div className="text-sm flex items-start gap-4 w-full" key={c.id}>
+            <div
+              className="text-sm flex items-start gap-4 w-full border p-4 rounded-md"
+              key={c.id}
+            >
               <div className="flex items-start gap-4 w-full">
                 <Avatar className="w-10 h-10 border">
                   <AvatarImage alt="@shadcn" src="/placeholder-user.jpg" />
@@ -315,7 +318,7 @@ const Comments = async ({
           ))}
         </div>
       </CardContent>
-      <CardFooter>
+      <CardFooter className="mt-2">
         <Pagination dataLength={data.comments.length} />
       </CardFooter>
     </Card>

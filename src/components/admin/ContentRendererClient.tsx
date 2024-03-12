@@ -165,8 +165,6 @@ export const ContentRendererClient = ({
             )}
           </div>
         </div>
-        <br />
-        <br /> <br />
         {nextContent ? (
           <div className="flex flex-row-reverse">
             <button
@@ -184,8 +182,6 @@ export const ContentRendererClient = ({
             </button>{' '}
           </div>
         ) : null}
-        <br /> <br />
-        <br /> <br />
       </div>
 
       {showChapters && (
