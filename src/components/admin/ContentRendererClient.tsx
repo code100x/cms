@@ -1,10 +1,12 @@
 'use client';
-import { useSearchParams, useRouter } from 'next/navigation';
+import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 // import { QualitySelector } from '../QualitySelector';
 import { VideoPlayerSegment } from '@/components/VideoPlayerSegment';
 import VideoContentChapters from '../VideoContentChapters';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { handleMarkAsCompleted } from '@/lib/utils';
+import { useRecoilState } from 'recoil';
+import { markAsCompleteAtom } from '@/store/atoms/markAsComplete';
 
 export const ContentRendererClient = ({
   metadata,
@@ -70,7 +72,10 @@ export const ContentRendererClient = ({
       type: 'video/mp4',
     };
   }
+  const [currentPath] = useState(usePathname());
+  const [markAsComplete , setMarkAsComplete] = useRecoilState(markAsCompleteAtom);
 
+ 
   const toggleShowChapters = () => {
     setShowChapters((prev) => !prev);
   };
@@ -86,8 +91,12 @@ export const ContentRendererClient = ({
       setContentCompleted((prev) => !prev);
     }
     setLoadingMarkAs(false);
+    setMarkAsComplete({
+      isValid : true,
+      path : currentPath,
+      isCompleted : contentCompleted
+    })
   };
-
   return (
     <div className="flex gap-2 items-start flex-col lg:flex-row">
       <div className="flex-1 w-full">
@@ -130,7 +139,8 @@ export const ContentRendererClient = ({
               disabled={loadingMarkAs}
               onClick={handleMarkCompleted}
             >
-              {contentCompleted ? 'Mark as Incomplete' : 'Mark as completed'}
+              {markAsComplete.isValid && markAsComplete?.path === currentPath ? (markAsComplete?.isCompleted ? "Mark as Incomplete" : "Mark as completed") : (contentCompleted ? "Mark as Incomplete" : "Mark as completed")}
+              {/* {contentCompleted ? 'Mark as Incomplete' : 'Mark as completed'} */}
             </button>
           </div>
 

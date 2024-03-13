@@ -59,8 +59,6 @@ export function Sidebar({
     const pathArray = findPathToContent(fullCourseContent, contentId);
     if (pathArray) {
       const path = `/courses/${courseId}/${pathArray.join('/')}`;
-      console.log(`Path is this ${path}`);
-      
       router.push(path);
     }
   };
@@ -255,7 +253,7 @@ function Check({ content , pathCheck } : { content: any  , pathCheck : any}) {
     <>
       <input
         checked={markAsComplete.isValid && markAsComplete?.path === pathCheck(content.id) ? markAsComplete.isCompleted : completed}
-        onClick={async (e) => {
+        onChange={async (e) => {
           setCompleted(!completed);
           handleMarkAsCompleted(!completed, content.id);
           setMarkAsComplete({
