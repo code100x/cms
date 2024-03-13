@@ -1,5 +1,5 @@
 'use client';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import {
   Accordion,
   AccordionContent,
@@ -13,6 +13,7 @@ import { useRecoilState } from 'recoil';
 import { sidebarOpen as sidebarOpenAtom } from '@/store/atoms/sidebar';
 import { useEffect, useState } from 'react';
 import { handleMarkAsCompleted } from '@/lib/utils';
+import { markAsCompleteAtom } from '@/store/atoms/markAsComplete';
 
 export function Sidebar({
   courseId,
@@ -58,9 +59,19 @@ export function Sidebar({
     const pathArray = findPathToContent(fullCourseContent, contentId);
     if (pathArray) {
       const path = `/courses/${courseId}/${pathArray.join('/')}`;
+      console.log(`Path is this ${path}`);
+      
       router.push(path);
     }
   };
+  const getContentPath = (contentId: any) => {
+    const pathArray = findPathToContent(fullCourseContent, contentId);
+    if (pathArray) {
+      return `/courses/${courseId}/${pathArray.join('/')}`;
+      
+    }
+  };
+ 
 
   const renderContent = (contents: any) => {
     return contents.map((content: any) => {
@@ -101,7 +112,7 @@ export function Sidebar({
             </div>
             {content.type === 'video' ? (
               <div className="flex flex-col justify-center ml-2">
-                <Check content={content} />
+                <Check content={content} pathCheck = {getContentPath}/>
               </div>
             ) : null}
           </div>
@@ -232,17 +243,26 @@ function NotionIcon() {
 }
 
 // Todo: Fix types here
-function Check({ content }: { content: any }) {
+function Check({ content , pathCheck } : { content: any  , pathCheck : any}) {
   const [completed, setCompleted] = useState(
     content?.videoProgress?.markAsCompleted || false,
-  );
+  ); 
+  const [currentPath] = useState(usePathname());
+  const [markAsComplete , setMarkAsComplete] = useRecoilState(markAsCompleteAtom);
+
+
   return (
     <>
       <input
-        defaultChecked={completed}
+        checked={markAsComplete.isValid && markAsComplete?.path === pathCheck(content.id) ? markAsComplete.isCompleted : completed}
         onClick={async (e) => {
           setCompleted(!completed);
           handleMarkAsCompleted(!completed, content.id);
+          setMarkAsComplete({
+            isValid : true,
+            path : currentPath,
+            isCompleted : !completed
+          })
           e.stopPropagation();
         }}
         type="checkbox"
