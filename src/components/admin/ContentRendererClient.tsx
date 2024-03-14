@@ -3,7 +3,7 @@ import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 // import { QualitySelector } from '../QualitySelector';
 import { VideoPlayerSegment } from '@/components/VideoPlayerSegment';
 import VideoContentChapters from '../VideoContentChapters';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { handleMarkAsCompleted } from '@/lib/utils';
 import { useRecoilState } from 'recoil';
 import { markAsCompleteAtom } from '@/store/atoms/markAsComplete';
@@ -74,7 +74,6 @@ export const ContentRendererClient = ({
   }
   const [currentPath] = useState(usePathname());
   const [markAsComplete , setMarkAsComplete] = useRecoilState(markAsCompleteAtom);
-
  
   const toggleShowChapters = () => {
     setShowChapters((prev) => !prev);
@@ -92,10 +91,10 @@ export const ContentRendererClient = ({
     }
     setLoadingMarkAs(false);
     setMarkAsComplete({
-      isValid : true,
-      path : currentPath,
-      isCompleted : contentCompleted
-    })
+      isValid: true,
+      path: currentPath,
+      isCompleted: contentCompleted
+    });
   };
   return (
     <div className="flex gap-2 items-start flex-col lg:flex-row">
@@ -139,8 +138,10 @@ export const ContentRendererClient = ({
               disabled={loadingMarkAs}
               onClick={handleMarkCompleted}
             >
-              {markAsComplete.isValid && markAsComplete?.path === currentPath ? (markAsComplete?.isCompleted ? "Mark as Incomplete" : "Mark as completed") : (contentCompleted ? "Mark as Incomplete" : "Mark as completed")}
-              {/* {contentCompleted ? 'Mark as Incomplete' : 'Mark as completed'} */}
+              {
+                markAsComplete.isValid && markAsComplete.path === currentPath ? <DisplayMarkAsComplete isCompleted={markAsComplete?.isCompleted} /> : <DisplayMarkAsComplete isCompleted={contentCompleted} />
+              }
+              
             </button>
           </div>
 
@@ -201,5 +202,10 @@ export const ContentRendererClient = ({
         />
       )}
     </div>
+  );
+};
+export const DisplayMarkAsComplete = ({isCompleted} : {isCompleted : boolean | undefined}) => {
+  return (
+    isCompleted ? 'Mark as Incomplete' : 'Mark as Complete'
   );
 };
