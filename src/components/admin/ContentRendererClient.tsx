@@ -38,7 +38,9 @@ export const ContentRendererClient = ({
   const router = useRouter();
 
   //@ts-ignore
-  const quality: '720' | '1080' | '360' | null = searchParams.get('quality');
+  const [quality, setQuality] = useState<number>(
+    searchParams.get('quality') | null,
+  );
 
   if (!metadata) {
     return <div>Loading</div>;
@@ -92,6 +94,7 @@ export const ContentRendererClient = ({
     <div className="flex gap-2 items-start flex-col lg:flex-row">
       <div className="flex-1 w-full">
         <VideoPlayerSegment
+          setQuality={setQuality}
           contentId={content.id}
           subtitles={metadata.subtitles}
           thumbnails={[]}
