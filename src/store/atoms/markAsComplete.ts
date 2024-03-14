@@ -1,4 +1,4 @@
-import {atom} from "recoil";
+import {atom} from 'recoil';
 
 interface markAsCompleteParams {
     isValid : boolean
@@ -7,6 +7,6 @@ interface markAsCompleteParams {
 }
 
 export const markAsCompleteAtom = atom<markAsCompleteParams>({
-    key : "markAsCompleteAtom",
-    default : {isValid : false}
-})
+  key: 'markAsCompleteAtom',
+  default: {isValid: false}
+});

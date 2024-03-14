@@ -66,10 +66,8 @@ export function Sidebar({
     const pathArray = findPathToContent(fullCourseContent, contentId);
     if (pathArray) {
       return `/courses/${courseId}/${pathArray.join('/')}`;
-      
     }
   };
- 
 
   const renderContent = (contents: any) => {
     return contents.map((content: any) => {
@@ -248,7 +246,6 @@ function Check({ content , pathCheck } : { content: any  , pathCheck : any}) {
   const [currentPath] = useState(usePathname());
   const [markAsComplete , setMarkAsComplete] = useRecoilState(markAsCompleteAtom);
 
-
   return (
     <>
       <input
@@ -257,10 +254,10 @@ function Check({ content , pathCheck } : { content: any  , pathCheck : any}) {
           setCompleted(!completed);
           handleMarkAsCompleted(!completed, content.id);
           setMarkAsComplete({
-            isValid : true,
-            path : currentPath,
-            isCompleted : !completed
-          })
+            isValid: true,
+            path: currentPath,
+            isCompleted: !completed
+          });
           e.stopPropagation();
         }}
         type="checkbox"
