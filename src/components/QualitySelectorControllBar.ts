@@ -39,18 +39,28 @@ class QualitySelectorControllBar extends videojs.getComponent('Button') {
       const isVisible = dropUpMenuElement.style.display === 'block';
       dropUpMenuElement.style.display = isVisible ? 'none' : 'block';
     });
+
+    function getCurrentVideoQualityFromParams(): string | null {
+      const queryParams = new URLSearchParams(window.location.search);
+      return queryParams.get('quality');
+    }
+
+    let currentQuality: string | null = getCurrentVideoQualityFromParams();
+
     dropUpMenuElement.querySelectorAll('li').forEach((item) => {
       item.addEventListener('click', (e: any) => {
         const quality = e.target.getAttribute('data-quality');
-        if (quality) {
+        if (quality && quality !== currentQuality) {
           changeVideoQuality(quality);
+          currentQuality = quality;
         }
         dropUpMenuElement.style.display = 'none';
       });
       item.addEventListener('touchend', (e: any) => {
         const quality = e.target.getAttribute('data-quality');
-        if (quality) {
+        if (quality && quality !== currentQuality) {
           changeVideoQuality(quality);
+          currentQuality = quality;
         }
         dropUpMenuElement.style.display = 'none';
         dropUpMenuElement.style.display = 'none';
