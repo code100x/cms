@@ -3,8 +3,10 @@ import { useSearchParams, useRouter } from 'next/navigation';
 // import { QualitySelector } from '../QualitySelector';
 import { VideoPlayerSegment } from '@/components/VideoPlayerSegment';
 import VideoContentChapters from '../VideoContentChapters';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { handleMarkAsCompleted } from '@/lib/utils';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { videoCompleteState } from '@/store/atoms/videoCompleteStatus';
 
 export const ContentRendererClient = ({
   metadata,
@@ -33,6 +35,11 @@ export const ContentRendererClient = ({
   const [showChapters, setShowChapters] = useState(
     metadata?.segments?.length > 0,
   );
+
+  // Recoil
+  const [video, setVideo] = useRecoilState(videoCompleteState);
+  const { id, isComplete } = useRecoilValue(videoCompleteState);
+
   const searchParams = useSearchParams();
 
   const router = useRouter();
@@ -83,13 +90,23 @@ export const ContentRendererClient = ({
     );
 
     if (data.contentId) {
+      // This will only update after getting the `success` response from the server
+      setVideo({ ...video, id: data.contentId, isComplete: !contentCompleted });
+
       setContentCompleted((prev) => !prev);
     }
     setLoadingMarkAs(false);
   };
 
+  // Side Effect
+  useEffect(() => {
+    if (content?.id === id) {
+      setContentCompleted(isComplete);
+    }
+  }, [id, isComplete, content.id]);
+
   return (
-    <div className="flex gap-2 items-start flex-col lg:flex-row">
+    <div className="flex flex-col items-start gap-2 lg:flex-row">
       <div className="flex-1 w-full">
         <VideoPlayerSegment
           contentId={content.id}
@@ -121,12 +138,12 @@ export const ContentRendererClient = ({
         <br />
         <div className="flex justify-between mb-2">
           <div>
-            <div className="text-gray-900 dark:text-white font-bold text-2xl">
+            <div className="text-2xl font-bold text-gray-900 dark:text-white">
               {content.title}
             </div>
 
             <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold rounded p-2 my-4"
+              className="p-2 my-4 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"
               disabled={loadingMarkAs}
               onClick={handleMarkCompleted}
             >
@@ -146,7 +163,7 @@ export const ContentRendererClient = ({
                 }}
               >
                 <a href={metadata.slides} target="_blank">
-                  <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold rounded p-2">
+                  <button className="p-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700">
                     Slides
                   </button>
                 </a>
@@ -154,7 +171,7 @@ export const ContentRendererClient = ({
             ) : null}
             {!showChapters && metadata.segments?.length > 0 && (
               <button
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold rounded p-2"
+                className="p-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"
                 onClick={() => {
                   scrollTo({ top: 0, behavior: 'smooth' });
                   toggleShowChapters();
@@ -168,7 +185,7 @@ export const ContentRendererClient = ({
         {nextContent ? (
           <div className="flex flex-row-reverse">
             <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-4"
+              className="px-4 py-2 ml-4 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"
               onClick={() => {
                 const originalPath = window.location.pathname;
                 const parts = originalPath.split('/');
