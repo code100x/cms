@@ -299,3 +299,13 @@ export const constructCommentPrismaQuery = (
 
   return query;
 };
+
+export const extractBounty = (message: string) => {
+  const regex = /\/bounty\s*\$\s*(\d+)/i;
+  const result = message.match(regex);
+
+  if (result) {
+    return Number(result[1]);
+  }
+  return null;
+};
