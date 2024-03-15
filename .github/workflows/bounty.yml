@@ -1,0 +1,42 @@
+name: Discord Notification for Bounty
+
+on:
+  issue_comment:
+    types: [created]
+
+jobs:
+  bounty-notification:
+    if: ${{ github.event.issue.pull_request }}
+    runs-on: [ubuntu-latest]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Get Comment Text
+        id: get-comment
+        uses: actions/github-script@v5
+        with:
+            github-token: ${{ secrets.GITHUB_TOKEN }}
+            script: |
+              const commentBody = context.payload.comment.body;
+              const textPattern = "/bounty";
+              const authorisedUser = "haddercone"; // Add GitHub username authorized for bounties.
+              const isBountyText = context.payload.comment.body.includes(textPattern) && context.payload.comment.user.login === authorisedUser;
+              const bountyAmount =  isBountyText && commentBody.split(" ")[1].replace('$', ""); //  omitting '$' is required or else the curl will consider the reponse as an environment varibale.
+              return bountyAmount;
+       
+      - name: Send Discord notification
+        if: steps.get-comment.outputs.result != 'false'
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISORD_WEBHOOK_URL }}
+        run: |
+          curl -X POST -H "Content-Type: application/json" -d '{
+            "username": "Bounty Bot",
+            "avatar_url": "https://i.imgur.com/dy2uNAS.png",
+            "embeds": [
+              {
+                "title": "🎉 We have a new bounty winner 🎉",
+                "description": "Bounty of $'${{ steps.get-comment.outputs.result }}' will be dispensed to [@${{ github.event.issue.user.login }}](${{github.event.issue.user.html_url}}) for successful Pull request ${{ github.event.issue.pull_request.html_url }}."
+              }
+            ]
+          }' $DISCORD_WEBHOOK_URL
