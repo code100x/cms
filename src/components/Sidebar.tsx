@@ -1,4 +1,5 @@
 'use client';
+
 import { useRouter } from 'next/navigation';
 import {
   Accordion,
@@ -9,10 +10,11 @@ import {
 import { Folder } from '@/db/course';
 import { Button } from './ui/button';
 import { BackArrow } from '@/icons/BackArrow';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { sidebarOpen as sidebarOpenAtom } from '@/store/atoms/sidebar';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { handleMarkAsCompleted } from '@/lib/utils';
+import { videoCompleteState } from '@/store/atoms/videoCompleteStatus';
 
 export function Sidebar({
   courseId,
@@ -70,7 +72,7 @@ export function Sidebar({
           <AccordionItem
             key={content.id}
             value={`item-${content.id}`}
-            className="text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer"
+            className="text-gray-900 cursor-pointer dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
           >
             <AccordionTrigger className="px-2 text-left">
               {content.title}
@@ -86,7 +88,7 @@ export function Sidebar({
       return (
         <div
           key={content.id}
-          className="p-2 flex border-gray-300 border-b hover:bg-gray-100 dark:hover:bg-gray-700 dark:border-gray-700 cursor-pointer bg-gray-50 dark:bg-gray-800"
+          className="flex p-2 border-b border-gray-300 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 dark:border-gray-700 bg-gray-50 dark:bg-gray-800"
           onClick={() => {
             navigateToContent(content.id);
           }}
@@ -142,24 +144,16 @@ export function ToggleButton({
   return (
     <button
       onClick={onClick}
-      className="flex flex-col justify-center items-center"
+      className="flex flex-col items-center justify-center"
     >
       <span
         className={`dark:bg-white bg-black block transition-all duration-300 ease-out  h-0.5 w-6 rounded-sm ${!sidebarOpen ? 'rotate-45 translate-y-1' : '-translate-y-0.5'}`}
       ></span>
       <span
-        className={`dark:bg-white bg-black block transition-all duration-300 ease-out 
-                    h-0.5 w-6 rounded-sm my-0.5 ${
-    !sidebarOpen ? 'opacity-0' : 'opacity-100'
-    }`}
+        className={`dark:bg-white bg-black block transition-all duration-300 ease-out h-0.5 w-6 rounded-sm my-0.5 ${!sidebarOpen ? 'opacity-0' : 'opacity-100'}`}
       ></span>
       <span
-        className={`dark:bg-white bg-black block transition-all duration-300 ease-out 
-                    h-0.5 w-6 rounded-sm ${
-    !sidebarOpen
-      ? '-rotate-45 -translate-y-1'
-      : 'translate-y-0.5'
-    }`}
+        className={`dark:bg-white bg-black block transition-all duration-300 ease-out h-0.5 w-6 rounded-sm ${!sidebarOpen ? '-rotate-45 -translate-y-1' : 'translate-y-0.5'}`}
       ></span>
     </button>
   );
@@ -233,18 +227,39 @@ function NotionIcon() {
 
 // Todo: Fix types here
 function Check({ content }: { content: any }) {
-  const [completed, setCompleted] = useState(
+  const [completed, setCompleted] = useState<boolean>(
     content?.videoProgress?.markAsCompleted || false,
   );
+
+  // Recoil
+  const [video, setVideo] = useRecoilState(videoCompleteState);
+  const { id, isComplete } = useRecoilValue(videoCompleteState);
+
+  // Handled Functions
+  const handleCheckboxClick = async (
+    e: React.MouseEvent<HTMLInputElement, MouseEvent>,
+  ) => {
+    e.stopPropagation();
+    const data = await handleMarkAsCompleted(!completed, content.id);
+    if (data?.contentId) {
+      setVideo({ ...video, id: data.contentId, isComplete: !completed });
+    }
+
+    setCompleted((prevCompleted) => !prevCompleted);
+  };
+
+  // Side Effect
+  useEffect(() => {
+    if (content?.id === id) {
+      setCompleted(isComplete);
+    }
+  }, [id, isComplete, content.id]);
+
   return (
     <>
       <input
-        defaultChecked={completed}
-        onClick={async (e) => {
-          setCompleted(!completed);
-          handleMarkAsCompleted(!completed, content.id);
-          e.stopPropagation();
-        }}
+        checked={completed}
+        onClick={handleCheckboxClick}
         type="checkbox"
         className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
       />
