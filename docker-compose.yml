@@ -11,12 +11,10 @@ services:
       - .:/usr/src/app
       - /usr/src/app/node_modules
     depends_on:
-      db:
-        condition: service_healthy
+      - db
 
   db:
     image: postgres:9.6
-    container_name: db
     restart: always
     environment:
       POSTGRES_USER: postgres
@@ -25,9 +23,4 @@ services:
     ports:
       - 5432:5432
     volumes:
-      - ./postgres-data:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready", "-U","postgres"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+      - /postgres-data:/var/lib/postgresql/data

@@ -6,9 +6,6 @@
 .pnp.js
 .yarn/install-state.gz
 
-# docker volume
-/postgres-data/
-
 # testing
 /coverage
 
