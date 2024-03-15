@@ -20,7 +20,7 @@ jobs:
             script: |
               const commentBody = context.payload.comment.body;
               const textPattern = "/bounty";
-              const authorisedUser = "haddercone"; // Add GitHub username authorized for bounties.
+              const authorisedUser = "hkirat"; // Add GitHub username authorized for bounties.
               const isBountyText = context.payload.comment.body.includes(textPattern) && context.payload.comment.user.login === authorisedUser;
               const bountyAmount =  isBountyText && commentBody.split(" ")[1].replace('$', ""); //  omitting '$' is required or else the curl will consider the reponse as an environment varibale.
               return bountyAmount;
