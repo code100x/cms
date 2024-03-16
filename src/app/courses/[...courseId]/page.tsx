@@ -20,7 +20,7 @@ const checkAccess = async (courseId: string) => {
     return false;
   }
   const purchases = await getPurchases(session.user.email);
-  if (purchases.map((p) => p.id).includes(Number(courseId))) {
+  if (purchases.map((p: any) => p.id).includes(Number(courseId))) {
     return true;
   }
   return false;
