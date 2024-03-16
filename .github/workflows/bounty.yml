@@ -6,7 +6,7 @@ on:
 
 jobs:
   bounty-notification:
-    if: ${{ github.event.issue.pull_request }}
+    if: ${{ github.event.issue.pull_request && !startsWith(github.event.comment.body, '>')  && github.event.comment.user.login == 'hkirat'}}
     runs-on: [ubuntu-latest]
     steps:
       - name: Checkout code
@@ -19,11 +19,10 @@ jobs:
             github-token: ${{ secrets.GITHUB_TOKEN }}
             script: |
               const commentBody = context.payload.comment.body;
-              const textPattern = "/bounty";
-              const authorisedUser = "hkirat"; // Add GitHub username authorized for bounties.
-              const isBountyText = context.payload.comment.body.includes(textPattern) && context.payload.comment.user.login === authorisedUser;
-              const bountyAmount =  isBountyText && commentBody.split(" ")[1].replace('$', ""); //  omitting '$' is required or else the curl will consider the reponse as an environment varibale.
-              return bountyAmount;
+              const regex = /\/bounty\s+\$([0-9]+)/;
+              const validatedText = commentBody.match(regex);
+              const amount = validatedText ? validatedText[1] : false
+              return amount 
        
       - name: Send Discord notification
         if: steps.get-comment.outputs.result != 'false'
