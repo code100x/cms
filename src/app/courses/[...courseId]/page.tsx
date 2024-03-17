@@ -1,18 +1,43 @@
-import React from 'react';
-import { Course } from '@/store/atoms';
-import {
-  Content,
-  Folder,
-  Video,
-  getCourse,
-  getFullCourseContent,
-} from '@/db/course';
+import { Folder, Video, getCourse, getFullCourseContent } from '@/db/course';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { getPurchases } from '@/utiles/appx';
 import { redirect } from 'next/navigation';
 import { CourseView } from '@/components/CourseView';
 import { QueryParams } from '@/actions/types';
+
+import { Content } from '@prisma/client';
+import { TBookmarkWithContent } from '@/actions/bookmark/types';
+import db from '@/db';
+import { rateLimit } from '@/lib/utils';
+
+const getBookmarkData = async (
+  courseId: string,
+): Promise<TBookmarkWithContent[] | { error: string }> => {
+  const session = await getServerSession(authOptions);
+  const userId = session.user.id;
+
+  if (!rateLimit(userId)) {
+    return { error: 'Rate limit exceeded. Please try again later.' };
+  }
+
+  return await db.videoBookmark.findMany({
+    where: {
+      userId,
+      courseId: parseInt(courseId, 10),
+    },
+    include: {
+      content: {
+        include: {
+          parent: true,
+        },
+      },
+    },
+    orderBy: {
+      createdAt: 'desc',
+    },
+  });
+};
 
 const checkAccess = async (courseId: string) => {
   const session = await getServerSession(authOptions);
@@ -72,6 +97,11 @@ export default async function Course({
     courseContent?.length === 1 ? courseContent[0]?.type : 'folder';
   const nextContent = null; //await getNextVideo(Number(rest[rest.length - 1]))
 
+  let bookmarkData: TBookmarkWithContent[] | null | { error: string } = null;
+  if (params.courseId[1] === 'bookmarks') {
+    bookmarkData = await getBookmarkData(courseId);
+  }
+
   if (!hasAccess) {
     redirect('/api/auth/signin');
   }
@@ -87,6 +117,7 @@ export default async function Course({
         fullCourseContent={fullCourseContent}
         searchParams={searchParams}
         possiblePath={possiblePath}
+        bookmarkData={bookmarkData}
       />
     </>
   );

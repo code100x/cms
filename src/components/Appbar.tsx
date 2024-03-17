@@ -8,7 +8,7 @@ import { useSession } from 'next-auth/react';
 import { useRecoilState } from 'recoil';
 import { sidebarOpen as sidebarOpenAtom } from '../store/atoms/sidebar';
 import { ToggleButton } from './Sidebar';
-import { usePathname } from 'next/navigation';
+import { useParams, usePathname } from 'next/navigation';
 import Logo from './landing/logo/logo';
 import { Button } from './ui/button';
 import { Sparkles } from 'lucide-react';
@@ -19,6 +19,12 @@ export const Appbar = () => {
   const session = useSession();
   const [sidebarOpen, setSidebarOpen] = useRecoilState(sidebarOpenAtom);
   const currentPath = usePathname();
+  const params = useParams();
+  let bookmarkPageUrl = null;
+  if (params.courseId && params.courseId[0]) {
+    bookmarkPageUrl = `/courses/${params.courseId[0]}/bookmarks`;
+  }
+
   return (
     <>
       <nav className="fixed z-50 top-0 px-4 w-full h-16 border-b shadow-sm bg-background/80 backdrop-blur-md flex items-center gap-2">
@@ -36,6 +42,19 @@ export const Appbar = () => {
           {session?.data?.user ? (
             <div className="flex items-center space-x-2">
               <div className="hidden sm:flex items-center justify-around md:w-auto md:block space-x-2">
+                {currentPath.includes('courses') && bookmarkPageUrl && (
+                  <Button
+                    variant="link"
+                    className={
+                      currentPath === bookmarkPageUrl ? 'font-bold' : ''
+                    }
+                    size={'sm'}
+                    asChild
+                  >
+                    <Link href={bookmarkPageUrl}>Bookmarks</Link>
+                  </Button>
+                )}
+
                 <Button variant={'link'} size={'sm'} asChild>
                   <JoinDiscord isNavigated={false} />
                 </Button>

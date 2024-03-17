@@ -6,6 +6,8 @@ import { NotionRenderer } from './NotionRenderer';
 import { getFolderPercentCompleted } from '@/lib/utils';
 import Comments from './comment/Comments';
 import { QueryParams } from '@/actions/types';
+import BookmarkList from './BookmarkList';
+import { TBookmarkWithContent } from '@/actions/bookmark/types';
 
 export const CourseView = ({
   rest,
@@ -16,6 +18,7 @@ export const CourseView = ({
   contentType,
   searchParams,
   possiblePath,
+  bookmarkData,
 }: {
   fullCourseContent: Folder[];
   rest: string[];
@@ -25,11 +28,15 @@ export const CourseView = ({
   contentType: any;
   searchParams: QueryParams;
   possiblePath: string;
+  bookmarkData: TBookmarkWithContent[] | null | { error: string };
 }) => {
   return (
     <div className="flex h-full">
       <Sidebar fullCourseContent={fullCourseContent} courseId={course.id} />
       <div className="grow p-2 overflow-y-auto no-scrollbar">
+        {bookmarkData !== null ? (
+          <BookmarkList bookmarkData={bookmarkData} />
+        ) : null}
         {contentType === 'notion' ? (
           <NotionRenderer id={courseContent[0]?.id} />
         ) : null}

@@ -94,3 +94,32 @@
 .vjs-duration {
   display: block !important;
 }
+
+.video-js .video-bookmark-btn {
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBjbGFzcz0ibHVjaWRlIGx1Y2lkZS1ib29rbWFyayI+PHBhdGggZD0ibTE5IDIxLTctNC03IDRWNWEyIDIgMCAwIDEgMi0yaDEwYTIgMiAwIDAgMSAyIDJ2MTZ6Ii8+PC9zdmc+");
+  background-repeat: no-repeat;
+  background-position: center;
+  scale: 0.7
+}
+
+.video-bookmark-btn::after {
+  content: attr(aria-label);
+  position: absolute;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 6px 12px;
+  background-color: rgba(0, 0, 0, 0.75);
+  color: #fff;
+  border-radius: 4px;
+  font-size: 14px;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.3s, visibility 0.3s;
+}
+
+/* Tooltip text visibility */
+.video-bookmark-btn:hover::after {
+  visibility: visible;
+  opacity: 1;
+}
