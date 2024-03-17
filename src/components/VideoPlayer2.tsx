@@ -109,6 +109,8 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
           event.stopPropagation();
           break;
         }
+      } else if (event.code === 'KeyT') {
+        player.playbackRate(2);
       } else {
         const activeElement = document.activeElement;
 
@@ -148,7 +150,14 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
       }
     };
 
+    const handleKeyUp = (event: any) => {
+      if (event.code === 'KeyT') {
+        player.playbackRate(1);
+      }
+    };
+
     document.addEventListener('keydown', handleKeyPress);
+    document.addEventListener('keyup', handleKeyUp);
 
     // Cleanup function
     return () => {
