@@ -6,7 +6,7 @@ import { NotionRenderer } from './NotionRenderer';
 import { getFolderPercentCompleted } from '@/lib/utils';
 import Comments from './comment/Comments';
 import { QueryParams } from '@/actions/types';
-import BookmarkList from './BookmarkList';
+import BookmarkList from './bookmark/BookmarkList';
 import { TBookmarkWithContent } from '@/actions/bookmark/types';
 
 export const CourseView = ({

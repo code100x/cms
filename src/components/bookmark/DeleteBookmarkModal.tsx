@@ -8,7 +8,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
-import { buttonVariants } from './ui/button';
+import { buttonVariants } from '../ui/button';
 import { useAction } from '@/hooks/useAction';
 import { toast } from 'sonner';
 import { deleteBookmark } from '@/actions/bookmark';

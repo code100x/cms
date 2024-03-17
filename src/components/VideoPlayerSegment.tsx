@@ -8,7 +8,7 @@ import {
 } from '@/lib/utils';
 import { Segment } from '@/lib/utils';
 import Player from 'video.js/dist/types/player';
-import AddBookmarkModal from './AddBookmarkModal';
+import AddBookmarkModal from './bookmark/AddBookmarkModal';
 
 export interface Thumbnail {
   public_id: string;
