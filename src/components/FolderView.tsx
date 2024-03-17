@@ -1,6 +1,7 @@
 'use client';
 import { useRouter } from 'next/navigation';
 import { ContentCard } from './ContentCard';
+import { Bookmark } from '@prisma/client';
 
 export const FolderView = ({
   courseContent,
@@ -16,6 +17,7 @@ export const FolderView = ({
     id: number;
     markAsCompleted: boolean;
     percentComplete: number | null;
+    bookmark: Bookmark | null;
   }[];
 }) => {
   const router = useRouter();
@@ -48,6 +50,7 @@ export const FolderView = ({
             }}
             markAsCompleted={content.markAsCompleted}
             percentComplete={content.percentComplete}
+            bookmark={content.bookmark}
           />
         ))}
       </div>

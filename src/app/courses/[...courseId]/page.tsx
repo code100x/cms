@@ -10,6 +10,7 @@ import { Content } from '@prisma/client';
 import { TBookmarkWithContent } from '@/actions/bookmark/types';
 import db from '@/db';
 import { rateLimit } from '@/lib/utils';
+import BookmarkView from '@/components/bookmark/BookmarkView';
 
 const getBookmarkData = async (
   courseId: string,
@@ -21,7 +22,7 @@ const getBookmarkData = async (
     return { error: 'Rate limit exceeded. Please try again later.' };
   }
 
-  return await db.videoBookmark.findMany({
+  return await db.bookmark.findMany({
     where: {
       userId,
       courseId: parseInt(courseId, 10),
@@ -41,11 +42,12 @@ const getBookmarkData = async (
 
 const checkAccess = async (courseId: string) => {
   const session = await getServerSession(authOptions);
+
   if (!session?.user) {
     return false;
   }
   const purchases = await getPurchases(session.user.email);
-  if (purchases.map((p) => p.id).includes(Number(courseId))) {
+  if (purchases.map((p: any) => p.id).includes(Number(courseId))) {
     return true;
   }
   return false;
@@ -89,6 +91,23 @@ export default async function Course({
   const fullCourseContent: Folder[] = await getFullCourseContent(
     parseInt(courseId, 10),
   );
+
+  if (!hasAccess) {
+    redirect('/api/auth/signin');
+  }
+
+  if (params.courseId[1] === 'bookmarks') {
+    const bookmarkData = await getBookmarkData(courseId);
+
+    return (
+      <BookmarkView
+        bookmarkData={bookmarkData}
+        courseId={course.id}
+        fullCourseContent={fullCourseContent}
+      />
+    );
+  }
+
   const courseContent = findContentById(
     fullCourseContent,
     rest.map((x) => parseInt(x, 10)),
@@ -96,15 +115,6 @@ export default async function Course({
   const contentType =
     courseContent?.length === 1 ? courseContent[0]?.type : 'folder';
   const nextContent = null; //await getNextVideo(Number(rest[rest.length - 1]))
-
-  let bookmarkData: TBookmarkWithContent[] | null | { error: string } = null;
-  if (params.courseId[1] === 'bookmarks') {
-    bookmarkData = await getBookmarkData(courseId);
-  }
-
-  if (!hasAccess) {
-    redirect('/api/auth/signin');
-  }
 
   return (
     <>
@@ -117,7 +127,6 @@ export default async function Course({
         fullCourseContent={fullCourseContent}
         searchParams={searchParams}
         possiblePath={possiblePath}
-        bookmarkData={bookmarkData}
       />
     </>
   );

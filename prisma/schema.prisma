@@ -19,7 +19,7 @@ model Course {
   slug           String
   content        CourseContent[]
   purchasedBy    UserPurchases[]
-  bookmarks      VideoBookmark[]
+  bookmarks      Bookmark[]
 }
 
 model UserPurchases {
@@ -50,7 +50,7 @@ model Content {
   notionMetadataId Int?
   comments         Comment[]
   commentsCount    Int             @default(0)
-  bookmarks        VideoBookmark[]
+  bookmark         Bookmark?
 }
 
 model CourseContent {
@@ -128,7 +128,7 @@ model User {
   votes          Vote[]
   discordConnect DiscordConnect?
   disableDrm     Boolean         @default(false)
-  bookmarks      VideoBookmark[]
+  bookmarks      Bookmark[]
 }
 
 model DiscordConnect {
@@ -158,18 +158,15 @@ model VideoProgress {
   @@unique([contentId, userId])
 }
 
-model VideoBookmark {
-  id          Int      @id @default(autoincrement())
-  userId      String
-  contentId   Int
-  courseId    Int
-  timestamp   Int
-  description String
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  content     Content  @relation(fields: [contentId], references: [id], onDelete: Cascade)
-  course      Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+model Bookmark {
+  id        Int      @id @default(autoincrement())
+  userId    String
+  contentId Int      @unique
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  content   Content  @relation(fields: [contentId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  courseId  Int
+  course    Course  @relation(fields: [courseId], references: [id], onDelete: Cascade)
 }
 
 model Comment {
@@ -190,6 +187,7 @@ model Comment {
   createdAt    DateTime    @default(now())
   updatedAt    DateTime    @updatedAt
   votes        Vote[]
+  isPinned     Boolean     @default(false)
 }
 
 model Vote {

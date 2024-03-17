@@ -1,5 +1,5 @@
 'use client';
-import React, { FunctionComponent, useRef, useState } from 'react';
+import React, { FunctionComponent, useRef } from 'react';
 import { VideoPlayer } from '@/components/VideoPlayer2';
 
 import {
@@ -8,7 +8,6 @@ import {
 } from '@/lib/utils';
 import { Segment } from '@/lib/utils';
 import Player from 'video.js/dist/types/player';
-import AddBookmarkModal from './AddBookmarkModal';
 
 export interface Thumbnail {
   public_id: string;
@@ -19,6 +18,7 @@ export interface Thumbnail {
 }
 
 interface VideoProps {
+  setQuality: React.Dispatch<React.SetStateAction<number>>;
   thumbnails: Thumbnail[];
   segments: Segment[];
   subtitles: string;
@@ -28,6 +28,7 @@ interface VideoProps {
 }
 
 export const VideoPlayerSegment: FunctionComponent<VideoProps> = ({
+  setQuality,
   contentId,
   subtitles,
   segments,
@@ -36,41 +37,7 @@ export const VideoPlayerSegment: FunctionComponent<VideoProps> = ({
 }) => {
   const playerRef = useRef<Player | null>(null);
 
-  const [bookmarkTimestamp, setBookmarkTimestamp] = useState<number | null>(
-    null,
-  );
-  const [showAddBookmark, setShowAddBookmark] = useState(false);
-
   const thumbnailPreviewRef = useRef<HTMLDivElement>(null);
-
-  const onClose = () => {
-    setBookmarkTimestamp(null);
-    setShowAddBookmark(false);
-    playerRef.current?.play();
-  };
-
-  const addBookmarkButton = (player: Player) => {
-    const controlBar = player.getChild('ControlBar');
-    const bookmarkButton = controlBar
-      ?.addChild(
-        'button',
-        {
-          clickHandler: () => {
-            player.pause();
-            if (player.isFullscreen()) {
-              player.exitFullscreen();
-            }
-            setBookmarkTimestamp(Math.floor(player.currentTime() || 0));
-            setShowAddBookmark(true);
-          },
-        },
-        11,
-      )
-      ?.el();
-
-    bookmarkButton?.setAttribute('aria-label', 'Bookmark');
-    bookmarkButton?.classList.add('video-bookmark-btn');
-  };
 
   const overrideUpdateTime = (player: Player) => {
     const seekBar = player
@@ -119,19 +86,10 @@ export const VideoPlayerSegment: FunctionComponent<VideoProps> = ({
 
     createSegmentMarkersWithoutDuration(player, segments);
     overrideUpdateTime(player);
-    addBookmarkButton(player);
   };
 
   return (
     <div className="">
-      {bookmarkTimestamp !== null && (
-        <AddBookmarkModal
-          timestamp={bookmarkTimestamp}
-          onClose={onClose}
-          open={showAddBookmark}
-          contentId={contentId}
-        />
-      )}
       <div className="flex-1 relative">
         <div
           id="thumbnail-preview"
@@ -139,6 +97,7 @@ export const VideoPlayerSegment: FunctionComponent<VideoProps> = ({
           className="hidden absolute bg-no-repeat bg-cover w-[320px] h-[180px] pointer-events-none z-10"
         />
         <VideoPlayer
+          setQuality={setQuality}
           contentId={contentId}
           subtitles={subtitles}
           options={videoJsOptions}

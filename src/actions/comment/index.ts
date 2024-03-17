@@ -4,10 +4,12 @@ import {
   InputTypeApproveIntroComment,
   InputTypeCreateComment,
   InputTypeDeleteComment,
+  InputTypePinComment,
   InputTypeUpdateComment,
   ReturnTypeApproveIntroComment,
   ReturnTypeCreateComment,
   ReturnTypeDeleteComment,
+  ReturnTypePinComment,
   ReturnTypeUpdateComment,
 } from './types';
 import { authOptions } from '@/lib/auth';
@@ -17,11 +19,13 @@ import {
   CommentApproveIntroSchema,
   CommentDeleteSchema,
   CommentInsertSchema,
+  CommentPinSchema,
   CommentUpdateSchema,
 } from './schema';
 import { createSafeAction } from '@/lib/create-safe-action';
 import { CommentType, Prisma } from '@prisma/client';
 import { revalidatePath } from 'next/cache';
+import { ROLES } from '../types';
 
 export const getComments = async (
   q: Prisma.CommentFindManyArgs,
@@ -39,11 +43,30 @@ export const getComments = async (
   if (!parentComment) {
     delete q.where?.parentId;
   }
+  const pinnedComment = await prisma.comment.findFirst({
+    where: {
+      contentId: q.where?.contentId,
+      isPinned: true,
+      ...(parentId ? { parentId: parseInt(parentId.toString(), 10) } : {}),
+    },
+    include: q.include,
+  });
+  if (pinnedComment) {
+    q.where = {
+      ...q.where,
+      NOT: {
+        id: pinnedComment.id,
+      },
+    };
+  }
 
   const comments = await prisma.comment.findMany(q);
+  const combinedComments = pinnedComment
+    ? [pinnedComment, ...comments]
+    : comments;
 
   return {
-    comments,
+    comments: combinedComments,
     parentComment,
   };
 };
@@ -268,10 +291,15 @@ const updateCommentHandler = async (
 const approveIntroCommentHandler = async (
   data: InputTypeApproveIntroComment,
 ): Promise<ReturnTypeApproveIntroComment> => {
-  const { content_comment_ids, approved, adminPassword } = data;
+  const session = await getServerSession(authOptions);
+  const { content_comment_ids, approved, adminPassword, currentPath } = data;
 
-  if (adminPassword !== process.env.ADMIN_SECRET) {
-    return { error: 'Unauthorized' };
+  if (adminPassword) {
+    if (adminPassword !== process.env.ADMIN_SECRET) {
+      return { error: 'Unauthorized' };
+    }
+  } else if (!session || !session.user || session.user.role !== ROLES.ADMIN) {
+    return { error: 'Unauthorized ' };
   }
 
   const [contentId, commentId] = content_comment_ids.split(';');
@@ -315,7 +343,9 @@ const approveIntroCommentHandler = async (
         },
       });
     });
-
+    if (currentPath) {
+      revalidatePath(currentPath);
+    }
     return { data: updatedComment! };
   } catch (error) {
     return { error: 'Failed to update comment.' };
@@ -331,12 +361,15 @@ const deleteCommentHandler = async (
     return { error: 'Unauthorized or insufficient permissions' };
   }
 
-  const { commentId, adminPassword } = data;
+  const { commentId } = data;
   const userId = session.user.id;
 
   try {
     const existingComment = await prisma.comment.findUnique({
       where: { id: commentId },
+      include: {
+        parent: true,
+      },
     });
 
     if (!existingComment) {
@@ -344,8 +377,8 @@ const deleteCommentHandler = async (
     }
 
     if (
-      existingComment.userId !== userId &&
-      adminPassword !== process.env.ADMIN_SECRET
+      session.user?.role !== ROLES.ADMIN ||
+      existingComment.userId !== userId
     ) {
       return { error: 'Unauthorized to delete this comment.' };
     }
@@ -365,6 +398,15 @@ const deleteCommentHandler = async (
         await prisma.comment.deleteMany({
           where: { parentId: commentId },
         });
+        await prisma.content.update({
+          where: { id: existingComment.contentId },
+          data: { commentsCount: { decrement: 1 } },
+        });
+      } else {
+        await prisma.comment.update({
+          where: { id: existingComment.parentId },
+          data: { repliesCount: { decrement: 1 } },
+        });
       }
 
       // Then delete the comment itself
@@ -380,6 +422,38 @@ const deleteCommentHandler = async (
     };
   } catch (error) {
     return { error: 'Failed to delete comment.' };
+  }
+};
+
+const pinCommentHandler = async (
+  data: InputTypePinComment,
+): Promise<ReturnTypePinComment> => {
+  const { commentId, contentId, currentPath } = data;
+  const session = await getServerSession(authOptions);
+
+  if (!session || !session.user || session.user.role !== ROLES.ADMIN) {
+    return { error: 'Unauthorized or insufficient permissions' };
+  }
+  let updatedComment;
+  try {
+    await prisma.$transaction(async (prisma) => {
+      // Unpin any currently pinned comment for the content
+      await prisma.comment.updateMany({
+        where: { contentId, isPinned: true },
+        data: { isPinned: false },
+      });
+
+      updatedComment = await prisma.comment.update({
+        where: { id: commentId },
+        data: { isPinned: true },
+      });
+    });
+    if (currentPath) {
+      revalidatePath(currentPath);
+    }
+    return { data: updatedComment };
+  } catch (error: any) {
+    return { error: error.message || 'Failed to pin comment.' };
   }
 };
 
@@ -399,3 +473,4 @@ export const approveComment = createSafeAction(
   CommentApproveIntroSchema,
   approveIntroCommentHandler,
 );
+export const pinComment = createSafeAction(CommentPinSchema, pinCommentHandler);
