@@ -27,7 +27,6 @@ export default function Courses() {
   const { register, handleSubmit } = useForm<FormInput>();
 
   const onSubmit: SubmitHandler<FormInput> = async (data) => {
-    console.log(data);
     await fetch('/api/admin/course', {
       body: JSON.stringify(data),
       method: 'POST',

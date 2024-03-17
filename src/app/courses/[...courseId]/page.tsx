@@ -16,6 +16,7 @@ import { QueryParams } from '@/actions/types';
 
 const checkAccess = async (courseId: string) => {
   const session = await getServerSession(authOptions);
+
   if (!session?.user) {
     return false;
   }

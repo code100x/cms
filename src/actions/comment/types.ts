@@ -5,9 +5,10 @@ import {
   CommentUpdateSchema,
   CommentDeleteSchema,
   CommentApproveIntroSchema,
+  CommentPinSchema,
 } from './schema';
 import { Delete } from '../types';
-import { User, Comment } from '@prisma/client';
+import { User, Comment, Vote } from '@prisma/client';
 
 export type InputTypeCreateComment = z.infer<typeof CommentInsertSchema>;
 export type ReturnTypeCreateComment = ActionState<
@@ -33,7 +34,10 @@ export type ReturnTypeDeleteComment = ActionState<
   InputTypeDeleteComment,
   Delete
 >;
+export type InputTypePinComment = z.infer<typeof CommentPinSchema>;
+export type ReturnTypePinComment = ActionState<InputTypePinComment, Comment>;
 
 export interface ExtendedComment extends Comment {
-  user: User;
+  user?: User;
+  votes?: Vote[];
 }
