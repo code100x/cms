@@ -41,11 +41,12 @@ const getBookmarkData = async (
 
 const checkAccess = async (courseId: string) => {
   const session = await getServerSession(authOptions);
+
   if (!session?.user) {
     return false;
   }
   const purchases = await getPurchases(session.user.email);
-  if (purchases.map((p) => p.id).includes(Number(courseId))) {
+  if (purchases.map((p: any) => p.id).includes(Number(courseId))) {
     return true;
   }
   return false;
