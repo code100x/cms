@@ -116,8 +116,8 @@ export function Sidebar({
 
   return (
     <div
-     className="overflow-y-scroll h-sidebar w-[300px] min-w-[133px] bg-gray-50 dark:bg-gray-800 cursor-pointer sticky top-[64px] self-start w-84"
-     >
+      className="overflow-y-scroll h-sidebar w-[300px] min-w-[133px] bg-gray-50 dark:bg-gray-800 cursor-pointer sticky top-[64px] self-start w-84"
+    >
       <div className="flex">
         {/* <ToggleButton
             onClick={() => {
@@ -151,17 +151,15 @@ export function ToggleButton({
       ></span>
       <span
         className={`dark:bg-white bg-black block transition-all duration-300 ease-out 
-                    h-0.5 w-6 rounded-sm my-0.5 ${
-    !sidebarOpen ? 'opacity-0' : 'opacity-100'
-    }`}
+                    h-0.5 w-6 rounded-sm my-0.5 ${!sidebarOpen ? 'opacity-0' : 'opacity-100'
+          }`}
       ></span>
       <span
         className={`dark:bg-white bg-black block transition-all duration-300 ease-out 
-                    h-0.5 w-6 rounded-sm ${
-    !sidebarOpen
-      ? '-rotate-45 -translate-y-1'
-      : 'translate-y-0.5'
-    }`}
+                    h-0.5 w-6 rounded-sm ${!sidebarOpen
+            ? '-rotate-45 -translate-y-1'
+            : 'translate-y-0.5'
+          }`}
       ></span>
     </button>
   );
