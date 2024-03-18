@@ -1,19 +1,19 @@
 import { z } from 'zod';
-import { BookmarkSchema, BookmarkUpdateSchema } from './schema';
+import { BookmarkCreateSchema, BookmarkDeleteSchema } from './schema';
 import { ActionState } from '@/lib/create-safe-action';
-import { Content, VideoBookmark } from '@prisma/client';
+import { Bookmark, Content } from '@prisma/client';
 
-export type InputTypeCreateBookmark = z.infer<typeof BookmarkSchema>;
+export type InputTypeCreateBookmark = z.infer<typeof BookmarkCreateSchema>;
 export type ReturnTypeCreateBookmark = ActionState<
   InputTypeCreateBookmark,
-  VideoBookmark
+  Bookmark
 >;
-export type InputTypeUpdateBookmark = z.infer<typeof BookmarkUpdateSchema>;
-export type ReturnTypeUpdateBookmark = ActionState<
-  InputTypeUpdateBookmark,
-  VideoBookmark
+export type InputTypeDeleteBookmark = z.infer<typeof BookmarkDeleteSchema>;
+export type ReturnTypeDeleteBookmark = ActionState<
+  InputTypeDeleteBookmark,
+  Bookmark
 >;
 
-export type TBookmarkWithContent = VideoBookmark & {
-  content: Content & { parent: Content | null };
+export type TBookmarkWithContent = Bookmark & {
+  content: Content & { parent?: Content | null };
 };

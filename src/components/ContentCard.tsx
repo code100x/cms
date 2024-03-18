@@ -1,5 +1,7 @@
 import { CheckCircle2 } from 'lucide-react';
 import PercentageComplete from './PercentageComplete';
+import { Bookmark } from '@prisma/client';
+import BookmarkButton from './bookmark/BookmarkButton';
 
 export const ContentCard = ({
   title,
@@ -7,6 +9,8 @@ export const ContentCard = ({
   markAsCompleted,
   percentComplete,
   type,
+  bookmark,
+  contentId,
 }: {
   type: 'folder' | 'video' | 'notion';
   contentId?: number;
@@ -15,6 +19,7 @@ export const ContentCard = ({
   onClick: () => void;
   markAsCompleted?: boolean;
   percentComplete?: number | null;
+  bookmark?: Bookmark | null;
 }) => {
   let image =
     'https://d2szwvl7yo497w.cloudfront.net/courseThumbnails/folder.png';
@@ -26,7 +31,7 @@ export const ContentCard = ({
   return (
     <div
       onClick={onClick}
-      className="relative hover:scale-105 ease-in duration-200"
+      className="relative hover:scale-105 ease-in duration-200 group"
     >
       {percentComplete !== null && percentComplete !== undefined && (
         <PercentageComplete percent={percentComplete} />
@@ -36,6 +41,17 @@ export const ContentCard = ({
           <CheckCircle2 color="green" size={20} />
         </div>
       )}
+      {bookmark !== undefined && contentId && (
+        <div className="absolute top-2 right-2">
+          <BookmarkButton
+            bookmark={bookmark}
+            contentId={contentId}
+            size={32}
+            side="bottom"
+          />
+        </div>
+      )}
+
       <img src={image} alt={title} className="rounded-md" />
       <div className="flex justify-between mt-2 text-gray-900 dark:text-white">
         <div>{title}</div>

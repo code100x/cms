@@ -22,7 +22,7 @@ const getBookmarkData = async (
     return { error: 'Rate limit exceeded. Please try again later.' };
   }
 
-  return await db.videoBookmark.findMany({
+  return await db.bookmark.findMany({
     where: {
       userId,
       courseId: parseInt(courseId, 10),
@@ -98,6 +98,7 @@ export default async function Course({
 
   if (params.courseId[1] === 'bookmarks') {
     const bookmarkData = await getBookmarkData(courseId);
+
     return (
       <BookmarkView
         bookmarkData={bookmarkData}
