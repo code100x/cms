@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Instagram, TwitterIcon, Youtube } from 'lucide-react';
+import { FaXTwitter, FaInstagram, FaYoutube } from 'react-icons/fa6';
 import Image from 'next/image';
 import playstore from '/public/platform/playstore.png';
 import Logo from '../logo/logo';
@@ -56,16 +56,16 @@ const Footer = () => {
             <h4 className="text-neutral-200 font-semibold mb-2">Follow us</h4>
             <div className="flex gap-x-2">
               <Link target="_blank" href={'https://twitter.com/kirat_tw'}>
-                <TwitterIcon className="text-white hover:text-blue-500" />
+                <FaXTwitter className="text-white text-xl hover:text-blue-500" />
               </Link>
               <Link
                 target="_blank"
                 href={'https://www.instagram.com/kirat_ins/'}
               >
-                <Instagram className="text-white hover:text-blue-500" />
+                <FaInstagram className="text-white text-xl hover:text-blue-500" />
               </Link>
               <Link target="_blank" href={'https://www.youtube.com/@harkirat1'}>
-                <Youtube className="text-white hover:text-blue-500" />
+                <FaYoutube className="text-white text-xl hover:text-blue-500" />
               </Link>
             </div>
           </div>
