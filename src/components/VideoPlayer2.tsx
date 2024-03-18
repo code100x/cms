@@ -15,6 +15,7 @@ import './QualitySelectorControllBar';
 
 // todo correct types
 interface VideoPlayerProps {
+  setQuality: React.Dispatch<React.SetStateAction<number>>;
   options: any;
   onReady?: (player: Player) => void;
   subtitles?: string;
@@ -26,6 +27,7 @@ const PLAYBACK_RATES: number[] = [0.5, 1, 1.25, 1.5, 1.75, 2];
 const VOLUME_LEVELS: number[] = [0, 0.2, 0.4, 0.6, 0.8, 1.0];
 
 export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
+  setQuality,
   options,
   contentId,
   onReady,
@@ -109,6 +111,8 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
           event.stopPropagation();
           break;
         }
+      } else if (event.code === 'KeyT') {
+        player.playbackRate(2);
       } else {
         const activeElement = document.activeElement;
 
@@ -148,7 +152,14 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
       }
     };
 
+    const handleKeyUp = (event: any) => {
+      if (event.code === 'KeyT') {
+        player.playbackRate(1);
+      }
+    };
+
     document.addEventListener('keydown', handleKeyPress);
+    document.addEventListener('keyup', handleKeyUp);
 
     // Cleanup function
     return () => {
@@ -231,6 +242,7 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
             back: 15,
           });
 
+          player.qualitySelector = setQuality;
           const qualitySelector = player.controlBar.addChild(
             'QualitySelectorControllBar',
           );
@@ -265,6 +277,14 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
       }
     }
   }, [options, onReady]);
+
+  useEffect(() => {
+    if (player) {
+      const currentTime = player.currentTime();
+      player.src(options.sources[0]);
+      player.currentTime(currentTime);
+    }
+  }, [options.sources[0]]);
 
   useEffect(() => {
     const player = playerRef.current;

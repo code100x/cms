@@ -1,9 +1,11 @@
 import videojs from 'video.js';
 
-const changeVideoQuality = (quality: string) => {
+const changeVideoQuality = (quality: string, player: any) => {
   const currentUrl = new URL(window.location.href);
   currentUrl.searchParams.set('quality', quality);
-  window.location.href = currentUrl.href;
+  const newUrl = `${currentUrl.pathname}?${currentUrl.searchParams.toString()}`;
+  window.history.pushState({ path: newUrl }, '', newUrl);
+  player.qualitySelector(quality);
 };
 
 class QualitySelectorControllBar extends videojs.getComponent('Button') {
@@ -42,15 +44,16 @@ class QualitySelectorControllBar extends videojs.getComponent('Button') {
     dropUpMenuElement.querySelectorAll('li').forEach((item) => {
       item.addEventListener('click', (e: any) => {
         const quality = e.target.getAttribute('data-quality');
-        if (quality) {
-          changeVideoQuality(quality);
+        const urlParams = new URLSearchParams(window.location.search);
+        if (quality !== urlParams.get('quality')) {
+          changeVideoQuality(quality, player);
         }
         dropUpMenuElement.style.display = 'none';
       });
       item.addEventListener('touchend', (e: any) => {
         const quality = e.target.getAttribute('data-quality');
         if (quality) {
-          changeVideoQuality(quality);
+          changeVideoQuality(quality, player);
         }
         dropUpMenuElement.style.display = 'none';
         dropUpMenuElement.style.display = 'none';

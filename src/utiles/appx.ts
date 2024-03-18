@@ -96,6 +96,7 @@ export async function getPurchases(email: string) {
       }
     }
   }
+  console.log('cache not hit');
   Cache.getInstance().set('courses', [email], responses, 60 * 60 * 24);
   return responses;
 }

@@ -1,6 +1,7 @@
 import db from '@/db';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { SignJWT, importJWK } from 'jose';
+import { Cache } from '@/db/Cache';
 
 const generateJWT = async (payload: any) => {
   const secret = process.env.JWT_SECRET || 'secret';
@@ -81,11 +82,23 @@ export const authOptions = {
       },
       async authorize(credentials: any) {
         try {
-          //@ts-ignore
-          const user = await validateUser(
+          let user = await Cache.getInstance().get('auth', [
             credentials.username,
             credentials.password,
-          );
+          ]);
+          if (!user) {
+            //@ts-ignore
+            user = await validateUser(
+              credentials.username,
+              credentials.password,
+            );
+            Cache.getInstance().set(
+              'auth',
+              [credentials.username, credentials.password],
+              user,
+              60 * 60 * 24,
+            );
+          }
           if (user.data) {
             const jwt = await generateJWT({
               id: user.data.userid,

@@ -24,7 +24,7 @@ export async function POST(req: NextRequest) {
   //@ts-ignore
   const { discordId, discordUsername } = await giveAccess(
     data.code,
-    purchases.map((purchase) => purchase.discordRoleId),
+    purchases.map((purchase: any) => purchase.discordRoleId),
   );
   if (!discordId || !discordUsername) {
     return NextResponse.json(

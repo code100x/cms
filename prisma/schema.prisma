@@ -173,6 +173,7 @@ model Comment {
   createdAt    DateTime    @default(now())
   updatedAt    DateTime    @updatedAt
   votes        Vote[]
+  isPinned     Boolean     @default(false)
 }
 
 model Vote {
@@ -196,3 +197,4 @@ enum CommentType {
   INTRO
   DEFAULT
 }
+
