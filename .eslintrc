@@ -9,11 +9,14 @@ env:
 
 plugins:
   - "@typescript-eslint"
+  - "prettier"
 
 extends:
   - eslint:recommended
   - plugin:@typescript-eslint/eslint-recommended
   - plugin:@typescript-eslint/recommended
+  - prettier
+  - prettier/@typescript-eslint
 
 parserOptions:
   ecmaVersion: 2018
@@ -22,6 +25,7 @@ rules:
   # Ignore Rules
   strict: 0
   no-underscore-dangle: 0
+  'prettier/prettier': 'error'
   no-mixed-requires: 0
   no-process-exit: 0
   no-warning-comments: 0
