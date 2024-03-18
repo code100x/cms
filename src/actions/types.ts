@@ -3,7 +3,7 @@ import { CommentType } from '@prisma/client';
 export interface QueryParams {
   limit?: number;
   page?: number;
-  commentfilter?: CommentFilter;
+  // commentfilter?: CommentFilter;
   search?: string;
   date?: string;
   type?: CommentType;
@@ -13,16 +13,16 @@ export interface QueryParams {
   timestamp?: number;
   editCommentId?: number;
 }
-export enum CommentFilter {
-  md = 'Most downvotes',
-  mu = 'Most upvotes',
-  mr = 'Most Recent',
-}
+// export enum CommentFilter {
+//   md = 'Most downvotes',
+//   mu = 'Most upvotes',
+//   mr = 'Most Recent',
+// }
 export type Delete = {
   message: string;
 };
 
-export enum ROLES {
-  ADMIN = 'admin',
-  USER = 'user',
-}
+// export enum ROLES {
+//   ADMIN = 'admin',
+//   USER = 'user',
+// }
