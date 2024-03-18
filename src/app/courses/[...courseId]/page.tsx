@@ -10,7 +10,7 @@ import { Content } from '@prisma/client';
 import { TBookmarkWithContent } from '@/actions/bookmark/types';
 import db from '@/db';
 import { rateLimit } from '@/lib/utils';
-import BookmarkView from '@/components/BookmarkView';
+import BookmarkView from '@/components/bookmark/BookmarkView';
 
 const getBookmarkData = async (
   courseId: string,

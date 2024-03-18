@@ -7,7 +7,14 @@ export const BookmarkSchema = z.object({
     .string()
     .min(3, 'Description must contain at least 3 characters'),
   courseId: z.number(),
-  id: z.number().optional(),
+});
+
+export const BookmarkUpdateSchema = z.object({
+  description: z
+    .string()
+    .min(3, 'Description must contain at least 3 characters'),
+  courseId: z.number(),
+  id: z.number(),
 });
 
 export const BookmarkDeleteSchema = z.object({

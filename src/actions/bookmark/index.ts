@@ -1,7 +1,11 @@
 'use server';
 import { createSafeAction } from '@/lib/create-safe-action';
-import { BookmarkDeleteSchema, BookmarkSchema } from './schema';
-import { InputTypeCreateBookmark } from './types';
+import {
+  BookmarkDeleteSchema,
+  BookmarkSchema,
+  BookmarkUpdateSchema,
+} from './schema';
+import { InputTypeCreateBookmark, InputTypeUpdateBookmark } from './types';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { rateLimit } from '@/lib/utils';
@@ -17,7 +21,7 @@ const createBookmarkHandler = async (
     return { error: 'Unauthorized or insufficient permissions' };
   }
 
-  const { timestamp, contentId, description, courseId, id } = data;
+  const { timestamp, contentId, description, courseId } = data;
   const userId = session.user.id;
 
   if (!rateLimit(userId)) {
@@ -25,19 +29,43 @@ const createBookmarkHandler = async (
   }
 
   try {
-    const createdBookmark = await db.videoBookmark.upsert({
-      where: {
-        id,
-      },
-      update: {
-        description,
-      },
-      create: { contentId, description, userId, timestamp, courseId },
+    const createdBookmark = await db.videoBookmark.create({
+      data: { contentId, description, userId, timestamp, courseId },
     });
 
     revalidatePath(`/courses/${courseId}/bookmarks`);
 
     return { data: createdBookmark };
+  } catch (error: any) {
+    return { error: error.message || 'Failed to create comment.' };
+  }
+};
+
+const updateBookmarkHandler = async (
+  data: InputTypeUpdateBookmark,
+): Promise<any> => {
+  const session = await getServerSession(authOptions);
+
+  if (!session || !session.user) {
+    return { error: 'Unauthorized or insufficient permissions' };
+  }
+
+  const { description, courseId, id } = data;
+  const userId = session.user.id;
+
+  if (!rateLimit(userId)) {
+    return { error: 'Rate limit exceeded. Please try again later.' };
+  }
+
+  try {
+    const updatedBookmark = await db.videoBookmark.update({
+      where: { id },
+      data: { description, userId },
+    });
+
+    revalidatePath(`/courses/${courseId}/bookmarks`);
+
+    return { data: updatedBookmark };
   } catch (error: any) {
     return { error: error.message || 'Failed to create comment.' };
   }
@@ -75,6 +103,12 @@ export const createBookmark = createSafeAction(
   BookmarkSchema,
   createBookmarkHandler,
 );
+
+export const updateBookmark = createSafeAction(
+  BookmarkUpdateSchema,
+  updateBookmarkHandler,
+);
+
 export const deleteBookmark = createSafeAction(
   BookmarkDeleteSchema,
   deleteBookmarkHandler,

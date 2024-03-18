@@ -53,25 +53,29 @@ export const VideoPlayerSegment: FunctionComponent<VideoProps> = ({
 
   const addBookmarkButton = (player: Player) => {
     const controlBar = player.getChild('ControlBar');
-    const bookmarkButton = controlBar
-      ?.addChild(
-        'button',
-        {
-          clickHandler: () => {
-            player.pause();
-            if (player.isFullscreen()) {
-              player.exitFullscreen();
-            }
-            setBookmarkTimestamp(Math.floor(player.currentTime() || 0));
-            setShowAddBookmark(true);
-          },
-        },
-        11,
-      )
-      ?.el();
 
-    bookmarkButton?.setAttribute('aria-label', 'Bookmark');
-    bookmarkButton?.classList.add('video-bookmark-btn');
+    if (controlBar && !document.getElementById('BookmarkButton')) {
+      const bookmarkButton = controlBar
+        ?.addChild(
+          'button',
+          {
+            clickHandler: () => {
+              player.pause();
+              if (player.isFullscreen()) {
+                player.exitFullscreen();
+              }
+              setBookmarkTimestamp(Math.floor(player.currentTime() || 0));
+              setShowAddBookmark(true);
+            },
+          },
+          11,
+        )
+        ?.el();
+
+      bookmarkButton?.setAttribute('aria-label', 'Bookmark');
+      bookmarkButton?.classList.add('video-bookmark-btn');
+      bookmarkButton?.setAttribute('id', 'BookmarkButton');
+    }
   };
 
   const overrideUpdateTime = (player: Player) => {

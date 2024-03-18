@@ -4,13 +4,12 @@ import Link from 'next/link';
 import { BookmarkIcon, PlayCircleIcon } from 'lucide-react';
 import { formatTime } from '@/lib/utils';
 import BookmarkCardDropdown from './BookmarkCardDropdown';
-import AddBookmarkModal from './AddBookmarkModal';
 import { Fragment, useState } from 'react';
 import { TBookmarkWithContent } from '@/actions/bookmark/types';
+import EditBookmarkModal from './EditBookmarkModal';
 
 interface IEditBookmarkProps {
   timestamp: number;
-  contentId: number;
   desc: string;
   id: number;
 }
@@ -33,7 +32,6 @@ const BookmarkList = ({
         {bookmarkData.map(
           ({
             id,
-            contentId,
             courseId,
             timestamp,
             description,
@@ -44,7 +42,7 @@ const BookmarkList = ({
               return (
                 <Fragment key={id}>
                   {editBookMarkProps !== null && (
-                    <AddBookmarkModal
+                    <EditBookmarkModal
                       onClose={() => setEditBookmarkProps(null)}
                       open={!!editBookMarkProps}
                       {...editBookMarkProps}
@@ -62,7 +60,6 @@ const BookmarkList = ({
                           onOpenEditModal={() => {
                             setEditBookmarkProps({
                               timestamp,
-                              contentId,
                               desc: description,
                               id,
                             });

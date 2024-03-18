@@ -23,7 +23,7 @@ interface IProps {
 const DeleteBookmarkModal = ({ onClose, id }: IProps) => {
   const { execute } = useAction(deleteBookmark, {
     onSuccess: () => {
-      toast('Bookmark added', { duration: 3000 });
+      toast.error('Bookmark deleted', { duration: 3000 });
       onClose();
     },
     onError: (error) => {

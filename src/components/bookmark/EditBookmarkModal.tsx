@@ -12,49 +12,26 @@ import { Textarea } from '../ui/textarea';
 import { formatTime } from '@/lib/utils';
 import { useAction } from '@/hooks/useAction';
 import { toast } from 'sonner';
-import { createBookmark } from '@/actions/bookmark';
+import { updateBookmark } from '@/actions/bookmark';
 import { FormErrors } from '../FormError';
 import { useParams } from 'next/navigation';
 import { FormEvent } from 'react';
-import Link from 'next/link';
 
 interface IProps {
   timestamp: number;
   onClose: () => void;
   open: boolean;
-  contentId: number;
-  desc?: string;
-  id?: number;
+  desc: string;
+  id: number;
 }
 
-const AddBookmarkModal = ({
-  timestamp,
-  onClose,
-  open,
-  contentId,
-  desc,
-  id,
-}: IProps) => {
+const EditBookmarkModal = ({ timestamp, onClose, open, desc, id }: IProps) => {
   const params = useParams();
   const courseId = params.courseId[0];
 
-  const { execute, fieldErrors } = useAction(createBookmark, {
+  const { execute, fieldErrors } = useAction(updateBookmark, {
     onSuccess: () => {
-      toast(
-        <div className="flex items-center gap-2">
-          <span>Bookmark Added!</span>
-          <Link
-            className="text-[#040fff]"
-            href={`/courses/${courseId}/bookmarks`}
-            onClick={() => {
-              toast.dismiss();
-            }}
-          >
-            Checkout all bookmarks
-          </Link>
-        </div>,
-        { duration: 3000 },
-      );
+      toast('Bookmark updated', { duration: 3000 });
       onClose();
     },
     onError: (error) => {
@@ -68,11 +45,9 @@ const AddBookmarkModal = ({
     const description = formData.get('description') as string;
 
     execute({
-      contentId,
-      timestamp,
       description,
       courseId: parseInt(courseId, 10),
-      ...(id !== undefined && { id }),
+      id,
     });
   };
 
@@ -80,7 +55,7 @@ const AddBookmarkModal = ({
     <Dialog open={open}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Add bookmark</DialogTitle>
+          <DialogTitle>Edit bookmark</DialogTitle>
         </DialogHeader>
         <form className="grid gap-4 py-4" onSubmit={handleFormSubmit}>
           <div className="grid grid-cols-4 items-center gap-4">
@@ -120,4 +95,4 @@ const AddBookmarkModal = ({
   );
 };
 
-export default AddBookmarkModal;
+export default EditBookmarkModal;

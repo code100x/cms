@@ -16,9 +16,15 @@ const BookmarkView = ({
     <div className="flex h-full">
       <Sidebar fullCourseContent={fullCourseContent} courseId={courseId} />
       <div className="grow p-2 overflow-y-auto no-scrollbar">
-        {bookmarkData !== null ? (
-          <BookmarkList bookmarkData={bookmarkData} />
-        ) : null}
+        {bookmarkData === null ||
+        'error' in bookmarkData ||
+        !bookmarkData.length ? (
+            <div className="flex mt-64">
+              <div className="m-auto">No bookmark added yet!</div>
+            </div>
+          ) : (
+            <BookmarkList bookmarkData={bookmarkData} />
+          )}
       </div>
     </div>
   );
