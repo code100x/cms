@@ -86,16 +86,15 @@
     "typescript": "^5"
   },
   "lint-staged": {
-  "*.js": [
-    "npm run lint:fix",
-    "npm run format:fix",
-    "git add"
-  ],
-  "*.ts": [
-    "npm run lint:fix",
-    "npm run format:fix",
-    "git add"
-  ]
-}
-
+    "*.js": [
+      "npm run lint:fix",
+      "npm run format:fix",
+      "git add"
+    ],
+    "*.ts": [
+      "npm run lint:fix",
+      "npm run format:fix",
+      "git add"
+    ]
+  }
 }
