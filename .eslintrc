@@ -10,6 +10,7 @@ env:
 plugins:
   - "@typescript-eslint"
   - "prettier"
+  - @typescript-eslint/parser
 
 extends:
   - eslint:recommended
