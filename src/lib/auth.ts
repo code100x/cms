@@ -1,7 +1,16 @@
 import db from '@/db';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { SignJWT, importJWK } from 'jose';
-import { Cache } from '@/db/Cache';
+import bcrypt from 'bcrypt';
+import prisma from '@/db';
+
+interface AppxSigninResponse {
+  data: {
+    userid: string;
+    name: string;
+    username: string;
+  };
+}
 
 const generateJWT = async (payload: any) => {
   const secret = process.env.JWT_SECRET || 'secret';
@@ -82,55 +91,77 @@ export const authOptions = {
       },
       async authorize(credentials: any) {
         try {
-          let user = await Cache.getInstance().get('auth', [
-            credentials.username,
-            credentials.password,
-          ]);
-          if (!user) {
+          const hashedPassword = await bcrypt.hash(credentials.password, 10);
+
+          const userDb = await prisma.user.findFirst({
+            where: {
+              password: hashedPassword,
+              email: credentials.email,
+            },
+          });
+
+          if (userDb) {
+            const jwt = await generateJWT({
+              id: userDb.id,
+            });
+            await db.user.update({
+              where: {
+                id: userDb.id,
+              },
+              data: {
+                token: jwt,
+              },
+            });
+          }
+
+          if (!userDb) {
             //@ts-ignore
-            user = await validateUser(
+            const user: AppxSigninResponse = await validateUser(
               credentials.username,
               credentials.password,
             );
-            Cache.getInstance().set(
-              'auth',
-              [credentials.username, credentials.password],
-              user,
-              60 * 60 * 24,
-            );
-          }
-          if (user.data) {
+
             const jwt = await generateJWT({
               id: user.data.userid,
             });
-            try {
-              await db.user.upsert({
-                where: {
-                  id: user.data.userid,
-                },
-                create: {
-                  id: user.data.userid,
-                  name: user.data.name,
-                  email: credentials.username,
-                  token: jwt,
-                },
-                update: {
-                  id: user.data.userid,
-                  name: user.data.name,
-                  email: credentials.username,
-                  token: jwt,
-                },
-              });
-            } catch (e) {
-              console.log(e);
-            }
 
-            return {
-              id: user.data.userid,
-              name: user.data.name,
-              email: credentials.username,
-              token: jwt,
-            };
+            await prisma.user.create({
+              data: {
+                email: credentials.username,
+                password: hashedPassword,
+              },
+            });
+
+            if (user.data) {
+              try {
+                await db.user.upsert({
+                  where: {
+                    id: user.data.userid,
+                  },
+                  create: {
+                    id: user.data.userid,
+                    name: user.data.name,
+                    email: credentials.username,
+                    token: jwt,
+                  },
+                  update: {
+                    id: user.data.userid,
+                    name: user.data.name,
+                    email: credentials.username,
+                    token: jwt,
+                  },
+                });
+              } catch (e) {
+                console.log(e);
+              }
+
+              return {
+                id: user.data.userid,
+                name: user.data.name,
+                email: credentials.username,
+                token: jwt,
+              };
+            }
           }
           // Return null if user data could not be retrieved
           return null;
