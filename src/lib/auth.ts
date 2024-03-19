@@ -95,12 +95,19 @@ export const authOptions = {
 
           const userDb = await prisma.user.findFirst({
             where: {
-              password: hashedPassword,
-              email: credentials.email,
+              email: credentials.username,
+            },
+            select: {
+              password: true,
+              id: true,
+              name: true,
             },
           });
-
-          if (userDb) {
+          if (
+            userDb &&
+            userDb.password &&
+            (await bcrypt.compare(credentials.password, userDb.password))
+          ) {
             const jwt = await generateJWT({
               id: userDb.id,
             });
@@ -112,57 +119,58 @@ export const authOptions = {
                 token: jwt,
               },
             });
+
+            return {
+              id: userDb.id,
+              name: userDb.name,
+              email: credentials.username,
+              token: jwt,
+            };
           }
+          console.log('not in db');
+          //@ts-ignore
+          const user: AppxSigninResponse = await validateUser(
+            credentials.username,
+            credentials.password,
+          );
 
-          if (!userDb) {
-            //@ts-ignore
-            const user: AppxSigninResponse = await validateUser(
-              credentials.username,
-              credentials.password,
-            );
+          const jwt = await generateJWT({
+            id: user.data.userid,
+          });
 
-            const jwt = await generateJWT({
-              id: user.data.userid,
-            });
-
-            await prisma.user.create({
-              data: {
-                email: credentials.username,
-                password: hashedPassword,
-              },
-            });
-
-            if (user.data) {
-              try {
-                await db.user.upsert({
-                  where: {
-                    id: user.data.userid,
-                  },
-                  create: {
-                    id: user.data.userid,
-                    name: user.data.name,
-                    email: credentials.username,
-                    token: jwt,
-                  },
-                  update: {
-                    id: user.data.userid,
-                    name: user.data.name,
-                    email: credentials.username,
-                    token: jwt,
-                  },
-                });
-              } catch (e) {
-                console.log(e);
-              }
-
-              return {
-                id: user.data.userid,
-                name: user.data.name,
-                email: credentials.username,
-                token: jwt,
-              };
+          if (user.data) {
+            try {
+              await db.user.upsert({
+                where: {
+                  id: user.data.userid,
+                },
+                create: {
+                  id: user.data.userid,
+                  name: user.data.name,
+                  email: credentials.username,
+                  token: jwt,
+                  password: hashedPassword,
+                },
+                update: {
+                  id: user.data.userid,
+                  name: user.data.name,
+                  email: credentials.username,
+                  token: jwt,
+                  password: hashedPassword,
+                },
+              });
+            } catch (e) {
+              console.log(e);
             }
+
+            return {
+              id: user.data.userid,
+              name: user.data.name,
+              email: credentials.username,
+              token: jwt,
+            };
           }
+
           // Return null if user data could not be retrieved
           return null;
         } catch (e) {
