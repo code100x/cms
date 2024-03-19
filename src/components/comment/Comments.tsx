@@ -52,7 +52,10 @@ const Comments = async ({
     content.id,
     session.user.id,
   );
-
+  const commentTypeLabels = {
+    [CommentType.DEFAULT]: 'All comments',
+    [CommentType.INTRO]: 'Intro comments',
+  };
   const data = await getComments(q, searchParams.parentId);
 
   if (!content.id) return null;
@@ -177,8 +180,8 @@ const Comments = async ({
               >
                 <span>
                   {searchParams.type === CommentType.INTRO
-                    ? CommentType.INTRO
-                    : 'All comments' || 'All comments'}
+                    ? commentTypeLabels[CommentType.INTRO]
+                    : commentTypeLabels[CommentType.DEFAULT]}
                 </span>
                 <ChevronDownIcon className="w-4 h-4" />
               </Button>
