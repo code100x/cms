@@ -46,7 +46,9 @@ export const Appbar = () => {
                   <Button
                     variant="link"
                     className={
-                      currentPath === bookmarkPageUrl ? 'font-bold' : ''
+                      currentPath === bookmarkPageUrl
+                        ? 'font-bold underline'
+                        : ''
                     }
                     size={'sm'}
                     asChild

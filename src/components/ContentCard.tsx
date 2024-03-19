@@ -42,11 +42,12 @@ export const ContentCard = ({
         </div>
       )}
       {bookmark !== undefined && contentId && (
-        <div className="absolute top-2 right-2">
+        <div className="absolute top-2 left-2">
           <BookmarkButton
             bookmark={bookmark}
             contentId={contentId}
-            size={32}
+            size={28}
+            align="start"
             side="bottom"
           />
         </div>
