@@ -129,6 +129,9 @@ model User {
   discordConnect DiscordConnect?
   disableDrm     Boolean         @default(false)
   bookmarks      Bookmark[]
+  password       String?
+  appxUserId     String?
+  appxUsername     String?
 }
 
 model DiscordConnect {
