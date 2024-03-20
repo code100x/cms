@@ -1,4 +1,5 @@
 import { CommentFilter, QueryParams } from '@/actions/types';
+import { Folder } from '@/db/course';
 import { CommentType, Prisma } from '@prisma/client';
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
@@ -10,6 +11,40 @@ export function cn(...inputs: ClassValue[]) {
 
 export interface VideoJsPlayer {
   eme: () => void;
+}
+
+export const convertToVideoCompletionData = (currentCourse: Folder[]): VideoCompletionData[] => {
+  const videoCompletionData: VideoCompletionData[] = [];
+
+  for (const folder of currentCourse) {
+    for (const child of folder?.children ?? []) {
+      if (child?.type === 'video') {
+        const { id, parentId, videoProgress } = child;
+        const isCompleted = videoProgress?.markAsCompleted ?? false;
+        videoCompletionData.push({ id, parentId, isCompleted });
+      }
+    }
+  }
+
+  return videoCompletionData;
+};
+
+export const getFolderContentCompleted = (videoCompletion : VideoCompletionData[], contentId : number) => {
+  const folderItems = videoCompletion.filter(item => item.parentId === contentId);
+  const totalContentInside = folderItems.length;
+  const totalCompleted = folderItems.filter(item => item.isCompleted).length;
+
+  if (totalContentInside === 0) {
+    return 0; 
+  }
+  
+  return Math.round((totalCompleted / totalContentInside) * 100);
+};
+
+export interface VideoCompletionData {
+  id : number;
+  parentId : number | null;
+  isCompleted : boolean | undefined;
 }
 
 export interface Segment {
