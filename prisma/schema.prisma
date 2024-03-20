@@ -128,7 +128,7 @@ model User {
   disableDrm     Boolean         @default(false)
   password       String?
   appxUserId     String?
-  appxUsername     String?
+  appxUsername   String?
 }
 
 model DiscordConnect {
@@ -147,13 +147,15 @@ model DiscordConnectBulk {
 }
 
 model VideoProgress {
-  id               Int     @id @default(autoincrement())
+  id               Int      @id @default(autoincrement())
   userId           String
   contentId        Int
   currentTimestamp Int
-  user             User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  content          Content @relation(fields: [contentId], references: [id], onDelete: Cascade)
-  markAsCompleted  Boolean @default(false)
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  content          Content  @relation(fields: [contentId], references: [id], onDelete: Cascade)
+  markAsCompleted  Boolean  @default(false)
+  updatedAt        DateTime @default(now()) @updatedAt
+  videoDuration    Int      @default(0)
 
   @@unique([contentId, userId])
 }
@@ -200,4 +202,3 @@ enum CommentType {
   INTRO
   DEFAULT
 }
-

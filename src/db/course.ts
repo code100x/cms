@@ -250,6 +250,9 @@ export const getFullCourseContent = async (courseId: number) => {
               markAsCompleted: videoProgress.find(
                 (x) => x.contentId === content.id,
               )?.markAsCompleted,
+              videoFullDuration: videoProgress.find(
+                (x) => x.contentId === content.id,
+              )?.videoDuration,
             }
             : null,
       },

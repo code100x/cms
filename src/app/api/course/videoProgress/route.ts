@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import db from '@/db';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
+import { revalidatePath } from 'next/cache';
 
 export async function GET(req: NextRequest) {
   const url = new URL(req.url);
@@ -26,7 +27,7 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
-  const { contentId, currentTimestamp } = await req.json();
+  const { contentId, currentTimestamp, videoDuration } = await req.json();
   const session = await getServerSession(authOptions);
   if (!session || !session?.user) {
     return NextResponse.json({}, { status: 401 });
@@ -42,10 +43,13 @@ export async function POST(req: NextRequest) {
       contentId: Number(contentId),
       userId: session.user.id,
       currentTimestamp,
+      videoDuration,
     },
     update: {
       currentTimestamp,
+      ...(videoDuration && { videoDuration }),
     },
   });
+  revalidatePath('/history');
   return NextResponse.json(updatedRecord);
 }
