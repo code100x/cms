@@ -1,10 +1,18 @@
 import { Metadata } from 'next';
 
+const TITLE =
+  'Take your development skills from 0 to 100 and join the 100xdevs community';
+const DESCRIPTION =
+  'This is an initiative by Harkirat Singh to personally mentor folks in the field of Programming. Join him in his first course on Full Stack development with a heavy focus on Open source projects to learn programming practically.';
+
+const PREVIEW_IMAGE_URL = 'https://app.100xdevs/banner-img.jpeg';
+const ALT_TITLE =
+  '100xdevs - Take your programming skills from 0 to 100 with Harkirat Singh';
+const BASE_URL = 'https://app.100xdevs.com';
+
 export const siteConfig: Metadata = {
-  title:
-    'Take your development skills from 0 to 100 and join the 100xdevs community',
-  description:
-    'This is an initiative by Harkirat Singh to personally mentor folks in the field of Programming. Join him in his first course on Full Stack development with a heavy focus on Open source projects to learn programming practically.',
+  title: TITLE,
+  description: DESCRIPTION,
   icons: {
     icon: '/favicon.ico',
   },
@@ -12,41 +20,37 @@ export const siteConfig: Metadata = {
   creator: 'Harkirat',
   twitter: {
     creator: '@kirat_tw',
-    title:
-      'Take your development skills from 0 to 100 and join the 100xdevs community',
-    description:
-      'This is an initiative by Harkirat Singh to personally mentor folks in the field of Programming. Join him in his first course on Full Stack development with a heavy focus on Open source projects to learn programming practically.',
+    title: TITLE,
+    description: DESCRIPTION,
     card: 'summary_large_image',
     images: [
       {
-        url: 'https://app.100xdevs/banner-img.jpeg',
+        url: PREVIEW_IMAGE_URL,
         width: 1200,
         height: 630,
-        alt: 'Take your development skills from 0 to 100 and join the prestigious 100xdevs community',
+        alt: ALT_TITLE,
       },
     ],
   },
   openGraph: {
-    title:
-      'Take your development skills from 0 to 100 and join the prestigious 100xdevs community',
-    description:
-      'This is an initiative by Harkirat Singh to personally mentor folks in the field of Programming. Join him in his first course on Full Stack development with a heavy focus on Open source projects to learn programming practically.',
+    title: TITLE,
+    description: DESCRIPTION,
     siteName: '100xdevs',
-    url: 'https://app.100xdevs.com',
+    url: BASE_URL,
     locale: 'en_US',
     type: 'website',
     images: [
       {
-        url: 'https://app.100xdevs/banner-img.jpeg',
+        url: PREVIEW_IMAGE_URL,
         width: 1200,
         height: 630,
-        alt: '100xdevs - Take your programming skills from 0 to 100 with Harkirat Singh',
+        alt: ALT_TITLE,
       },
     ],
   },
   category: 'Technology',
   alternates: {
-    canonical: 'https://app.100xdevs.com',
+    canonical: BASE_URL,
   },
   keywords: [
     'Javascript for begginers',
@@ -58,5 +62,5 @@ export const siteConfig: Metadata = {
     'Advanced Backend',
     'Javscript to typescript',
   ],
-  metadataBase: new URL('https://app.100xdevs.com'),
+  metadataBase: new URL(BASE_URL),
 };
