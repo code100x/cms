@@ -15,16 +15,7 @@ const fontSans = FontSans({
   variable: '--font-sans',
 });
 
-export const metadata: Metadata = {
-  title: siteConfig.title,
-  description: siteConfig.description,
-  icons: [
-    {
-      url: '/harkirat.png',
-      href: '/harkirat.png',
-    },
-  ],
-};
+export const metadata: Metadata = siteConfig;
 
 export default function RootLayout({
   children,
