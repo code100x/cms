@@ -1,5 +1,5 @@
 'use client';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import {
   Accordion,
   AccordionContent,
@@ -11,6 +11,10 @@ import { Button } from './ui/button';
 import { BackArrow } from '@/icons/BackArrow';
 import { useRecoilState } from 'recoil';
 import { sidebarOpen as sidebarOpenAtom } from '@/store/atoms/sidebar';
+import {
+  activeContentIds as activeContentIdsAtom,
+  currentContentId as currentContentIdAtom,
+} from '@/store/atoms/activecontent';
 import { useEffect, useState } from 'react';
 import { handleMarkAsCompleted } from '@/lib/utils';
 
@@ -22,7 +26,35 @@ export function Sidebar({
   courseId: string;
 }) {
   const router = useRouter();
+  const pathName = usePathname();
+
   const [sidebarOpen, setSidebarOpen] = useRecoilState(sidebarOpenAtom);
+  const [currentActiveContentIds, setCurrentActiveContentIds] =
+    useRecoilState(activeContentIdsAtom);
+  const [currentContentId, setCurrentContentId] =
+    useRecoilState(currentContentIdAtom);
+
+  useEffect(() => {
+    const urlRegex = /\/courses\/.*./;
+    const courseUrlRegex = /\/courses\/\d+((?:\/\d+)+)/;
+
+    if (urlRegex.test(pathName)) {
+      const matchArray = pathName.match(courseUrlRegex);
+      let currentUrlContentId;
+      // if matchArray is not null
+      if (matchArray) {
+        const urlPathString = matchArray[1];
+        currentUrlContentId = Number(
+          urlPathString.slice(urlPathString.length - 1),
+        ); // get last content id from pathString e.g '/1/2' => 2 (number)
+      }
+      const pathArray = findPathToContent(
+        fullCourseContent,
+        currentUrlContentId,
+      );
+      setCurrentActiveContentIds(pathArray);
+    }
+  }, [pathName, currentContentId]);
 
   useEffect(() => {
     if (window.innerWidth < 500) {
@@ -64,13 +96,20 @@ export function Sidebar({
 
   const renderContent = (contents: any) => {
     return contents.map((content: any) => {
+      const isActiveContent = currentActiveContentIds?.some(
+        (id) => content.id === id,
+      );
       if (content.children && content.children.length > 0) {
         // This is a folder with children
         return (
           <AccordionItem
             key={content.id}
             value={`item-${content.id}`}
-            className="text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer"
+            className={
+              content.type === 'folder' && isActiveContent
+                ? 'dark:bg-blue-600 dark:text-black bg-blue-600 text-white dark:hover:bg-blue-500 hover:bg-blue-500'
+                : ''
+            }
           >
             <AccordionTrigger className="px-2 text-left">
               {content.title}
@@ -86,9 +125,14 @@ export function Sidebar({
       return (
         <div
           key={content.id}
-          className="p-2 flex border-gray-300 border-b hover:bg-gray-100 dark:hover:bg-gray-700 dark:border-gray-700 cursor-pointer bg-gray-50 dark:bg-gray-800"
+          className={`p-2 flex border-gray-300 border-b dark:border-gray-700 cursor-pointer ${
+            isActiveContent
+              ? 'dark:bg-blue-600 dark:text-black bg-blue-600 text-white dark:hover:bg-blue-500 hover:bg-blue-500'
+              : 'bg-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-white text-black  hover:bg-gray-100'
+          }`}
           onClick={() => {
             navigateToContent(content.id);
+            setCurrentContentId(content.id);
           }}
         >
           <div className="flex justify-between w-full">
