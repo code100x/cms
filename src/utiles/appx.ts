@@ -71,10 +71,10 @@ export async function getPurchases(email: string) {
         some: {
           user: {
             email,
-          }
-        }
-      }
-    }
+          },
+        },
+      },
+    },
   });
 
   if (coursesFromDb) {

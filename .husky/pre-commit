@@ -1,7 +1,13 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-npm run format:fix
-npm run lint:fix
+npm run format:check || EXIT_CODE=$?
+echo "FORMAT exit code: $EXIT_CODE"
 
-git add .
+npm run lint:check || EXIT_CODE=$?
+echo "LINT exit code: $EXIT_CODE"
+
+if [ ! -z "$EXIT_CODE" ]; then
+  echo "Exiting with exit code: $EXIT_CODE"
+  exit $EXIT_CODE
+fi
