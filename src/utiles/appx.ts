@@ -65,19 +65,20 @@ export async function getPurchases(email: string) {
   }
 
   // Check if the user exists in the db
-  const coursesFromDb = prisma.course.findMany({
+  const coursesFromDb = await prisma.course.findMany({
     where: {
       purchasedBy: {
         some: {
           user: {
             email,
-          }
-        }
-      }
-    }
+          },
+        },
+      },
+    },
   });
 
-  if (coursesFromDb) {
+  if (coursesFromDb && coursesFromDb.length) {
+    Cache.getInstance().set('courses', [email], coursesFromDb, 60 * 60);
     return coursesFromDb;
   }
 
@@ -114,7 +115,7 @@ export async function getPurchases(email: string) {
       }
     }
   }
-  console.log('cache not hit');
+
   Cache.getInstance().set('courses', [email], responses, 60 * 60 * 24);
   return responses;
 }
