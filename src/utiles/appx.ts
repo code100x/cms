@@ -7,6 +7,7 @@ import { authOptions } from '@/lib/auth';
 import { Course } from '@/store/atoms';
 import { getServerSession } from 'next-auth';
 import { Cache } from '@/db/Cache';
+import prisma from '@/db';
 
 const APPX_AUTH_KEY = process.env.APPX_AUTH_KEY;
 const APPX_CLIENT_SERVICE = process.env.APPX_CLIENT_SERVICE;
@@ -61,6 +62,23 @@ export async function getPurchases(email: string) {
 
   if (LOCAL_CMS_PROVIDER) {
     return courses;
+  }
+
+  // Check if the user exists in the db
+  const coursesFromDb = prisma.course.findMany({
+    where: {
+      purchasedBy: {
+        some: {
+          user: {
+            email,
+          }
+        }
+      }
+    }
+  });
+
+  if (coursesFromDb) {
+    return coursesFromDb;
   }
 
   const baseUrl = `${APPX_BASE_API}/get/checkemailforpurchase`;
