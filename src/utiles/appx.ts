@@ -78,8 +78,12 @@ export async function getPurchases(email: string) {
   });
 
   if (coursesFromDb && coursesFromDb.length) {
-    Cache.getInstance().set('courses', [email], coursesFromDb, 60 * 60);
-    return [...coursesFromDb, ...courses.filter((x) => x.openToEveryone)];
+    const allCourses = [
+      ...coursesFromDb,
+      ...courses.filter((x) => x.openToEveryone),
+    ];
+    Cache.getInstance().set('courses', [email], allCourses, 60 * 60);
+    return allCourses;
   }
 
   const baseUrl = `${APPX_BASE_API}/get/checkemailforpurchase`;
