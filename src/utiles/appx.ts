@@ -79,7 +79,7 @@ export async function getPurchases(email: string) {
 
   if (coursesFromDb && coursesFromDb.length) {
     Cache.getInstance().set('courses', [email], coursesFromDb, 60 * 60);
-    return [...coursesFromDb, courses.filter((x) => x.openToEveryone)];
+    return [...coursesFromDb, ...courses.filter((x) => x.openToEveryone)];
   }
 
   const baseUrl = `${APPX_BASE_API}/get/checkemailforpurchase`;
