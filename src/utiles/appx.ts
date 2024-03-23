@@ -79,7 +79,7 @@ export async function getPurchases(email: string) {
 
   if (coursesFromDb && coursesFromDb.length) {
     Cache.getInstance().set('courses', [email], coursesFromDb, 60 * 60);
-    return coursesFromDb;
+    return [...coursesFromDb, courses.filter((x) => x.openToEveryone)];
   }
 
   const baseUrl = `${APPX_BASE_API}/get/checkemailforpurchase`;
@@ -91,20 +91,22 @@ export async function getPurchases(email: string) {
 
   const responses: Course[] = [];
 
-  const promises = courses.map(async (course) => {
-    const params = new URLSearchParams({
-      email,
-      itemtype: '10',
-      itemid: course.appxCourseId.toString(),
-    });
-    //@ts-ignore
-    const response = await fetch(`${baseUrl}?${params}`, { headers });
-    const data = await response.json();
+  const promises = courses
+    .filter((x) => !x.openToEveryone)
+    .map(async (course) => {
+      const params = new URLSearchParams({
+        email,
+        itemtype: '10',
+        itemid: course.appxCourseId.toString(),
+      });
+      //@ts-ignore
+      const response = await fetch(`${baseUrl}?${params}`, { headers });
+      const data = await response.json();
 
-    if (data.data === '1') {
-      responses.push(course);
-    }
-  });
+      if (data.data === '1') {
+        responses.push(course);
+      }
+    });
 
   await Promise.all(promises);
 
