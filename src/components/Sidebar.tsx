@@ -98,6 +98,15 @@ export function Sidebar({
                 {content.type === 'notion' ? <NotionIcon /> : null}
               </div>
               <div>{content.title}</div>
+              {content.type === 'video' ? (
+                <div className="pl-1">
+                  [
+                  {getVideoDurationInHourFormat(
+                    content?.videoProgress?.duration,
+                  )}
+                  ]
+                </div>
+              ) : null}
             </div>
             {content.type === 'video' ? (
               <div className="flex flex-col justify-center ml-2">
@@ -149,13 +158,13 @@ export function ToggleButton({
       ></span>
       <span
         className={`dark:bg-white bg-black block transition-all duration-300 ease-out 
-                    h-0.5 w-6 rounded-sm my-0.5 ${
+                  h-0.5 w-6 rounded-sm my-0.5 ${
     !sidebarOpen ? 'opacity-0' : 'opacity-100'
     }`}
       ></span>
       <span
         className={`dark:bg-white bg-black block transition-all duration-300 ease-out 
-                    h-0.5 w-6 rounded-sm ${
+                  h-0.5 w-6 rounded-sm ${
     !sidebarOpen
       ? '-rotate-45 -translate-y-1'
       : 'translate-y-0.5'
@@ -250,4 +259,15 @@ function Check({ content }: { content: any }) {
       />
     </>
   );
+}
+
+function getVideoDurationInHourFormat(durationInSeconds: number): string {
+  const hours = Math.floor(durationInSeconds / 3600);
+  const remainingSeconds = durationInSeconds % 3600;
+
+  const minutes = Math.floor(remainingSeconds / 60);
+
+  const durationInHours = `${hours} h ${minutes} m`;
+
+  return durationInHours;
 }
