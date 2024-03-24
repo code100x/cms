@@ -75,11 +75,46 @@ export async function getPurchases(email: string) {
         },
       },
     },
+    select: {
+      id: true,
+      title: true,
+      imageUrl: true,
+      description: true,
+      appxCourseId: true,
+      openToEveryone: true,
+      slug: true,
+      discordRoleId: true,
+      content: {
+        select: {
+          contentId: true,
+        },
+      },
+    },
+  });
+
+  const coursesFromDbWithStats = coursesFromDb.map((course) => {
+    let totalVideos = 0;
+    let totalVideosWatched = 0;
+    course.content.forEach(({ contentId }) => {
+      allVideos.forEach(({ parentId, id }) => {
+        if (parentId === contentId) {
+          totalVideos++;
+          if (completedVideosLookup[id]) {
+            totalVideosWatched++;
+          }
+        }
+      });
+    });
+
+    return {
+      ...course,
+      ...(totalVideos > 0 && { totalVideos, totalVideosWatched }),
+    };
   });
 
   if (coursesFromDb && coursesFromDb.length) {
     const allCourses = [
-      ...coursesFromDb,
+      ...coursesFromDbWithStats,
       ...courses.filter((x) => x.openToEveryone),
     ];
     Cache.getInstance().set('courses', [email], allCourses, 60 * 60);
