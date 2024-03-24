@@ -18,7 +18,7 @@ export interface Thumbnail {
 }
 
 interface VideoProps {
-  setQuality: React.Dispatch<React.SetStateAction<number>>;
+  setQuality: React.Dispatch<React.SetStateAction<string>>;
   thumbnails: Thumbnail[];
   segments: Segment[];
   subtitles: string;

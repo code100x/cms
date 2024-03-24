@@ -15,7 +15,7 @@ import './QualitySelectorControllBar';
 
 // todo correct types
 interface VideoPlayerProps {
-  setQuality: React.Dispatch<React.SetStateAction<number>>;
+  setQuality: React.Dispatch<React.SetStateAction<string>>;
   options: any;
   onReady?: (player: Player) => void;
   subtitles?: string;

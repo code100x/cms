@@ -126,6 +126,9 @@ model User {
   votes          Vote[]
   discordConnect DiscordConnect?
   disableDrm     Boolean         @default(false)
+  password       String?
+  appxUserId     String?
+  appxUsername     String?
 }
 
 model DiscordConnect {
