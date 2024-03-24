@@ -45,55 +45,6 @@ async function main() {
     ],
   });
 
-  const moreVideos = [];
-  for (let i = 4; i <= 40; i++) {
-    moreVideos.push({
-      id: i,
-      type: 'video',
-      title: `Another test video ${i} for week 1`,
-      hidden: false,
-      thumbnail:
-        'https://appx-recordings.s3.ap-south-1.amazonaws.com/drm/100x/images/week-1.jpg',
-      parentId: 1,
-      commentsCount: 0,
-    });
-  }
-
-  const moreVideosMetadata = [];
-  for (let i = 2; i <= 38; i++) {
-    moreVideosMetadata.push({
-      id: i,
-      contentId: i + 2,
-      video_1080p_mp4_1: 'https://www.w3schools.com/html/mov_bbb.mp4',
-      video_1080p_mp4_2: 'https://www.w3schools.com/html/mov_bbb.mp4',
-      video_1080p_mp4_3: 'https://www.w3schools.com/html/mov_bbb.mp4',
-      video_1080p_mp4_4: 'https://www.w3schools.com/html/mov_bbb.mp4',
-      video_1080p_1: 'https://www.w3schools.com/html/mov_bbb.mp4',
-      video_1080p_2: 'https://www.w3schools.com/html/mov_bbb.mp4',
-      video_1080p_3: 'https://www.w3schools.com/html/mov_bbb.mp4',
-      video_1080p_4: 'https://www.w3schools.com/html/mov_bbb.mp4',
-      video_720p_mp4_1: 'https://www.w3schools.com/html/mov_bbb.mp4',
-      video_720p_mp4_2: 'https://www.w3schools.com/html/mov_bbb.mp4',
-      video_720p_mp4_3: 'https://www.w3schools.com/html/mov_bbb.mp4',
-      video_720p_mp4_4: 'https://www.w3schools.com/html/mov_bbb.mp4',
-      video_720p_1: 'https://www.w3schools.com/html/mov_bbb.mp4',
-      video_720p_2: 'https://www.w3schools.com/html/mov_bbb.mp4',
-      video_720p_3: 'https://www.w3schools.com/html/mov_bbb.mp4',
-      video_720p_4: 'https://www.w3schools.com/html/mov_bbb.mp4',
-      video_360p_mp4_1: 'https://www.w3schools.com/html/mov_bbb.mp4',
-      video_360p_mp4_2: 'https://www.w3schools.com/html/mov_bbb.mp4',
-      video_360p_mp4_3: 'https://www.w3schools.com/html/mov_bbb.mp4',
-      video_360p_mp4_4: 'https://www.w3schools.com/html/mov_bbb.mp4',
-      video_360p_1: 'https://www.w3schools.com/html/mov_bbb.mp4',
-      video_360p_2: 'https://www.w3schools.com/html/mov_bbb.mp4',
-      video_360p_3: 'https://www.w3schools.com/html/mov_bbb.mp4',
-      video_360p_4: 'https://www.w3schools.com/html/mov_bbb.mp4',
-      slides:
-        'https://appx-recordings.s3.ap-south-1.amazonaws.com/drm/100x/slides/Loops%2C+callbacks.pdf',
-      duration: 10,
-    });
-  }
-
   await db.content.createMany({
     data: [
       {
@@ -125,7 +76,6 @@ async function main() {
         parentId: 1,
         commentsCount: 0,
       },
-      ...moreVideos,
     ],
   });
 
@@ -143,81 +93,37 @@ async function main() {
     },
   });
 
-  await db.videoMetadata.createMany({
-    data: [
-      {
-        id: 1,
-        contentId: 3,
-        video_1080p_mp4_1: 'https://www.w3schools.com/html/mov_bbb.mp4',
-        video_1080p_mp4_2: 'https://www.w3schools.com/html/mov_bbb.mp4',
-        video_1080p_mp4_3: 'https://www.w3schools.com/html/mov_bbb.mp4',
-        video_1080p_mp4_4: 'https://www.w3schools.com/html/mov_bbb.mp4',
-        video_1080p_1: 'https://www.w3schools.com/html/mov_bbb.mp4',
-        video_1080p_2: 'https://www.w3schools.com/html/mov_bbb.mp4',
-        video_1080p_3: 'https://www.w3schools.com/html/mov_bbb.mp4',
-        video_1080p_4: 'https://www.w3schools.com/html/mov_bbb.mp4',
-        video_720p_mp4_1: 'https://www.w3schools.com/html/mov_bbb.mp4',
-        video_720p_mp4_2: 'https://www.w3schools.com/html/mov_bbb.mp4',
-        video_720p_mp4_3: 'https://www.w3schools.com/html/mov_bbb.mp4',
-        video_720p_mp4_4: 'https://www.w3schools.com/html/mov_bbb.mp4',
-        video_720p_1: 'https://www.w3schools.com/html/mov_bbb.mp4',
-        video_720p_2: 'https://www.w3schools.com/html/mov_bbb.mp4',
-        video_720p_3: 'https://www.w3schools.com/html/mov_bbb.mp4',
-        video_720p_4: 'https://www.w3schools.com/html/mov_bbb.mp4',
-        video_360p_mp4_1: 'https://www.w3schools.com/html/mov_bbb.mp4',
-        video_360p_mp4_2: 'https://www.w3schools.com/html/mov_bbb.mp4',
-        video_360p_mp4_3: 'https://www.w3schools.com/html/mov_bbb.mp4',
-        video_360p_mp4_4: 'https://www.w3schools.com/html/mov_bbb.mp4',
-        video_360p_1: 'https://www.w3schools.com/html/mov_bbb.mp4',
-        video_360p_2: 'https://www.w3schools.com/html/mov_bbb.mp4',
-        video_360p_3: 'https://www.w3schools.com/html/mov_bbb.mp4',
-        video_360p_4: 'https://www.w3schools.com/html/mov_bbb.mp4',
-        slides:
-          'https://appx-recordings.s3.ap-south-1.amazonaws.com/drm/100x/slides/Loops%2C+callbacks.pdf',
-        duration: 10,
-      },
-      ...moreVideosMetadata,
-    ],
-  });
-
-  const data = [];
-  const uniqueDates = [
-    ...Array.from({ length: 5 }, () => getRandomDate()),
-    new Date(Date.now()),
-    new Date(Date.now() - 24 * 60 * 60 * 1000),
-  ];
-
-  for (let i = 3; i <= 40; i++) {
-    const updatedAt =
-      uniqueDates[Math.floor(Math.random() * uniqueDates.length)];
-
-    for (let j = 0; j < 1; j++) {
-      // Each contentId will have exactly 1 entry
-      data.push({
-        id: i,
-        contentId: i,
-        userId: '1',
-        currentTimestamp: getRandomTimestamp(),
-        updatedAt, // Set updatedAt time to be the same for the first 5 entries
-      });
-    }
-  }
-
-  function getRandomTimestamp() {
-    return Math.floor(Math.random() * 11); // Random number between 0 and 10
-  }
-
-  function getRandomDate() {
-    const startDate = new Date(2023, 0, 1); // Random start date
-    const endDate = new Date(); // Current date
-    return new Date(
-      startDate.getTime() +
-        Math.random() * (endDate.getTime() - startDate.getTime()),
-    );
-  }
-
-  await db.videoProgress.createMany({
-    data,
+  await db.videoMetadata.create({
+    data: {
+      id: 1,
+      contentId: 3,
+      video_1080p_mp4_1: 'https://www.w3schools.com/html/mov_bbb.mp4',
+      video_1080p_mp4_2: 'https://www.w3schools.com/html/mov_bbb.mp4',
+      video_1080p_mp4_3: 'https://www.w3schools.com/html/mov_bbb.mp4',
+      video_1080p_mp4_4: 'https://www.w3schools.com/html/mov_bbb.mp4',
+      video_1080p_1: 'https://www.w3schools.com/html/mov_bbb.mp4',
+      video_1080p_2: 'https://www.w3schools.com/html/mov_bbb.mp4',
+      video_1080p_3: 'https://www.w3schools.com/html/mov_bbb.mp4',
+      video_1080p_4: 'https://www.w3schools.com/html/mov_bbb.mp4',
+      video_720p_mp4_1: 'https://www.w3schools.com/html/mov_bbb.mp4',
+      video_720p_mp4_2: 'https://www.w3schools.com/html/mov_bbb.mp4',
+      video_720p_mp4_3: 'https://www.w3schools.com/html/mov_bbb.mp4',
+      video_720p_mp4_4: 'https://www.w3schools.com/html/mov_bbb.mp4',
+      video_720p_1: 'https://www.w3schools.com/html/mov_bbb.mp4',
+      video_720p_2: 'https://www.w3schools.com/html/mov_bbb.mp4',
+      video_720p_3: 'https://www.w3schools.com/html/mov_bbb.mp4',
+      video_720p_4: 'https://www.w3schools.com/html/mov_bbb.mp4',
+      video_360p_mp4_1: 'https://www.w3schools.com/html/mov_bbb.mp4',
+      video_360p_mp4_2: 'https://www.w3schools.com/html/mov_bbb.mp4',
+      video_360p_mp4_3: 'https://www.w3schools.com/html/mov_bbb.mp4',
+      video_360p_mp4_4: 'https://www.w3schools.com/html/mov_bbb.mp4',
+      video_360p_1: 'https://www.w3schools.com/html/mov_bbb.mp4',
+      video_360p_2: 'https://www.w3schools.com/html/mov_bbb.mp4',
+      video_360p_3: 'https://www.w3schools.com/html/mov_bbb.mp4',
+      video_360p_4: 'https://www.w3schools.com/html/mov_bbb.mp4',
+      slides:
+        'https://appx-recordings.s3.ap-south-1.amazonaws.com/drm/100x/slides/Loops%2C+callbacks.pdf',
+    },
   });
 }
 
