@@ -180,8 +180,14 @@ async function getAllContent() {
     where: {
       hidden: false,
     },
+    include: {
+      VideoMetadata: {
+        select: {
+          duration: true,
+        },
+      },
+    },
   });
-
   Cache.getInstance().set('getAllContent', [], allContent);
 
   return allContent;
@@ -250,9 +256,7 @@ export const getFullCourseContent = async (courseId: number) => {
               markAsCompleted: videoProgress.find(
                 (x) => x.contentId === content.id,
               )?.markAsCompleted,
-              videoFullDuration: videoProgress.find(
-                (x) => x.contentId === content.id,
-              )?.videoDuration,
+              videoFullDuration: content.VideoMetadata?.duration,
             }
             : null,
       },

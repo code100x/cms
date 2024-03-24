@@ -8,6 +8,7 @@ import { Fragment } from 'react';
 export type TWatchHistory = VideoProgress & {
   content: Content & {
     parent: { id: number; courses: CourseContent[] } | null;
+    VideoMetadata: { duration: number | null } | null;
   };
 };
 
@@ -51,6 +52,11 @@ async function getWatchHistory() {
     include: {
       content: {
         include: {
+          VideoMetadata: {
+            select: {
+              duration: true,
+            },
+          },
           parent: {
             select: {
               id: true,

@@ -36,7 +36,6 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
 }) => {
   const videoRef = useRef<HTMLDivElement>(null);
   const playerRef = useRef<Player | null>(null);
-  const [videoDuration, setVideoDuration] = useState<number | null>(null);
   const [player, setPlayer] = useState<any>(null);
   const searchParams = useSearchParams();
   useEffect(() => {
@@ -188,22 +187,6 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
           }
           const currentTime = player.currentTime();
           if (currentTime <= 20) {
-            return;
-          }
-          const duration = Math.floor(player.duration());
-          if (!videoDuration) {
-            await fetch('/api/course/videoProgress', {
-              body: JSON.stringify({
-                currentTimestamp: currentTime,
-                contentId,
-                videoDuration: duration,
-              }),
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-            });
-            setVideoDuration(duration);
             return;
           }
           await fetch('/api/course/videoProgress', {

@@ -30,18 +30,18 @@ const HistoryCard = ({
   id,
   contentId,
   currentTimestamp,
-  videoDuration,
-  content: { type, title, thumbnail, hidden, parent },
+  content: { type, title, thumbnail, hidden, parent, VideoMetadata },
 }: TWatchHistory) => {
   const router = useRouter();
 
-  if (parent && !hidden && type === 'video') {
+  if (parent && !hidden && type === 'video' && VideoMetadata) {
+    const { duration: videoDuration } = VideoMetadata;
     const { id: folderId, courses } = parent;
     const courseId = courses[0].courseId;
     const videoUrl = `/courses/${courseId}/${folderId}/${contentId}`;
-    const videoProgressPercent = Math.round(
-      (currentTimestamp / videoDuration) * 100,
-    );
+    const videoProgressPercent = videoDuration
+      ? Math.round((currentTimestamp / videoDuration) * 100)
+      : 0;
     return (
       <ContentCard
         type={type}

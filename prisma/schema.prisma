@@ -155,7 +155,6 @@ model VideoProgress {
   content          Content  @relation(fields: [contentId], references: [id], onDelete: Cascade)
   markAsCompleted  Boolean  @default(false)
   updatedAt        DateTime @default(now()) @updatedAt
-  videoDuration    Int      @default(0)
 
   @@unique([contentId, userId])
 }
