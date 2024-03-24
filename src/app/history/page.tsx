@@ -22,6 +22,17 @@ const formatWatchHistoryDate = (date: Date) => {
   } else if (diffInDays < 2) {
     return 'Yesterday';
   }
+  const currentYear = now.getFullYear();
+
+  const historyYear = date.getFullYear();
+
+  if (currentYear - historyYear > 0) {
+    return date.toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
+    });
+  }
   return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
 };
 
