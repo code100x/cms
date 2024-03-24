@@ -20,7 +20,7 @@ const formatWatchHistoryDate = (date: Date) => {
     return 'Today';
   } else if (diffInDays < 2) {
     return 'Yesterday';
-  } 
+  }
   return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
 };
 

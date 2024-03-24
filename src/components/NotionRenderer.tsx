@@ -3,6 +3,14 @@ import { useEffect, useState } from 'react';
 import { NotionRenderer as NotionRendererLib } from 'react-notion-x';
 // core styles shared by all of react-notion-x (required)
 import 'react-notion-x/src/styles.css';
+import dynamic from 'next/dynamic';
+
+const Code = dynamic(() =>
+  import('react-notion-x/build/third-party/code').then((m) => m.Code),
+);
+const Equation = dynamic(() =>
+  import('react-notion-x/build/third-party/equation').then((m) => m.Equation),
+);
 
 // used for code syntax highlighting (optional)
 import 'prismjs/themes/prism-tomorrow.css';
@@ -36,6 +44,10 @@ export const NotionRenderer = ({ id }: { id: string }) => {
           fullPage={true}
           darkMode={true}
           className="z-10"
+          components={{
+            Code,
+            Equation,
+          }}
         />
       </div>
     </div>
