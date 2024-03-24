@@ -38,8 +38,8 @@ export const ContentRendererClient = ({
   const router = useRouter();
 
   //@ts-ignore
-  const [quality, setQuality] = useState<number>(
-    searchParams.get('quality') | null,
+  const [quality, setQuality] = useState<string>(
+    searchParams.get('quality') ?? '1080',
   );
 
   if (!metadata) {
