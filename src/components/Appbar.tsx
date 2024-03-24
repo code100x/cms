@@ -41,6 +41,12 @@ export const Appbar = () => {
                 </Button>
 
                 <Button size={'sm'} variant={'link'} asChild>
+                  <Link href={'https://projects.100xdevs.com/'} target="_blank">
+                    Slides
+                  </Link>
+                </Button>
+
+                <Button size={'sm'} variant={'link'} asChild>
                   <Link
                     href={'https://github.com/100xdevs-cohort-2/assignments'}
                     target="_blank"

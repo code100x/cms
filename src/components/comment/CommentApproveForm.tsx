@@ -1,18 +1,24 @@
 'use client';
 
-import { deleteMessage } from '@/actions/comment';
+import { approveComment } from '@/actions/comment';
 import { useAction } from '@/hooks/useAction';
-import { Trash2Icon } from 'lucide-react';
+import { CheckIcon } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import React from 'react';
 import { toast } from 'sonner';
 
-const CommentDeleteForm = ({ commentId }: { commentId: number }) => {
+const CommentApproveForm = ({
+  commentId,
+  contentId,
+}: {
+  commentId: number;
+  contentId: number;
+}) => {
   const currentPath = usePathname();
 
-  const { execute } = useAction(deleteMessage, {
+  const { execute } = useAction(approveComment, {
     onSuccess: () => {
-      toast('Comment deleted');
+      toast('Comment Approved');
     },
     onError: (error) => {
       toast.error(error);
@@ -22,7 +28,8 @@ const CommentDeleteForm = ({ commentId }: { commentId: number }) => {
     e.preventDefault();
 
     execute({
-      commentId,
+      content_comment_ids: `${contentId};${commentId}`,
+      approved: true,
       currentPath,
     });
   };
@@ -30,11 +37,11 @@ const CommentDeleteForm = ({ commentId }: { commentId: number }) => {
     <form onSubmit={handleFormSubmit}>
       <button type="submit">
         <div className="flex gap-1 items-center">
-          Delete <Trash2Icon className="w-4 h-4" />
+          Approve Chapters <CheckIcon className="w-4 h-4" />
         </div>
       </button>
     </form>
   );
 };
 
-export default CommentDeleteForm;
+export default CommentApproveForm;

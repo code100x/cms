@@ -11,15 +11,18 @@ const CommentVoteForm = ({
   upVotes,
   downVotes,
   commentId,
+  voteType,
 }: {
   upVotes: number;
   downVotes: number;
   commentId: number;
+  voteType: VoteType | null;
 }) => {
   const currentPath = usePathname();
+
   const { execute } = useAction(voteHandlerAction, {
     onSuccess: () => {
-      toast('Comment added');
+      toast('Comment Voted');
     },
     onError: (error) => {
       toast.error(error);
@@ -50,7 +53,13 @@ const CommentVoteForm = ({
           className="flex items-center gap-1 text-gray-500 dark:text-gray-400"
           type="submit"
         >
-          <ThumbsUpIcon className="w-4 h-4" type="submit" />
+          <ThumbsUpIcon
+            className="w-4 h-4"
+            type="submit"
+            fill={
+              voteType && voteType === VoteType.UPVOTE ? 'currentColor' : 'none'
+            }
+          />
 
           <span>{upVotes}</span>
         </button>
@@ -60,7 +69,14 @@ const CommentVoteForm = ({
           className="flex items-center gap-1 text-gray-500 dark:text-gray-400"
           type="submit"
         >
-          <ThumbsDownIcon className="w-4 h-4" />
+          <ThumbsDownIcon
+            className="w-4 h-4"
+            fill={
+              voteType && voteType === VoteType.DOWNVOTE
+                ? 'currentColor'
+                : 'none'
+            }
+          />
 
           <span>{downVotes}</span>
         </button>
