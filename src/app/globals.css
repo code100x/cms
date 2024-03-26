@@ -66,7 +66,6 @@
   transform: translateX(-50%);
 }
 
-
 /* Hide scrollbar for Chrome, Safari and Opera */
 .no-scrollbar::-webkit-scrollbar {
   display: none;
@@ -87,10 +86,17 @@
   display: block !important;
 }
 
-.video-js .vjs-current-time{
+.video-js .vjs-current-time {
   display: block !important;
 }
 
 .vjs-duration {
   display: block !important;
+}
+.video-timestamp-bookmark-btn {
+  margin: 0 !important;
+  padding: 0 !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
 }

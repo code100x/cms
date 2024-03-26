@@ -3,6 +3,8 @@ import React from 'react';
 import { ThemeProvider } from '@/components/theme-provider';
 import { SessionProvider } from 'next-auth/react';
 import { RecoilRoot } from 'recoil';
+import ModalsProvider from '@/components/ModalsProvider';
+import DrawerProvider from '@/components/DrawerProvider';
 
 export const Providers = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -13,7 +15,11 @@ export const Providers = ({ children }: { children: React.ReactNode }) => {
         enableSystem
         disableTransitionOnChange
       >
-        <RecoilRoot>{children}</RecoilRoot>
+        <RecoilRoot>
+          <ModalsProvider />
+          <DrawerProvider />
+          {children}
+        </RecoilRoot>
       </ThemeProvider>
     </SessionProvider>
   );

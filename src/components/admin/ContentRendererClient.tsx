@@ -5,6 +5,9 @@ import { VideoPlayerSegment } from '@/components/VideoPlayerSegment';
 import VideoContentChapters from '../VideoContentChapters';
 import { useState } from 'react';
 import { handleMarkAsCompleted } from '@/lib/utils';
+import { BookMarked } from 'lucide-react';
+import { useRecoilState } from 'recoil';
+import { DrawerState } from '@/store/atoms/drawers';
 
 export const ContentRendererClient = ({
   metadata,
@@ -90,6 +93,8 @@ export const ContentRendererClient = ({
     setLoadingMarkAs(false);
   };
 
+  const [, setDrawer] = useRecoilState(DrawerState);
+
   return (
     <div className="flex gap-2 items-start flex-col lg:flex-row">
       <div className="flex-1 w-full">
@@ -137,7 +142,7 @@ export const ContentRendererClient = ({
             </button>
           </div>
 
-          <div>
+          <div className="flex">
             {/* <QualitySelector /> */}
             <br />
             {metadata.slides ? (
@@ -155,9 +160,10 @@ export const ContentRendererClient = ({
                 </a>
               </div>
             ) : null}
+
             {!showChapters && metadata.segments?.length > 0 && (
               <button
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold rounded p-2"
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold rounded p-2 ml-4"
                 onClick={() => {
                   scrollTo({ top: 0, behavior: 'smooth' });
                   toggleShowChapters();
@@ -166,6 +172,19 @@ export const ContentRendererClient = ({
                 View All Chapters
               </button>
             )}
+            <BookMarked
+              size={32}
+              className="ml-4 mt-1 cursor-pointer"
+              onClick={() => {
+                setDrawer({
+                  open: true,
+                  type: 'AllTimestampBookmark',
+                  data: {
+                    contentId: content.id,
+                  },
+                });
+              }}
+            />
           </div>
         </div>
         {nextContent ? (

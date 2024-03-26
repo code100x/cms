@@ -97,30 +97,54 @@ async function main() {
     data: {
       id: 1,
       contentId: 3,
-      video_1080p_mp4_1: 'https://www.w3schools.com/html/mov_bbb.mp4',
-      video_1080p_mp4_2: 'https://www.w3schools.com/html/mov_bbb.mp4',
-      video_1080p_mp4_3: 'https://www.w3schools.com/html/mov_bbb.mp4',
-      video_1080p_mp4_4: 'https://www.w3schools.com/html/mov_bbb.mp4',
-      video_1080p_1: 'https://www.w3schools.com/html/mov_bbb.mp4',
-      video_1080p_2: 'https://www.w3schools.com/html/mov_bbb.mp4',
-      video_1080p_3: 'https://www.w3schools.com/html/mov_bbb.mp4',
-      video_1080p_4: 'https://www.w3schools.com/html/mov_bbb.mp4',
-      video_720p_mp4_1: 'https://www.w3schools.com/html/mov_bbb.mp4',
-      video_720p_mp4_2: 'https://www.w3schools.com/html/mov_bbb.mp4',
-      video_720p_mp4_3: 'https://www.w3schools.com/html/mov_bbb.mp4',
-      video_720p_mp4_4: 'https://www.w3schools.com/html/mov_bbb.mp4',
-      video_720p_1: 'https://www.w3schools.com/html/mov_bbb.mp4',
-      video_720p_2: 'https://www.w3schools.com/html/mov_bbb.mp4',
-      video_720p_3: 'https://www.w3schools.com/html/mov_bbb.mp4',
-      video_720p_4: 'https://www.w3schools.com/html/mov_bbb.mp4',
-      video_360p_mp4_1: 'https://www.w3schools.com/html/mov_bbb.mp4',
-      video_360p_mp4_2: 'https://www.w3schools.com/html/mov_bbb.mp4',
-      video_360p_mp4_3: 'https://www.w3schools.com/html/mov_bbb.mp4',
-      video_360p_mp4_4: 'https://www.w3schools.com/html/mov_bbb.mp4',
-      video_360p_1: 'https://www.w3schools.com/html/mov_bbb.mp4',
-      video_360p_2: 'https://www.w3schools.com/html/mov_bbb.mp4',
-      video_360p_3: 'https://www.w3schools.com/html/mov_bbb.mp4',
-      video_360p_4: 'https://www.w3schools.com/html/mov_bbb.mp4',
+      video_1080p_mp4_1:
+        'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4',
+      video_1080p_mp4_2:
+        'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4',
+      video_1080p_mp4_3:
+        'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4',
+      video_1080p_mp4_4:
+        'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4',
+      video_1080p_1:
+        'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4',
+      video_1080p_2:
+        'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4',
+      video_1080p_3:
+        'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4',
+      video_1080p_4:
+        'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4',
+      video_720p_mp4_1:
+        'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4',
+      video_720p_mp4_2:
+        'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4',
+      video_720p_mp4_3:
+        'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4',
+      video_720p_mp4_4:
+        'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4',
+      video_720p_1:
+        'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4',
+      video_720p_2:
+        'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4',
+      video_720p_3:
+        'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4',
+      video_720p_4:
+        'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4',
+      video_360p_mp4_1:
+        'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4',
+      video_360p_mp4_2:
+        'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4',
+      video_360p_mp4_3:
+        'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4',
+      video_360p_mp4_4:
+        'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4',
+      video_360p_1:
+        'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4',
+      video_360p_2:
+        'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4',
+      video_360p_3:
+        'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4',
+      video_360p_4:
+        'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4',
       slides:
         'https://appx-recordings.s3.ap-south-1.amazonaws.com/drm/100x/slides/Loops%2C+callbacks.pdf',
     },
