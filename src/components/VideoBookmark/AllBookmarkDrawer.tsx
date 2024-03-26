@@ -14,6 +14,7 @@ import qs from 'query-string';
 import { ScrollArea } from '../ui/scroll-area';
 import { useEffect, useState } from 'react';
 import CircularLoader from '../CircularLoader';
+import { useQueryClient } from '@tanstack/react-query';
 interface Bookmark {
   id: string;
   userId: string;
@@ -26,12 +27,11 @@ interface Bookmark {
 }
 
 export function AllBookmarkDrawer() {
+  const queryClient = useQueryClient();
   const [drawer, setDrawer] = useRecoilState(DrawerState);
-  const [isDelete, setIsDelete] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const [showContentIcon, setShowContentIcon] = useState<string | null>(null);
   const [isShowingfullDesc, setIsShowingFullDesc] = useState(false);
-  const [videoBookmarks, setVideoBookmarks] = useState([]);
+  const [bookmarkData, setBookmarkData] = useState([]);
   const isOpen = drawer.open && drawer.type === 'AllTimestampBookmark';
   const onClose = (open) => {
     if (!open) {
@@ -51,6 +51,7 @@ export function AllBookmarkDrawer() {
     });
     setIsShowingFullDesc(false);
   };
+
   const handleDeleteBookmark = async (id: string) => {
     try {
       const url = qs.stringifyUrl({
@@ -59,31 +60,19 @@ export function AllBookmarkDrawer() {
           id,
         },
       });
-      await axios.delete(url);
-      setIsDelete(!isDelete);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const getVideoTimestampBookmark = async () => {
-    setIsLoading(true);
-    try {
-      const data = await axios.get(
-        `/api/course/timestampBookmark?contentId=${drawer.data.contentId}`,
+      const { data } = await axios.delete(url);
+      setBookmarkData(
+        bookmarkData.filter((obj: Bookmark) => obj.id !== data.id),
       );
-      setVideoBookmarks(data.data);
-      setIsLoading(false);
+      if (data) {
+        queryClient.invalidateQueries({
+          queryKey: ['fetch-videoTimestamp-bookmark'],
+        });
+      }
     } catch (error) {
       console.log(error);
     }
   };
-
-  useEffect(() => {
-    if (drawer?.data?.contentId) {
-      getVideoTimestampBookmark();
-    }
-  }, [drawer, isDelete]);
 
   const handleMouseEnter = (bookmark: Bookmark) => {
     if (bookmark.description.length > 34) {
@@ -101,6 +90,13 @@ export function AllBookmarkDrawer() {
     setIsShowingFullDesc(true);
   };
 
+  const { data } = drawer;
+
+  useEffect(() => {
+    if (data) {
+      setBookmarkData(data?.bookmarkData);
+    }
+  }, [data]);
   return (
     <Drawer open={isOpen} direction="right" onOpenChange={onClose}>
       <DrawerContent className="h-screen top-0 right-0 left-auto mt-0 w-[350px] rounded-none outline-none border-none">
@@ -114,14 +110,14 @@ export function AllBookmarkDrawer() {
             </DrawerTitle>
           </DrawerHeader>
           <ScrollArea className="h-screen pb-[4rem]">
-            {isLoading ? (
+            {data && data.isLoading ? (
               <div className="flex justify-center pt-10">
                 <CircularLoader />
               </div>
             ) : (
               <div className="mx-4">
-                {videoBookmarks &&
-                  videoBookmarks?.map((bookmark: Bookmark) => {
+                {data &&
+                  bookmarkData.map((bookmark: Bookmark) => {
                     return (
                       <div
                         className="text-white border p-2 rounded cursor-pointer my-4 transition-all duration-600 ease-in-out hover:bg-gray-900"

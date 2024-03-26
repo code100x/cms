@@ -24,6 +24,8 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import axios from 'axios';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import toast from 'react-hot-toast';
 
 const formSchema = z.object({
   title: z.string().min(1, {
@@ -32,7 +34,15 @@ const formSchema = z.object({
   description: z.string().optional(),
 });
 
+interface BookmarkCreate {
+  contentId: number;
+  timestamp: number;
+  title: string;
+  description: string | undefined;
+}
+
 export function CreateBookmark() {
+  const queryClient = useQueryClient();
   const [modal, setModal] = useRecoilState(modalState);
 
   const isOpen = modal.open && modal.type === 'CreateVideoBookmark';
@@ -55,21 +65,46 @@ export function CreateBookmark() {
 
   const isLoading = form.formState.isSubmitting;
 
+  const createBookmark = async (postData: BookmarkCreate) => {
+    const url = '/api/course/timestampBookmark';
+    const { data: response } = await axios.post(url, postData);
+    return response.data;
+  };
+  const { mutate } = useMutation({
+    mutationFn: (postData: BookmarkCreate) => createBookmark(postData),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['fetch-videoTimestamp-bookmark'],
+      });
+      toast.success('Bookmark created!', {
+        style: {
+          borderRadius: '10px',
+          background: '#000',
+          color: '#fff',
+        },
+      });
+      form.reset();
+      onClose();
+    },
+    onError: () => {
+      toast.error('Please try again.', {
+        style: {
+          borderRadius: '10px',
+          background: '#000',
+          color: '#fff',
+        },
+      });
+    },
+  });
+
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    const postData = {
-      contentId: modal?.data.contentId,
-      timestamp: modal?.data.bookmarkedTime,
+    const postData: BookmarkCreate = {
+      contentId: Number(modal?.data.contentId),
+      timestamp: Number(modal?.data.bookmarkedTime),
       title: values.title,
       description: values.description,
     };
-    try {
-      const url = '/api/course/timestampBookmark';
-      await axios.post(url, postData);
-      form.reset();
-      onClose();
-    } catch (error) {
-      console.log(error);
-    }
+    mutate(postData);
   };
 
   return (

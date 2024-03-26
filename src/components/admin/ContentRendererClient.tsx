@@ -8,6 +8,8 @@ import { handleMarkAsCompleted } from '@/lib/utils';
 import { BookMarked } from 'lucide-react';
 import { useRecoilState } from 'recoil';
 import { DrawerState } from '@/store/atoms/drawers';
+import axios from 'axios';
+import { useQuery } from '@tanstack/react-query';
 
 export const ContentRendererClient = ({
   metadata,
@@ -94,6 +96,16 @@ export const ContentRendererClient = ({
   };
 
   const [, setDrawer] = useRecoilState(DrawerState);
+  const getBookmarkes = async () => {
+    const data = await axios.get(
+      `/api/course/timestampBookmark?contentId=${content.id}`,
+    );
+    return data.data;
+  };
+  const { data, isLoading } = useQuery({
+    queryKey: ['fetch-videoTimestamp-bookmark'],
+    queryFn: getBookmarkes,
+  });
 
   return (
     <div className="flex gap-2 items-start flex-col lg:flex-row">
@@ -172,19 +184,22 @@ export const ContentRendererClient = ({
                 View All Chapters
               </button>
             )}
-            <BookMarked
-              size={32}
-              className="ml-4 mt-1 cursor-pointer"
-              onClick={() => {
-                setDrawer({
-                  open: true,
-                  type: 'AllTimestampBookmark',
-                  data: {
-                    contentId: content.id,
-                  },
-                });
-              }}
-            />
+            {data && data?.length > 0 && (
+              <BookMarked
+                size={32}
+                className="ml-4 mt-1 cursor-pointer"
+                onClick={() => {
+                  setDrawer({
+                    open: true,
+                    type: 'AllTimestampBookmark',
+                    data: {
+                      bookmarkData: data,
+                      isLoading,
+                    },
+                  });
+                }}
+              />
+            )}
           </div>
         </div>
         {nextContent ? (
