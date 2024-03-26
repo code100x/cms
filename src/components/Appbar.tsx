@@ -54,7 +54,9 @@ export const Appbar = () => {
                     Assignments
                   </Link>
                 </Button>
-
+                <Button size={'sm'} variant={'link'} asChild>
+                  <Link href={'/history'}>Watch History</Link>
+                </Button>
                 <AppbarAuth />
               </div>
 
