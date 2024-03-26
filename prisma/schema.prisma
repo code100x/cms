@@ -32,23 +32,24 @@ model UserPurchases {
 }
 
 model Content {
-  id               Int             @id @default(autoincrement())
-  type             String          @default("folder")
-  title            String
-  hidden           Boolean         @default(false)
-  description      String?
-  thumbnail        String?
-  parentId         Int?
-  parent           Content?        @relation("ContentToContent", fields: [parentId], references: [id])
-  videoProgress    VideoProgress[]
-  children         Content[]       @relation("ContentToContent")
-  courses          CourseContent[]
-  createdAt        DateTime        @default(now())
-  VideoMetadata    VideoMetadata?
-  NotionMetadata   NotionMetadata?
-  notionMetadataId Int?
-  comments         Comment[]
-  commentsCount    Int             @default(0)
+  id                     Int                      @id @default(autoincrement())
+  type                   String                   @default("folder")
+  title                  String
+  hidden                 Boolean                  @default(false)
+  description            String?
+  thumbnail              String?
+  parentId               Int?
+  parent                 Content?                 @relation("ContentToContent", fields: [parentId], references: [id])
+  videoProgress          VideoProgress[]
+  children               Content[]                @relation("ContentToContent")
+  courses                CourseContent[]
+  createdAt              DateTime                 @default(now())
+  VideoMetadata          VideoMetadata?
+  NotionMetadata         NotionMetadata?
+  notionMetadataId       Int?
+  comments               Comment[]
+  commentsCount          Int                      @default(0)
+  BookmarkVideoTimestamp BookmarkVideoTimestamp[]
 }
 
 model CourseContent {
@@ -115,20 +116,21 @@ model Session {
 }
 
 model User {
-  id             String          @id @default(cuid())
-  name           String?
-  email          String?         @unique
-  token          String?
-  sessions       Session[]
-  purchases      UserPurchases[]
-  videoProgress  VideoProgress[]
-  comments       Comment[]
-  votes          Vote[]
-  discordConnect DiscordConnect?
-  disableDrm     Boolean         @default(false)
-  password       String?
-  appxUserId     String?
-  appxUsername     String?
+  id                     String                   @id @default(cuid())
+  name                   String?
+  email                  String?                  @unique
+  token                  String?
+  sessions               Session[]
+  purchases              UserPurchases[]
+  videoProgress          VideoProgress[]
+  comments               Comment[]
+  votes                  Vote[]
+  discordConnect         DiscordConnect?
+  disableDrm             Boolean                  @default(false)
+  password               String?
+  appxUserId             String?
+  appxUsername           String?
+  bookmarkVideoTimestamp BookmarkVideoTimestamp[]
 }
 
 model DiscordConnect {
@@ -144,6 +146,19 @@ model DiscordConnectBulk {
   username  String
   discordId String
   userId    String
+}
+
+model BookmarkVideoTimestamp {
+  id          String   @id @default(cuid())
+  userId      String
+  contentId   Int
+  timestamp   Int
+  title       String
+  description String?
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  content     Content  @relation(fields: [contentId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 model VideoProgress {
@@ -200,4 +215,3 @@ enum CommentType {
   INTRO
   DEFAULT
 }
-
