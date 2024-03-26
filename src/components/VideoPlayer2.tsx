@@ -76,40 +76,40 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
         const newIndexDown =
           currentIndexDown !== 0 ? currentIndexDown - 1 : currentIndexDown;
         switch (event.code) {
-        case 'Period': // Increase playback speed
-          player.playbackRate(PLAYBACK_RATES[newIndexPeriod]);
-          event.stopPropagation();
-          break;
-        case 'Comma': // Decrease playback speed
-          player.playbackRate(PLAYBACK_RATES[newIndexComma]);
-          event.stopPropagation();
-          break;
-        case 'ArrowUp': // Increase volume
-          videoRef.current?.children[0].children[6].children[3].classList.add(
-            'vjs-hover',
-          );
-          if (volumeSetTimeout !== null) clearTimeout(volumeSetTimeout);
-          volumeSetTimeout = setTimeout(() => {
-            videoRef.current?.children[0].children[6].children[3].classList.remove(
+          case 'Period': // Increase playback speed
+            player.playbackRate(PLAYBACK_RATES[newIndexPeriod]);
+            event.stopPropagation();
+            break;
+          case 'Comma': // Decrease playback speed
+            player.playbackRate(PLAYBACK_RATES[newIndexComma]);
+            event.stopPropagation();
+            break;
+          case 'ArrowUp': // Increase volume
+            videoRef.current?.children[0].children[6].children[3].classList.add(
               'vjs-hover',
             );
-          }, 1000);
-          player.volume(VOLUME_LEVELS[newIndexUp]);
-          event.stopPropagation();
-          break;
-        case 'ArrowDown': // Decrease volume
-          videoRef.current?.children[0].children[6].children[3].classList.add(
-            'vjs-hover',
-          );
-          if (volumeSetTimeout !== null) clearTimeout(volumeSetTimeout);
-          volumeSetTimeout = setTimeout(() => {
-            videoRef.current?.children[0].children[6].children[3].classList.remove(
+            if (volumeSetTimeout !== null) clearTimeout(volumeSetTimeout);
+            volumeSetTimeout = setTimeout(() => {
+              videoRef.current?.children[0].children[6].children[3].classList.remove(
+                'vjs-hover',
+              );
+            }, 1000);
+            player.volume(VOLUME_LEVELS[newIndexUp]);
+            event.stopPropagation();
+            break;
+          case 'ArrowDown': // Decrease volume
+            videoRef.current?.children[0].children[6].children[3].classList.add(
               'vjs-hover',
             );
-          }, 1000);
-          player.volume(VOLUME_LEVELS[newIndexDown]);
-          event.stopPropagation();
-          break;
+            if (volumeSetTimeout !== null) clearTimeout(volumeSetTimeout);
+            volumeSetTimeout = setTimeout(() => {
+              videoRef.current?.children[0].children[6].children[3].classList.remove(
+                'vjs-hover',
+              );
+            }, 1000);
+            player.volume(VOLUME_LEVELS[newIndexDown]);
+            event.stopPropagation();
+            break;
         }
       } else if (event.code === 'KeyT') {
         player.playbackRate(2);
@@ -125,29 +125,29 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
           return; // Do nothing if the active element is an input or textarea
         }
         switch (event.code) {
-        case 'Space': // Space bar for play/pause
-          if (player.paused()) {
-            player.play();
+          case 'Space': // Space bar for play/pause
+            if (player.paused()) {
+              player.play();
+              event.stopPropagation();
+            } else {
+              player.pause();
+              event.stopPropagation();
+            }
+            event.preventDefault();
+            break;
+          case 'ArrowRight': // Right arrow for seeking forward 5 seconds
+            player.currentTime(player.currentTime() + 5);
             event.stopPropagation();
-          } else {
-            player.pause();
+            break;
+          case 'ArrowLeft': // Left arrow for seeking backward 5 seconds
+            player.currentTime(player.currentTime() - 5);
             event.stopPropagation();
-          }
-          event.preventDefault();
-          break;
-        case 'ArrowRight': // Right arrow for seeking forward 5 seconds
-          player.currentTime(player.currentTime() + 5);
-          event.stopPropagation();
-          break;
-        case 'ArrowLeft': // Left arrow for seeking backward 5 seconds
-          player.currentTime(player.currentTime() - 5);
-          event.stopPropagation();
-          break;
-        case 'KeyF': // F key for fullscree
-          if (player.isFullscreen_) document.exitFullscreen();
-          else player.requestFullscreen();
-          event.stopPropagation();
-          break;
+            break;
+          case 'KeyF': // F key for fullscree
+            if (player.isFullscreen_) document.exitFullscreen();
+            else player.requestFullscreen();
+            event.stopPropagation();
+            break;
         }
       }
     };
