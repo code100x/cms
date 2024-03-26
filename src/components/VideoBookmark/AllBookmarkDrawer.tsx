@@ -117,7 +117,7 @@ export function AllBookmarkDrawer() {
             ) : (
               <div className="mx-4">
                 {data &&
-                  bookmarkData.map((bookmark: Bookmark) => {
+                  bookmarkData?.map((bookmark: Bookmark) => {
                     return (
                       <div
                         className="text-white border p-2 rounded cursor-pointer my-4 transition-all duration-600 ease-in-out hover:bg-gray-900"
