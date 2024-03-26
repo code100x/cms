@@ -4,7 +4,9 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import { VideoPlayerSegment } from '@/components/VideoPlayerSegment';
 import VideoContentChapters from '../VideoContentChapters';
 import { useState } from 'react';
-import { handleMarkAsCompleted } from '@/lib/utils';
+import { VideoCompletionData, handleMarkAsCompleted } from '@/lib/utils';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { videoCompletionAtom } from '@/store/atoms/videoCompletion';
 
 export const ContentRendererClient = ({
   metadata,
@@ -26,10 +28,8 @@ export const ContentRendererClient = ({
     markAsCompleted: boolean;
   };
 }) => {
-  const [contentCompleted, setContentCompleted] = useState(
-    content.markAsCompleted,
-  );
-  const [loadingMarkAs, setLoadingMarkAs] = useState(false);
+  const setVideoCompletion = useSetRecoilState(videoCompletionAtom);
+  
   const [showChapters, setShowChapters] = useState(
     metadata?.segments?.length > 0,
   );
@@ -77,17 +77,19 @@ export const ContentRendererClient = ({
     setShowChapters((prev) => !prev);
   };
 
-  const handleMarkCompleted = async () => {
-    setLoadingMarkAs(true);
+  const handleMarkCompleted = async (completed : boolean) => {
     const data: any = await handleMarkAsCompleted(
-      !contentCompleted,
+      completed,
       content.id,
     );
-
     if (data.contentId) {
-      setContentCompleted((prev) => !prev);
+      setVideoCompletion((prev) =>  prev.map((item : VideoCompletionData) => {
+        if (item.id === content.id) {
+          return {...item , isCompleted: data.markAsCompleted};
+        }
+        return item;
+      }));
     }
-    setLoadingMarkAs(false);
   };
 
   return (
@@ -118,7 +120,7 @@ export const ContentRendererClient = ({
             sources: [source],
           }}
           onVideoEnd={() => {
-            setContentCompleted(true);
+            handleMarkCompleted(true);
           }}
         />
         <br />
@@ -128,13 +130,7 @@ export const ContentRendererClient = ({
               {content.title}
             </div>
 
-            <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold rounded p-2 my-4"
-              disabled={loadingMarkAs}
-              onClick={handleMarkCompleted}
-            >
-              {contentCompleted ? 'Mark as Incomplete' : 'Mark as completed'}
-            </button>
+            <DisplayMarkAsComplete contentId={content.id} handleMarkCompleted={handleMarkCompleted}/>
           </div>
 
           <div>
@@ -194,5 +190,22 @@ export const ContentRendererClient = ({
         />
       )}
     </div>
+  );
+};
+
+const DisplayMarkAsComplete = ({contentId  , handleMarkCompleted} : {contentId : number ,  handleMarkCompleted : any}) => {
+  const videoCompletion = useRecoilValue(videoCompletionAtom);
+  
+  const markAsComplete = videoCompletion.length > 0 ? videoCompletion.find((item) => item.id === contentId)?.isCompleted : false;
+  
+  return (
+    <button
+      className="bg-blue-500 hover:bg-blue-700 text-white font-bold rounded p-2 my-4"
+      onClick={() => handleMarkCompleted(!markAsComplete)}
+    >
+      {
+        markAsComplete ? 'Mark as Incomplete' : 'Mark as completed'
+      }
+    </button>
   );
 };

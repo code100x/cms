@@ -11,8 +11,9 @@ import { Button } from './ui/button';
 import { BackArrow } from '@/icons/BackArrow';
 import { useRecoilState } from 'recoil';
 import { sidebarOpen as sidebarOpenAtom } from '@/store/atoms/sidebar';
-import { useEffect, useState } from 'react';
-import { handleMarkAsCompleted } from '@/lib/utils';
+import { useEffect } from 'react';
+import { VideoCompletionData, convertToVideoCompletionData, handleMarkAsCompleted } from '@/lib/utils';
+import { videoCompletionAtom } from '@/store/atoms/videoCompletion';
 
 export function Sidebar({
   courseId,
@@ -23,6 +24,11 @@ export function Sidebar({
 }) {
   const router = useRouter();
   const [sidebarOpen, setSidebarOpen] = useRecoilState(sidebarOpenAtom);
+  const [videoCompletion , setVideoCompletion] = useRecoilState(videoCompletionAtom);
+
+  useEffect(() => {
+    setVideoCompletion(convertToVideoCompletionData(fullCourseContent));
+  } , []);
 
   useEffect(() => {
     if (window.innerWidth < 500) {
@@ -101,7 +107,7 @@ export function Sidebar({
             </div>
             {content.type === 'video' ? (
               <div className="flex flex-col justify-center ml-2">
-                <Check content={content} />
+                <Check content={content} videoCompletion={videoCompletion} setVideoCompletion={setVideoCompletion}/>
               </div>
             ) : null}
           </div>
@@ -232,18 +238,23 @@ function NotionIcon() {
 }
 
 // Todo: Fix types here
-function Check({ content }: { content: any }) {
-  const [completed, setCompleted] = useState(
-    content?.videoProgress?.markAsCompleted || false,
-  );
+function Check({ content , videoCompletion , setVideoCompletion }: { content: any , videoCompletion : VideoCompletionData[] , setVideoCompletion : any }) {
+  const completed =  videoCompletion.length > 0 ? videoCompletion.find((item) => item.id === content.id)?.isCompleted : false;
+  
   return (
     <>
       <input
-        defaultChecked={completed}
+        checked={completed}
+        onChange={() => {}}
         onClick={async (e) => {
-          setCompleted(!completed);
-          handleMarkAsCompleted(!completed, content.id);
           e.stopPropagation();
+          await handleMarkAsCompleted(!completed, content.id);
+          setVideoCompletion(videoCompletion.map((item : VideoCompletionData) => {
+            if (item.id === content.id) {
+              return {...item , isCompleted: !completed};
+            }
+            return item;
+          }));
         }}
         type="checkbox"
         className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
