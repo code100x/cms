@@ -143,9 +143,26 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
           player.currentTime(player.currentTime() - 5);
           event.stopPropagation();
           break;
-        case 'KeyF': // F key for fullscree
+        case 'KeyF': // F key for fullscreen
           if (player.isFullscreen_) document.exitFullscreen();
           else player.requestFullscreen();
+          event.stopPropagation();
+          break;
+        case 'KeyJ': // J key for seeking backward 10 seconds
+          player.currentTime(player.currentTime() - 10);
+          event.stopPropagation();
+          break;
+        case 'KeyK': // K key for pause and play
+          if (player.paused()) {
+            player.play();
+            event.stopPropogation();
+          } else {
+            player.pause();
+            event.stopPropagation();
+          }
+          break;
+        case 'KeyL': // L key for seeking forward 10 seconds
+          player.currentTime(player.currentTime() + 10);
           event.stopPropagation();
           break;
         }
