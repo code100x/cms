@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Input } from '@/components/ui/input';
-import { SearchIcon, XIcon } from 'lucide-react';
+import { SearchIcon, XCircleIcon } from 'lucide-react';
 import { TSearchedVideos } from '@/app/api/search/route';
 import { useRouter } from 'next/navigation';
 import useClickOutside from '@/hooks/useClickOutside';
@@ -9,7 +9,7 @@ import VideoSearchInfo from './VideoSearchInfo';
 import { toast } from 'sonner';
 import VideoSearchLoading from './VideoSearchLoading';
 
-const SearchBar = () => {
+const SearchBar = ({ onCardClick }: { onCardClick?: () => void }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchedVideos, setSearchedVideos] = useState<
     TSearchedVideos[] | null
@@ -19,9 +19,10 @@ const SearchBar = () => {
   const router = useRouter();
 
   const ref = useRef<HTMLDivElement>(null);
+  const searchInputRef = useRef<HTMLInputElement>(null);
 
   useClickOutside(ref, () => {
-    setSearchedVideos(null);
+    setIsInputFocused(false);
   });
 
   const fetchData = useCallback(async (searchTerm: string) => {
@@ -58,8 +59,18 @@ const SearchBar = () => {
   };
 
   const handleCardClick = (videoUrl: string) => {
+    if (onCardClick !== undefined) {
+      onCardClick();
+    }
     clearSearchTerm();
     router.push(videoUrl);
+  };
+
+  const handleClearInput = () => {
+    clearSearchTerm();
+    if (searchInputRef.current) {
+      searchInputRef.current.focus();
+    }
   };
 
   const renderSearchResults = () => {
@@ -94,14 +105,12 @@ const SearchBar = () => {
         value={searchTerm}
         onChange={handleInputChange}
         onFocus={() => setIsInputFocused(true)}
-        onBlur={() => {
-          setIsInputFocused(false);
-        }}
+        ref={searchInputRef}
       />
       {searchTerm.length > 0 && (
-        <XIcon
+        <XCircleIcon
           className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 transform cursor-pointer"
-          onClick={() => setSearchTerm('')}
+          onClick={handleClearInput}
         />
       )}
 
