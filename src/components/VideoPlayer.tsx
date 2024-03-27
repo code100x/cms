@@ -1,114 +1,96 @@
-'use client';
 import React, { useEffect, useRef, useState } from 'react';
 
-// mpdUrl => https://cloudfront.enet/video/video.mp4
-// thumbnail => https://cloudfront.enet/video/thumbnail.jpg
-// subtitles => https://cloudfront.enet/video/subtitles.vtt
-//
 export const VideoPlayer = ({
   mpdUrl,
   subtitles,
 }: {
   mpdUrl: string;
-  thumbnail: string;
   subtitles: string;
 }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [player, setPlayer] = useState<any>(null);
 
   useEffect(() => {
-    if (!player) {
-      return;
-    }
-    const handleKeyPress = (event: any) => {
-      switch (event.code) {
-      case 'Space': // Space bar for play/pause
-        if (player.paused()) {
-          player.play();
-          event.stopPropagation();
-        } else {
-          player.pause();
-          event.stopPropagation();
-        }
-        break;
-      case 'ArrowRight': // Right arrow for seeking forward 5 seconds
-        player.currentTime(player.currentTime() + 5);
-        event.stopPropagation();
-        break;
-      case 'ArrowLeft': // Left arrow for seeking backward 5 seconds
-        player.currentTime(player.currentTime() - 5);
-        event.stopPropagation();
-        break;
+    if (!player) return;
+
+    const handleChapterChange = () => {
+      if (player.hasOwnProperty('tech_')) {
+        player.tech_.off('chapterchange', handleChapterChange);
+        player.dispose();
+        setPlayer(null);
+        initializePlayer();
       }
     };
 
-    document.addEventListener('keydown', handleKeyPress);
+    player.ready(() => {
+      player.tech_.on('chapterchange', handleChapterChange);
+      player.playbackRate(1); // Reset playback rate to 1X
+    });
 
-    // Cleanup function
     return () => {
-      document.removeEventListener('keydown', handleKeyPress);
+      if (player) {
+        player.tech_.off('chapterchange', handleChapterChange);
+      }
     };
-  }, [player]);
+  }, [player, initializePlayer]);
+
+  const initializePlayer = () => {
+    const playerInstance = window.videojs(videoRef.current, {
+      playbackrates: [0.5, 1, 1.25, 1.5, 1.75, 2],
+      controls: true,
+      fluid: true,
+      html5: {
+        vhs: {
+          overridenative: true,
+        },
+      },
+    });
+
+    if (mpdUrl.endsWith('.mpd')) {
+      playerInstance.src({
+        src: mpdUrl,
+        type: 'application/dash+xml',
+      });
+    } else if (mpdUrl.endsWith('.m3u8')) {
+      playerInstance.src({
+        src: mpdUrl,
+        type: 'application/x-mpegURL',
+      });
+    } else {
+      playerInstance.src({
+        src: mpdUrl,
+        type: 'video/mp4',
+      });
+    }
+
+    playerInstance.addRemoteTextTrack(
+      {
+        kind: 'subtitles',
+        src: subtitles,
+        srclang: 'en',
+        label: 'English',
+      },
+      false
+    );
+
+    setPlayer(playerInstance);
+
+    playerInstance.on('keystatuschange', (event: any) => {
+      console.log('Keystatus Change Event:', event);
+    });
+
+    playerInstance.seekButtons({
+      forward: 10,
+      back: 10,
+    });
+
+    playerInstance.playbackRate(1); // Set initial playback rate to 1X
+  };
 
   useEffect(() => {
-    if (!videoRef.current) {
-      return;
-    }
-    window.setTimeout(() => {
-      const player = (window as any).videojs(
-        videoRef.current,
-        {
-          playbackrates: [0.5, 1, 1.25, 1.5, 1.75, 2],
-          controls: true,
-          fluid: true,
-          html5: {
-            vhs: {
-              overridenative: true,
-            },
-          },
-        },
-        function () {
-          //@ts-ignore
-          player.eme();
-          setPlayer(player);
-          if (mpdUrl.endsWith('.mpd')) {
-            //@ts-ignore
-            this.src({
-              src: mpdUrl,
-              type: 'application/dash+xml',
-              keySystems: {
-                'com.widevine.alpha':
-                  'https://widevine-dash.ezdrm.com/proxy?pX=288FF5&user_id=MTAwMA==',
-              },
-            });
-          } else if (mpdUrl.endsWith('.m3u8')) {
-            //@ts-ignore
-            this.src({
-              src: mpdUrl,
-              type: 'application/x-mpegURL',
-            });
-          } else {
-            //@ts-ignore
-            this.src({
-              src: mpdUrl,
-              type: 'video/mp4',
-            });
-          }
-
-          //@ts-ignore
-          this.on('keystatuschange', (event: any) => {
-            console.log('event: ', event);
-          });
-          player.seekButtons({
-            forward: 10,
-            back: 10,
-          });
-        },
-      );
-    }, 1000);
-
-    return () => {};
-  }, [videoRef.current]);
+    if (!videoRef.current) return;
+    initializePlayer();
+  }, [mpdUrl, subtitles]);
 
   return (
     <div className="py-2">
