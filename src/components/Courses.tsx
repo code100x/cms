@@ -7,6 +7,8 @@ import { RefreshDb } from './RefreshDb';
 
 export const Courses = ({ courses }: { courses: Course[] }) => {
   const router = useRouter();
+  const shouldShowRefreshDb = !courses || courses.length === 0;
+
   return (
     <section className="flex flex-col items-center w-full">
       <div className="max-w-screen-xl w-full mx-auto py-6 px-6 cursor-pointer grid grid-cols-1 gap-5 md:grid-cols-3">
@@ -27,7 +29,7 @@ export const Courses = ({ courses }: { courses: Course[] }) => {
           />
         ))}
       </div>
-      <RefreshDb />
+      {shouldShowRefreshDb && <RefreshDb />}
     </section>
   );
 };
