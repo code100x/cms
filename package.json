@@ -43,6 +43,7 @@
     "dayjs": "^1.11.10",
     "discord-oauth2": "^2.11.0",
     "discord.js": "^14.14.1",
+    "fuse.js": "^7.0.0",
     "jose": "^5.2.2",
     "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.321.0",
