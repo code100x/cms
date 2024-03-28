@@ -12,6 +12,19 @@ import db from '@/db';
 import { rateLimit } from '@/lib/utils';
 import BookmarkView from '@/components/bookmark/BookmarkView';
 
+interface PurchaseType {
+  id: number;
+  title: string;
+  imageUrl: string;
+  description: string;
+  appxCourseId: number;
+  openToEveryone: boolean;
+  slug: string;
+  discordRoleId: string;
+  totalVideos?: number;
+  totalVideosWatched: number;
+}
+
 const getBookmarkData = async (
   courseId: string,
 ): Promise<TBookmarkWithContent[] | { error: string }> => {
@@ -47,7 +60,7 @@ const checkAccess = async (courseId: string) => {
     return false;
   }
   const purchases = await getPurchases(session.user.email);
-  if (purchases.map((p: any) => p.id).includes(Number(courseId))) {
+  if (purchases.map((p: PurchaseType) => p.id).includes(Number(courseId))) {
     return true;
   }
   return false;
