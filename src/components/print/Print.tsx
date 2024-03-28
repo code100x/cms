@@ -20,20 +20,6 @@ export function Print() {
       e.style.marginBottom = '0px';
     });
 
-    // Removing layout header and footer from print
-    const appbar = document.getElementById('appbar-nav');
-    const footer = document.getElementById('footer');
-    const appbarPlaceholder = document.getElementById('appbar-placeholder');
-    if (appbar) {
-      appbar.style.display = 'none';
-    }
-    if (appbarPlaceholder) {
-      appbarPlaceholder.style.display = 'none';
-    }
-    if (footer) {
-      footer.style.display = 'none';
-    }
-
     setTimeout(() => {
       print();
       opened = true;

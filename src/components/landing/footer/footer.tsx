@@ -6,10 +6,7 @@ import Logo from '../logo/logo';
 
 const Footer = () => {
   return (
-    <div
-      id="footer"
-      className="bottom-0 w-full p-4 bg-neutral-900 dark:bg-slate-900 px-6 lg:px-36"
-    >
+    <div className="bottom-0 w-full p-4 bg-neutral-900 dark:bg-slate-900 px-6 lg:px-36 print:hidden">
       <div className="md:max-w-screen-2xl mt-4 mx-auto flex flex-row items-start justify-between w-full">
         <div className="flex flex-col md:flex-row w-3/5 md:justify-between">
           <div className="flex">
