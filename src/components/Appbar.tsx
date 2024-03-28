@@ -21,7 +21,10 @@ export const Appbar = () => {
   const currentPath = usePathname();
   return (
     <>
-      <nav className="fixed z-50 top-0 px-4 w-full h-16 border-b shadow-sm bg-background/80 backdrop-blur-md flex items-center gap-2">
+      <nav
+        id="appbar-nav"
+        className="fixed z-50 top-0 px-4 w-full h-16 border-b shadow-sm bg-background/80 backdrop-blur-md flex items-center gap-2"
+      >
         {currentPath.includes('courses') && (
           <ToggleButton
             onClick={() => {
@@ -89,7 +92,7 @@ export const Appbar = () => {
           )}
         </div>
       </nav>
-      <div className="h-16 w-full" />
+      <div className="h-16 w-full" id="appbar-placeholder" />
     </>
   );
 };
