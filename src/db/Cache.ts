@@ -51,5 +51,9 @@ export class Cache {
     return entry.value;
   }
 
-  evict() {}
+  evict(type: string, args: string[]) {
+    const key = `${type} ${JSON.stringify(args)}`;
+    this.inMemoryDb.delete(key);
+    return null;
+  }
 }
