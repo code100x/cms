@@ -159,7 +159,7 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
             player.volume(0);
           }
           event.stopPropagation();
-          break; 
+          break;
         case 'KeyK': // 'K' key for play/pause toggle
           if (player.paused()) {
             player.play();
@@ -169,11 +169,15 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
           event.stopPropagation();
           break;
         case 'KeyJ': // 'J' key for seeking backward 10 seconds multiplied by the playback rate
-          player.currentTime(player.currentTime() - (10 * player.playbackRate()));
+          player.currentTime(
+            player.currentTime() - 10 * player.playbackRate(),
+          );
           event.stopPropagation();
           break;
         case 'KeyL': // 'L' key for seeking forward 10 seconds multiplied by the playback rate
-          player.currentTime(player.currentTime() + (10 * player.playbackRate()));
+          player.currentTime(
+            player.currentTime() + 10 * player.playbackRate(),
+          );
           event.stopPropagation();
           break;
         }

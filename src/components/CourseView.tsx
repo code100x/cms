@@ -6,6 +6,7 @@ import { NotionRenderer } from './NotionRenderer';
 import { getFolderPercentCompleted } from '@/lib/utils';
 import Comments from './comment/Comments';
 import { QueryParams } from '@/actions/types';
+import BreadCrumbComponent from './BreadCrumbComponent';
 
 export const CourseView = ({
   rest,
@@ -30,9 +31,20 @@ export const CourseView = ({
     <div className="flex h-full">
       <Sidebar fullCourseContent={fullCourseContent} courseId={course.id} />
       <div className="grow p-2 overflow-y-auto no-scrollbar">
+        <div className=" min-h-[2.5rem] max-h-fit mb-2 flex items-center px-4">
+          <BreadCrumbComponent
+            course={course}
+            contentType={contentType}
+            courseContent={courseContent}
+            fullCourseContent={fullCourseContent}
+            rest={rest}
+          />
+        </div>
+
         {contentType === 'notion' ? (
           <NotionRenderer id={courseContent[0]?.id} />
         ) : null}
+
         {contentType === 'video' ? (
           <ContentRenderer
             nextContent={nextContent}
