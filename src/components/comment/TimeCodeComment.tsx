@@ -14,6 +14,9 @@ const TimeCodeComment: React.FC<TimeCodeCommentProps> = ({
   possiblePath,
   searchParams,
 }) => {
+  const timeCodeRegex = /(?:(\d{1,2}):)?(\d{1,2}):(\d{1,2})/g;
+  const urlRegex = /((https)?:\/\/[^\s]+)/g;
+
   const convertToSeconds = (timeCode: string): number => {
     const parts = timeCode.split(':').reverse().map(Number);
     return (parts || []).reduce(
@@ -21,8 +24,6 @@ const TimeCodeComment: React.FC<TimeCodeCommentProps> = ({
       0,
     );
   };
-
-  const timeCodeRegex = /(?:(\d{1,2}):)?(\d{1,2}):(\d{1,2})/g;
 
   const processLine = (line: string) => {
     const elements = [];
@@ -46,6 +47,30 @@ const TimeCodeComment: React.FC<TimeCodeCommentProps> = ({
           href={getUpdatedUrl(`/courses/${possiblePath}`, searchParams, {
             timestamp: timeInSeconds,
           })}
+        >
+          {match[0]}
+        </Link>,
+      );
+
+      lastIndex = match.index + match[0].length;
+    }
+
+    while ((match = urlRegex.exec(line)) !== null) {
+      if (match.index > lastIndex) {
+        elements.push(
+          <span key={`text-${lastIndex}`}>
+            {line.substring(lastIndex, match.index)}
+          </span>,
+        );
+      }
+
+      elements.push(
+        <Link
+          key={`url-${match.index}`}
+          href={match[0]}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-blue-500 hover:underline"
         >
           {match[0]}
         </Link>,
