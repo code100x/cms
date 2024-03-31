@@ -97,7 +97,7 @@ export const authOptions = {
               name: 'test',
               email: 'test@gmail.com',
               token: await generateJWT({
-                id: 1,
+                id: '1',
               }),
             };
           }
