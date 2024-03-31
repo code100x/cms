@@ -29,7 +29,8 @@ async function main() {
     update: {},
   });
 
-  if (await db.course.findMany()) {
+  const doCoursesExists = !!(await db.course.findMany()).length;
+  if (doCoursesExists) {
     console.error('DB is already seeded!');
     process.exit(0);
   }
