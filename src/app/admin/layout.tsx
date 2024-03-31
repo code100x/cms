@@ -13,6 +13,10 @@ export default async function AdminLayout({
     return redirect('/signin');
   }
 
+  if (process.env.LOCAL_CMS_PROVIDER) {
+    return <>{children}</>
+  }
+
   if (!process.env.ADMINS?.split(',').includes(session.user.email!)) {
     return notFound();
   }
