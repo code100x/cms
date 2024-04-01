@@ -48,61 +48,56 @@ export const Appbar = () => {
               <div className="flex items-center space-x-2">
                 {/* Search Bar for smaller devices */}
                 <MobileScreenSearch />
-                <div className="hidden sm:flex items-center justify-around md:w-auto md:block space-x-2">
-                  <Button variant={'link'} size={'sm'} asChild>
-                    <JoinDiscord isNavigated={false} />
-                  </Button>
-                  <div className="flex items-center space-x-2">
-                    <div className="hidden sm:flex items-center justify-around md:w-auto md:block space-x-2">
-                      {currentPath.includes('courses') && bookmarkPageUrl && (
-                        <Button
-                          variant="link"
-                          className={
-                            currentPath === bookmarkPageUrl
-                              ? 'font-bold underline'
-                              : ''
-                          }
-                          size={'sm'}
-                          asChild
-                        >
-                          <Link href={bookmarkPageUrl}>Bookmarks</Link>
-                        </Button>
-                      )}
-
-                      <Button variant={'link'} size={'sm'} asChild>
-                        <JoinDiscord isNavigated={false} />
+                <div className="flex items-center space-x-2">
+                  <div className="hidden sm:flex items-center justify-around md:w-auto md:block space-x-2">
+                    {currentPath.includes('courses') && bookmarkPageUrl && (
+                      <Button
+                        variant="link"
+                        className={
+                          currentPath === bookmarkPageUrl
+                            ? 'font-bold underline'
+                            : ''
+                        }
+                        size={'sm'}
+                        asChild
+                      >
+                        <Link href={bookmarkPageUrl}>Bookmarks</Link>
                       </Button>
+                    )}
 
-                      <Button size={'sm'} variant={'link'} asChild>
-                        <Link
-                          href={'https://projects.100xdevs.com/'}
-                          target="_blank"
-                        >
-                          Slides
-                        </Link>
-                      </Button>
+                    <Button variant={'link'} size={'sm'} asChild>
+                      <JoinDiscord isNavigated={false} />
+                    </Button>
 
-                      <Button size={'sm'} variant={'link'} asChild>
-                        <Link
-                          href={
-                            'https://github.com/100xdevs-cohort-2/assignments'
-                          }
-                          target="_blank"
-                        >
-                          Assignments
-                        </Link>
-                      </Button>
-                      <Button size={'sm'} variant={'link'} asChild>
-                        <Link href={'/history'}>Watch History</Link>
-                      </Button>
-                      <AppbarAuth />
-                    </div>
+                    <Button size={'sm'} variant={'link'} asChild>
+                      <Link
+                        href={'https://projects.100xdevs.com/'}
+                        target="_blank"
+                      >
+                        Slides
+                      </Link>
+                    </Button>
 
-                    <ThemeToggler />
+                    <Button size={'sm'} variant={'link'} asChild>
+                      <Link
+                        href={
+                          'https://github.com/100xdevs-cohort-2/assignments'
+                        }
+                        target="_blank"
+                      >
+                        Assignments
+                      </Link>
+                    </Button>
+                    <Button size={'sm'} variant={'link'} asChild>
+                      <Link href={'/history'}>Watch History</Link>
+                    </Button>
+                    <AppbarAuth />
+                  </div>
 
-                    <div className="block sm:hidden">
-                      <NavigationMenu />
-                    </div>
+                  <ThemeToggler />
+
+                  <div className="block sm:hidden">
+                    <NavigationMenu />
                   </div>
                 </div>
               </div>
