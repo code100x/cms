@@ -81,11 +81,14 @@ function findContentById(
     return null;
   } else if (remainingIds.length === 0) {
     if (foundContent.type === 'folder') {
+      // TODO: Fix these
+      // @ts-ignore
       return foundContent.children;
     }
 
     return [foundContent];
   }
+  // @ts-ignore
   return findContentById(foundContent.children || [], remainingIds);
 }
 
