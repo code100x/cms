@@ -1,6 +1,7 @@
 'use client';
 import { useRouter } from 'next/navigation';
 import { ContentCard } from './ContentCard';
+import { Bookmark } from '@prisma/client';
 
 export const FolderView = ({
   courseContent,
@@ -18,6 +19,7 @@ export const FolderView = ({
     percentComplete: number | null;
     videoFullDuration?: number;
     duration?: number;
+    bookmark: Bookmark | null;
   }[];
 }) => {
   const router = useRouter();
@@ -58,6 +60,7 @@ export const FolderView = ({
               markAsCompleted={content.markAsCompleted}
               percentComplete={content.percentComplete}
               videoProgressPercent={videoProgressPercent}
+              bookmark={content.bookmark}
             />
           );
         })}

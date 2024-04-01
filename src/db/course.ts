@@ -186,6 +186,7 @@ async function getAllContent() {
           duration: true,
         },
       },
+      bookmark: true,
     },
   });
   Cache.getInstance().set('getAllContent', [], allContent);

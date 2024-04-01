@@ -2,6 +2,7 @@ import db from '@/db';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { ContentRendererClient } from './ContentRendererClient';
+import { Bookmark } from '@prisma/client';
 
 export const getMetadata = async (contentId: number) => {
   const session = await getServerSession(authOptions);
@@ -74,6 +75,7 @@ export const ContentRenderer = async ({
     thumbnail: string;
     slides?: string;
     markAsCompleted: boolean;
+    bookmark: Bookmark | null;
   };
 }) => {
   const metadata = await getMetadata(content.id);

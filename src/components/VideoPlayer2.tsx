@@ -39,7 +39,8 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
   const [player, setPlayer] = useState<any>(null);
   const searchParams = useSearchParams();
   useEffect(() => {
-    if (contentId && player) {
+    const t = searchParams.get('timestamp');
+    if (contentId && player && !t) {
       fetch(`/api/course/videoProgress?contentId=${contentId}`).then(
         async (res) => {
           const json = await res.json();
@@ -143,10 +144,51 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
           player.currentTime(player.currentTime() - 5);
           event.stopPropagation();
           break;
-        case 'KeyF': // F key for fullscree
+        case 'KeyF': // F key for fullscreen
           if (player.isFullscreen_) document.exitFullscreen();
           else player.requestFullscreen();
           event.stopPropagation();
+          break;
+        case 'KeyR': // 'R' key to restart playback from the beginning
+          player.currentTime(0);
+          event.stopPropagation();
+          break;
+        case 'KeyM': // 'M' key to toggle mute/unmute
+          if (player.volume() === 0) {
+            player.volume(1);
+          } else {
+            player.volume(0);
+          }
+          event.stopPropagation();
+          break;
+        case 'KeyK': // 'K' key for play/pause toggle
+          if (player.paused()) {
+            player.play();
+          } else {
+            player.pause();
+          }
+          event.stopPropagation();
+          break;
+        case 'KeyJ': // 'J' key for seeking backward 10 seconds multiplied by the playback rate
+          player.currentTime(
+            player.currentTime() - 10 * player.playbackRate(),
+          );
+          event.stopPropagation();
+          break;
+        case 'KeyL': // 'L' key for seeking forward 10 seconds multiplied by the playback rate
+          player.currentTime(
+            player.currentTime() + 10 * player.playbackRate(),
+          );
+          event.stopPropagation();
+          break;
+        case 'KeyC':
+          if (subtitles && player.textTracks().length) {
+            if (player.textTracks()[0].mode === 'showing') {
+              player.textTracks()[0].mode = 'hidden';
+            } else {
+              player.textTracks()[0].mode = 'showing';
+            }
+          }
           break;
         }
       }
@@ -269,6 +311,10 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
               onReady(player);
             }
           });
+          // Focus the video player when toggling fullscreen
+          player.on('fullscreenchange', () => {
+            videoElement.focus();
+          });
         },
       ));
 
@@ -302,10 +348,10 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
   useEffect(() => {
     const t = searchParams.get('timestamp');
 
-    if (playerRef.current && t) {
-      playerRef.current.currentTime(parseInt(t, 10));
+    if (player && t) {
+      player.currentTime(parseInt(t, 10));
     }
-  }, [searchParams, playerRef.current]);
+  }, [searchParams, player]);
   return (
     <div
       data-vjs-player
