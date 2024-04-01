@@ -3,7 +3,6 @@
 import { Course } from '@prisma/client';
 import { CourseCard } from './CourseCard';
 import { useRouter } from 'next/navigation';
-import { RefreshDb } from './RefreshDb';
 
 export const Courses = ({ courses }: { courses: Course[] }) => {
   const router = useRouter();
@@ -27,7 +26,6 @@ export const Courses = ({ courses }: { courses: Course[] }) => {
           />
         ))}
       </div>
-      <RefreshDb />
     </section>
   );
 };
