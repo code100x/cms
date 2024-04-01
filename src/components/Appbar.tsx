@@ -1,7 +1,6 @@
 'use client';
 
 import Link from 'next/link';
-import React from 'react';
 import { JoinDiscord } from './JoinDiscord';
 import { AppbarAuth } from './AppbarAuth';
 import { useSession } from 'next-auth/react';
@@ -14,6 +13,8 @@ import { Button } from './ui/button';
 import { Sparkles } from 'lucide-react';
 import { ThemeToggler } from './ThemeToggler';
 import { NavigationMenu } from './landing/appbar/nav-menu';
+import SearchBar from './search/SearchBar';
+import MobileScreenSearch from './search/MobileScreenSearch';
 
 export const Appbar = () => {
   const session = useSession();
@@ -40,6 +41,17 @@ export const Appbar = () => {
           <Logo onFooter={false} />
 
           {session?.data?.user ? (
+            <>
+              <div className="hidden md:block">
+                <SearchBar />
+              </div>
+              <div className="flex items-center space-x-2">
+                {/* Search Bar for smaller devices */}
+                <MobileScreenSearch />
+                <div className="hidden sm:flex items-center justify-around md:w-auto md:block space-x-2">
+                  <Button variant={'link'} size={'sm'} asChild>
+                    <JoinDiscord isNavigated={false} />
+                  </Button>
             <div className="flex items-center space-x-2">
               <div className="hidden sm:flex items-center justify-around md:w-auto md:block space-x-2">
                 {currentPath.includes('courses') && bookmarkPageUrl && (
@@ -61,30 +73,34 @@ export const Appbar = () => {
                   <JoinDiscord isNavigated={false} />
                 </Button>
 
-                <Button size={'sm'} variant={'link'} asChild>
-                  <Link href={'https://projects.100xdevs.com/'} target="_blank">
-                    Slides
-                  </Link>
-                </Button>
+                  <Button size={'sm'} variant={'link'} asChild>
+                    <Link
+                      href={'https://projects.100xdevs.com/'}
+                      target="_blank"
+                    >
+                      Slides
+                    </Link>
+                  </Button>
 
-                <Button size={'sm'} variant={'link'} asChild>
-                  <Link
-                    href={'https://github.com/100xdevs-cohort-2/assignments'}
-                    target="_blank"
-                  >
-                    Assignments
-                  </Link>
-                </Button>
+                  <Button size={'sm'} variant={'link'} asChild>
+                    <Link
+                      href={'https://github.com/100xdevs-cohort-2/assignments'}
+                      target="_blank"
+                    >
+                      Assignments
+                    </Link>
+                  </Button>
 
-                <AppbarAuth />
+                  <AppbarAuth />
+                </div>
+
+                <ThemeToggler />
+
+                <div className="block sm:hidden">
+                  <NavigationMenu />
+                </div>
               </div>
-
-              <ThemeToggler />
-
-              <div className="block sm:hidden">
-                <NavigationMenu />
-              </div>
-            </div>
+            </>
           ) : (
             <div className="flex items-center space-x-2">
               <div className="hidden sm:flex items-center justify-around md:w-auto md:block space-x-3">
