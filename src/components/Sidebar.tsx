@@ -1,5 +1,5 @@
 'use client';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import {
   Accordion,
   AccordionContent,
@@ -23,10 +23,23 @@ export function Sidebar({
 }) {
   const router = useRouter();
   const [sidebarOpen, setSidebarOpen] = useRecoilState(sidebarOpenAtom);
+  const pathName = usePathname();
+  const [targetPath, setTargetPath] = useState([0]);
+  const [value, setValue] = useState('');
+
+  useEffect(() => {
+    setValue(`item-${targetPath[0]}`);
+  }, [targetPath]);
 
   useEffect(() => {
     if (window.innerWidth < 500) {
       setSidebarOpen(false);
+    }
+    const segments = pathName.split('/');
+    const lastSegment = parseInt(segments[segments.length - 1], 10);
+    const pathArray = findPathToContent(fullCourseContent, lastSegment);
+    if (pathArray) {
+      setTargetPath(pathArray);
     }
   }, []);
 
@@ -64,13 +77,14 @@ export function Sidebar({
 
   const renderContent = (contents: any) => {
     return contents.map((content: any) => {
+      const isOpen = targetPath.includes(content.id);
       if (content.children && content.children.length > 0) {
         // This is a folder with children
         return (
           <AccordionItem
             key={content.id}
             value={`item-${content.id}`}
-            className="text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer"
+            className={`text-gray-900 dark:text-white  cursor-pointer ${isOpen ? 'bg-gray-100 dark:bg-gray-700' : 'hover:bg-gray-100 dark:hover:bg-gray-700'}`}
           >
             <AccordionTrigger className="px-2 text-left">
               {content.title}
@@ -86,7 +100,7 @@ export function Sidebar({
       return (
         <div
           key={content.id}
-          className="p-2 flex border-gray-300 border-b hover:bg-gray-100 dark:hover:bg-gray-700 dark:border-gray-700 cursor-pointer bg-gray-50 dark:bg-gray-800"
+          className={`p-2 flex border-gray-300 border-b dark:border-gray-700 cursor-pointer  ${isOpen ? 'bg-gray-100 dark:bg-gray-700' : 'hover:bg-gray-100 dark:hover:bg-gray-700 bg-gray-50 dark:bg-gray-800'}`}
           onClick={() => {
             navigateToContent(content.id);
           }}
@@ -124,7 +138,13 @@ export function Sidebar({
           /> */}
         <GoBackButton />
       </div>
-      <Accordion type="single" collapsible className="w-full">
+      <Accordion
+        type="single"
+        collapsible
+        className="w-full"
+        value={value}
+        onValueChange={setValue}
+      >
         {/* Render course content */}
         {renderContent(fullCourseContent)}
       </Accordion>
