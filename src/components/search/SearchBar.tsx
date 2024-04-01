@@ -94,7 +94,7 @@ const SearchBar = ({ onCardClick }: { onCardClick?: () => void }) => {
 
   return (
     <div
-      className="relative flex items-center w-full lg:w-[400px] xl:w-[500px] h-10"
+      className="relative flex items-center w-full lg:w-[300px] xl:w-[400px] h-10"
       ref={ref}
     >
       {/* Search Input Bar */}
