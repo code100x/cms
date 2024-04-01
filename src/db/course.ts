@@ -180,6 +180,9 @@ async function getAllContent() {
     where: {
       hidden: false,
     },
+    include: {
+      bookmark: true,
+    },
   });
 
   Cache.getInstance().set('getAllContent', [], allContent);

@@ -42,6 +42,39 @@ async function main() {
         openToEveryone: false,
         slug: 'test-course-2',
       },
+      {
+        id: 3,
+        appxCourseId: 2,
+        discordRoleId: '3',
+        title: 'test course 2',
+        imageUrl:
+          'https://appx-recordings.s3.ap-south-1.amazonaws.com/drm/100x/images/test2.png',
+        description: 'test course 2',
+        openToEveryone: false,
+        slug: 'test-course-2',
+      },
+      {
+        id: 4,
+        appxCourseId: 2,
+        discordRoleId: '3',
+        title: 'test course 2',
+        imageUrl:
+          'https://appx-recordings.s3.ap-south-1.amazonaws.com/drm/100x/images/test2.png',
+        description: 'test course 2',
+        openToEveryone: false,
+        slug: 'test-course-2',
+      },
+      {
+        id: 5,
+        appxCourseId: 2,
+        discordRoleId: '3',
+        title: 'test course 2',
+        imageUrl:
+          'https://appx-recordings.s3.ap-south-1.amazonaws.com/drm/100x/images/test2.png',
+        description: 'test course 2',
+        openToEveryone: false,
+        slug: 'test-course-2',
+      },
     ],
   });
 
