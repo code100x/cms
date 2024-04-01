@@ -181,6 +181,15 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
           );
           event.stopPropagation();
           break;
+        case 'KeyC':
+          if (subtitles && player.textTracks().length) {
+            if (player.textTracks()[0].mode === 'showing') {
+              player.textTracks()[0].mode = 'hidden';
+            } else {
+              player.textTracks()[0].mode = 'showing';
+            }
+          }
+          break;
         }
       }
     };
