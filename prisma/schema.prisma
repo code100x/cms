@@ -19,6 +19,7 @@ model Course {
   slug           String
   content        CourseContent[]
   purchasedBy    UserPurchases[]
+  bookmarks      Bookmark[]
 }
 
 model UserPurchases {
@@ -49,6 +50,7 @@ model Content {
   notionMetadataId Int?
   comments         Comment[]
   commentsCount    Int             @default(0)
+  bookmark         Bookmark?
 }
 
 model CourseContent {
@@ -126,6 +128,7 @@ model User {
   votes          Vote[]
   discordConnect DiscordConnect?
   disableDrm     Boolean         @default(false)
+  bookmarks      Bookmark[]
   password       String?
   appxUserId     String?
   appxUsername     String?
@@ -156,6 +159,17 @@ model VideoProgress {
   markAsCompleted  Boolean @default(false)
 
   @@unique([contentId, userId])
+}
+
+model Bookmark {
+  id        Int      @id @default(autoincrement())
+  userId    String
+  contentId Int      @unique
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  content   Content  @relation(fields: [contentId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  courseId  Int
+  course    Course  @relation(fields: [courseId], references: [id], onDelete: Cascade)
 }
 
 model Comment {
@@ -200,4 +214,3 @@ enum CommentType {
   INTRO
   DEFAULT
 }
-

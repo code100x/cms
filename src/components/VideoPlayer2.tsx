@@ -39,7 +39,8 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
   const [player, setPlayer] = useState<any>(null);
   const searchParams = useSearchParams();
   useEffect(() => {
-    if (contentId && player) {
+    const t = searchParams.get('timestamp');
+    if (contentId && player && !t) {
       fetch(`/api/course/videoProgress?contentId=${contentId}`).then(
         async (res) => {
           const json = await res.json();
@@ -298,6 +299,10 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
               onReady(player);
             }
           });
+          // Focus the video player when toggling fullscreen
+          player.on('fullscreenchange', () => {
+            videoElement.focus();
+          });
         },
       ));
 
@@ -331,10 +336,10 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
   useEffect(() => {
     const t = searchParams.get('timestamp');
 
-    if (playerRef.current && t) {
-      playerRef.current.currentTime(parseInt(t, 10));
+    if (player && t) {
+      player.currentTime(parseInt(t, 10));
     }
-  }, [searchParams, playerRef.current]);
+  }, [searchParams, player]);
   return (
     <div
       data-vjs-player
