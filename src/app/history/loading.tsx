@@ -9,11 +9,11 @@ export default function Loading() {
           return (
             <Fragment key={index}>
               <div className="rounded bg-slate-50 dark:bg-slate-900 h-6 w-20"></div>
-              <div className="flex items-center gap-4">
-                {[1, 2, 3, 4, 5].map((_, index) => (
+              <div className="flex items-center gap-6">
+                {[1, 2, 3, 4].map((_, index) => (
                   <div>
                     <div
-                      className="w-60 h-40 bg-slate-50 dark:bg-slate-900"
+                      className="w-[260px] h-36 bg-slate-50 dark:bg-slate-900 rounded-md"
                       key={index}
                     />
                     <div className="rounded my-4 bg-slate-50 dark:bg-slate-900 h-4 w-full"></div>
