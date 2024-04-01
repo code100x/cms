@@ -221,6 +221,9 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
       }
       interval = window.setInterval(
         async () => {
+          if (!player) {
+            return;
+          }
           if (player?.paused()) {
             return;
           }

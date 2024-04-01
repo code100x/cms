@@ -63,7 +63,7 @@ export const ContentRendererClient = ({
         src: mpdUrl,
         type: 'application/x-mpegURL',
       };
-    } 
+    }
     return {
       src: mpdUrl,
       type: 'video/mp4',

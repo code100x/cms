@@ -17,6 +17,8 @@ export const FolderView = ({
     id: number;
     markAsCompleted: boolean;
     percentComplete: number | null;
+    videoFullDuration?: number;
+    duration?: number;
     bookmark: Bookmark | null;
   }[];
 }) => {
@@ -39,20 +41,29 @@ export const FolderView = ({
     <div>
       <div></div>
       <div className="max-w-screen-xl justify-between mx-auto p-4 cursor-pointer grid grid-cols-1 gap-5 md:grid-cols-3">
-        {courseContent.map((content) => (
-          <ContentCard
-            type={content.type}
-            key={content.id}
-            title={content.title}
-            image={content.image || ''}
-            onClick={() => {
-              router.push(`${updatedRoute}/${content.id}`);
-            }}
-            markAsCompleted={content.markAsCompleted}
-            percentComplete={content.percentComplete}
-            bookmark={content.bookmark}
-          />
-        ))}
+        {courseContent.map((content) => {
+          const videoProgressPercent =
+            content.type === 'video' &&
+            content.videoFullDuration &&
+            content.duration
+              ? (content.duration / content.videoFullDuration) * 100
+              : 0;
+          return (
+            <ContentCard
+              type={content.type}
+              key={content.id}
+              title={content.title}
+              image={content.image || ''}
+              onClick={() => {
+                router.push(`${updatedRoute}/${content.id}`);
+              }}
+              markAsCompleted={content.markAsCompleted}
+              percentComplete={content.percentComplete}
+              videoProgressPercent={videoProgressPercent}
+              bookmark={content.bookmark}
+            />
+          );
+        })}
       </div>
     </div>
   );

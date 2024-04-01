@@ -181,10 +181,14 @@ async function getAllContent() {
       hidden: false,
     },
     include: {
+      VideoMetadata: {
+        select: {
+          duration: true,
+        },
+      },
       bookmark: true,
     },
   });
-
   Cache.getInstance().set('getAllContent', [], allContent);
 
   return allContent;
@@ -253,6 +257,7 @@ export const getFullCourseContent = async (courseId: number) => {
               markAsCompleted: videoProgress.find(
                 (x) => x.contentId === content.id,
               )?.markAsCompleted,
+              videoFullDuration: content.VideoMetadata?.duration,
             }
             : null,
       },

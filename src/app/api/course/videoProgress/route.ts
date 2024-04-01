@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import db from '@/db';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
+import { revalidatePath } from 'next/cache';
 
 export async function GET(req: NextRequest) {
   const url = new URL(req.url);
@@ -47,5 +48,6 @@ export async function POST(req: NextRequest) {
       currentTimestamp,
     },
   });
+  revalidatePath('/history');
   return NextResponse.json(updatedRecord);
 }

@@ -9,6 +9,8 @@ export const ContentCard = ({
   markAsCompleted,
   percentComplete,
   type,
+  videoProgressPercent,
+  hoverExpand = true,
   bookmark,
   contentId,
 }: {
@@ -19,6 +21,8 @@ export const ContentCard = ({
   onClick: () => void;
   markAsCompleted?: boolean;
   percentComplete?: number | null;
+  videoProgressPercent?: number;
+  hoverExpand?: boolean;
   bookmark?: Bookmark | null;
 }) => {
   let image =
@@ -31,7 +35,7 @@ export const ContentCard = ({
   return (
     <div
       onClick={onClick}
-      className="relative hover:scale-105 ease-in duration-200 group"
+      className={`relative ease-in duration-200 cursor-pointer group${hoverExpand ? ' hover:scale-105' : ''} `}
     >
       {percentComplete !== null && percentComplete !== undefined && (
         <PercentageComplete percent={percentComplete} />
@@ -41,6 +45,17 @@ export const ContentCard = ({
           <CheckCircle2 color="green" size={20} />
         </div>
       )}
+      <div className="relative overflow-hidden rounded-md">
+        <img src={image} alt={title} className="" />
+        {!!videoProgressPercent && (
+          <div className="absolute bottom-0 w-full h-1 bg-[#707071]">
+            <div
+              className="h-full bg-[#FF0101]"
+              style={{ width: `${videoProgressPercent}%` }}
+            />
+          </div>
+        )}
+      </div>
       {bookmark !== undefined && contentId && (
         <div className="absolute top-2 left-2">
           <BookmarkButton
@@ -52,8 +67,6 @@ export const ContentCard = ({
           />
         </div>
       )}
-
-      <img src={image} alt={title} className="rounded-md" />
       <div className="flex justify-between mt-2 text-gray-900 dark:text-white">
         <div>{title}</div>
       </div>
