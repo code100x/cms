@@ -299,6 +299,10 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
               onReady(player);
             }
           });
+          // Focus the video player when toggling fullscreen
+          player.on('fullscreenchange', () => {
+            videoElement.focus();
+          });
         },
       ));
 
