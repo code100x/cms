@@ -14,7 +14,7 @@ export default async function AdminLayout({
   }
 
   if (process.env.LOCAL_CMS_PROVIDER) {
-    return <>{children}</>
+    return <>{children}</>;
   }
 
   if (!process.env.ADMINS?.split(',').includes(session.user.email!)) {
