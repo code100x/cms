@@ -13,6 +13,7 @@ import { useRecoilState } from 'recoil';
 import { sidebarOpen as sidebarOpenAtom } from '@/store/atoms/sidebar';
 import { useEffect, useState } from 'react';
 import { handleMarkAsCompleted } from '@/lib/utils';
+import BookmarkButton from './bookmark/BookmarkButton';
 
 export function Sidebar({
   courseId,
@@ -123,7 +124,7 @@ export function Sidebar({
           className={`p-2 flex border-b hover:bg-gray-200 cursor-pointer ${
             isActiveContent
               ? 'dark:bg-gray-700 bg-gray-300 dark:text-white text-black dark:hover:bg-gray-500'
-              : 'bg-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-white text-black '
+              : 'bg-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-white text-black'
           }`}
           onClick={() => {
             navigateToContent(content.id);
@@ -138,8 +139,14 @@ export function Sidebar({
               <div>{content.title}</div>
             </div>
             {content.type === 'video' ? (
-              <div className="flex flex-col justify-center ml-2">
-                <Check content={content} />
+              <div className="flex items-center gap-1">
+                <BookmarkButton
+                  bookmark={content.bookmark}
+                  contentId={content.id}
+                />
+                <div className="flex flex-col justify-center ml-2">
+                  <Check content={content} />
+                </div>
               </div>
             ) : null}
           </div>

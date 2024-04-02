@@ -1,22 +1,39 @@
 import db from '../src/db/index';
 
 async function main() {
-  await db.user.createMany({
-    data: [
-      {
-        id: '2',
-        email: 'testuser',
-        name: 'Test User 1',
-        disableDrm: false,
-      },
-      {
-        id: '1',
-        email: 'testuser2',
-        name: 'Test User 2',
-        disableDrm: false,
-      },
-    ],
+  await db.user.upsert({
+    where: {
+      id: '2',
+      email: 'testuser',
+    },
+    create: {
+      id: '2',
+      email: 'testuser',
+      name: 'Test User 1',
+      disableDrm: false,
+    },
+    update: {},
   });
+
+  await db.user.upsert({
+    where: {
+      id: '1',
+      email: 'testuser2',
+    },
+    create: {
+      id: '1',
+      email: 'testuser2',
+      name: 'Test User 2',
+      disableDrm: false,
+    },
+    update: {},
+  });
+
+  const doCoursesExists = !!(await db.course.findMany()).length;
+  if (doCoursesExists) {
+    console.error('DB is already seeded!');
+    process.exit(0);
+  }
 
   await db.course.createMany({
     data: [
@@ -33,6 +50,39 @@ async function main() {
       },
       {
         id: 2,
+        appxCourseId: 2,
+        discordRoleId: '3',
+        title: 'test course 2',
+        imageUrl:
+          'https://appx-recordings.s3.ap-south-1.amazonaws.com/drm/100x/images/test2.png',
+        description: 'test course 2',
+        openToEveryone: false,
+        slug: 'test-course-2',
+      },
+      {
+        id: 3,
+        appxCourseId: 2,
+        discordRoleId: '3',
+        title: 'test course 2',
+        imageUrl:
+          'https://appx-recordings.s3.ap-south-1.amazonaws.com/drm/100x/images/test2.png',
+        description: 'test course 2',
+        openToEveryone: false,
+        slug: 'test-course-2',
+      },
+      {
+        id: 4,
+        appxCourseId: 2,
+        discordRoleId: '3',
+        title: 'test course 2',
+        imageUrl:
+          'https://appx-recordings.s3.ap-south-1.amazonaws.com/drm/100x/images/test2.png',
+        description: 'test course 2',
+        openToEveryone: false,
+        slug: 'test-course-2',
+      },
+      {
+        id: 5,
         appxCourseId: 2,
         discordRoleId: '3',
         title: 'test course 2',

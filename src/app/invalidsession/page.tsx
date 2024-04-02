@@ -13,7 +13,7 @@ const page = () => {
     toast('Too many devices connected. Logging out!', {
       action: {
         label: 'Close',
-        onClick: () => console.log('Closed Toast'),
+        onClick: () => toast.dismiss(),
       },
     });
   }, []);

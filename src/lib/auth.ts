@@ -91,6 +91,16 @@ export const authOptions = {
       },
       async authorize(credentials: any) {
         try {
+          if (process.env.LOCAL_CMS_PROVIDER) {
+            return {
+              id: '1',
+              name: 'test',
+              email: 'test@gmail.com',
+              token: await generateJWT({
+                id: '1',
+              }),
+            };
+          }
           const hashedPassword = await bcrypt.hash(credentials.password, 10);
 
           const userDb = await prisma.user.findFirst({

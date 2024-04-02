@@ -3,6 +3,8 @@ import { authOptions } from '@/lib/auth';
 import { getPurchases } from '@/utiles/appx';
 import { getServerSession } from 'next-auth';
 import { Logout } from './Logout';
+import { RefreshDb } from './RefreshDb';
+import { refreshDb } from '@/actions/refresh-db';
 const getCourses = async () => {
   const session = await getServerSession(authOptions);
   const purchases = await getPurchases(session?.user.email || '');
@@ -22,5 +24,10 @@ export const MyCourses = async () => {
         <Logout />
       </div>
     );
-  return <Courses courses={purchases} />;
+  return (
+    <>
+      <Courses courses={purchases} />
+      <RefreshDb refreshDb={refreshDb} />
+    </>
+  );
 };
