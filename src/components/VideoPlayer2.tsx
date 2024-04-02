@@ -12,6 +12,8 @@ import 'videojs-seek-buttons';
 import { handleMarkAsCompleted } from '@/lib/utils';
 import { useSearchParams } from 'next/navigation';
 import './QualitySelectorControllBar';
+import { useRecoilValue } from 'recoil';
+import { sidebarOpen } from '@/store/atoms/sidebar';
 
 // todo correct types
 interface VideoPlayerProps {
@@ -38,6 +40,8 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
   const playerRef = useRef<Player | null>(null);
   const [player, setPlayer] = useState<any>(null);
   const searchParams = useSearchParams();
+  const isSidebarOpen = useRecoilValue(sidebarOpen);
+
   useEffect(() => {
     const t = searchParams.get('timestamp');
     if (contentId && player && !t) {
@@ -76,6 +80,7 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
         const currentIndexDown = VOLUME_LEVELS.indexOf(player.volume());
         const newIndexDown =
           currentIndexDown !== 0 ? currentIndexDown - 1 : currentIndexDown;
+
         switch (event.code) {
         case 'Period': // Increase playback speed
           player.playbackRate(PLAYBACK_RATES[newIndexPeriod]);
@@ -125,71 +130,73 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
         ) {
           return; // Do nothing if the active element is an input or textarea
         }
-        switch (event.code) {
-        case 'Space': // Space bar for play/pause
-          if (player.paused()) {
-            player.play();
-            event.stopPropagation();
-          } else {
-            player.pause();
-            event.stopPropagation();
-          }
-          event.preventDefault();
-          break;
-        case 'ArrowRight': // Right arrow for seeking forward 5 seconds
-          player.currentTime(player.currentTime() + 5);
-          event.stopPropagation();
-          break;
-        case 'ArrowLeft': // Left arrow for seeking backward 5 seconds
-          player.currentTime(player.currentTime() - 5);
-          event.stopPropagation();
-          break;
-        case 'KeyF': // F key for fullscreen
-          if (player.isFullscreen_) document.exitFullscreen();
-          else player.requestFullscreen();
-          event.stopPropagation();
-          break;
-        case 'KeyR': // 'R' key to restart playback from the beginning
-          player.currentTime(0);
-          event.stopPropagation();
-          break;
-        case 'KeyM': // 'M' key to toggle mute/unmute
-          if (player.volume() === 0) {
-            player.volume(1);
-          } else {
-            player.volume(0);
-          }
-          event.stopPropagation();
-          break;
-        case 'KeyK': // 'K' key for play/pause toggle
-          if (player.paused()) {
-            player.play();
-          } else {
-            player.pause();
-          }
-          event.stopPropagation();
-          break;
-        case 'KeyJ': // 'J' key for seeking backward 10 seconds multiplied by the playback rate
-          player.currentTime(
-            player.currentTime() - 10 * player.playbackRate(),
-          );
-          event.stopPropagation();
-          break;
-        case 'KeyL': // 'L' key for seeking forward 10 seconds multiplied by the playback rate
-          player.currentTime(
-            player.currentTime() + 10 * player.playbackRate(),
-          );
-          event.stopPropagation();
-          break;
-        case 'KeyC':
-          if (subtitles && player.textTracks().length) {
-            if (player.textTracks()[0].mode === 'showing') {
-              player.textTracks()[0].mode = 'hidden';
+        if (!isSidebarOpen) {
+          switch (event.code) {
+          case 'Space': // Space bar for play/pause
+            if (player.paused()) {
+              player.play();
+              event.stopPropagation();
             } else {
-              player.textTracks()[0].mode = 'showing';
+              player.pause();
+              event.stopPropagation();
             }
+            event.preventDefault();
+            break;
+          case 'ArrowRight': // Right arrow for seeking forward 5 seconds
+            player.currentTime(player.currentTime() + 5);
+            event.stopPropagation();
+            break;
+          case 'ArrowLeft': // Left arrow for seeking backward 5 seconds
+            player.currentTime(player.currentTime() - 5);
+            event.stopPropagation();
+            break;
+          case 'KeyF': // F key for fullscreen
+            if (player.isFullscreen_) document.exitFullscreen();
+            else player.requestFullscreen();
+            event.stopPropagation();
+            break;
+          case 'KeyR': // 'R' key to restart playback from the beginning
+            player.currentTime(0);
+            event.stopPropagation();
+            break;
+          case 'KeyM': // 'M' key to toggle mute/unmute
+            if (player.volume() === 0) {
+              player.volume(1);
+            } else {
+              player.volume(0);
+            }
+            event.stopPropagation();
+            break;
+          case 'KeyK': // 'K' key for play/pause toggle
+            if (player.paused()) {
+              player.play();
+            } else {
+              player.pause();
+            }
+            event.stopPropagation();
+            break;
+          case 'KeyJ': // 'J' key for seeking backward 10 seconds multiplied by the playback rate
+            player.currentTime(
+              player.currentTime() - 10 * player.playbackRate(),
+            );
+            event.stopPropagation();
+            break;
+          case 'KeyL': // 'L' key for seeking forward 10 seconds multiplied by the playback rate
+            player.currentTime(
+              player.currentTime() + 10 * player.playbackRate(),
+            );
+            event.stopPropagation();
+            break;
+          case 'KeyC':
+            if (subtitles && player.textTracks().length) {
+              if (player.textTracks()[0].mode === 'showing') {
+                player.textTracks()[0].mode = 'hidden';
+              } else {
+                player.textTracks()[0].mode = 'showing';
+              }
+            }
+            break;
           }
-          break;
         }
       }
     };
@@ -207,7 +214,7 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
     return () => {
       document.removeEventListener('keydown', handleKeyPress);
     };
-  }, [player]);
+  }, [player, isSidebarOpen]);
 
   useEffect(() => {
     if (!player) {
@@ -250,13 +257,21 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
       window.clearInterval(interval);
       onVideoEnd();
     };
+    if (isSidebarOpen === true) {
+      // Detach event listeners
+      player.off('play', handleVideoProgress);
+      player.off('ended', handleVideoEnded);
+      player.controls(false);
+    } else {
+      player.on('play', handleVideoProgress);
+      player.on('ended', () => handleVideoEnded(interval));
+      player.controls(true);
+    }
 
-    player.on('play', handleVideoProgress);
-    player.on('ended', () => handleVideoEnded(interval));
     return () => {
       window.clearInterval(interval);
     };
-  }, [player, contentId]);
+  }, [player, contentId, isSidebarOpen]);
 
   useEffect(() => {
     if (!playerRef.current && videoRef.current) {
@@ -352,10 +367,11 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
       player.currentTime(parseInt(t, 10));
     }
   }, [searchParams, player]);
+
   return (
     <div
       data-vjs-player
-      className="mx-auto md:max-w-[calc(100vw-3rem)] 2xl:max-w-[calc(100vw-17rem)]"
+      className="md:max-w-[calc(100vw-3rem)] 2xl:max-w-[calc(100vw-17rem)]"
     >
       <div ref={videoRef} />
     </div>

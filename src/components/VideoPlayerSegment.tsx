@@ -8,6 +8,8 @@ import {
 } from '@/lib/utils';
 import { Segment } from '@/lib/utils';
 import Player from 'video.js/dist/types/player';
+import { useRecoilValue } from 'recoil';
+import { sidebarOpen } from '@/store/atoms/sidebar';
 
 export interface Thumbnail {
   public_id: string;
@@ -38,7 +40,7 @@ export const VideoPlayerSegment: FunctionComponent<VideoProps> = ({
   const playerRef = useRef<Player | null>(null);
 
   const thumbnailPreviewRef = useRef<HTMLDivElement>(null);
-
+  const isSidebarOpen = useRecoilValue(sidebarOpen);
   const overrideUpdateTime = (player: Player) => {
     const seekBar = player
       .getChild('ControlBar')
@@ -89,7 +91,7 @@ export const VideoPlayerSegment: FunctionComponent<VideoProps> = ({
   };
 
   return (
-    <div className="">
+    <div className={`${isSidebarOpen ? 'opacity-20' : 'opacity-100'}`}>
       <div className="flex-1 relative">
         <div
           id="thumbnail-preview"

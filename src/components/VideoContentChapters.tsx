@@ -34,7 +34,7 @@ const VideoContentChapters = ({
   }, [player]);
 
   return (
-    <div className="w-full lg:w-1/3 rounded-md shadow-md border text-sm">
+    <div className="w-full lg:w-[30%] rounded-md shadow-md border text-sm">
       <div className="flex items-center justify-between p-2 py-3 dark:bg-[#212020] bg-[#F5F5F5]">
         <span>Chapters</span>
         <X onClick={onCancel} className="cursor-pointer" />
