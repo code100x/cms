@@ -18,7 +18,7 @@ export const Courses = ({ courses }: { courses: Course[] }) => {
                 course.title.includes('Machine Learning') ||
                 course.title.includes('Harnoor')
               ) {
-                router.push('https://harkirat.classx.co.in/');
+                router.push(`https://harkirat.classx.co.in/new-courses/8/content?activeTab=Content`);
               } else {
                 router.push(`/courses/${course.id}`);
               }
