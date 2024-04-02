@@ -3,7 +3,6 @@ import { createSafeAction } from '@/lib/create-safe-action';
 import { BookmarkCreateSchema, BookmarkDeleteSchema } from './schema';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
-import { rateLimit } from '@/lib/utils';
 import db from '@/db';
 import {
   InputTypeCreateBookmark,
@@ -12,8 +11,8 @@ import {
 } from './types';
 import { revalidatePath } from 'next/cache';
 
-const reloadBookmarkPage = (courseId: number) => {
-  revalidatePath(`/courses/${courseId}/bookmarks`);
+const reloadBookmarkPage = () => {
+  revalidatePath('/bookmarks');
 };
 
 const createBookmarkHandler = async (
@@ -25,18 +24,22 @@ const createBookmarkHandler = async (
     return { error: 'Unauthorized or insufficient permissions' };
   }
 
-  const { contentId, courseId } = data;
+  const { contentId } = data;
   const userId = session.user.id;
 
-  if (!rateLimit(userId)) {
-    return { error: 'Rate limit exceeded. Please try again later.' };
-  }
-
   try {
-    const addedBookmark = await db.bookmark.create({
-      data: { contentId, userId, courseId },
+    const addedBookmark = await db.bookmark.upsert({
+      where: {
+        contentId,
+        userId,
+      },
+      create: {
+        contentId,
+        userId,
+      },
+      update: {},
     });
-    reloadBookmarkPage(courseId);
+    reloadBookmarkPage();
     return { data: addedBookmark };
   } catch (error: any) {
     return { error: error.message || 'Failed to create comment.' };
@@ -51,19 +54,14 @@ const deleteBookmarkHandler = async (
   if (!session || !session.user) {
     return { error: 'Unauthorized or insufficient permissions' };
   }
-
-  const { id, courseId } = data;
   const userId = session.user.id;
-
-  if (!rateLimit(userId)) {
-    return { error: 'Rate limit exceeded. Please try again later.' };
-  }
+  const { id } = data;
 
   try {
     const deletedBookmark = await db.bookmark.delete({
-      where: { id },
+      where: { id, userId },
     });
-    reloadBookmarkPage(courseId);
+    reloadBookmarkPage();
     return { data: deletedBookmark };
   } catch (error: any) {
     return { error: error.message || 'Failed to create comment.' };

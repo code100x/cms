@@ -7,10 +7,6 @@ import { CourseView } from '@/components/CourseView';
 import { QueryParams } from '@/actions/types';
 
 import { Content } from '@prisma/client';
-import { TBookmarkWithContent } from '@/actions/bookmark/types';
-import db from '@/db';
-import { rateLimit } from '@/lib/utils';
-import BookmarkView from '@/components/bookmark/BookmarkView';
 
 interface PurchaseType {
   id: number;
@@ -24,34 +20,6 @@ interface PurchaseType {
   totalVideos?: number;
   totalVideosWatched: number;
 }
-
-const getBookmarkData = async (
-  courseId: string,
-): Promise<TBookmarkWithContent[] | { error: string }> => {
-  const session = await getServerSession(authOptions);
-  const userId = session.user.id;
-
-  if (!rateLimit(userId)) {
-    return { error: 'Rate limit exceeded. Please try again later.' };
-  }
-
-  return await db.bookmark.findMany({
-    where: {
-      userId,
-      courseId: parseInt(courseId, 10),
-    },
-    include: {
-      content: {
-        include: {
-          parent: true,
-        },
-      },
-    },
-    orderBy: {
-      createdAt: 'desc',
-    },
-  });
-};
 
 const checkAccess = async (courseId: string) => {
   const session = await getServerSession(authOptions);
@@ -110,18 +78,6 @@ export default async function Course({
 
   if (!hasAccess) {
     redirect('/api/auth/signin');
-  }
-
-  if (params.courseId[1] === 'bookmarks') {
-    const bookmarkData = await getBookmarkData(courseId);
-
-    return (
-      <BookmarkView
-        bookmarkData={bookmarkData}
-        courseId={course.id}
-        fullCourseContent={fullCourseContent}
-      />
-    );
   }
 
   const courseContent = findContentById(
