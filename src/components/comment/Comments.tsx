@@ -118,7 +118,7 @@ const Comments = async ({
           parentId={data?.parentComment?.id}
         />
         <div className="mb-5 flex mt-5">
-          <DropdownMenu key="1">
+          <DropdownMenu key="1" modal={false}>
             <DropdownMenuTrigger asChild>
               <Button
                 className="w-[200px] justify-between text-left font-normal"
@@ -169,7 +169,7 @@ const Comments = async ({
               </DropdownMenuGroup>
             </DropdownMenuContent>
           </DropdownMenu>
-          <DropdownMenu>
+          <DropdownMenu modal={false}>
             <DropdownMenuTrigger asChild>
               <Button
                 className="w-[200px] justify-between text-left font-normal"

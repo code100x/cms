@@ -17,6 +17,7 @@ import {
 } from '@/store/atoms/activecontent';
 import { useEffect, useState } from 'react';
 import { handleMarkAsCompleted } from '@/lib/utils';
+import BookmarkButton from './bookmark/BookmarkButton';
 
 export function Sidebar({
   courseId,
@@ -107,7 +108,7 @@ export function Sidebar({
             value={`item-${content.id}`}
             className={
               content.type === 'folder' && isActiveContent
-                ? 'dark:bg-blue-600 dark:text-black bg-blue-600 text-white dark:hover:bg-blue-500 hover:bg-blue-500'
+                ? 'dark:bg-gray-600  bg-gray-200 dark:text-white text-black dark:hover:bg-gray-500 hover:bg-gray-100'
                 : ''
             }
           >
@@ -125,10 +126,10 @@ export function Sidebar({
       return (
         <div
           key={content.id}
-          className={`p-2 flex border-gray-300 border-b dark:border-gray-700 cursor-pointer ${
+          className={`p-2 flex border-b hover:bg-gray-200 cursor-pointer ${
             isActiveContent
-              ? 'dark:bg-blue-600 dark:text-black bg-blue-600 text-white dark:hover:bg-blue-500 hover:bg-blue-500'
-              : 'bg-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-white text-black  hover:bg-gray-100'
+              ? 'dark:bg-gray-700 bg-gray-300 dark:text-white text-black dark:hover:bg-gray-500'
+              : 'bg-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-white text-black'
           }`}
           onClick={() => {
             navigateToContent(content.id);
@@ -144,8 +145,14 @@ export function Sidebar({
               <div>{content.title}</div>
             </div>
             {content.type === 'video' ? (
-              <div className="flex flex-col justify-center ml-2">
-                <Check content={content} />
+              <div className="flex items-center gap-1">
+                <BookmarkButton
+                  bookmark={content.bookmark}
+                  contentId={content.id}
+                />
+                <div className="flex flex-col justify-center ml-2">
+                  <Check content={content} />
+                </div>
               </div>
             ) : null}
           </div>
