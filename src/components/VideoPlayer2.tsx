@@ -57,6 +57,7 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
     let volumeSetTimeout: ReturnType<typeof setInterval> | null = null;
     const handleKeyPress = (event: any) => {
       const isShiftPressed = event.shiftKey;
+      const tracks: TextTrackList = player.textTracks();
       if (isShiftPressed) {
         const currentIndexPeriod: number = PLAYBACK_RATES.indexOf(
           player.playbackRate(),
@@ -182,11 +183,15 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
           event.stopPropagation();
           break;
         case 'KeyC':
-          if (subtitles && player.textTracks().length) {
-            if (player.textTracks()[0].mode === 'showing') {
-              player.textTracks()[0].mode = 'hidden';
-            } else {
-              player.textTracks()[0].mode = 'showing';
+          for (let i = 0; i < tracks.length; i++) {
+            const track = tracks[i];
+
+            if (track.kind === 'subtitles' && track.language === 'en') {
+              if (track.mode === 'hidden') {
+                track.mode = 'showing';
+              } else {
+                track.mode = 'hidden';
+              }
             }
           }
           break;
