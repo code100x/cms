@@ -1,8 +1,6 @@
 'use client';
 import { useRouter } from 'next/navigation';
 import { ContentCard } from './ContentCard';
-import { useRecoilState } from 'recoil';
-import { activeContentIds as activeContentIdsAtom } from '@/store/atoms/activecontent';
 
 export const FolderView = ({
   courseContent,
@@ -21,8 +19,6 @@ export const FolderView = ({
   }[];
 }) => {
   const router = useRouter();
-  const [activeContentIds, setActiveContentIds] =
-    useRecoilState(activeContentIdsAtom);
 
   if (!courseContent?.length) {
     return (
@@ -49,9 +45,6 @@ export const FolderView = ({
             image={content.image || ''}
             onClick={() => {
               router.push(`${updatedRoute}/${content.id}`);
-              if (activeContentIds && activeContentIds.length > 0) {
-                setActiveContentIds([...activeContentIds, content.id]);
-              }
             }}
             markAsCompleted={content.markAsCompleted}
             percentComplete={content.percentComplete}
