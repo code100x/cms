@@ -13,6 +13,7 @@ export const ContentCard = ({
   hoverExpand = true,
   bookmark,
   contentId,
+  duration,
 }: {
   type: 'folder' | 'video' | 'notion';
   contentId?: number;
@@ -24,6 +25,7 @@ export const ContentCard = ({
   videoProgressPercent?: number;
   hoverExpand?: boolean;
   bookmark?: Bookmark | null;
+  duration?: number | null;
 }) => {
   let image =
     'https://d2szwvl7yo497w.cloudfront.net/courseThumbnails/folder.png';
@@ -47,6 +49,11 @@ export const ContentCard = ({
       )}
       <div className="relative overflow-hidden rounded-md">
         <img src={image} alt={title} className="" />
+        <div className="absolute bottom-0 right-0 bg-gray-900 text-white bg-opacity-80 px-1 mr-1 mb-1 rounded-md">
+          {duration !== null &&
+            duration !== undefined &&
+            `${String(Math.floor(duration / 3600)).padStart(2, '0')}:${String(Math.floor((duration % 3600) / 60)).padStart(2, '0')}:${String(Math.floor(duration % 60)).padStart(2, '0')}`}
+        </div>
         {!!videoProgressPercent && (
           <div className="absolute bottom-0 w-full h-1 bg-[#707071]">
             <div

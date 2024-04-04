@@ -61,6 +61,9 @@ export const FolderView = ({
               percentComplete={content.percentComplete}
               videoProgressPercent={videoProgressPercent}
               bookmark={content.bookmark}
+              duration={
+                content.type === 'video' ? content.videoFullDuration : null
+              }
             />
           );
         })}
