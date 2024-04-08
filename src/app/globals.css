@@ -94,3 +94,9 @@
 .vjs-duration {
   display: block !important;
 }
+
+@media print{
+  @page{
+    size:landscape;
+  }
+}

@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { NotionRenderer as NotionRendererLib } from 'react-notion-x';
 // core styles shared by all of react-notion-x (required)
 import 'react-notion-x/src/styles.css';
@@ -18,13 +18,19 @@ import 'prismjs/themes/prism-tomorrow.css';
 // used for rendering equations (optional)
 import 'katex/dist/katex.min.css';
 import { Loader } from './Loader';
-import Link from 'next/link';
 import { Button } from './ui/button';
 import { DownloadIcon } from 'lucide-react';
+import { useReactToPrint } from 'react-to-print';
 
 // Week-4-1-647987d9b1894c54ba5c822978377910
 export const NotionRenderer = ({ id }: { id: string }) => {
   const [data, setData] = useState(null);
+  const contentRef = useRef(null);
+
+  const downloadPDF = useReactToPrint({
+    content: () => contentRef.current,
+  });
+
   async function main() {
     const res = await fetch(`/api/notion?id=${id}`);
     const json = await res.json();
@@ -41,22 +47,18 @@ export const NotionRenderer = ({ id }: { id: string }) => {
 
   return (
     <div className="relative">
-      <Link
-        href={`/pdf/${id}`}
-        target="_blank"
-        className="absolute right-4 top-4 z-20"
+      <Button
+        variant="outline"
+        className="absolute right-4 top-4 z-20 bg-white text-black dark:bg-[#020917] dark:text-white"
+        onClick={downloadPDF}
       >
-        <Button
-          variant="outline"
-          className="bg-white text-black dark:bg-[#020917] dark:text-white"
-        >
-          Download
-          <div className="pl-2">
-            <DownloadIcon />
-          </div>
-        </Button>
-      </Link>
-      <div style={{}}>
+        Download
+        <div className="pl-2">
+          <DownloadIcon />
+        </div>
+      </Button>
+
+      <div ref={contentRef} style={{}}>
         <NotionRendererLib
           recordMap={data}
           fullPage={true}
