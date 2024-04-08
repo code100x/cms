@@ -7,6 +7,7 @@ export const ContentCard = ({
   title,
   onClick,
   markAsCompleted,
+  layoutType,
   percentComplete,
   type,
   videoProgressPercent,
@@ -17,6 +18,7 @@ export const ContentCard = ({
   type: 'folder' | 'video' | 'notion';
   contentId?: number;
   image: string;
+  layoutType: number;
   title: string;
   onClick: () => void;
   markAsCompleted?: boolean;
@@ -35,7 +37,7 @@ export const ContentCard = ({
   return (
     <div
       onClick={onClick}
-      className={`relative ease-in duration-200 cursor-pointer group${hoverExpand ? ' hover:scale-105' : ''} `}
+      className={`relative ${layoutType === 2 ? 'border-2 hover:bg-[#101522c5] p-2 rounded-md flex items-center justify-start gap-2' : ''}  ease-in duration-200 cursor-pointer group${hoverExpand ? ' hover:scale-[1.02]' : ''} `}
     >
       {percentComplete !== null && percentComplete !== undefined && (
         <PercentageComplete percent={percentComplete} />
@@ -45,8 +47,12 @@ export const ContentCard = ({
           <CheckCircle2 color="green" size={20} />
         </div>
       )}
-      <div className="relative overflow-hidden rounded-md">
-        <img src={image} alt={title} className="" />
+      <div
+        className={`relative ${layoutType === 2 ? 'w-[40%] md:w-[20%]' : ''}  overflow-hidden rounded-md`}
+      >
+        <div className="w-full h-full">
+          <img src={image} alt={title} className="w-full h-full" />
+        </div>
         {!!videoProgressPercent && (
           <div className="absolute bottom-0 w-full h-1 bg-[#707071]">
             <div
@@ -67,7 +73,9 @@ export const ContentCard = ({
           />
         </div>
       )}
-      <div className="flex justify-between mt-2 text-gray-900 dark:text-white">
+      <div
+        className={`flex ${layoutType === 2 ? 'w-full' : 'mt-2'}  justify-between  text-gray-900 dark:text-white`}
+      >
         <div>{title}</div>
       </div>
     </div>

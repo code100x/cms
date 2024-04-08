@@ -22,23 +22,23 @@ export const VideoPlayer = ({
     }
     const handleKeyPress = (event: any) => {
       switch (event.code) {
-      case 'Space': // Space bar for play/pause
-        if (player.paused()) {
-          player.play();
+        case 'Space': // Space bar for play/pause
+          if (player.paused()) {
+            player.play();
+            event.stopPropagation();
+          } else {
+            player.pause();
+            event.stopPropagation();
+          }
+          break;
+        case 'ArrowRight': // Right arrow for seeking forward 5 seconds
+          player.currentTime(player.currentTime() + 5);
           event.stopPropagation();
-        } else {
-          player.pause();
+          break;
+        case 'ArrowLeft': // Left arrow for seeking backward 5 seconds
+          player.currentTime(player.currentTime() - 5);
           event.stopPropagation();
-        }
-        break;
-      case 'ArrowRight': // Right arrow for seeking forward 5 seconds
-        player.currentTime(player.currentTime() + 5);
-        event.stopPropagation();
-        break;
-      case 'ArrowLeft': // Left arrow for seeking backward 5 seconds
-        player.currentTime(player.currentTime() - 5);
-        event.stopPropagation();
-        break;
+          break;
       }
     };
 

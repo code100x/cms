@@ -2,6 +2,8 @@
 import { useRouter } from 'next/navigation';
 import { ContentCard } from './ContentCard';
 import { Bookmark } from '@prisma/client';
+import { useRecoilValue } from 'recoil';
+import { layoutToggle } from '@/store/atoms/layout';
 
 export const FolderView = ({
   courseContent,
@@ -23,6 +25,7 @@ export const FolderView = ({
   }[];
 }) => {
   const router = useRouter();
+  const layoutType = useRecoilValue(layoutToggle);
 
   if (!courseContent?.length) {
     return (
@@ -40,7 +43,9 @@ export const FolderView = ({
   return (
     <div>
       <div></div>
-      <div className="max-w-screen-xl justify-between mx-auto p-4 cursor-pointer grid grid-cols-1 gap-5 md:grid-cols-3">
+      <div
+        className={`max-w-screen-xl  justify-between mx-auto p-4 cursor-pointer grid grid-cols-1 gap-5 ${layoutType === 1 ? 'md:grid-cols-3' : 'md:grid-cols-1'} `}
+      >
         {courseContent.map((content) => {
           const videoProgressPercent =
             content.type === 'video' &&
@@ -51,6 +56,7 @@ export const FolderView = ({
           return (
             <ContentCard
               type={content.type}
+              layoutType={layoutType}
               key={content.id}
               title={content.title}
               image={content.image || ''}

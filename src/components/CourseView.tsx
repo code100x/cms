@@ -7,6 +7,7 @@ import { getFolderPercentCompleted } from '@/lib/utils';
 import Comments from './comment/Comments';
 import { QueryParams } from '@/actions/types';
 import BreadCrumbComponent from './BreadCrumbComponent';
+import LayoutToggle from './LayoutToggle';
 
 export const CourseView = ({
   rest,
@@ -31,7 +32,7 @@ export const CourseView = ({
     <div className="flex h-full">
       <Sidebar fullCourseContent={fullCourseContent} courseId={course.id} />
       <div className="grow p-2 overflow-y-auto no-scrollbar">
-        <div className=" min-h-[2.5rem] max-h-fit mb-2 flex items-center px-4">
+        <div className=" min-h-[2.5rem] max-h-fit mb-2 flex justify-between items-center px-4">
           <BreadCrumbComponent
             course={course}
             contentType={contentType}
@@ -39,6 +40,8 @@ export const CourseView = ({
             fullCourseContent={fullCourseContent}
             rest={rest}
           />
+
+          {contentType === 'folder' ? <LayoutToggle /> : null}
         </div>
 
         {contentType === 'notion' ? (
