@@ -57,6 +57,7 @@ export function Sidebar({
 
   const navigateToContent = (contentId: any) => {
     const pathArray = findPathToContent(fullCourseContent, contentId);
+    console.log(pathArray[0]);
     if (pathArray) {
       const path = `/courses/${courseId}/${pathArray.join('/')}`;
       router.push(path);
@@ -132,7 +133,7 @@ export function Sidebar({
         <GoBackButton />
       </div>
       <Accordion
-        defaultValue={`item-${courseId}`}
+        defaultValue={`item-${window.location.pathname.split('/')[3]}`}
         type="single"
         collapsible
         className="w-full"
