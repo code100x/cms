@@ -57,7 +57,6 @@ export function Sidebar({
 
   const navigateToContent = (contentId: any) => {
     const pathArray = findPathToContent(fullCourseContent, contentId);
-    console.log(pathArray[0]);
     if (pathArray) {
       const path = `/courses/${courseId}/${pathArray.join('/')}`;
       router.push(path);
