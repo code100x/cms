@@ -22,6 +22,13 @@ Without Docker
 * Login using any userid and password 123456
 * You should be able to see some test courses
 
+Make sure to lint and format your code before creating a PR
+* ```npm run lint:check``` to check for lint errors
+* ```npm run lint:fix``` to fix lint errors
+* ```npm run format:check``` to format the code
+* ```npm run format:fix``` to fix the formatting
+* If the code is not formatted properly, the CI will fail
+
 ---
 
 Read [contributing guidelines](./CONTRIBUTING.md) to start making contributions
