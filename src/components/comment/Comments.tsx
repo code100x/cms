@@ -247,9 +247,7 @@ const Comments = async ({
                       </DropdownMenuTrigger>
                       <DropdownMenuContent>
                         <DropdownMenuItem>
-                          <CopyToClipboard
-                            textToCopy={`${c.contentId};${c.id.toString()}`}
-                          />
+                          <CopyToClipboard textToCopy={`${c.content}`} />
                         </DropdownMenuItem>
                         <DropdownMenuItem>
                           {(session.user.id.toString() ===
