@@ -40,23 +40,21 @@ export const NotionRenderer = ({ id }: { id: string }) => {
   }
 
   return (
-    <div className="relative">
-      <Link
-        href={`/pdf/${id}`}
-        target="_blank"
-        className="absolute right-4 top-4 z-20"
-      >
-        <Button
-          variant="outline"
-          className="bg-white text-black dark:bg-[#020917] dark:text-white"
-        >
-          Download
-          <div className="pl-2">
-            <DownloadIcon />
-          </div>
-        </Button>
-      </Link>
-      <div style={{}}>
+    <div className="relative ">
+      <div className="flex justify-center p-3  w-auto  space-x-2">
+        <Link href={`/pdf/${id}`} target="_blank" className="sticky">
+          <Button
+            variant="outline"
+            className=" bg-white text-black dark:bg-[#020917] dark:text-white"
+          >
+            Download
+            <div className="pl-2">
+              <DownloadIcon />
+            </div>
+          </Button>
+        </Link>
+      </div>
+      <div className="mt-10px" style={{}}>
         <NotionRendererLib
           recordMap={data}
           fullPage={true}
