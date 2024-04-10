@@ -377,8 +377,8 @@ const deleteCommentHandler = async (
     }
 
     if (
-      existingComment.userId !== userId ||
-      (existingComment.userId !== userId && session.user?.role !== ROLES.ADMIN)
+      existingComment.userId !== userId &&
+      session.user?.role !== ROLES.ADMIN
     ) {
       return { error: 'Unauthorized to delete this comment.' };
     }
