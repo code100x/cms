@@ -16,7 +16,7 @@ const CommentInputForm = ({
 }) => {
   const currentPath = usePathname();
   const formRef = React.useRef<HTMLFormElement>(null);
-  const { execute, fieldErrors } = useAction(createMessage, {
+  const { execute, fieldErrors, isLoading } = useAction(createMessage, {
     onSuccess: () => {
       toast('Comment added');
       formRef.current?.reset();
@@ -30,6 +30,8 @@ const CommentInputForm = ({
     const formData = new FormData(e.target as HTMLFormElement);
 
     const content = formData.get('content') as string;
+
+    if (!content) return;
 
     execute({
       content,
@@ -48,7 +50,9 @@ const CommentInputForm = ({
       />
       <FormErrors id="content" errors={fieldErrors} />
       <div className="flex justify-end gap-2">
-        <Button type="submit">Comment</Button>
+        <Button loading={isLoading} type="submit" className="w-[100px]">
+          Comment
+        </Button>
       </div>
     </form>
   );

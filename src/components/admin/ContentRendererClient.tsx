@@ -5,6 +5,7 @@ import { VideoPlayerSegment } from '@/components/VideoPlayerSegment';
 import VideoContentChapters from '../VideoContentChapters';
 import { useMemo, useState } from 'react';
 import { handleMarkAsCompleted } from '@/lib/utils';
+import { Button } from '../ui/button';
 
 export const ContentRendererClient = ({
   metadata,
@@ -125,13 +126,13 @@ export const ContentRendererClient = ({
               {content.title}
             </div>
 
-            <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold rounded p-2 my-4"
-              disabled={loadingMarkAs}
+            <Button
+              loading={loadingMarkAs}
+              className="my-3 w-[150px]"
               onClick={handleMarkCompleted}
             >
               {contentCompleted ? 'Mark as Incomplete' : 'Mark as completed'}
-            </button>
+            </Button>
           </div>
 
           <div>
@@ -146,9 +147,7 @@ export const ContentRendererClient = ({
                 }}
               >
                 <a href={metadata.slides} target="_blank">
-                  <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold rounded p-2">
-                    Slides
-                  </button>
+                  <Button className="my-3">Slides</Button>
                 </a>
               </div>
             ) : null}
