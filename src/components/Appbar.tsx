@@ -42,7 +42,7 @@ export const Appbar = () => {
 
           {session?.data?.user ? (
             <>
-              <div className="hidden md:block">
+              <div className="hidden lg:block">
                 <SearchBar />
               </div>
               <div className="flex items-center space-x-2">
