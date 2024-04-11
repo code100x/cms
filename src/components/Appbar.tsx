@@ -29,7 +29,7 @@ export const Appbar = () => {
     bookmarkPageUrl = `/courses/${params.courseId[0]}/bookmarks`;
   }
 
-  const controlAppbar = useCallback(() => {
+  const controlAppbar = () => {
     if (typeof window !== 'undefined') {
       if (window.scrollY > lastScrollY) { // if scroll down hide the navbar
         setShow(false);
@@ -40,7 +40,7 @@ export const Appbar = () => {
       // remember current page location to use in the next move
       setLastScrollY(window.scrollY);
     }
-  }, [lastScrollY]);
+  }
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
