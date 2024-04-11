@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 const signinSchema = z.object({
-  email: z.string().email('Invalid email address'),
-  password: z.string().min(8, 'Password must be at least 8 characters long'),
+  input: z.string().min(1 , 'Email or Phone number is required'),
+  password: z.string().min(1, 'Password is Required'),
 });
 export default signinSchema;

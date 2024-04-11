@@ -1,6 +1,6 @@
 'use client';
 import { Button } from '@/components/ui/button';
-import { Loader, Mail, KeyRound } from 'lucide-react';
+import { Loader, KeyRound , User } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Toaster } from '@/components/ui/sonner';
@@ -27,7 +27,7 @@ const Signin = () => {
   const form = useForm<z.infer<typeof signinSchema>>({
     resolver: zodResolver(signinSchema),
     defaultValues: {
-      email: '',
+      input: '',
       password: '',
     },
   });
@@ -35,7 +35,7 @@ const Signin = () => {
     try {
       setIsLoading(true);
       const res = await signIn('credentials', {
-        username: values.email,
+        username: values.input,
         password: values.password,
         redirect: false,
       });
@@ -80,18 +80,18 @@ const Signin = () => {
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
               <FormField
                 control={form.control}
-                name="email"
+                name="input"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className="flex justify-start items-center text-lg gap-2">
-                      <Mail size={18} />
-                      Email
+                      <User size={18} />
+                      Email or Phone number
                     </FormLabel>
                     <FormControl>
                       <Input
-                        placeholder="enter your email"
+                        placeholder="enter your email or phone number"
                         {...field}
-                        type="email"
+                        type="text"
                       />
                     </FormControl>
                     <FormMessage />

@@ -51,6 +51,6 @@ export const whyUs: TwhyUs = [
     tagline: 'Assignments',
     headline: 'Learn by doing',
     description:
-      "Harkirat personally creates assignments after every lecture, so it's extremely hands on.",
+      'Harkirat personally creates assignments after every lecture, so it\'s extremely hands on.',
   },
 ];

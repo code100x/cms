@@ -1,4 +1,4 @@
-import { AtSign, Eye, EyeOff, User } from 'lucide-react';
+import {  Eye, EyeOff, User } from 'lucide-react';
 import * as React from 'react';
 
 import { cn } from '@/lib/utils';
@@ -43,7 +43,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         </div>
       );
     }
-    if (type === 'email' || type === 'username') {
+    if (type === 'email' || type === 'text') {
       return (
         <div className="relative">
           <input
@@ -57,7 +57,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           />
           <div className="absolute right-2 top-2">
             {type === 'email' ? (
-              <AtSign
+              <User
                 size={20}
                 className="dark:text-white text-dark"
                 strokeWidth={1.75}
