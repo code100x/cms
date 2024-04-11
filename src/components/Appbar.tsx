@@ -40,7 +40,7 @@ export const Appbar = () => {
       // remember current page location to use in the next move
       setLastScrollY(window.scrollY);
     }
-  }
+  };
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
