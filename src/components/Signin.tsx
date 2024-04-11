@@ -1,157 +1,128 @@
 'use client';
 import { Button } from '@/components/ui/button';
+import { Loader, Mail, KeyRound } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { Toaster } from '@/components/ui/sonner';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import signinSchema from '@/schemas/singin-schema';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
 
 import { toast } from 'sonner';
 const Signin = () => {
-  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-  const [requiredError, setRequiredError] = useState({
-    emailReq: false,
-    passReq: false,
-  });
-
-  function togglePasswordVisibility() {
-    setIsPasswordVisible((prevState: any) => !prevState);
-  }
+  const [loading, setIsLoading] = useState(false);
   const router = useRouter();
-  const email = useRef('');
-  const password = useRef('');
-
-  const handleSubmit = async (e?: React.FormEvent<HTMLButtonElement>) => {
-    if (e) {
-      e.preventDefault();
-    }
-
-    if (!email.current || !password.current) {
-      setRequiredError({
-        emailReq: email.current ? false : true,
-        passReq: password.current ? false : true,
+  const form = useForm<z.infer<typeof signinSchema>>({
+    resolver: zodResolver(signinSchema),
+    defaultValues: {
+      email: '',
+      password: '',
+    },
+  });
+  async function onSubmit(values: z.infer<typeof signinSchema>) {
+    try {
+      setIsLoading(true);
+      const res = await signIn('credentials', {
+        username: values.email,
+        password: values.password,
+        redirect: false,
       });
-      return;
-    }
-
-    const res = await signIn('credentials', {
-      username: email.current,
-      password: password.current,
-      redirect: false,
-    });
-
-    if (!res?.error) {
-      router.push('/');
-    } else {
+      if (!res?.error) {
+        toast('Signin Successfull', {
+          description: 'You have been signed in successfully.',
+          action: {
+            label: 'Close',
+            onClick: () => toast.dismiss(),
+          },
+        });
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+        router.push('/');
+      } else {
+        toast('Error Signing in', {
+          description: 'invalid credentials',
+          action: {
+            label: 'Close',
+            onClick: () => toast.dismiss(),
+          },
+        });
+      }
+    } catch (err) {
       toast('Error Signing in', {
         action: {
           label: 'Close',
           onClick: () => toast.dismiss(),
         },
       });
+    } finally {
+      setIsLoading(false);
     }
-  };
+  }
   return (
     <section className="flex items-center justify-center h-screen">
       <Card className="w-[70%] mx-auto md:w-[70%] lg:w-[30%] ">
         <CardHeader>
-          <CardTitle>Signin to your Account</CardTitle>
+          <CardTitle className="text-center mb-6">Signin to 100xDev</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid w-full items-center gap-4">
-            <div className="flex flex-col gap-4">
-              <Label htmlFor="email">Email</Label>
-              <Input
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+              <FormField
+                control={form.control}
                 name="email"
-                id="email"
-                placeholder="name@email.com"
-                onChange={(e) => {
-                  setRequiredError((prevState) => ({
-                    ...prevState,
-                    emailReq: false,
-                  }));
-                  email.current = e.target.value;
-                }}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="flex justify-start items-center text-lg gap-2">
+                      <Mail size={18} />
+                      Email
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="enter your email"
+                        {...field}
+                        type="email"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
-              {requiredError.emailReq && (
-                <span className=" text-red-500">Email is required</span>
-              )}
-            </div>
-            <div className="flex flex-col gap-4">
-              <Label>Password</Label>
-              <div className="flex border rounded-lg">
-                <Input
-                  className="border-0"
-                  name="password"
-                  type={isPasswordVisible ? 'text' : 'password'}
-                  id="password"
-                  placeholder="••••••••"
-                  onChange={(e) => {
-                    setRequiredError((prevState) => ({
-                      ...prevState,
-                      passReq: false,
-                    }));
-                    password.current = e.target.value;
-                  }}
-                  onKeyDown={async (e) => {
-                    if (e.key === 'Enter') {
-                      setIsPasswordVisible(false);
-                      handleSubmit();
-                    }
-                  }}
-                />
-                <button
-                  className="inset-y-0 right-0 flex items-center px-4 text-gray-600"
-                  onClick={togglePasswordVisibility}
-                >
-                  {isPasswordVisible ? (
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth={1.5}
-                      stroke="currentColor"
-                      className="w-5 h-5"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L9.88 9.88"
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="flex justify-start items-center text-lg gap-2">
+                      <KeyRound size={18} />
+                      Password
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="enter your password"
+                        {...field}
+                        type="password"
                       />
-                    </svg>
-                  ) : (
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth={1.5}
-                      stroke="currentColor"
-                      className="w-5 h-5"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"
-                      />
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                      />
-                    </svg>
-                  )}
-                </button>
-              </div>
-              {requiredError.passReq && (
-                <span className=" text-red-500">Password is required</span>
-              )}
-            </div>
-          </div>
-          <Button className="my-3 w-full" onClick={handleSubmit}>
-            Login
-          </Button>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <Button type="submit" className="w-full dark:text-white">
+                {loading ? <Loader className="animate-spin" /> : 'Signin'}
+              </Button>
+            </form>
+          </Form>
         </CardContent>
       </Card>
       <Toaster />
