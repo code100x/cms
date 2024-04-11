@@ -10,7 +10,7 @@ import React, { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import signinSchema from '@/schemas/singin-schema';
+import signinSchema from '@/schemas/signin-schema';
 import {
   Form,
   FormControl,
