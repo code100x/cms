@@ -13,6 +13,7 @@
 ## Steps to run locally
 With Docker
 
+* run this command to create the docker volume - ```docker create volume postgres-data```
 * ```docker compose up```
 
 Without Docker
