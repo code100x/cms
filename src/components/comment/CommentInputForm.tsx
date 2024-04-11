@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button } from '../ui/button';
 import { useAction } from '@/hooks/useAction';
 import { createMessage } from '@/actions/comment';
@@ -16,6 +16,7 @@ const CommentInputForm = ({
 }) => {
   const currentPath = usePathname();
   const formRef = React.useRef<HTMLFormElement>(null);
+  const textareaRef = React.useRef<HTMLTextAreaElement>(null);
   const { execute, fieldErrors } = useAction(createMessage, {
     onSuccess: () => {
       toast('Comment added');
@@ -27,7 +28,7 @@ const CommentInputForm = ({
   });
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const formData = new FormData(e.target as HTMLFormElement);
+    const formData = new FormData(e.currentTarget);
 
     const content = formData.get('content') as string;
 
@@ -38,9 +39,22 @@ const CommentInputForm = ({
       currentPath,
     });
   };
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      // Prevent shortcuts from affecting video when typing in the textarea
+        event.stopPropagation();
+    };
+
+    textareaRef.current?.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      textareaRef.current?.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
   return (
     <form className="grid gap-4" onSubmit={handleFormSubmit} ref={formRef}>
       <textarea
+        ref={textareaRef}
         id="content"
         name="content"
         className="min-h-[50px] rounded-md dark:bg-gray-800 border-2 text-muted-foreground p-2 "
