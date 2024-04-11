@@ -15,10 +15,13 @@ import { ThemeToggler } from './ThemeToggler';
 import { NavigationMenu } from './landing/appbar/nav-menu';
 import SearchBar from './search/SearchBar';
 import MobileScreenSearch from './search/MobileScreenSearch';
+import { useCallback, useEffect, useState } from 'react';
 
 export const Appbar = () => {
   const session = useSession();
   const [sidebarOpen, setSidebarOpen] = useRecoilState(sidebarOpenAtom);
+  const [show, setShow] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
   const currentPath = usePathname();
   const params = useParams();
   let bookmarkPageUrl = null;
@@ -26,9 +29,33 @@ export const Appbar = () => {
     bookmarkPageUrl = `/courses/${params.courseId[0]}/bookmarks`;
   }
 
+  const controlAppbar = useCallback(() => {
+    if (typeof window !== 'undefined') {
+      if (window.scrollY > lastScrollY) { // if scroll down hide the navbar
+        setShow(false);
+      } else { // if scroll up show the navbar
+        setShow(true);
+      }
+
+      // remember current page location to use in the next move
+      setLastScrollY(window.scrollY);
+    }
+  }, [lastScrollY]);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      window.addEventListener('scroll', controlAppbar);
+
+      // cleanup function
+      return () => {
+        window.removeEventListener('scroll', controlAppbar);
+      };
+    }
+  }, [controlAppbar]);
+
   return (
     <>
-      <nav className="fixed z-50 top-0 px-4 w-full h-16 border-b shadow-sm bg-background/80 backdrop-blur-md flex items-center gap-2 print:hidden">
+      <nav className={`fixed z-50 top-0 px-4 w-full h-16 border-b shadow-sm bg-background/80 backdrop-blur-md flex items-center gap-2 print:hidden transform ${show ? 'translate-y-0' : '-translate-y-full'}`}>
         {currentPath.includes('courses') && (
           <ToggleButton
             onClick={() => {
