@@ -15,7 +15,7 @@ import { ThemeToggler } from './ThemeToggler';
 import { NavigationMenu } from './landing/appbar/nav-menu';
 import SearchBar from './search/SearchBar';
 import MobileScreenSearch from './search/MobileScreenSearch';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export const Appbar = () => {
   const session = useSession();
