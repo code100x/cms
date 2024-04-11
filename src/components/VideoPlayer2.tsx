@@ -54,6 +54,16 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
     if (!player) {
       return;
     }
+    const activeElement = document.activeElement;
+
+        // Check if there is an active element and if it's an input or textarea
+    if (
+        activeElement &&
+        (activeElement.tagName.toLowerCase() === 'input' ||
+         activeElement.tagName.toLowerCase() === 'textarea')
+        ) {
+          return; // Do nothing if the active element is an input or textarea
+        }
     let volumeSetTimeout: ReturnType<typeof setInterval> | null = null;
     const handleKeyPress = (event: any) => {
       const isShiftPressed = event.shiftKey;
@@ -115,16 +125,7 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
       } else if (event.code === 'KeyT') {
         player.playbackRate(2);
       } else {
-        const activeElement = document.activeElement;
-
-        // Check if there is an active element and if it's an input or textarea
-        if (
-          activeElement &&
-          (activeElement.tagName.toLowerCase() === 'input' ||
-            activeElement.tagName.toLowerCase() === 'textarea')
-        ) {
-          return; // Do nothing if the active element is an input or textarea
-        }
+        
         switch (event.code) {
         case 'Space': // Space bar for play/pause
           if (player.paused()) {
