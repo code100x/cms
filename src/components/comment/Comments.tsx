@@ -118,7 +118,7 @@ const Comments = async ({
           parentId={data?.parentComment?.id}
         />
         <div className="mb-5 flex mt-5">
-          <DropdownMenu key="1">
+          <DropdownMenu key="1" modal={false}>
             <DropdownMenuTrigger asChild>
               <Button
                 className="w-[200px] justify-between text-left font-normal"
@@ -169,7 +169,7 @@ const Comments = async ({
               </DropdownMenuGroup>
             </DropdownMenuContent>
           </DropdownMenu>
-          <DropdownMenu>
+          <DropdownMenu modal={false}>
             <DropdownMenuTrigger asChild>
               <Button
                 className="w-[200px] justify-between text-left font-normal"
@@ -251,29 +251,29 @@ const Comments = async ({
                             textToCopy={`${c.contentId};${c.id.toString()}`}
                           />
                         </DropdownMenuItem>
-                        <DropdownMenuItem>
-                          {(session.user.id.toString() ===
-                            (c as ExtendedComment).userId.toString() ||
-                            session.user.role === ROLES.ADMIN) && (
+                        {(session.user.id.toString() ===
+                          (c as ExtendedComment).userId.toString() ||
+                          session.user.role === ROLES.ADMIN) && (
+                          <DropdownMenuItem>
                             <CommentDeleteForm commentId={c.id} />
-                          )}
-                        </DropdownMenuItem>
-                        <DropdownMenuItem>
-                          {session.user.role === ROLES.ADMIN && (
+                          </DropdownMenuItem>
+                        )}
+                        {session.user.role === ROLES.ADMIN && (
+                          <DropdownMenuItem>
                             <CommentPinForm
                               commentId={c.id}
                               contentId={c.contentId}
                             />
-                          )}
-                        </DropdownMenuItem>
-                        <DropdownMenuItem>
-                          {session.user.role === ROLES.ADMIN && (
+                          </DropdownMenuItem>
+                        )}
+                        {session.user.role === ROLES.ADMIN && (
+                          <DropdownMenuItem>
                             <CommentApproveForm
                               commentId={c.id}
                               contentId={c.contentId}
                             />
-                          )}
-                        </DropdownMenuItem>
+                          </DropdownMenuItem>
+                        )}
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </div>

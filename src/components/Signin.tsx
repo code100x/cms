@@ -48,7 +48,7 @@ const Signin = () => {
       toast('Error Signing in', {
         action: {
           label: 'Close',
-          onClick: () => console.log('Closed Toast'),
+          onClick: () => toast.dismiss(),
         },
       });
     }

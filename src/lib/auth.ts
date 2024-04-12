@@ -1,6 +1,16 @@
 import db from '@/db';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { SignJWT, importJWK } from 'jose';
+import bcrypt from 'bcrypt';
+import prisma from '@/db';
+
+interface AppxSigninResponse {
+  data: {
+    userid: string;
+    name: string;
+    username: string;
+  };
+}
 
 const generateJWT = async (payload: any) => {
   const secret = process.env.JWT_SECRET || 'secret';
@@ -81,15 +91,64 @@ export const authOptions = {
       },
       async authorize(credentials: any) {
         try {
+          if (process.env.LOCAL_CMS_PROVIDER) {
+            return {
+              id: '1',
+              name: 'test',
+              email: 'test@gmail.com',
+              token: await generateJWT({
+                id: '1',
+              }),
+            };
+          }
+          const hashedPassword = await bcrypt.hash(credentials.password, 10);
+
+          const userDb = await prisma.user.findFirst({
+            where: {
+              email: credentials.username,
+            },
+            select: {
+              password: true,
+              id: true,
+              name: true,
+            },
+          });
+          if (
+            userDb &&
+            userDb.password &&
+            (await bcrypt.compare(credentials.password, userDb.password))
+          ) {
+            const jwt = await generateJWT({
+              id: userDb.id,
+            });
+            await db.user.update({
+              where: {
+                id: userDb.id,
+              },
+              data: {
+                token: jwt,
+              },
+            });
+
+            return {
+              id: userDb.id,
+              name: userDb.name,
+              email: credentials.username,
+              token: jwt,
+            };
+          }
+          console.log('not in db');
           //@ts-ignore
-          const user = await validateUser(
+          const user: AppxSigninResponse = await validateUser(
             credentials.username,
             credentials.password,
           );
+
+          const jwt = await generateJWT({
+            id: user.data.userid,
+          });
+
           if (user.data) {
-            const jwt = await generateJWT({
-              id: user.data.userid,
-            });
             try {
               await db.user.upsert({
                 where: {
@@ -100,12 +159,14 @@ export const authOptions = {
                   name: user.data.name,
                   email: credentials.username,
                   token: jwt,
+                  password: hashedPassword,
                 },
                 update: {
                   id: user.data.userid,
                   name: user.data.name,
                   email: credentials.username,
                   token: jwt,
+                  password: hashedPassword,
                 },
               });
             } catch (e) {
@@ -119,6 +180,7 @@ export const authOptions = {
               token: jwt,
             };
           }
+
           // Return null if user data could not be retrieved
           return null;
         } catch (e) {

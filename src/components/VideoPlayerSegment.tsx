@@ -18,6 +18,7 @@ export interface Thumbnail {
 }
 
 interface VideoProps {
+  setQuality: React.Dispatch<React.SetStateAction<string>>;
   thumbnails: Thumbnail[];
   segments: Segment[];
   subtitles: string;
@@ -27,6 +28,7 @@ interface VideoProps {
 }
 
 export const VideoPlayerSegment: FunctionComponent<VideoProps> = ({
+  setQuality,
   contentId,
   subtitles,
   segments,
@@ -34,7 +36,9 @@ export const VideoPlayerSegment: FunctionComponent<VideoProps> = ({
   onVideoEnd,
 }) => {
   const playerRef = useRef<Player | null>(null);
+
   const thumbnailPreviewRef = useRef<HTMLDivElement>(null);
+
   const overrideUpdateTime = (player: Player) => {
     const seekBar = player
       .getChild('ControlBar')
@@ -93,6 +97,7 @@ export const VideoPlayerSegment: FunctionComponent<VideoProps> = ({
           className="hidden absolute bg-no-repeat bg-cover w-[320px] h-[180px] pointer-events-none z-10"
         />
         <VideoPlayer
+          setQuality={setQuality}
           contentId={contentId}
           subtitles={subtitles}
           options={videoJsOptions}

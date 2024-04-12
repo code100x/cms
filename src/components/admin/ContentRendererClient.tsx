@@ -3,7 +3,7 @@ import { useSearchParams, useRouter } from 'next/navigation';
 // import { QualitySelector } from '../QualitySelector';
 import { VideoPlayerSegment } from '@/components/VideoPlayerSegment';
 import VideoContentChapters from '../VideoContentChapters';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { handleMarkAsCompleted } from '@/lib/utils';
 
 export const ContentRendererClient = ({
@@ -38,38 +38,37 @@ export const ContentRendererClient = ({
   const router = useRouter();
 
   //@ts-ignore
-  const quality: '720' | '1080' | '360' | null = searchParams.get('quality');
+  const [quality, setQuality] = useState<string>(
+    searchParams.get('quality') ?? '1080',
+  );
 
   if (!metadata) {
     return <div>Loading</div>;
   }
 
   const mpdUrl = metadata?.[quality || '1080'] || '';
-  let source = {};
 
-  if (mpdUrl.endsWith('.mpd')) {
-    //@ts-ignore
-    source = {
-      src: mpdUrl,
-      type: 'application/dash+xml',
-      keySystems: {
-        'com.widevine.alpha':
-          'https://widevine-dash.ezdrm.com/proxy?pX=288FF5&user_id=MTAwMA==',
-      },
-    };
-  } else if (mpdUrl.endsWith('.m3u8')) {
-    //@ts-ignore
-    source = {
-      src: mpdUrl,
-      type: 'application/x-mpegURL',
-    };
-  } else {
-    //@ts-ignore
-    source = {
+  const source = useMemo(() => {
+    if (mpdUrl.endsWith('.mpd')) {
+      return {
+        src: mpdUrl,
+        type: 'application/dash+xml',
+        keySystems: {
+          'com.widevine.alpha':
+            'https://widevine-dash.ezdrm.com/proxy?pX=288FF5&user_id=MTAwMA==',
+        },
+      };
+    } else if (mpdUrl.endsWith('.m3u8')) {
+      return {
+        src: mpdUrl,
+        type: 'application/x-mpegURL',
+      };
+    }
+    return {
       src: mpdUrl,
       type: 'video/mp4',
     };
-  }
+  }, [mpdUrl]);
 
   const toggleShowChapters = () => {
     setShowChapters((prev) => !prev);
@@ -92,6 +91,7 @@ export const ContentRendererClient = ({
     <div className="flex gap-2 items-start flex-col lg:flex-row">
       <div className="flex-1 w-full">
         <VideoPlayerSegment
+          setQuality={setQuality}
           contentId={content.id}
           subtitles={metadata.subtitles}
           thumbnails={[]}

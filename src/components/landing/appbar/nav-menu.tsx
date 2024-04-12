@@ -58,6 +58,23 @@ export function NavigationMenu() {
                   </DrawerClose>
                 </Button>
 
+                <Button size={'lg'} variant={'navLink'} asChild>
+                  <DrawerClose>
+                    <Link
+                      href={'https://projects.100xdevs.com/'}
+                      target="_blank"
+                    >
+                      Slides
+                    </Link>
+                  </DrawerClose>
+                </Button>
+
+                <Button size={'lg'} variant={'navLink'} asChild>
+                  <DrawerClose asChild>
+                    <Link href={'/history'}>Watch History</Link>
+                  </DrawerClose>
+                </Button>
+
                 <AppbarAuth isInMenu={true} />
               </div>
             </div>

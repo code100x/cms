@@ -13,7 +13,7 @@ export const CourseCard = ({
 }) => {
   return (
     <div
-      className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
+      className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 mx-auto w-full"
       onClick={() => {
         onClick();
       }}
@@ -21,12 +21,12 @@ export const CourseCard = ({
       <div className="relative">
         {course.totalVideos !== undefined &&
           course.totalVideosWatched !== undefined && (
-          <PercentageComplete
-            percent={Math.ceil(
-              (course.totalVideosWatched / course.totalVideos) * 100,
-            )}
-          />
-        )}
+            <PercentageComplete
+              percent={Math.ceil(
+                (course.totalVideosWatched / course.totalVideos) * 100,
+              )}
+            />
+          )}
       </div>
       <img src={course.imageUrl} alt={course.title} className="rounded-md" />
       <div className="p-2">

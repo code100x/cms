@@ -1,12 +1,12 @@
 import Link from 'next/link';
-import { Instagram, TwitterIcon, Youtube } from 'lucide-react';
+import { SiInstagram, SiYoutube, SiX } from '@icons-pack/react-simple-icons';
 import Image from 'next/image';
 import playstore from '/public/platform/playstore.png';
 import Logo from '../logo/logo';
 
 const Footer = () => {
   return (
-    <div className="bottom-0 w-full p-4 bg-neutral-900 dark:bg-slate-900 px-6 lg:px-36">
+    <div className="bottom-0 w-full p-4 bg-neutral-900 dark:bg-slate-900 px-6 lg:px-36 print:hidden">
       <div className="md:max-w-screen-2xl mt-4 mx-auto flex flex-row items-start justify-between w-full">
         <div className="flex flex-col md:flex-row w-3/5 md:justify-between">
           <div className="flex">
@@ -56,16 +56,16 @@ const Footer = () => {
             <h4 className="text-neutral-200 font-semibold mb-2">Follow us</h4>
             <div className="flex gap-x-2">
               <Link target="_blank" href={'https://twitter.com/kirat_tw'}>
-                <TwitterIcon className="text-white hover:text-blue-500" />
+                <SiX className="text-white hover:text-blue-500" />
               </Link>
               <Link
                 target="_blank"
                 href={'https://www.instagram.com/kirat_ins/'}
               >
-                <Instagram className="text-white hover:text-blue-500" />
+                <SiInstagram className="text-white hover:text-blue-500" />
               </Link>
               <Link target="_blank" href={'https://www.youtube.com/@harkirat1'}>
-                <Youtube className="text-white hover:text-blue-500" />
+                <SiYoutube className="text-white hover:text-blue-500" />
               </Link>
             </div>
           </div>
