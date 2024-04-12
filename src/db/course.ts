@@ -54,7 +54,7 @@ export async function getAllCoursesAndContentHierarchy(): Promise<
       contentId: number;
     }[];
   }[]
-  > {
+> {
   const value = await Cache.getInstance().get(
     'getAllCoursesAndContentHierarchy',
     [],
@@ -100,7 +100,7 @@ export async function getAllVideos(): Promise<
     createdAt: Date;
     notionMetadataId: number | null;
   }[]
-  > {
+> {
   const value = await Cache.getInstance().get('getAllVideos', []);
   if (value) {
     return value;
@@ -252,13 +252,13 @@ export const getFullCourseContent = async (courseId: number) => {
         videoProgress:
           content.type === 'video'
             ? {
-              duration: videoProgress.find((x) => x.contentId === content.id)
-                ?.currentTimestamp,
-              markAsCompleted: videoProgress.find(
-                (x) => x.contentId === content.id,
-              )?.markAsCompleted,
-              videoFullDuration: content.VideoMetadata?.duration,
-            }
+                duration: videoProgress.find((x) => x.contentId === content.id)
+                  ?.currentTimestamp,
+                markAsCompleted: videoProgress.find(
+                  (x) => x.contentId === content.id,
+                )?.markAsCompleted,
+                videoFullDuration: content.VideoMetadata?.duration,
+              }
             : null,
       },
     ]),

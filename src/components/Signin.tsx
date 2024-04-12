@@ -11,6 +11,7 @@ import React, { useRef, useState } from 'react';
 import { toast } from 'sonner';
 const Signin = () => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
   const [requiredError, setRequiredError] = useState({
     emailReq: false,
     passReq: false,
@@ -35,13 +36,13 @@ const Signin = () => {
       });
       return;
     }
-
+    setLoading(true);
     const res = await signIn('credentials', {
       username: email.current,
       password: password.current,
       redirect: false,
     });
-
+    setLoading(false);
     if (!res?.error) {
       router.push('/');
     } else {
@@ -149,7 +150,11 @@ const Signin = () => {
               )}
             </div>
           </div>
-          <Button className="my-3 w-full" onClick={handleSubmit}>
+          <Button
+            loading={loading}
+            className="my-3 w-full"
+            onClick={handleSubmit}
+          >
             Login
           </Button>
         </CardContent>
