@@ -9,11 +9,10 @@ interface VideoPlayerProps {
   subtitles: string;
 }
 
-export const VideoPlayer: React.FC<VideoPlayerProps> = ({ mpdUrl, subtitles }) => {
+const VideoPlayer: React.FC<VideoPlayerProps> = ({ mpdUrl, subtitles }) => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [player, setPlayer] = useState<VideoJsPlayer | null>(null);
 
-  
   const initializePlayer = () => {
     if (!videoRef.current) return;
 
@@ -36,33 +35,33 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({ mpdUrl, subtitles }) =
         ? 'application/x-mpegURL'
         : 'video/mp4';
 
-    playerInstance.src({ src: mpdUrl, type: videoType });
+    playerInstance.src({
+      src: mpdUrl,
+      type: videoType,
+    });
 
-    playerInstance.addRemoteTextTrack({
-      kind: 'subtitles',
-      src: subtitles,
-      srclang: 'en',
-      label: 'English',
-    }, false);
+    playerInstance.addRemoteTextTrack(
+      {
+        kind: 'subtitles',
+        src: subtitles,
+        srclang: 'en',
+        label: 'English',
+      },
+      false
+    );
 
-    setPlayer(playerInstance);
-
+    // Initialize player
     playerInstance.on('chapterchange', handleChapterChange);
-
     playerInstance.on('keystatuschange', (event: unknown) => {
       console.log('Keystatus Change Event:', event);
     });
+    playerInstance.seekButtons({ forward: 10, back: 10 });
+    playerInstance.playbackRate(1); // Set initial playback rate to 1x
 
-    playerInstance.seekButtons({
-      forward: 10,
-      back: 10,
-    });
-
-   
-    playerInstance.playbackRate(1);
+    setPlayer(playerInstance);
   };
 
- 
+  // Handle chapter changes
   const handleChapterChange = () => {
     if (player) {
       player.tech().off('chapterchange', handleChapterChange);
@@ -73,11 +72,8 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({ mpdUrl, subtitles }) =
   };
 
   useEffect(() => {
-    if (videoRef.current) {
-      initializePlayer();
-    }
+    initializePlayer();
 
-    
     return () => {
       if (player) {
         player.dispose();
