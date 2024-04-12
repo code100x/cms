@@ -2,6 +2,7 @@ import { CheckCircle2 } from 'lucide-react';
 import PercentageComplete from './PercentageComplete';
 import { Bookmark } from '@prisma/client';
 import BookmarkButton from './bookmark/BookmarkButton';
+import { formatTime } from '@/lib/utils';
 
 export const ContentCard = ({
   title,
@@ -13,6 +14,7 @@ export const ContentCard = ({
   hoverExpand = true,
   bookmark,
   contentId,
+  contentDuration,
 }: {
   type: 'folder' | 'video' | 'notion';
   contentId?: number;
@@ -24,6 +26,7 @@ export const ContentCard = ({
   videoProgressPercent?: number;
   hoverExpand?: boolean;
   bookmark?: Bookmark | null;
+  contentDuration?: number;
 }) => {
   let image =
     'https://d2szwvl7yo497w.cloudfront.net/courseThumbnails/folder.png';
@@ -43,6 +46,11 @@ export const ContentCard = ({
       {markAsCompleted && (
         <div className="absolute top-2 right-2 z-10">
           <CheckCircle2 color="green" size={30} fill="lightgreen" />
+        </div>
+      )}
+      {type === 'video' && (
+        <div className=" absolute bottom-12 right-2 z-10 bg-zinc-900 p-1 px-2 rounded-md font-semibold text-blue-900g">
+          {contentDuration && formatTime(contentDuration)}
         </div>
       )}
       <div className="relative overflow-hidden rounded-md">
