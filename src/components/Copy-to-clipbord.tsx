@@ -20,8 +20,8 @@ const CopyToClipboard = ({
 
   return (
     <div>
-      <button onClick={() => handleCopyClick()}>
-        <div className="flex items-center gap-1">
+      <button onClick={handleCopyClick}>
+        <div className="flex items-center gap-x-2">
           Copy <CopyIcon size={15} />
         </div>
       </button>
