@@ -44,8 +44,8 @@ export const ContentCard = ({
         <PercentageComplete percent={percentComplete} />
       )}
       {markAsCompleted && (
-        <div className="absolute top-2 right-2">
-          <CheckCircle2 color="green" size={20} />
+        <div className="absolute top-2 right-2 z-10">
+          <CheckCircle2 color="green" size={30} fill="lightgreen" />
         </div>
       )}
       {type === 'video' && (
