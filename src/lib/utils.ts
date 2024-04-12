@@ -265,17 +265,17 @@ export const constructCommentPrismaQuery = (
 
   let orderBy: Prisma.Enumerable<Prisma.CommentOrderByWithRelationInput> = {};
   switch (commentfilter) {
-  case CommentFilter.mu:
-    orderBy = { upvotes: 'desc' };
-    break;
-  case CommentFilter.md:
-    orderBy = { downvotes: 'desc' };
-    break;
-  case CommentFilter.mr:
-    orderBy = { createdAt: 'desc' };
-    break;
-  default:
-    orderBy = { upvotes: 'desc' };
+    case CommentFilter.mu:
+      orderBy = { upvotes: 'desc' };
+      break;
+    case CommentFilter.md:
+      orderBy = { downvotes: 'desc' };
+      break;
+    case CommentFilter.mr:
+      orderBy = { createdAt: 'desc' };
+      break;
+    default:
+      orderBy = { upvotes: 'desc' };
   }
 
   const where: Prisma.CommentWhereInput = {};
