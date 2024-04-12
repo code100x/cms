@@ -19,12 +19,12 @@ const BookmarkView = ({
         {bookmarkData === null ||
         'error' in bookmarkData ||
         !bookmarkData.length ? (
-            <div className="flex mt-64">
-              <div className="m-auto">No bookmark added yet!</div>
-            </div>
-          ) : (
-            <BookmarkList bookmarkData={bookmarkData} />
-          )}
+          <div className="flex mt-64">
+            <div className="m-auto">No bookmark added yet!</div>
+          </div>
+        ) : (
+          <BookmarkList bookmarkData={bookmarkData} />
+        )}
       </div>
     </div>
   );
