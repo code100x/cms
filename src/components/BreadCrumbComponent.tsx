@@ -79,7 +79,9 @@ export default function BreadCrumbComponent({
               <BreadcrumbPage>{course.title}</BreadcrumbPage>
             )}
           </BreadcrumbItem>
-          <BreadcrumbSeparator />
+
+          {generateBreadcrumbs.length > 0 && <BreadcrumbSeparator />}
+
           {generateBreadcrumbs.map((breadcrumb, index, array) => {
             const indexofBreadCrumbId = rest.indexOf(breadcrumb.id.toString());
             let finalRouteArray: any[] = [];

@@ -1,12 +1,16 @@
-import { Folder, Video, getCourse, getFullCourseContent } from '@/db/course';
+import {
+  Content,
+  Folder,
+  Video,
+  getCourse,
+  getFullCourseContent,
+} from '@/db/course';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { getPurchases } from '@/utiles/appx';
 import { redirect } from 'next/navigation';
 import { CourseView } from '@/components/CourseView';
 import { QueryParams } from '@/actions/types';
-
-import { Content } from '@prisma/client';
 import { TBookmarkWithContent } from '@/actions/bookmark/types';
 import db from '@/db';
 import { rateLimit } from '@/lib/utils';
@@ -81,14 +85,11 @@ function findContentById(
     return null;
   } else if (remainingIds.length === 0) {
     if (foundContent.type === 'folder') {
-      // TODO: Fix these
-      // @ts-ignore
       return foundContent.children;
     }
 
     return [foundContent];
   }
-  // @ts-ignore
   return findContentById(foundContent.children || [], remainingIds);
 }
 
