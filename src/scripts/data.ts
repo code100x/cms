@@ -3,9 +3,4 @@ export interface DurationMetaData {
   duration: number | string;
 }
 
-export const durationMetaData: DurationMetaData[] = [
-  {
-    id: 3,
-    duration: 905,
-  },
-];
+export const durationMetaData: DurationMetaData[] = [];
