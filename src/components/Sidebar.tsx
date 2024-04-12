@@ -14,6 +14,7 @@ import { sidebarOpen as sidebarOpenAtom } from '@/store/atoms/sidebar';
 import { useEffect, useState } from 'react';
 import { handleMarkAsCompleted } from '@/lib/utils';
 import BookmarkButton from './bookmark/BookmarkButton';
+import { currentContentAtom } from '@/store/atoms';
 
 export function Sidebar({
   courseId,
@@ -24,6 +25,7 @@ export function Sidebar({
 }) {
   const router = useRouter();
   const [sidebarOpen, setSidebarOpen] = useRecoilState(sidebarOpenAtom);
+  const [currentContent] = useRecoilState(currentContentAtom);
 
   useEffect(() => {
     if (window.innerWidth < 500) {
@@ -87,7 +89,7 @@ export function Sidebar({
       return (
         <div
           key={content.id}
-          className="group p-2 flex border-gray-300 border-b hover:bg-gray-100 dark:hover:bg-gray-700 dark:border-gray-700 cursor-pointer bg-gray-50 dark:bg-gray-800"
+          className={`group p-2 flex border-gray-300 border-b hover:bg-gray-100 dark:hover:bg-gray-700 dark:border-gray-700 cursor-pointer ${content.title === currentContent ? 'bg-gray-200 dark:bg-gray-700 hover:bg-gray-200' : 'bg-gray-50 dark:bg-gray-800'} `}
           onClick={() => {
             navigateToContent(content.id);
           }}

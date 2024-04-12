@@ -11,6 +11,8 @@ import {
 import { Folder } from '@/db/course';
 import Link from 'next/link';
 import { useMemo } from 'react';
+import { useRecoilState } from 'recoil';
+import { currentContentAtom } from '@/store/atoms';
 
 export default function BreadCrumbComponent({
   rest,
@@ -25,6 +27,7 @@ export default function BreadCrumbComponent({
   contentType: any;
   courseContent: any;
 }) {
+  const [, setCurrentContent] = useRecoilState(currentContentAtom);
   const findChildContent = (contents: any, childId: any) => {
     for (const content of contents) {
       if (content.id === childId) {
@@ -59,7 +62,7 @@ export default function BreadCrumbComponent({
 
     return breadcrumbs;
   }, [rest, fullCourseContent, courseContent, contentType]);
-
+  setCurrentContent(generateBreadcrumbs[generateBreadcrumbs.length - 1]?.title);
   return (
     <>
       <Breadcrumb>
