@@ -137,7 +137,8 @@ export const ContentRendererClient = ({
           <div>
             {/* <QualitySelector /> */}
             <br />
-            {metadata.slides ? (
+
+            {!showChapters && metadata.segments?.length > 0 && (
               <div
                 style={{
                   display: 'flex',
@@ -145,23 +146,16 @@ export const ContentRendererClient = ({
                   gap: '10px',
                 }}
               >
-                <a href={metadata.slides} target="_blank">
-                  <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold rounded p-2">
-                    Slides
-                  </button>
-                </a>
+                <button
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold rounded p-2 my-6 lg:my-4"
+                  onClick={() => {
+                    scrollTo({ top: 0, behavior: 'smooth' });
+                    toggleShowChapters();
+                  }}
+                >
+                  View All Chapters
+                </button>
               </div>
-            ) : null}
-            {!showChapters && metadata.segments?.length > 0 && (
-              <button
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold rounded p-2"
-                onClick={() => {
-                  scrollTo({ top: 0, behavior: 'smooth' });
-                  toggleShowChapters();
-                }}
-              >
-                View All Chapters
-              </button>
             )}
           </div>
         </div>

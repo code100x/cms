@@ -1,6 +1,8 @@
 'use client';
 import React, { FunctionComponent, useRef } from 'react';
 import { VideoPlayer } from '@/components/VideoPlayer2';
+import { useRecoilValue } from 'recoil';
+import { sidebarOpen } from '@/store/atoms/sidebar';
 
 import {
   createSegmentMarkersWithoutDuration,
@@ -36,7 +38,7 @@ export const VideoPlayerSegment: FunctionComponent<VideoProps> = ({
   onVideoEnd,
 }) => {
   const playerRef = useRef<Player | null>(null);
-
+  const isSidebarOpen = useRecoilValue(sidebarOpen);
   const thumbnailPreviewRef = useRef<HTMLDivElement>(null);
 
   const overrideUpdateTime = (player: Player) => {
@@ -89,7 +91,7 @@ export const VideoPlayerSegment: FunctionComponent<VideoProps> = ({
   };
 
   return (
-    <div className="">
+    <div className={`${isSidebarOpen ? 'opacity-20' : 'opacity-100'}`}>
       <div className="flex-1 relative">
         <div
           id="thumbnail-preview"

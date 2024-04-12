@@ -122,13 +122,8 @@ export function Sidebar({
   }
 
   return (
-    <div className="overflow-y-scroll h-sidebar w-[300px] min-w-[133px] bg-gray-50 dark:bg-gray-800 cursor-pointer sticky top-[64px] self-start w-84">
+    <div className="overflow-y-scroll h-sidebar w-[300px] min-w-[133px] bg-gray-50 dark:bg-gray-800 cursor-pointer absolute z-30 top-[64px] self-start w-84">
       <div className="flex">
-        {/* <ToggleButton
-            onClick={() => {
-              setSidebarOpen((s) => !s);
-            }}
-          /> */}
         <GoBackButton />
       </div>
       <Accordion type="single" collapsible className="w-full">
