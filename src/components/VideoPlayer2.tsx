@@ -13,12 +13,18 @@ import { handleMarkAsCompleted } from '@/lib/utils';
 import { useSearchParams } from 'next/navigation';
 import './QualitySelectorControllBar';
 
-// todo correct types
+// Define the interface for video data
+interface VideoData {
+  mpdUrl: string;
+  subtitles: string;
+}
+
+// Define the props interface
 interface VideoPlayerProps {
   setQuality: React.Dispatch<React.SetStateAction<string>>;
   options: any;
   onReady?: (player: Player) => void;
-  subtitles?: string;
+  videoList: VideoData[];
   contentId: number;
   onVideoEnd: () => void;
 }
@@ -29,335 +35,127 @@ const VOLUME_LEVELS: number[] = [0, 0.2, 0.4, 0.6, 0.8, 1.0];
 export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
   setQuality,
   options,
+  videoList,
   contentId,
   onReady,
-  subtitles,
   onVideoEnd,
 }) => {
   const videoRef = useRef<HTMLDivElement>(null);
   const playerRef = useRef<Player | null>(null);
   const [player, setPlayer] = useState<any>(null);
+  const [currentVideoIndex, setCurrentVideoIndex] = useState<number>(0);
   const searchParams = useSearchParams();
-  useEffect(() => {
-    const t = searchParams.get('timestamp');
-    if (contentId && player && !t) {
-      fetch(`/api/course/videoProgress?contentId=${contentId}`).then(
-        async (res) => {
-          const json = await res.json();
-          player.currentTime(json.progress || 0);
-        },
-      );
-    }
-  }, [contentId, player]);
-
-  useEffect(() => {
-    if (!player) {
-      return;
-    }
-    let volumeSetTimeout: ReturnType<typeof setInterval> | null = null;
-    const handleKeyPress = (event: any) => {
-      const isShiftPressed = event.shiftKey;
-      if (isShiftPressed) {
-        const currentIndexPeriod: number = PLAYBACK_RATES.indexOf(
-          player.playbackRate(),
-        );
-        const newIndexPeriod: number =
-          currentIndexPeriod !== PLAYBACK_RATES.length - 1
-            ? currentIndexPeriod + 1
-            : currentIndexPeriod;
-        const currentIndexComma = PLAYBACK_RATES.indexOf(player.playbackRate());
-        const newIndexComma =
-          currentIndexComma !== 0 ? currentIndexComma - 1 : currentIndexComma;
-        const currentIndexUp = VOLUME_LEVELS.indexOf(player.volume());
-        const newIndexUp =
-          currentIndexUp !== VOLUME_LEVELS.length - 1
-            ? currentIndexUp + 1
-            : currentIndexUp;
-        const currentIndexDown = VOLUME_LEVELS.indexOf(player.volume());
-        const newIndexDown =
-          currentIndexDown !== 0 ? currentIndexDown - 1 : currentIndexDown;
-        switch (event.code) {
-          case 'Period': // Increase playback speed
-            player.playbackRate(PLAYBACK_RATES[newIndexPeriod]);
-            event.stopPropagation();
-            break;
-          case 'Comma': // Decrease playback speed
-            player.playbackRate(PLAYBACK_RATES[newIndexComma]);
-            event.stopPropagation();
-            break;
-          case 'ArrowUp': // Increase volume
-            videoRef.current?.children[0].children[6].children[3].classList.add(
-              'vjs-hover',
-            );
-            if (volumeSetTimeout !== null) clearTimeout(volumeSetTimeout);
-            volumeSetTimeout = setTimeout(() => {
-              videoRef.current?.children[0].children[6].children[3].classList.remove(
-                'vjs-hover',
-              );
-            }, 1000);
-            player.volume(VOLUME_LEVELS[newIndexUp]);
-            event.stopPropagation();
-            break;
-          case 'ArrowDown': // Decrease volume
-            videoRef.current?.children[0].children[6].children[3].classList.add(
-              'vjs-hover',
-            );
-            if (volumeSetTimeout !== null) clearTimeout(volumeSetTimeout);
-            volumeSetTimeout = setTimeout(() => {
-              videoRef.current?.children[0].children[6].children[3].classList.remove(
-                'vjs-hover',
-              );
-            }, 1000);
-            player.volume(VOLUME_LEVELS[newIndexDown]);
-            event.stopPropagation();
-            break;
-        }
-      } else if (event.code === 'KeyT') {
-        player.playbackRate(2);
-      } else {
-        const activeElement = document.activeElement;
-
-        // Check if there is an active element and if it's an input or textarea
-        if (
-          activeElement &&
-          (activeElement.tagName.toLowerCase() === 'input' ||
-            activeElement.tagName.toLowerCase() === 'textarea')
-        ) {
-          return; // Do nothing if the active element is an input or textarea
-        }
-        switch (event.code) {
-          case 'Space': // Space bar for play/pause
-            if (player.paused()) {
-              player.play();
-              event.stopPropagation();
-            } else {
-              player.pause();
-              event.stopPropagation();
-            }
-            event.preventDefault();
-            break;
-          case 'ArrowRight': // Right arrow for seeking forward 5 seconds
-            player.currentTime(player.currentTime() + 5);
-            event.stopPropagation();
-            break;
-          case 'ArrowLeft': // Left arrow for seeking backward 5 seconds
-            player.currentTime(player.currentTime() - 5);
-            event.stopPropagation();
-            break;
-          case 'KeyF': // F key for fullscreen
-            if (player.isFullscreen_) document.exitFullscreen();
-            else player.requestFullscreen();
-            event.stopPropagation();
-            break;
-          case 'KeyR': // 'R' key to restart playback from the beginning
-            player.currentTime(0);
-            event.stopPropagation();
-            break;
-          case 'KeyM': // 'M' key to toggle mute/unmute
-            if (player.volume() === 0) {
-              player.volume(1);
-            } else {
-              player.volume(0);
-            }
-            event.stopPropagation();
-            break;
-          case 'KeyK': // 'K' key for play/pause toggle
-            if (player.paused()) {
-              player.play();
-            } else {
-              player.pause();
-            }
-            event.stopPropagation();
-            break;
-          case 'KeyJ': // 'J' key for seeking backward 10 seconds multiplied by the playback rate
-            player.currentTime(
-              player.currentTime() - 10 * player.playbackRate(),
-            );
-            event.stopPropagation();
-            break;
-          case 'KeyL': // 'L' key for seeking forward 10 seconds multiplied by the playback rate
-            player.currentTime(
-              player.currentTime() + 10 * player.playbackRate(),
-            );
-            event.stopPropagation();
-            break;
-          case 'KeyC':
-            if (subtitles && player.textTracks().length) {
-              if (player.textTracks()[0].mode === 'showing') {
-                player.textTracks()[0].mode = 'hidden';
-              } else {
-                player.textTracks()[0].mode = 'showing';
-              }
-            }
-            break;
-        }
-      }
-    };
-
-    const handleKeyUp = (event: any) => {
-      if (event.code === 'KeyT') {
-        player.playbackRate(1);
-      }
-    };
-
-    document.addEventListener('keydown', handleKeyPress);
-    document.addEventListener('keyup', handleKeyUp);
-
-    // Cleanup function
-    return () => {
-      document.removeEventListener('keydown', handleKeyPress);
-    };
-  }, [player]);
-
-  useEffect(() => {
-    if (!player) {
-      return;
-    }
-    let interval = 0;
-
-    const handleVideoProgress = () => {
-      if (!player) {
-        return;
-      }
-      interval = window.setInterval(
-        async () => {
-          if (!player) {
-            return;
-          }
-          if (player?.paused()) {
-            return;
-          }
-          const currentTime = player.currentTime();
-          if (currentTime <= 20) {
-            return;
-          }
-          await fetch('/api/course/videoProgress', {
-            body: JSON.stringify({
-              currentTimestamp: currentTime,
-              contentId,
-            }),
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          });
-        },
-        Math.ceil((100 * 1000) / player.playbackRate()),
-      );
-    };
-    const handleVideoEnded = (interval: number) => {
-      handleMarkAsCompleted(true, contentId);
-      window.clearInterval(interval);
-      onVideoEnd();
-    };
-
-    player.on('play', handleVideoProgress);
-    player.on('ended', () => handleVideoEnded(interval));
-    return () => {
-      window.clearInterval(interval);
-    };
-  }, [player, contentId]);
-
+  
+  // Initialize player
   useEffect(() => {
     if (!playerRef.current && videoRef.current) {
       const videoElement = document.createElement('video-js');
       videoElement.classList.add('vjs-big-play-centered');
-      if (subtitles) {
+      
+      const currentVideo = videoList[currentVideoIndex];
+      
+      if (currentVideo.subtitles) {
         const subtitlesEl = document.createElement('track');
         subtitlesEl.setAttribute('kind', 'subtitles');
-
         subtitlesEl.setAttribute('label', 'English');
         subtitlesEl.setAttribute('srcLang', 'en');
-        subtitlesEl.setAttribute('src', subtitles);
-
+        subtitlesEl.setAttribute('src', currentVideo.subtitles);
         videoElement.append(subtitlesEl);
       }
+      
       videoRef.current.appendChild(videoElement);
+      
       const player: any = (playerRef.current = videojs(
         videoElement,
         {
           ...options,
-          playbackRates: [0.5, 1, 1.25, 1.5, 1.75, 2],
+          playbackRates: PLAYBACK_RATES,
         },
         () => {
-          player.mobileUi(); // mobile ui #https://github.com/mister-ben/videojs-mobile-ui
+          player.mobileUi(); // Mobile UI
           player.eme(); // Initialize EME
           player.seekButtons({
             forward: 15,
             back: 15,
           });
-
+          
           player.qualitySelector = setQuality;
           const qualitySelector = player.controlBar.addChild(
             'QualitySelectorControllBar',
           );
+          
           const controlBar = player.getChild('controlBar');
           const fullscreenToggle = controlBar.getChild('fullscreenToggle');
-
+          
           controlBar
             .el()
             .insertBefore(qualitySelector.el(), fullscreenToggle.el());
+          
           setPlayer(player);
-          if (options.isComposite) {
-            player.spriteThumbnails({
-              interval: options.delta,
-              url: options.thumbnail.secure_url,
-              width: options.width,
-              height: options.height,
-            });
+          
+          // Set video source
+          player.src({
+            src: currentVideo.mpdUrl,
+            type: currentVideo.mpdUrl.endsWith('.mpd') ? 'application/dash+xml' : 'video/mp4',
+          });
+          
+          if (onReady) {
+            onReady(player);
           }
-          player.on('loadedmetadata', () => {
-            if (onReady) {
-              onReady(player);
-            }
-          });
-          // Focus the video player when toggling fullscreen
-          player.on('fullscreenchange', () => {
-            videoElement.focus();
-          });
-        },
+          
+          // Handle when video ends
+          player.on('ended', handleVideoEnded);
+        }
       ));
-
-      if (
-        options.sources &&
-        options.sources[0].type.includes('application/dash+xml')
-      ) {
-        player.src(options.sources[0]);
+    }
+  }, [videoRef, options, setQuality, onReady, currentVideoIndex, videoList]);
+  
+  // Handle video end event
+  const handleVideoEnded = () => {
+    // Mark the video as completed
+    handleMarkAsCompleted(true, contentId);
+    
+    // Move to the next video
+    if (currentVideoIndex < videoList.length - 1) {
+      setCurrentVideoIndex((prevIndex) => prevIndex + 1);
+      // Reset the video player with the next video
+      if (player) {
+        player.src({
+          src: videoList[currentVideoIndex + 1].mpdUrl,
+          type: videoList[currentVideoIndex + 1].mpdUrl.endsWith('.mpd') ? 'application/dash+xml' : 'video/mp4',
+        });
+        
+        player.load(); // Load the new video
+        player.play(); // Play the new video
       }
+    } else {
+      // All videos are completed
+      onVideoEnd();
     }
-  }, [options, onReady]);
-
+  };
+  
+  // Handle player clean up
   useEffect(() => {
-    if (player) {
-      const currentTime = player.currentTime();
-      player.src(options.sources[0]);
-      player.currentTime(currentTime);
-    }
-  }, [options.sources[0]]);
-
-  useEffect(() => {
-    const player = playerRef.current;
     return () => {
       if (player && !player.isDisposed()) {
         player.dispose();
         playerRef.current = null;
       }
     };
-  }, []);
-
-  useEffect(() => {
-    const t = searchParams.get('timestamp');
-
-    if (player && t) {
-      player.currentTime(parseInt(t, 10));
-    }
-  }, [searchParams, player]);
+  }, [player]);
+  
   return (
     <div
       data-vjs-player
       className="mx-auto md:max-w-[calc(100vw-3rem)] 2xl:max-w-[calc(100vw-17rem)]"
     >
       <div ref={videoRef} />
+      {/* Button to manually navigate to the next video */}
+      {currentVideoIndex < videoList.length - 1 && (
+        <button onClick={() => setCurrentVideoIndex((prevIndex) => prevIndex + 1)}>
+          Next Video
+        </button>
+      )}
     </div>
   );
 };
