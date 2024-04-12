@@ -1,4 +1,5 @@
 import db from '../src/db/index';
+import { seedDuration } from './seed-duration';
 
 async function main() {
   await db.user.upsert({
@@ -175,6 +176,8 @@ async function main() {
         'https://appx-recordings.s3.ap-south-1.amazonaws.com/drm/100x/slides/Loops%2C+callbacks.pdf',
     },
   });
+
+  await seedDuration();
 }
 
 main()
