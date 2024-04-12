@@ -61,6 +61,7 @@ export const FolderView = ({
               percentComplete={content.percentComplete}
               videoProgressPercent={videoProgressPercent}
               bookmark={content.bookmark}
+              contentDuration={content.videoFullDuration}
             />
           );
         })}
