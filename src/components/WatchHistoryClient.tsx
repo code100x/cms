@@ -8,6 +8,7 @@ import {
   CarouselContent,
   CarouselItem,
   CarouselNext,
+  CarouselPrevious,
 } from '@/components/ui/carousel';
 
 const WatchHistoryClient = ({ history }: { history: TWatchHistory[] }) => (
@@ -23,6 +24,7 @@ const WatchHistoryClient = ({ history }: { history: TWatchHistory[] }) => (
       ))}
     </CarouselContent>
     <CarouselNext />
+    <CarouselPrevious />
   </Carousel>
 );
 
