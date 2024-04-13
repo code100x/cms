@@ -14,7 +14,7 @@
     "lint:fix": "eslint --max-warnings 0 --config .eslintrc . --fix",
     "format:fix": "prettier --write \"**/*.{ts,tsx,json}\"",
     "format:check": "prettier --check \"**/*.{ts,tsx,json}\"",
-    "dev:docker": "npm run prisma:migrate && next dev",
+    "dev:docker": "npm run prisma:migrate && npm run studio & next dev",
     "prisma:migrate": "prisma migrate deploy",
     "db:seed": "prisma db seed",
     "db:reset": "prisma migrate reset",
