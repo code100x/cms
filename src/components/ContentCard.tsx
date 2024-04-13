@@ -1,3 +1,4 @@
+'use client';
 import { CheckCircle2 } from 'lucide-react';
 import PercentageComplete from './PercentageComplete';
 import { Bookmark } from '@prisma/client';

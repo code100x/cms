@@ -373,3 +373,36 @@ export const getCurrentContentType = async (
 
   return content.type;
 };
+
+export const ContinueWatchList = async () => {
+  const session = await getServerSession(authOptions);
+  const userId = session.user.id;
+
+  const continueWatchList = await db.videoProgress.findMany({
+    where: {
+      userId,
+    },
+    include: {
+      content: {
+        include: {
+          VideoMetadata: {
+            select: {
+              duration: true,
+            },
+          },
+          parent: {
+            select: {
+              id: true,
+              courses: true,
+            },
+          },
+        },
+      },
+    },
+    orderBy: {
+      updatedAt: 'desc',
+    },
+  });
+
+  return continueWatchList;
+};

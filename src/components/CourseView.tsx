@@ -44,7 +44,6 @@ export const CourseView = ({
         {contentType === 'notion' ? (
           <NotionRenderer id={courseContent[0]?.id} />
         ) : null}
-
         {contentType === 'video' ? (
           <ContentRenderer
             nextContent={nextContent}
