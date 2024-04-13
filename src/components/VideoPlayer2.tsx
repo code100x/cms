@@ -1,8 +1,11 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client';
 import React, { useEffect, useRef, FunctionComponent, useState } from 'react';
 import videojs from 'video.js';
 import Player from 'video.js/dist/types/player';
 import 'video.js/dist/video-js.css';
+import { useRecoilValue } from 'recoil';
+import { sidebarOpen } from '@/store/atoms/sidebar';
 import 'videojs-contrib-eme';
 import 'videojs-mobile-ui/dist/videojs-mobile-ui.css';
 import 'videojs-seek-buttons/dist/videojs-seek-buttons.css';
@@ -36,240 +39,21 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
 }) => {
   const videoRef = useRef<HTMLDivElement>(null);
   const playerRef = useRef<Player | null>(null);
-  const [player, setPlayer] = useState<any>(null);
   const searchParams = useSearchParams();
-  useEffect(() => {
-    const t = searchParams.get('timestamp');
-    if (contentId && player && !t) {
-      fetch(`/api/course/videoProgress?contentId=${contentId}`).then(
-        async (res) => {
-          const json = await res.json();
-          player.currentTime(json.progress || 0);
-        },
-      );
-    }
-  }, [contentId, player]);
+  const isSidebarOpen = useRecoilValue(sidebarOpen);
+  const [player, setPlayer] = useState<any>(null);
 
   useEffect(() => {
-    if (!player) {
-      return;
-    }
-    let volumeSetTimeout: ReturnType<typeof setInterval> | null = null;
-    const handleKeyPress = (event: any) => {
-      const isShiftPressed = event.shiftKey;
-      if (isShiftPressed) {
-        const currentIndexPeriod: number = PLAYBACK_RATES.indexOf(
-          player.playbackRate(),
-        );
-        const newIndexPeriod: number =
-          currentIndexPeriod !== PLAYBACK_RATES.length - 1
-            ? currentIndexPeriod + 1
-            : currentIndexPeriod;
-        const currentIndexComma = PLAYBACK_RATES.indexOf(player.playbackRate());
-        const newIndexComma =
-          currentIndexComma !== 0 ? currentIndexComma - 1 : currentIndexComma;
-        const currentIndexUp = VOLUME_LEVELS.indexOf(player.volume());
-        const newIndexUp =
-          currentIndexUp !== VOLUME_LEVELS.length - 1
-            ? currentIndexUp + 1
-            : currentIndexUp;
-        const currentIndexDown = VOLUME_LEVELS.indexOf(player.volume());
-        const newIndexDown =
-          currentIndexDown !== 0 ? currentIndexDown - 1 : currentIndexDown;
-        switch (event.code) {
-          case 'Period': // Increase playback speed
-            player.playbackRate(PLAYBACK_RATES[newIndexPeriod]);
-            event.stopPropagation();
-            break;
-          case 'Comma': // Decrease playback speed
-            player.playbackRate(PLAYBACK_RATES[newIndexComma]);
-            event.stopPropagation();
-            break;
-          case 'ArrowUp': // Increase volume
-            videoRef.current?.children[0].children[6].children[3].classList.add(
-              'vjs-hover',
-            );
-            if (volumeSetTimeout !== null) clearTimeout(volumeSetTimeout);
-            volumeSetTimeout = setTimeout(() => {
-              videoRef.current?.children[0].children[6].children[3].classList.remove(
-                'vjs-hover',
-              );
-            }, 1000);
-            player.volume(VOLUME_LEVELS[newIndexUp]);
-            event.stopPropagation();
-            break;
-          case 'ArrowDown': // Decrease volume
-            videoRef.current?.children[0].children[6].children[3].classList.add(
-              'vjs-hover',
-            );
-            if (volumeSetTimeout !== null) clearTimeout(volumeSetTimeout);
-            volumeSetTimeout = setTimeout(() => {
-              videoRef.current?.children[0].children[6].children[3].classList.remove(
-                'vjs-hover',
-              );
-            }, 1000);
-            player.volume(VOLUME_LEVELS[newIndexDown]);
-            event.stopPropagation();
-            break;
-        }
-      } else if (event.code === 'KeyT') {
-        player.playbackRate(2);
-      } else {
-        const activeElement = document.activeElement;
-
-        // Check if there is an active element and if it's an input or textarea
-        if (
-          activeElement &&
-          (activeElement.tagName.toLowerCase() === 'input' ||
-            activeElement.tagName.toLowerCase() === 'textarea')
-        ) {
-          return; // Do nothing if the active element is an input or textarea
-        }
-        switch (event.code) {
-          case 'Space': // Space bar for play/pause
-            if (player.paused()) {
-              player.play();
-              event.stopPropagation();
-            } else {
-              player.pause();
-              event.stopPropagation();
-            }
-            event.preventDefault();
-            break;
-          case 'ArrowRight': // Right arrow for seeking forward 5 seconds
-            player.currentTime(player.currentTime() + 5);
-            event.stopPropagation();
-            break;
-          case 'ArrowLeft': // Left arrow for seeking backward 5 seconds
-            player.currentTime(player.currentTime() - 5);
-            event.stopPropagation();
-            break;
-          case 'KeyF': // F key for fullscreen
-            if (player.isFullscreen_) document.exitFullscreen();
-            else player.requestFullscreen();
-            event.stopPropagation();
-            break;
-          case 'KeyR': // 'R' key to restart playback from the beginning
-            player.currentTime(0);
-            event.stopPropagation();
-            break;
-          case 'KeyM': // 'M' key to toggle mute/unmute
-            if (player.volume() === 0) {
-              player.volume(1);
-            } else {
-              player.volume(0);
-            }
-            event.stopPropagation();
-            break;
-          case 'KeyK': // 'K' key for play/pause toggle
-            if (player.paused()) {
-              player.play();
-            } else {
-              player.pause();
-            }
-            event.stopPropagation();
-            break;
-          case 'KeyJ': // 'J' key for seeking backward 10 seconds multiplied by the playback rate
-            player.currentTime(
-              player.currentTime() - 10 * player.playbackRate(),
-            );
-            event.stopPropagation();
-            break;
-          case 'KeyL': // 'L' key for seeking forward 10 seconds multiplied by the playback rate
-            player.currentTime(
-              player.currentTime() + 10 * player.playbackRate(),
-            );
-            event.stopPropagation();
-            break;
-          case 'KeyC':
-            if (subtitles && player.textTracks().length) {
-              if (player.textTracks()[0].mode === 'showing') {
-                player.textTracks()[0].mode = 'hidden';
-              } else {
-                player.textTracks()[0].mode = 'showing';
-              }
-            }
-            break;
-        }
-      }
-    };
-
-    const handleKeyUp = (event: any) => {
-      if (event.code === 'KeyT') {
-        player.playbackRate(1);
-      }
-    };
-
-    document.addEventListener('keydown', handleKeyPress);
-    document.addEventListener('keyup', handleKeyUp);
-
-    // Cleanup function
-    return () => {
-      document.removeEventListener('keydown', handleKeyPress);
-    };
-  }, [player]);
-
-  useEffect(() => {
-    if (!player) {
-      return;
-    }
-    let interval = 0;
-
-    const handleVideoProgress = () => {
-      if (!player) {
-        return;
-      }
-      interval = window.setInterval(
-        async () => {
-          if (!player) {
-            return;
-          }
-          if (player?.paused()) {
-            return;
-          }
-          const currentTime = player.currentTime();
-          if (currentTime <= 20) {
-            return;
-          }
-          await fetch('/api/course/videoProgress', {
-            body: JSON.stringify({
-              currentTimestamp: currentTime,
-              contentId,
-            }),
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          });
-        },
-        Math.ceil((100 * 1000) / player.playbackRate()),
-      );
-    };
-    const handleVideoEnded = (interval: number) => {
-      handleMarkAsCompleted(true, contentId);
-      window.clearInterval(interval);
-      onVideoEnd();
-    };
-
-    player.on('play', handleVideoProgress);
-    player.on('ended', () => handleVideoEnded(interval));
-    return () => {
-      window.clearInterval(interval);
-    };
-  }, [player, contentId]);
-
-  useEffect(() => {
+    // Initialization and setup of the video player
     if (!playerRef.current && videoRef.current) {
       const videoElement = document.createElement('video-js');
       videoElement.classList.add('vjs-big-play-centered');
       if (subtitles) {
         const subtitlesEl = document.createElement('track');
         subtitlesEl.setAttribute('kind', 'subtitles');
-
         subtitlesEl.setAttribute('label', 'English');
         subtitlesEl.setAttribute('srcLang', 'en');
         subtitlesEl.setAttribute('src', subtitles);
-
         videoElement.append(subtitlesEl);
       }
       videoRef.current.appendChild(videoElement);
@@ -324,38 +108,242 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
       ) {
         player.src(options.sources[0]);
       }
-    }
-  }, [options, onReady]);
 
-  useEffect(() => {
-    if (player) {
-      const currentTime = player.currentTime();
-      player.src(options.sources[0]);
-      player.currentTime(currentTime);
-    }
-  }, [options.sources[0]]);
+      const handleKeyPress = (event: any) => {
+        const isShiftPressed = event.shiftKey;
+        if (isShiftPressed) {
+          const currentIndexPeriod: number = PLAYBACK_RATES.indexOf(
+            player.playbackRate(),
+          );
+          const newIndexPeriod: number =
+            currentIndexPeriod !== PLAYBACK_RATES.length - 1
+              ? currentIndexPeriod + 1
+              : currentIndexPeriod;
+          const currentIndexComma = PLAYBACK_RATES.indexOf(
+            player.playbackRate(),
+          );
+          const newIndexComma =
+            currentIndexComma !== 0 ? currentIndexComma - 1 : currentIndexComma;
+          const currentIndexUp = VOLUME_LEVELS.indexOf(player.volume());
+          const newIndexUp =
+            currentIndexUp !== VOLUME_LEVELS.length - 1
+              ? currentIndexUp + 1
+              : currentIndexUp;
+          const currentIndexDown = VOLUME_LEVELS.indexOf(player.volume());
+          const newIndexDown =
+            currentIndexDown !== 0 ? currentIndexDown - 1 : currentIndexDown;
+          switch (event.code) {
+            case 'Period': // Increase playback speed
+              player.playbackRate(PLAYBACK_RATES[newIndexPeriod]);
+              event.stopPropagation();
+              break;
+            case 'Comma': // Decrease playback speed
+              player.playbackRate(PLAYBACK_RATES[newIndexComma]);
+              event.stopPropagation();
+              break;
+            case 'ArrowUp': // Increase volume
+              videoRef.current?.children[0].children[6].children[3].classList.add(
+                'vjs-hover',
+              );
+              player.volume(VOLUME_LEVELS[newIndexUp]);
+              event.stopPropagation();
+              break;
+            case 'ArrowDown': // Decrease volume
+              videoRef.current?.children[0].children[6].children[3].classList.add(
+                'vjs-hover',
+              );
+              player.volume(VOLUME_LEVELS[newIndexDown]);
+              event.stopPropagation();
+              break;
+          }
+        } else if (event.code === 'KeyT') {
+          player.playbackRate(2);
+        } else {
+          const activeElement = document.activeElement;
 
-  useEffect(() => {
-    const player = playerRef.current;
-    return () => {
-      if (player && !player.isDisposed()) {
-        player.dispose();
-        playerRef.current = null;
+          // Check if there is an active element and if it's an input or textarea
+          if (
+            activeElement &&
+            (activeElement.tagName.toLowerCase() === 'input' ||
+              activeElement.tagName.toLowerCase() === 'textarea')
+          ) {
+            return; // Do nothing if the active element is an input or textarea
+          }
+          if (!isSidebarOpen) {
+            switch (event.code) {
+              case 'Space': // Space bar for play/pause
+                if (player.paused()) {
+                  player.play();
+                  event.stopPropagation();
+                } else {
+                  player.pause();
+                  event.stopPropagation();
+                }
+                event.preventDefault();
+                break;
+              case 'ArrowRight': // Right arrow for seeking forward 5 seconds
+                player.currentTime(player.currentTime() + 5);
+                event.stopPropagation();
+                break;
+              case 'ArrowLeft': // Left arrow for seeking backward 5 seconds
+                player.currentTime(player.currentTime() - 5);
+                event.stopPropagation();
+                break;
+              case 'KeyF': // F key for fullscreen
+                if (player.isFullscreen_) document.exitFullscreen();
+                else player.requestFullscreen();
+                event.stopPropagation();
+                break;
+              case 'KeyR': // 'R' key to restart playback from the beginning
+                player.currentTime(0);
+                event.stopPropagation();
+                break;
+              case 'KeyM': // 'M' key to toggle mute/unmute
+                if (player.volume() === 0) {
+                  player.volume(1);
+                } else {
+                  player.volume(0);
+                }
+                event.stopPropagation();
+                break;
+              case 'KeyK': // 'K' key for play/pause toggle
+                if (player.paused()) {
+                  player.play();
+                } else {
+                  player.pause();
+                }
+                event.stopPropagation();
+                break;
+              case 'KeyJ': // 'J' key for seeking backward 10 seconds multiplied by the playback rate
+                player.currentTime(
+                  player.currentTime() - 10 * player.playbackRate(),
+                );
+                event.stopPropagation();
+                break;
+              case 'KeyL': // 'L' key for seeking forward 10 seconds multiplied by the playback rate
+                player.currentTime(
+                  player.currentTime() + 10 * player.playbackRate(),
+                );
+                event.stopPropagation();
+                break;
+              case 'KeyC':
+                if (subtitles && player.textTracks().length) {
+                  if (player.textTracks()[0].mode === 'showing') {
+                    player.textTracks()[0].mode = 'hidden';
+                  } else {
+                    player.textTracks()[0].mode = 'showing';
+                  }
+                }
+                break;
+            }
+          }
+        }
+      };
+
+      const handleKeyUp = (event: any) => {
+        if (event.code === 'KeyT') {
+          player.playbackRate(1);
+        }
+      };
+
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const handleVideoProgress = () => {
+        if (!player) {
+          return;
+        }
+        let interval = 0;
+        interval = window.setInterval(
+          async () => {
+            if (!player) {
+              return;
+            }
+            if (player?.paused()) {
+              return;
+            }
+            const currentTime = player.currentTime();
+            if (currentTime <= 20) {
+              return;
+            }
+            await fetch('/api/course/videoProgress', {
+              body: JSON.stringify({
+                currentTimestamp: currentTime,
+                contentId,
+              }),
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+            });
+          },
+          Math.ceil((100 * 1000) / player.playbackRate()),
+        );
+
+        const handleVideoEnded = () => {
+          handleMarkAsCompleted(true, contentId);
+          window.clearInterval(interval);
+          onVideoEnd();
+        };
+
+        player.on('play', handleVideoProgress);
+        player.on('ended', handleVideoEnded);
+
+        return () => {
+          window.clearInterval(interval);
+          document.removeEventListener('keydown', handleKeyPress);
+          document.removeEventListener('keyup', handleKeyUp);
+        };
+      };
+
+      document.addEventListener('keydown', handleKeyPress);
+      document.addEventListener('keyup', handleKeyUp);
+
+      // Update player's current time based on the timestamp query parameter
+      const t = searchParams.get('timestamp');
+      if (player && t) {
+        player.currentTime(parseInt(t, 10));
       }
-    };
-  }, []);
 
-  useEffect(() => {
-    const t = searchParams.get('timestamp');
+      // Fetch video progress and update player's current time
+      if (contentId && player && !t) {
+        fetch(`/api/course/videoProgress?contentId=${contentId}`).then(
+          async (res) => {
+            const json = await res.json();
+            if (player) {
+              player.currentTime(json.progress || 0);
+            }
+          },
+        );
+      }
 
-    if (player && t) {
-      player.currentTime(parseInt(t, 10));
+      // Update player's source and current time when options.sources[0] changes
+      if (player) {
+        const currentTime = player.currentTime();
+        player.src(options.sources[0]);
+        player.currentTime(currentTime);
+      }
+
+      return () => {
+        if (player && !player.isDisposed()) {
+          player.dispose();
+          playerRef.current = null;
+        }
+      };
     }
-  }, [searchParams, player]);
+  }, [
+    options,
+    onReady,
+    subtitles,
+    contentId,
+    onVideoEnd,
+    isSidebarOpen,
+    setQuality,
+    searchParams,
+  ]);
+
   return (
     <div
       data-vjs-player
-      className="mx-auto md:max-w-[calc(100vw-3rem)] 2xl:max-w-[calc(100vw-17rem)]"
+      className=" md:max-w-[calc(100vw-3rem)] 2xl:max-w-[calc(100vw-17rem)]"
     >
       <div ref={videoRef} />
     </div>
