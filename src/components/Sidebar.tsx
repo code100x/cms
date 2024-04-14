@@ -14,6 +14,7 @@ import { sidebarOpen as sidebarOpenAtom } from '@/store/atoms/sidebar';
 import { useEffect, useState } from 'react';
 import { handleMarkAsCompleted } from '@/lib/utils';
 import BookmarkButton from './bookmark/BookmarkButton';
+import { Sheet, SheetContent } from './ui/sheet';
 
 export function Sidebar({
   courseId,
@@ -68,11 +69,7 @@ export function Sidebar({
       if (content.children && content.children.length > 0) {
         // This is a folder with children
         return (
-          <AccordionItem
-            key={content.id}
-            value={`item-${content.id}`}
-            className="text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer"
-          >
+          <AccordionItem key={content.id} value={`item-${content.id}`}>
             <AccordionTrigger className="px-2 text-left">
               {content.title}
             </AccordionTrigger>
@@ -87,7 +84,7 @@ export function Sidebar({
       return (
         <div
           key={content.id}
-          className="group p-2 flex border-gray-300 border-b hover:bg-gray-100 dark:hover:bg-gray-700 dark:border-gray-700 cursor-pointer bg-gray-50 dark:bg-gray-800"
+          className="group p-2 flex border-gray-300 border-b hover:bg-gray-100cursor-pointer"
           onClick={() => {
             navigateToContent(content.id);
           }}
@@ -122,20 +119,19 @@ export function Sidebar({
   }
 
   return (
-    <div className="overflow-y-scroll h-sidebar w-[300px] min-w-[133px] bg-gray-50 dark:bg-gray-800 cursor-pointer sticky top-[64px] self-start w-84">
-      <div className="flex">
-        {/* <ToggleButton
-            onClick={() => {
-              setSidebarOpen((s) => !s);
-            }}
-          /> */}
+    <Sheet open={sidebarOpen} onOpenChange={setSidebarOpen}>
+      <SheetContent side={'left'} className="overflow-y-scroll max-h-screen">
         <GoBackButton />
-      </div>
-      <Accordion type="single" collapsible className="w-full">
-        {/* Render course content */}
-        {renderContent(fullCourseContent)}
-      </Accordion>
-    </div>
+        <Accordion
+          type="single"
+          collapsible
+          className="w-full transition-all py-2 border-white"
+        >
+          {/* Render course content */}
+          {renderContent(fullCourseContent)}
+        </Accordion>
+      </SheetContent>
+    </Sheet>
   );
 }
 
