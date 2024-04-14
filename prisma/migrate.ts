@@ -1,4 +1,4 @@
-import db from '../src/db/index';
+import db from '../src/db';
 import fs from 'fs';
 import csv from 'csv-parser';
 import path from 'path'; // Function to convert CSV to JSON and return as an object
