@@ -24,6 +24,10 @@ export const refreshDb: RefreshDbFn = async () => {
     };
   }
 
+  if (process.env.LOCAL_CMS_PROVIDER) {
+    return { error: false, message: 'Refetched Courses' };
+  }
+
   // Only allow user to refetch every minute
   if (Cache.getInstance().get('rate-limit', [email])) {
     return {
@@ -51,12 +55,11 @@ export const refreshDb: RefreshDbFn = async () => {
     .filter((x) => !x.openToEveryone)
     .map(async (course) => {
       const courseId = course.appxCourseId.toString();
-      if (!process.env.LOCAL_CMS_PROVIDER) {
+      
         const data = await checkUserEmailForPurchase(email, courseId);
 
       if (data.data === '1') {
         responses.push(course);
-      }
       }
     });
 
