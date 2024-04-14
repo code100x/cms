@@ -7,6 +7,7 @@ services:
       - DATABASE_URL=postgresql://postgres:postgres@db:5432/cms?schema=public
     ports:
       - '3000:3000'
+      - '5555:5555'
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
