@@ -136,7 +136,7 @@ export const ContentRendererClient = ({
 
           <div>
             {/* <QualitySelector /> */}
-            <br />
+
             {metadata.slides ? (
               <div
                 style={{
@@ -154,7 +154,7 @@ export const ContentRendererClient = ({
             ) : null}
             {!showChapters && metadata.segments?.length > 0 && (
               <button
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold rounded p-2"
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold rounded p-2 my-3"
                 onClick={() => {
                   scrollTo({ top: 0, behavior: 'smooth' });
                   toggleShowChapters();
