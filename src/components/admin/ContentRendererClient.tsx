@@ -90,11 +90,11 @@ export const ContentRendererClient = ({
   const playNextVideo = () => {
     if (nextContent && nextContent.type === 'video') {
       const originalPath = window.location.pathname;
-        const parts = originalPath.split('/');
-        parts.pop();
-        parts.push(nextContent.id.toString());
-        const newPath = parts.join('/');
-        router.push(newPath);
+      const parts = originalPath.split('/');
+      parts.pop();
+      parts.push(nextContent.id.toString());
+      const newPath = parts.join('/');
+      router.push(newPath);
     }
   };
 
