@@ -45,6 +45,7 @@ model Content {
   children         Content[]       @relation("ContentToContent")
   courses          CourseContent[]
   createdAt        DateTime        @default(now())
+  quiz             Quiz?
   VideoMetadata    VideoMetadata?
   NotionMetadata   NotionMetadata?
   notionMetadataId Int?
@@ -204,6 +205,24 @@ model Vote {
   createdAt DateTime @default(now())
 
   @@unique([commentId, userId])
+}
+
+model Quiz {
+  id Int @id  @default(autoincrement())
+  questions Question[]
+  contentId Int
+  content              Content @relation(fields: [contentId], references: [id])
+  @@unique([contentId])
+}
+
+model Question {
+  id       Int      @id @default(autoincrement())
+  content  String
+  reason   String
+  options  String[]
+  answer   String
+  quiz     Quiz     @relation(fields: [quizId], references: [id])
+  quizId   Int
 }
 
 enum VoteType {

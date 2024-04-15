@@ -7,6 +7,7 @@ import { getFolderPercentCompleted } from '@/lib/utils';
 import Comments from './comment/Comments';
 import { QueryParams } from '@/actions/types';
 import BreadCrumbComponent from './BreadCrumbComponent';
+import { McqRenderer } from './admin/McqRenderer';
 
 export const CourseView = ({
   rest,
@@ -84,6 +85,21 @@ export const CourseView = ({
               duration: x?.videoProgress?.duration || 0,
             }))}
             courseId={parseInt(course.id, 10)}
+          />
+        ) : null}
+
+        {contentType === 'quiz' ? (
+          <McqRenderer
+            content={{
+              thumbnail: courseContent[0]?.thumbnail || '',
+              id: courseContent[0]?.id || 0,
+              title: courseContent[0]?.title || '',
+              type: contentType || 'video',
+              description: courseContent[0]?.description || '',
+              markAsCompleted:
+                courseContent[0]?.videoProgress?.markAsCompleted || false,
+              bookmark: courseContent[0].bookmark,
+            }}
           />
         ) : null}
       </div>

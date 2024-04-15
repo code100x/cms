@@ -11,7 +11,7 @@ export const POST = async (req: NextRequest) => {
     metadata,
     adminPassword,
   }: {
-    type: 'video' | 'folder' | 'notion';
+    type: 'video' | 'folder' | 'notion' | 'quiz';
     thumbnail: string;
     title: string;
     courseId: number;
@@ -94,6 +94,38 @@ export const POST = async (req: NextRequest) => {
         contentId: content.id,
       },
     });
+    if (courseId && !parentContentId) {
+      await db.courseContent.create({
+        data: {
+          courseId,
+          contentId: content.id,
+        },
+      });
+    }
+  } else if (type === 'quiz') {
+    const res = await db.quiz.create({
+      data: {
+        contentId: content.id,
+      },
+    });
+
+    const questions = metadata.questions.map((question: any) => ({
+      content: question.content,
+      reason: question.reason,
+      quizId: res.id,
+      options: [
+        question.option1,
+        question.option2,
+        question.option3,
+        question.option4,
+      ],
+      answer: question[`${question.answer}`],
+    }));
+
+    await db.question.createMany({
+      data: questions,
+    });
+
     if (courseId && !parentContentId) {
       await db.courseContent.create({
         data: {
