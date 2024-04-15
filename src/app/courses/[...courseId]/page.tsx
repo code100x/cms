@@ -1,4 +1,4 @@
-import { Folder, Video, getCourse, getFullCourseContent } from '@/db/course';
+import { Folder, Video, getCourse, getFullCourseContent, getNextVideo } from '@/db/course';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { getPurchases } from '@/utiles/appx';
@@ -130,7 +130,7 @@ export default async function Course({
   );
   const contentType =
     courseContent?.length === 1 ? courseContent[0]?.type : 'folder';
-  const nextContent = null; //await getNextVideo(Number(rest[rest.length - 1]))
+  const nextContent = await getNextVideo(Number(rest[rest.length - 1]));
 
   return (
     <>
