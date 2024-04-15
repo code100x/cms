@@ -1,6 +1,7 @@
 import { getServerSession } from 'next-auth';
 import { notFound, redirect } from 'next/navigation';
 import React from 'react';
+import { env } from '@/env';
 
 export default async function AdminLayout({
   children,
@@ -13,11 +14,11 @@ export default async function AdminLayout({
     return redirect('/signin');
   }
 
-  if (process.env.LOCAL_CMS_PROVIDER) {
+  if (env.LOCAL_CMS_PROVIDER) {
     return <>{children}</>;
   }
 
-  if (!process.env.ADMINS?.split(',').includes(session.user.email!)) {
+  if (!env.ADMINS?.split(',').includes(session.user.email!)) {
     return notFound();
   }
 

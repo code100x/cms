@@ -1,5 +1,6 @@
 import db from '@/db';
 import { NextRequest, NextResponse } from 'next/server';
+import { env } from '@/env';
 
 export const POST = async (req: NextRequest) => {
   const {
@@ -20,7 +21,7 @@ export const POST = async (req: NextRequest) => {
     adminPassword: string;
   } = await req.json();
 
-  if (adminPassword !== process.env.ADMIN_SECRET) {
+  if (adminPassword !== env.ADMIN_SECRET) {
     return NextResponse.json({}, { status: 403 });
   }
 

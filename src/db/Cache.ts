@@ -1,3 +1,4 @@
+import { env } from '@/env';
 export class Cache {
   private inMemoryDb: Map<
     string,
@@ -30,7 +31,7 @@ export class Cache {
     type: string,
     args: string[],
     value: any,
-    expirySeconds: number = parseInt(process.env.CACHE_EXPIRE_S || '100', 10),
+    expirySeconds: number = env.CACHE_EXPIRE_S,
   ) {
     this.inMemoryDb.set(`${type} ${JSON.stringify(args)}`, {
       value,

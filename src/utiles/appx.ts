@@ -9,8 +9,9 @@ import { getServerSession } from 'next-auth';
 import { Cache } from '@/db/Cache';
 import prisma from '@/db';
 import { checkUserEmailForPurchase } from './appx-check-mail';
+import { env } from '@/env';
 
-const LOCAL_CMS_PROVIDER = process.env.LOCAL_CMS_PROVIDER;
+const LOCAL_CMS_PROVIDER = env.LOCAL_CMS_PROVIDER;
 
 export async function getPurchases(email: string) {
   const value = Cache.getInstance().get('courses', [email]);

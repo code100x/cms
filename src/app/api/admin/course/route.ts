@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import db from '@/db';
+import { env } from '@/env';
 
 export async function POST(req: NextRequest) {
   const {
@@ -13,7 +14,7 @@ export async function POST(req: NextRequest) {
     discordRoleId,
   } = await req.json();
 
-  if (adminSecret !== process.env.ADMIN_SECRET) {
+  if (adminSecret !== env.ADMIN_SECRET) {
     return NextResponse.json({}, { status: 401 });
   }
 

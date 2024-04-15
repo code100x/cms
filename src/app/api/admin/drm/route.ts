@@ -1,10 +1,11 @@
 import db from '@/db';
 import { NextRequest, NextResponse } from 'next/server';
+import { env } from '@/env';
 
 export async function POST(req: NextRequest) {
   const { adminSecret, email, disableDrm } = await req.json();
 
-  if (adminSecret !== process.env.ADMIN_SECRET) {
+  if (adminSecret !== env.ADMIN_SECRET) {
     return NextResponse.json({}, { status: 401 });
   }
 

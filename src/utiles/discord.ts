@@ -1,12 +1,13 @@
 import DiscordOauth2 from 'discord-oauth2';
+import { env } from '@/env';
 
-const DISCORD_ACCESS_KEY = process.env.DISCORD_ACCESS_KEY || '';
-const DISCORD_ACCESS_SECRET = process.env.DISCORD_ACCESS_SECRET || '';
+const DISCORD_ACCESS_KEY = env.NEXT_PUBLIC_DISCORD_ACCESS_KEY || '';
+const DISCORD_ACCESS_SECRET = env.NEXT_PUBLIC_DISCORD_ACCESS_SECRET || '';
 const DISCORD_CREDENTIALS = Buffer.from(
   `${DISCORD_ACCESS_KEY}:${DISCORD_ACCESS_SECRET}`,
 ).toString('base64');
-const BOT_TOKEN = process.env.BOT_TOKEN || '';
-const GUILD_ID = process.env.GUILD_ID || '';
+const BOT_TOKEN = env.NEXT_PUBLIC_BOT_TOKEN || '';
+const GUILD_ID = env.NEXT_PUBLIC_GUILD_ID || '';
 
 const ROLES = [
   '1175845469335859271',

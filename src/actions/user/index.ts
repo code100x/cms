@@ -1,8 +1,9 @@
 'use server';
 import db from '@/db';
+import { env } from '@/env';
 
 export const logoutUser = async (email: string, adminPassword: string) => {
-  if (adminPassword !== process.env.ADMIN_SECRET) {
+  if (adminPassword !== env.ADMIN_SECRET) {
     return { error: 'Unauthorized' };
   }
 

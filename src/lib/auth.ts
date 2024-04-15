@@ -3,6 +3,7 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import { SignJWT, importJWK } from 'jose';
 import bcrypt from 'bcrypt';
 import prisma from '@/db';
+import { env } from '@/env';
 
 interface AppxSigninResponse {
   data: {
@@ -13,7 +14,7 @@ interface AppxSigninResponse {
 }
 
 const generateJWT = async (payload: any) => {
-  const secret = process.env.JWT_SECRET || 'secret';
+  const secret = env.JWT_SECRET || 'secret';
 
   const jwk = await importJWK({ k: secret, alg: 'HS256', kty: 'oct' });
 
@@ -38,7 +39,7 @@ async function validateUser(
       };
     }
 > {
-  if (process.env.LOCAL_CMS_PROVIDER) {
+  if (env.LOCAL_CMS_PROVIDER) {
     if (password === '123456') {
       return {
         data: {
@@ -52,8 +53,8 @@ async function validateUser(
   }
   const url = 'https://harkiratapi.classx.co.in/post/userLogin';
   const headers = {
-    'Client-Service': process.env.APPX_CLIENT_SERVICE || '',
-    'Auth-Key': process.env.APPX_AUTH_KEY || '',
+    'Client-Service': env.APPX_CLIENT_SERVICE || '',
+    'Auth-Key': env.APPX_AUTH_KEY || '',
     'Content-Type': 'application/x-www-form-urlencoded',
   };
   const body = new URLSearchParams();
@@ -91,7 +92,7 @@ export const authOptions = {
       },
       async authorize(credentials: any) {
         try {
-          if (process.env.LOCAL_CMS_PROVIDER) {
+          if (env.LOCAL_CMS_PROVIDER) {
             return {
               id: '1',
               name: 'test',
@@ -190,15 +191,13 @@ export const authOptions = {
       },
     }),
   ],
-  secret: process.env.NEXTAUTH_SECRET || 'secr3t',
+  secret: env.NEXTAUTH_SECRET || 'secr3t',
   callbacks: {
     session: async ({ session, token }: any) => {
       if (session?.user) {
         session.user.id = token.uid;
         session.user.jwtToken = token.jwtToken;
-        session.user.role = process.env.ADMINS?.split(',').includes(
-          session.user.email,
-        )
+        session.user.role = env.ADMINS.split(',').includes(session.user.email)
           ? 'admin'
           : 'user';
       }
