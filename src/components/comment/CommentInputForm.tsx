@@ -42,7 +42,7 @@ const CommentInputForm = ({
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       // Prevent shortcuts from affecting video when typing in the textarea
-        event.stopPropagation();
+      event.stopPropagation();
     };
 
     textareaRef.current?.addEventListener('keydown', handleKeyDown);
