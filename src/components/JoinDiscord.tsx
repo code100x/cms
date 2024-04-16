@@ -4,11 +4,9 @@ import {
   NavigationMenuLink,
   navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu';
-import { Button } from './ui/button';
 
 export const JoinDiscord = ({
   isNavigated = true,
-  isInMenu = false,
 }: {
   isNavigated?: boolean;
   isInMenu?: boolean;
@@ -24,10 +22,14 @@ export const JoinDiscord = ({
   }
 
   return (
-    <Link href={getOauthUrl()} target="_blank" legacyBehavior passHref>
-      <Button variant={isInMenu ? 'navLink' : 'link'} size={'sm'}>
-        Join Discord
-      </Button>
+    <Link
+      className="text-white"
+      href={getOauthUrl()}
+      target="_blank"
+      legacyBehavior
+      passHref
+    >
+      <div>Discord</div>
     </Link>
   );
 };
