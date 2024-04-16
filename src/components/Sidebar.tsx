@@ -122,7 +122,7 @@ export function Sidebar({
   }
 
   return (
-    <div className="overflow-y-scroll h-sidebar w-[300px] min-w-[133px] bg-gray-50 dark:bg-gray-800 cursor-pointer sticky top-[64px] self-start w-84">
+    <div className="overflow-y-scroll h-sidebar w-[300px] min-w-[300px] bg-gray-50 dark:bg-gray-800 cursor-pointer sticky top-[64px] self-start w-84">
       <div className="flex">
         {/* <ToggleButton
             onClick={() => {
@@ -157,16 +157,16 @@ export function ToggleButton({
       <span
         className={`dark:bg-white bg-black block transition-all duration-300 ease-out 
                     h-0.5 w-6 rounded-sm my-0.5 ${
-    !sidebarOpen ? 'opacity-0' : 'opacity-100'
-    }`}
+                      !sidebarOpen ? 'opacity-0' : 'opacity-100'
+                    }`}
       ></span>
       <span
         className={`dark:bg-white bg-black block transition-all duration-300 ease-out 
                     h-0.5 w-6 rounded-sm ${
-    !sidebarOpen
-      ? '-rotate-45 -translate-y-1'
-      : 'translate-y-0.5'
-    }`}
+                      !sidebarOpen
+                        ? '-rotate-45 -translate-y-1'
+                        : 'translate-y-0.5'
+                    }`}
       ></span>
     </button>
   );
@@ -193,8 +193,9 @@ function GoBackButton() {
   return (
     <div className="w-full p-2">
       {/* Your component content */}
-      <Button size={'full'} onClick={goBack}>
-        <BackArrow /> <div className="pl-4">Go Back</div>
+      <Button size={'full'} onClick={goBack} className="group rounded-full">
+        <BackArrow className="group-hover:-translate-x-1 w-5 h-5 rtl:rotate-180 transition-all duration-200 ease-in-out" />{' '}
+        <div className="pl-4">Go Back</div>
       </Button>
     </div>
   );

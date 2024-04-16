@@ -68,9 +68,7 @@ rules:
   # stylistic errors
   no-spaced-func: 2
   semi-spacing: 2
-  quotes: [2, 'single']
   key-spacing: [2, { beforeColon: false, afterColon: true }]
-  indent: [2, 2]
   no-lonely-if: 2
   no-floating-decimal: 2
   brace-style: [2, 1tbs, { allowSingleLine: true }]
