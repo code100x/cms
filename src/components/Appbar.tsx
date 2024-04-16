@@ -1,7 +1,6 @@
 'use client';
 
 import Link from 'next/link';
-import { JoinDiscord } from './JoinDiscord';
 import { AppbarAuth } from './AppbarAuth';
 import { useSession } from 'next-auth/react';
 import { useRecoilState } from 'recoil';
@@ -45,6 +44,7 @@ export const Appbar = () => {
               <div className="hidden md:block">
                 <SearchBar />
               </div>
+
               <div className="flex items-center space-x-2">
                 {/* Search Bar for smaller devices */}
                 <MobileScreenSearch />
@@ -64,33 +64,6 @@ export const Appbar = () => {
                         <Link href={bookmarkPageUrl}>Bookmarks</Link>
                       </Button>
                     )}
-
-                    <Button variant={'link'} size={'sm'} asChild>
-                      <JoinDiscord isNavigated={false} />
-                    </Button>
-
-                    <Button size={'sm'} variant={'link'} asChild>
-                      <Link
-                        href={'https://projects.100xdevs.com/'}
-                        target="_blank"
-                      >
-                        Slides
-                      </Link>
-                    </Button>
-
-                    <Button size={'sm'} variant={'link'} asChild>
-                      <Link
-                        href={
-                          'https://github.com/100xdevs-cohort-2/assignments'
-                        }
-                        target="_blank"
-                      >
-                        Assignments
-                      </Link>
-                    </Button>
-                    <Button size={'sm'} variant={'link'} asChild>
-                      <Link href={'/history'}>Watch History</Link>
-                    </Button>
                     <AppbarAuth />
                   </div>
 
