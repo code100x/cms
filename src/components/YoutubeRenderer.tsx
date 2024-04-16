@@ -16,8 +16,9 @@ export const YoutubeRenderer = ({
   className,
 }: Props) => {
   if (!videoURL) {
-    return null;
+    return <div>No video Available.</div>;
   }
+
   return (
     <iframe
       width={width || 1280}
@@ -32,12 +33,5 @@ export const YoutubeRenderer = ({
     ></iframe>
   );
 };
-
-// Example Usage:
-/* <YoutubeRenderer
-  width="1280"
-  height="720"
-  videoURL={'https://www.youtube.com/embed/IJkYipYNEtI?si=lJKtCZFohqFn1l5z'}
-/>; */
 
 export default YoutubeRenderer;
