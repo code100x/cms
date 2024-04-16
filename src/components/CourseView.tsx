@@ -6,6 +6,7 @@ import { getFolderPercentCompleted } from '@/lib/utils';
 import Comments from './comment/Comments';
 import { QueryParams } from '@/actions/types';
 import BreadCrumbComponent from './BreadCrumbComponent';
+import YoutubeRenderer from './YoutubeRenderer';
 
 export const CourseView = ({
   rest,
@@ -80,6 +81,14 @@ export const CourseView = ({
             duration: x?.videoProgress?.duration || 0,
           }))}
           courseId={parseInt(course.id, 10)}
+        />
+      ) : null}
+
+      {contentType === 'youtube' ? (
+        <YoutubeRenderer
+          content={{
+            id: courseContent[0]?.id || 0,
+          }}
         />
       ) : null}
     </>

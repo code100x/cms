@@ -40,6 +40,14 @@ export default async function UpdateCourseContent({
       </div>
     );
   }
+  if (contentType === 'youtube') {
+    return (
+      <div className="max-w-screen-xl justify-between mx-auto p-4 dark:text-white text-blacke">
+        {/* <YoutubeRenderer content={{id: courseContent[0]?.id}} /> */}
+        Youtube video
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-screen-xl justify-between mx-auto p-4 dark:text-white text-black">

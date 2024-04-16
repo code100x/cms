@@ -47,6 +47,7 @@ model Content {
   createdAt        DateTime        @default(now())
   VideoMetadata    VideoMetadata?
   NotionMetadata   NotionMetadata?
+  YoutubeMetadata  YoutubeMetadata?  
   notionMetadataId Int?
   comments         Comment[]
   commentsCount    Int             @default(0)
@@ -67,6 +68,15 @@ model NotionMetadata {
   contentId Int
   content   Content @relation(fields: [contentId], references: [id])
   notionId  String
+
+  @@unique([contentId])
+}
+
+model YoutubeMetadata {
+  id         Int  @id @default(autoincrement())
+  videoId    String 
+  contentId  Int
+  content    Content @relation(fields: [contentId], references: [id])
 
   @@unique([contentId])
 }
