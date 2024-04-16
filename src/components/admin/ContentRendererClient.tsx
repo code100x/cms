@@ -7,13 +7,13 @@ import { useMemo, useState } from 'react';
 import { handleMarkAsCompleted } from '@/lib/utils';
 import YoutubeRenderer from '../YoutubeRenderer';
 
-const isYouTubeUrl = (url: string): boolean => {
+const isYouTubeUrl = (url: string) => {
   const youtubePattern: RegExp =
     /(?:youtu|youtube)(?:\.com|\.be)\/(?:watch\?v=)?([\w-]+)/;
   return youtubePattern.test(url);
 };
 
-const extractYouTubeIdFromUrl = (url: string): string | null => {
+const extractYouTubeIdFromUrl = (url: string) => {
   const match: RegExpMatchArray | null = url.match(
     /(?:youtu\.be\/|(?:youtube\.com\/(?:v\/|u\/\w\/|embed\/|watch\?v=)))([\w-]+)/,
   );
