@@ -1,5 +1,10 @@
 import Link from 'next/link';
-import { SiInstagram, SiYoutube, SiX } from '@icons-pack/react-simple-icons';
+import {
+  SiInstagram,
+  SiYoutube,
+  SiX,
+  SiGithub,
+} from '@icons-pack/react-simple-icons';
 import Image from 'next/image';
 import playstore from '/public/platform/playstore.png';
 import Logo from '../logo/logo';
@@ -66,6 +71,9 @@ const Footer = () => {
               </Link>
               <Link target="_blank" href={'https://www.youtube.com/@harkirat1'}>
                 <SiYoutube className="text-white hover:text-blue-500" />
+              </Link>
+              <Link target="_blank" href={'https://github.com/code100x/cms'}>
+                <SiGithub className="text-white hover:text-blue-500" />
               </Link>
             </div>
           </div>
