@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { AddNotionMetadata } from './AddNotionMetadata';
 import { Input } from '../ui/input';
+import { AddYoutubeMetaData } from './AddYoutubeMetaData';
 
 export const AddContent = ({
   courseId,
@@ -38,6 +39,12 @@ export const AddContent = ({
           >
             Notion
           </button>
+          <button
+            className={`${type === 'youtube' ? 'bg-green-500' : 'bg-blue-500'}  text-white font-bold py-2 px-4 rounded`}
+            onClick={() => setType('youtube')}
+          >
+            Youtube video
+          </button>
         </div>
         <br /> <br />
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
@@ -62,6 +69,7 @@ export const AddContent = ({
         </div>
         {type === 'video' && <AddVideosMetadata onChange={setMetadata} />}
         {type === 'notion' && <AddNotionMetadata onChange={setMetadata} />}
+        {type === 'youtube' && <AddYoutubeMetaData onChange={setMetadata} />}
         <button
           onClick={async () => {
             await fetch('/api/admin/content', {

@@ -18,7 +18,6 @@
     "prisma:migrate": "prisma migrate deploy",
     "db:seed": "prisma db seed",
     "db:reset": "prisma migrate reset",
-    "update:videometadata": "ts-node --compiler-options \"{\\\"module\\\": \\\"CommonJS\\\"}\" ./src/scripts/updateVideoMetaData.ts",
     "prepare": "husky install",
     "studio": "prisma studio",
     "studio:docker": "open http://localhost:5555 || start http://localhost:5555"

@@ -11,7 +11,7 @@ export const POST = async (req: NextRequest) => {
     metadata,
     adminPassword,
   }: {
-    type: 'video' | 'folder' | 'notion';
+    type: 'video' | 'folder' | 'notion' | 'youtube';
     thumbnail: string;
     title: string;
     courseId: number;
@@ -91,6 +91,34 @@ export const POST = async (req: NextRequest) => {
         segments: metadata.segments || [],
         duration: metadata.duration,
         thumbnail_mosiac_url: metadata.thumbnail_mosiac_url,
+        contentId: content.id,
+      },
+    });
+    if (courseId && !parentContentId) {
+      await db.courseContent.create({
+        data: {
+          courseId,
+          contentId: content.id,
+        },
+      });
+    }
+  } else if (type === 'youtube') {
+    const video = await db.youtubeMetadata.findFirst({
+      where: {
+        videoId: metadata.id,
+      },
+    });
+
+    if (video?.videoId === metadata.id.toString()) {
+      return NextResponse.json(
+        { Message: 'Video already exists with this id' },
+        { status: 403 },
+      );
+    }
+
+    await db.youtubeMetadata.create({
+      data: {
+        videoId: metadata.id,
         contentId: content.id,
       },
     });
