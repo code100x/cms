@@ -55,8 +55,8 @@ export const refreshDb: RefreshDbFn = async () => {
     .filter((x) => !x.openToEveryone)
     .map(async (course) => {
       const courseId = course.appxCourseId.toString();
-      
-        const data = await checkUserEmailForPurchase(email, courseId);
+
+      const data = await checkUserEmailForPurchase(email, courseId);
 
       if (data.data === '1') {
         responses.push(course);

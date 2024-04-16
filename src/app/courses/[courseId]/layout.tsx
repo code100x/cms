@@ -37,6 +37,7 @@ const Layout = async ({
 }: {
   params: { courseId: string };
   searchParams: QueryParams;
+  children: any;
 }) => {
   const courseId = params.courseId;
   const hasAccess = await checkAccess(courseId);
