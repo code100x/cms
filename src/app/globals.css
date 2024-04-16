@@ -94,3 +94,13 @@
 .vjs-duration {
   display: block !important;
 }
+
+.aspect-video {
+  aspect-ratio: 16 / 9;
+}
+
+@media (max-width: 767px) {
+  .aspect-video {
+    aspect-ratio: 1 / 1;
+  }
+}
