@@ -91,6 +91,9 @@ export const Appbar = () => {
                     <Button size={'sm'} variant={'link'} asChild>
                       <Link href={'/history'}>Watch History</Link>
                     </Button>
+                    <Button size={'sm'} variant={'link'} asChild>
+                      <Link href={'/questions'}>Q&A</Link>
+                    </Button>
                     <AppbarAuth />
                   </div>
 

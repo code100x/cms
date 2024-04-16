@@ -1,4 +1,4 @@
-import { CommentFilter, QueryParams } from '@/actions/types';
+import { TabType, QueryParams } from '@/actions/types';
 import { CommentType, Prisma } from '@prisma/client';
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
@@ -253,7 +253,9 @@ interface PaginationInfo {
   pageSize: number;
   skip: number;
 }
-
+export type Delete = {
+  message: string;
+};
 export const constructCommentPrismaQuery = (
   searchParams: QueryParams,
   paginationInfo: PaginationInfo,
@@ -261,17 +263,17 @@ export const constructCommentPrismaQuery = (
   userId: string,
 ): Prisma.CommentFindManyArgs => {
   const { pageSize, skip } = paginationInfo;
-  const { commentfilter, type } = searchParams;
+  const { tabtype, type } = searchParams;
 
   let orderBy: Prisma.Enumerable<Prisma.CommentOrderByWithRelationInput> = {};
-  switch (commentfilter) {
-    case CommentFilter.mu:
+  switch (tabtype) {
+    case TabType.mu:
       orderBy = { upvotes: 'desc' };
       break;
-    case CommentFilter.md:
+    case TabType.md:
       orderBy = { downvotes: 'desc' };
       break;
-    case CommentFilter.mr:
+    case TabType.mr:
       orderBy = { createdAt: 'desc' };
       break;
     default:
@@ -309,4 +311,51 @@ export const constructCommentPrismaQuery = (
   };
 
   return query;
+};
+
+export const generateHandle = (title: string): string => {
+  const latinToEnglishMap: { [key: string]: string } = {
+    à: 'a',
+    á: 'a',
+    â: 'a',
+    ã: 'a',
+    ä: 'a',
+    å: 'a',
+    è: 'e',
+    é: 'e',
+    ê: 'e',
+    ë: 'e',
+    ì: 'i',
+    í: 'i',
+    î: 'i',
+    ï: 'i',
+    ò: 'o',
+    ó: 'o',
+    ô: 'o',
+    õ: 'o',
+    ö: 'o',
+    ù: 'u',
+    ú: 'u',
+    û: 'u',
+    ü: 'u',
+    ñ: 'n',
+    ç: 'c',
+    ß: 'ss',
+    ÿ: 'y',
+    œ: 'oe',
+    æ: 'ae',
+  };
+
+  const normalizedTitle = title
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '');
+
+  const handle = normalizedTitle
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '')
+    // eslint-disable-next-line no-control-regex
+    .replace(/[^\x00-\x7F]/g, (char) => latinToEnglishMap[char] || '');
+
+  return handle;
 };
