@@ -373,3 +373,16 @@ export const getCurrentContentType = async (
 
   return content.type;
 };
+
+export async function getContentNested() {
+  const courses = await db.course.findMany({
+    orderBy: {
+      id: 'desc',
+    },
+    include: {
+      content: { include: { content: { include: { children: true } } } },
+    },
+  });
+
+  return courses;
+}

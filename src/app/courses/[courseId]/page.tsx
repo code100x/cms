@@ -1,7 +1,20 @@
 import { QueryParams } from '@/actions/types';
 import { CourseView } from '@/components/CourseView';
-import { Folder, getCourse, getFullCourseContent } from '@/db/course';
+import {
+  Folder,
+  getAllCourses,
+  getCourse,
+  getFullCourseContent,
+} from '@/db/course';
 import findContentById from '@/lib/find-content-by-id';
+
+export async function generateStaticParams() {
+  const courses = await getAllCourses();
+  const courseIds = courses.map((i: any) => {
+    return { courseId: `${i.id}` };
+  });
+  return courseIds.flat();
+}
 
 export default async function Course({
   params,

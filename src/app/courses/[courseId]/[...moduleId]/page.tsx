@@ -1,7 +1,32 @@
 import { QueryParams } from '@/actions/types';
 import { CourseView } from '@/components/CourseView';
-import { Folder, getCourse, getFullCourseContent } from '@/db/course';
+import {
+  Folder,
+  getContentNested,
+  getCourse,
+  getFullCourseContent,
+} from '@/db/course';
 import findContentById from '@/lib/find-content-by-id';
+
+export async function generateStaticParams() {
+  const courses = await getContentNested();
+  const courseIds = courses.map((courseId: any) => {
+    const getFolder = courseId.content.flatMap((folderId: any) => {
+      const getContent = folderId.content.children.map((contentId: any) => {
+        return {
+          courseId: `${courseId.id}`,
+          moduleId: [`${folderId.contentId}`, `${contentId.id}`],
+        };
+      });
+      return [
+        ...getContent,
+        { courseId: `${courseId.id}`, moduleId: [`${folderId.contentId}`] },
+      ];
+    });
+    return getFolder;
+  });
+  return courseIds.flat();
+}
 
 export default async function Course({
   params,
