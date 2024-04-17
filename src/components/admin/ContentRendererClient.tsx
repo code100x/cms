@@ -87,6 +87,17 @@ export const ContentRendererClient = ({
     setLoadingMarkAs(false);
   };
 
+  const playNextVideo = () => {
+    if (nextContent && nextContent.type === 'video') {
+      const originalPath = window.location.pathname;
+      const parts = originalPath.split('/');
+      parts.pop();
+      parts.push(nextContent.id.toString());
+      const newPath = parts.join('/');
+      router.push(newPath);
+    }
+  };
+
   return (
     <div className="flex gap-2 items-start flex-col lg:flex-row">
       <div className="flex-1 w-full">
@@ -116,6 +127,7 @@ export const ContentRendererClient = ({
           }}
           onVideoEnd={() => {
             setContentCompleted(true);
+            playNextVideo();
           }}
         />
         <br />
@@ -169,14 +181,7 @@ export const ContentRendererClient = ({
           <div className="flex flex-row-reverse">
             <button
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-4"
-              onClick={() => {
-                const originalPath = window.location.pathname;
-                const parts = originalPath.split('/');
-                parts.pop();
-                parts.push(nextContent.id.toString());
-                const newPath = parts.join('/');
-                router.push(newPath);
-              }}
+              onClick={playNextVideo}
             >
               {nextContent.title}
             </button>{' '}
