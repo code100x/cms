@@ -9,7 +9,7 @@ const headingFont = localFont({
 const Logo = ({ onFooter = false }: { onFooter: boolean }) => {
   return (
     <Link href={'/'}>
-      <div className="hover:opacity-90 transition flex items-center gap-x-2">
+      <div className="hover:opacity-90 transition flex items-center gap-x-2 mr-16">
         <img
           src={
             'https://d2szwvl7yo497w.cloudfront.net/courseThumbnails/main.png'
