@@ -36,6 +36,7 @@ dayjs.extend(relativeTime);
 const Comments = async ({
   content,
   searchParams,
+  courseId,
 }: {
   content: {
     id: number;
@@ -43,7 +44,10 @@ const Comments = async ({
     possiblePath: string;
   };
   searchParams: QueryParams;
+  courseId: number;
 }) => {
+  const contentPath = `/courses/${courseId}/${content.possiblePath}`;
+
   const session = await getServerSession(authOptions);
   const paginationInfo = paginationData(searchParams);
   const q = constructCommentPrismaQuery(
@@ -64,11 +68,7 @@ const Comments = async ({
         {data.parentComment && (
           <Link
             className="p-1 "
-            href={getUpdatedUrl(
-              `/courses/${content.possiblePath}`,
-              modifiedSearchParams,
-              {},
-            )}
+            href={getUpdatedUrl(contentPath, modifiedSearchParams, {})}
             scroll={false}
           >
             <div className="flex gap-2">
@@ -132,37 +132,25 @@ const Comments = async ({
               <DropdownMenuGroup>
                 <Link
                   scroll={false}
-                  href={getUpdatedUrl(
-                    `/courses/${content.possiblePath}`,
-                    searchParams,
-                    {
-                      commentfilter: CommentFilter.mu,
-                    },
-                  )}
+                  href={getUpdatedUrl(contentPath, searchParams, {
+                    commentfilter: CommentFilter.mu,
+                  })}
                 >
                   <DropdownMenuItem>Most Upvoted</DropdownMenuItem>
                 </Link>
                 <Link
                   scroll={false}
-                  href={getUpdatedUrl(
-                    `/courses/${content.possiblePath}`,
-                    searchParams,
-                    {
-                      commentfilter: CommentFilter.mr,
-                    },
-                  )}
+                  href={getUpdatedUrl(contentPath, searchParams, {
+                    commentfilter: CommentFilter.mr,
+                  })}
                 >
                   <DropdownMenuItem>Most Recent</DropdownMenuItem>{' '}
                 </Link>
                 <Link
                   scroll={false}
-                  href={getUpdatedUrl(
-                    `/courses/${content.possiblePath}`,
-                    searchParams,
-                    {
-                      commentfilter: CommentFilter.md,
-                    },
-                  )}
+                  href={getUpdatedUrl(contentPath, searchParams, {
+                    commentfilter: CommentFilter.md,
+                  })}
                 >
                   <DropdownMenuItem>Most downvoted</DropdownMenuItem>
                 </Link>
@@ -187,26 +175,18 @@ const Comments = async ({
               <DropdownMenuGroup>
                 <Link
                   scroll={false}
-                  href={getUpdatedUrl(
-                    `/courses/${content.possiblePath}`,
-                    searchParams,
-                    {
-                      type: CommentType.DEFAULT,
-                    },
-                  )}
+                  href={getUpdatedUrl(contentPath, searchParams, {
+                    type: CommentType.DEFAULT,
+                  })}
                 >
                   <DropdownMenuItem>All comments</DropdownMenuItem>
                 </Link>
 
                 <Link
                   scroll={false}
-                  href={getUpdatedUrl(
-                    `/courses/${content.possiblePath}`,
-                    searchParams,
-                    {
-                      type: CommentType.INTRO,
-                    },
-                  )}
+                  href={getUpdatedUrl(contentPath, searchParams, {
+                    type: CommentType.INTRO,
+                  })}
                 >
                   <DropdownMenuItem>Intro comments</DropdownMenuItem>
                 </Link>
@@ -296,13 +276,9 @@ const Comments = async ({
                     />
                     {!data.parentComment && (
                       <Link
-                        href={getUpdatedUrl(
-                          `/courses/${content.possiblePath}`,
-                          searchParams,
-                          {
-                            parentId: c.id,
-                          },
-                        )}
+                        href={getUpdatedUrl(contentPath, searchParams, {
+                          parentId: c.id,
+                        })}
                         scroll={false}
                         className="flex items-center gap-1 text-gray-500 dark:text-gray-400"
                       >

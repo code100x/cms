@@ -64,6 +64,7 @@ export const CourseView = ({
             possiblePath,
           }}
           searchParams={searchParams}
+          courseId={parseInt(course.id, 10)}
         />
       )}
       {contentType === 'folder' ? (
