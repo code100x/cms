@@ -8,6 +8,8 @@ import {
 } from '@/db/course';
 import findContentById from '@/lib/find-content-by-id';
 
+export const dynamic = 'auto';
+
 export async function generateStaticParams() {
   const courses = await getContentNested();
   const courseIds = courses.map((courseId: any) => {
