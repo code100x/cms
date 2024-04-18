@@ -11,7 +11,7 @@ import { Button } from './ui/button';
 import { BackArrow } from '@/icons/BackArrow';
 import { useRecoilState } from 'recoil';
 import { sidebarOpen as sidebarOpenAtom } from '@/store/atoms/sidebar';
-import { useEffect, useState } from 'react';
+import React, { ElementRef, useEffect, useRef, useState } from 'react';
 import { handleMarkAsCompleted } from '@/lib/utils';
 import BookmarkButton from './bookmark/BookmarkButton';
 
@@ -24,12 +24,43 @@ export function Sidebar({
 }) {
   const router = useRouter();
   const [sidebarOpen, setSidebarOpen] = useRecoilState(sidebarOpenAtom);
+  const sidebarRef = useRef<ElementRef<'div'>>(null);
+  const isResizingRef = useRef(false);
 
   useEffect(() => {
     if (window.innerWidth < 500) {
       setSidebarOpen(false);
     }
   }, []);
+
+  const handleMouseDown = (
+    event: React.MouseEvent<HTMLDivElement, MouseEvent>,
+  ) => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    isResizingRef.current = true;
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseup', handleMouseUp);
+  };
+
+  const handleMouseMove = (event: MouseEvent) => {
+    if (!isResizingRef.current) return;
+    let newWidth = event.clientX;
+
+    if (newWidth < 200) newWidth = 200;
+    if (newWidth > 450) newWidth = 450;
+
+    if (sidebarRef.current) {
+      sidebarRef.current.style.width = `${newWidth}px`;
+    }
+  };
+
+  const handleMouseUp = () => {
+    isResizingRef.current = false;
+    document.removeEventListener('mousemove', handleMouseMove);
+    document.removeEventListener('mouseup', handleMouseUp);
+  };
 
   const findPathToContent = (
     contents: any,
@@ -122,19 +153,28 @@ export function Sidebar({
   }
 
   return (
-    <div className="overflow-y-scroll h-sidebar w-[300px] min-w-[300px] bg-gray-50 dark:bg-gray-800 cursor-pointer sticky top-[64px] self-start w-84">
-      <div className="flex">
-        {/* <ToggleButton
+    <div className="relative border-2 group/sidebar">
+      <div
+        ref={sidebarRef}
+        className="side-bar overflow-y-scroll h-sidebar w-[300px] min-w-[200px] bg-gray-50 dark:bg-gray-800 cursor-pointer sticky top-[64px] self-start w-84"
+      >
+        <div className="flex">
+          {/* <ToggleButton
             onClick={() => {
               setSidebarOpen((s) => !s);
             }}
           /> */}
-        <GoBackButton />
+          <GoBackButton />
+        </div>
+        <Accordion type="single" collapsible className="w-full">
+          {/* Render course content */}
+          {renderContent(fullCourseContent)}
+        </Accordion>
       </div>
-      <Accordion type="single" collapsible className="w-full">
-        {/* Render course content */}
-        {renderContent(fullCourseContent)}
-      </Accordion>
+      <div
+        onMouseDown={handleMouseDown}
+        className=" w-1 h-[100%] bg-primary/20 transition opacity-0 group-hover/sidebar:opacity-100 cursor-ew-resize absolute right-[-4px] top-0"
+      />
     </div>
   );
 }
