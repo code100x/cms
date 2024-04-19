@@ -11,8 +11,14 @@ import {
   PlayIcon,
 } from './icons';
 
-export default function VideoPlayerControls({ player }: { player: any }) {
-  const [playerPaused, setPlayerPaused] = useState<boolean>(true);
+export default function VideoPlayerControls({
+  player,
+  onVideoEnd,
+}: {
+  player: any;
+  onVideoEnd: () => void;
+}) {
+  const [playerPaused, setPlayerPaused] = useState<boolean>(false);
   const [volumeIconState, setVolumeIconState] = useState<string>('high');
   const [durationStartTime, setDurationStartTime] = useState<string>('0:00');
   const [durationEndTime, setDurationEndTime] = useState<string>('0:00');
@@ -102,6 +108,7 @@ export default function VideoPlayerControls({ player }: { player: any }) {
 
       player.on('ended', () => {
         setPlayerPaused(true);
+        onVideoEnd();
       });
     }
   }, [player]);

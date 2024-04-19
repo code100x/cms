@@ -7,11 +7,13 @@ import VideoPlayerControls from './videoControls';
 // subtitles => https://cloudfront.enet/video/subtitles.vtt
 //
 export const VideoPlayer = ({
-  mpdUrl,
+  options,
   subtitles,
+  onVideoEnd,
 }: {
-  mpdUrl: string;
+  options: any;
   subtitles: string;
+  onVideoEnd: () => void;
 }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [player, setPlayer] = useState<any>(null);
@@ -24,41 +26,12 @@ export const VideoPlayer = ({
       const player = (window as any).videojs(
         videoRef.current,
         {
-          fluid: true,
-          html5: {
-            vhs: {
-              overridenative: true,
-            },
-          },
+          ...options,
         },
         function () {
           setPlayer(player);
 
           player.eme();
-
-          if (mpdUrl.endsWith('.mpd')) {
-            //@ts-ignore
-            this.src({
-              src: mpdUrl,
-              type: 'application/dash+xml',
-              keySystems: {
-                'com.widevine.alpha':
-                  'https://widevine-dash.ezdrm.com/proxy?pX=288FF5&user_id=MTAwMA==',
-              },
-            });
-          } else if (mpdUrl.endsWith('.m3u8')) {
-            //@ts-ignore
-            this.src({
-              src: mpdUrl,
-              type: 'application/x-mpegURL',
-            });
-          } else {
-            //@ts-ignore
-            this.src({
-              src: mpdUrl,
-              type: 'video/mp4',
-            });
-          }
 
           // @ts-ignore
           this.on('keystatuschange', (event: any) => {
@@ -94,7 +67,7 @@ export const VideoPlayer = ({
         src="https://cdn.jsdelivr.net/npm/videojs-seek-buttons/dist/videojs-seek-buttons.min.js"
       ></script>
 
-      <VideoPlayerControls player={player} />
+      <VideoPlayerControls player={player} onVideoEnd={onVideoEnd} />
 
       <video ref={videoRef} id="my-video" className="video-js">
         <track kind="subtitles" src={subtitles} srcLang="en" label="English" />
