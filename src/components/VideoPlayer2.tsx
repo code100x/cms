@@ -285,7 +285,7 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
         videoElement,
         {
           ...options,
-          playbackRates: [0.5, 1, 1.25, 1.5, 1.75],
+          playbackRates: [0.5, 1, 1.25, 1.5, 1.75, 2],
         },
         () => {
           player.mobileUi(); // mobile ui #https://github.com/mister-ben/videojs-mobile-ui
