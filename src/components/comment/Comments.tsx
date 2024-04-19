@@ -80,6 +80,7 @@ const Comments = async ({
           {data.parentComment && (
             <h1 className="text-xl font-bold">
               <TimeCodeComment
+                courseId={courseId}
                 possiblePath={content.possiblePath}
                 searchParams={searchParams}
                 comment={data.parentComment.content}
@@ -259,6 +260,7 @@ const Comments = async ({
                   </div>
                   <div>
                     <TimeCodeComment
+                      courseId={courseId}
                       possiblePath={content.possiblePath}
                       searchParams={searchParams}
                       comment={c.content}
