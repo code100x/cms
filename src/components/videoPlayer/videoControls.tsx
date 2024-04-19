@@ -2,6 +2,7 @@ import { formatTime } from '@/lib/utils';
 import { useEffect, useRef, useState } from 'react';
 import {
   CaptionIcon,
+  FullScreenCloseIcon,
   FullScreenOpenIcon,
   HighVolumeIcon,
   LowVolumeIcon,
@@ -18,11 +19,13 @@ export default function VideoPlayerControls({
   player: any;
   onVideoEnd: () => void;
 }) {
-  const [playerPaused, setPlayerPaused] = useState<boolean>(false);
+  const [playerPaused, setPlayerPaused] = useState<boolean>(true);
   const [volumeIconState, setVolumeIconState] = useState<string>('high');
   const [durationStartTime, setDurationStartTime] = useState<string>('0:00');
   const [durationEndTime, setDurationEndTime] = useState<string>('0:00');
   const [playBackSpeed, setPlayBackSpeed] = useState<string>('1x');
+  const [isMiniPlayerActive, setMiniPlayer] = useState<boolean>(false);
+  const [isFullScreen, setFullScreen] = useState<boolean>(false);
 
   const volumeSliderRef = useRef<any>(null);
 
@@ -34,8 +37,6 @@ export default function VideoPlayerControls({
     } else {
       player.pause();
     }
-
-    setPlayerPaused(player.paused());
   }
 
   // toggle voulme button
@@ -99,8 +100,35 @@ export default function VideoPlayerControls({
     setPlayBackSpeed(`${currentSpeed}x`);
   }
 
+  // full screen handler
+  function fullScreenHandler() {
+    const fullScreen = document.fullscreenElement === null;
+
+    const videoContainer = document.querySelector('#videoContainer');
+
+    if (fullScreen && videoContainer) {
+      videoContainer.requestFullscreen();
+    } else {
+      document.exitFullscreen();
+    }
+    setFullScreen(fullScreen);
+  }
+
+  // miniPlayer Handler
+  function miniPlayerHandler() {
+    if (isMiniPlayerActive) {
+      player.exitPictureInPicture();
+    } else {
+      setMiniPlayer(true);
+      player.requestPictureInPicture();
+    }
+  }
+
   useEffect(() => {
     if (player) {
+      player.on('play', () => setPlayerPaused(false));
+      player.on('pause', () => setPlayerPaused(true));
+
       player.on('volumechange', volumeIconToggle);
 
       player.on('loadedmetadata', setDurationHandler);
@@ -110,12 +138,20 @@ export default function VideoPlayerControls({
         setPlayerPaused(true);
         onVideoEnd();
       });
+
+      player.on('leavepictureinpicture', () => setMiniPlayer(false));
+
+      document.addEventListener('fullscreenchange', () => {
+        if (document.fullscreenElement === null) {
+          setFullScreen(false);
+        }
+      });
     }
   }, [player]);
   return (
     <>
       <div
-        className={`absolute bottom-0 ${playerPaused ? 'opacity-100' : 'opacity-0'} group-hover/v-container:opacity-100 w-full z-50 transition-all py-1 before:content-[''] before:absolute before:bottom-0 before:w-full before:aspect-[5/1] before:z-[-1] before:bg-gradient-to-t from-[#000000E6] to-transparent`}
+        className={`absolute bottom-0 ${playerPaused ? 'opacity-100' : 'opacity-0'} ${!isFullScreen && 'group-hover/v-container:opacity-100'} w-full z-50 transition-all py-1 before:content-[''] before:absolute before:bottom-0 before:w-full before:aspect-[5/1] before:z-[-1] before:bg-gradient-to-t from-[#000000E6] to-transparent`}
       >
         {/* //controls */}
         <div className="p-2 flex items-center justify-between">
@@ -163,38 +199,27 @@ export default function VideoPlayerControls({
           </div>
           <div className="flex gap-4 items-center">
             {/* captions-btn */}
-            <button className="captions-btn">
+            <button className="outline-none">
               <CaptionIcon />
               <div className="red-underline"></div>
             </button>
 
             {/* speed-btn */}
             <button
-              className="flex items-center justify-center w-10"
+              className="flex items-center justify-center w-10 outline-none"
               onClick={playBackSpeedHandler}
             >
               {playBackSpeed}
             </button>
 
             {/* mini-player-btn */}
-            <button className="mini-player-btn">
+            <button className="outline-none" onClick={miniPlayerHandler}>
               <MiniPlayerIcon />
             </button>
 
             {/* full-screen-btn */}
-            <button className="full-screen-btn">
-              <FullScreenOpenIcon />
-              <svg
-                className="hidden"
-                viewBox="0 0 24 24"
-                height="24px"
-                width="24px"
-              >
-                <path
-                  fill="currentColor"
-                  d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z"
-                />
-              </svg>
+            <button className="outline-none" onClick={fullScreenHandler}>
+              {isFullScreen ? <FullScreenCloseIcon /> : <FullScreenOpenIcon />}
             </button>
           </div>
         </div>

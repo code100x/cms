@@ -45,7 +45,10 @@ export const VideoPlayer = ({
   }, [videoRef.current]);
 
   return (
-    <div className="relative group/v-container select-none rounded-md overflow-hidden">
+    <div
+      id="videoContainer"
+      className="relative group/v-container select-none rounded-md overflow-hidden flex items-center"
+    >
       <link
         href="https://cdnjs.cloudflare.com/ajax/libs/video.js/7.11.7/video-js.min.css"
         rel="stylesheet"
