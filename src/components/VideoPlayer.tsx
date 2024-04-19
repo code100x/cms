@@ -1,7 +1,5 @@
 'use client';
 import React, { useEffect, useRef, useState } from 'react';
-import './style.css';
-
 // mpdUrl => https://cloudfront.enet/video/video.mp4
 // thumbnail => https://cloudfront.enet/video/thumbnail.jpg
 // subtitles => https://cloudfront.enet/video/subtitles.vtt
