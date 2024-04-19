@@ -1236,6 +1236,11 @@
   resolved "https://registry.npmjs.org/@ungap/structured-clone/-/structured-clone-1.2.0.tgz"
   integrity sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==
 
+"@video-js-plugins/videojs-theater-mode-button@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@video-js-plugins/videojs-theater-mode-button/-/videojs-theater-mode-button-1.0.1.tgz#3a5a7eb1c9ddef34a3764f2bcb4b6a3dd0fff322"
+  integrity sha512-VtDr31FWFYy2yt677gzDmqiJX1Hwm8H1Vd3PJk8+irLT68Ob0QzEAoBye0NxcHunNbEzmuMkSR5sUWEqKHEo4w==
+
 "@videojs/http-streaming@3.10.0":
   version "3.10.0"
   resolved "https://registry.npmjs.org/@videojs/http-streaming/-/http-streaming-3.10.0.tgz"

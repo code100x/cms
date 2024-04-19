@@ -68,19 +68,21 @@ export function Sidebar({
       if (content.children && content.children.length > 0) {
         // This is a folder with children
         return (
-          <AccordionItem
-            key={content.id}
-            value={`item-${content.id}`}
-            className="text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer"
-          >
-            <AccordionTrigger className="px-2 text-left">
-              {content.title}
-            </AccordionTrigger>
-            <AccordionContent className="p-0 m-0">
-              {/* Render the children of this folder */}
-              {renderContent(content.children)}
-            </AccordionContent>
-          </AccordionItem>
+          <div className="bg-black border-white">
+            <AccordionItem
+              key={content.id}
+              value={`item-${content.id}`}
+              className="text-black-900 border-white  dark:text-white hover:bg-grey-1 dark:hover:bg-gray-1cursor-pointer"
+            >
+              <AccordionTrigger className="px-2 text-left bg-black-900">
+                {content.title}
+              </AccordionTrigger>
+              <AccordionContent className="p-0 m-0 bg-clack">
+                {/* Render the children of this folder */}
+                {renderContent(content.children)}
+              </AccordionContent>
+            </AccordionItem>
+          </div>
         );
       }
       // This is a video or a content item without children

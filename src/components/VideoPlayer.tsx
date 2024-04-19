@@ -1,5 +1,6 @@
 'use client';
 import React, { useEffect, useRef, useState } from 'react';
+import './style.css';
 
 // mpdUrl => https://cloudfront.enet/video/video.mp4
 // thumbnail => https://cloudfront.enet/video/thumbnail.jpg
@@ -10,7 +11,6 @@ export const VideoPlayer = ({
   subtitles,
 }: {
   mpdUrl: string;
-  thumbnail: string;
   subtitles: string;
 }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -38,6 +38,7 @@ export const VideoPlayer = ({
         case 'ArrowLeft': // Left arrow for seeking backward 5 seconds
           player.currentTime(player.currentTime() - 5);
           event.stopPropagation();
+
           break;
       }
     };
@@ -60,6 +61,7 @@ export const VideoPlayer = ({
         {
           playbackrates: [0.5, 1, 1.25, 1.5, 1.75, 2],
           controls: true,
+
           fluid: true,
           html5: {
             vhs: {
@@ -132,7 +134,12 @@ export const VideoPlayer = ({
         defer
         src="https://cdn.jsdelivr.net/npm/videojs-seek-buttons/dist/videojs-seek-buttons.min.js"
       ></script>
-      <video ref={videoRef} id="my-video" className="video-js">
+
+      <video
+        ref={videoRef}
+        id="my-video"
+        className="video-js h-4 " // Set height
+      >
         <track kind="subtitles" src={subtitles} srcLang="en" label="English" />
       </video>
     </div>

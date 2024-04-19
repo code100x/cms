@@ -1,7 +1,9 @@
 'use client';
 import { Segment, formatTime } from '@/lib/utils';
+import { theaterModeChapters } from '@/store/atoms/sidebar';
 import { X } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { useRecoilValue } from 'recoil';
 
 import videojs from 'video.js';
 
@@ -14,6 +16,7 @@ const VideoContentChapters = ({
 }) => {
   const [player, setPlayer] = useState<any>(null);
   const [currentTime, setCurrentTime] = useState(0);
+  const isTheaterClicked = useRecoilValue(theaterModeChapters);
 
   useEffect(() => {
     const allPlayers = videojs.getAllPlayers();
@@ -34,7 +37,9 @@ const VideoContentChapters = ({
   }, [player]);
 
   return (
-    <div className="w-full lg:w-1/3 rounded-md shadow-md border text-sm">
+    <div
+      className={`w-full ${isTheaterClicked ? 'lg:w-1/5' : 'lg:w-1/3'} rounded-md shadow-md border text-sm`}
+    >
       <div className="flex items-center justify-between p-2 py-3 dark:bg-[#212020] bg-[#F5F5F5]">
         <span>Chapters</span>
         <X onClick={onCancel} className="cursor-pointer" />

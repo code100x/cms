@@ -17,6 +17,7 @@ export const ContentRendererClient = ({
     title: string;
   } | null;
   metadata: any;
+
   content: {
     type: 'video';
     id: number;
@@ -26,15 +27,12 @@ export const ContentRendererClient = ({
     markAsCompleted: boolean;
   };
 }) => {
-  const [contentCompleted, setContentCompleted] = useState(
+  const [contentCompleted, setContentCompleted] = useState<boolean>(
     content.markAsCompleted,
   );
-  const [loadingMarkAs, setLoadingMarkAs] = useState(false);
-  const [showChapters, setShowChapters] = useState(
-    metadata?.segments?.length > 0,
-  );
+  const [loadingMarkAs, setLoadingMarkAs] = useState<boolean>(false);
+  const [showChapters, setShowChapters] = useState<boolean>(false); // Initialize with false
   const searchParams = useSearchParams();
-
   const router = useRouter();
 
   //@ts-ignore
@@ -97,7 +95,7 @@ export const ContentRendererClient = ({
           thumbnails={[]}
           segments={metadata?.segments || []}
           videoJsOptions={{
-            playbackrates: [0.5, 1, 1.25, 1.5, 1.75, 2],
+            playbackrates: [0.5, 1, 1.25, 1.5, 1.75, 2, 2.5],
             controls: true,
             fluid: true,
             html5: {
@@ -124,7 +122,6 @@ export const ContentRendererClient = ({
             <div className="text-gray-900 dark:text-white font-bold text-2xl">
               {content.title}
             </div>
-
             <button
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold rounded p-2 my-4"
               disabled={loadingMarkAs}
@@ -132,6 +129,19 @@ export const ContentRendererClient = ({
             >
               {contentCompleted ? 'Mark as Incomplete' : 'Mark as completed'}
             </button>
+            {!showChapters && metadata.segments?.length > 0 && (
+              <button
+                className="ml-10 border border-t border-b 
+               border-l border-r border-white text-white px-4 py-2 rounded-lg
+                hover:bg-gray-100 hover:text-black hover:border-black"
+                onClick={() => {
+                  scrollTo({ top: 0, behavior: 'smooth' });
+                  toggleShowChapters();
+                }}
+              >
+                Chapters
+              </button>
+            )}
           </div>
 
           <div>
@@ -152,17 +162,6 @@ export const ContentRendererClient = ({
                 </a>
               </div>
             ) : null}
-            {!showChapters && metadata.segments?.length > 0 && (
-              <button
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold rounded p-2"
-                onClick={() => {
-                  scrollTo({ top: 0, behavior: 'smooth' });
-                  toggleShowChapters();
-                }}
-              >
-                View All Chapters
-              </button>
-            )}
           </div>
         </div>
         {nextContent ? (

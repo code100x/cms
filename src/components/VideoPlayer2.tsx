@@ -12,6 +12,9 @@ import 'videojs-seek-buttons';
 import { handleMarkAsCompleted } from '@/lib/utils';
 import { useSearchParams } from 'next/navigation';
 import './QualitySelectorControllBar';
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import { sidebarOpen as sidebarOpenAtom } from '@/store/atoms/sidebar';
+import { theaterModeChapters as clickedTheaterMode } from '@/store/atoms/sidebar';
 
 // todo correct types
 interface VideoPlayerProps {
@@ -38,6 +41,10 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
   const playerRef = useRef<Player | null>(null);
   const [player, setPlayer] = useState<any>(null);
   const searchParams = useSearchParams();
+  const setSidebarOpen = useSetRecoilState(sidebarOpenAtom);
+  const [theaterChapetersSize, setTheaterChapetersSize] =
+    useRecoilState(clickedTheaterMode);
+
   useEffect(() => {
     const t = searchParams.get('timestamp');
     if (contentId && player && !t) {
@@ -149,6 +156,7 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
             else player.requestFullscreen();
             event.stopPropagation();
             break;
+
           case 'KeyR': // 'R' key to restart playback from the beginning
             player.currentTime(0);
             event.stopPropagation();
@@ -277,7 +285,7 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
         videoElement,
         {
           ...options,
-          playbackRates: [0.5, 1, 1.25, 1.5, 1.75, 2],
+          playbackRates: [0.5, 1, 1.25, 1.5, 1.75],
         },
         () => {
           player.mobileUi(); // mobile ui #https://github.com/mister-ben/videojs-mobile-ui
@@ -291,6 +299,45 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
           const qualitySelector = player.controlBar.addChild(
             'QualitySelectorControllBar',
           );
+          console.log(theaterChapetersSize);
+          const handleTheaterModeClick = () => {
+            const playerElement = player.el(); // Get the DOM element of the player
+
+            if (!playerElement.classList.contains('theater-mode')) {
+              setSidebarOpen(false);
+              setTheaterChapetersSize(true);
+              playerElement.classList.add('theater-mode');
+              // Remember the original width and height
+              playerElement.dataset.originalWidth = playerElement.style.width;
+              playerElement.dataset.originalHeight = playerElement.style.height;
+
+              playerElement.style.width = '100%';
+              if (player.isFullscreen_) document.exitFullscreen();
+            } else {
+              setTheaterChapetersSize(false);
+              playerElement.classList.remove('theater-mode');
+              setSidebarOpen(true);
+              // Restore original width and height
+              playerElement.style.width =
+                playerElement.dataset.originalWidth || '100%';
+              playerElement.style.height =
+                playerElement.dataset.originalHeight || '';
+              delete playerElement.dataset.originalWidth;
+              delete playerElement.dataset.originalHeight;
+            }
+          };
+
+          const btn = player.controlBar.addChild('button');
+
+          btn.el().style.border = '1px solid white';
+          btn.el().style.backgroundColor = 'transparent';
+          btn.el().style.marginTop = '0.9vh';
+          btn.el().style.height = '1.5vh';
+          btn.el().style.width = '1.8vw';
+          btn.el().style.display = 'block';
+
+          btn.el().addEventListener('click', handleTheaterModeClick);
+
           const controlBar = player.getChild('controlBar');
           const fullscreenToggle = controlBar.getChild('fullscreenToggle');
 
@@ -306,14 +353,17 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
               height: options.height,
             });
           }
+          controlBar.el().insertBefore(btn.el(), fullscreenToggle.el());
+
           player.on('loadedmetadata', () => {
             if (onReady) {
               onReady(player);
             }
           });
           // Focus the video player when toggling fullscreen
-          player.on('fullscreenchange', () => {
+          player.on('screenchange', () => {
             videoElement.focus();
+            console.log('triggered');
           });
         },
       ));
