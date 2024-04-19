@@ -1,5 +1,6 @@
 'use client';
 import React, { useEffect, useRef, useState } from 'react';
+import VideoPlayerControls from './videoControls';
 
 // mpdUrl => https://cloudfront.enet/video/video.mp4
 // thumbnail => https://cloudfront.enet/video/thumbnail.jpg
@@ -10,45 +11,10 @@ export const VideoPlayer = ({
   subtitles,
 }: {
   mpdUrl: string;
-  thumbnail: string;
   subtitles: string;
 }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [player, setPlayer] = useState<any>(null);
-
-  useEffect(() => {
-    if (!player) {
-      return;
-    }
-    const handleKeyPress = (event: any) => {
-      switch (event.code) {
-        case 'Space': // Space bar for play/pause
-          if (player.paused()) {
-            player.play();
-            event.stopPropagation();
-          } else {
-            player.pause();
-            event.stopPropagation();
-          }
-          break;
-        case 'ArrowRight': // Right arrow for seeking forward 5 seconds
-          player.currentTime(player.currentTime() + 5);
-          event.stopPropagation();
-          break;
-        case 'ArrowLeft': // Left arrow for seeking backward 5 seconds
-          player.currentTime(player.currentTime() - 5);
-          event.stopPropagation();
-          break;
-      }
-    };
-
-    document.addEventListener('keydown', handleKeyPress);
-
-    // Cleanup function
-    return () => {
-      document.removeEventListener('keydown', handleKeyPress);
-    };
-  }, [player]);
 
   useEffect(() => {
     if (!videoRef.current) {
@@ -58,8 +24,6 @@ export const VideoPlayer = ({
       const player = (window as any).videojs(
         videoRef.current,
         {
-          playbackrates: [0.5, 1, 1.25, 1.5, 1.75, 2],
-          controls: true,
           fluid: true,
           html5: {
             vhs: {
@@ -68,9 +32,10 @@ export const VideoPlayer = ({
           },
         },
         function () {
-          //@ts-ignore
-          player.eme();
           setPlayer(player);
+
+          player.eme();
+
           if (mpdUrl.endsWith('.mpd')) {
             //@ts-ignore
             this.src({
@@ -95,13 +60,9 @@ export const VideoPlayer = ({
             });
           }
 
-          //@ts-ignore
+          // @ts-ignore
           this.on('keystatuschange', (event: any) => {
             console.log('event: ', event);
-          });
-          player.seekButtons({
-            forward: 10,
-            back: 10,
           });
         },
       );
@@ -111,7 +72,7 @@ export const VideoPlayer = ({
   }, [videoRef.current]);
 
   return (
-    <div className="py-2">
+    <div className="relative group/v-container select-none rounded-md overflow-hidden">
       <link
         href="https://cdnjs.cloudflare.com/ajax/libs/video.js/7.11.7/video-js.min.css"
         rel="stylesheet"
@@ -132,6 +93,9 @@ export const VideoPlayer = ({
         defer
         src="https://cdn.jsdelivr.net/npm/videojs-seek-buttons/dist/videojs-seek-buttons.min.js"
       ></script>
+
+      <VideoPlayerControls player={player} />
+
       <video ref={videoRef} id="my-video" className="video-js">
         <track kind="subtitles" src={subtitles} srcLang="en" label="English" />
       </video>
