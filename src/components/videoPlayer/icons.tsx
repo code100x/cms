@@ -1,14 +1,14 @@
-export const PauseIcon = () => {
+export const PauseIcon = ({ className }: { className: string }) => {
   return (
-    <svg height="24px" width="24px" viewBox="0 0 24 24">
+    <svg className={`pause-icon ${className}`} viewBox="0 0 24 24">
       <path fill="currentColor" d="M8,5.14V19.14L19,12.14L8,5.14Z" />
     </svg>
   );
 };
 
-export const PlayIcon = () => {
+export const PlayIcon = ({ className }: { className: string }) => {
   return (
-    <svg className="play-icon" height="24px" width="24px" viewBox="0 0 24 24">
+    <svg className={`play-icon ${className}`} viewBox="0 0 24 24">
       <path fill="currentColor" d="M14,19H18V5H14M6,19H10V5H6V19Z" />
     </svg>
   );

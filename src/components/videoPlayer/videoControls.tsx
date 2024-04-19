@@ -134,6 +134,8 @@ export default function VideoPlayerControls({
       player.on('loadedmetadata', setDurationHandler);
       player.on('timeupdate', startTimeHandler);
 
+      player.on('click', togglePlay);
+
       player.on('ended', () => {
         setPlayerPaused(true);
         onVideoEnd();
@@ -151,6 +153,11 @@ export default function VideoPlayerControls({
   return (
     <>
       <div
+        className={`inline-flex flex-col items-center ${playerPaused ? 'opacity-100' : 'opacity-0'} justify-center h-24 w-24 bg-[#333] text-[#fff]  absolute left-[calc(50%-48px)] z-[1] rounded-full pointer-events-none p-5 transition-all duration-300 shadow-lg`}
+      >
+        {playerPaused ? <PauseIcon className="" /> : <PlayIcon className="" />}
+      </div>
+      <div
         className={`absolute bottom-0 ${playerPaused ? 'opacity-100' : 'opacity-0'} ${!isFullScreen && 'group-hover/v-container:opacity-100'} w-full z-50 transition-all py-1 before:content-[''] before:absolute before:bottom-0 before:w-full before:aspect-[5/1] before:z-[-1] before:bg-gradient-to-t from-[#000000E6] to-transparent`}
       >
         {/* //controls */}
@@ -161,7 +168,11 @@ export default function VideoPlayerControls({
               className="flex items-center justify-center outline-none"
               onClick={togglePlay}
             >
-              {playerPaused ? <PauseIcon /> : <PlayIcon />}
+              {playerPaused ? (
+                <PauseIcon className="h-6 w-6" />
+              ) : (
+                <PlayIcon className="h-6 w-6" />
+              )}
             </button>
 
             {/*volume-container*/}
