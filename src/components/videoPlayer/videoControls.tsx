@@ -26,6 +26,8 @@ export default function VideoPlayerControls({
   const [playBackSpeed, setPlayBackSpeed] = useState<string>('1x');
   const [isMiniPlayerActive, setMiniPlayer] = useState<boolean>(false);
   const [isFullScreen, setFullScreen] = useState<boolean>(false);
+  const [showCaption, setShowCaption] = useState<boolean>(false);
+  const [captionBtnDisabled, setCaptionBtnDisabled] = useState<boolean>(false);
 
   const volumeSliderRef = useRef<any>(null);
 
@@ -117,10 +119,68 @@ export default function VideoPlayerControls({
   // miniPlayer Handler
   function miniPlayerHandler() {
     if (isMiniPlayerActive) {
-      player.exitPictureInPicture();
+      document.exitPictureInPicture();
     } else {
       setMiniPlayer(true);
       player.requestPictureInPicture();
+    }
+    console.log(isMiniPlayerActive);
+  }
+
+  //caption Handler
+  function captionClickHandler() {
+    const length = player.textTracks().length;
+    if (length === 0) {
+      setCaptionBtnDisabled(true);
+      return;
+    }
+    console.log('1', showCaption);
+    if (showCaption) {
+      setShowCaption(false);
+      player.textTracks()[0].mode = 'hidden';
+    } else {
+      setShowCaption(true);
+      player.textTracks()[0].mode = 'showing';
+    }
+    console.log(showCaption);
+  }
+  console.log('local', showCaption);
+
+  // handle key events
+  function handleKeyEvents(e: any) {
+    switch (e.code) {
+      case 'Space':
+        e.preventDefault();
+        togglePlay();
+        break;
+      case 'KeyF':
+        fullScreenHandler();
+        break;
+      case 'KeyI':
+        e.stopPropagation();
+        miniPlayerHandler();
+
+        break;
+      // case 'arrowright':
+      //   skip(10);
+      //   break;
+      // case 'arrowleft':
+      //   skip(-10);
+      //   break;
+      case 'KeyP':
+        playBackSpeedHandler();
+        break;
+      case 'KeyM':
+        toggleVolumeBtn();
+        break;
+      case 'KeyC':
+        captionClickHandler();
+        break;
+      // case 's':
+      //   openSettings();
+      //   break;
+      default:
+        break;
     }
   }
 
@@ -131,7 +191,10 @@ export default function VideoPlayerControls({
 
       player.on('volumechange', volumeIconToggle);
 
-      player.on('loadedmetadata', setDurationHandler);
+      player.on('loadedmetadata', () => {
+        setDurationHandler();
+        captionClickHandler();
+      });
       player.on('timeupdate', startTimeHandler);
 
       player.on('click', togglePlay);
@@ -143,6 +206,7 @@ export default function VideoPlayerControls({
 
       player.on('leavepictureinpicture', () => setMiniPlayer(false));
 
+      document.addEventListener('keydown', handleKeyEvents);
       document.addEventListener('fullscreenchange', () => {
         if (document.fullscreenElement === null) {
           setFullScreen(false);
@@ -153,12 +217,12 @@ export default function VideoPlayerControls({
   return (
     <>
       <div
-        className={`inline-flex flex-col items-center ${playerPaused ? 'opacity-100' : 'opacity-0'} justify-center h-24 w-24 bg-[#333] text-[#fff]  absolute left-[calc(50%-48px)] z-[1] rounded-full pointer-events-none p-5 transition-all duration-300 shadow-lg`}
+        className={`inline-flex flex-col items-center ${playerPaused ? 'opacity-100' : 'opacity-0'} justify-center h-20 w-20 bg-[#db3636] text-[#fff]  absolute left-[calc(50%-48px)] z-[1] rounded-full pointer-events-none p-3 transition-all duration-300 shadow-lg`}
       >
         {playerPaused ? <PauseIcon className="" /> : <PlayIcon className="" />}
       </div>
       <div
-        className={`absolute bottom-0 ${playerPaused ? 'opacity-100' : 'opacity-0'} ${!isFullScreen && 'group-hover/v-container:opacity-100'} w-full z-50 transition-all py-1 before:content-[''] before:absolute before:bottom-0 before:w-full before:aspect-[5/1] before:z-[-1] before:bg-gradient-to-t from-[#000000E6] to-transparent`}
+        className={`absolute bottom-0 ${playerPaused ? 'opacity-100' : 'opacity-0'} ${!isFullScreen && 'group-hover/v-container:opacity-100'} w-full z-50 transition-all py-1 before:content-[''] before:absolute before:bottom-0 before:pointer-events-none before:w-full before:aspect-[5/1] before:z-[-1] before:bg-gradient-to-t from-[#000000E6] to-transparent`}
       >
         {/* //controls */}
         <div className="p-2 flex items-center justify-between">
@@ -210,9 +274,15 @@ export default function VideoPlayerControls({
           </div>
           <div className="flex gap-4 items-center">
             {/* captions-btn */}
-            <button className="outline-none">
+            <button
+              className="relative flex justify-center outline-none disabled:opacity-50"
+              onClick={captionClickHandler}
+              disabled={captionBtnDisabled}
+            >
               <CaptionIcon />
-              <div className="red-underline"></div>
+              <div
+                className={`absolute h-[3px] w-[calc(100%-6px)] transition-all bg-[#f52626] bottom-0 ${showCaption ? 'opacity-100' : 'opacity-0'}`}
+              ></div>
             </button>
 
             {/* speed-btn */}

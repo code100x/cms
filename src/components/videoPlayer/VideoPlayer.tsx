@@ -1,6 +1,7 @@
 'use client';
 import React, { useEffect, useRef, useState } from 'react';
 import VideoPlayerControls from './videoControls';
+import videojs from 'video.js';
 
 // mpdUrl => https://cloudfront.enet/video/video.mp4
 // thumbnail => https://cloudfront.enet/video/thumbnail.jpg
@@ -19,12 +20,9 @@ export const VideoPlayer = ({
   const [player, setPlayer] = useState<any>(null);
 
   useEffect(() => {
-    if (!videoRef.current) {
-      return;
-    }
-    window.setTimeout(() => {
-      const player = (window as any).videojs(
-        videoRef.current,
+    if (videoRef.current && player === null) {
+      const player: any = videojs(
+        videoRef.current as HTMLVideoElement,
         {
           ...options,
         },
@@ -39,10 +37,28 @@ export const VideoPlayer = ({
           });
         },
       );
-    }, 1000);
+    }
+  }, [options]);
 
-    return () => {};
-  }, [videoRef.current]);
+  useEffect(() => {
+    const length = player?.textTracks().length;
+    if (length === 0) {
+      player?.addRemoteTextTrack({
+        kind: 'captions',
+        srclang: 'en',
+        label: 'English',
+        src: subtitles,
+      });
+    }
+  }, [player, subtitles]);
+
+  useEffect(() => {
+    if (player) {
+      const currentTime = player.currentTime();
+      player.src(options.sources[0]);
+      player.currentTime(currentTime);
+    }
+  }, [options.sources[0]]);
 
   return (
     <div
@@ -53,7 +69,7 @@ export const VideoPlayer = ({
         href="https://cdnjs.cloudflare.com/ajax/libs/video.js/7.11.7/video-js.min.css"
         rel="stylesheet"
       />
-      <link
+      {/* <link
         href="https://cdn.jsdelivr.net/npm/videojs-seek-buttons/dist/videojs-seek-buttons.css"
         rel="stylesheet"
       />
@@ -68,13 +84,11 @@ export const VideoPlayer = ({
       <script
         defer
         src="https://cdn.jsdelivr.net/npm/videojs-seek-buttons/dist/videojs-seek-buttons.min.js"
-      ></script>
+      ></script> */}
 
       <VideoPlayerControls player={player} onVideoEnd={onVideoEnd} />
 
-      <video ref={videoRef} id="my-video" className="video-js">
-        <track kind="subtitles" src={subtitles} srcLang="en" label="English" />
-      </video>
+      <video ref={videoRef} id="my-video" className="video-js"></video>
     </div>
   );
 };
