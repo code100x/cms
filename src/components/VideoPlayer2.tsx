@@ -12,6 +12,7 @@ import 'videojs-seek-buttons';
 import { handleMarkAsCompleted } from '@/lib/utils';
 import { useSearchParams } from 'next/navigation';
 import './QualitySelectorControllBar';
+import { YoutubeRenderer } from './YoutubeRenderer';
 
 // todo correct types
 interface VideoPlayerProps {
@@ -38,6 +39,7 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
   const playerRef = useRef<Player | null>(null);
   const [player, setPlayer] = useState<any>(null);
   const searchParams = useSearchParams();
+  const vidUrl = options.sources[0].src;
   useEffect(() => {
     const t = searchParams.get('timestamp');
     if (contentId && player && !t) {
@@ -352,6 +354,16 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
       player.currentTime(parseInt(t, 10));
     }
   }, [searchParams, player]);
+
+  const isYoutubeUrl = (url: string) => {
+    const regex = /^https:\/\/www\.youtube\.com\/embed\/[a-zA-Z0-9_-]+/;
+    return regex.test(url);
+  };
+
+  if (isYoutubeUrl(vidUrl)) {
+    return <YoutubeRenderer url={vidUrl} />;
+  }
+
   return (
     <div
       data-vjs-player
