@@ -89,7 +89,7 @@ export const VideoPlayerSegment: FunctionComponent<VideoProps> = ({
   // };
 
   return (
-    <div className="">
+    <div className="mb-6">
       <div className="flex-1 relative">
         <div
           id="thumbnail-preview"
