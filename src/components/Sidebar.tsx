@@ -23,12 +23,12 @@ export function Sidebar({
   fullCourseContent: Folder[];
   courseId: string;
 }) {
+  const pathName = usePathname();
+
   const [sidebarOpen, setSidebarOpen] = useRecoilState(sidebarOpenAtom);
   const [currentActiveContentIds, setCurrentActiveContentIds] = useState<
     number[]
   >([]);
-
-  const pathName = usePathname();
 
   useEffect(() => {
     const urlRegex = /\/courses\/.*./;
