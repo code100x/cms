@@ -1,18 +1,18 @@
 version: '3.5'
 services:
-  app:
-    build: .
-    container_name: cms-docker
-    environment:
-      - DATABASE_URL=postgresql://postgres:postgres@db:5432/cms?schema=public
-    ports:
-      - '3000:3000'
-    volumes:
-      - .:/usr/src/app
-      - /usr/src/app/node_modules
-    depends_on:
-      db:
-        condition: service_healthy
+  # app:
+  #   build: .
+  #   container_name: cms-docker
+  #   environment:
+  #     - DATABASE_URL=postgresql://postgres:postgres@db:5432/cms?schema=public
+  #   ports:
+  #     - '3000:3000'
+  #   volumes:
+  #     - .:/usr/src/app
+  #     - /usr/src/app/node_modules
+  #   depends_on:
+  #     db:
+  #       condition: service_healthy
 
   db:
     image: postgres:9.6
