@@ -31,7 +31,7 @@ export const VideoPlayerSegment: FunctionComponent<VideoProps> = ({
   // setQuality,
   // contentId,
   subtitles,
-  // segments,
+  segments,
   videoJsOptions,
   onVideoEnd,
 }) => {
@@ -108,6 +108,7 @@ export const VideoPlayerSegment: FunctionComponent<VideoProps> = ({
           options={videoJsOptions}
           subtitles={subtitles}
           onVideoEnd={onVideoEnd}
+          segments={segments}
         />
       </div>
     </div>

@@ -1,4 +1,4 @@
-import { formatTime } from '@/lib/utils';
+import { Segment, formatTime } from '@/lib/utils';
 import { useEffect, useRef, useState } from 'react';
 import {
   CaptionIcon,
@@ -11,20 +11,22 @@ import {
   PauseIcon,
   PlayIcon,
 } from './icons';
+import { segmentsHandler, updateTimeline } from '@/lib/createAndHandleSegments';
 
 export default function VideoPlayerControls({
   player,
   onVideoEnd,
+  segments,
 }: {
   player: any;
   onVideoEnd: () => void;
+  segments: Segment[];
 }) {
   const [playerPaused, setPlayerPaused] = useState<boolean>(true);
   const [volumeIconState, setVolumeIconState] = useState<string>('high');
   const [durationStartTime, setDurationStartTime] = useState<string>('0:00');
   const [durationEndTime, setDurationEndTime] = useState<string>('0:00');
   const [playBackSpeed, setPlayBackSpeed] = useState<string>('1x');
-  const [isMiniPlayerActive, setMiniPlayer] = useState<boolean>(false);
   const [isFullScreen, setFullScreen] = useState<boolean>(false);
   const [showCaption, setShowCaption] = useState<boolean>(false);
   const [captionBtnDisabled, setCaptionBtnDisabled] = useState<boolean>(false);
@@ -118,13 +120,11 @@ export default function VideoPlayerControls({
 
   // miniPlayer Handler
   function miniPlayerHandler() {
-    if (isMiniPlayerActive) {
+    if (document?.pictureInPictureElement) {
       document.exitPictureInPicture();
     } else {
-      setMiniPlayer(true);
       player.requestPictureInPicture();
     }
-    console.log(isMiniPlayerActive);
   }
 
   //caption Handler
@@ -134,17 +134,15 @@ export default function VideoPlayerControls({
       setCaptionBtnDisabled(true);
       return;
     }
-    console.log('1', showCaption);
-    if (showCaption) {
+    const isCaptionOn = player.textTracks()[0].mode === 'showing';
+    if (isCaptionOn) {
       setShowCaption(false);
       player.textTracks()[0].mode = 'hidden';
     } else {
       setShowCaption(true);
       player.textTracks()[0].mode = 'showing';
     }
-    console.log(showCaption);
   }
-  console.log('local', showCaption);
 
   // handle key events
   function handleKeyEvents(e: any) {
@@ -157,9 +155,7 @@ export default function VideoPlayerControls({
         fullScreenHandler();
         break;
       case 'KeyI':
-        e.stopPropagation();
         miniPlayerHandler();
-
         break;
       // case 'arrowright':
       //   skip(10);
@@ -194,6 +190,7 @@ export default function VideoPlayerControls({
       player.on('loadedmetadata', () => {
         setDurationHandler();
         captionClickHandler();
+        segmentsHandler(segments, player);
       });
       player.on('timeupdate', startTimeHandler);
 
@@ -204,16 +201,41 @@ export default function VideoPlayerControls({
         onVideoEnd();
       });
 
-      player.on('leavepictureinpicture', () => setMiniPlayer(false));
-
       document.addEventListener('keydown', handleKeyEvents);
       document.addEventListener('fullscreenchange', () => {
         if (document.fullscreenElement === null) {
           setFullScreen(false);
         }
       });
+
+      // segments handling events
+      const timelineContainer = document.querySelector(
+        '#timeline-container',
+      ) as Element;
+      player.on('timeupdate', (e: any) => updateTimeline(e, player, segments));
+
+      timelineContainer.addEventListener('click', (e: any) =>
+        updateTimeline(e, player, segments),
+      );
+      timelineContainer.addEventListener('mousemove', (e: any) =>
+        updateTimeline(e, player, segments),
+      );
+      timelineContainer.addEventListener('mouseover', (e: any) =>
+        updateTimeline(e, player, segments),
+      );
+      timelineContainer.addEventListener('mouseout', (e: any) =>
+        updateTimeline(e, player, segments),
+      );
+      timelineContainer.addEventListener('mousedown', (e: any) =>
+        updateTimeline(e, player, segments),
+      );
+
+      document.addEventListener('mouseup', (e: any) =>
+        updateTimeline(e, player, segments),
+      );
     }
   }, [player]);
+
   return (
     <>
       <div
@@ -224,6 +246,25 @@ export default function VideoPlayerControls({
       <div
         className={`absolute bottom-0 ${playerPaused ? 'opacity-100' : 'opacity-0'} ${!isFullScreen && 'group-hover/v-container:opacity-100'} w-full z-50 transition-all py-1 before:content-[''] before:absolute before:bottom-0 before:pointer-events-none before:w-full before:aspect-[5/1] before:z-[-1] before:bg-gradient-to-t from-[#000000E6] to-transparent`}
       >
+        {/* timeline segments */}
+        <div
+          id="timeline-container"
+          className="group/timeline relative h-[5px] w-[calc(100%-20px)] cursor-pointer flex items-center transition-all mx-[10px] mb-2"
+        >
+          <div
+            id="timeline"
+            className="w-full h-full relative top-0 left-0 flex items-center justify-between"
+          >
+            <div
+              id="timeline-label"
+              className="absolute -top-8 text-[#f2f2f2] text-[14px] hidden group-hover/timeline:flex font-semibol px-1 rounded-md items-center gap-1 bg-[#555] whitespace-nowrap"
+            >
+              0:00
+            </div>{' '}
+            {/* timeline-label */}
+          </div>
+        </div>
+
         {/* //controls */}
         <div className="p-2 flex items-center justify-between">
           <div className="flex gap-3 items-center">
@@ -267,9 +308,9 @@ export default function VideoPlayerControls({
             </div>
 
             {/* duration-container*/}
-            <div className="font-bold">
-              <span className="duration-start-time">{durationStartTime}</span>/
-              <span className="duration-end-time">{durationEndTime}</span>
+            <div className="font-semibold">
+              <span className="duration-start-time">{durationStartTime} </span>/
+              <span className="duration-end-time"> {durationEndTime}</span>
             </div>
           </div>
           <div className="flex gap-4 items-center">

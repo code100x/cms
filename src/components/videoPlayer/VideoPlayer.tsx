@@ -2,6 +2,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import VideoPlayerControls from './videoControls';
 import videojs from 'video.js';
+import { Segment } from '@/lib/utils';
 
 // mpdUrl => https://cloudfront.enet/video/video.mp4
 // thumbnail => https://cloudfront.enet/video/thumbnail.jpg
@@ -11,10 +12,12 @@ export const VideoPlayer = ({
   options,
   subtitles,
   onVideoEnd,
+  segments,
 }: {
   options: any;
   subtitles: string;
   onVideoEnd: () => void;
+  segments: Segment[];
 }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [player, setPlayer] = useState<any>(null);
@@ -86,8 +89,11 @@ export const VideoPlayer = ({
         src="https://cdn.jsdelivr.net/npm/videojs-seek-buttons/dist/videojs-seek-buttons.min.js"
       ></script> */}
 
-      <VideoPlayerControls player={player} onVideoEnd={onVideoEnd} />
-
+      <VideoPlayerControls
+        player={player}
+        onVideoEnd={onVideoEnd}
+        segments={segments}
+      />
       <video ref={videoRef} id="my-video" className="video-js"></video>
     </div>
   );
