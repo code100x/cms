@@ -14,6 +14,7 @@ import { sidebarOpen as sidebarOpenAtom } from '@/store/atoms/sidebar';
 import { useEffect, useState } from 'react';
 import { handleMarkAsCompleted } from '@/lib/utils';
 import BookmarkButton from './bookmark/BookmarkButton';
+import Link from 'next/link';
 
 export function Sidebar({
   courseId,
@@ -22,7 +23,6 @@ export function Sidebar({
   fullCourseContent: Folder[];
   courseId: string;
 }) {
-  const router = useRouter();
   const [sidebarOpen, setSidebarOpen] = useRecoilState(sidebarOpenAtom);
 
   useEffect(() => {
@@ -59,8 +59,9 @@ export function Sidebar({
     const pathArray = findPathToContent(fullCourseContent, contentId);
     if (pathArray) {
       const path = `/courses/${courseId}/${pathArray.join('/')}`;
-      router.push(path);
+      return path;
     }
+    return null;
   };
 
   const renderContent = (contents: any) => {
@@ -85,12 +86,10 @@ export function Sidebar({
       }
       // This is a video or a content item without children
       return (
-        <div
+        <Link
           key={content.id}
           className="group p-2 flex border-gray-300 border-b hover:bg-gray-100 dark:hover:bg-gray-700 dark:border-gray-700 cursor-pointer bg-gray-50 dark:bg-gray-800"
-          onClick={() => {
-            navigateToContent(content.id);
-          }}
+          href={navigateToContent(content.id) || '#'}
         >
           <div className="flex justify-between w-full">
             <div className="flex">
@@ -112,7 +111,7 @@ export function Sidebar({
               </div>
             ) : null}
           </div>
-        </div>
+        </Link>
       );
     });
   };
