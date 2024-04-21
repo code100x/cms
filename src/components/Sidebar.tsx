@@ -28,6 +28,8 @@ export function Sidebar({
     number[]
   >([]);
 
+  const pathName = usePathname();
+
   useEffect(() => {
     const urlRegex = /\/courses\/.*./;
     const courseUrlRegex = /\/courses\/\d+((?:\/\d+)+)/;
