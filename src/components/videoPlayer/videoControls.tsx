@@ -10,6 +10,8 @@ import {
   MutedVolumeIcon,
   PauseIcon,
   PlayIcon,
+  SkipDurationBackIcon,
+  SkipDurationNextIcon,
 } from './icons';
 import { segmentsHandler, updateTimeline } from '@/lib/createAndHandleSegments';
 
@@ -30,6 +32,8 @@ export default function VideoPlayerControls({
   const [isFullScreen, setFullScreen] = useState<boolean>(false);
   const [showCaption, setShowCaption] = useState<boolean>(false);
   const [captionBtnDisabled, setCaptionBtnDisabled] = useState<boolean>(false);
+  const [isSkipDurationNext, setSkipDurationNext] = useState<boolean>(false);
+  const [isSkipDurationBack, setSkipDurationBack] = useState<boolean>(false);
 
   const volumeSliderRef = useRef<any>(null);
 
@@ -144,6 +148,22 @@ export default function VideoPlayerControls({
     }
   }
 
+  // skip 15 sec
+  const skip = (skipTime: number) => {
+    if (skipTime > 0) {
+      setSkipDurationNext(true);
+      setTimeout(() => {
+        setSkipDurationNext(false);
+      }, 500);
+    } else {
+      setSkipDurationBack(true);
+      setTimeout(() => {
+        setSkipDurationBack(false);
+      }, 500);
+    }
+    player.currentTime(player.currentTime() + skipTime);
+  };
+
   // handle key events
   function handleKeyEvents(e: any) {
     switch (e.code) {
@@ -157,12 +177,12 @@ export default function VideoPlayerControls({
       case 'KeyI':
         miniPlayerHandler();
         break;
-      // case 'arrowright':
-      //   skip(10);
-      //   break;
-      // case 'arrowleft':
-      //   skip(-10);
-      //   break;
+      case 'ArrowRight':
+        skip(15);
+        break;
+      case 'ArrowLeft':
+        skip(-15);
+        break;
       case 'KeyP':
         playBackSpeedHandler();
         break;
@@ -238,6 +258,20 @@ export default function VideoPlayerControls({
 
   return (
     <>
+      <div
+        id="skip-duration-back"
+        className={`${isSkipDurationBack ? 'opacity-100' : 'opacity-0'} transition-all duration-300 inline-flex items-center justify-center flex-col absolute rounded-full z-[1] h-20 w-20 p-2 pointer-events-none bg-[#fff]/90 text-[#000] left-[10%]`}
+      >
+        <SkipDurationBackIcon />
+        <span className="text-[13px] font-bold">15 sec</span>
+      </div>
+      <div
+        id="skip-duration-next"
+        className={`${isSkipDurationNext ? 'opacity-100' : 'opacity-0'} transition-all duration-300 inline-flex items-center justify-center flex-col absolute rounded-full z-[1] h-20 w-20 p-2 pointer-events-none bg-[#fff]/90 text-[#000] right-[10%]`}
+      >
+        <SkipDurationNextIcon />
+        <span className="text-[13px] font-bold">15 sec</span>
+      </div>
       <div
         className={`inline-flex flex-col items-center ${playerPaused ? 'opacity-100' : 'opacity-0'} justify-center h-20 w-20 bg-[#db3636] text-[#fff]  absolute left-[calc(50%-48px)] z-[1] rounded-full pointer-events-none p-3 transition-all duration-300 shadow-lg`}
       >

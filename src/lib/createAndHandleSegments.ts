@@ -10,7 +10,7 @@ export function segmentsHandler(segments: Segment[], player: any) {
     previewEle.classList.add('timeline-segments-preview');
     progressEle.classList.add('timeline-segments-progress');
 
-    segmentDiv.style.width = `${((each?.end - each?.start) / player.duration()) * 100 - 0.3}%`;
+    segmentDiv.style.width = `${((each?.end - each?.start) / player.duration()) * 100 - 0.2}%`;
 
     const s = document.querySelector('#timeline');
 

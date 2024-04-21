@@ -90,3 +90,41 @@ export const FullScreenCloseIcon = () => {
     </svg>
   );
 };
+
+export const SkipDurationBackIcon = () => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      width="20"
+      height="20"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <polygon points="19 4 12 12 19 20 19 4" />
+      <polygon points="12 4 5 12 12 20 12 4" />
+    </svg>
+  );
+};
+
+export const SkipDurationNextIcon = () => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      width="20"
+      height="20"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <polygon points="5 4 12 12 5 20 5 4" />
+      <polygon points="12 4 19 12 12 20 12 4" />
+    </svg>
+  );
+};
