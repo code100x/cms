@@ -12,7 +12,7 @@ export default async function Course({
 }) {
   const courseId = params.courseId;
   const rest = params.moduleId;
-  const possiblePath = params.moduleId.join('/');
+  const possiblePath = `${params.courseId}/${params.moduleId.join('/')}`;
   const course = await getCourse(parseInt(courseId, 10));
   const fullCourseContent: Folder[] = await getFullCourseContent(
     parseInt(courseId, 10),
