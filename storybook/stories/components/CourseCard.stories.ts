@@ -1,5 +1,5 @@
+import { CourseCard } from '@/components/CourseCard';
 import { Meta, StoryObj } from '@storybook/react';
-import { CourseCard } from '../../components/CourseCard';
 
 const meta: Meta<typeof CourseCard> = {
   title: 'CourseCard',

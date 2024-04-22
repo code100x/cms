@@ -12,7 +12,7 @@
     "start": "next start",
     "lint:check": "eslint --max-warnings 0 --config .eslintrc .",
     "lint:fix": "eslint --max-warnings 0 --config .eslintrc . --fix",
-    "format:fix": "prettier --write \"src/**/*.{ts,tsx,json}\"",
+    "format:fix": "prettier --write \"**/*.{ts,tsx,json}\"",
     "format:check": "prettier --check \"**/*.{ts,tsx,json}\"",
     "prisma:docker": "npm run prisma:migrate && npm run db:seed && npm run studio",
     "dev:docker": "npm run prisma:docker & next dev",
