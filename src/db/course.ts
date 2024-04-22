@@ -232,6 +232,14 @@ export function getVideoProgressForUser(
   });
 }
 
+export function getContentVoteOfUser(userId: string) {
+  return db.contentVote.findMany({
+    where: {
+      userId,
+    },
+  });
+}
+
 export const getFullCourseContent = async (courseId: number) => {
   // const value = Cache.getInstance().get('getFullCourseContent', [
   //   courseId.toString(),
@@ -243,25 +251,32 @@ export const getFullCourseContent = async (courseId: number) => {
   const contents = await getAllContent();
   const courseContent = await getRootCourseContent(courseId);
   const videoProgress = await getVideoProgressForUser(session?.user?.id);
+  const userVotes = await getContentVoteOfUser(session?.user?.id);
   const contentMap = new Map<string, any>(
-    contents.map((content: any) => [
-      content.id,
-      {
-        ...content,
-        children: [],
-        videoProgress:
-          content.type === 'video'
-            ? {
-                duration: videoProgress.find((x) => x.contentId === content.id)
-                  ?.currentTimestamp,
-                markAsCompleted: videoProgress.find(
-                  (x) => x.contentId === content.id,
-                )?.markAsCompleted,
-                videoFullDuration: content.VideoMetadata?.duration,
-              }
-            : null,
-      },
-    ]),
+    contents.map((content: any) => {
+      const voted = userVotes.find((vote) => vote.contentId === content.id);
+      return [
+        content.id,
+        {
+          ...content,
+          children: [],
+          videoProgress:
+            content.type === 'video'
+              ? {
+                  duration: videoProgress.find(
+                    (x) => x.contentId === content.id,
+                  )?.currentTimestamp,
+                  markAsCompleted: videoProgress.find(
+                    (x) => x.contentId === content.id,
+                  )?.markAsCompleted,
+                  videoFullDuration: content.VideoMetadata?.duration,
+                  upVoted: voted?.voteType === 'UPVOTE',
+                  downVoted: voted?.voteType === 'DOWNVOTE',
+                }
+              : null,
+        },
+      ];
+    }),
   );
   const rootContents: any[] = [];
   contents

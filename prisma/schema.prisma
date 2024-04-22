@@ -45,10 +45,13 @@ model Content {
   children         Content[]       @relation("ContentToContent")
   courses          CourseContent[]
   createdAt        DateTime        @default(now())
+  upvotes          Int @default(0)
+  downvotes        Int @default(0)
   VideoMetadata    VideoMetadata?
   NotionMetadata   NotionMetadata?
   notionMetadataId Int?
   comments         Comment[]
+  contentVote      ContentVote[]
   commentsCount    Int             @default(0)
   bookmark         Bookmark?
 }
@@ -129,6 +132,7 @@ model User {
   discordConnect DiscordConnect?
   disableDrm     Boolean         @default(false)
   bookmarks      Bookmark[]
+  ContentVote    ContentVote[]
   password       String?
   appxUserId     String?
   appxUsername   String?
@@ -204,6 +208,16 @@ model Vote {
   createdAt DateTime @default(now())
 
   @@unique([commentId, userId])
+}
+
+model ContentVote {
+  id        Int      @id @default(autoincrement())
+  voteType  VoteType // enum
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  contentId Int
+  content   Content @relation(fields: [contentId], references: [id])
+  createdAt DateTime @default(now())
 }
 
 enum VoteType {
