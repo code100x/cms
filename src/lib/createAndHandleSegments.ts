@@ -2,6 +2,11 @@
 import { formatTime, type Segment } from './utils';
 
 export function segmentsHandler(segments: Segment[], player: any) {
+  const s = document.querySelector('#timeline');
+  if (s) {
+    s.innerHTML = '';
+  }
+
   segments?.forEach((each: Segment) => {
     const segmentDiv = document.createElement('div');
     const previewEle = document.createElement('div');
@@ -11,8 +16,6 @@ export function segmentsHandler(segments: Segment[], player: any) {
     progressEle.classList.add('timeline-segments-progress');
 
     segmentDiv.style.width = `${((each?.end - each?.start) / player.duration()) * 100 - 0.2}%`;
-
-    const s = document.querySelector('#timeline');
 
     segmentDiv.append(previewEle);
     segmentDiv.append(progressEle);
@@ -89,7 +92,7 @@ function setCurrentLabel(
 
   const rect = timelineContainer && timelineContainer.getBoundingClientRect();
 
-  let timelineLabelWidth = timelineLabel.offsetWidth / 2;
+  let timelineLabelWidth = timelineLabel?.offsetWidth / 2;
 
   if (timelineLabel && rect && timelineContainer) {
     timelineLabel.innerHTML = `<div>${formatTime(preview_position.toFixed(2) * player.duration())} - ${currentLabel}</div>`;
@@ -109,10 +112,11 @@ function setCurrentLabel(
   }
 }
 
+let isMouseOver = false;
+let isMouseDown = false;
+
 export function updateTimeline(e: any, player: any, segments: Segment[]) {
   let preview_position = 0;
-  let isMouseOver = false;
-  let isMouseDown = false;
 
   if (e.type === 'timeupdate') {
     if (!isMouseDown) {

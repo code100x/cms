@@ -28,7 +28,7 @@ interface VideoProps {
 }
 
 export const VideoPlayerSegment: FunctionComponent<VideoProps> = ({
-  // setQuality,
+  setQuality,
   // contentId,
   subtitles,
   segments,
@@ -96,19 +96,12 @@ export const VideoPlayerSegment: FunctionComponent<VideoProps> = ({
           ref={thumbnailPreviewRef}
           className="hidden absolute bg-no-repeat bg-cover w-[320px] h-[180px] pointer-events-none z-10"
         />
-        {/* <VideoPlayer
-          setQuality={setQuality}
-          contentId={contentId}
-          subtitles={subtitles}
-          options={videoJsOptions}
-          onReady={handlePlayerReady}
-          onVideoEnd={onVideoEnd}
-        /> */}
         <VideoPlayer
           options={videoJsOptions}
           subtitles={subtitles}
           onVideoEnd={onVideoEnd}
           segments={segments}
+          setQuality={setQuality}
         />
       </div>
     </div>

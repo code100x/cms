@@ -1,5 +1,5 @@
 import { Segment, formatTime } from '@/lib/utils';
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   CaptionIcon,
   FullScreenCloseIcon,
@@ -13,17 +13,29 @@ import {
   SkipDurationBackIcon,
   SkipDurationNextIcon,
 } from './icons';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from './../ui/dropdown-menu';
 import { segmentsHandler, updateTimeline } from '@/lib/createAndHandleSegments';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 export default function VideoPlayerControls({
   player,
   onVideoEnd,
   segments,
+  setQuality,
 }: {
   player: any;
   onVideoEnd: () => void;
   segments: Segment[];
+  setQuality: React.Dispatch<React.SetStateAction<string>>;
 }) {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
   const [playerPaused, setPlayerPaused] = useState<boolean>(true);
   const [volumeIconState, setVolumeIconState] = useState<string>('high');
   const [durationStartTime, setDurationStartTime] = useState<string>('0:00');
@@ -34,6 +46,9 @@ export default function VideoPlayerControls({
   const [captionBtnDisabled, setCaptionBtnDisabled] = useState<boolean>(false);
   const [isSkipDurationNext, setSkipDurationNext] = useState<boolean>(false);
   const [isSkipDurationBack, setSkipDurationBack] = useState<boolean>(false);
+  const [qualityValue, setQualityValue] = useState(
+    searchParams.get('quality') ?? '1080',
+  );
 
   const volumeSliderRef = useRef<any>(null);
 
@@ -133,7 +148,7 @@ export default function VideoPlayerControls({
 
   //caption Handler
   function captionClickHandler() {
-    const length = player.textTracks().length;
+    const length = player?.textTracks()?.length;
     if (length === 0) {
       setCaptionBtnDisabled(true);
       return;
@@ -162,6 +177,15 @@ export default function VideoPlayerControls({
       }, 500);
     }
     player.currentTime(player.currentTime() + skipTime);
+  };
+
+  //quality handler
+  const qualityHandler = (quality: string) => {
+    const currentUrl = new URL(window.location.href);
+    currentUrl.searchParams.set('quality', quality);
+    setQuality(quality);
+    setQualityValue(quality);
+    router.push(`${currentUrl?.pathname + currentUrl?.search}`);
   };
 
   // handle key events
@@ -348,6 +372,14 @@ export default function VideoPlayerControls({
             </div>
           </div>
           <div className="flex gap-4 items-center">
+            {/* speed-btn */}
+            <button
+              className="flex items-center justify-center w-8 outline-none"
+              onClick={playBackSpeedHandler}
+            >
+              {playBackSpeed}
+            </button>
+
             {/* captions-btn */}
             <button
               className="relative flex justify-center outline-none disabled:opacity-50"
@@ -360,13 +392,31 @@ export default function VideoPlayerControls({
               ></div>
             </button>
 
-            {/* speed-btn */}
-            <button
-              className="flex items-center justify-center w-10 outline-none"
-              onClick={playBackSpeedHandler}
-            >
-              {playBackSpeed}
-            </button>
+            <DropdownMenu key="1" modal={false}>
+              <DropdownMenuTrigger asChild>
+                <button className="outline-none">{qualityValue}</button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="bg-[#a2a0a0] text-[#000]">
+                <DropdownMenuItem
+                  className="flex justify-center"
+                  onClick={() => qualityHandler('360')}
+                >
+                  360p
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  className="flex justify-center"
+                  onClick={() => qualityHandler('720')}
+                >
+                  720p
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  className="flex justify-center"
+                  onClick={() => qualityHandler('1080')}
+                >
+                  1080p
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
 
             {/* mini-player-btn */}
             <button className="outline-none" onClick={miniPlayerHandler}>

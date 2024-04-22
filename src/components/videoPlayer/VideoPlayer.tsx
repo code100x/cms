@@ -13,11 +13,13 @@ export const VideoPlayer = ({
   subtitles,
   onVideoEnd,
   segments,
+  setQuality,
 }: {
   options: any;
   subtitles: string;
   onVideoEnd: () => void;
   segments: Segment[];
+  setQuality: React.Dispatch<React.SetStateAction<string>>;
 }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [player, setPlayer] = useState<any>(null);
@@ -93,6 +95,7 @@ export const VideoPlayer = ({
         player={player}
         onVideoEnd={onVideoEnd}
         segments={segments}
+        setQuality={setQuality}
       />
       <video ref={videoRef} id="my-video" className="video-js"></video>
     </div>
