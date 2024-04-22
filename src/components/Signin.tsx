@@ -79,7 +79,7 @@ const Signin = () => {
                 <span className=" text-red-500">Email is required</span>
               )}
             </div>
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-4 relative">
               <Label>Password</Label>
               <div className="flex border rounded-lg">
                 <Input
@@ -103,7 +103,7 @@ const Signin = () => {
                   }}
                 />
                 <button
-                  className="inset-y-0 right-0 flex items-center px-4 text-gray-600"
+                  className="right-0 flex items-center px-4 text-gray-600 absolute bottom-0 h-10"
                   onClick={togglePasswordVisibility}
                 >
                   {isPasswordVisible ? (
