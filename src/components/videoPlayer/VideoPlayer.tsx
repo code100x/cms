@@ -163,7 +163,7 @@ export const VideoPlayer = ({
     <div
       id="videoContainer"
       data-vjs-player
-      className="relative group/v-container select-none rounded-md overflow-hidden md:max-w-[calc(100vw-3rem)] 2xl:max-w-[calc(100vw-17rem)]"
+      className="relative group/v-container select-none rounded-md overflow-hidden md:max-w-[calc(100vw-3rem)] grid 2xl:max-w-[calc(100vw-17rem)]"
     >
       <VideoPlayerControls
         player={player}
@@ -172,7 +172,7 @@ export const VideoPlayer = ({
         setQuality={setQuality}
         subtitles={subtitles}
       />
-      <div ref={videoRef} className=""></div>
+      <div ref={videoRef} className="self-center"></div>
     </div>
   );
 };
