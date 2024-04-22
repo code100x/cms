@@ -4,7 +4,7 @@ import { formatTime, type Segment } from './utils';
 export function segmentsHandler(segments: Segment[], player: any) {
   const s = document.querySelector('#timeline');
   if (s) {
-    s.innerHTML = '';
+    document.querySelectorAll('.timeline-segments').forEach((e) => e.remove());
   }
 
   segments?.forEach((each: Segment) => {
@@ -15,7 +15,7 @@ export function segmentsHandler(segments: Segment[], player: any) {
     previewEle.classList.add('timeline-segments-preview');
     progressEle.classList.add('timeline-segments-progress');
 
-    segmentDiv.style.width = `${((each?.end - each?.start) / player.duration()) * 100 - 0.2}%`;
+    segmentDiv.style.width = `${((each?.end - each?.start) / player?.duration()) * 100 - 0.2}%`;
 
     segmentDiv.append(previewEle);
     segmentDiv.append(progressEle);
@@ -26,8 +26,8 @@ export function segmentsHandler(segments: Segment[], player: any) {
 }
 
 function previewViaBuffer(player: any) {
-  const bufferedEnd = player.bufferedEnd();
-  const percent = bufferedEnd / player.duration();
+  const bufferedEnd = player?.bufferedEnd();
+  const percent = bufferedEnd / player?.duration();
   return percent;
 }
 function progessTimeline(segments: Segment[], player: any) {
@@ -36,9 +36,9 @@ function progessTimeline(segments: Segment[], player: any) {
   );
 
   segments.forEach((each: Segment, index: number) => {
-    if (each.end > player.currentTime()) {
+    if (each?.end > player?.currentTime()) {
       progressEles[index].style.right =
-        `${((each.end - player.currentTime()) / (each.end - each.start)) * 100}%`;
+        `${((each?.end - player?.currentTime()) / (each?.end - each?.start)) * 100}%`;
     } else {
       progressEles[index].style.right = '0px';
     }
@@ -46,23 +46,23 @@ function progessTimeline(segments: Segment[], player: any) {
 }
 
 function previewViaMouseOverOrMove(e: any) {
-  const timelineContainer = document.querySelector('#timeline-container');
+  const timelineContainer = document?.querySelector('#timeline-container');
 
-  const rect = timelineContainer && timelineContainer.getBoundingClientRect();
+  const rect = timelineContainer && timelineContainer?.getBoundingClientRect();
   if (rect) {
     const percent =
-      Math.min(Math.max(0, e.x - rect.x), rect.width) / rect.width;
+      Math.min(Math.max(0, e?.x - rect?.x), rect?.width) / rect?.width;
     return percent;
   }
 }
 function changeCurrentTimeOnClick(e: any, player: any) {
   const timelineContainer = document.querySelector('#timeline-container');
 
-  const rect = timelineContainer && timelineContainer.getBoundingClientRect();
+  const rect = timelineContainer && timelineContainer?.getBoundingClientRect();
   let percent;
   if (rect) {
-    percent = Math.min(Math.max(0, e.x - rect.x), rect.width) / rect.width;
-    player.currentTime(percent * player.duration());
+    percent = Math.min(Math.max(0, e?.x - rect?.x), rect?.width) / rect?.width;
+    player?.currentTime(percent * player?.duration());
   }
 }
 
@@ -74,11 +74,11 @@ function setCurrentLabel(
 ) {
   let currentLabel = segments[0].title;
 
-  const currentPos = preview_position * player.duration();
+  const currentPos = preview_position * player?.duration();
   if (preview_position !== 0) {
-    segments.forEach((each: Segment) => {
-      if (each.start < currentPos && each.end > currentPos) {
-        currentLabel = each.title;
+    segments?.forEach((each: Segment) => {
+      if (each?.start < currentPos && each?.end > currentPos) {
+        currentLabel = each?.title;
       }
     });
   }
@@ -90,22 +90,22 @@ function setCurrentLabel(
     '#timeline-container',
   ) as HTMLDivElement;
 
-  const rect = timelineContainer && timelineContainer.getBoundingClientRect();
+  const rect = timelineContainer && timelineContainer?.getBoundingClientRect();
 
   let timelineLabelWidth = timelineLabel?.offsetWidth / 2;
 
   if (timelineLabel && rect && timelineContainer) {
-    timelineLabel.innerHTML = `<div>${formatTime(preview_position.toFixed(2) * player.duration())} - ${currentLabel}</div>`;
+    timelineLabel.innerHTML = `<div>${formatTime(preview_position.toFixed(2) * player?.duration())} - ${currentLabel}</div>`;
 
-    if (Math.max(0, e.x - rect.x) < timelineLabel.offsetWidth / 2) {
-      timelineLabelWidth = Math.max(0, e.x - rect.x);
+    if (Math.max(0, e?.x - rect?.x) < timelineLabel?.offsetWidth / 2) {
+      timelineLabelWidth = Math.max(0, e?.x - rect?.x);
     } else if (
-      Math.max(0, e.x - rect.x) >
-      timelineContainer.offsetWidth - timelineLabel.offsetWidth / 2
+      Math.max(0, e?.x - rect?.x) >
+      timelineContainer.offsetWidth - timelineLabel?.offsetWidth / 2
     ) {
       timelineLabelWidth =
-        timelineLabel.offsetWidth -
-        (timelineContainer.offsetWidth - (e.x - rect.x));
+        timelineLabel?.offsetWidth -
+        (timelineContainer?.offsetWidth - (e?.x - rect?.x));
     }
 
     timelineLabel.style.left = `calc(${preview_position * 100}% - ${timelineLabelWidth}px)`;
@@ -166,11 +166,11 @@ export function updateTimeline(e: any, player: any, segments: Segment[]) {
   ) as NodeListOf<HTMLDivElement>;
 
   if (preview_position !== 0) {
-    segments.forEach((each, index) => {
-      if (each.end > preview_position * player.duration()) {
+    segments?.forEach((each, index) => {
+      if (each?.end > preview_position * player?.duration()) {
         if (previewEles[index]) {
           previewEles[index].style.right =
-            `${((each.end - preview_position * player.duration()) / (each.end - each.start)) * 100}%`;
+            `${((each?.end - preview_position * player?.duration()) / (each?.end - each?.start)) * 100}%`;
         }
       } else if (previewEles[index]) {
         previewEles[index].style.right = '0px';

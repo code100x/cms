@@ -56,36 +56,36 @@ export default function VideoPlayerControls({
 
   // play / pause btn toggle
   function togglePlay() {
-    if (player.paused()) {
-      // player.paused() returns true if media is playing
-      player.play();
+    if (player?.paused()) {
+      // player?.paused() returns true if media is playing
+      player?.play();
     } else {
-      player.pause();
+      player?.pause();
     }
   }
 
   // toggle voulme button
   function toggleVolumeBtn() {
-    player.muted(!player.muted());
-    setVolumeIconState(player.muted() ? 'muted' : 'high');
+    player?.muted(!player?.muted());
+    setVolumeIconState(player?.muted() ? 'muted' : 'high');
 
-    if (player.muted()) {
-      player.volume(0);
+    if (player?.muted()) {
+      player?.volume(0);
     } else {
-      player.volume(1);
+      player?.volume(1);
     }
   }
 
   function volumeSliderHandler(e: any) {
-    player.volume(e.target.value);
-    player.muted(e.target.value === 0);
+    player?.volume(e?.target.value);
+    player?.muted(e?.target.value === 0);
   }
 
   function volumeIconToggle() {
     let volState;
-    const volume = player.volume();
+    const volume = player?.volume();
 
-    if (player.muted() || volume === 0) {
+    if (player?.muted() || volume === 0) {
       volState = 'muted';
     } else if (volume < 0.5) {
       volState = 'low';
@@ -98,20 +98,20 @@ export default function VideoPlayerControls({
 
   // setduration after metadata is loaded
   function setDurationHandler() {
-    const totalDuration = formatTime(player.duration());
+    const totalDuration = formatTime(player?.duration());
     setDurationEndTime(totalDuration);
   }
 
   // start and end duration handler
   function startTimeHandler() {
-    const currentTime = formatTime(player.currentTime());
+    const currentTime = formatTime(player?.currentTime());
     setDurationStartTime(currentTime);
   }
 
   // playback speed control
   function playBackSpeedHandler() {
     const speedArr = [0.5, 1, 1.25, 1.5, 1.75, 2];
-    let currentSpeed = player.playbackRate();
+    let currentSpeed = player?.playbackRate();
     let index = speedArr.indexOf(currentSpeed);
 
     if (index === speedArr.length - 1) {
@@ -121,7 +121,7 @@ export default function VideoPlayerControls({
     }
 
     currentSpeed = speedArr[index];
-    player.playbackRate(currentSpeed);
+    player?.playbackRate(currentSpeed);
     setPlayBackSpeed(`${currentSpeed}x`);
   }
 
@@ -144,7 +144,7 @@ export default function VideoPlayerControls({
     if (document?.pictureInPictureElement) {
       document.exitPictureInPicture();
     } else {
-      player.requestPictureInPicture();
+      player?.requestPictureInPicture();
     }
   }
 
@@ -155,7 +155,7 @@ export default function VideoPlayerControls({
       setCaptionBtnDisabled(true);
       return;
     }
-    const isCaptionOn = player.textTracks()[0].mode === 'showing';
+    const isCaptionOn = player?.textTracks()[0].mode === 'showing';
     if (isCaptionOn) {
       setShowCaption(false);
       player.textTracks()[0].mode = 'hidden';
@@ -178,7 +178,7 @@ export default function VideoPlayerControls({
         setSkipDurationBack(false);
       }, 500);
     }
-    player.currentTime(player.currentTime() + skipTime);
+    player?.currentTime(player?.currentTime() + skipTime);
   };
 
   //quality handler
@@ -192,44 +192,44 @@ export default function VideoPlayerControls({
 
   // handle key events
   function handleKeyEvents(e: any) {
-    switch (e.code) {
+    switch (e?.code) {
       case 'Space':
         togglePlay();
-        e.stopPropagation();
-        e.preventDefault();
+        e?.stopPropagation();
+        e?.preventDefault();
         break;
 
       case 'KeyF':
         fullScreenHandler();
-        e.stopPropagation();
+        e?.stopPropagation();
         break;
 
       case 'KeyI':
         miniPlayerHandler();
-        e.stopPropagation();
+        e?.stopPropagation();
         break;
       case 'ArrowRight':
         skip(15);
-        e.stopPropagation();
+        e?.stopPropagation();
 
         break;
       case 'ArrowLeft':
         skip(-15);
-        e.stopPropagation();
+        e?.stopPropagation();
 
         break;
       case 'KeyP':
         playBackSpeedHandler();
-        e.stopPropagation();
+        e?.stopPropagation();
 
         break;
       case 'KeyM':
         toggleVolumeBtn();
-        e.stopPropagation();
+        e?.stopPropagation();
         break;
       case 'KeyC':
         captionClickHandler();
-        e.stopPropagation();
+        e?.stopPropagation();
         break;
       default:
         break;
@@ -238,12 +238,12 @@ export default function VideoPlayerControls({
 
   useEffect(() => {
     if (player) {
-      player.on('play', () => setPlayerPaused(false));
-      player.on('pause', () => setPlayerPaused(true));
+      player?.on('play', () => setPlayerPaused(false));
+      player?.on('pause', () => setPlayerPaused(true));
 
-      player.on('volumechange', volumeIconToggle);
+      player?.on('volumechange', volumeIconToggle);
 
-      player.on('loadedmetadata', () => {
+      player?.on('loadedmetadata', () => {
         const length = player?.textTracks()?.length;
         if (length === 0) {
           player?.addRemoteTextTrack({
@@ -258,11 +258,11 @@ export default function VideoPlayerControls({
         captionClickHandler();
         segmentsHandler(segments, player);
       });
-      player.on('timeupdate', startTimeHandler);
+      player?.on('timeupdate', startTimeHandler);
 
-      player.on('click', togglePlay);
+      player?.on('click', togglePlay);
 
-      player.on('ended', () => {
+      player?.on('ended', () => {
         setPlayerPaused(true);
         onVideoEnd();
       });
@@ -278,7 +278,7 @@ export default function VideoPlayerControls({
       const timelineContainer = document.querySelector(
         '#timeline-container',
       ) as Element;
-      player.on('timeupdate', (e: any) => updateTimeline(e, player, segments));
+      player?.on('timeupdate', (e: any) => updateTimeline(e, player, segments));
 
       timelineContainer.addEventListener('click', (e: any) =>
         updateTimeline(e, player, segments),
