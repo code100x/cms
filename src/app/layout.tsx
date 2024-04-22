@@ -1,4 +1,4 @@
-import React from 'react';
+import { ReactNode } from 'react';
 import { Inter as FontSans } from 'next/font/google';
 import { cn } from '@/lib/utils';
 import type { Metadata } from 'next';
@@ -17,11 +17,7 @@ const fontSans = FontSans({
 
 export const metadata: Metadata = siteConfig;
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <body

@@ -1,5 +1,5 @@
 'use client';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import {
   Accordion,
   AccordionContent,
@@ -23,7 +23,34 @@ export function Sidebar({
   courseId: string;
 }) {
   const router = useRouter();
+  const pathName = usePathname();
+
   const [sidebarOpen, setSidebarOpen] = useRecoilState(sidebarOpenAtom);
+  const [currentActiveContentIds, setCurrentActiveContentIds] = useState<
+    number[]
+  >([]);
+
+  useEffect(() => {
+    const urlRegex = /\/courses\/.*./;
+    const courseUrlRegex = /\/courses\/\d+((?:\/\d+)+)/;
+
+    if (urlRegex.test(pathName)) {
+      const matchArray = pathName.match(courseUrlRegex);
+      let currentUrlContentId;
+      // if matchArray is not null
+      if (matchArray) {
+        const urlPathString = matchArray[1];
+        currentUrlContentId = Number(
+          urlPathString.slice(urlPathString.length - 1),
+        ); // get last content id from pathString e.g '/1/2' => 2 (number)
+      }
+      const pathArray = findPathToContent(
+        fullCourseContent,
+        currentUrlContentId,
+      );
+      setCurrentActiveContentIds(pathArray);
+    }
+  }, [pathName]);
 
   useEffect(() => {
     if (window.innerWidth < 500) {
@@ -65,13 +92,20 @@ export function Sidebar({
 
   const renderContent = (contents: any) => {
     return contents.map((content: any) => {
+      const isActiveContent = currentActiveContentIds?.some(
+        (id) => content.id === id,
+      );
       if (content.children && content.children.length > 0) {
         // This is a folder with children
         return (
           <AccordionItem
             key={content.id}
             value={`item-${content.id}`}
-            className="text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer"
+            className={
+              content.type === 'folder' && isActiveContent
+                ? 'dark:bg-gray-600  bg-gray-200 dark:text-white text-black dark:hover:bg-gray-500 hover:bg-gray-100'
+                : ''
+            }
           >
             <AccordionTrigger className="px-2 text-left">
               {content.title}
@@ -87,7 +121,11 @@ export function Sidebar({
       return (
         <div
           key={content.id}
-          className="group p-2 flex border-gray-300 border-b hover:bg-gray-100 dark:hover:bg-gray-700 dark:border-gray-700 cursor-pointer bg-gray-50 dark:bg-gray-800"
+          className={`p-2 flex border-b hover:bg-gray-200 cursor-pointer ${
+            isActiveContent
+              ? 'dark:bg-gray-700 bg-gray-300 dark:text-white text-black dark:hover:bg-gray-500'
+              : 'bg-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-white text-black'
+          }`}
           onClick={() => {
             navigateToContent(content.id);
           }}
@@ -122,7 +160,7 @@ export function Sidebar({
   }
 
   return (
-    <div className="overflow-y-scroll h-sidebar w-[300px] min-w-[300px] bg-gray-50 dark:bg-gray-800 cursor-pointer sticky top-[64px] self-start w-84">
+    <div className="overflow-y-scroll h-sidebar bg-gray-50 dark:bg-gray-800 cursor-pointer absolute top-[64px] self-start w-full z-20 xs:min-w-[133px] xs:w-[300px] xs:w-84 xs:sticky">
       <div className="flex">
         {/* <ToggleButton
             onClick={() => {
