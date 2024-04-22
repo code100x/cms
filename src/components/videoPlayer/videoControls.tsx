@@ -27,11 +27,13 @@ export default function VideoPlayerControls({
   onVideoEnd,
   segments,
   setQuality,
+  subtitles,
 }: {
   player: any;
   onVideoEnd: () => void;
   segments: Segment[];
   setQuality: React.Dispatch<React.SetStateAction<string>>;
+  subtitles: string;
 }) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -232,6 +234,16 @@ export default function VideoPlayerControls({
       player.on('volumechange', volumeIconToggle);
 
       player.on('loadedmetadata', () => {
+        const length = player?.textTracks()?.length;
+        if (length === 0) {
+          player?.addRemoteTextTrack({
+            kind: 'captions',
+            srclang: 'en',
+            label: 'English',
+            src: subtitles,
+          });
+        }
+
         setDurationHandler();
         captionClickHandler();
         segmentsHandler(segments, player);

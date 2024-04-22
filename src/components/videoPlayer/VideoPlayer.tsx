@@ -46,18 +46,6 @@ export const VideoPlayer = ({
   }, [options]);
 
   useEffect(() => {
-    const length = player?.textTracks().length;
-    if (length === 0) {
-      player?.addRemoteTextTrack({
-        kind: 'captions',
-        srclang: 'en',
-        label: 'English',
-        src: subtitles,
-      });
-    }
-  }, [player, subtitles]);
-
-  useEffect(() => {
     if (player) {
       const currentTime = player.currentTime();
       player.src(options.sources[0]);
@@ -96,6 +84,7 @@ export const VideoPlayer = ({
         onVideoEnd={onVideoEnd}
         segments={segments}
         setQuality={setQuality}
+        subtitles={subtitles}
       />
       <video ref={videoRef} id="my-video" className="video-js"></video>
     </div>
