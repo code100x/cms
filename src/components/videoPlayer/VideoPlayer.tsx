@@ -3,6 +3,10 @@ import React, { useEffect, useRef, useState } from 'react';
 import VideoPlayerControls from './videoControls';
 import videojs from 'video.js';
 import { Segment } from '@/lib/utils';
+import Player from 'video.js/dist/types/player';
+import 'video.js/dist/video-js.css';
+// import 'videojs-mobile-ui/dist/videojs-mobile-ui.css';
+// import 'videojs-mobile-ui';
 
 // mpdUrl => https://cloudfront.enet/video/video.mp4
 // thumbnail => https://cloudfront.enet/video/thumbnail.jpg
@@ -21,64 +25,60 @@ export const VideoPlayer = ({
   segments: Segment[];
   setQuality: React.Dispatch<React.SetStateAction<string>>;
 }) => {
-  const videoRef = useRef<HTMLVideoElement>(null);
+  const videoRef = useRef<HTMLDivElement>(null);
+  const playerRef = useRef<Player | null>(null);
   const [player, setPlayer] = useState<any>(null);
 
   useEffect(() => {
-    if (videoRef.current && player === null) {
-      const player: any = videojs(
-        videoRef.current as HTMLVideoElement,
-        {
-          ...options,
-        },
-        function () {
+    if (!playerRef.current && videoRef.current) {
+      const videoElement = videoRef.current.appendChild(
+        document.createElement('video-js'),
+      );
+      videoElement.classList.add('vjs-big-play-centered');
+
+      const player: any = (playerRef.current = videojs(
+        videoElement,
+        options,
+        () => {
           setPlayer(player);
 
-          player.eme();
+          // player?.mobileUi(); // mobile ui #https://github.com/mister-ben/videojs-mobile-ui
+          player?.eme();
 
           // @ts-ignore
           this.on('keystatuschange', (event: any) => {
             console.log('event: ', event);
           });
         },
-      );
+      ));
     }
   }, [options]);
 
   useEffect(() => {
     if (player) {
       const currentTime = player.currentTime();
-      player.src(options.sources[0]);
+      player.src(options?.sources[0]);
       player.currentTime(currentTime);
     }
-  }, [options.sources[0]]);
+  }, [options?.sources[0]]);
+
+  useEffect(() => {
+    const playerInstance = playerRef?.current;
+
+    return () => {
+      if (playerInstance) {
+        playerInstance.dispose();
+        playerRef.current = null;
+      }
+    };
+  }, []);
 
   return (
     <div
       id="videoContainer"
-      className="relative group/v-container select-none rounded-md overflow-hidden flex items-center"
+      data-vjs-player
+      className="relative group/v-container select-none rounded-md overflow-hidden md:max-w-[calc(100vw-3rem)] 2xl:max-w-[calc(100vw-17rem)]"
     >
-      <link
-        href="https://cdnjs.cloudflare.com/ajax/libs/video.js/7.11.7/video-js.min.css"
-        rel="stylesheet"
-      />
-      {/* <link
-        href="https://cdn.jsdelivr.net/npm/videojs-seek-buttons/dist/videojs-seek-buttons.css"
-        rel="stylesheet"
-      />
-      <script
-        defer
-        src="https://cdnjs.cloudflare.com/ajax/libs/video.js/7.11.7/video.min.js"
-      ></script>
-      <script
-        defer
-        src="https://cdn.jsdelivr.net/npm/videojs-contrib-eme@3.8.0/dist/videojs-contrib-eme.js"
-      ></script>
-      <script
-        defer
-        src="https://cdn.jsdelivr.net/npm/videojs-seek-buttons/dist/videojs-seek-buttons.min.js"
-      ></script> */}
-
       <VideoPlayerControls
         player={player}
         onVideoEnd={onVideoEnd}
@@ -86,7 +86,7 @@ export const VideoPlayer = ({
         setQuality={setQuality}
         subtitles={subtitles}
       />
-      <video ref={videoRef} id="my-video" className="video-js"></video>
+      <div ref={videoRef} className=""></div>
     </div>
   );
 };
