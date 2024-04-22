@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import dashboard from '../../../../../public/platform/dashboard.png';
+import dashboard from '@public/platform/dashboard.png';
 import { Button } from '../../../ui/button';
 import Link from 'next/link';
 import { ChevronRight } from 'lucide-react';
