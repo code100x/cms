@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import VideoPreview from '@/hooks/videoPreview';
+import VideoPreview from '@/actions/videopreview/videoPreview';
 import { useEffect } from 'react';
 
 const VideoThumbnail = ({ imageUrl, contentId }: { imageUrl: string , contentId: number }) => {
