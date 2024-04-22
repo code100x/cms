@@ -51,6 +51,7 @@ export const FolderView = ({
           return (
             <ContentCard
               type={content.type}
+              contentId={content.id}
               key={content.id}
               title={content.title}
               image={content.image || ''}

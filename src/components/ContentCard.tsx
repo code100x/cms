@@ -3,8 +3,9 @@ import PercentageComplete from './PercentageComplete';
 import { Bookmark } from '@prisma/client';
 import BookmarkButton from './bookmark/BookmarkButton';
 import { formatTime } from '@/lib/utils';
+import VideoThumbnail from './videothumbnail';
 
-export const ContentCard = ({
+export const  ContentCard = ({
   title,
   onClick,
   markAsCompleted,
@@ -38,7 +39,7 @@ export const ContentCard = ({
   return (
     <div
       onClick={onClick}
-      className={`relative ease-in duration-200 cursor-pointer group${hoverExpand ? ' hover:scale-105' : ''} `}
+      className={`relative ease-in duration-200 cursor-pointer group${hoverExpand ? ' ' : ''} `}
     >
       {percentComplete !== null && percentComplete !== undefined && (
         <PercentageComplete percent={percentComplete} />
@@ -53,7 +54,7 @@ export const ContentCard = ({
           {contentDuration && formatTime(contentDuration)}
         </div>
       )}
-      <div className="relative overflow-hidden rounded-md">
+      {type !=='video' && <div className="relative overflow-hidden rounded-md">
         <img src={image} alt={title} className="" />
         {!!videoProgressPercent && (
           <div className="absolute bottom-0 w-full h-1 bg-[#707071]">
@@ -63,7 +64,11 @@ export const ContentCard = ({
             />
           </div>
         )}
-      </div>
+      </div>}
+      {type ==='video'  && <div className="relative overflow-hidden rounded-md ">   
+         <VideoThumbnail contentId={contentId} imageUrl={"https://d2szwvl7yo497w.cloudfront.net/courseThumbnails/video.png"}  duration={1} />
+      </div>}
+      
       {bookmark !== undefined && contentId && (
         <div className="absolute top-2 left-2">
           <BookmarkButton
@@ -76,7 +81,7 @@ export const ContentCard = ({
         </div>
       )}
       <div className="flex justify-between mt-2 text-gray-900 dark:text-white">
-        <div>{title}</div>
+        <div>{title} </div>
       </div>
     </div>
   );
