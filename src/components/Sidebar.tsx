@@ -25,42 +25,12 @@ export function Sidebar({
   const router = useRouter();
   const [sidebarOpen, setSidebarOpen] = useRecoilState(sidebarOpenAtom);
   const sidebarRef = useRef<ElementRef<'div'>>(null);
-  const isResizingRef = useRef(false);
 
   useEffect(() => {
     if (window.innerWidth < 500) {
       setSidebarOpen(false);
     }
   }, []);
-
-  const handleMouseDown = (
-    event: React.MouseEvent<HTMLDivElement, MouseEvent>,
-  ) => {
-    event.preventDefault();
-    event.stopPropagation();
-
-    isResizingRef.current = true;
-    document.addEventListener('mousemove', handleMouseMove);
-    document.addEventListener('mouseup', handleMouseUp);
-  };
-
-  const handleMouseMove = (event: MouseEvent) => {
-    if (!isResizingRef.current) return;
-    let newWidth = event.clientX;
-
-    if (newWidth < 200) newWidth = 200;
-    if (newWidth > 450) newWidth = 450;
-
-    if (sidebarRef.current) {
-      sidebarRef.current.style.width = `${newWidth}px`;
-    }
-  };
-
-  const handleMouseUp = () => {
-    isResizingRef.current = false;
-    document.removeEventListener('mousemove', handleMouseMove);
-    document.removeEventListener('mouseup', handleMouseUp);
-  };
 
   const findPathToContent = (
     contents: any,
@@ -102,7 +72,7 @@ export function Sidebar({
           <AccordionItem
             key={content.id}
             value={`item-${content.id}`}
-            className="text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer"
+            className="text-gray-900 cursor-pointer dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
           >
             <AccordionTrigger className="px-2 text-left">
               {content.title}
@@ -118,7 +88,7 @@ export function Sidebar({
       return (
         <div
           key={content.id}
-          className="group p-2 flex border-gray-300 border-b hover:bg-gray-100 dark:hover:bg-gray-700 dark:border-gray-700 cursor-pointer bg-gray-50 dark:bg-gray-800"
+          className="flex p-2 border-b border-gray-300 cursor-pointer group hover:bg-gray-100 dark:hover:bg-gray-700 dark:border-gray-700 bg-gray-50 dark:bg-gray-800"
           onClick={() => {
             navigateToContent(content.id);
           }}
@@ -153,28 +123,22 @@ export function Sidebar({
   }
 
   return (
-    <div className="relative border-2 group/sidebar">
-      <div
-        ref={sidebarRef}
-        className="side-bar overflow-y-scroll h-sidebar w-[300px] min-w-[200px] bg-gray-50 dark:bg-gray-800 cursor-pointer sticky top-[64px] self-start w-84"
-      >
-        <div className="flex">
-          {/* <ToggleButton
+    <div
+      ref={sidebarRef}
+      className="side-bar overflow-y-scroll h-sidebar w-[300px] min-w-[200px] bg-gray-50 dark:bg-gray-800 cursor-pointer sticky top-[64px] self-start w-84"
+    >
+      <div className="flex">
+        {/* <ToggleButton
             onClick={() => {
               setSidebarOpen((s) => !s);
             }}
           /> */}
-          <GoBackButton />
-        </div>
-        <Accordion type="single" collapsible className="w-full">
-          {/* Render course content */}
-          {renderContent(fullCourseContent)}
-        </Accordion>
+        <GoBackButton />
       </div>
-      <div
-        onMouseDown={handleMouseDown}
-        className=" w-1 h-[100%] bg-primary/20 transition opacity-0 group-hover/sidebar:opacity-100 cursor-ew-resize absolute right-[-4px] top-0"
-      />
+      <Accordion type="single" collapsible className="w-full">
+        {/* Render course content */}
+        {renderContent(fullCourseContent)}
+      </Accordion>
     </div>
   );
 }
@@ -189,7 +153,7 @@ export function ToggleButton({
   return (
     <button
       onClick={onClick}
-      className="flex flex-col justify-center items-center"
+      className="flex flex-col items-center justify-center"
     >
       <span
         className={`dark:bg-white bg-black block transition-all duration-300 ease-out  h-0.5 w-6 rounded-sm ${!sidebarOpen ? 'rotate-45 translate-y-1' : '-translate-y-0.5'}`}
@@ -233,8 +197,8 @@ function GoBackButton() {
   return (
     <div className="w-full p-2">
       {/* Your component content */}
-      <Button size={'full'} onClick={goBack} className="group rounded-full">
-        <BackArrow className="group-hover:-translate-x-1 w-5 h-5 rtl:rotate-180 transition-all duration-200 ease-in-out" />{' '}
+      <Button size={'full'} onClick={goBack} className="rounded-full group">
+        <BackArrow className="w-5 h-5 transition-all duration-200 ease-in-out group-hover:-translate-x-1 rtl:rotate-180" />{' '}
         <div className="pl-4">Go Back</div>
       </Button>
     </div>

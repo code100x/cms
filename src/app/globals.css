@@ -94,11 +94,3 @@
 .vjs-duration {
   display: block !important;
 }
-
-.side-bar::-webkit-scrollbar{
-  width: 7px;
-}
-
-.side-bar::-webkit-scrollbar-thumb{
-  background-color: #2563eb;
-}
