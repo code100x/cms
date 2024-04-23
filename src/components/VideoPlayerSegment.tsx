@@ -1,5 +1,5 @@
 'use client';
-import React, { FunctionComponent, useRef } from 'react';
+import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
 import { VideoPlayer } from '@/components/VideoPlayer2';
 
 import {
@@ -21,6 +21,7 @@ interface VideoProps {
   setQuality: React.Dispatch<React.SetStateAction<string>>;
   thumbnails: Thumbnail[];
   segments: Segment[];
+  duration: number;
   subtitles: string;
   videoJsOptions: any;
   contentId: number;
@@ -30,12 +31,14 @@ interface VideoProps {
 export const VideoPlayerSegment: FunctionComponent<VideoProps> = ({
   setQuality,
   contentId,
+  duration,
   subtitles,
   segments,
   videoJsOptions,
   onVideoEnd,
 }) => {
   const playerRef = useRef<Player | null>(null);
+  const [currentDuration, setCurrentDuration] = useState(0);
 
   const thumbnailPreviewRef = useRef<HTMLDivElement>(null);
 
@@ -83,10 +86,33 @@ export const VideoPlayerSegment: FunctionComponent<VideoProps> = ({
   };
   const handlePlayerReady = async (player: Player) => {
     playerRef.current = player;
-
+    setCurrentDuration(player.cache_.duration);
     createSegmentMarkersWithoutDuration(player, segments);
     overrideUpdateTime(player);
   };
+
+  async function addVideoDuration() {
+    const duration1 = +currentDuration.toFixed(0);
+    await fetch('/api/video', {
+      method: 'PUT',
+
+      body: JSON.stringify({
+        contentId,
+        duration: duration1,
+      }),
+
+      headers: {
+        'Content-type': 'application/json',
+      },
+    });
+  }
+  useEffect(() => {
+    if (currentDuration) {
+      if (duration !== +currentDuration.toFixed(0)) {
+        addVideoDuration();
+      }
+    }
+  }, [currentDuration]);
 
   return (
     <div className="mb-6">
