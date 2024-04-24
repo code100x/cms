@@ -8,7 +8,7 @@ import { Providers } from './providers';
 import { GoogleAnalytics } from '@/components/analytics/GoogleAnalytics';
 import { siteConfig } from '@/config/site-config';
 import Footer from '@/components/landing/footer/footer';
-import { Toaster } from '@/components/ui/sonner';
+import { Toaster } from 'sonner';
 
 const fontSans = FontSans({
   subsets: ['latin'],
@@ -32,7 +32,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           {/* this is done as to keep footer in the bottom of the page */}
           <div className="min-h-[calc(100vh-64px)]">{children}</div>
           <Footer />
-          <Toaster />
+          <Toaster richColors />
         </Providers>
       </body>
     </html>
