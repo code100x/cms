@@ -1,103 +1,52 @@
-'use client';
 import React from 'react';
 
-interface PurchaseType {
-  id: number;
+interface CourseData {
+  id: string;
   title: string;
   imageUrl: string;
-  description: string;
+  date: Date;
 }
 
-interface CertificateComponentProps {
-  course: PurchaseType;
-}
-
-const CertificateComponent: React.FC<CertificateComponentProps> = ({
+const CertificateComponent = ({
   course,
+  userName,
+}: {
+  course: CourseData;
+  userName: string;
 }) => {
-  const handleDownloadCertificate = async () => {
-    try {
-      const response = await fetch(`/api/certificate/${course.id}`);
-      if (response.ok) {
-        const blob = await response.blob();
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `${course.title} Certificate.png`;
-        document.body.appendChild(a);
-        a.click();
-        window.URL.revokeObjectURL(url);
-        document.body.removeChild(a);
-      } else {
-        console.error('Error downloading certificate');
-      }
-    } catch (error) {
-      console.error('Error: ', error);
-    }
+  const formatDate = (date) => {
+    return new Date(date).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    });
   };
 
-  const handleShareLinkedIn = () => {
-    const certificateUrl = `${window.location.origin}/api/certificate/${course.id}`;
-    const shareUrl = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(certificateUrl)}`;
-    window.open(shareUrl, '_blank', 'width=600,height=400');
-  };
-
-  const handleShareTwitter = () => {
-    const certificateUrl = `${window.location.origin}/api/certificate/${course.id}`;
-    const text = `Check out my certificate for ${course.title} from 100xdevs!`;
-    const shareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(certificateUrl)}&text=${encodeURIComponent(text)}`;
-    window.open(shareUrl, '_blank', 'width=600,height=400');
-  };
+  const currentDate = course.date
+    ? formatDate(course.date)
+    : formatDate(new Date());
 
   return (
-    <div
-      className="card"
-      style={{
-        width: '60%',
-        margin: '20px auto',
-        padding: '10px',
-        border: '1px solid #ccc',
-        boxShadow: '2px 2px 10px #eee',
-      }}
-    >
-      <div
-        className="card-content"
-        style={{ display: 'flex', justifyContent: 'center' }}
-      >
-        {}
+    <div className="card mx-auto w-3/5 border border-gray-300 shadow-lg mt-12 mb-6 relative">
+      <div id="certificateArea">
         <img
-          src="/certiTemplate.png"
+          src={course.imageUrl || '/defaultCertificate.png'}
           alt="Certificate template"
-          width="400"
-          height="400"
+          className="w-full h-auto"
         />
-      </div>
-      <div className="card-header">
-        <h3 className="card-title">{course.title}</h3>
-        <p className="card-description">{course.description}</p>
-      </div>
-      <div
-        className="card-footer"
-        style={{ display: 'flex', justifyContent: 'space-between' }}
-      >
-        <button
-          onClick={handleDownloadCertificate}
-          style={{ padding: '5px 20px', cursor: 'pointer' }}
+        <div
+          id="certificateText"
+          className="absolute top-1/4 left-1/2 transform -translate-x-1/2 text-center text-black"
         >
-          Download Image
-        </button>
-        <button
-          onClick={handleShareLinkedIn}
-          style={{ padding: '5px 20px', cursor: 'pointer' }}
-        >
-          Share on LinkedIn
-        </button>
-        <button
-          onClick={handleShareTwitter}
-          style={{ padding: '5px 20px', cursor: 'pointer' }}
-        >
-          Share on Twitter
-        </button>
+          <h2 className="text-2xl font-bold">{userName}</h2>
+          <h3 className="text-xl font-bold">{course.title}</h3>
+          <p className="text-lg font-bold">
+            Certificate ID: {course.id.toString().toUpperCase()}
+          </p>
+          <p className="text-base">Date of Issue: {currentDate}</p>
+          <img src="/sign.png" alt="Signature" className="mx-auto h-16 mt-4" />
+          <p className="text-base">Verified at: 100x@gmail.com</p>
+        </div>
       </div>
     </div>
   );

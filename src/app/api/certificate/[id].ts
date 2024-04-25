@@ -1,5 +1,3 @@
-// File: /pages/api/certificate/[id].ts
-
 import { NextApiRequest, NextApiResponse } from 'next';
 import db from '@/db';
 import fs from 'fs';
@@ -15,20 +13,13 @@ export default async function handler(
     return;
   }
 
-  // The ID is part of the URL, so we extract it from the query
   const { id } = req.query;
 
   try {
-    //  ID is a string and parse it to an integer to get the certificate ID right ?
     const certificateId = parseInt(id as string, 10);
-
     const certificate = await db.certificate.findUnique({
-      where: {
-        id: certificateId,
-      },
-      include: {
-        course: true, //  include course details here
-      },
+      where: { id: certificateId.toString() },
+      include: { course: true },
     });
 
     if (!certificate) {
@@ -44,11 +35,11 @@ export default async function handler(
     );
     const imageBuffer = await fs.promises.readFile(imagePath);
 
-    res.setHeader('Content-Type', 'certificates/png');
+    res.setHeader('Content-Type', 'image/png');
     res.setHeader(
       'Content-Disposition',
       `inline; filename="${certificate.course.title} Certificate.png"`,
-    ); // Update extension accordingly
+    );
     res.send(imageBuffer);
   } catch (error) {
     console.error('Error fetching certificate:', error);

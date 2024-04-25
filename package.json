@@ -49,6 +49,7 @@
     "discord.js": "^14.14.1",
     "embla-carousel-react": "^8.0.0",
     "fuse.js": "^7.0.0",
+    "html2canvas": "^1.4.1",
     "jose": "^5.2.2",
     "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.321.0",
