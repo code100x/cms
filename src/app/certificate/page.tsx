@@ -17,8 +17,8 @@ const CertificatePage = () => {
       try {
         // For testing purposes, we'll use a default course data
         const defaultCourseData = {
-          id: '1',
-          title: 'Full Stack Development Course (0 TO 1)',
+          id: '1345634563',
+          title: 'Full Stack Development Course(0 TO 1)        ',
           imageUrl: '/certiTemplate.png',
           date: new Date(),
         };
@@ -68,7 +68,7 @@ const CertificatePage = () => {
   };
 
   if (status === 'loading' || !course) {
-    return <div>Loading...</div>;
+    return <div className="flex justify-center">Loading...</div>;
   }
 
   if (!session) {
