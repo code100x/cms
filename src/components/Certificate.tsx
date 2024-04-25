@@ -28,8 +28,7 @@ const CertificateComponent = ({
     : formatDate(new Date());
 
   // Generate a unique ID for the student
-  const uniqueId =
-    `${crypto.randomBytes(8).toString('hex')  }-${  userName.replace(/\s/g, '')}`;
+  const uniqueId = `${crypto.randomBytes(8).toString('hex')}-${userName.replace(/\s/g, '')}`;
 
   return (
     <div className="card mx-auto w-3/5 border border-gray-300 shadow-lg mt-12 mb-6 relative">

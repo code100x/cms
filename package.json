@@ -44,6 +44,7 @@
     "bcrypt": "^5.1.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
+    "crypto": "^1.0.1",
     "dayjs": "^1.11.10",
     "discord-oauth2": "^2.11.0",
     "discord.js": "^14.14.1",
