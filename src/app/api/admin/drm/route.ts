@@ -1,8 +1,23 @@
 import db from '@/db';
 import { NextRequest, NextResponse } from 'next/server';
+import { z } from 'zod';
+
+const requestBodySchema = z.object({
+  adminSecret: z.string(),
+  email: z.string().email(),
+  disableDrm: z.boolean(),
+});
 
 export async function POST(req: NextRequest) {
-  const { adminSecret, email, disableDrm } = await req.json();
+  const parseResult = requestBodySchema.safeParse(await req.json());
+
+  if (!parseResult.success) {
+    return NextResponse.json(
+      { error: parseResult.error.message },
+      { status: 400 },
+    );
+  }
+  const { adminSecret, email, disableDrm } = parseResult.data;
 
   if (adminSecret !== process.env.ADMIN_SECRET) {
     return NextResponse.json({}, { status: 401 });
@@ -15,7 +30,7 @@ export async function POST(req: NextRequest) {
   });
 
   if (!user) {
-    return NextResponse.json({ msg: 'User not found' }, { status: 440 });
+    return NextResponse.json({ msg: 'User not found' }, { status: 404 });
   }
 
   const response = await db.user.update({
