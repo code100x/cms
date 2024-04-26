@@ -66,6 +66,7 @@
     "sonner": "^1.4.0",
     "tailwind-merge": "^2.2.1",
     "tailwindcss-animate": "^1.0.7",
+    "typescript": "^5.3.3",
     "vaul": "^0.8.9",
     "video.js": "^8.6.1",
     "videojs-contrib-eme": "^3.11.1",
@@ -88,7 +89,6 @@
     "prettier": "^3.2.4",
     "prisma": "^5.6.0",
     "tailwindcss": "^3.3.0",
-    "ts-node": "^10.9.2",
-    "typescript": "^5"
+    "ts-node": "^10.9.2"
   }
 }
