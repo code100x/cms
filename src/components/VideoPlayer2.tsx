@@ -144,6 +144,16 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
             player.currentTime(player.currentTime() - 5);
             event.stopPropagation();
             break;
+          case 'ArrowUp': // Arrow up for increasing volume
+            event.preventDefault();
+            player.volume(player.volume() + 0.1);
+            event.stopPropagation();
+            break;
+          case 'ArrowDown': // Arow dowwn for decreasing volume
+            event.preventDefault();
+            player.volume(player.volume() - 0.1);
+            event.stopPropagation();
+            break;
           case 'KeyF': // F key for fullscreen
             if (player.isFullscreen_) document.exitFullscreen();
             else player.requestFullscreen();
