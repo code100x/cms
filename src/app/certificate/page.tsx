@@ -1,36 +1,58 @@
 // 'use client';
 import { authOptions } from '@/lib/auth';
-import { getPurchases } from '@/utiles/appx';
 import { getServerSession } from 'next-auth';
 import { CertificateComponent } from '@/components/Certificate';
-
-interface PurchaseType {
-  id: number;
-  title: string;
-  imageUrl: string;
-  description: string;
-  appxCourseId: number;
-  openToEveryone: boolean;
-  slug: string;
-  discordRoleId: string;
-  totalVideos?: number;
-  totalVideosWatched: number;
-}
+import db from '@/db';
 
 const CertificatePage = async () => {
   const session = await getServerSession(authOptions);
-  const purchases: PurchaseType[] = await getPurchases(session);
+  const purchases = await db.userPurchases.findMany({
+    where: {
+      userId: session.user.id,
+    },
+    include: {
+      course: {
+        select: {
+          id: true,
+          imageUrl: true,
+          description: true,
+          title: true,
+          certificate: {
+            select: {
+              id: true,
+            },
+          },
+        },
+      },
+    },
+  });
+
+  //Here we are checking if for a particular user, certificate is generated or not. If not, we are generating it.
+  {
+    purchases?.map(async (purchase) => {
+      if (!purchase.course.certificate) {
+        const certificate = await db.certificate.create({
+          data: {
+            userId: purchase.userId,
+            courseId: purchase.courseId,
+          },
+        });
+
+        purchase.course.certificate = [{ id: certificate.id }];
+      }
+    });
+  }
 
   return (
-    <div>
-      <section className="flex flex-col items-center w-full">
-        <div className="max-w-screen-xl w-full mx-auto py-6 px-6 cursor-pointer grid grid-cols-1 gap-5 md:grid-cols-3 sm:grid-cols-2">
-          {purchases?.map((course) => (
-            <CertificateComponent course={course} key={course.id} />
-          ))}
-        </div>
-      </section>
-    </div>
+    <section className="flex flex-wrap justify-center items-center w-full">
+      {purchases?.map((purchase) => (
+        <CertificateComponent
+          certificateId={purchase.course.certificate[0].id}
+          course={purchase.course}
+          key={purchase.course.id}
+        />
+      ))}
+    </section>
   );
 };
 

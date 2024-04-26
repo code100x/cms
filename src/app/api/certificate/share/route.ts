@@ -1,8 +1,47 @@
+import db from '@/db';
+import { authOptions } from '@/lib/auth';
 import { createCanvas, loadImage } from 'canvas';
 import fs from 'fs';
-import { NextResponse } from 'next/server';
+import { getServerSession } from 'next-auth';
+import { NextRequest, NextResponse } from 'next/server';
 
-export async function GET() {
+export async function GET(req: NextRequest) {
+  const session = await getServerSession(authOptions);
+  const user = session.user;
+  if (!user) return new NextResponse('Login required', { status: 400 });
+
+  const url = new URL(req.url);
+  const searchParams = new URLSearchParams(url.search);
+  const courseId = searchParams.get('courseId');
+
+  if (!courseId) return new NextResponse('No course id found', { status: 400 });
+
+  const purchase = await db.userPurchases.findFirst({
+    where: {
+      userId: user.id,
+      courseId: parseInt(courseId, 10),
+    },
+  });
+
+  if (!purchase) return new NextResponse('No Purchase found', { status: 400 });
+  let certificate = await db.certificate.findFirst({
+    where: {
+      userId: user.id,
+      courseId: parseInt(courseId, 10),
+    },
+  });
+  if (!certificate) {
+    certificate = await db.certificate.create({
+      data: {
+        userId: user.id,
+        courseId: parseInt(courseId, 10),
+      },
+    });
+  }
+
+  const certificateId = certificate.id;
+  const userName = session.user.name;
+
   const certiTemplate = await loadImage(
     'src/app/api/certificate/certitemplate.png',
   );
@@ -20,7 +59,7 @@ export async function GET() {
       fontSize: 30,
       offsetY: 100,
     },
-    { text: 'Dhruvil Mehta', fontSize: 65, offsetY: 0 },
+    { text: userName, fontSize: 65, offsetY: 0 },
     {
       text: "For Successfully Completing the '0-1' cohort offered by 100xdevs",
       fontSize: 30,
@@ -28,7 +67,7 @@ export async function GET() {
     },
     { text: 'HARKIRAT SINGH', fontSize: 30, offsetY: -400 },
     { text: 'Instructor', fontSize: 25, offsetY: -450 },
-    { text: 'Certificate id: 123456', fontSize: 20, offsetY: -500 },
+    { text: `Certificate id: ${certificateId}`, fontSize: 20, offsetY: -500 },
     {
       text: 'Verify at: https://app.100xdevs.com/verify',
       fontSize: 20,
