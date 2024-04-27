@@ -1,3 +1,4 @@
+import { Folder } from '@/db/course';
 import axios from 'axios';
 import { atom, selector } from 'recoil';
 
@@ -25,4 +26,9 @@ const coursesSelector = selector({
 export const coursesAtom = atom<Course[]>({
   key: 'coursesAtom',
   default: coursesSelector,
+});
+
+export const fullCourseContentAtom = atom({
+  key: 'full/course/content/atom/state/sidebar',
+  default: [] as Folder[],
 });

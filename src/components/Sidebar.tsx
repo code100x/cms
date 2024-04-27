@@ -14,11 +14,9 @@ import { sidebarOpen as sidebarOpenAtom } from '@/store/atoms/sidebar';
 import { useEffect, useState } from 'react';
 import { handleMarkAsCompleted } from '@/lib/utils';
 import BookmarkButton from './bookmark/BookmarkButton';
+import { fullCourseContentAtom } from '@/store/atoms';
 
-const fullCourseContentAtom = atom({
-  key: 'full/course/content/atom/state/sidebar',
-  default: [] as Folder[],
-});
+
 
 export function Sidebar({
   courseId,
