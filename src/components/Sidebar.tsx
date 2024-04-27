@@ -9,11 +9,16 @@ import {
 import { Folder } from '@/db/course';
 import { Button } from './ui/button';
 import { BackArrow } from '@/icons/BackArrow';
-import { useRecoilState } from 'recoil';
+import { atom, useRecoilState } from 'recoil';
 import { sidebarOpen as sidebarOpenAtom } from '@/store/atoms/sidebar';
 import { useEffect, useState } from 'react';
 import { handleMarkAsCompleted } from '@/lib/utils';
 import BookmarkButton from './bookmark/BookmarkButton';
+
+const fullCourseContentAtom = atom({
+  key: 'full/course/content/atom/state/sidebar',
+  default: [] as Folder[],
+});
 
 export function Sidebar({
   courseId,
@@ -24,13 +29,19 @@ export function Sidebar({
 }) {
   const router = useRouter();
   const pathName = usePathname();
+  const [fullCourseContentState, setFullCourseContentState] = useRecoilState(
+    fullCourseContentAtom,
+  );
 
   const [sidebarOpen, setSidebarOpen] = useRecoilState(sidebarOpenAtom);
   const [currentActiveContentIds, setCurrentActiveContentIds] = useState<
     number[]
   >([]);
 
+  console.log('New full', fullCourseContentState);
+
   useEffect(() => {
+    setFullCourseContentState(fullCourseContent);
     const urlRegex = /\/courses\/.*./;
     const courseUrlRegex = /\/courses\/\d+((?:\/\d+)+)/;
 
@@ -45,7 +56,7 @@ export function Sidebar({
         ); // get last content id from pathString e.g '/1/2' => 2 (number)
       }
       const pathArray = findPathToContent(
-        fullCourseContent,
+        fullCourseContentState,
         currentUrlContentId,
       );
       setCurrentActiveContentIds(pathArray);
@@ -83,7 +94,7 @@ export function Sidebar({
   };
 
   const navigateToContent = (contentId: any) => {
-    const pathArray = findPathToContent(fullCourseContent, contentId);
+    const pathArray = findPathToContent(fullCourseContentState, contentId);
     if (pathArray) {
       const path = `/courses/${courseId}/${pathArray.join('/')}`;
       router.push(path);
@@ -97,6 +108,7 @@ export function Sidebar({
       );
       if (content.children && content.children.length > 0) {
         // This is a folder with children
+
         return (
           <AccordionItem
             key={content.id}
@@ -171,7 +183,7 @@ export function Sidebar({
       </div>
       <Accordion type="single" collapsible className="w-full">
         {/* Render course content */}
-        {renderContent(fullCourseContent)}
+        {renderContent(fullCourseContentState)}
       </Accordion>
     </div>
   );
@@ -282,13 +294,43 @@ function Check({ content }: { content: any }) {
   const [completed, setCompleted] = useState(
     content?.videoProgress?.markAsCompleted || false,
   );
+  const [courseContent, setCourseContent] = useRecoilState(
+    fullCourseContentAtom,
+  );
+
   return (
     <>
       <input
         defaultChecked={completed}
         onClick={async (e) => {
-          setCompleted(!completed);
           handleMarkAsCompleted(!completed, content.id);
+          const updatedCourseContent = courseContent.map((item) => {
+            // Check if the item has children and matches the content ID
+            if (
+              item.children &&
+              item.children.length > 0 &&
+              item.id === content.parentId
+            ) {
+              // Update the markAsCompleted property for the matching child
+              const updatedChildren = item.children.map((child) => {
+                if (child.id === content.id) {
+                  return {
+                    ...child,
+                    videoProgress: {
+                      ...child.videoProgress,
+                      markAsCompleted: !completed,
+                    },
+                  };
+                }
+                return child;
+              });
+              return { ...item, children: updatedChildren };
+            }
+            return item;
+          });
+
+          setCourseContent(updatedCourseContent as Folder[]);
+          setCompleted(!completed);
           e.stopPropagation();
         }}
         type="checkbox"
