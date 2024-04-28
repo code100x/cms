@@ -83,13 +83,25 @@ const SearchBar = ({ onCardClick }: { onCardClick?: () => void }) => {
     } else if (!searchedVideos || searchedVideos.length === 0) {
       return <VideoSearchInfo text="No videos found" />;
     }
-    return searchedVideos.map((video) => (
-      <VideoSearchCard
-        key={video.id}
-        video={video}
-        onCardClick={handleCardClick}
-      />
-    ));
+    return searchedVideos.map((video: TSearchedVideos) => {
+      const { id: videoId, parentId, parent, title } = video;
+      if (parentId && parent) {
+        const courses = parent.courses;
+        return courses.map((course) => {
+          const { courseId } = course;
+          return (
+            <VideoSearchCard
+              key={videoId}
+              videoId={videoId}
+              parentId={parentId}
+              courseId={courseId}
+              videoTitle={title}
+              onCardClick={handleCardClick}
+            />
+          );
+        });
+      }
+    });
   };
 
   return (
