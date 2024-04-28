@@ -196,6 +196,7 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
                 }
               }
             }
+            event.stopPropagation();
             break;
         }
       }
