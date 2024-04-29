@@ -1,17 +1,17 @@
-import { Button } from '../ui/button';
-import { ChevronRight, Medal } from 'lucide-react';
-import Link from 'next/link';
-import localFont from 'next/font/local';
 import { cn } from '@/lib/utils';
+import { ChevronRight, Medal } from 'lucide-react';
 import { Poppins } from 'next/font/google';
-import PlatformSection from './snaps-section/platform/platform-section';
-import DashboardSection from './snaps-section/dashboard/dashboard-section';
-import TrustedBySection from './trustedby-section/trusted-by';
-import WhyUsSection from './us-section/why-us';
-import AboutUsSection from './us-section/about-us';
-import DiscordSection from './snaps-section/discord-section/discord-section';
+import localFont from 'next/font/local';
+import Link from 'next/link';
+import { Button } from '../ui/button';
 import PreFooterSection from './footer/pre-footer/pre-footer';
 import DailyCodeSection from './snaps-section/daily-code/daily-code';
+import DashboardSection from './snaps-section/dashboard/dashboard-section';
+import DiscordSection from './snaps-section/discord-section/discord-section';
+import PlatformSection from './snaps-section/platform/platform-section';
+import TrustedBySection from './trustedby-section/trusted-by';
+import AboutUsSection from './us-section/about-us';
+import WhyUsSection from './us-section/why-us';
 
 const headingFont = localFont({
   src: '../../../public/fonts/font.woff2',
@@ -80,7 +80,7 @@ export default function LandingPage() {
         >
           <Link href={'#trustedby'}>
             See more{' '}
-            <ChevronRight className="text-white h-4 w-4 ml-1 hover:translate-x-1 ease-in-out duration-200" />
+            <ChevronRight className="text-black dark:text-white h-4 w-4 ml-1 hover:translate-x-1 ease-in-out duration-200" />
           </Link>
         </Button>
       </div>
