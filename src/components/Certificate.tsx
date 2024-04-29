@@ -44,7 +44,7 @@ export const CertificateComponent = ({ course, certificateId }: any) => {
 
   const handleShareLinkedIn = async () => {
     const certificateUrl = `${window.location.origin}/certificate/verify/${certificateId}`;
-    const shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url={"${certificateUrl}"}`;
+    const shareUrl = `https://www.linkedin.com/shareArticle?mini=true&url="${certificateUrl}"`;
     window.open(shareUrl);
   };
 

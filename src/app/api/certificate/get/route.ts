@@ -2,10 +2,17 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import db from '@/db';
-import { generatePdf } from '@/actions/certificate/generatePdf';
-import { generatePng } from '@/actions/certificate/generatePng';
+import {
+  generatePng,
+  generatePdf,
+} from '@/actions/certificate/generateCertificate';
+import { headers } from 'next/headers';
 
 export async function GET(req: NextRequest) {
+  const headersList = headers();
+  const hostname = headersList.get('x-forwarded-host');
+  if (!hostname) return new NextResponse('No host found', { status: 400 });
+
   const url = new URL(req.url);
   const searchParams = new URLSearchParams(url.search);
 
@@ -21,7 +28,11 @@ export async function GET(req: NextRequest) {
     });
     if (!certificate)
       return new NextResponse('Cannot find certificate', { status: 400 });
-    const data = await generatePng(certId, certificate.user.name || '');
+    const data = await generatePng(
+      certId,
+      certificate.user.name || '',
+      hostname,
+    );
     return new NextResponse(data, {
       headers: {
         'Content-Type': 'image/png',
@@ -68,7 +79,7 @@ export async function GET(req: NextRequest) {
 
   try {
     if (type === 'pdf') {
-      const data = await generatePdf(certificateId, userName);
+      const data = await generatePdf(certificateId, userName, hostname);
       return new NextResponse(data, {
         headers: {
           'Content-Type': 'application/pdf',
@@ -78,7 +89,7 @@ export async function GET(req: NextRequest) {
     }
 
     if (type === 'png') {
-      const data = await generatePng(certificateId, userName);
+      const data = await generatePng(certificateId, userName, hostname);
       return new NextResponse(data, {
         headers: {
           'Content-Type': 'image/png',
