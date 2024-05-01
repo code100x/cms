@@ -1,6 +1,17 @@
 import { TSearchedVideos } from '@/app/api/search/route';
+import { CourseContent } from '@prisma/client';
 import { PlayCircleIcon } from 'lucide-react';
 import React from 'react';
+//Hypothesis needs to be tested: find the max out of all the course id(s)
+const getCourseId = (courses: CourseContent[]): number => {
+  let result = Number.MIN_SAFE_INTEGER;
+  for (const course of courses) {
+    if (course.courseId > result) {
+      result = course.courseId;
+    }
+  }
+  return result;
+};
 
 const VideoSearchCard = ({
   video,
@@ -12,7 +23,7 @@ const VideoSearchCard = ({
   const { id: videoId, parentId, parent } = video;
 
   if (parentId && parent) {
-    const courseId = parent.courses[0].courseId;
+    const courseId = getCourseId(parent.courses);
     const videoUrl = `/courses/${courseId}/${parentId}/${videoId}`;
     return (
       <div
