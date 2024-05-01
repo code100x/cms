@@ -7,6 +7,7 @@ import { Toaster } from '@/components/ui/sonner';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import React, { useRef, useState } from 'react';
+import { Loader } from 'lucide-react';
 
 import { toast } from 'sonner';
 const Signin = () => {
@@ -15,6 +16,7 @@ const Signin = () => {
     emailReq: false,
     passReq: false,
   });
+  const [loading, setLoading] = useState(false);
 
   function togglePasswordVisibility() {
     setIsPasswordVisible((prevState: any) => !prevState);
@@ -27,7 +29,7 @@ const Signin = () => {
     if (e) {
       e.preventDefault();
     }
-
+    setLoading(true);
     if (!email.current || !password.current) {
       setRequiredError({
         emailReq: email.current ? false : true,
@@ -52,6 +54,7 @@ const Signin = () => {
         },
       });
     }
+    setLoading(false);
   };
   return (
     <section className="flex items-center justify-center h-screen">
@@ -149,8 +152,12 @@ const Signin = () => {
               )}
             </div>
           </div>
-          <Button className="my-3 w-full" onClick={handleSubmit}>
-            Login
+          <Button
+            className="my-3 w-full"
+            onClick={handleSubmit}
+            disabled={loading}
+          >
+            {loading ? <Loader className="animate-spin"></Loader> : 'Login'}
           </Button>
         </CardContent>
       </Card>
