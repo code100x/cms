@@ -103,6 +103,7 @@ For major changes, please open an issue first to discuss what you would like to 
 
 Read our [contribution guidelines](./CONTRIBUTING.md) for more details.
 
+
 ## Contributors
 
 <a href="https://github.com/code100x/cms/graphs/contributors">
