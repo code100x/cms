@@ -375,9 +375,9 @@ const deleteCommentHandler = async (
     if (!existingComment) {
       return { error: 'Comment not found.' };
     }
-
+    console.log(session.user.role);
     if (
-      session.user?.role !== ROLES.ADMIN ||
+      session.user?.role !== ROLES.ADMIN &&
       existingComment.userId !== userId
     ) {
       return { error: 'Unauthorized to delete this comment.' };
