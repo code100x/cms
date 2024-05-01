@@ -7,6 +7,7 @@ import { Toaster } from '@/components/ui/sonner';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import React, { useRef, useState } from 'react';
+import { Loader } from 'lucide-react';
 
 import { toast } from 'sonner';
 const Signin = () => {
@@ -15,6 +16,7 @@ const Signin = () => {
     emailReq: false,
     passReq: false,
   });
+  const [loading, setLoading] = useState(false);
 
   function togglePasswordVisibility() {
     setIsPasswordVisible((prevState: any) => !prevState);
@@ -27,12 +29,13 @@ const Signin = () => {
     if (e) {
       e.preventDefault();
     }
-
+    setLoading(true);
     if (!email.current || !password.current) {
       setRequiredError({
         emailReq: email.current ? false : true,
         passReq: password.current ? false : true,
       });
+      setLoading(false);
       return;
     }
 
@@ -52,6 +55,7 @@ const Signin = () => {
         },
       });
     }
+    setLoading(false);
   };
   return (
     <section className="flex items-center justify-center h-screen">
@@ -64,6 +68,7 @@ const Signin = () => {
             <div className="flex flex-col gap-4">
               <Label htmlFor="email">Email</Label>
               <Input
+                disabled={loading}
                 name="email"
                 id="email"
                 placeholder="name@email.com"
@@ -83,6 +88,7 @@ const Signin = () => {
               <Label>Password</Label>
               <div className="flex border rounded-lg">
                 <Input
+                  disabled={loading}
                   className="border-0"
                   name="password"
                   type={isPasswordVisible ? 'text' : 'password'}
@@ -149,8 +155,12 @@ const Signin = () => {
               )}
             </div>
           </div>
-          <Button className="my-3 w-full" onClick={handleSubmit}>
-            Login
+          <Button
+            className="my-3 w-full"
+            onClick={handleSubmit}
+            disabled={loading}
+          >
+            {loading ? <Loader className="animate-spin"></Loader> : 'Login'}
           </Button>
         </CardContent>
       </Card>
