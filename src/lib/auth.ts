@@ -3,14 +3,11 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import { SignJWT, importJWK } from 'jose';
 import bcrypt from 'bcrypt';
 import prisma from '@/db';
+import { NextAuthOptions } from 'next-auth';
 
-interface AppxSigninResponse {
-  data: {
-    userid: string;
-    name: string;
-    username: string;
-  };
-}
+type AppxSigninResponse = {
+  data: null | { userid: string; name: string; token: string };
+};
 
 const generateJWT = async (payload: any) => {
   const secret = process.env.JWT_SECRET || 'secret';
@@ -81,7 +78,7 @@ async function validateUser(
   };
 }
 
-export const authOptions = {
+export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
       name: 'Credentials',
@@ -89,7 +86,8 @@ export const authOptions = {
         username: { label: 'email', type: 'text', placeholder: '' },
         password: { label: 'password', type: 'password', placeholder: '' },
       },
-      async authorize(credentials: any) {
+      async authorize(credentials) {
+        if (!credentials?.username || !credentials.password) return null;
         try {
           if (process.env.LOCAL_CMS_PROVIDER) {
             return {
@@ -138,12 +136,12 @@ export const authOptions = {
             };
           }
           console.log('not in db');
-          //@ts-ignore
+
           const user: AppxSigninResponse = await validateUser(
             credentials.username,
             credentials.password,
           );
-
+          if (!user.data) return null;
           const jwt = await generateJWT({
             id: user.data.userid,
           });
@@ -192,7 +190,7 @@ export const authOptions = {
   ],
   secret: process.env.NEXTAUTH_SECRET || 'secr3t',
   callbacks: {
-    session: async ({ session, token }: any) => {
+    session: async ({ session, token }) => {
       if (session?.user) {
         session.user.id = token.uid;
         session.user.jwtToken = token.jwtToken;
@@ -205,7 +203,7 @@ export const authOptions = {
 
       return session;
     },
-    jwt: async ({ user, token }: any) => {
+    jwt: async ({ user, token }) => {
       if (user) {
         token.uid = user.id;
         token.jwtToken = user.token;
