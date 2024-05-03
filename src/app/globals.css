@@ -53,6 +53,29 @@
   * {
     @apply border-border;
   }
+
+  /* width */
+::-webkit-scrollbar {
+    width: 10px;
+}
+ 
+/* Track */
+::-webkit-scrollbar-track {
+    background: var(--primary-foreground);
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #1F2937;
+    border-radius: 5px;
+}
+ 
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+
   body {
     @apply bg-background text-foreground;
   }
