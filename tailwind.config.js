@@ -77,6 +77,10 @@ module.exports = {
       height: {
         sidebar: 'calc(100vh - 64px)',
       },
+      screens: {
+        'small-md': '740px',
+        'large-md': '946px',
+      }
     },
   },
   plugins: [require('tailwindcss-animate')],

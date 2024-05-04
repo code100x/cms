@@ -42,14 +42,14 @@ export const Appbar = () => {
 
           {session?.data?.user ? (
             <>
-              <div className="hidden md:block">
+              <div className="hidden large-md:block">
                 <SearchBar />
               </div>
               <div className="flex items-center space-x-2">
                 {/* Search Bar for smaller devices */}
                 <MobileScreenSearch />
                 <div className="flex items-center space-x-2">
-                  <div className="hidden sm:flex items-center justify-around md:w-auto md:block space-x-2">
+                  <div className="hidden small-md:flex items-center justify-around md:w-auto md:block space-x-2">
                     {currentPath.includes('courses') && bookmarkPageUrl && (
                       <Button
                         variant="link"
@@ -96,7 +96,7 @@ export const Appbar = () => {
 
                   <ThemeToggler />
 
-                  <div className="block sm:hidden">
+                  <div className="block small-md:hidden">
                     <NavigationMenu />
                   </div>
                 </div>
