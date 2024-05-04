@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { ChevronRight } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import dailycode from '../../../../../public/platform/dailycode.png';
+import dailycode from '@public/platform/dailycode.png';
 
 const DailyCodeSection = () => {
   return (

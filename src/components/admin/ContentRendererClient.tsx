@@ -118,7 +118,6 @@ export const ContentRendererClient = ({
             setContentCompleted(true);
           }}
         />
-        <br />
         <div className="flex justify-between mb-2">
           <div>
             <div className="text-gray-900 dark:text-white font-bold text-2xl">
@@ -136,7 +135,6 @@ export const ContentRendererClient = ({
 
           <div>
             {/* <QualitySelector /> */}
-            <br />
             {metadata.slides ? (
               <div
                 style={{
@@ -154,7 +152,7 @@ export const ContentRendererClient = ({
             ) : null}
             {!showChapters && metadata.segments?.length > 0 && (
               <button
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold rounded p-2"
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold rounded my-4 p-2"
                 onClick={() => {
                   scrollTo({ top: 0, behavior: 'smooth' });
                   toggleShowChapters();

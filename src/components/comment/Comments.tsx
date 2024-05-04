@@ -251,29 +251,29 @@ const Comments = async ({
                             textToCopy={`${c.contentId};${c.id.toString()}`}
                           />
                         </DropdownMenuItem>
-                        <DropdownMenuItem>
-                          {(session.user.id.toString() ===
-                            (c as ExtendedComment).userId.toString() ||
-                            session.user.role === ROLES.ADMIN) && (
+                        {(session.user.id.toString() ===
+                          (c as ExtendedComment).userId.toString() ||
+                          session.user.role === ROLES.ADMIN) && (
+                          <DropdownMenuItem>
                             <CommentDeleteForm commentId={c.id} />
-                          )}
-                        </DropdownMenuItem>
-                        <DropdownMenuItem>
-                          {session.user.role === ROLES.ADMIN && (
+                          </DropdownMenuItem>
+                        )}
+                        {session.user.role === ROLES.ADMIN && (
+                          <DropdownMenuItem>
                             <CommentPinForm
                               commentId={c.id}
                               contentId={c.contentId}
                             />
-                          )}
-                        </DropdownMenuItem>
-                        <DropdownMenuItem>
-                          {session.user.role === ROLES.ADMIN && (
+                          </DropdownMenuItem>
+                        )}
+                        {session.user.role === ROLES.ADMIN && (
+                          <DropdownMenuItem>
                             <CommentApproveForm
                               commentId={c.id}
                               contentId={c.contentId}
                             />
-                          )}
-                        </DropdownMenuItem>
+                          </DropdownMenuItem>
+                        )}
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </div>

@@ -1,6 +1,6 @@
 'use client';
 import Image from 'next/image';
-import platform from '../../../../../public/platform/platform.png';
+import platform from '@public/platform/platform.png';
 import React from 'react';
 import { CardContainer, CardItem } from '@/components/3dcard';
 import Link from 'next/link';
