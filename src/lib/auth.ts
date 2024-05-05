@@ -1,6 +1,6 @@
 import db from '@/db';
 import CredentialsProvider from 'next-auth/providers/credentials';
-import { SignJWT, importJWK } from 'jose';
+import { JWTPayload, SignJWT, importJWK } from 'jose';
 import bcrypt from 'bcrypt';
 import prisma from '@/db';
 
@@ -8,11 +8,32 @@ interface AppxSigninResponse {
   data: {
     userid: string;
     name: string;
-    username: string;
+    username?: string;
+  } | null;
+}
+
+interface session {
+  user: {
+    id: string;
+    jwtToken: string;
+    role: string;
+    email: string;
   };
 }
 
-const generateJWT = async (payload: any) => {
+interface token {
+  uid: string;
+  jwtToken: string;
+}
+
+interface user {
+  id: string;
+  name: string;
+  email: string;
+  token: string;
+}
+
+const generateJWT = async (payload: JWTPayload) => {
   const secret = process.env.JWT_SECRET || 'secret';
 
   const jwk = await importJWK({ k: secret, alg: 'HS256', kty: 'oct' });
@@ -80,7 +101,6 @@ async function validateUser(
     data: null,
   };
 }
-
 export const authOptions = {
   providers: [
     CredentialsProvider({
@@ -138,14 +158,13 @@ export const authOptions = {
             };
           }
           console.log('not in db');
-          //@ts-ignore
           const user: AppxSigninResponse = await validateUser(
             credentials.username,
             credentials.password,
           );
 
           const jwt = await generateJWT({
-            id: user.data.userid,
+            id: user.data?.userid,
           });
 
           if (user.data) {
@@ -192,7 +211,7 @@ export const authOptions = {
   ],
   secret: process.env.NEXTAUTH_SECRET || 'secr3t',
   callbacks: {
-    session: async ({ session, token }: any) => {
+    session: async ({ session, token }: { session: session; token: token }) => {
       if (session?.user) {
         session.user.id = token.uid;
         session.user.jwtToken = token.jwtToken;
@@ -205,7 +224,7 @@ export const authOptions = {
 
       return session;
     },
-    jwt: async ({ user, token }: any) => {
+    jwt: async ({ user, token }: { user: user; token: token }) => {
       if (user) {
         token.uid = user.id;
         token.jwtToken = user.token;
