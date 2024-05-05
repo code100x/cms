@@ -2,12 +2,14 @@
 
 ## Table of contents
 
+- [Table of contents](#table-of-contents)
 - [Prerequisites](#prerequisites)
 - [Setup](#setup)
   - [Using Docker](#using-docker)
   - [Without Docker](#without-docker)
 - [Usage](#usage)
 - [Contributing](#contributing)
+- [Contributors](#contributors)
 
 ## Prerequisites
 
@@ -65,7 +67,7 @@ Before you begin, ensure you have met the following requirements
    ```
 6. Run database migrations:
    ```bash
-   npm run prisma:migrate:dev
+   npm run prisma:migrate
    ```
 7. Seed the database:
    ```bash
