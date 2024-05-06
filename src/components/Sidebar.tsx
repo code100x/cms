@@ -172,9 +172,6 @@ export function Sidebar({
       <Accordion type="single" collapsible className="w-full">
         {/* Render course content */}
         {renderContent(fullCourseContent)}
-        <div className="my-60">hello wor</div>
-        <div className="my-60">hi</div>
-        <div className="my-60">hello</div>
       </Accordion>
     </div>
   );
