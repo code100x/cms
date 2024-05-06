@@ -160,7 +160,7 @@ export function Sidebar({
   }
 
   return (
-    <div className="overflow-y-scroll h-sidebar bg-gray-50 dark:bg-gray-800 cursor-pointer absolute top-[64px] self-start w-full z-20 xs:min-w-[133px] xs:w-[300px] xs:w-84 xs:sticky">
+    <div className="hover:overflow-y-auto scrollbar-thin h-sidebar bg-gray-50 dark:bg-gray-800 cursor-pointer absolute top-[64px] self-start w-full z-20 xs:min-w-[133px] xs:w-[300px] xs:w-84 xs:sticky ">
       <div className="flex">
         {/* <ToggleButton
             onClick={() => {
@@ -172,6 +172,9 @@ export function Sidebar({
       <Accordion type="single" collapsible className="w-full">
         {/* Render course content */}
         {renderContent(fullCourseContent)}
+        <div className="my-60">hello wor</div>
+        <div className="my-60">hi</div>
+        <div className="my-60">hello</div>
       </Accordion>
     </div>
   );
