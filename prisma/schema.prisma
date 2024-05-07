@@ -20,6 +20,7 @@ model Course {
   content        CourseContent[]
   purchasedBy    UserPurchases[]
   bookmarks      Bookmark[]
+  certificate    Certificate[]
 }
 
 model UserPurchases {
@@ -60,6 +61,16 @@ model CourseContent {
   contentId Int
 
   @@id([courseId, contentId])
+}
+
+model Certificate {
+  id                String    @id @default(cuid())
+  user              User      @relation(fields: [userId], references: [id])
+  userId            String
+  course            Course    @relation(fields: [courseId], references: [id])
+  courseId          Int
+
+  @@unique([userId, courseId])
 }
 
 model NotionMetadata {
@@ -132,6 +143,7 @@ model User {
   password       String?
   appxUserId     String?
   appxUsername   String?
+  certificate    Certificate[]
 }
 
 model DiscordConnect {
@@ -170,7 +182,7 @@ model Bookmark {
   content   Content  @relation(fields: [contentId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
   courseId  Int
-  course    Course  @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  course    Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
 }
 
 model Comment {
