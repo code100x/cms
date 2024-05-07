@@ -44,7 +44,10 @@ export const CertificateComponent = ({ course, certificateId }: any) => {
 
   const handleShareLinkedIn = async () => {
     const certificateUrl = `${window.location.origin}/certificate/verify/${certificateId}`;
-    const shareUrl = `https://www.linkedin.com/shareArticle?mini=true&url="${certificateUrl}"`;
+    const postContent = `I just earned the "${course.title}" certificate on 100x Academy! Check it out: ${certificateUrl}`;
+    const shareUrl = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(
+      certificateUrl,
+    )}&text=${encodeURIComponent(postContent)}`;
     window.open(shareUrl);
   };
 
