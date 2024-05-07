@@ -21,6 +21,7 @@ model Course {
   purchasedBy    UserPurchases[]
   bookmarks      Bookmark[]
   certificate    Certificate[]
+  certIssued     Boolean        @default(false)
 }
 
 model UserPurchases {
