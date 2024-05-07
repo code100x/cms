@@ -60,7 +60,7 @@ export const CertificateComponent = ({ course, certificateId }: any) => {
   return (
     <Card className="w-500 my-4" key={course.id}>
       <CardContent className="flex justify-center">
-        <img src={course.imageUrl} alt="" width={100} height={100} />
+        <img src={course.imageUrl} alt="" width={500} />
       </CardContent>
       <CardHeader>
         <CardTitle>{course.title}</CardTitle>
