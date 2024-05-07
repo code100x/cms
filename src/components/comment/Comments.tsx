@@ -39,6 +39,7 @@ const Comments = async ({
 }: {
   content: {
     id: number;
+    courseId: number;
     commentCount: number;
     possiblePath: string;
   };
@@ -52,7 +53,6 @@ const Comments = async ({
     content.id,
     session.user.id,
   );
-
   const data = await getComments(q, searchParams.parentId);
 
   if (!content.id) return null;
@@ -133,7 +133,7 @@ const Comments = async ({
                 <Link
                   scroll={false}
                   href={getUpdatedUrl(
-                    `/courses/${content.possiblePath}`,
+                    `/courses/${content.courseId}/${content.possiblePath}`,
                     searchParams,
                     {
                       commentfilter: CommentFilter.mu,
@@ -145,7 +145,7 @@ const Comments = async ({
                 <Link
                   scroll={false}
                   href={getUpdatedUrl(
-                    `/courses/${content.possiblePath}`,
+                    `/courses/${content.courseId}/${content.possiblePath}`,
                     searchParams,
                     {
                       commentfilter: CommentFilter.mr,
@@ -157,7 +157,7 @@ const Comments = async ({
                 <Link
                   scroll={false}
                   href={getUpdatedUrl(
-                    `/courses/${content.possiblePath}`,
+                    `/courses/${content.courseId}/${content.possiblePath}`,
                     searchParams,
                     {
                       commentfilter: CommentFilter.md,
@@ -188,7 +188,7 @@ const Comments = async ({
                 <Link
                   scroll={false}
                   href={getUpdatedUrl(
-                    `/courses/${content.possiblePath}`,
+                    `/courses/${content.courseId}/${content.possiblePath}`,
                     searchParams,
                     {
                       type: CommentType.DEFAULT,
@@ -201,7 +201,7 @@ const Comments = async ({
                 <Link
                   scroll={false}
                   href={getUpdatedUrl(
-                    `/courses/${content.possiblePath}`,
+                    `/courses/${content.courseId}/${content.possiblePath}`,
                     searchParams,
                     {
                       type: CommentType.INTRO,
