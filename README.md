@@ -28,8 +28,13 @@ Before you begin, ensure you have met the following requirements
 2. Navigate to the project directory:
    ```bash
    cd cms
+
    ```
-3. Run the following command to start the application:
+3. Change the .env.example file to .env 
+   ```bash
+      mv .env.example .env
+   ```
+4. Run the following command to start the application:
    ```bash
    docker-compose up
    ```
