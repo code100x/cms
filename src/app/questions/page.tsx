@@ -17,12 +17,13 @@ import {
 
 import { Button } from '@/components/ui/button';
 import { QueryParams, TabType } from '@/actions/types';
-import { getUpdatedUrl, paginationData } from '@/lib/utils';
+import { getDisabledFeature, getUpdatedUrl, paginationData } from '@/lib/utils';
 import db from '@/db';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import PostCard from '@/components/posts/PostCard';
 import Pagination from '@/components/Pagination';
+import { redirect } from 'next/navigation';
 
 type QuestionsResponse = {
   data: ExtendedQuestion[] | null;
@@ -127,6 +128,10 @@ export default async function Home({
   params: { slug: string };
   searchParams: QueryParams;
 }) {
+  const disabled = getDisabledFeature('qa');
+  if (disabled) {
+    redirect('/');
+  }
   const session = await getServerSession(authOptions);
   const sessionId = session?.user.id;
 

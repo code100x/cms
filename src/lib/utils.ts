@@ -359,3 +359,10 @@ export const generateHandle = (title: string): string => {
 
   return handle;
 };
+
+export const getDisabledFeature = (feature: string): boolean => {
+  return (process.env.NEXT_PUBLIC_DISABLE_FEATURES || '')
+    .toLowerCase()
+    .split(',')
+    .includes(feature);
+};
