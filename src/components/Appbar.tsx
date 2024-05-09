@@ -16,7 +16,7 @@ import { NavigationMenu } from './landing/appbar/nav-menu';
 import SearchBar from './search/SearchBar';
 import MobileScreenSearch from './search/MobileScreenSearch';
 
-import { AppbarButton, DiscordButton } from './AppbarButton';
+import { AppButtons, AppbarButton, DiscordButton } from './AppbarButton';
 
 export const Appbar = () => {
   const session = useSession();
@@ -78,19 +78,7 @@ export const Appbar = () => {
                         />
                         <DiscordButton />
 
-                        <AppbarButton
-                          url={'https://projects.100xdevs.com/'}
-                          className={''}
-                          children={'Slides'}
-                        />
-
-                        <AppbarButton
-                          url={
-                            'https://github.com/100xdevs-cohort-2/assignments'
-                          }
-                          className={'hidden custom-breakpoint1:inline'}
-                          children={'Assignments'}
-                        />
+                        <AppButtons />
                         <AppbarButton
                           url={'/history'}
                           className={'hidden lg:inline'}
@@ -104,19 +92,7 @@ export const Appbar = () => {
                       <>
                         <DiscordButton />
 
-                        <AppbarButton
-                          url={'https://projects.100xdevs.com/'}
-                          className={''}
-                          children={'Slides'}
-                        />
-
-                        <AppbarButton
-                          url={
-                            'https://github.com/100xdevs-cohort-2/assignments'
-                          }
-                          className={'hidden custom-breakpoint1:inline'}
-                          children={'Assignments'}
-                        />
+                        <AppButtons />
                         <AppbarButton
                           url={'/history'}
                           className={'hidden custom-breakpoint:inline'}
