@@ -11,6 +11,14 @@ module.exports = {
   theme: {
     screens: {
       xs: '540px',
+      sm: '640px', // Small screens (mobile)
+      md: '768px', // Medium screens (tablets)
+      lg: '1024px', // Large screens (desktops)
+      xl: '1280px',
+      'custom-breakpoint3': '1100px',
+      'custom-breakpoint': '930px',
+      'custom-breakpoint1': '850px',
+      'custom-breakpoint2': '800px',
     },
     container: {
       center: true,

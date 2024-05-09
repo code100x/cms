@@ -7,6 +7,10 @@ import BookmarkView from '@/components/bookmark/BookmarkView';
 import db from '@/db';
 import { rateLimit } from '@/lib/utils';
 
+// const getVideoInCourse = async () => {
+
+// };
+// getVideoInCourse();
 const getBookmarkData = async (
   courseId: string,
 ): Promise<TBookmarkWithContent[] | { error: string }> => {
@@ -44,5 +48,9 @@ export default async function Course({
   const courseId = params.courseId;
   const bookmarkData = await getBookmarkData(courseId);
 
-  return <BookmarkView bookmarkData={bookmarkData} />;
+  return (
+    <div>
+      <BookmarkView bookmarkData={bookmarkData} />
+    </div>
+  );
 }

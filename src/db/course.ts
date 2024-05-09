@@ -373,3 +373,28 @@ export const getCurrentContentType = async (
 
   return content.type;
 };
+export const getVideosInCourse = async (courseId: string) => {
+  const session = await getServerSession(authOptions);
+
+  const videosInCurrentCourse = await db.content.findMany({
+    where: {
+      parentId: Number(courseId),
+      type: 'video',
+    },
+  });
+  // console.log(videosInCurrentCourse);
+
+  const completedVideosByUser = await db.videoProgress.findMany({
+    where: {
+      userId: session.user.id,
+      contentId: {
+        in: videosInCurrentCourse.map((x) => x.id),
+      },
+      markAsCompleted: true,
+    },
+  });
+
+  const percentageOfVideoWatched =
+    (completedVideosByUser.length / videosInCurrentCourse.length) * 100;
+  return percentageOfVideoWatched;
+};

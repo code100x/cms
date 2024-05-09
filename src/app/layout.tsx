@@ -1,4 +1,5 @@
 import { ReactNode } from 'react';
+import React from 'react';
 import { Inter as FontSans } from 'next/font/google';
 import { cn } from '@/lib/utils';
 import type { Metadata } from 'next';
@@ -17,7 +18,11 @@ const fontSans = FontSans({
 
 export const metadata: Metadata = siteConfig;
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+export default async function RootLayout({
+  children,
+}: {
+  children: ReactNode;
+}) {
   return (
     <html lang="en">
       <body
@@ -29,6 +34,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <GoogleAnalytics />
         <Providers>
           <Appbar />
+
           {/* this is done as to keep footer in the bottom of the page */}
           <div className="min-h-[calc(100vh-64px)]">{children}</div>
           <Footer />

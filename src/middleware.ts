@@ -7,7 +7,8 @@ export const config = {
 
 export default withAuth(async (req) => {
   if (process.env.LOCAL_CMS_PROVIDER) return;
-
+  const requestHeaders = new Headers(req.headers);
+  requestHeaders.set('x-pathname', req.nextUrl.pathname);
   const token = req.nextauth.token;
   if (!token) {
     return NextResponse.redirect(new URL('/invalidsession', req.url));
@@ -20,4 +21,9 @@ export default withAuth(async (req) => {
   if (!json.user) {
     return NextResponse.redirect(new URL('/invalidsession', req.url));
   }
+  return NextResponse.next({
+    request: {
+      headers: requestHeaders,
+    },
+  });
 });

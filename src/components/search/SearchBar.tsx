@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { SearchIcon, XCircleIcon } from 'lucide-react';
 import { TSearchedVideos } from '@/app/api/search/route';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import useClickOutside from '@/hooks/useClickOutside';
 import VideoSearchCard from './VideoSearchCard';
 import VideoSearchInfo from './VideoSearchInfo';
@@ -17,6 +17,7 @@ const SearchBar = ({ onCardClick }: { onCardClick?: () => void }) => {
   const [isInputFocused, setIsInputFocused] = useState<boolean>(false);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const currentPath = usePathname();
 
   const ref = useRef<HTMLDivElement>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
@@ -94,7 +95,11 @@ const SearchBar = ({ onCardClick }: { onCardClick?: () => void }) => {
 
   return (
     <div
-      className="relative flex items-center w-full lg:w-[300px] xl:w-[400px] h-10"
+      className={
+        new RegExp('^/courses/.*').test(currentPath)
+          ? 'relative flex items-center w-full md:w-[150px] lg:w-[150px] custom-breakpoint3:w-[200px] xl:w-[400px] h-10'
+          : 'relative flex items-center w-full md:w-[150px] custom-breakpoint:w-[180px] lg:w-[280px] xl:w-[400px] h-10'
+      }
       ref={ref}
     >
       {/* Search Input Bar */}

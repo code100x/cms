@@ -1,7 +1,9 @@
 import db from '../src/db';
+import bcrypt from 'bcrypt';
 
 async function seedUsers() {
   try {
+    const hashedPassword = await bcrypt.hash('123456', 10);
     await db.user.upsert({
       where: {
         id: '1',
@@ -10,6 +12,7 @@ async function seedUsers() {
         id: '1',
         email: 'testuser@example.com',
         name: 'Test User 1',
+        password: hashedPassword,
         disableDrm: false,
       },
       update: {},
@@ -23,6 +26,7 @@ async function seedUsers() {
         id: '2',
         email: 'testuser2@example.com',
         name: 'Test User 2',
+        password: hashedPassword,
         disableDrm: false,
       },
       update: {},

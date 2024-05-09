@@ -1,4 +1,5 @@
 import { QueryParams } from '@/actions/types';
+
 import { Sidebar } from '@/components/Sidebar';
 import { Folder, getFullCourseContent } from '@/db/course';
 import { authOptions } from '@/lib/auth';

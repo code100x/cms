@@ -1,4 +1,5 @@
 import { QueryParams } from '@/actions/types';
+
 import { CourseView } from '@/components/CourseView';
 import { Folder, getCourse, getFullCourseContent } from '@/db/course';
 import findContentById from '@/lib/find-content-by-id';

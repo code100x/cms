@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { JoinDiscord } from './JoinDiscord';
+
 import { AppbarAuth } from './AppbarAuth';
 import { useSession } from 'next-auth/react';
 import { useRecoilState } from 'recoil';
@@ -16,15 +16,29 @@ import { NavigationMenu } from './landing/appbar/nav-menu';
 import SearchBar from './search/SearchBar';
 import MobileScreenSearch from './search/MobileScreenSearch';
 
+import { AppbarButton, DiscordButton } from './AppbarButton';
+
 export const Appbar = () => {
   const session = useSession();
+
   const [sidebarOpen, setSidebarOpen] = useRecoilState(sidebarOpenAtom);
   const currentPath = usePathname();
   const params = useParams();
   let bookmarkPageUrl = null;
+
   if (params.courseId && params.courseId[0]) {
     bookmarkPageUrl = `/courses/${params.courseId[0]}/bookmarks`;
   }
+
+  // const [courseId, setCourseId] = useState<string | null>(null);
+  // const router = useRouter();
+
+  // useEffect(() => {
+  //   const { courseId } = router.query;
+  //   if (typeof courseId === 'string') {
+  //     setCourseId(courseId);
+  //   }
+  // });
 
   return (
     <>
@@ -45,58 +59,83 @@ export const Appbar = () => {
               <div className="hidden md:block">
                 <SearchBar />
               </div>
+
               <div className="flex items-center space-x-2">
                 {/* Search Bar for smaller devices */}
                 <MobileScreenSearch />
                 <div className="flex items-center space-x-2">
                   <div className="hidden sm:flex items-center justify-around md:w-auto md:block space-x-2">
-                    {currentPath.includes('courses') && bookmarkPageUrl && (
-                      <Button
-                        variant="link"
-                        className={
-                          currentPath === bookmarkPageUrl
-                            ? 'font-bold underline'
-                            : ''
-                        }
-                        size={'sm'}
-                        asChild
-                      >
-                        <Link href={bookmarkPageUrl}>Bookmarks</Link>
-                      </Button>
+                    {currentPath.includes('courses') && bookmarkPageUrl ? (
+                      <>
+                        <AppbarButton
+                          className={
+                            currentPath === bookmarkPageUrl
+                              ? 'font-bold underline'
+                              : ''
+                          }
+                          url={bookmarkPageUrl}
+                          children={'Bookmarks'}
+                        />
+                        <DiscordButton />
+
+                        <AppbarButton
+                          url={'https://projects.100xdevs.com/'}
+                          className={''}
+                          children={'Slides'}
+                        />
+
+                        <AppbarButton
+                          url={
+                            'https://github.com/100xdevs-cohort-2/assignments'
+                          }
+                          className={'hidden custom-breakpoint1:inline'}
+                          children={'Assignments'}
+                        />
+                        <AppbarButton
+                          url={'/history'}
+                          className={'hidden lg:inline'}
+                          children={'Watch History'}
+                        />
+                        <div className="hidden lg:inline">
+                          <AppbarAuth />
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <DiscordButton />
+
+                        <AppbarButton
+                          url={'https://projects.100xdevs.com/'}
+                          className={''}
+                          children={'Slides'}
+                        />
+
+                        <AppbarButton
+                          url={
+                            'https://github.com/100xdevs-cohort-2/assignments'
+                          }
+                          className={'hidden custom-breakpoint1:inline'}
+                          children={'Assignments'}
+                        />
+                        <AppbarButton
+                          url={'/history'}
+                          className={'hidden custom-breakpoint:inline'}
+                          children={'Watch History'}
+                        />
+
+                        <AppbarAuth />
+                      </>
                     )}
-
-                    <Button variant={'link'} size={'sm'} asChild>
-                      <JoinDiscord isNavigated={false} />
-                    </Button>
-
-                    <Button size={'sm'} variant={'link'} asChild>
-                      <Link
-                        href={'https://projects.100xdevs.com/'}
-                        target="_blank"
-                      >
-                        Slides
-                      </Link>
-                    </Button>
-
-                    <Button size={'sm'} variant={'link'} asChild>
-                      <Link
-                        href={
-                          'https://github.com/100xdevs-cohort-2/assignments'
-                        }
-                        target="_blank"
-                      >
-                        Assignments
-                      </Link>
-                    </Button>
-                    <Button size={'sm'} variant={'link'} asChild>
-                      <Link href={'/history'}>Watch History</Link>
-                    </Button>
-                    <AppbarAuth />
                   </div>
-
                   <ThemeToggler />
 
-                  <div className="block sm:hidden">
+                  <div
+                    className={
+                      currentPath.includes('courses') && bookmarkPageUrl
+                        ? 'block lg:hidden'
+                        : 'block custom-breakpoint:hidden'
+                    }
+                  >
                     <NavigationMenu />
                   </div>
                 </div>
