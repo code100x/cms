@@ -215,6 +215,38 @@ async function seedVideoMetadata() {
   }
 }
 
+async function seedPurchases() {
+  try {
+    await db.userPurchases.create({
+      data: {
+        userId: '1',
+        courseId: 1,
+      },
+    });
+    await db.userPurchases.create({
+      data: {
+        userId: '2',
+        courseId: 1,
+      },
+    });
+    await db.userPurchases.create({
+      data: {
+        userId: '1',
+        courseId: 2,
+      },
+    });
+    await db.userPurchases.create({
+      data: {
+        userId: '2',
+        courseId: 2,
+      },
+    });
+  } catch (error) {
+    console.error('Error while seeding purchases');
+    throw error;
+  }
+}
+
 async function seedDatabase() {
   try {
     await seedUsers();
@@ -223,6 +255,7 @@ async function seedDatabase() {
     await seedCourseContent();
     await seedNotionMetadata();
     await seedVideoMetadata();
+    await seedPurchases();
   } catch (error) {
     console.error('Error seeding database:', error);
     throw error;
