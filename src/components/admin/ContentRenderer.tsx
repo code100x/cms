@@ -39,6 +39,7 @@ export const getMetadata = async (contentId: number) => {
     slides: metadata['slides'],
     //@ts-ignore
     segments: metadata['segments'],
+    duration: metadata['duration'],
   };
   return {
     //@ts-ignore
