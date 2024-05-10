@@ -11,6 +11,9 @@ const getBookmarkData = async (
   courseId: string,
 ): Promise<TBookmarkWithContent[] | { error: string }> => {
   const session = await getServerSession(authOptions);
+  if (!session) {
+    return { error: 'Unauthorized' };
+  }
   const userId = session.user.id;
 
   if (!rateLimit(userId)) {

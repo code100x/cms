@@ -133,10 +133,10 @@ export default async function Home({
     redirect('/');
   }
   const session = await getServerSession(authOptions);
-  const sessionId = session?.user.id;
+  const sessionId = session?.user?.id;
 
   const tabType = searchParams.tabtype || TabType.mu;
-  const response = await fetchQuestionsByTabType(searchParams, sessionId);
+  const response = await fetchQuestionsByTabType(searchParams, sessionId!);
 
   return (
     <>

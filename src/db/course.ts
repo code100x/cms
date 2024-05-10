@@ -242,6 +242,9 @@ export const getFullCourseContent = async (courseId: number) => {
   //   return value;
   // }
   const session = await getServerSession(authOptions);
+  if (!session?.user) {
+    return [];
+  }
   const contents = await getAllContent();
   const courseContent = await getRootCourseContent(courseId);
   const videoProgress = await getVideoProgressForUser(session?.user?.id);

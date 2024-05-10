@@ -42,7 +42,7 @@ export async function GET(req: NextRequest) {
   }
 
   const session = await getServerSession(authOptions);
-  const user = session.user;
+  const user = session?.user;
 
   const courseId = searchParams.get('courseId');
   const type = searchParams.get('type');

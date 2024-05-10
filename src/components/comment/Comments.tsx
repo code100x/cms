@@ -45,6 +45,9 @@ const Comments = async ({
   searchParams: QueryParams;
 }) => {
   const session = await getServerSession(authOptions);
+  if (!session?.user) {
+    return null;
+  }
   const paginationInfo = paginationData(searchParams);
   const q = constructCommentPrismaQuery(
     searchParams,

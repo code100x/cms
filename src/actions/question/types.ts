@@ -73,6 +73,7 @@ export interface Author {
   id: string | undefined;
   name: string | null; // Allow null
   role?: string | null;
+  email?: string | null;
 }
 
 export interface ExtendedQuestion extends Question {

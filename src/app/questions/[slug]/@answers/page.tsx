@@ -86,6 +86,14 @@ const SingleAnswerPage = async ({
   searchParams: QueryParams;
 }) => {
   const session = await getServerSession(authOptions);
+  if (!session?.user) {
+    return {
+      redirect: {
+        destination: '/api/auth/signin',
+        permanent: false,
+      },
+    };
+  }
   const tabType = searchParams.tabtype || TabType.mu;
 
   const answers = await fetchAnswersForQuestion(

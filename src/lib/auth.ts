@@ -3,6 +3,9 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import { JWTPayload, SignJWT, importJWK } from 'jose';
 import bcrypt from 'bcrypt';
 import prisma from '@/db';
+import { NextAuthOptions } from 'next-auth';
+import { Session } from 'next-auth';
+import { JWT } from 'next-auth/jwt';
 
 interface AppxSigninResponse {
   data: {
@@ -12,16 +15,17 @@ interface AppxSigninResponse {
   } | null;
 }
 
-interface session {
+export interface session extends Session {
   user: {
     id: string;
     jwtToken: string;
     role: string;
     email: string;
+    name: string;
   };
 }
 
-interface token {
+interface token extends JWT {
   uid: string;
   jwtToken: string;
 }
@@ -101,6 +105,7 @@ async function validateUser(
     data: null,
   };
 }
+
 export const authOptions = {
   providers: [
     CredentialsProvider({
@@ -211,28 +216,30 @@ export const authOptions = {
   ],
   secret: process.env.NEXTAUTH_SECRET || 'secr3t',
   callbacks: {
-    session: async ({ session, token }: { session: session; token: token }) => {
-      if (session?.user) {
-        session.user.id = token.uid;
-        session.user.jwtToken = token.jwtToken;
-        session.user.role = process.env.ADMINS?.split(',').includes(
-          session.user.email,
+    session: async ({ session, token }) => {
+      const newSession: session = session as session;
+      if (newSession.user && token.uid) {
+        newSession.user.id = token.uid as string;
+        newSession.user.jwtToken = token.jwtToken as string;
+        newSession.user.role = process.env.ADMINS?.split(',').includes(
+          session.user?.email ?? '',
         )
           ? 'admin'
           : 'user';
       }
-
-      return session;
+      return newSession!;
     },
-    jwt: async ({ user, token }: { user: user; token: token }) => {
+    jwt: async ({ token, user }): Promise<JWT> => {
+      const newToken: token = token as token;
+
       if (user) {
-        token.uid = user.id;
-        token.jwtToken = user.token;
+        newToken.uid = user.id;
+        newToken.jwtToken = (user as user).token;
       }
-      return token;
+      return newToken;
     },
   },
   pages: {
     signIn: '/signin',
   },
-};
+} satisfies NextAuthOptions;
