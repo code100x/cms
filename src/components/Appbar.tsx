@@ -49,7 +49,7 @@ export const Appbar = () => {
                 {/* Search Bar for smaller devices */}
                 <MobileScreenSearch />
                 <div className="flex items-center space-x-2">
-                  <div className="hidden sm:flex items-center justify-around md:w-auto md:block space-x-2">
+                  <div className="hidden sm:flex items-center justify-around md:w-auto space-x-2">
                     {currentPath.includes('courses') && bookmarkPageUrl && (
                       <Button
                         variant="link"
@@ -91,9 +91,8 @@ export const Appbar = () => {
                     <Button size={'sm'} variant={'link'} asChild>
                       <Link href={'/history'}>Watch History</Link>
                     </Button>
-                    <AppbarAuth />
                   </div>
-
+                  <AppbarAuth />
                   <ThemeToggler />
 
                   <div className="block sm:hidden">
