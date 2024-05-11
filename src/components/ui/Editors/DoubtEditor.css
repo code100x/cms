@@ -1,0 +1,18 @@
+.ck.ck-editor__editable {
+  background-color: #020817cc !important;
+  color: white;
+  border: 0.5px solid rgb(30, 41, 59) !important;
+  height: 50vh;
+  width: 100%;
+}
+
+.ck {
+  background-color: #020817cc !important;
+  border: 0.5px solid rgb(30, 41, 59) !important;
+  color: white !important;
+}
+
+pre {
+  color: white !important;
+  background-color: #1e1e1e !important;
+}

@@ -51,6 +51,7 @@ model Content {
   comments         Comment[]
   commentsCount    Int             @default(0)
   bookmark         Bookmark?
+  Doubt            Doubt[]
 }
 
 model CourseContent {
@@ -116,6 +117,29 @@ model Session {
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
+model Doubt {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  htmlContent String
+  userId      String
+  contentId   Int
+  user        User     @relation(fields: [userId], references: [id])
+  content     Content  @relation(fields: [contentId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  Answer      Answer[]
+}
+
+model Answer {
+  id          String   @id @default(cuid())
+  htmlContent String
+  doubtId     String
+  doubt       Doubt    @relation(fields: [doubtId], references: [id])
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  createdAt   DateTime @default(now())
+}
+
 model User {
   id             String          @id @default(cuid())
   name           String?
@@ -132,6 +156,8 @@ model User {
   password       String?
   appxUserId     String?
   appxUsername   String?
+  doubt          Doubt[]
+  Answer         Answer[]
 }
 
 model DiscordConnect {
@@ -170,7 +196,7 @@ model Bookmark {
   content   Content  @relation(fields: [contentId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
   courseId  Int
-  course    Course  @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  course    Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
 }
 
 model Comment {

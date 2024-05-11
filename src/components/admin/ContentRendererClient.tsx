@@ -125,12 +125,18 @@ export const ContentRendererClient = ({
             </div>
 
             <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold rounded p-2 my-4"
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold rounded p-2 my-4 mr-2"
               disabled={loadingMarkAs}
               onClick={handleMarkCompleted}
             >
               {contentCompleted ? 'Mark as Incomplete' : 'Mark as completed'}
             </button>
+            <a
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold rounded p-2 my-4 mx-2"
+              href={`/doubts/${content.id}`}
+            >
+              Doubts
+            </a>
           </div>
 
           <div>
