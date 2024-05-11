@@ -9,6 +9,7 @@ import {
 } from '@/components/ui/card';
 import { useEffect, useState } from 'react';
 import { Certificate, Course, User } from '@prisma/client';
+import { useCertPng } from '@/hooks/useCert';
 
 export const CertificateVerify = ({
   certificate,
@@ -16,22 +17,35 @@ export const CertificateVerify = ({
   certificate: Certificate & { user: User; course: Course };
 }) => {
   const [imageUrl, setImageUrl] = useState('');
+  const { imgUri, setImgClicked } = useCertPng(certificate.id);
 
   useEffect(() => {
-    const generateImage = async () => {
-      try {
-        const response = await fetch(
-          `/api/certificate/get?certificateId=${certificate.id}&userName=${certificate.user.name || ''}`,
-        );
-        const blob = await response.blob();
-        const url = URL.createObjectURL(blob);
-        setImageUrl(url);
-      } catch (error) {
-        console.error('Error generating image:', error);
-      }
-    };
-    if (!imageUrl) generateImage();
+    setImgClicked(true);
   }, []);
+
+  useEffect(() => {
+    if (imgUri) {
+      //convert dataUri to downloadable URI
+      const imgBlob = getImgBlob(imgUri);
+      const downloadImgUri = URL.createObjectURL(imgBlob);
+      setImageUrl(downloadImgUri);
+    }
+  }, [imgUri]);
+
+  function getImgBlob(dataUri: string) {
+    const base64Data = dataUri.split(',')[1];
+    const binaryData = atob(base64Data);
+    const arrayBuffer = new ArrayBuffer(binaryData.length);
+    const view = new Uint8Array(arrayBuffer);
+    for (let i = 0; i < binaryData.length; i++) {
+      view[i] = binaryData.charCodeAt(i);
+    }
+
+    // Convert ArrayBuffer to Blob
+    const blob = new Blob([arrayBuffer], { type: 'image/png' });
+
+    return blob;
+  }
 
   return (
     <div>
