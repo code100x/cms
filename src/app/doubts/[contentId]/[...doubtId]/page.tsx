@@ -34,7 +34,7 @@ export default async ({
       </div>
       <hr className="my-4 w-screen h-0.5 bg-white" />
       {doubt?.Answer?.map((answer) => (
-        <div className="p-4 border-8 mx-8 my-4">
+        <div className="p-4 border-8 mx-8 my-4" key={answer.id}>
           <div className="flex mb-2">
             <Avatar className="w-10 h-10 border">
               <AvatarImage alt="@shadcn" src="/placeholder-user.jpg" />
