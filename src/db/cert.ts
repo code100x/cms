@@ -42,3 +42,19 @@ export const getCertificates = async () => {
 
   return courseWithCert;
 };
+
+export async function getCertificate(certificateId: string) {
+  const certificate = await db.certificate.findFirst({
+    where: {
+      id: certificateId,
+    },
+    include: {
+      user: {
+        select: {
+          name: true,
+        },
+      },
+    },
+  });
+  return certificate;
+}
