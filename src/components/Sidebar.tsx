@@ -1,5 +1,5 @@
 'use client';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import {
   Accordion,
   AccordionContent,
@@ -14,6 +14,7 @@ import { sidebarOpen as sidebarOpenAtom } from '@/store/atoms/sidebar';
 import { useEffect, useState } from 'react';
 import { handleMarkAsCompleted } from '@/lib/utils';
 import BookmarkButton from './bookmark/BookmarkButton';
+import Link from 'next/link';
 
 export function Sidebar({
   courseId,
@@ -22,8 +23,34 @@ export function Sidebar({
   fullCourseContent: Folder[];
   courseId: string;
 }) {
-  const router = useRouter();
+  const pathName = usePathname();
+
   const [sidebarOpen, setSidebarOpen] = useRecoilState(sidebarOpenAtom);
+  const [currentActiveContentIds, setCurrentActiveContentIds] = useState<
+    number[]
+  >([]);
+
+  useEffect(() => {
+    const urlRegex = /\/courses\/.*./;
+    const courseUrlRegex = /\/courses\/\d+((?:\/\d+)+)/;
+
+    if (urlRegex.test(pathName)) {
+      const matchArray = pathName.match(courseUrlRegex);
+      let currentUrlContentId;
+      // if matchArray is not null
+      if (matchArray) {
+        const urlPathString = matchArray[1];
+        currentUrlContentId = Number(
+          urlPathString.slice(urlPathString.length - 1),
+        ); // get last content id from pathString e.g '/1/2' => 2 (number)
+      }
+      const pathArray = findPathToContent(
+        fullCourseContent,
+        currentUrlContentId,
+      );
+      setCurrentActiveContentIds(pathArray);
+    }
+  }, [pathName]);
 
   useEffect(() => {
     if (window.innerWidth < 500) {
@@ -59,19 +86,27 @@ export function Sidebar({
     const pathArray = findPathToContent(fullCourseContent, contentId);
     if (pathArray) {
       const path = `/courses/${courseId}/${pathArray.join('/')}`;
-      router.push(path);
+      return path;
     }
+    return null;
   };
 
   const renderContent = (contents: any) => {
     return contents.map((content: any) => {
+      const isActiveContent = currentActiveContentIds?.some(
+        (id) => content.id === id,
+      );
       if (content.children && content.children.length > 0) {
         // This is a folder with children
         return (
           <AccordionItem
             key={content.id}
             value={`item-${content.id}`}
-            className="text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer"
+            className={
+              content.type === 'folder' && isActiveContent
+                ? 'dark:bg-gray-600  bg-gray-200 dark:text-white text-black dark:hover:bg-gray-500 hover:bg-gray-100'
+                : ''
+            }
           >
             <AccordionTrigger className="px-2 text-left">
               {content.title}
@@ -85,12 +120,14 @@ export function Sidebar({
       }
       // This is a video or a content item without children
       return (
-        <div
+        <Link
           key={content.id}
-          className="group p-2 flex border-gray-300 border-b hover:bg-gray-100 dark:hover:bg-gray-700 dark:border-gray-700 cursor-pointer bg-gray-50 dark:bg-gray-800"
-          onClick={() => {
-            navigateToContent(content.id);
-          }}
+          href={navigateToContent(content.id) || '#'}
+          className={`p-2 flex border-b hover:bg-gray-200 cursor-pointer ${
+            isActiveContent
+              ? 'dark:bg-gray-700 bg-gray-300 dark:text-white text-black dark:hover:bg-gray-500'
+              : 'bg-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-white text-black'
+          }`}
         >
           <div className="flex justify-between w-full">
             <div className="flex">
@@ -112,7 +149,7 @@ export function Sidebar({
               </div>
             ) : null}
           </div>
-        </div>
+        </Link>
       );
     });
   };

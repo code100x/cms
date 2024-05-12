@@ -3,7 +3,7 @@ import { CommentType } from '@prisma/client';
 export interface QueryParams {
   limit?: number;
   page?: number;
-  commentfilter?: CommentFilter;
+  tabtype?: TabType;
   search?: string;
   date?: string;
   type?: CommentType;
@@ -12,11 +12,13 @@ export interface QueryParams {
   commentId?: number;
   timestamp?: number;
   editCommentId?: number;
+  newPost?: 'open' | 'close';
 }
-export enum CommentFilter {
+export enum TabType {
   md = 'Most downvotes',
   mu = 'Most upvotes',
   mr = 'Most Recent',
+  mq = 'My question',
 }
 export type Delete = {
   message: string;

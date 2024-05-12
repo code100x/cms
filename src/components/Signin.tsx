@@ -3,7 +3,6 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Toaster } from '@/components/ui/sonner';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import React, { useRef, useState } from 'react';
@@ -11,6 +10,7 @@ import React, { useRef, useState } from 'react';
 import { toast } from 'sonner';
 const Signin = () => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [checkingPassword, setCheckingPassword] = useState(false);
   const [requiredError, setRequiredError] = useState({
     emailReq: false,
     passReq: false,
@@ -35,7 +35,7 @@ const Signin = () => {
       });
       return;
     }
-
+    setCheckingPassword(true);
     const res = await signIn('credentials', {
       username: email.current,
       password: password.current,
@@ -44,13 +44,10 @@ const Signin = () => {
 
     if (!res?.error) {
       router.push('/');
+      toast.success('Signed In');
     } else {
-      toast('Error Signing in', {
-        action: {
-          label: 'Close',
-          onClick: () => toast.dismiss(),
-        },
-      });
+      toast.error('oops something went wrong..!');
+      setCheckingPassword(false);
     }
   };
   return (
@@ -79,7 +76,7 @@ const Signin = () => {
                 <span className=" text-red-500">Email is required</span>
               )}
             </div>
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-4 relative">
               <Label>Password</Label>
               <div className="flex border rounded-lg">
                 <Input
@@ -103,7 +100,7 @@ const Signin = () => {
                   }}
                 />
                 <button
-                  className="inset-y-0 right-0 flex items-center px-4 text-gray-600"
+                  className="right-0 flex items-center px-4 text-gray-600 absolute bottom-0 h-10"
                   onClick={togglePasswordVisibility}
                 >
                   {isPasswordVisible ? (
@@ -149,12 +146,15 @@ const Signin = () => {
               )}
             </div>
           </div>
-          <Button className="my-3 w-full" onClick={handleSubmit}>
+          <Button
+            className="my-3 w-full"
+            disabled={checkingPassword}
+            onClick={handleSubmit}
+          >
             Login
           </Button>
         </CardContent>
       </Card>
-      <Toaster />
     </section>
   );
 };

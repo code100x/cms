@@ -54,6 +54,9 @@ const groupByWatchedDate = (userVideoProgress: TWatchHistory[]) => {
 
 async function getWatchHistory() {
   const session = await getServerSession(authOptions);
+  if (!session?.user) {
+    return [];
+  }
   const userId = session.user.id;
 
   const userVideoProgress: TWatchHistory[] = await db.videoProgress.findMany({
