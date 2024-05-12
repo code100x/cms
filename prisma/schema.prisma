@@ -19,7 +19,6 @@ model Course {
   slug           String
   content        CourseContent[]
   purchasedBy    UserPurchases[]
-  bookmarks      Bookmark[]
   certificate    Certificate[]
   certIssued     Boolean        @default(false)
 }

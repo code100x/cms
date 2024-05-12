@@ -1,30 +1,25 @@
 'use client';
 
 import Link from 'next/link';
-import { JoinDiscord } from './JoinDiscord';
 import { AppbarAuth } from './AppbarAuth';
 import { useSession } from 'next-auth/react';
 import { useRecoilState } from 'recoil';
 import { sidebarOpen as sidebarOpenAtom } from '../store/atoms/sidebar';
 import { ToggleButton } from './Sidebar';
-import { useParams, usePathname } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import Logo from './landing/logo/logo';
 import { Button } from './ui/button';
 import { Sparkles } from 'lucide-react';
-import { ThemeToggler } from './ThemeToggler';
 import { NavigationMenu } from './landing/appbar/nav-menu';
 import SearchBar from './search/SearchBar';
 import MobileScreenSearch from './search/MobileScreenSearch';
+import ProfileDropdown from './profile-menu/ProfileDropdown';
+import { ThemeToggler } from './ThemeToggler';
 
 export const Appbar = () => {
   const session = useSession();
   const [sidebarOpen, setSidebarOpen] = useRecoilState(sidebarOpenAtom);
   const currentPath = usePathname();
-  const params = useParams();
-  let bookmarkPageUrl = null;
-  if (params.courseId && params.courseId[0]) {
-    bookmarkPageUrl = `/courses/${params.courseId[0]}/bookmarks`;
-  }
 
   return (
     <>
@@ -48,61 +43,8 @@ export const Appbar = () => {
               <div className="flex items-center space-x-2">
                 {/* Search Bar for smaller devices */}
                 <MobileScreenSearch />
-                <div className="flex items-center space-x-2">
-                  <div className="hidden sm:flex items-center justify-around md:w-auto md:block space-x-2">
-                    {currentPath.includes('courses') && bookmarkPageUrl && (
-                      <Button
-                        variant="link"
-                        className={
-                          currentPath === bookmarkPageUrl
-                            ? 'font-bold underline'
-                            : ''
-                        }
-                        size={'sm'}
-                        asChild
-                      >
-                        <Link href={bookmarkPageUrl}>Bookmarks</Link>
-                      </Button>
-                    )}
+                <ProfileDropdown />
 
-                    <Button variant={'link'} size={'sm'} asChild>
-                      <JoinDiscord isNavigated={false} />
-                    </Button>
-
-                    <Button size={'sm'} variant={'link'} asChild>
-                      <Link
-                        href={'https://projects.100xdevs.com/'}
-                        target="_blank"
-                      >
-                        Slides
-                      </Link>
-                    </Button>
-
-                    <Button size={'sm'} variant={'link'} asChild>
-                      <Link
-                        href={
-                          'https://github.com/100xdevs-cohort-2/assignments'
-                        }
-                        target="_blank"
-                      >
-                        Assignments
-                      </Link>
-                    </Button>
-                    <Button size={'sm'} variant={'link'} asChild>
-                      <Link href={'/history'}>Watch History</Link>
-                    </Button>
-                    <Button size={'sm'} variant={'link'} asChild>
-                      <Link href={'/questions'}>Q&A</Link>
-                    </Button>
-                    <AppbarAuth />
-                  </div>
-
-                  <ThemeToggler />
-
-                  <div className="block sm:hidden">
-                    <NavigationMenu />
-                  </div>
-                </div>
               </div>
             </>
           ) : (
@@ -120,9 +62,7 @@ export const Appbar = () => {
                   </Link>
                 </Button>
               </div>
-
               <ThemeToggler />
-
               <div className="block sm:hidden">
                 <NavigationMenu />
               </div>
