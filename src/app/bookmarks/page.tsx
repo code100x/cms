@@ -16,7 +16,7 @@ const getBookmarkData = async (): Promise<
   TBookmarkWithContent[] | { error: string }
 > => {
   const session = await getServerSession(authOptions);
-  const userId = session.user.id;
+  const userId = session?.user.id;
 
   return await db.bookmark.findMany({
     where: {
