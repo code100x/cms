@@ -6,10 +6,11 @@ const CertificatePage = async () => {
 
   return (
     <section className="flex flex-wrap justify-center items-center w-full">
-      {certificates?.map(({ cert, course }) => (
+      {certificates?.map(({ cert, course, user }) => (
         <CertificateComponent
           certificateId={cert.id}
           course={course}
+          userName={user.name!}
           key={course.id}
         />
       ))}
