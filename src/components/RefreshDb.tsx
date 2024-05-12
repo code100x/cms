@@ -6,7 +6,6 @@ import { useSession } from 'next-auth/react';
 //@ts-ignore
 export function RefreshDb({ refreshDb }) {
   const session = useSession();
-  console.log(session);
 
   const handleClick = async () => {
     // @ts-ignore
