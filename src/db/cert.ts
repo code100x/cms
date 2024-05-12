@@ -7,6 +7,9 @@ import { Course } from '@/store/atoms';
 export const getCertificates = async () => {
   console.log('get certificate');
   const session = await getServerSession(authOptions);
+  if (!session?.user) {
+    return [];
+  }
   const purchases = await getPurchases(session?.user.email || '');
   const courses = purchases.filter((x) => x.certIssued);
   const courseWithCert: {

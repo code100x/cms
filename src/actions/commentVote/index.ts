@@ -13,12 +13,18 @@ const voteHandler = async (
   data: InputTypeHandleVote,
 ): Promise<ReturnTypeHandleVote> => {
   const session = await getServerSession(authOptions);
+  let targetType: 'question' | 'answer' | 'comment' | null = null;
+  let targetId: number | undefined = undefined;
 
   if (!session || !session.user.id) {
     return { error: 'Unauthorized' };
   }
 
-  const { commentId, voteType } = data;
+  const { questionId, answerId, commentId, voteType, currentPath } = data;
+
+  if (!questionId && !answerId && !commentId) {
+    return { error: 'No valid target specified.' };
+  }
 
   try {
     const userExists = await prisma.user.findUnique({
@@ -28,85 +34,118 @@ const voteHandler = async (
     if (!userExists) {
       return { error: 'User not found.' };
     }
+
     await prisma.$transaction(async (prisma) => {
+      if (commentId) {
+        targetType = 'comment';
+        targetId = commentId;
+      } else if (questionId) {
+        targetType = 'question';
+        targetId = questionId;
+      } else if (answerId) {
+        targetType = 'answer';
+        targetId = answerId;
+      }
+
       const existingVote = await prisma.vote.findFirst({
         where: {
           userId: session.user.id,
-          commentId,
+          ...(commentId ? { commentId } : {}),
+          ...(questionId ? { questionId } : {}),
+          ...(answerId ? { answerId } : {}),
         },
       });
 
       if (existingVote) {
         if (existingVote.voteType === voteType) {
-          // toggle off the vote
           await prisma.vote.delete({
-            where: {
-              id: existingVote.id,
-            },
+            where: { id: existingVote.id },
           });
-
-          // Decrement the vote count
-          const updateField =
-            voteType === VoteType.UPVOTE ? 'upvotes' : 'downvotes';
-          await prisma.comment.update({
-            where: { id: commentId },
+          const q = {
+            where: { id: targetId },
             data: {
-              [updateField]: { decrement: 1 },
+              [voteType === VoteType.UPVOTE ? 'upvotes' : 'downvotes']: {
+                decrement: 1,
+              },
             },
-          });
+          };
+          if (targetType === 'comment') {
+            await prisma.comment.update(q);
+          } else if (targetType === 'question') {
+            await prisma.question.update(q);
+          } else if (targetType === 'answer') {
+            await prisma.answer.update(q);
+          }
         } else {
-          // Update the existing vote
           await prisma.vote.update({
-            where: {
-              id: existingVote.id,
-            },
-            data: {
-              voteType,
-            },
+            where: { id: existingVote.id },
+            data: { voteType },
           });
 
-          // adjust the prev vote and the new vote
-          await prisma.comment.update({
-            where: { id: commentId },
+          const incrementField =
+            voteType === VoteType.UPVOTE ? 'upvotes' : 'downvotes';
+          const decrementField =
+            voteType === VoteType.UPVOTE ? 'downvotes' : 'upvotes';
+
+          const q = {
+            where: { id: targetId },
             data: {
-              upvotes:
-                voteType === VoteType.UPVOTE
-                  ? { increment: 1 }
-                  : { decrement: 1 },
-              downvotes:
-                voteType === VoteType.DOWNVOTE
-                  ? { increment: 1 }
-                  : { decrement: 1 },
+              [incrementField]: { increment: 1 },
+              [decrementField]: { decrement: 1 },
             },
-          });
+          };
+          if (targetType === 'comment') {
+            await prisma.comment.update(q);
+          } else if (targetType === 'question') {
+            await prisma.question.update(q);
+          } else if (targetType === 'answer') {
+            await prisma.answer.update(q);
+          }
         }
       } else {
-        // Create a new vote
         await prisma.vote.create({
           data: {
             voteType,
-            userId: session.user.id!,
-            commentId,
+            userId: session.user.id,
+            ...(commentId ? { commentId } : {}),
+            ...(questionId ? { questionId } : {}),
+            ...(answerId ? { answerId } : {}),
           },
         });
-
-        // Increment the vote count
-        const updateField =
-          voteType === VoteType.UPVOTE ? 'upvotes' : 'downvotes';
-        await prisma.comment.update({
-          where: { id: commentId },
+        const q = {
+          where: { id: targetId },
           data: {
-            [updateField]: { increment: 1 },
+            [voteType === VoteType.UPVOTE ? 'upvotes' : 'downvotes']: {
+              increment: 1,
+            },
           },
-        });
+        };
+        if (targetType === 'comment') {
+          await prisma.comment.update(q);
+        } else if (targetType === 'question') {
+          await prisma.question.update(q);
+        } else if (targetType === 'answer') {
+          await prisma.answer.update(q);
+        }
       }
     });
+    const q = {
+      where: { id: targetId! },
+    };
+    let updatedEntity;
+    if (targetType === 'comment') {
+      updatedEntity = await prisma.comment.findUnique(q);
+    } else if (targetType === 'question') {
+      updatedEntity = await prisma.question.findUnique(q);
+    } else if (targetType === 'answer') {
+      updatedEntity = await prisma.answer.findUnique(q);
+    }
 
-    const updatedComment = await prisma.comment.findUnique({
-      where: { id: commentId },
-    });
-    revalidatePath(data.currentPath);
-    return { data: updatedComment };
+    if (currentPath) {
+      revalidatePath(currentPath);
+    }
+
+    return { data: updatedEntity };
   } catch (error) {
     console.error(error);
     return { error: 'Failed to process the vote.' };
