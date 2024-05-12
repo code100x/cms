@@ -378,3 +378,62 @@ export const getCurrentContentType = async (
 
   return content.type;
 };
+
+export const getNextPrevUrls = async (contentId: number, courseId: number) => {
+  const nextContent = await db.content.findFirst({
+    where: {
+      type: 'video',
+      courses: {
+        some: {
+          courseId,
+        },
+      },
+      id: {
+        gt: contentId,
+      },
+    },
+    orderBy: {
+      id: 'asc',
+    },
+  });
+
+  const prevContent = await db.content.findFirst({
+    where: {
+      type: 'video',
+      courses: {
+        some: {
+          courseId,
+        },
+      },
+      id: {
+        lt: contentId,
+      },
+    },
+    orderBy: {
+      id: 'desc',
+    },
+  });
+
+  let nextContentUrl = null;
+  if (nextContent) {
+    if (nextContent.parentId) {
+      nextContentUrl = `/courses/${courseId}/${nextContent.parentId}/${nextContent.id}`;
+    } else {
+      nextContentUrl = `/courses/${courseId}/${nextContent.id}`;
+    }
+  }
+
+  let prevContentUrl = null;
+  if (prevContent) {
+    if (prevContent.parentId) {
+      prevContentUrl = `/courses/${courseId}/${prevContent.parentId}/${prevContent.id}`;
+    } else {
+      prevContentUrl = `/courses/${courseId}/${prevContent.id}`;
+    }
+  }
+
+  return {
+    nextContentUrl,
+    prevContentUrl,
+  };
+};
