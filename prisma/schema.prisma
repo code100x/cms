@@ -221,6 +221,8 @@ model Question {
   totalanswers Int      @default(0)
   answers     Answer[]
   votes       Vote[]
+  contentId   Int?
+  video       Content?  @relation(fields: [contentId], references: [id])
   tags        String[]
   updatedAt   DateTime  @updatedAt
 

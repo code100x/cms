@@ -148,6 +148,12 @@ export const ContentRendererClient = ({
                     Slides
                   </button>
                 </a>
+                <a
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold rounded p-2"
+                  href={`/questions?contentId=${content.id}`}
+                >
+                  Q & A
+                </a>
               </div>
             ) : null}
             {!showChapters && metadata.segments?.length > 0 && (

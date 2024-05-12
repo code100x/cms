@@ -86,6 +86,14 @@ const getQuestionsWithQuery = async (
     };
   }
 
+  const contentFilter = searchParams.contentId;
+  if (contentFilter) {
+    additionalQuery.where = {
+      ...additionalQuery.where,
+      contentId: Number(searchParams.contentId),
+    };
+  }
+
   try {
     const data: any = await db.question.findMany({
       ...baseQuery,
@@ -157,7 +165,11 @@ export default async function Home({
             New Question
           </Link>
         </div>
-        <NewPostDialog />
+        <NewPostDialog
+          contentId={
+            searchParams.contentId ? Number(searchParams.contentId) : null
+          }
+        />
         <div className="md:mx-[15%] mx-auto md:p-10 ">
           <div className="flex flex-col items-center p-4 dark:text-white">
             <div className="flex ">
@@ -217,6 +229,11 @@ export default async function Home({
             </div>
             <div className="w-full m-auto">
               <div className="space-y-4 w-full">
+                {response?.data?.length === 0 && (
+                  <div className="text-center text-3xl m-10">
+                    No questions found
+                  </div>
+                )}
                 {response?.data?.map((post) => (
                   <PostCard
                     post={post}

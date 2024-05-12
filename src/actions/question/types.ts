@@ -57,7 +57,7 @@ export interface QuestionQuery {
   };
   where?: {
     authorId?: string;
-
+    contentId?: number;
     title?: {
       contains: string;
     };
