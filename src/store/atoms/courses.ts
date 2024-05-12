@@ -12,7 +12,7 @@ export type Course = {
   openToEveryone: boolean;
   totalVideos?: number;
   totalVideosWatched?: number;
-  certIssued?: boolean;
+  certIssued: boolean;
 };
 
 const coursesSelector = selector({

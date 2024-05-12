@@ -14,13 +14,12 @@ export const getCertificates = async () => {
 
   const courseWithCert: {
     course: Course;
-    cert: { id: string; courseId: number; userId: string };
+    cert: { id: string; courseId: number; userId: string; slug: string };
     user: User;
   }[] = [];
 
   await Promise.all(
     courses.map(async (course) => {
-      console.log('inside for this');
       const certificate = await db.certificate.upsert({
         where: {
           userId_courseId: { courseId: course.id, userId: session?.user.id },
@@ -29,6 +28,7 @@ export const getCertificates = async () => {
         create: {
           userId: session?.user.id,
           courseId: course.id,
+          slug: generateUniqueCertId(),
         },
         include: {
           user: true,
@@ -41,6 +41,7 @@ export const getCertificates = async () => {
           id: certificate.id,
           courseId: certificate.courseId,
           userId: certificate.userId,
+          slug: certificate.slug,
         },
         user: certificate.user,
       });
@@ -49,3 +50,15 @@ export const getCertificates = async () => {
 
   return courseWithCert;
 };
+
+function generateUniqueCertId() {
+  const POSSIBLE_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  const ID_LENGTH = 8;
+  let id = '';
+  for (let i = 0; i < ID_LENGTH; i++) {
+    id += POSSIBLE_CHARS.charAt(
+      Math.floor(Math.random() * POSSIBLE_CHARS.length),
+    );
+  }
+  return id;
+}

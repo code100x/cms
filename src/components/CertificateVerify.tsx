@@ -19,12 +19,14 @@ export const CertificateVerify = ({
     certificateDetails: {
       certificateId: certificate.id,
       course: certificate.course,
+      certificateSlug: certificate.slug,
     },
     userName: certificate.user.name as string,
   });
 
   return (
-    <div>
+    <div className="h-screen flex justify-center flex-col pb-20 mx-10">
+      <h1 className="text-4xl text-center pb-4">100x Devs Certificate</h1>
       <Card className="w-500 my-4 flex">
         <CardContent className="flex-none mr-4 w-1/2">
           {certificateImageUrl ? (

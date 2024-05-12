@@ -70,14 +70,17 @@ export function useGenerateCertificate({
         color: rgb(0, 0, 0),
       });
 
-      const certificateNumberFontSize = 12;
-      firstPage.drawText(`Certificate No:${certificateDetails.certificateId}`, {
-        x: width * 0.35,
-        y: height * 0.12,
-        size: certificateNumberFontSize,
-        font: timesRomanBoldFont,
-        color: rgb(0, 0, 0),
-      });
+      const certificateNumberFontSize = 28;
+      firstPage.drawText(
+        `Certificate No:${certificateDetails.certificateSlug}`,
+        {
+          x: width * 0.34,
+          y: height * 0.12,
+          size: certificateNumberFontSize,
+          font: timesRomanBoldFont,
+          color: rgb(0, 0, 0),
+        },
+      );
 
       const pdfDataUri = await pdfDoc.saveAsBase64({ dataUri: true });
       setCertificatePdfUrl(pdfDataUri);
@@ -110,20 +113,20 @@ export function useGenerateCertificate({
 
       ctx.drawImage(certificateImage, 0, 0);
 
-      ctx.font = 'bold 50px Helvetica';
+      ctx.font = 'bold 85px Helvetica';
       ctx.fillStyle = 'black';
       const textWidth = ctx.measureText(recipientName).width;
       const xRecipient = (offscreenCanvas.width - textWidth) / 2;
       const yRecipient = offscreenCanvas.height * 0.55;
       ctx.fillText(recipientName, xRecipient, yRecipient);
 
-      const certificateNumberFontSize = 20;
+      const certificateNumberFontSize = 50;
       ctx.font = `bold ${certificateNumberFontSize}px Helvetica`;
-      const certificateNumberText = `Certificate No: ${certificateDetails.certificateId}`;
+      const certificateNumberText = `Certificate No: ${certificateDetails.certificateSlug}`;
       ctx.fillText(
         certificateNumberText,
-        offscreenCanvas.width * 0.4,
-        offscreenCanvas.height * 0.9,
+        offscreenCanvas.width * 0.37,
+        offscreenCanvas.height * 0.88,
       );
 
       const dataUrl = offscreenCanvas.toDataURL();

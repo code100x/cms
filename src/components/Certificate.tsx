@@ -15,6 +15,7 @@ import { useMemo } from 'react'; //used to fix maximum update depth exceeded err
 
 export const CertificateComponent = ({
   certificateId,
+  certificateSlug,
   course,
   userName,
 }: OneCertificate & { userName: string }) => {
@@ -23,8 +24,9 @@ export const CertificateComponent = ({
       certificateId,
       course,
       userName,
+      certificateSlug,
     }),
-    [certificateId, course, userName],
+    [certificateId, course, userName, certificateSlug],
   );
 
   const { certificatePdfUrl, certificateImageUrl } = useGenerateCertificate({
@@ -74,7 +76,11 @@ export const CertificateComponent = ({
   return (
     <Card className="w-500 my-4" key={course.id}>
       <CardContent className="flex justify-center">
-        <img src={course.imageUrl} alt="" width={500} />
+        <img
+          src={certificateImageUrl}
+          alt=""
+          className="w-full max-w-screen-md"
+        />
       </CardContent>
       <CardHeader>
         <CardTitle>{course.title}</CardTitle>

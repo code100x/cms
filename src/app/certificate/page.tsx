@@ -10,6 +10,7 @@ const CertificatePage = async () => {
         <CertificateComponent
           certificateId={cert.id}
           course={course}
+          certificateSlug={cert.slug}
           userName={user.name!}
           key={course.id}
         />
