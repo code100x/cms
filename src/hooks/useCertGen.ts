@@ -61,7 +61,7 @@ export function useGenerateCertificate({
         fontSize,
       );
       const xRecipient = (width - textWidth) / 2;
-      const yRecipient = height * 0.44;
+      const yRecipient = height * 0.46;
       firstPage.drawText(capitalizeFirstLetter(userName), {
         x: xRecipient,
         y: yRecipient,
@@ -74,7 +74,7 @@ export function useGenerateCertificate({
       firstPage.drawText(
         `Certificate No:${certificateDetails.certificateSlug}`,
         {
-          x: width * 0.34,
+          x: width * 0.3,
           y: height * 0.12,
           size: certificateNumberFontSize,
           font: timesRomanBoldFont,
@@ -113,11 +113,11 @@ export function useGenerateCertificate({
 
       ctx.drawImage(certificateImage, 0, 0);
 
-      ctx.font = 'bold 85px Helvetica';
+      ctx.font = '85px Helvetica';
       ctx.fillStyle = 'black';
       const textWidth = ctx.measureText(recipientName).width;
       const xRecipient = (offscreenCanvas.width - textWidth) / 2;
-      const yRecipient = offscreenCanvas.height * 0.55;
+      const yRecipient = offscreenCanvas.height * 0.54;
       ctx.fillText(recipientName, xRecipient, yRecipient);
 
       const certificateNumberFontSize = 50;
@@ -125,7 +125,7 @@ export function useGenerateCertificate({
       const certificateNumberText = `Certificate No: ${certificateDetails.certificateSlug}`;
       ctx.fillText(
         certificateNumberText,
-        offscreenCanvas.width * 0.37,
+        offscreenCanvas.width * 0.35,
         offscreenCanvas.height * 0.88,
       );
 
