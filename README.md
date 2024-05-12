@@ -108,3 +108,6 @@ Read our [contribution guidelines](./CONTRIBUTING.md) for more details.
 <a href="https://github.com/code100x/cms/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=code100x/cms&max=400&columns=20" />
 </a>
+
+## Issues on mac Silicon
+brew install pkg-config cairo pango libpng jpeg giflib librsvg

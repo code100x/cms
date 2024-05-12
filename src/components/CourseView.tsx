@@ -60,6 +60,7 @@ export const CourseView = ({
         <Comments
           content={{
             id: courseContent[0]?.id || 0,
+            courseId: courseContent[0]?.parentId || 0,
             commentCount: courseContent[0]?.commentsCount || 0,
             possiblePath,
           }}

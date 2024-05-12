@@ -69,7 +69,7 @@ export const refreshDb: RefreshDbFn = async () => {
     try {
       await db.userPurchases.create({
         data: {
-          userId,
+          userId: userId!,
           courseId: res.id,
         },
       });
