@@ -48,6 +48,9 @@ export const useBookmark = (bookmark: Bookmark | null, contentId: number) => {
 
   const handleBookmark = async (e: MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
+    e.nativeEvent.stopImmediatePropagation();
+    e.preventDefault();
+
     try {
       setIsDisabled(true);
       if (addedBookmark) {
@@ -65,6 +68,7 @@ export const useBookmark = (bookmark: Bookmark | null, contentId: number) => {
     } finally {
       setIsDisabled(false);
     }
+    return false;
   };
 
   return { addedBookmark, handleBookmark, isDisabled };

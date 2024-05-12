@@ -44,7 +44,6 @@ export const Appbar = () => {
                 {/* Search Bar for smaller devices */}
                 <MobileScreenSearch />
                 <ProfileDropdown />
-
               </div>
             </>
           ) : (
