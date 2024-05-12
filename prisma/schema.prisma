@@ -19,7 +19,6 @@ model Course {
   slug           String
   content        CourseContent[]
   purchasedBy    UserPurchases[]
-  bookmarks      Bookmark[]
   certificate    Certificate[]
   certIssued     Boolean         @default(false)
 }
@@ -71,7 +70,12 @@ model Certificate {
   userId   String
   course   Course @relation(fields: [courseId], references: [id])
   courseId Int
-
+  id                String    @id @default(cuid())
+  slug              String    @default("certId")
+  user              User      @relation(fields: [userId], references: [id])
+  userId            String
+  course            Course    @relation(fields: [courseId], references: [id])
+  courseId          Int
   @@unique([userId, courseId])
 }
 
