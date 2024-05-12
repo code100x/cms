@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, CardContent, CardFooter, CardHeader } from '../ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
-import { CommentFilter, QueryParams, ROLES } from '@/actions/types';
+import { TabType, QueryParams, ROLES } from '@/actions/types';
 import {
   constructCommentPrismaQuery,
   getUpdatedUrl,
@@ -46,6 +46,9 @@ const Comments = async ({
   searchParams: QueryParams;
 }) => {
   const session = await getServerSession(authOptions);
+  if (!session?.user) {
+    return null;
+  }
   const paginationInfo = paginationData(searchParams);
   const q = constructCommentPrismaQuery(
     searchParams,
@@ -124,7 +127,7 @@ const Comments = async ({
                 className="w-[200px] justify-between text-left font-normal"
                 variant="ghost"
               >
-                <span>{searchParams.commentfilter || CommentFilter.mu}</span>
+                <span>{searchParams.tabtype || TabType.mu}</span>
                 <ChevronDownIcon className="w-4 h-4" />
               </Button>
             </DropdownMenuTrigger>
@@ -136,7 +139,7 @@ const Comments = async ({
                     `/courses/${content.courseId}/${content.possiblePath}`,
                     searchParams,
                     {
-                      commentfilter: CommentFilter.mu,
+                      tabtype: TabType.mu,
                     },
                   )}
                 >
@@ -148,7 +151,7 @@ const Comments = async ({
                     `/courses/${content.courseId}/${content.possiblePath}`,
                     searchParams,
                     {
-                      commentfilter: CommentFilter.mr,
+                      tabtype: TabType.mr,
                     },
                   )}
                 >
@@ -160,7 +163,7 @@ const Comments = async ({
                     `/courses/${content.courseId}/${content.possiblePath}`,
                     searchParams,
                     {
-                      commentfilter: CommentFilter.md,
+                      tabtype: TabType.md,
                     },
                   )}
                 >

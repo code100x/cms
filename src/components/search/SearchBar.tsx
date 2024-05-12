@@ -40,7 +40,7 @@ const SearchBar = ({ onCardClick }: { onCardClick?: () => void }) => {
   }, []);
 
   useEffect(() => {
-    if (searchTerm.length > 2) {
+    if (searchTerm.trimEnd().length > 2) {
       const timeoutId = setTimeout(() => {
         fetchData(searchTerm);
       }, 300);
