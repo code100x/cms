@@ -56,7 +56,7 @@ export const CertificateComponent = ({
   };
 
   const handleShareLinkedIn = async () => {
-    const certificateUrl = `${window.location.origin}/certificate/verify/${certificateId}`;
+    const certificateUrl = `${window.location.origin}/certificate/verify/${certificateSlug}`;
     const postContent = `I just earned the "${course.title}" certificate on 100x Academy! Check it out: ${certificateUrl}`;
     const shareUrl = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(
       certificateUrl,
@@ -66,7 +66,7 @@ export const CertificateComponent = ({
 
   const handleShareTwitter = () => {
     const tweetText = `I just earned the "${course.title}" certificate on 100x Academy! Check it out:`;
-    const certificateUrl = `${window.location.origin}/certificate/verify/${certificateId}`;
+    const certificateUrl = `${window.location.origin}/certificate/verify/${certificateSlug}`;
     const shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}&url=${encodeURIComponent(certificateUrl)}`;
     window.open(shareUrl);
   };
