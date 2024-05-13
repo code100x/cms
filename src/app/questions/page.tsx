@@ -140,8 +140,8 @@ export default async function Home({
 
   return (
     <>
-      <div className="h-screen md:p-8 transition-colors duration-500">
-        <div className="flex justify-between items-center mb-6 px-8 pt-3">
+      <div className="md:p-8 transition-colors duration-500">
+        <div className="flex justify-between items-center px-8 pt-3">
           <div className="text-3xl dark:text-white  text-black transition-colors duration-500">
             <h1 className="text-black  dark:text-white">Questions</h1>
           </div>
@@ -158,7 +158,7 @@ export default async function Home({
           </Link>
         </div>
         <NewPostDialog />
-        <div className="md:mx-[15%] mx-auto md:p-10 ">
+        <div className="md:mx-[15%] mx-auto py-4 md:p-10 ">
           <div className="flex flex-col items-center p-4 dark:text-white">
             <div className="flex ">
               <Search />
