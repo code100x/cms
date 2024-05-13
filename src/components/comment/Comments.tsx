@@ -68,7 +68,7 @@ const Comments = async ({
           <Link
             className="p-1 "
             href={getUpdatedUrl(
-              `/courses/${content.possiblePath}`,
+              `/courses/${content.courseId}/${content.possiblePath}`,
               modifiedSearchParams,
               {},
             )}
