@@ -183,12 +183,20 @@ async function getAllContent() {
       hidden: false,
     },
     include: {
+      courses: {
+        select: {
+          courseId: true,
+        },
+      },
       VideoMetadata: {
         select: {
           duration: true,
         },
       },
       bookmark: true,
+    },
+    orderBy: {
+      id: 'asc',
     },
   });
   Cache.getInstance().set('getAllContent', [], allContent);
@@ -380,39 +388,31 @@ export const getCurrentContentType = async (
 };
 
 export const getNextPrevUrls = async (contentId: number, courseId: number) => {
-  const nextContent = await db.content.findFirst({
-    where: {
-      type: 'video',
-      courses: {
-        some: {
-          courseId,
-        },
-      },
-      id: {
-        gt: contentId,
-      },
-    },
-    orderBy: {
-      id: 'asc',
-    },
-  });
+  const content = await getAllContent();
 
-  const prevContent = await db.content.findFirst({
-    where: {
-      type: 'video',
-      courses: {
-        some: {
-          courseId,
-        },
-      },
-      id: {
-        lt: contentId,
-      },
-    },
-    orderBy: {
-      id: 'desc',
-    },
-  });
+  const nextContentIdx = content.findIndex(
+    (x: any) =>
+      x.type === 'video' &&
+      x.id > contentId &&
+      x.courses[0]?.courseId === courseId,
+  );
+  const nextContent =
+    nextContentIdx !== -1 ? content[nextContentIdx] : undefined;
+  let prevContent = null;
+  for (
+    let i = nextContentIdx !== -1 ? nextContentIdx - 1 : content.length - 1;
+    i >= 0;
+    i--
+  ) {
+    if (
+      content[i].type === 'video' &&
+      content[i].id < contentId &&
+      content[i].courses[0]?.courseId === courseId
+    ) {
+      prevContent = content[i];
+      break;
+    }
+  }
 
   let nextContentUrl = null;
   if (nextContent) {
