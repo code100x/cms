@@ -75,7 +75,6 @@ export const ContentCard = ({
             imageUrl={
               'https://d2szwvl7yo497w.cloudfront.net/courseThumbnails/video.png'
             }
-
           />
         </div>
       )}
