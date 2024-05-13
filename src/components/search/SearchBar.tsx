@@ -21,6 +21,24 @@ const SearchBar = ({ onCardClick }: { onCardClick?: () => void }) => {
   const ref = useRef<HTMLDivElement>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
 
+  const handleKeyPress = (event: KeyboardEvent) => {
+    if ((event.ctrlKey || event.metaKey) && event.key === 'k') {
+      event.preventDefault();
+      searchInputRef.current.focus();
+    } else if (event.key === 'Escape') {
+      searchInputRef.current.blur();
+      setIsInputFocused(false);
+      clearSearchTerm();
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('keydown', handleKeyPress);
+    return () => {
+      document.removeEventListener('keydown', handleKeyPress);
+    };
+  }, []);
+
   useClickOutside(ref, () => {
     setIsInputFocused(false);
   });
@@ -94,14 +112,16 @@ const SearchBar = ({ onCardClick }: { onCardClick?: () => void }) => {
 
   return (
     <div
-      className="relative flex items-center w-full lg:w-[300px] xl:w-[400px] h-10"
+      className="relative flex items-center w-full lg:w-[300px] xl:w-[400px] h-10 justify-center cursor-pointer"
       ref={ref}
     >
       {/* Search Input Bar */}
       <SearchIcon className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-gray-500" />
       <Input
-        placeholder="Search for videos..."
-        className="px-10 border-2 focus-visible:ring-transparent rounded-full"
+        placeholder={
+          isInputFocused ? 'Press Esc to cancel' : 'Search with Ctrl K'
+        }
+        className="px-10 border-2 focus-visible:ring-transparent rounded-full placeholder:font-semibold placeholder:text-center placeholder:text-md"
         value={searchTerm}
         onChange={handleInputChange}
         onFocus={() => setIsInputFocused(true)}
