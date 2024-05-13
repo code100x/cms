@@ -113,7 +113,7 @@ export const VideoPlayer = ({
           player?.eme();
 
           // @ts-ignore
-          this.on('keystatuschange', (event: any) => {
+          this?.on('keystatuschange', (event: any) => {
             console.log('event: ', event);
           });
         },

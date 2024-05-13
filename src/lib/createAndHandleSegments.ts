@@ -7,6 +7,10 @@ export function segmentsHandler(segments: Segment[], player: any) {
     document.querySelectorAll('.timeline-segments').forEach((e) => e.remove());
   }
 
+  // for no segments seekbar ( here single timeline) should be there.
+  if (segments.length === 0) {
+    segments = [{ start: 0.0, end: player?.duration(), title: '' }];
+  }
   segments?.forEach((each: Segment) => {
     const segmentDiv = document.createElement('div');
     const previewEle = document.createElement('div');
@@ -15,6 +19,7 @@ export function segmentsHandler(segments: Segment[], player: any) {
     previewEle.classList.add('timeline-segments-preview');
     progressEle.classList.add('timeline-segments-progress');
 
+    console.log(each?.end, each?.start, player?.duration());
     segmentDiv.style.width = `${((each?.end - each?.start) / player?.duration()) * 100 - 0.2}%`;
 
     segmentDiv.append(previewEle);
@@ -35,7 +40,7 @@ function progessTimeline(segments: Segment[], player: any) {
     '.timeline-segments-progress',
   );
 
-  segments.forEach((each: Segment, index: number) => {
+  segments?.forEach((each: Segment, index: number) => {
     if (each?.end > player?.currentTime()) {
       progressEles[index].style.right =
         `${((each?.end - player?.currentTime()) / (each?.end - each?.start)) * 100}%`;
@@ -72,7 +77,8 @@ function setCurrentLabel(
   segments: Segment[],
   player: any,
 ) {
-  let currentLabel = segments[0].title;
+  console.log(segments);
+  let currentLabel = segments?.[0]?.title || '';
 
   const currentPos = preview_position * player?.duration();
   if (preview_position !== 0) {
@@ -94,6 +100,7 @@ function setCurrentLabel(
 
   let timelineLabelWidth = timelineLabel?.offsetWidth / 2;
 
+  console.log(timelineLabel, rect, timelineContainer);
   if (timelineLabel && rect && timelineContainer) {
     timelineLabel.innerHTML = `<div>${formatTime(preview_position.toFixed(2) * player?.duration())} - ${currentLabel}</div>`;
 
@@ -116,6 +123,7 @@ let isMouseOver = false;
 let isMouseDown = false;
 
 export function updateTimeline(e: any, player: any, segments: Segment[]) {
+  console.log(segments);
   let preview_position = 0;
 
   if (e.type === 'timeupdate') {
