@@ -32,7 +32,6 @@ import { authOptions } from '@/lib/auth';
 import { getServerSession } from 'next-auth';
 import CommentPinForm from './CommentPinForm';
 import CommentApproveForm from './CommentApproveForm';
-import { headers } from 'next/headers';
 dayjs.extend(relativeTime);
 const Comments = async ({
   content,
@@ -58,9 +57,6 @@ const Comments = async ({
     session.user.id,
   );
   const data = await getComments(q, searchParams.parentId);
-
-  const heads = headers();
-  const pathname = heads.get('next-url');
 
   if (!content.id) return null;
   const modifiedSearchParams = { ...searchParams };
@@ -90,6 +86,7 @@ const Comments = async ({
                 possiblePath={content.possiblePath}
                 searchParams={searchParams}
                 comment={data.parentComment.content}
+                contentId={content.courseId}
               />
             </h1>
           )}
@@ -289,6 +286,7 @@ const Comments = async ({
                       possiblePath={content.possiblePath}
                       searchParams={searchParams}
                       comment={c.content}
+                      contentId={content.courseId}
                     />
                   </div>
 
@@ -303,9 +301,13 @@ const Comments = async ({
                     />
                     {!data.parentComment && (
                       <Link
-                        href={getUpdatedUrl(`${pathname}`, searchParams, {
-                          parentId: c.id,
-                        })}
+                        href={getUpdatedUrl(
+                          `/courses/${content.courseId}/${content.possiblePath}`,
+                          searchParams,
+                          {
+                            parentId: c.id,
+                          },
+                        )}
                         scroll={false}
                         className="flex items-center gap-1 text-gray-500 dark:text-gray-400"
                       >
