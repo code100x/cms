@@ -1,10 +1,9 @@
 ### PR Fixes:
-- 1 Made Scrollbar prettier
+- 1
+- 2
 
 Resolves #[Issue Number if there] 
 
 ### Checklist before requesting a review
-- [X] I have performed a self-review of my code
-- [X] I assure there is no similar/duplicate pull request regarding same issue
-
-![alt text](image.png)
+- [ ] I have performed a self-review of my code
+- [ ] I assure there is no similar/duplicate pull request regarding same issue
