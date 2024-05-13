@@ -111,11 +111,6 @@ export const VideoPlayer = ({
 
           // player?.mobileUi(); // mobile ui #https://github.com/mister-ben/videojs-mobile-ui
           player?.eme();
-
-          // @ts-ignore
-          this?.on('keystatuschange', (event: any) => {
-            console.log('event: ', event);
-          });
         },
       ));
     }
