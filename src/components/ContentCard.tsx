@@ -70,11 +70,12 @@ export const ContentCard = ({
       {type === 'video' && (
         <div className="relative overflow-hidden rounded-md ">
           <VideoThumbnail
-            contentId={contentId}
+
+            contentId={contentId ?? 0}
             imageUrl={
               'https://d2szwvl7yo497w.cloudfront.net/courseThumbnails/video.png'
             }
-            duration={1}
+
           />
         </div>
       )}
