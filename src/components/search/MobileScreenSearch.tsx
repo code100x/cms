@@ -16,7 +16,7 @@ const MobileScreenSearch = () => {
           <XIcon onClick={toggleSearchBar} />
         </div>
       ) : (
-        <SearchIcon onClick={toggleSearchBar} size={18} />
+        <SearchIcon onClick={toggleSearchBar} size={20} className="mx-2" />
       )}
     </div>
   );

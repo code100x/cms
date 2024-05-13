@@ -1,5 +1,4 @@
 import { Bookmark } from '@prisma/client';
-import { useParams } from 'next/navigation';
 import { MouseEvent, useState } from 'react';
 import { useAction } from './useAction';
 import { createBookmark, deleteBookmark } from '@/actions/bookmark';
@@ -7,8 +6,6 @@ import { toast } from 'sonner';
 import Link from 'next/link';
 
 export const useBookmark = (bookmark: Bookmark | null, contentId: number) => {
-  const params = useParams();
-  const courseId = params.courseId[0];
   const [addedBookmark, setAddedBookmark] = useState<Bookmark | null>(bookmark);
   const [isDisabled, setIsDisabled] = useState(false);
   const { execute: executeCreateBookmark } = useAction(createBookmark, {
@@ -18,10 +15,11 @@ export const useBookmark = (bookmark: Bookmark | null, contentId: number) => {
           <span>Bookmark Added!</span>
           <Link
             className="text-[#040fff]"
-            href={`/courses/${courseId}/bookmarks`}
+            href={'/bookmarks'}
             onClick={() => {
               toast.dismiss();
             }}
+            target="_blank"
           >
             Checkout all bookmarks
           </Link>
@@ -50,18 +48,19 @@ export const useBookmark = (bookmark: Bookmark | null, contentId: number) => {
 
   const handleBookmark = async (e: MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
+    e.nativeEvent.stopImmediatePropagation();
+    e.preventDefault();
+
     try {
       setIsDisabled(true);
       if (addedBookmark) {
         await executeDeleteBookmark({
           id: addedBookmark.id,
-          courseId: parseInt(courseId, 10),
         });
         setAddedBookmark(null);
       } else {
         await executeCreateBookmark({
           contentId,
-          courseId: parseInt(courseId, 10),
         });
       }
     } catch (err) {
@@ -69,6 +68,7 @@ export const useBookmark = (bookmark: Bookmark | null, contentId: number) => {
     } finally {
       setIsDisabled(false);
     }
+    return false;
   };
 
   return { addedBookmark, handleBookmark, isDisabled };

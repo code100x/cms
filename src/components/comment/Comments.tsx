@@ -39,6 +39,7 @@ const Comments = async ({
 }: {
   content: {
     id: number;
+    courseId: number;
     commentCount: number;
     possiblePath: string;
   };
@@ -55,7 +56,6 @@ const Comments = async ({
     content.id,
     session.user.id,
   );
-
   const data = await getComments(q, searchParams.parentId);
 
   if (!content.id) return null;
@@ -136,7 +136,7 @@ const Comments = async ({
                 <Link
                   scroll={false}
                   href={getUpdatedUrl(
-                    `/courses/${content.possiblePath}`,
+                    `/courses/${content.courseId}/${content.possiblePath}`,
                     searchParams,
                     {
                       tabtype: TabType.mu,
@@ -148,7 +148,7 @@ const Comments = async ({
                 <Link
                   scroll={false}
                   href={getUpdatedUrl(
-                    `/courses/${content.possiblePath}`,
+                    `/courses/${content.courseId}/${content.possiblePath}`,
                     searchParams,
                     {
                       tabtype: TabType.mr,
@@ -160,7 +160,7 @@ const Comments = async ({
                 <Link
                   scroll={false}
                   href={getUpdatedUrl(
-                    `/courses/${content.possiblePath}`,
+                    `/courses/${content.courseId}/${content.possiblePath}`,
                     searchParams,
                     {
                       tabtype: TabType.md,
@@ -191,7 +191,7 @@ const Comments = async ({
                 <Link
                   scroll={false}
                   href={getUpdatedUrl(
-                    `/courses/${content.possiblePath}`,
+                    `/courses/${content.courseId}/${content.possiblePath}`,
                     searchParams,
                     {
                       type: CommentType.DEFAULT,
@@ -204,7 +204,7 @@ const Comments = async ({
                 <Link
                   scroll={false}
                   href={getUpdatedUrl(
-                    `/courses/${content.possiblePath}`,
+                    `/courses/${content.courseId}/${content.possiblePath}`,
                     searchParams,
                     {
                       type: CommentType.INTRO,
