@@ -23,6 +23,7 @@ export function useGenerateCertificate({
     null,
   );
   const [certificateImageUrl, setCertificateImageUrl] = useState('');
+  const [downloadDate, setDownloadDate] = useState<Date | null>(null);
 
   useEffect(() => {
     async function generateCertificateAndImage() {
@@ -31,6 +32,7 @@ export function useGenerateCertificate({
       try {
         await generateCertificate();
         await generateCertificateImage();
+        setDownloadDate(new Date());
       } catch (error) {
         console.error(error);
       } finally {
@@ -113,20 +115,29 @@ export function useGenerateCertificate({
 
       ctx.drawImage(certificateImage, 0, 0);
 
-      ctx.font = '85px Helvetica';
+      ctx.font = '85px "Brush Script MT", cursive'; // Changed to  font
       ctx.fillStyle = 'black';
       const textWidth = ctx.measureText(recipientName).width;
       const xRecipient = (offscreenCanvas.width - textWidth) / 2;
       const yRecipient = offscreenCanvas.height * 0.54;
       ctx.fillText(recipientName, xRecipient, yRecipient);
 
-      const certificateNumberFontSize = 50;
-      ctx.font = `bold ${certificateNumberFontSize}px Helvetica`;
+      const certificateNumberFontSize = 35;
+      ctx.font = `${certificateNumberFontSize}px Helvetica`;
       const certificateNumberText = `Certificate No: ${certificateDetails.certificateSlug}`;
       ctx.fillText(
         certificateNumberText,
-        offscreenCanvas.width * 0.35,
-        offscreenCanvas.height * 0.88,
+        offscreenCanvas.width * 0.35 + 510,
+        offscreenCanvas.height * 0.77,
+      );
+
+      // Add download date
+      const downloadDateText = ` ${new Date().toLocaleDateString()}`;
+      ctx.font = `${certificateNumberFontSize / 1}px Helvetica`;
+      ctx.fillText(
+        downloadDateText,
+        offscreenCanvas.width * 0.18 + 20,
+        offscreenCanvas.height * 0.94,
       );
 
       const dataUrl = offscreenCanvas.toDataURL();
@@ -142,5 +153,6 @@ export function useGenerateCertificate({
     generating,
     certificatePdfUrl,
     certificateImageUrl,
+    downloadDate,
   };
 }
