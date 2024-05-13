@@ -53,6 +53,10 @@ export const CourseView = ({
             markAsCompleted:
               courseContent[0]?.videoProgress?.markAsCompleted || false,
             bookmark: courseContent[0].bookmark,
+            upvotes: courseContent[0].upvotes,
+            downvotes: courseContent[0].downvotes,
+            upVoted: courseContent[0].videoProgress?.upVoted || false,
+            downVoted: courseContent[0].videoProgress?.downVoted || false,
           }}
         />
       ) : null}

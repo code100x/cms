@@ -5,6 +5,8 @@ import { VideoPlayerSegment } from '@/components/VideoPlayerSegment';
 import VideoContentChapters from '../VideoContentChapters';
 import { useMemo, useState } from 'react';
 import { handleMarkAsCompleted } from '@/lib/utils';
+import ContentVoteForm from './ContentVoteForm';
+// import { toast } from 'sonner';
 
 export const ContentRendererClient = ({
   metadata,
@@ -24,6 +26,10 @@ export const ContentRendererClient = ({
     thumbnail: string;
     description: string;
     markAsCompleted: boolean;
+    upvotes: number;
+    downvotes: number;
+    upVoted: boolean;
+    downVoted: boolean;
   };
 }) => {
   const [contentCompleted, setContentCompleted] = useState(
@@ -87,6 +93,8 @@ export const ContentRendererClient = ({
     setLoadingMarkAs(false);
   };
 
+  console.log({ content });
+
   return (
     <div className="flex gap-2 items-start flex-col lg:flex-row">
       <div className="flex-1 w-full">
@@ -118,8 +126,8 @@ export const ContentRendererClient = ({
             setContentCompleted(true);
           }}
         />
-        <div className="flex justify-between mb-2">
-          <div>
+        <div className="flex justify-between mb-2 gap-3">
+          <div className="flex-1">
             <div className="text-gray-900 dark:text-white font-bold text-2xl">
               {content.title}
             </div>
@@ -133,8 +141,14 @@ export const ContentRendererClient = ({
             </button>
           </div>
 
-          <div>
-            {/* <QualitySelector /> */}
+          <div className="flex gap-4 items-center">
+            <ContentVoteForm
+              downvotes={content.downvotes}
+              upvotes={content.upvotes}
+              contentId={content.id}
+              upVoted={content.upVoted}
+              downVoted={content.downVoted}
+            />
             {metadata.slides ? (
               <div
                 style={{
@@ -163,6 +177,7 @@ export const ContentRendererClient = ({
             )}
           </div>
         </div>
+
         {nextContent ? (
           <div className="flex flex-row-reverse">
             <button

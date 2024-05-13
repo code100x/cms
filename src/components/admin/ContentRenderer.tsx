@@ -76,6 +76,10 @@ export const ContentRenderer = async ({
     slides?: string;
     markAsCompleted: boolean;
     bookmark: Bookmark | null;
+    upvotes: number;
+    downvotes: number;
+    upVoted: boolean;
+    downVoted: boolean;
   };
 }) => {
   const metadata = await getMetadata(content.id);
