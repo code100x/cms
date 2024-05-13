@@ -4,10 +4,9 @@ import '@uiw/react-markdown-preview/markdown.css';
 import useModal from '@/hooks/useModal';
 import Modal from './Modal';
 import MDEditor from '@uiw/react-md-editor';
-import { usePathname, useSearchParams } from 'next/navigation';
+import { usePathname, useSearchParams,useRouter } from 'next/navigation';
 import React, { ElementRef, useEffect, useRef, useState } from 'react';
 
-import { useRouter } from 'next/navigation';
 import { Button } from './ui/button';
 import { useAction } from '@/hooks/useAction';
 import { createQuestion } from '@/actions/question';
@@ -26,33 +25,20 @@ export const NewPostDialog = () => {
   const path = usePathname();
   const router = useRouter();
   const [value, setValue] = useState<string>('**Hello world!!!**');
-  const [editorHeight, setEditorHeight] = useState<number>(200);
-  const containerRef = useRef<HTMLDivElement>(null);
   const { ref, onOpen, onClose } = useModal();
+
   const handleMarkdownChange = (newValue?: string) => {
     if (typeof newValue === 'string') {
       setValue(newValue);
     }
   };
+
   useEffect(() => {
-    let timeoutId: any;
     if (paramsObject.newPost === 'open') {
       onOpen();
-
-      timeoutId = setTimeout(() => {
-        if (containerRef.current) {
-          const rect = containerRef.current.getBoundingClientRect();
-          setEditorHeight(rect.height);
-        }
-      }, 0); // Adjust the delay time if needed
-
-      // Cleanup function to clear the timeout
     } else {
       onClose();
     }
-    return () => {
-      clearTimeout(timeoutId);
-    };
   }, [onClose, onOpen, paramsObject.newPost]);
 
   const { execute, fieldErrors, setFieldErrors } = useAction(createQuestion, {
@@ -70,12 +56,14 @@ export const NewPostDialog = () => {
       toast.error(error);
     },
   });
+
   const handleOnCloseClick = () => {
     router.push(getUpdatedUrl(`${path}/`, paramsObject, { newPost: 'close' }));
     if (fieldErrors?.content || fieldErrors?.title || fieldErrors?.tags) {
       setFieldErrors({});
     }
   };
+
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
@@ -92,47 +80,54 @@ export const NewPostDialog = () => {
 
   return (
     <Modal ref={ref} onClose={handleOnCloseClick}>
-      <form ref={formRef} onSubmit={onSubmit}>
-        <div className="fixed inset-0 flex items-center justify-center z-50  p-4 md:p-8">
-          <div
-            ref={containerRef}
-            className="relative z-10 bg-white dark:bg-gray-800 rounded-lg shadow-lg max-w-3xl md:max-w-4xl pt-8 p-2 space-y-4  w-full h-5/6 "
+      <div className="w-full">
+        <div className='py-4 px-6 flex justify-between items-center rounded-t-[20px] border-b dark:border-slate-700 border-slate-200'>
+          <h2 className='text-2xl font-bold'>Post your doubts</h2>
+          <button
+            type="button"
+            className=""
+            onClick={handleOnCloseClick}
           >
-            <button
-              type="button"
-              className="absolute top-2 right-2 bg-red-500 text-white w-6 h-6 rounded-full flex items-center justify-center"
-              onClick={handleOnCloseClick}
-            >
-              x
-            </button>
-            <FormPostInput
-              id="title"
-              placeholder="Enter question title..."
-              errors={fieldErrors}
-            />
-            <div className="flex-grow">
-              <div data-color-mode={theme}>
-                <div className="wmde-markdown-var"> </div>
-                <MDEditor
-                  id="content"
-                  value={value}
-                  onChange={handleMarkdownChange}
-                  style={{ height: '100%' }}
-                  height={editorHeight - 200}
-                  visibleDragbar={false}
-                />
-                <FormPostErrors id="content" errors={fieldErrors} />
+            <img src="cross.svg" className='h-10 w-10' alt="close modal"/>
+          </button>
+        </div>
+        <form ref={formRef} onSubmit={onSubmit}>
+          <div className='max-h-[400px] overflow-y-scroll'>
+            <div className='py-6 px-6'>
+              <FormPostInput
+                id="title"
+                placeholder="Enter question title..."
+                errors={fieldErrors}
+                className='bg-transparent py-8 px-4 border dark:border-slate-600 border-slate-300 rounded-xl text-lg'
+              />
+              <FormPostInput
+                id="tags"
+                placeholder="Enter tags seperated by comma : hello,world"
+                errors={fieldErrors}
+                className='bg-transparent mt-6 py-8 px-4 border dark:border-slate-600 border-slate-300 rounded-xl text-lg'
+              />
+              <div className="flex-grow mt-12">
+                <div data-color-mode={theme}>
+                  <div className="wmde-markdown-var"></div>
+                  <MDEditor
+                    id="content"
+                    value={value}
+                    onChange={handleMarkdownChange}
+                    style={{ height: '100%' }}
+                    height={400}
+                    visibleDragbar={false}
+                    preview="edit"
+                  />
+                  <FormPostErrors id="content" errors={fieldErrors} />
+                </div>
               </div>
             </div>
-            <FormPostInput
-              id="tags"
-              placeholder="Enter tags seperated by comma : hello,world"
-              errors={fieldErrors}
-            />
-            <Button type="submit">Post-it</Button>
           </div>
-        </div>
-      </form>
+          <div className='border-t dark:border-slate-700 border-slate-200 py-4 px-6'>
+            <Button type="submit" className='ml-auto block px-4'>Post</Button>
+          </div>
+        </form>
+      </div>
     </Modal>
   );
 };
