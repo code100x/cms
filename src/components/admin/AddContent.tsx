@@ -2,19 +2,88 @@
 import { useEffect, useState } from 'react';
 import { AddNotionMetadata } from './AddNotionMetadata';
 import { Input } from '../ui/input';
+import { useRecoilState } from 'recoil';
+import { loader } from '@/store/atoms/loader';
+import DiscordService from '@/app/services/DiscordService';
+import { Checkbox } from '../ui/checkbox';
 
 export const AddContent = ({
+  rest,
   courseId,
   parentContentId,
+  courseTitle,
 }: {
+  rest: string[];
   courseId: number;
   parentContentId?: number;
+  courseTitle: string;
 }) => {
   const [type, setType] = useState('folder');
   const [imageUri, setImageUri] = useState('');
   const [title, setTitle] = useState('');
   const [metadata, setMetadata] = useState({});
+  const [checked, setChecked] = useState<Boolean>(true);
   const [adminPassword, setAdminPassword] = useState('');
+  const [loading, setLoading] = useRecoilState(loader);
+
+  const { sendUpdateToDiscord } = DiscordService();
+
+  interface DiscordData {
+    type: string;
+    thumbnail: string;
+    title: string;
+    courseTitle: string;
+    courseId: number;
+    currFolderId: number;
+    mediaId: number;
+  }
+
+  const postOnDiscord = (data: DiscordData) => {
+    sendUpdateToDiscord(data);
+  };
+
+  const handleContentSubmit = async () => {
+    setLoading(true);
+    const response = await fetch('/api/admin/content', {
+      body: JSON.stringify({
+        type,
+        description: '',
+        thumbnail: imageUri,
+        title,
+        courseId,
+        parentContentId,
+        metadata,
+        adminPassword,
+      }),
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    setLoading(false);
+
+    const respData: { id: number } = await response.json();
+
+    const data = {
+      type,
+      thumbnail:
+        'https://d2szwvl7yo497w.cloudfront.net/courseThumbnails/video.png',
+      title,
+      courseTitle,
+      courseId,
+      currFolderId: parseInt(rest[0], 10),
+      mediaId: respData.id,
+    };
+
+    if (checked && response.status === 200) {
+      if (type === 'notion' || type === 'video') {
+        postOnDiscord(data);
+        setLoading(false);
+      }
+    } else {
+      setLoading(false);
+    }
+  };
 
   return (
     <div>
@@ -22,23 +91,47 @@ export const AddContent = ({
         <div className="space-x-2 p-2">
           <button
             className={`${type === 'video' ? 'bg-green-500' : 'bg-blue-500'} rounded px-4 py-2 font-bold text-white`}
-            onClick={() => setType('video')}
+            onClick={() => {
+              setType('video');
+              setMetadata({});
+            }}
           >
             Video
           </button>
           <button
             className={`${type === 'folder' ? 'bg-green-500' : 'bg-blue-500'} rounded px-4 py-2 font-bold text-white`}
-            onClick={() => setType('folder')}
+            onClick={() => {
+              setType('folder');
+              setMetadata({});
+            }}
           >
             Folder
           </button>
           <button
             className={`${type === 'notion' ? 'bg-green-500' : 'bg-blue-500'} rounded px-4 py-2 font-bold text-white`}
-            onClick={() => setType('notion')}
+            onClick={() => {
+              setType('notion');
+              setMetadata({});
+            }}
           >
             Notion
           </button>
         </div>
+        {(type === 'video' || type === 'notion') && (
+          <div className="mt-2 flex items-center gap-2 p-2">
+            <Checkbox
+              onCheckedChange={() => setChecked((prev) => !prev)}
+              defaultChecked
+              id="discord"
+            />
+            <label
+              htmlFor="discord"
+              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            >
+              Send the notification to the discord as well
+            </label>
+          </div>
+        )}
         <br /> <br />
         <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3">
           <Input
@@ -63,27 +156,11 @@ export const AddContent = ({
         {type === 'video' && <AddVideosMetadata onChange={setMetadata} />}
         {type === 'notion' && <AddNotionMetadata onChange={setMetadata} />}
         <button
-          onClick={async () => {
-            await fetch('/api/admin/content', {
-              body: JSON.stringify({
-                type,
-                description: '',
-                thumbnail: imageUri,
-                title,
-                courseId,
-                parentContentId,
-                metadata,
-                adminPassword,
-              }),
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-            });
-          }}
+          onClick={handleContentSubmit}
+          disabled={loading}
           className="rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
         >
-          Submit
+          {loading ? 'Submitting' : 'Submit'}
         </button>
       </div>
     </div>

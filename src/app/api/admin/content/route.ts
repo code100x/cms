@@ -103,5 +103,5 @@ export const POST = async (req: NextRequest) => {
       });
     }
   }
-  return NextResponse.json({}, { status: 200 });
+  return NextResponse.json({ id: content.id }, { status: 200 });
 };
