@@ -16,6 +16,7 @@ import { useMemo } from 'react'; //used to fix maximum update depth exceeded err
 export const CertificateComponent = ({
   certificateId,
   certificateSlug,
+  completedAt,
   course,
   userName,
 }: OneCertificate & { userName: string }) => {
@@ -25,8 +26,9 @@ export const CertificateComponent = ({
       course,
       userName,
       certificateSlug,
+      completedAt,
     }),
-    [certificateId, course, userName, certificateSlug],
+    [certificateId, course, userName, certificateSlug, completedAt],
   );
 
   const { certificatePdfUrl, certificateImageUrl } = useGenerateCertificate({

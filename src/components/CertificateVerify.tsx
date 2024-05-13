@@ -20,6 +20,7 @@ export const CertificateVerify = ({
       certificateId: certificate.id,
       course: certificate.course,
       certificateSlug: certificate.slug,
+      completedAt: certificate.completedAt as Date,
     },
     userName: certificate.user.name as string,
   });
@@ -48,6 +49,10 @@ export const CertificateVerify = ({
             </CardTitle>
             <CardDescription>
               Course Description: {certificate.course.description}
+            </CardDescription>
+            <CardDescription>
+              Course Completed On :{' '}
+              {certificate.completedAt?.toLocaleDateString()}
             </CardDescription>
           </CardHeader>
         </div>

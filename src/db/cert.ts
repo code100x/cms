@@ -14,7 +14,13 @@ export const getCertificates = async () => {
 
   const courseWithCert: {
     course: Course;
-    cert: { id: string; courseId: number; userId: string; slug: string };
+    cert: {
+      id: string;
+      courseId: number;
+      userId: string;
+      slug: string;
+      completedAt: Date;
+    };
     user: User;
   }[] = [];
 
@@ -24,11 +30,14 @@ export const getCertificates = async () => {
         where: {
           userId_courseId: { courseId: course.id, userId: session?.user.id },
         },
-        update: {},
+        update: {
+          completedAt: new Date(),
+        },
         create: {
           userId: session?.user.id,
           courseId: course.id,
           slug: generateUniqueCertId(),
+          completedAt: new Date(),
         },
         include: {
           user: true,
@@ -42,6 +51,7 @@ export const getCertificates = async () => {
           courseId: certificate.courseId,
           userId: certificate.userId,
           slug: certificate.slug,
+          completedAt: certificate.completedAt as Date,
         },
         user: certificate.user,
       });

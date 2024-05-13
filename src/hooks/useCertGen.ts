@@ -47,26 +47,30 @@ export function useGenerateCertificate({
         res.arrayBuffer(),
       );
       const pdfDoc = await PDFDocument.load(existingPdfBytes);
-      const timesRomanBoldFont = await pdfDoc.embedFont(
-        StandardFonts.HelveticaBold,
-      );
-
       const pages = pdfDoc.getPages();
       const firstPage = pages[0];
       const { width, height } = firstPage.getSize();
 
-      const fontSize = 30;
-      const textWidth = timesRomanBoldFont.widthOfTextAtSize(
+      const CourierBoldOblique = await pdfDoc.embedFont(
+        StandardFonts.CourierBoldOblique,
+      );
+      const timesRomanBoldFont = await pdfDoc.embedFont(
+        StandardFonts.TimesRomanBold,
+      );
+
+      const fontSize = 65;
+      const textWidth = CourierBoldOblique.widthOfTextAtSize(
         userName,
         fontSize,
       );
       const xRecipient = (width - textWidth) / 2;
-      const yRecipient = height * 0.46;
+      const yRecipient = height * 0.43;
       firstPage.drawText(capitalizeFirstLetter(userName), {
         x: xRecipient,
         y: yRecipient,
         size: fontSize,
-        font: timesRomanBoldFont,
+        font: CourierBoldOblique,
+        opacity: 0.85,
         color: rgb(0, 0, 0),
       });
 
@@ -74,14 +78,25 @@ export function useGenerateCertificate({
       firstPage.drawText(
         `Certificate No:${certificateDetails.certificateSlug}`,
         {
-          x: width * 0.3,
-          y: height * 0.12,
+          x: width * 0.6259,
+          y: height * 0.1997,
           size: certificateNumberFontSize,
           font: timesRomanBoldFont,
           color: rgb(0, 0, 0),
         },
       );
 
+      const completedAtDateFontSize = 25;
+      firstPage.drawText(
+        `${certificateDetails.completedAt.toLocaleDateString('en-IN')}`,
+        {
+          x: width * 0.189,
+          y: height * 0.034,
+          size: completedAtDateFontSize,
+          font: timesRomanBoldFont,
+          color: rgb(0, 0, 0),
+        },
+      );
       const pdfDataUri = await pdfDoc.saveAsBase64({ dataUri: true });
       setCertificatePdfUrl(pdfDataUri);
     } catch (error) {
@@ -112,21 +127,30 @@ export function useGenerateCertificate({
       }
 
       ctx.drawImage(certificateImage, 0, 0);
-
-      ctx.font = '85px Helvetica';
+      ctx.font = 'bold italic 65px Courier New';
       ctx.fillStyle = 'black';
+      ctx.globalAlpha = 0.85;
       const textWidth = ctx.measureText(recipientName).width;
       const xRecipient = (offscreenCanvas.width - textWidth) / 2;
-      const yRecipient = offscreenCanvas.height * 0.54;
+      const yRecipient = offscreenCanvas.height * 0.57;
       ctx.fillText(recipientName, xRecipient, yRecipient);
 
-      const certificateNumberFontSize = 50;
+      const certificateNumberFontSize = 30;
       ctx.font = `bold ${certificateNumberFontSize}px Helvetica`;
       const certificateNumberText = `Certificate No: ${certificateDetails.certificateSlug}`;
       ctx.fillText(
         certificateNumberText,
-        offscreenCanvas.width * 0.35,
-        offscreenCanvas.height * 0.88,
+        offscreenCanvas.width * 0.61,
+        offscreenCanvas.height * 0.8,
+      );
+
+      const completedAtDateFontSize = 25;
+      ctx.font = `bold ${completedAtDateFontSize}px Helvetica`;
+      const completedAtDateText = `${certificateDetails.completedAt.toLocaleDateString('en-IN')}`;
+      ctx.fillText(
+        completedAtDateText,
+        offscreenCanvas.width * 0.19,
+        offscreenCanvas.height * 0.9675,
       );
 
       const dataUrl = offscreenCanvas.toDataURL();
