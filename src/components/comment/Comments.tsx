@@ -1,37 +1,42 @@
 import React from 'react';
-import { Card, CardContent, CardFooter, CardHeader } from '../ui/card';
-import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+} from '@/components/ui/card';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { TabType, QueryParams, ROLES } from '@/actions/types';
 import {
   constructCommentPrismaQuery,
   getUpdatedUrl,
   paginationData,
 } from '@/lib/utils';
-import CommentInputForm from './CommentInputForm';
-import { getComments } from '../../actions/comment/index';
+import CommentInputForm from '@/components/comment/CommentInputForm';
+import { getComments } from '@/actions/comment/index';
 import { ExtendedComment } from '@/actions/comment/types';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import CommentVoteForm from './CommentVoteForm';
-import Pagination from '../Pagination';
+import CommentVoteForm from '@/components/comment/CommentVoteForm';
+import Pagination from '@/components/Pagination';
 import Link from 'next/link';
 import { ArrowLeftIcon, ChevronDownIcon, MoreVerticalIcon } from 'lucide-react';
-import TimeCodeComment from './TimeCodeComment';
-import CopyToClipboard from '../Copy-to-clipbord';
+import TimeCodeComment from '@/components/comment/TimeCodeComment';
+import CopyToClipboard from '@/components/Copy-to-clipbord';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '../ui/dropdown-menu';
-import { Button } from '../ui/button';
+} from '@/components/ui/dropdown-menu';
+import { Button } from '@/components/ui/button';
 import { CommentType } from '@prisma/client';
-import CommentDeleteForm from './CommentDeleteForm';
+import CommentDeleteForm from '@/components/comment/CommentDeleteForm';
 import { authOptions } from '@/lib/auth';
 import { getServerSession } from 'next-auth';
-import CommentPinForm from './CommentPinForm';
-import CommentApproveForm from './CommentApproveForm';
+import CommentPinForm from '@/components/comment/CommentPinForm';
+import CommentApproveForm from '@/components/comment/CommentApproveForm';
 dayjs.extend(relativeTime);
 const Comments = async ({
   content,

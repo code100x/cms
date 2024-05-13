@@ -26,6 +26,7 @@ export function SelectTheme() {
             {['light', 'dark', 'system'].map((_theme) => {
               return (
                 <DropdownMenuItem
+                  key={_theme}
                   onClick={() => setTheme(_theme)}
                   className="flex items-center justify-between"
                 >

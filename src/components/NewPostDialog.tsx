@@ -2,21 +2,21 @@
 import '@uiw/react-md-editor/markdown-editor.css';
 import '@uiw/react-markdown-preview/markdown.css';
 import useModal from '@/hooks/useModal';
-import Modal from './Modal';
+import Modal from '@/components/Modal';
 import MDEditor from '@uiw/react-md-editor';
 import { usePathname, useSearchParams } from 'next/navigation';
 import React, { ElementRef, useEffect, useRef, useState } from 'react';
 
 import { useRouter } from 'next/navigation';
-import { Button } from './ui/button';
+import { Button } from '@/components/ui/button';
 import { useAction } from '@/hooks/useAction';
 import { createQuestion } from '@/actions/question';
 import { toast } from 'sonner';
 
 import { useTheme } from 'next-themes';
 import { getUpdatedUrl, searchParamsToObject } from '@/lib/utils';
-import { FormPostInput } from './posts/form/form-input';
-import { FormPostErrors } from './posts/form/form-errors';
+import { FormPostInput } from '@/components/posts/form/form-input';
+import { FormPostErrors } from '@/components/posts/form/form-errors';
 
 export const NewPostDialog = () => {
   const { theme } = useTheme();

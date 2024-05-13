@@ -5,7 +5,7 @@ import React, { useEffect } from 'react';
 import { Toaster } from '@/components/ui/sonner';
 import { toast } from 'sonner';
 
-const page = () => {
+const Page = () => {
   useEffect(() => {
     signOut({
       callbackUrl: '/signin',
@@ -25,4 +25,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

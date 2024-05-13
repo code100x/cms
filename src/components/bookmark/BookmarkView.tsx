@@ -1,4 +1,4 @@
-import BookmarkList from './BookmarkList';
+import BookmarkList from '@/components/bookmark/BookmarkList';
 import { TBookmarkWithContent } from '@/actions/bookmark/types';
 
 const BookmarkView = ({

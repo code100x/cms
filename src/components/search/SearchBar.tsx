@@ -4,10 +4,10 @@ import { SearchIcon, XCircleIcon } from 'lucide-react';
 import { TSearchedVideos } from '@/app/api/search/route';
 import { useRouter } from 'next/navigation';
 import useClickOutside from '@/hooks/useClickOutside';
-import VideoSearchCard from './VideoSearchCard';
-import VideoSearchInfo from './VideoSearchInfo';
+import VideoSearchCard from '@/components/search/VideoSearchCard';
+import VideoSearchInfo from '@/components/search/VideoSearchInfo';
 import { toast } from 'sonner';
-import VideoSearchLoading from './VideoSearchLoading';
+import VideoSearchLoading from '@/components/search/VideoSearchLoading';
 
 const SearchBar = ({ onCardClick }: { onCardClick?: () => void }) => {
   const [searchTerm, setSearchTerm] = useState('');

@@ -1,5 +1,8 @@
 import { z } from 'zod';
-import { BookmarkCreateSchema, BookmarkDeleteSchema } from './schema';
+import {
+  BookmarkCreateSchema,
+  BookmarkDeleteSchema,
+} from '@/actions/bookmark/schema';
 import { ActionState } from '@/lib/create-safe-action';
 import { Bookmark, Content, CourseContent } from '@prisma/client';
 

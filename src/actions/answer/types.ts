@@ -5,7 +5,7 @@ import {
   AnswerDeleteSchema,
   AnswerInsertSchema,
   AnswerUpdateSchema,
-} from './schema';
+} from '@/actions/answer/schema';
 import { Delete } from '@/lib/utils';
 
 // Import or define your Answer Zod schemas here

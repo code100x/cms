@@ -2,7 +2,7 @@
 
 import { TBookmarkWithContent } from '@/actions/bookmark/types';
 import { useRouter } from 'next/navigation';
-import { ContentCard } from '../ContentCard';
+import { ContentCard } from '@/components/ContentCard';
 
 const BookmarkList = ({
   bookmarkData,

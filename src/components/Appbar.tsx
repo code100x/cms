@@ -1,20 +1,20 @@
 'use client';
 
 import Link from 'next/link';
-import { AppbarAuth } from './AppbarAuth';
+import { AppbarAuth } from '@/components/AppbarAuth';
 import { useSession } from 'next-auth/react';
 import { useRecoilState } from 'recoil';
-import { sidebarOpen as sidebarOpenAtom } from '../store/atoms/sidebar';
-import { ToggleButton } from './Sidebar';
+import { sidebarOpen as sidebarOpenAtom } from '@/store/atoms/sidebar';
+import { ToggleButton } from '@/components/Sidebar';
 import { usePathname } from 'next/navigation';
-import Logo from './landing/logo/logo';
-import { Button } from './ui/button';
+import Logo from '@/components/landing/logo/logo';
+import { Button } from '@/components/ui/button';
 import { Sparkles } from 'lucide-react';
-import { NavigationMenu } from './landing/appbar/nav-menu';
-import SearchBar from './search/SearchBar';
-import MobileScreenSearch from './search/MobileScreenSearch';
-import ProfileDropdown from './profile-menu/ProfileDropdown';
-import { ThemeToggler } from './ThemeToggler';
+import { NavigationMenu } from '@/components/landing/appbar/nav-menu';
+import SearchBar from '@/components/search/SearchBar';
+import MobileScreenSearch from '@/components/search/MobileScreenSearch';
+import ProfileDropdown from '@/components/profile-menu/ProfileDropdown';
+import { ThemeToggler } from '@/components/ThemeToggler';
 
 export const Appbar = () => {
   const session = useSession();

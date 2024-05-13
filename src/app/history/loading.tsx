@@ -11,7 +11,7 @@ export default function Loading() {
               <div className="rounded bg-slate-50 dark:bg-slate-900 h-6 w-20"></div>
               <div className="flex items-center gap-6">
                 {[1, 2, 3, 4].map((_, index) => (
-                  <div>
+                  <div key={index}>
                     <div
                       className="w-[260px] h-36 bg-slate-50 dark:bg-slate-900 rounded-md"
                       key={index}

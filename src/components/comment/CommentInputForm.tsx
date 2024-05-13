@@ -1,10 +1,10 @@
 'use client';
 import React, { useEffect } from 'react';
-import { Button } from '../ui/button';
+import { Button } from '@/components/ui/button';
 import { useAction } from '@/hooks/useAction';
 import { createMessage } from '@/actions/comment';
 import { toast } from 'sonner';
-import { FormErrors } from '../FormError';
+import { FormErrors } from '@/components/FormError';
 import { usePathname } from 'next/navigation';
 
 const CommentInputForm = ({
@@ -40,15 +40,16 @@ const CommentInputForm = ({
     });
   };
   useEffect(() => {
+    const ref = textareaRef.current;
     const handleKeyDown = (event: KeyboardEvent) => {
       // Prevent shortcuts from affecting video when typing in the textarea
       event.stopPropagation();
     };
 
-    textareaRef.current?.addEventListener('keydown', handleKeyDown);
+    ref?.addEventListener('keydown', handleKeyDown);
 
     return () => {
-      textareaRef.current?.removeEventListener('keydown', handleKeyDown);
+      ref?.removeEventListener('keydown', handleKeyDown);
     };
   }, []);
   return (
@@ -56,6 +57,7 @@ const CommentInputForm = ({
       <textarea
         ref={textareaRef}
         id="content"
+        typeof="text"
         name="content"
         className="min-h-[50px] rounded-md dark:bg-gray-800 border-2 text-muted-foreground p-2 "
         placeholder="Add a public comment..."

@@ -15,11 +15,12 @@
     "format:fix": "prettier --write \"**/*.{ts,tsx,json}\"",
     "format:check": "prettier --check \"**/*.{ts,tsx,json}\"",
     "prisma:docker": "npm run prisma:migrate && npm run db:seed && npm run studio",
+    "prisma:dev": "prisma migrate dev && npm run db:seed",
     "dev:docker": "npm run prisma:docker & next dev",
     "prisma:migrate": "prisma migrate deploy",
     "db:seed": "prisma db seed",
     "db:reset": "prisma migrate reset",
-    "prepare": "husky install",
+    "prepare": "husky",
     "studio": "prisma studio",
     "studio:docker": "open http://localhost:5555 || start http://localhost:5555"
   },

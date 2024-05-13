@@ -1,26 +1,26 @@
 'use server';
 
-import {
+import type {
   DeleteTypeQuestion,
   InputTypeCreate,
   InputTypeUpadate,
   ReturnTypeCreate,
   ReturnTypeDelete,
   ReturnTypeUpdate,
-} from './types';
+} from '@/actions/question/types';
 import { revalidatePath } from 'next/cache';
 
 import {
   QuestionDeleteSchema,
   QuestionInsertSchema,
   QuestionUpdateSchema,
-} from './schema';
+} from '@/actions/question/schema';
 import { createSafeAction } from '@/lib/create-safe-action';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { generateHandle } from '@/lib/utils';
 import db from '@/db';
-import { ROLES } from '../types';
+import { ROLES } from '@/actions/types';
 
 const createQuestionHandler = async (
   data: InputTypeCreate,

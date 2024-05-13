@@ -6,8 +6,8 @@ import {
   CommentDeleteSchema,
   CommentApproveIntroSchema,
   CommentPinSchema,
-} from './schema';
-import { Delete } from '../types';
+} from '@/actions/comment/schema';
+import type { Delete } from '@/actions/types';
 import { User, Comment, Vote } from '@prisma/client';
 
 export type InputTypeCreateComment = z.infer<typeof CommentInsertSchema>;

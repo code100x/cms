@@ -1,5 +1,5 @@
 import React from 'react';
-import LogoutUserComp from './LogoutUser';
+import LogoutUserComp from '@/app/admin/user/LogoutUser';
 
 const UserAdminPage = () => {
   return (

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Input } from '../ui/input';
+import { Input } from '@/components/ui/input';
 
 export function AddNotionMetadata({
   onChange,
@@ -10,7 +10,7 @@ export function AddNotionMetadata({
 
   useEffect(() => {
     onChange({ notionId: id });
-  }, [id]);
+  }, [id, onChange]);
 
   return (
     <div className="py-2">

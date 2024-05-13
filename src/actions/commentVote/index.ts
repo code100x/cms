@@ -1,13 +1,16 @@
 'use server';
 
 import { getServerSession } from 'next-auth';
-import { InputTypeHandleVote, ReturnTypeHandleVote } from './types';
+import {
+  InputTypeHandleVote,
+  ReturnTypeHandleVote,
+} from '@/actions/commentVote/types';
 import { authOptions } from '@/lib/auth';
 import prisma from '@/db';
 import { VoteType } from '@prisma/client';
 import { revalidatePath } from 'next/cache';
 import { createSafeAction } from '@/lib/create-safe-action';
-import { VoteHandleSchema } from './schema';
+import { VoteHandleSchema } from '@/actions/commentVote/schema';
 
 const voteHandler = async (
   data: InputTypeHandleVote,

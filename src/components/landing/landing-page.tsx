@@ -3,15 +3,15 @@ import { ChevronRight, Medal } from 'lucide-react';
 import { Poppins } from 'next/font/google';
 import localFont from 'next/font/local';
 import Link from 'next/link';
-import { Button } from '../ui/button';
-import PreFooterSection from './footer/pre-footer/pre-footer';
-import DailyCodeSection from './snaps-section/daily-code/daily-code';
-import DashboardSection from './snaps-section/dashboard/dashboard-section';
-import DiscordSection from './snaps-section/discord-section/discord-section';
-import PlatformSection from './snaps-section/platform/platform-section';
-import TrustedBySection from './trustedby-section/trusted-by';
-import AboutUsSection from './us-section/about-us';
-import WhyUsSection from './us-section/why-us';
+import { Button } from '@/components/ui/button';
+import PreFooterSection from '@/components/landing/footer/pre-footer/pre-footer';
+import DailyCodeSection from '@/components/landing/snaps-section/daily-code/daily-code';
+import DashboardSection from '@/components/landing/snaps-section/dashboard/dashboard-section';
+import DiscordSection from '@/components/landing/snaps-section/discord-section/discord-section';
+import PlatformSection from '@/components/landing/snaps-section/platform/platform-section';
+import TrustedBySection from '@/components/landing/trustedby-section/trusted-by';
+import AboutUsSection from '@/components/landing/us-section/about-us';
+import WhyUsSection from '@/components/landing/us-section/why-us';
 
 const headingFont = localFont({
   src: '../../../public/fonts/font.woff2',

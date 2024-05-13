@@ -1,5 +1,5 @@
 import { Segment, formatTime } from '@/lib/utils';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
   CaptionIcon,
   FullScreenCloseIcon,
@@ -12,13 +12,13 @@ import {
   PlayIcon,
   SkipDurationBackIcon,
   SkipDurationNextIcon,
-} from './icons';
+} from '@/components/videoPlayer/icons';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from './../ui/dropdown-menu';
+} from '@/components/ui/dropdown-menu';
 import { segmentsHandler, updateTimeline } from '@/lib/createAndHandleSegments';
 import { useRouter, useSearchParams } from 'next/navigation';
 
@@ -55,17 +55,17 @@ export default function VideoPlayerControls({
   const volumeSliderRef = useRef<any>(null);
 
   // play / pause btn toggle
-  function togglePlay() {
+  const togglePlay = useCallback(() => {
     if (player?.paused()) {
       // player?.paused() returns true if media is playing
       player?.play();
     } else {
       player?.pause();
     }
-  }
+  }, [player]);
 
   // toggle voulme button
-  function toggleVolumeBtn() {
+  const toggleVolumeBtn = useCallback(() => {
     player?.muted(!player?.muted());
     setVolumeIconState(player?.muted() ? 'muted' : 'high');
 
@@ -74,14 +74,14 @@ export default function VideoPlayerControls({
     } else {
       player?.volume(1);
     }
-  }
+  }, [player]);
 
   function volumeSliderHandler(e: any) {
     player?.volume(e?.target.value);
     player?.muted(e?.target.value === 0);
   }
 
-  function volumeIconToggle() {
+  const volumeIconToggle = useCallback(() => {
     let volState;
     const volume = player?.volume();
 
@@ -94,22 +94,22 @@ export default function VideoPlayerControls({
     }
     volumeSliderRef.current.value = volume;
     setVolumeIconState(volState);
-  }
+  }, [player]);
 
   // setduration after metadata is loaded
-  function setDurationHandler() {
+  const setDurationHandler = useCallback(() => {
     const totalDuration = formatTime(player?.duration());
     setDurationEndTime(totalDuration);
-  }
+  }, [player]);
 
   // start and end duration handler
-  function startTimeHandler() {
+  const startTimeHandler = useCallback(() => {
     const currentTime = formatTime(player?.currentTime());
     setDurationStartTime(currentTime);
-  }
+  }, [player]);
 
   // playback speed control
-  function playBackSpeedHandler() {
+  const playBackSpeedHandler = useCallback(() => {
     const speedArr = [0.5, 1, 1.25, 1.5, 1.75, 2];
     let currentSpeed = player?.playbackRate();
     let index = speedArr.indexOf(currentSpeed);
@@ -123,8 +123,7 @@ export default function VideoPlayerControls({
     currentSpeed = speedArr[index];
     player?.playbackRate(currentSpeed);
     setPlayBackSpeed(`${currentSpeed}x`);
-  }
-
+  }, [player]);
   // full screen handler
   function fullScreenHandler() {
     const fullScreen = document.fullscreenElement === null;
@@ -140,16 +139,16 @@ export default function VideoPlayerControls({
   }
 
   // miniPlayer Handler
-  function miniPlayerHandler() {
+  const miniPlayerHandler = useCallback(() => {
     if (document?.pictureInPictureElement) {
       document.exitPictureInPicture();
     } else {
       player?.requestPictureInPicture();
     }
-  }
+  }, [player]);
 
   //caption Handler
-  function captionClickHandler() {
+  const captionClickHandler = useCallback(() => {
     const length = player?.textTracks()?.length;
     if (length === 0) {
       setCaptionBtnDisabled(true);
@@ -163,23 +162,26 @@ export default function VideoPlayerControls({
       setShowCaption(true);
       player.textTracks()[0].mode = 'showing';
     }
-  }
+  }, [player]);
 
   // skip 15 sec
-  const skip = (skipTime: number) => {
-    if (skipTime > 0) {
-      setSkipDurationNext(true);
-      setTimeout(() => {
-        setSkipDurationNext(false);
-      }, 500);
-    } else {
-      setSkipDurationBack(true);
-      setTimeout(() => {
-        setSkipDurationBack(false);
-      }, 500);
-    }
-    player?.currentTime(player?.currentTime() + skipTime);
-  };
+  const skip = useCallback(
+    (skipTime: number) => {
+      if (skipTime > 0) {
+        setSkipDurationNext(true);
+        setTimeout(() => {
+          setSkipDurationNext(false);
+        }, 500);
+      } else {
+        setSkipDurationBack(true);
+        setTimeout(() => {
+          setSkipDurationBack(false);
+        }, 500);
+      }
+      player?.currentTime(player?.currentTime() + skipTime);
+    },
+    [player],
+  );
 
   //quality handler
   const qualityHandler = (quality: string) => {
@@ -191,50 +193,60 @@ export default function VideoPlayerControls({
   };
 
   // handle key events
-  function handleKeyEvents(e: any) {
-    switch (e?.code) {
-      case 'Space':
-        togglePlay();
-        e?.stopPropagation();
-        e?.preventDefault();
-        break;
+  const handleKeyEvents = useCallback(
+    (e: any) => {
+      switch (e?.code) {
+        case 'Space':
+          togglePlay();
+          e?.stopPropagation();
+          e?.preventDefault();
+          break;
 
-      case 'KeyF':
-        fullScreenHandler();
-        e?.stopPropagation();
-        break;
+        case 'KeyF':
+          fullScreenHandler();
+          e?.stopPropagation();
+          break;
 
-      case 'KeyI':
-        miniPlayerHandler();
-        e?.stopPropagation();
-        break;
-      case 'ArrowRight':
-        skip(15);
-        e?.stopPropagation();
+        case 'KeyI':
+          miniPlayerHandler();
+          e?.stopPropagation();
+          break;
+        case 'ArrowRight':
+          skip(15);
+          e?.stopPropagation();
 
-        break;
-      case 'ArrowLeft':
-        skip(-15);
-        e?.stopPropagation();
+          break;
+        case 'ArrowLeft':
+          skip(-15);
+          e?.stopPropagation();
 
-        break;
-      case 'KeyP':
-        playBackSpeedHandler();
-        e?.stopPropagation();
+          break;
+        case 'KeyP':
+          playBackSpeedHandler();
+          e?.stopPropagation();
 
-        break;
-      case 'KeyM':
-        toggleVolumeBtn();
-        e?.stopPropagation();
-        break;
-      case 'KeyC':
-        captionClickHandler();
-        e?.stopPropagation();
-        break;
-      default:
-        break;
-    }
-  }
+          break;
+        case 'KeyM':
+          toggleVolumeBtn();
+          e?.stopPropagation();
+          break;
+        case 'KeyC':
+          captionClickHandler();
+          e?.stopPropagation();
+          break;
+        default:
+          break;
+      }
+    },
+    [
+      captionClickHandler,
+      miniPlayerHandler,
+      playBackSpeedHandler,
+      skip,
+      togglePlay,
+      toggleVolumeBtn,
+    ],
+  );
 
   useEffect(() => {
     if (player) {
@@ -300,7 +312,21 @@ export default function VideoPlayerControls({
         updateTimeline(e, player, segments),
       );
     }
-  }, [player]);
+  }, [
+    player,
+    captionClickHandler,
+    captionBtnDisabled,
+    captionBtnDisabled,
+    handleKeyEvents,
+    onVideoEnd,
+    segments,
+    setDurationEndTime,
+    setDurationHandler,
+    startTimeHandler,
+    subtitles,
+    togglePlay,
+    volumeIconToggle,
+  ]);
 
   return (
     <>
@@ -324,7 +350,7 @@ export default function VideoPlayerControls({
         {playerPaused ? <PauseIcon className="" /> : <PlayIcon className="" />}
       </div>
       <div
-        className={`absolute bottom-0 ${!isFullScreen && 'group-hover/v-container:opacity-100'} w-full z-50 transition-all py-1 before:content-[''] before:absolute before:bottom-0 before:pointer-events-none before:w-full before:aspect-[5/1] before:z-[-1] before:bg-gradient-to-t from-[#000000E6] to-transparent`}
+        className={`absolute bottom-0 ${playerPaused ? 'opacity-100' : 'opacity-0'} ${!isFullScreen && 'group-hover/v-container:opacity-100'} w-full z-50 transition-all py-1 before:content-[''] before:absolute before:bottom-0 before:pointer-events-none before:w-full before:aspect-[5/1] before:z-[-1] before:bg-gradient-to-t from-[#000000E6] to-transparent`}
       >
         {/* timeline segments */}
         <div

@@ -1,7 +1,7 @@
 'use client';
 
 import { Course } from '@/store/atoms';
-import { CourseCard } from './CourseCard';
+import { CourseCard } from '@/components/CourseCard';
 import { useRouter } from 'next/navigation';
 
 export const Courses = ({ courses }: { courses: Course[] }) => {

@@ -1,5 +1,5 @@
 import React from 'react';
-import ApproveComment from './ApproveComment';
+import ApproveComment from '@/app/admin/comment/ApproveComment';
 
 const CommentAdminPage = () => {
   return (

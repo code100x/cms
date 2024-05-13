@@ -2,17 +2,17 @@
 import '@uiw/react-md-editor/markdown-editor.css';
 import '@uiw/react-markdown-preview/markdown.css';
 import React, { useState } from 'react';
-import VoteForm from './form/form-vote';
-import TextSnippet from './textSnippet';
+import VoteForm from '@/components/posts/form/form-vote';
+import TextSnippet from '@/components/posts/textSnippet';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 dayjs.extend(relativeTime);
 import MDEditor from '@uiw/react-md-editor';
 
-import DeleteForm from './form/form-delete';
+import DeleteForm from '@/components/posts/form/form-delete';
 
 import Link from 'next/link';
-import Tag from './tag';
+import Tag from '@/components/posts/tag';
 
 import {
   Author,
@@ -25,18 +25,18 @@ import { toast } from 'sonner';
 
 import { useTheme } from 'next-themes';
 import { Answer } from '@prisma/client';
-import { Avatar, AvatarFallback } from '../ui/avatar';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuTrigger,
-} from '../ui/dropdown-menu';
+} from '@/components/ui/dropdown-menu';
 import { MessageSquareReply, MoreHorizontal } from 'lucide-react';
 import { ROLES } from '@/actions/types';
-import { FormPostErrors } from './form/form-errors';
-import { Button } from '../ui/button';
-import { Card, CardFooter } from '../ui/card';
-import { CardBody } from '../3dcard';
+import { FormPostErrors } from '@/components/posts/form/form-errors';
+import { Button } from '@/components/ui/button';
+import { Card, CardFooter } from '@/components/ui/card';
+import { CardBody } from '@/components/3dcard';
 
 interface IProps {
   post: ExtendedQuestion | ExtendedAnswer;

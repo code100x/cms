@@ -1,7 +1,7 @@
 'use client';
 
 import { ContentCard } from '@/components/ContentCard';
-import { TWatchHistory } from '../app/history/page';
+import { TWatchHistory } from '@/app/history/page';
 import { useRouter } from 'next/navigation';
 import {
   Carousel,

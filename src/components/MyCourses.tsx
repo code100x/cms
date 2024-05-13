@@ -3,8 +3,8 @@ import { Courses } from '@/components/Courses';
 import { authOptions } from '@/lib/auth';
 import { getPurchases } from '@/utiles/appx';
 import { getServerSession } from 'next-auth';
-import { Logout } from './Logout';
-import { RefreshDb } from './RefreshDb';
+import { Logout } from '@/components/Logout';
+import { RefreshDb } from '@/components/RefreshDb';
 const getCourses = async () => {
   const session = await getServerSession(authOptions);
   const purchases = await getPurchases(session?.user.email || '');
