@@ -5,7 +5,7 @@ import BookmarkButton from './bookmark/BookmarkButton';
 import { formatTime } from '@/lib/utils';
 import VideoThumbnail from './videothumbnail';
 
-export const  ContentCard = ({
+export const ContentCard = ({
   title,
   onClick,
   markAsCompleted,
@@ -54,21 +54,30 @@ export const  ContentCard = ({
           {contentDuration && formatTime(contentDuration)}
         </div>
       )}
-      {type !=='video' && <div className="relative overflow-hidden rounded-md">
-        <img src={image} alt={title} className="" />
-        {!!videoProgressPercent && (
-          <div className="absolute bottom-0 w-full h-1 bg-[#707071]">
-            <div
-              className="h-full bg-[#FF0101]"
-              style={{ width: `${videoProgressPercent}%` }}
-            />
-          </div>
-        )}
-      </div>}
-      {type ==='video'  && <div className="relative overflow-hidden rounded-md ">   
-         <VideoThumbnail contentId={contentId} imageUrl={"https://d2szwvl7yo497w.cloudfront.net/courseThumbnails/video.png"}  duration={1} />
-      </div>}
-      
+      {type !== 'video' && (
+        <div className="relative overflow-hidden rounded-md">
+          <img src={image} alt={title} className="" />
+          {!!videoProgressPercent && (
+            <div className="absolute bottom-0 w-full h-1 bg-[#707071]">
+              <div
+                className="h-full bg-[#FF0101]"
+                style={{ width: `${videoProgressPercent}%` }}
+              />
+            </div>
+          )}
+        </div>
+      )}
+      {type === 'video' && (
+        <div className="relative overflow-hidden rounded-md ">
+          <VideoThumbnail
+            contentId={contentId}
+            imageUrl={
+              'https://d2szwvl7yo497w.cloudfront.net/courseThumbnails/video.png'
+            }
+          />
+        </div>
+      )}
+
       {bookmark !== undefined && contentId && (
         <div className="absolute top-2 left-2">
           <BookmarkButton
