@@ -51,7 +51,7 @@ const Layout = async ({
   );
 
   return (
-    <div className="flex h-full">
+    <div className="flex h-full relative">
       <Sidebar fullCourseContent={fullCourseContent} courseId={courseId[0]} />
       <div className="grow p-2 overflow-y-auto no-scrollbar">{children}</div>
     </div>
