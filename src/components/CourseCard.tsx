@@ -1,8 +1,8 @@
 'use client';
 import { Course } from '@/store/atoms';
-import PercentageComplete from './PercentageComplete';
-import { PrimaryButton } from './buttons/PrimaryButton';
-import { SecondaryButton } from './buttons/SecondaryButton';
+import PercentageComplete from '@/components/PercentageComplete';
+import { PrimaryButton } from '@/components/buttons/PrimaryButton';
+import { SecondaryButton } from '@/components/buttons/SecondaryButton';
 import { useRouter } from 'next/navigation';
 
 export const CourseCard = ({

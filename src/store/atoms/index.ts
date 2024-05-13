@@ -1,1 +1,1 @@
-export * from './courses';
+export * from '@/store/atoms/courses';

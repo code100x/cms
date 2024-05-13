@@ -11,8 +11,8 @@ import 'videojs-sprite-thumbnails';
 import 'videojs-seek-buttons';
 import { handleMarkAsCompleted } from '@/lib/utils';
 import { useSearchParams } from 'next/navigation';
-import './QualitySelectorControllBar';
-import { YoutubeRenderer } from './YoutubeRenderer';
+import '@/components/QualitySelectorControllBar';
+import { YoutubeRenderer } from '@/components/YoutubeRenderer';
 
 // todo correct types
 interface VideoPlayerProps {
@@ -50,7 +50,7 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
         },
       );
     }
-  }, [contentId, player]);
+  }, [contentId, player, searchParams]);
 
   useEffect(() => {
     if (!player) {
@@ -219,7 +219,7 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
     return () => {
       document.removeEventListener('keydown', handleKeyPress);
     };
-  }, [player]);
+  }, [player, subtitles]);
 
   useEffect(() => {
     if (!player) {
@@ -268,7 +268,7 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
     return () => {
       window.clearInterval(interval);
     };
-  }, [player, contentId]);
+  }, [player, contentId, onVideoEnd]);
 
   useEffect(() => {
     if (!playerRef.current && videoRef.current) {
@@ -337,7 +337,7 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
         player.src(options.sources[0]);
       }
     }
-  }, [options, onReady]);
+  }, [options, onReady, setQuality, subtitles]);
 
   useEffect(() => {
     if (player) {
@@ -345,7 +345,7 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
       player.src(options.sources[0]);
       player.currentTime(currentTime);
     }
-  }, [options.sources[0]]);
+  }, [options.sources, player]);
 
   useEffect(() => {
     const player = playerRef.current;

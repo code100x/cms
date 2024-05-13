@@ -7,7 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { Button } from './ui/button';
+import { Button } from '@/components/ui/button';
 import { FaDownload, FaFileImage, FaLinkedin, FaTwitter } from 'react-icons/fa';
 import { useGenerateCertificate } from '@/hooks/useCertGen';
 import { OneCertificate } from '@/utiles/certificate';

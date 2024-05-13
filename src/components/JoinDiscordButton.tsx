@@ -1,6 +1,6 @@
 'use client';
 
-import { Button } from './ui/button';
+import { Button } from '@/components/ui/button';
 
 export const JoinDiscordButton = ({ oAuthUrl }: { oAuthUrl: string }) => {
   return (

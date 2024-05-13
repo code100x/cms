@@ -1,14 +1,17 @@
 'use server';
 import { createSafeAction } from '@/lib/create-safe-action';
-import { BookmarkCreateSchema, BookmarkDeleteSchema } from './schema';
+import {
+  BookmarkCreateSchema,
+  BookmarkDeleteSchema,
+} from '@/actions/bookmark/schema';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import db from '@/db';
-import {
+import type {
   InputTypeCreateBookmark,
   InputTypeDeleteBookmark,
   ReturnTypeCreateBookmark,
-} from './types';
+} from '@/actions/bookmark/types';
 import { revalidatePath } from 'next/cache';
 
 const reloadBookmarkPage = () => {

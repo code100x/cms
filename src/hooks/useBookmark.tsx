@@ -1,6 +1,6 @@
 import { Bookmark } from '@prisma/client';
 import { MouseEvent, useState } from 'react';
-import { useAction } from './useAction';
+import { useAction } from '@/hooks/useAction';
 import { createBookmark, deleteBookmark } from '@/actions/bookmark';
 import { toast } from 'sonner';
 import Link from 'next/link';

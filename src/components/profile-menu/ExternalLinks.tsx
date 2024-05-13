@@ -2,7 +2,7 @@ import { getOauthUrl } from '@/utiles/discord';
 import { SiDiscord, SiGithub, SiNotion } from '@icons-pack/react-simple-icons';
 import Link from 'next/link';
 import React from 'react';
-import { DropdownMenuItem } from '../ui/dropdown-menu';
+import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
 import { ArrowUpRightFromSquare } from 'lucide-react';
 
 const ExternalLinks = () => {

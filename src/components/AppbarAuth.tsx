@@ -3,7 +3,7 @@
 import { signIn } from 'next-auth/react';
 import { useSession } from 'next-auth/react';
 //import { useRouter } from 'next/navigation';
-import { Button } from './ui/button';
+import { Button } from '@/components/ui/button';
 
 export const AppbarAuth = ({ isInMenu = false }: { isInMenu?: boolean }) => {
   const session = useSession();

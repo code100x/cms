@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { SiInstagram, SiYoutube, SiX } from '@icons-pack/react-simple-icons';
 import Image from 'next/image';
 import playstore from '/public/platform/playstore.png';
-import Logo from '../logo/logo';
+import Logo from '@/components/landing/logo/logo';
 
 const Footer = () => {
   return (

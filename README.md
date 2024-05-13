@@ -2,12 +2,15 @@
 
 ## Table of contents
 
+- [Table of contents](#table-of-contents)
 - [Prerequisites](#prerequisites)
 - [Setup](#setup)
   - [Using Docker](#using-docker)
   - [Without Docker](#without-docker)
 - [Usage](#usage)
 - [Contributing](#contributing)
+- [Contributors](#contributors)
+- [Issues on mac Silicon](#issues-on-mac-silicon)
 
 ## Prerequisites
 
@@ -22,14 +25,19 @@ Before you begin, ensure you have met the following requirements
 ### Using Docker
 
 1. Clone the repository:
+
    ```bash
    git clone https://github.com/your-username/cms.git
    ```
+
 2. Navigate to the project directory:
+
    ```bash
    cd cms
    ```
+
 3. Run the following command to start the application:
+
    ```bash
    docker-compose up
    ```
@@ -37,14 +45,19 @@ Before you begin, ensure you have met the following requirements
 ### Without Docker
 
 1. clone the repository:
+
    ```bash
    git clone https://github.com/your-username/cms.git
    ```
+
 2. Navigate to the project directory:
+
    ```bash
    cd cms
    ```
+
 3. (optional) Start a PostgreSQL database using Docker:
+
    ```bash
    docker run -d \
        --name cms-db \
@@ -54,24 +67,29 @@ Before you begin, ensure you have met the following requirements
        -p 5432:5432 \
        postgres
    ```
+
    based on this command the connection url will be
-   ```
+
+   ```bash
    DATABASE_URL=postgresql://myuser:mypassword@localhost:5432/mydatabase?schema=public
    ```
+
 4. Create a `.env` file based on the `.env.example` file and configure the `DATABASE_URL` with your postgreSQL connection string.
+
 5. Install dependencies:
+
    ```bash
    npm install
    ```
-6. Run database migrations:
+
+6. Run db migrations and Seeding:
+
    ```bash
-   npm run prisma:migrate
+   npm run prisma:dev
    ```
-7. Seed the database:
-   ```bash
-   npm run db:seed
-   ```
-8. Start the development server:
+
+7. Start the development server:
+
    ```bash
    npm run dev
    ```
@@ -110,4 +128,5 @@ Read our [contribution guidelines](./CONTRIBUTING.md) for more details.
 </a>
 
 ## Issues on mac Silicon
+
 brew install pkg-config cairo pango libpng jpeg giflib librsvg

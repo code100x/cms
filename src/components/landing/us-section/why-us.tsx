@@ -1,5 +1,5 @@
-import WhyUsCard from './why-us-card/why-us-card';
-import { whyUs } from './why-us-card/why-us-content';
+import WhyUsCard from '@/components/landing/us-section/why-us-card/why-us-card';
+import { whyUs } from '@/components/landing/us-section/why-us-card/why-us-content';
 
 const WhyUsSection = () => {
   return (

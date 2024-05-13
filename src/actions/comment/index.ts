@@ -1,6 +1,6 @@
 'use server';
 import { getServerSession } from 'next-auth';
-import {
+import type {
   InputTypeApproveIntroComment,
   InputTypeCreateComment,
   InputTypeDeleteComment,
@@ -11,7 +11,7 @@ import {
   ReturnTypeDeleteComment,
   ReturnTypePinComment,
   ReturnTypeUpdateComment,
-} from './types';
+} from '@/actions/comment/types';
 import { authOptions } from '@/lib/auth';
 import { rateLimit } from '@/lib/utils';
 import prisma from '@/db';
@@ -21,11 +21,11 @@ import {
   CommentInsertSchema,
   CommentPinSchema,
   CommentUpdateSchema,
-} from './schema';
+} from '@/actions/comment/schema';
 import { createSafeAction } from '@/lib/create-safe-action';
 import { CommentType, Prisma } from '@prisma/client';
 import { revalidatePath } from 'next/cache';
-import { ROLES } from '../types';
+import { ROLES } from '@/actions/types';
 
 export const getComments = async (
   q: Prisma.CommentFindManyArgs,

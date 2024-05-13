@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import { formatTime, type Segment } from './utils';
+import { formatTime, type Segment } from '@/lib/utils';
 
 export function segmentsHandler(segments: Segment[], player: any) {
   const s = document.querySelector('#timeline');

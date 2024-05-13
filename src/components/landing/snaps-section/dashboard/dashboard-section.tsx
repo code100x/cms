@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import dashboard from '@public/platform/dashboard.png';
-import { Button } from '../../../ui/button';
+import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { ChevronRight } from 'lucide-react';
 import { CardContainer, CardItem } from '@/components/3dcard';

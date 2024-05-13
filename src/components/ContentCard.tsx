@@ -1,9 +1,9 @@
 import { CheckCircle2 } from 'lucide-react';
-import PercentageComplete from './PercentageComplete';
+import PercentageComplete from '@/components/PercentageComplete';
 import { Bookmark } from '@prisma/client';
-import BookmarkButton from './bookmark/BookmarkButton';
+import BookmarkButton from '@/components/bookmark/BookmarkButton';
 import { formatTime } from '@/lib/utils';
-import VideoThumbnail from './videothumbnail';
+import VideoThumbnail from '@/components/videothumbnail';
 
 export const ContentCard = ({
   title,
@@ -70,10 +70,11 @@ export const ContentCard = ({
       {type === 'video' && (
         <div className="relative overflow-hidden rounded-md ">
           <VideoThumbnail
-            contentId={contentId ?? 0}
+            contentId={contentId}
             imageUrl={
               'https://d2szwvl7yo497w.cloudfront.net/courseThumbnails/video.png'
             }
+            duration={1}
           />
         </div>
       )}

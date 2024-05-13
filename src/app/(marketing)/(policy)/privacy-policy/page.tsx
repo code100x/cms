@@ -1,4 +1,4 @@
-import { privacyPolicyContent } from '../../../../components/landing/footer/privacy-policy/privacy-policy';
+import { privacyPolicyContent } from '@/components/landing/footer/privacy-policy/privacy-policy';
 
 const PrivacyPolicyPage = () => {
   return (

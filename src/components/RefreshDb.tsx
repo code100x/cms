@@ -1,5 +1,5 @@
 'use client';
-import { Button } from './ui/button';
+import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import { useSession } from 'next-auth/react';
 
@@ -21,7 +21,7 @@ export function RefreshDb({ refreshDb }) {
 
   return (
     <div className="flex flex-col gap-2 mx-auto">
-      <h1>Don't see all your courses?</h1>
+      <h1>Don &apos; t see all your courses?</h1>
       <Button className="dark:text-white" onClick={handleClick}>
         Refresh Database
       </Button>

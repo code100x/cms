@@ -1,6 +1,6 @@
 'use client';
 import { useRouter } from 'next/navigation';
-import { ContentCard } from './ContentCard';
+import { ContentCard } from '@/components/ContentCard';
 import { Bookmark } from '@prisma/client';
 
 export const FolderView = ({

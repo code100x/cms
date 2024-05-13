@@ -1,11 +1,11 @@
 import { Folder } from '@/db/course';
-import { ContentRenderer } from './admin/ContentRenderer';
-import { FolderView } from './FolderView';
-import { NotionRenderer } from './NotionRenderer';
+import { ContentRenderer } from '@/components/admin/ContentRenderer';
+import { FolderView } from '@/components/FolderView';
+import { NotionRenderer } from '@/components/NotionRenderer';
 import { getFolderPercentCompleted } from '@/lib/utils';
-import Comments from './comment/Comments';
+import Comments from '@/components/comment/Comments';
 import { QueryParams } from '@/actions/types';
-import BreadCrumbComponent from './BreadCrumbComponent';
+import BreadCrumbComponent from '@/components/BreadCrumbComponent';
 
 export const CourseView = ({
   rest,

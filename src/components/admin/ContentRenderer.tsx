@@ -1,7 +1,7 @@
 import db from '@/db';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
-import { ContentRendererClient } from './ContentRendererClient';
+import { ContentRendererClient } from '@/components/admin/ContentRendererClient';
 import { Bookmark } from '@prisma/client';
 
 export const getMetadata = async (contentId: number) => {

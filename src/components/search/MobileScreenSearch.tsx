@@ -1,6 +1,6 @@
 import { SearchIcon, XIcon } from 'lucide-react';
 import { useState } from 'react';
-import SearchBar from './SearchBar';
+import SearchBar from '@/components/search/SearchBar';
 
 const MobileScreenSearch = () => {
   const [showSearchBar, setShowSearchBar] = useState(false);

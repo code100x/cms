@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { AddNotionMetadata } from './AddNotionMetadata';
-import { Input } from '../ui/input';
+import { AddNotionMetadata } from '@/components/admin/AddNotionMetadata';
+import { Input } from '@/components/ui/input';
 
 export const AddContent = ({
   courseId,
@@ -100,11 +100,12 @@ function AddVideosMetadata({
 
   useEffect(() => {
     onChange(metadataGlobal);
-  }, [metadataGlobal]);
+  }, [metadataGlobal, onChange]);
   return (
     <div>
       {[...Array(VARIANTS)].map((_, i) => (
         <AddVideoMetadata
+          key={i}
           onChange={async (metadata) => {
             await setMetadata((m: any) => ({
               ...m,
@@ -126,7 +127,7 @@ function AddVideoMetadata({ onChange }: { onChange: (metadata: any) => void }) {
 
   useEffect(() => {
     onChange({ video_1080p, video_720p, video_360p });
-  }, [video_1080p, video_720p, video_360p]);
+  }, [video_1080p, video_720p, video_360p, onChange]);
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 py-2">
       <Input

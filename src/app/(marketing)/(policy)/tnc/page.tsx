@@ -1,4 +1,4 @@
-import { tncContent } from '../../../../components/landing/footer/tnc/tnc-content';
+import { tncContent } from '@/components/landing/footer/tnc/tnc-content';
 
 const TermsAndConditionsPage = () => {
   return (

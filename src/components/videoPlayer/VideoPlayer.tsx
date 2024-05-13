@@ -1,12 +1,12 @@
 'use client';
 import React, { useEffect, useRef, useState } from 'react';
-import VideoPlayerControls from './videoControls';
+import VideoPlayerControls from '@/components/videoPlayer/videoControls';
 import videojs from 'video.js';
 import { Segment, handleMarkAsCompleted } from '@/lib/utils';
 import Player from 'video.js/dist/types/player';
 import 'video.js/dist/video-js.css';
 import { useSearchParams } from 'next/navigation';
-import { YoutubeRenderer } from '../YoutubeRenderer';
+import { YoutubeRenderer } from '@/components/YoutubeRenderer';
 // import 'videojs-mobile-ui/dist/videojs-mobile-ui.css';
 // import 'videojs-mobile-ui';
 
@@ -45,7 +45,7 @@ export const VideoPlayer = ({
         },
       );
     }
-  }, [contentId, player]);
+  }, [contentId, player, searchParams]);
 
   useEffect(() => {
     if (!player) {
@@ -94,7 +94,7 @@ export const VideoPlayer = ({
     return () => {
       window.clearInterval(interval);
     };
-  }, [player, contentId]);
+  }, [player, contentId, onVideoEnd]);
 
   useEffect(() => {
     if (!playerRef.current && videoRef.current) {
@@ -127,7 +127,7 @@ export const VideoPlayer = ({
       player.src(options?.sources[0]);
       player.currentTime(currentTime);
     }
-  }, [options?.sources[0]]);
+  }, [options?.sources, player]);
 
   useEffect(() => {
     const playerInstance = playerRef?.current;

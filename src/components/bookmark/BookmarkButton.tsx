@@ -7,7 +7,7 @@ import {
 } from '@/components/ui/tooltip';
 import { useBookmark } from '@/hooks/useBookmark';
 import { Bookmark } from '@prisma/client';
-import { Button } from '../ui/button';
+import { Button } from '@/components/ui/button';
 type Side = 'top' | 'right' | 'bottom' | 'left';
 type Align = 'center' | 'start' | 'end';
 

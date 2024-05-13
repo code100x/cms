@@ -5,7 +5,7 @@ import {
   QuestionDeleteSchema,
   QuestionInsertSchema,
   QuestionUpdateSchema,
-} from './schema';
+} from '@/actions/question/schema';
 import { Answer, Question } from '@prisma/client';
 import { Delete } from '@/lib/utils';
 

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
 import { OneCertificate } from '@/utiles/certificate';
 
@@ -24,24 +24,7 @@ export function useGenerateCertificate({
   );
   const [certificateImageUrl, setCertificateImageUrl] = useState('');
 
-  useEffect(() => {
-    async function generateCertificateAndImage() {
-      setGenerating(true);
-
-      try {
-        await generateCertificate();
-        await generateCertificateImage();
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setGenerating(false);
-      }
-    }
-
-    generateCertificateAndImage();
-  }, [certificateDetails]);
-
-  async function generateCertificate() {
+  const generateCertificate = useCallback(async () => {
     try {
       const existingPdfBytes = await fetch('/certificate.pdf').then((res) =>
         res.arrayBuffer(),
@@ -87,9 +70,9 @@ export function useGenerateCertificate({
     } catch (error) {
       console.error(error);
     }
-  }
+  }, [certificateDetails.certificateSlug, userName]);
 
-  const generateCertificateImage = async (): Promise<void> => {
+  const generateCertificateImage = useCallback(async (): Promise<void> => {
     try {
       const offscreenCanvas = document.createElement('canvas');
       const ctx = offscreenCanvas.getContext('2d');
@@ -136,8 +119,24 @@ export function useGenerateCertificate({
       console.error('Error generating certificate image:', error);
       throw error;
     }
-  };
+  }, [certificateDetails.certificateSlug, userName]);
 
+  useEffect(() => {
+    async function generateCertificateAndImage() {
+      setGenerating(true);
+
+      try {
+        await generateCertificate();
+        await generateCertificateImage();
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setGenerating(false);
+      }
+    }
+
+    generateCertificateAndImage();
+  }, [certificateDetails, generateCertificate, generateCertificateImage]);
   return {
     generating,
     certificatePdfUrl,

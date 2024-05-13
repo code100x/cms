@@ -10,9 +10,9 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import ExternalLinks from './ExternalLinks';
+import ExternalLinks from '@/components/profile-menu/ExternalLinks';
 import { signOut } from 'next-auth/react';
-import { SelectTheme } from './SelectTheme';
+import { SelectTheme } from '@/components/profile-menu/SelectTheme';
 
 const ProfileDropdown = () => {
   const menuItemLinks = [
