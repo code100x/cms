@@ -59,7 +59,7 @@ async function seedCourses() {
     },
     {
       id: 3,
-      appxCourseId: 2,
+      appxCourseId: 3,
       discordRoleId: '3',
       title: 'test course 2',
       imageUrl:
@@ -137,6 +137,26 @@ async function seedContent() {
       parentId: 1,
       commentsCount: 0,
     },
+    {
+      id: 4,
+      type: 'video',
+      title: 'test video 2 for week 1',
+      hidden: false,
+      thumbnail:
+        'https://appx-recordings.s3.ap-south-1.amazonaws.com/drm/100x/images/week-1-orientation.jpg',
+      parentId: 1,
+      commentsCount: 0,
+    },
+    {
+      id: 5,
+      type: 'video',
+      title: 'test video-3 for week 1',
+      hidden: false,
+      thumbnail:
+        'https://appx-recordings.s3.ap-south-1.amazonaws.com/drm/100x/images/week-1-orientation.jpg',
+      parentId: 1,
+      commentsCount: 0,
+    },
   ];
   try {
     await db.content.createMany({ data: content });
@@ -177,37 +197,147 @@ async function seedNotionMetadata() {
 
 async function seedVideoMetadata() {
   try {
-    await db.videoMetadata.create({
-      data: {
-        id: 1,
-        contentId: 3,
-        video_1080p_mp4_1: 'https://www.w3schools.com/html/mov_bbb.mp4',
-        video_1080p_mp4_2: 'https://www.w3schools.com/html/mov_bbb.mp4',
-        video_1080p_mp4_3: 'https://www.w3schools.com/html/mov_bbb.mp4',
-        video_1080p_mp4_4: 'https://www.w3schools.com/html/mov_bbb.mp4',
-        video_1080p_1: 'https://www.w3schools.com/html/mov_bbb.mp4',
-        video_1080p_2: 'https://www.w3schools.com/html/mov_bbb.mp4',
-        video_1080p_3: 'https://www.w3schools.com/html/mov_bbb.mp4',
-        video_1080p_4: 'https://www.w3schools.com/html/mov_bbb.mp4',
-        video_720p_mp4_1: 'https://www.w3schools.com/html/mov_bbb.mp4',
-        video_720p_mp4_2: 'https://www.w3schools.com/html/mov_bbb.mp4',
-        video_720p_mp4_3: 'https://www.w3schools.com/html/mov_bbb.mp4',
-        video_720p_mp4_4: 'https://www.w3schools.com/html/mov_bbb.mp4',
-        video_720p_1: 'https://www.w3schools.com/html/mov_bbb.mp4',
-        video_720p_2: 'https://www.w3schools.com/html/mov_bbb.mp4',
-        video_720p_3: 'https://www.w3schools.com/html/mov_bbb.mp4',
-        video_720p_4: 'https://www.w3schools.com/html/mov_bbb.mp4',
-        video_360p_mp4_1: 'https://www.w3schools.com/html/mov_bbb.mp4',
-        video_360p_mp4_2: 'https://www.w3schools.com/html/mov_bbb.mp4',
-        video_360p_mp4_3: 'https://www.w3schools.com/html/mov_bbb.mp4',
-        video_360p_mp4_4: 'https://www.w3schools.com/html/mov_bbb.mp4',
-        video_360p_1: 'https://www.w3schools.com/html/mov_bbb.mp4',
-        video_360p_2: 'https://www.w3schools.com/html/mov_bbb.mp4',
-        video_360p_3: 'https://www.w3schools.com/html/mov_bbb.mp4',
-        video_360p_4: 'https://www.w3schools.com/html/mov_bbb.mp4',
-        slides:
-          'https://appx-recordings.s3.ap-south-1.amazonaws.com/drm/100x/slides/Loops%2C+callbacks.pdf',
-      },
+    await db.videoMetadata.createMany({
+      data: [
+        {
+          id: 1,
+          contentId: 3,
+          video_1080p_mp4_1: 'https://www.w3schools.com/html/mov_bbb.mp4',
+          video_1080p_mp4_2: 'https://www.w3schools.com/html/mov_bbb.mp4',
+          video_1080p_mp4_3: 'https://www.w3schools.com/html/mov_bbb.mp4',
+          video_1080p_mp4_4: 'https://www.w3schools.com/html/mov_bbb.mp4',
+          video_1080p_1: 'https://www.w3schools.com/html/mov_bbb.mp4',
+          video_1080p_2: 'https://www.w3schools.com/html/mov_bbb.mp4',
+          video_1080p_3: 'https://www.w3schools.com/html/mov_bbb.mp4',
+          video_1080p_4: 'https://www.w3schools.com/html/mov_bbb.mp4',
+          video_720p_mp4_1: 'https://www.w3schools.com/html/mov_bbb.mp4',
+          video_720p_mp4_2: 'https://www.w3schools.com/html/mov_bbb.mp4',
+          video_720p_mp4_3: 'https://www.w3schools.com/html/mov_bbb.mp4',
+          video_720p_mp4_4: 'https://www.w3schools.com/html/mov_bbb.mp4',
+          video_720p_1: 'https://www.w3schools.com/html/mov_bbb.mp4',
+          video_720p_2: 'https://www.w3schools.com/html/mov_bbb.mp4',
+          video_720p_3: 'https://www.w3schools.com/html/mov_bbb.mp4',
+          video_720p_4: 'https://www.w3schools.com/html/mov_bbb.mp4',
+          video_360p_mp4_1: 'https://www.w3schools.com/html/mov_bbb.mp4',
+          video_360p_mp4_2: 'https://www.w3schools.com/html/mov_bbb.mp4',
+          video_360p_mp4_3: 'https://www.w3schools.com/html/mov_bbb.mp4',
+          video_360p_mp4_4: 'https://www.w3schools.com/html/mov_bbb.mp4',
+          video_360p_1: 'https://www.w3schools.com/html/mov_bbb.mp4',
+          video_360p_2: 'https://www.w3schools.com/html/mov_bbb.mp4',
+          video_360p_3: 'https://www.w3schools.com/html/mov_bbb.mp4',
+          video_360p_4: 'https://www.w3schools.com/html/mov_bbb.mp4',
+          slides:
+            'https://appx-recordings.s3.ap-south-1.amazonaws.com/drm/100x/slides/Loops%2C+callbacks.pdf',
+        },
+        {
+          id: 2,
+          contentId: 4,
+          video_1080p_mp4_1:
+            'https://live-par-2-cdn-alt.livepush.io/live/bigbuckbunnyclip/index.m3u8',
+          video_1080p_mp4_2:
+            'https://live-par-2-cdn-alt.livepush.io/live/bigbuckbunnyclip/index.m3u8',
+          video_1080p_mp4_3:
+            'https://live-par-2-cdn-alt.livepush.io/live/bigbuckbunnyclip/index.m3u8',
+          video_1080p_mp4_4:
+            'https://live-par-2-cdn-alt.livepush.io/live/bigbuckbunnyclip/index.m3u8',
+          video_1080p_1:
+            'https://live-par-2-cdn-alt.livepush.io/live/bigbuckbunnyclip/index.m3u8',
+          video_1080p_2:
+            'https://live-par-2-cdn-alt.livepush.io/live/bigbuckbunnyclip/index.m3u8',
+          video_1080p_3:
+            'https://live-par-2-cdn-alt.livepush.io/live/bigbuckbunnyclip/index.m3u8',
+          video_1080p_4:
+            'https://live-par-2-cdn-alt.livepush.io/live/bigbuckbunnyclip/index.m3u8',
+          video_720p_mp4_1:
+            'https://live-par-2-cdn-alt.livepush.io/live/bigbuckbunnyclip/index.m3u8',
+          video_720p_mp4_2:
+            'https://live-par-2-cdn-alt.livepush.io/live/bigbuckbunnyclip/index.m3u8',
+          video_720p_mp4_3:
+            'https://live-par-2-cdn-alt.livepush.io/live/bigbuckbunnyclip/index.m3u8',
+          video_720p_mp4_4:
+            'https://live-par-2-cdn-alt.livepush.io/live/bigbuckbunnyclip/index.m3u8',
+          video_720p_1:
+            'https://live-par-2-cdn-alt.livepush.io/live/bigbuckbunnyclip/index.m3u8',
+          video_720p_2:
+            'https://live-par-2-cdn-alt.livepush.io/live/bigbuckbunnyclip/index.m3u8',
+          video_720p_3:
+            'https://live-par-2-cdn-alt.livepush.io/live/bigbuckbunnyclip/index.m3u8',
+          video_720p_4:
+            'https://live-par-2-cdn-alt.livepush.io/live/bigbuckbunnyclip/index.m3u8',
+          video_360p_mp4_1:
+            'https://live-par-2-cdn-alt.livepush.io/live/bigbuckbunnyclip/index.m3u8',
+          video_360p_mp4_2:
+            'https://live-par-2-cdn-alt.livepush.io/live/bigbuckbunnyclip/index.m3u8',
+          video_360p_mp4_3:
+            'https://live-par-2-cdn-alt.livepush.io/live/bigbuckbunnyclip/index.m3u8',
+          video_360p_mp4_4:
+            'https://live-par-2-cdn-alt.livepush.io/live/bigbuckbunnyclip/index.m3u8',
+          video_360p_1:
+            'https://live-par-2-cdn-alt.livepush.io/live/bigbuckbunnyclip/index.m3u8',
+          video_360p_2:
+            'https://live-par-2-cdn-alt.livepush.io/live/bigbuckbunnyclip/index.m3u8',
+          video_360p_3:
+            'https://live-par-2-cdn-alt.livepush.io/live/bigbuckbunnyclip/index.m3u8',
+          video_360p_4:
+            'https://live-par-2-cdn-alt.livepush.io/live/bigbuckbunnyclip/index.m3u8',
+          slides:
+            'https://appx-recordings.s3.ap-south-1.amazonaws.com/drm/100x/slides/Loops%2C+callbacks.pdf',
+        },
+        {
+          id: 3,
+          contentId: 5,
+          video_1080p_mp4_1:
+            'https://bitmovin-a.akamaihd.net/content/MI201109210084_1/mpds/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.mpd',
+          video_1080p_mp4_2:
+            'https://bitmovin-a.akamaihd.net/content/MI201109210084_1/mpds/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.mpd',
+          video_1080p_mp4_3:
+            'https://bitmovin-a.akamaihd.net/content/MI201109210084_1/mpds/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.mpd',
+          video_1080p_mp4_4:
+            'https://bitmovin-a.akamaihd.net/content/MI201109210084_1/mpds/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.mpd',
+          video_1080p_1:
+            'https://bitmovin-a.akamaihd.net/content/MI201109210084_1/mpds/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.mpd',
+          video_1080p_2:
+            'https://bitmovin-a.akamaihd.net/content/MI201109210084_1/mpds/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.mpd',
+          video_1080p_3:
+            'https://bitmovin-a.akamaihd.net/content/MI201109210084_1/mpds/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.mpd',
+          video_1080p_4:
+            'https://bitmovin-a.akamaihd.net/content/MI201109210084_1/mpds/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.mpd',
+          video_720p_mp4_1:
+            'https://bitmovin-a.akamaihd.net/content/MI201109210084_1/mpds/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.mpd',
+          video_720p_mp4_2:
+            'https://bitmovin-a.akamaihd.net/content/MI201109210084_1/mpds/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.mpd',
+          video_720p_mp4_3:
+            'https://bitmovin-a.akamaihd.net/content/MI201109210084_1/mpds/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.mpd',
+          video_720p_mp4_4:
+            'https://bitmovin-a.akamaihd.net/content/MI201109210084_1/mpds/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.mpd',
+          video_720p_1:
+            'https://bitmovin-a.akamaihd.net/content/MI201109210084_1/mpds/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.mpd',
+          video_720p_2:
+            'https://bitmovin-a.akamaihd.net/content/MI201109210084_1/mpds/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.mpd',
+          video_720p_3:
+            'https://bitmovin-a.akamaihd.net/content/MI201109210084_1/mpds/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.mpd',
+          video_720p_4:
+            'https://bitmovin-a.akamaihd.net/content/MI201109210084_1/mpds/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.mpd',
+          video_360p_mp4_1:
+            'https://bitmovin-a.akamaihd.net/content/MI201109210084_1/mpds/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.mpd',
+          video_360p_mp4_2:
+            'https://bitmovin-a.akamaihd.net/content/MI201109210084_1/mpds/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.mpd',
+          video_360p_mp4_3:
+            'https://bitmovin-a.akamaihd.net/content/MI201109210084_1/mpds/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.mpd',
+          video_360p_mp4_4:
+            'https://bitmovin-a.akamaihd.net/content/MI201109210084_1/mpds/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.mpd',
+          video_360p_1:
+            'https://bitmovin-a.akamaihd.net/content/MI201109210084_1/mpds/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.mpd',
+          video_360p_2:
+            'https://bitmovin-a.akamaihd.net/content/MI201109210084_1/mpds/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.mpd',
+          video_360p_3:
+            'https://bitmovin-a.akamaihd.net/content/MI201109210084_1/mpds/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.mpd',
+          video_360p_4:
+            'https://bitmovin-a.akamaihd.net/content/MI201109210084_1/mpds/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.mpd',
+          slides:
+            'https://appx-recordings.s3.ap-south-1.amazonaws.com/drm/100x/slides/Loops%2C+callbacks.pdf',
+        },
+      ],
     });
   } catch (error) {
     console.error('Error seeding video metadata:', error);
