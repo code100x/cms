@@ -90,8 +90,25 @@ export function Sidebar({
     }
   };
 
+  const [completedStates, setCompletedStates] = useState(() =>
+    fullCourseContent.flatMap((folder) =>
+      folder.children.map((content) => ({
+        id: content.id,
+        completed: content.videoProgress?.markAsCompleted || false,
+      })),
+    ),
+  );
+
   const renderContent = (contents: any) => {
     return contents.map((content: any) => {
+      const handleCheckBoxChange = (contentId: number, completed: boolean) => {
+        setCompletedStates((prev) =>
+          prev.map((state) =>
+            state.id === contentId ? { ...state, completed } : state,
+          ),
+        );
+        handleMarkAsCompleted(completed, contentId);
+      };
       const isActiveContent = currentActiveContentIds?.some(
         (id) => content.id === id,
       );
@@ -145,7 +162,14 @@ export function Sidebar({
                   contentId={content.id}
                 />
                 <div className="flex flex-col justify-center ml-2">
-                  <Check content={content} />
+                  <Check
+                    content={content}
+                    completed={
+                      completedStates.find((state) => state.id === content.id)
+                        ?.completed || false
+                    }
+                    handleCheckBoxChange={handleCheckBoxChange}
+                  />
                 </div>
               </div>
             ) : null}
@@ -278,18 +302,21 @@ function NotionIcon() {
 }
 
 // Todo: Fix types here
-function Check({ content }: { content: any }) {
-  const [completed, setCompleted] = useState(
-    content?.videoProgress?.markAsCompleted || false,
-  );
+function Check({
+  content,
+  completed,
+  handleCheckBoxChange,
+}: {
+  content: any;
+  completed: boolean;
+  handleCheckBoxChange: (id: number, checked: boolean) => void;
+}) {
   return (
     <>
       <input
         defaultChecked={completed}
-        onClick={async (e) => {
-          setCompleted(!completed);
-          handleMarkAsCompleted(!completed, content.id);
-          e.stopPropagation();
+        onChange={(e) => {
+          handleCheckBoxChange(content.id, e.target.checked);
         }}
         type="checkbox"
         className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
@@ -297,3 +324,4 @@ function Check({ content }: { content: any }) {
     </>
   );
 }
+
