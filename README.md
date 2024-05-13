@@ -65,7 +65,7 @@ Before you begin, ensure you have met the following requirements
    ```
 6. Run database migrations:
    ```bash
-   npm run prisma:migrate:dev
+   npm run prisma:migrate
    ```
 7. Seed the database:
    ```bash

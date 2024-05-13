@@ -7,11 +7,11 @@ export default async function VerifyPage({
 }: {
   params: { id: string };
 }) {
-  const certificateId = params.id;
+  const certificateSlug = params.id;
   const certificate: (Certificate & { user: User; course: Course }) | null =
     await db.certificate.findFirst({
       where: {
-        id: certificateId,
+        slug: certificateSlug,
       },
       include: {
         user: true,
