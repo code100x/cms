@@ -140,7 +140,7 @@ export default async function Home({
 
   return (
     <>
-      <div className="h-screen md:p-8 transition-colors duration-500">
+      <div className="h-auto md:p-8 transition-colors duration-500">
         <div className="flex justify-between items-center mb-6 px-8 pt-3">
           <div className="text-3xl dark:text-white  text-black transition-colors duration-500">
             <h1 className="text-black  dark:text-white">Questions</h1>
