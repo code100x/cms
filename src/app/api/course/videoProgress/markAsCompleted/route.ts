@@ -10,14 +10,17 @@ const requestBodySchema = z.object({
 });
 
 export async function POST(req: NextRequest) {
-  const parseResult = requestBodySchema.safeParse(req.json());
+    const { contentId, markAsCompleted } = await req.json();
+  const parseResult = requestBodySchema.safeParse({
+    contentId,
+    markAsCompleted,
+  });
   if (!parseResult.success) {
     return NextResponse.json(
       { error: parseResult.error.message },
       { status: 400 },
     );
   }
-  const { contentId, markAsCompleted } = parseResult.data;
   const session = await getServerSession(authOptions);
   if (!session || !session?.user) {
     return NextResponse.json({}, { status: 401 });
