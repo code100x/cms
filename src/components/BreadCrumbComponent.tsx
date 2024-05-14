@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/breadcrumb';
 import { Folder } from '@/db/course';
 import Link from 'next/link';
-import { useMemo } from 'react';
+import { Fragment, useMemo } from 'react';
 
 export default function BreadCrumbComponent({
   rest,
@@ -88,30 +88,26 @@ export default function BreadCrumbComponent({
             } else {
               finalRouteArray = [...rest];
             }
-            return (
-              <>
-                {index !== array.length - 1 ? (
-                  <>
-                    <BreadcrumbItem>
-                      <BreadcrumbLink className="font-semibold" asChild>
-                        <Link
-                          href={`/courses/${course.id}/${finalRouteArray.join('/')}`}
-                        >
-                          {breadcrumb?.title}
-                        </Link>
-                      </BreadcrumbLink>
-                    </BreadcrumbItem>
-                    {/* <BreadcrumbSeparator /> */}
-                    {index + 1 < array.length && <BreadcrumbSeparator />}
-                  </>
-                ) : (
-                  <BreadcrumbItem>
-                    <BreadcrumbPage className="font-semibold">
-                      {breadcrumb.title}
-                    </BreadcrumbPage>
-                  </BreadcrumbItem>
-                )}
-              </>
+            return index !== array.length - 1 ? (
+              <Fragment key={index}>
+                <BreadcrumbItem>
+                  <BreadcrumbLink className="font-semibold" asChild>
+                    <Link
+                      href={`/courses/${course.id}/${finalRouteArray.join('/')}`}
+                    >
+                      {breadcrumb?.title}
+                    </Link>
+                  </BreadcrumbLink>
+                </BreadcrumbItem>
+                {/* <BreadcrumbSeparator /> */}
+                {index + 1 < array.length && <BreadcrumbSeparator />}
+              </Fragment>
+            ) : (
+              <BreadcrumbItem key={index}>
+                <BreadcrumbPage className="font-semibold">
+                  {breadcrumb.title}
+                </BreadcrumbPage>
+              </BreadcrumbItem>
             );
           })}
         </BreadcrumbList>

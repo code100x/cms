@@ -10,7 +10,15 @@ const requestBodySchema = z.object({
 });
 
 export async function POST(req: NextRequest) {
-  const parseResult = requestBodySchema.safeParse(req.json());
+  const session = await getServerSession(authOptions);
+  const data = await req.json();
+
+  if (!session || !session?.user) {
+    return NextResponse.json({}, { status: 401 });
+  }
+
+  const parseResult = requestBodySchema.safeParse(data);
+  
   if (!parseResult.success) {
     return NextResponse.json(
       { error: parseResult.error.message },
@@ -18,10 +26,6 @@ export async function POST(req: NextRequest) {
     );
   }
   const { contentId, markAsCompleted } = parseResult.data;
-  const session = await getServerSession(authOptions);
-  if (!session || !session?.user) {
-    return NextResponse.json({}, { status: 401 });
-  }
 
   const updatedRecord = await db.videoProgress.upsert({
     where: {
