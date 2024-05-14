@@ -110,4 +110,4 @@ Read our [contribution guidelines](./CONTRIBUTING.md) for more details.
 </a>
 
 ## Issues on mac Silicon
-brew install pkg-config cairo pango libpng jpeg giflib librsvg
+brew install pkg-config cairo pango libpng jpeg giflib librsvg.
