@@ -215,7 +215,7 @@ export default async function Home({
                 </DropdownMenu>
               </div>
             </div>
-            <div className="w-full m-auto">
+            <div className="w-full m-auto max-h-[calc(90vh-200px)] overflow-y-auto">
               <div className="space-y-4 w-full">
                 {response?.data?.map((post) => (
                   <PostCard
