@@ -1,8 +1,9 @@
 'use client';
 import { Course } from '@/store/atoms';
 import PercentageComplete from './PercentageComplete';
-import { Button } from './ui/button';
-import { ChevronRight } from 'lucide-react';
+import { PrimaryButton } from './buttons/PrimaryButton';
+import { SecondaryButton } from './buttons/SecondaryButton';
+import { useRouter } from 'next/navigation';
 
 export const CourseCard = ({
   course,
@@ -23,6 +24,7 @@ export const CourseCard = ({
   };
 
   const roundedClassName = roundedClassNames[roundedCardSize] || 'rounded-lg';
+  const router = useRouter();
   return (
     <div
       className={`max-w-sm bg-white border border-gray-200 ${roundedClassName} shadow dark:bg-gray-800 dark:border-gray-700 mx-auto w-full`}
@@ -94,6 +96,17 @@ export const CourseCard = ({
               <ChevronRight className="h-4 w-4 ml-1 group-hover:translate-x-1 transition" />
             </Button>
           </div>
+          <PrimaryButton>View Content</PrimaryButton>
+          {course.certIssued && (
+            <SecondaryButton
+              onClick={(e) => {
+                e.stopPropagation();
+                router.push('/certificate');
+              }}
+            >
+              Download Certificate
+            </SecondaryButton>
+          )}
         </div>
       </div>
     </div>

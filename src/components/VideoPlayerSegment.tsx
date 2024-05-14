@@ -1,13 +1,13 @@
 'use client';
 import React, { FunctionComponent, useRef } from 'react';
 import { VideoPlayer } from '@/components/VideoPlayer2';
-
 import {
   createSegmentMarkersWithoutDuration,
   getCurrentSegmentName,
 } from '@/lib/utils';
-import { Segment } from '@/lib/utils';
 import Player from 'video.js/dist/types/player';
+
+import { Segment } from '@/lib/utils';
 
 export interface Thumbnail {
   public_id: string;
@@ -101,8 +101,8 @@ export const VideoPlayerSegment: FunctionComponent<VideoProps> = ({
           contentId={contentId}
           subtitles={subtitles}
           options={videoJsOptions}
-          onReady={handlePlayerReady}
           onVideoEnd={onVideoEnd}
+          onReady={handlePlayerReady}
         />
       </div>
     </div>

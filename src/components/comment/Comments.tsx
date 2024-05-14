@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, CardContent, CardFooter, CardHeader } from '../ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
-import { CommentFilter, QueryParams, ROLES } from '@/actions/types';
+import { TabType, QueryParams, ROLES } from '@/actions/types';
 import {
   constructCommentPrismaQuery,
   getUpdatedUrl,
@@ -39,12 +39,16 @@ const Comments = async ({
 }: {
   content: {
     id: number;
+    courseId: number;
     commentCount: number;
     possiblePath: string;
   };
   searchParams: QueryParams;
 }) => {
   const session = await getServerSession(authOptions);
+  if (!session?.user) {
+    return null;
+  }
   const paginationInfo = paginationData(searchParams);
   const q = constructCommentPrismaQuery(
     searchParams,
@@ -52,7 +56,6 @@ const Comments = async ({
     content.id,
     session.user.id,
   );
-
   const data = await getComments(q, searchParams.parentId);
 
   if (!content.id) return null;
@@ -124,7 +127,7 @@ const Comments = async ({
                 className="w-[200px] justify-between text-left font-normal"
                 variant="ghost"
               >
-                <span>{searchParams.commentfilter || CommentFilter.mu}</span>
+                <span>{searchParams.tabtype || TabType.mu}</span>
                 <ChevronDownIcon className="w-4 h-4" />
               </Button>
             </DropdownMenuTrigger>
@@ -133,10 +136,10 @@ const Comments = async ({
                 <Link
                   scroll={false}
                   href={getUpdatedUrl(
-                    `/courses/${content.possiblePath}`,
+                    `/courses/${content.courseId}/${content.possiblePath}`,
                     searchParams,
                     {
-                      commentfilter: CommentFilter.mu,
+                      tabtype: TabType.mu,
                     },
                   )}
                 >
@@ -145,10 +148,10 @@ const Comments = async ({
                 <Link
                   scroll={false}
                   href={getUpdatedUrl(
-                    `/courses/${content.possiblePath}`,
+                    `/courses/${content.courseId}/${content.possiblePath}`,
                     searchParams,
                     {
-                      commentfilter: CommentFilter.mr,
+                      tabtype: TabType.mr,
                     },
                   )}
                 >
@@ -157,10 +160,10 @@ const Comments = async ({
                 <Link
                   scroll={false}
                   href={getUpdatedUrl(
-                    `/courses/${content.possiblePath}`,
+                    `/courses/${content.courseId}/${content.possiblePath}`,
                     searchParams,
                     {
-                      commentfilter: CommentFilter.md,
+                      tabtype: TabType.md,
                     },
                   )}
                 >
@@ -188,7 +191,7 @@ const Comments = async ({
                 <Link
                   scroll={false}
                   href={getUpdatedUrl(
-                    `/courses/${content.possiblePath}`,
+                    `/courses/${content.courseId}/${content.possiblePath}`,
                     searchParams,
                     {
                       type: CommentType.DEFAULT,
@@ -201,7 +204,7 @@ const Comments = async ({
                 <Link
                   scroll={false}
                   href={getUpdatedUrl(
-                    `/courses/${content.possiblePath}`,
+                    `/courses/${content.courseId}/${content.possiblePath}`,
                     searchParams,
                     {
                       type: CommentType.INTRO,
