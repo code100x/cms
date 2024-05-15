@@ -46,7 +46,6 @@ export const CertificateComponent = ({
 
   const handleDownloadPNG = async () => {
     const downloadUrl = certificateImageUrl;
-    console.log('downloadUrl is : ', downloadUrl);
     const a = document.createElement('a');
     a.href = downloadUrl;
     a.download = 'certificate.png';
@@ -70,8 +69,6 @@ export const CertificateComponent = ({
     const shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}&url=${encodeURIComponent(certificateUrl)}`;
     window.open(shareUrl);
   };
-
-  console.log('Url is : ', certificatePdfUrl);
 
   return (
     <Card className="w-500 my-4" key={course.id}>

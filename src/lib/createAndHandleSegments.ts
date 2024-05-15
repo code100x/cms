@@ -7,6 +7,10 @@ export function segmentsHandler(segments: Segment[], player: any) {
     document.querySelectorAll('.timeline-segments').forEach((e) => e.remove());
   }
 
+  // for no segments seekbar ( here single timeline) should be there.
+  if (segments.length === 0) {
+    segments = [{ start: 0.0, end: player?.duration(), title: '' }];
+  }
   segments?.forEach((each: Segment) => {
     const segmentDiv = document.createElement('div');
     const previewEle = document.createElement('div');
@@ -26,16 +30,22 @@ export function segmentsHandler(segments: Segment[], player: any) {
 }
 
 function previewViaBuffer(player: any) {
-  const bufferedEnd = player?.bufferedEnd();
-  const percent = bufferedEnd / player?.duration();
-  return percent;
+  try {
+    const bufferedEnd = player?.bufferedEnd();
+    const percent = bufferedEnd / player?.duration();
+    return percent;
+  } catch {
+    return 0;
+  }
 }
 function progessTimeline(segments: Segment[], player: any) {
   const progressEles: NodeListOf<HTMLDivElement> = document.querySelectorAll(
     '.timeline-segments-progress',
   );
-
-  segments.forEach((each: Segment, index: number) => {
+  if (segments.length === 0) {
+    segments = [{ start: 0.0, end: player?.duration(), title: '' }];
+  }
+  segments?.forEach((each: Segment, index: number) => {
     if (each?.end > player?.currentTime()) {
       progressEles[index].style.right =
         `${((each?.end - player?.currentTime()) / (each?.end - each?.start)) * 100}%`;
@@ -72,7 +82,10 @@ function setCurrentLabel(
   segments: Segment[],
   player: any,
 ) {
-  let currentLabel = segments[0].title;
+  if (segments.length === 0) {
+    segments = [{ start: 0.0, end: player?.duration(), title: '' }];
+  }
+  let currentLabel = segments?.[0]?.title || '';
 
   const currentPos = preview_position * player?.duration();
   if (preview_position !== 0) {
@@ -116,6 +129,9 @@ let isMouseOver = false;
 let isMouseDown = false;
 
 export function updateTimeline(e: any, player: any, segments: Segment[]) {
+  if (segments.length === 0) {
+    segments = [{ start: 0.0, end: player?.duration(), title: '' }];
+  }
   let preview_position = 0;
 
   if (e.type === 'timeupdate') {
