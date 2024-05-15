@@ -91,10 +91,10 @@ export const CourseCard = ({
           </div>
 
           <div className="w-full flex justify-end pb-2 md:pb-0">
-            <Button className="group">
+            {/* <Button className="group">
               Explore Content{' '}
               <ChevronRight className="h-4 w-4 ml-1 group-hover:translate-x-1 transition" />
-            </Button>
+            </Button> */}
           </div>
           <PrimaryButton>View Content</PrimaryButton>
           {course.certIssued && (
