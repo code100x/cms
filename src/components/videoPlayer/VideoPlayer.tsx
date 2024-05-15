@@ -1,14 +1,15 @@
 'use client';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { RefObject, useEffect, useRef, useState } from 'react';
 import VideoPlayerControls from './videoControls';
 import videojs from 'video.js';
 import { Segment, handleMarkAsCompleted } from '@/lib/utils';
 import Player from 'video.js/dist/types/player';
+import 'videojs-contrib-eme';
 import 'video.js/dist/video-js.css';
 import { useSearchParams } from 'next/navigation';
 import { YoutubeRenderer } from '../YoutubeRenderer';
-// import 'videojs-mobile-ui/dist/videojs-mobile-ui.css';
-// import 'videojs-mobile-ui';
+import 'videojs-mobile-ui/dist/videojs-mobile-ui.css';
+import 'videojs-mobile-ui';
 
 // mpdUrl => https://cloudfront.enet/video/video.mp4
 // thumbnail => https://cloudfront.enet/video/thumbnail.jpg
@@ -30,11 +31,14 @@ export const VideoPlayer = ({
   contentId: number;
 }) => {
   const searchParams = useSearchParams();
-
+  const childRef = useRef<{
+    inputRef: RefObject<HTMLInputElement>;
+    skipLeft:() => void;
+    skipRight: () => void;
+  }>(null);
   const videoRef = useRef<HTMLDivElement>(null);
   const playerRef = useRef<Player | null>(null);
   const [player, setPlayer] = useState<any>(null);
-
   useEffect(() => {
     const t = searchParams.get('timestamp');
     if (contentId && player && !t) {
@@ -109,7 +113,7 @@ export const VideoPlayer = ({
         () => {
           setPlayer(player);
 
-          // player?.mobileUi(); // mobile ui #https://github.com/mister-ben/videojs-mobile-ui
+          player?.mobileUi(); // mobile ui #https://github.com/mister-ben/videojs-mobile-ui
           player?.eme();
         },
       ));
@@ -147,8 +151,16 @@ export const VideoPlayer = ({
     const regex = /^https:\/\/www\.youtube\.com\/embed\/[a-zA-Z0-9_-]+/;
     return regex.test(url);
   };
-
   const vidUrl = options.sources[0].src;
+  const handleDoubleClick = (e: any) => {
+    const playerWidth = videoRef.current?.getBoundingClientRect().width || 1000;
+
+    if (0.66 * playerWidth < e.nativeEvent.offsetX) {
+      childRef.current?.skipRight();
+    } else if (e.nativeEvent.offsetX < 0.33 * playerWidth) {
+      childRef.current?.skipLeft();
+    }
+  };
 
   if (isYoutubeUrl(vidUrl)) {
     return <YoutubeRenderer url={vidUrl} />;
@@ -159,6 +171,7 @@ export const VideoPlayer = ({
       id="videoContainer"
       data-vjs-player
       className="relative group/v-container select-none rounded-md overflow-hidden md:max-w-[calc(100vw-3rem)] grid 2xl:max-w-[calc(100vw-17rem)]"
+      onDoubleClick={handleDoubleClick}
     >
       <VideoPlayerControls
         player={player}
@@ -166,6 +179,7 @@ export const VideoPlayer = ({
         segments={segments}
         setQuality={setQuality}
         subtitles={subtitles}
+        ref={childRef}
       />
       <div ref={videoRef} className="self-center"></div>
     </div>
