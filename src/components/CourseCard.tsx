@@ -1,18 +1,21 @@
 'use client';
 import { Course } from '@/store/atoms';
 import PercentageComplete from './PercentageComplete';
+import { ChevronRight } from 'lucide-react';
+import router from 'next/router';
 import { PrimaryButton } from './buttons/PrimaryButton';
 import { SecondaryButton } from './buttons/SecondaryButton';
-import { useRouter } from 'next/navigation';
+import { Button } from './ui/button';
+// import { PrimaryButton } from './buttons/PrimaryButton';
+// import { SecondaryButton } from './buttons/SecondaryButton';
+// import { useRouter } from 'next/navigation';
 
 export const CourseCard = ({
   course,
-  onClick,
   buttonColor,
   roundedCardSize,
 }: {
   course: Course;
-  onClick: () => void;
   buttonColor: string;
   roundedCardSize: 'lg' | 'xl' | '2xl' | '3xl';
 }) => {
@@ -24,13 +27,9 @@ export const CourseCard = ({
   };
 
   const roundedClassName = roundedClassNames[roundedCardSize] || 'rounded-lg';
-  const router = useRouter();
   return (
     <div
       className={`max-w-sm bg-white border border-gray-200 ${roundedClassName} shadow dark:bg-gray-800 dark:border-gray-700 mx-auto w-full`}
-      onClick={() => {
-        onClick();
-      }}
     >
       <div className="relative">
         {course.totalVideos !== undefined &&
@@ -64,9 +63,9 @@ export const CourseCard = ({
   return (
     <div
       className={`max-w-full flex flex-col md:flex-row items-center bg-slate-100 md:border rounded-${roundedCardSize} shadow-lg dark:bg-gradient-to-t md:dark:bg-gradient-to-l dark:from-slate-900 dark:to-slate-800`}
-      onClick={() => {
-        onClick();
-      }}
+      // onClick={() => {
+      //   onClick();
+      // }}
     >
       <div className="relative">
         <div className="p-2">
