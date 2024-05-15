@@ -4,6 +4,8 @@ import PercentageComplete from './PercentageComplete';
 import { PrimaryButton } from './buttons/PrimaryButton';
 import { SecondaryButton } from './buttons/SecondaryButton';
 import { useRouter } from 'next/navigation';
+import { ChevronRight } from 'lucide-react';
+import { Button } from './ui/button';
 
 export const CourseCard = ({
   course,
@@ -78,22 +80,22 @@ export const CourseCard = ({
         </div>
       </div>
 
-      <div className="px-6 py-2 w-full h-full">
-        <div className="flex flex-col w-full h-full items-start justify-between md:py-4">
-          <div className="w-full items-start mb-3">
-            <h2 className="mb-0 md:mb-2 dark:text-neutral-100 text-neutral-800 text-xl sm:text-3xl font-semibold">
+      <div className="w-full h-full px-6 py-2">
+        <div className="flex flex-col items-start justify-between w-full h-full md:py-4">
+          <div className="items-start w-full mb-3">
+            <h2 className="mb-0 text-xl font-semibold md:mb-2 dark:text-neutral-100 text-neutral-800 sm:text-3xl">
               {course.title} Cohort
             </h2>
 
-            <p className="dark:text-neutral-200 text-neutral-700 font-medium">
+            <p className="font-medium dark:text-neutral-200 text-neutral-700">
               {course.description}
             </p>
           </div>
 
-          <div className="w-full flex justify-end pb-2 md:pb-0">
+          <div className="flex justify-end w-full pb-2 md:pb-0">
             <Button className="group">
               Explore Content{' '}
-              <ChevronRight className="h-4 w-4 ml-1 group-hover:translate-x-1 transition" />
+              <ChevronRight className="w-4 h-4 ml-1 transition group-hover:translate-x-1" />
             </Button>
           </div>
           <PrimaryButton>View Content</PrimaryButton>
@@ -116,7 +118,7 @@ export const CourseCard = ({
 export const CourseSkeleton = () => {
   return (
     <div className="animate-pulse">
-      <div className="rounded-md bg-slate-50 dark:bg-slate-900 h-64"></div>
+      <div className="h-64 rounded-md bg-slate-50 dark:bg-slate-900"></div>
     </div>
   );
 };
