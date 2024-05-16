@@ -3,6 +3,7 @@ import { z } from 'zod';
 export const QuestionInsertSchema = z.object({
   title: z.string().min(5, 'Question title too short'),
   content: z.string().min(0, 'Question content too short'),
+  contentId: z.nullable(z.number()),
   tags: z.array(z.string()).optional(),
 });
 

@@ -33,7 +33,7 @@ const createQuestionHandler = async (
     };
   }
 
-  const { title, content, tags } = data;
+  const { title, content, tags, contentId } = data;
 
   // Create initial slug
   let slug = generateHandle(title);
@@ -62,6 +62,7 @@ const createQuestionHandler = async (
         title,
         content,
         tags,
+        contentId: contentId || undefined,
         authorId: session.user.id,
         slug, // Include the slug
       },

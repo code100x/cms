@@ -2,6 +2,7 @@ import { CommentType } from '@prisma/client';
 
 export interface QueryParams {
   limit?: number;
+  contentId?: number;
   page?: number;
   tabtype?: TabType;
   search?: string;

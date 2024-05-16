@@ -18,7 +18,7 @@ import { getUpdatedUrl, searchParamsToObject } from '@/lib/utils';
 import { FormPostInput } from './posts/form/form-input';
 import { FormPostErrors } from './posts/form/form-errors';
 
-export const NewPostDialog = () => {
+export const NewPostDialog = ({ contentId }: { contentId: number | null }) => {
   const { theme } = useTheme();
   const formRef = useRef<ElementRef<'form'>>(null);
   const searchParam = useSearchParams();
@@ -86,6 +86,7 @@ export const NewPostDialog = () => {
     execute({
       title: title?.toString() || '',
       content: value,
+      contentId,
       tags: (tags?.toString() || '').split(','),
     });
   };
