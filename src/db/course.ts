@@ -174,6 +174,10 @@ export const getNextVideo = async (currentVideoId: number) => {
 };
 
 async function getAllContent() {
+  const session = await getServerSession(authOptions);
+  if (!session?.user) {
+    return [];
+  }
   const value = Cache.getInstance().get('getAllContent', []);
   if (value) {
     return value;
@@ -188,7 +192,11 @@ async function getAllContent() {
           duration: true,
         },
       },
-      bookmark: true,
+      bookmark: {
+        where: {
+          userId: session?.user?.id,
+        },
+      },
     },
   });
   Cache.getInstance().set('getAllContent', [], allContent);
