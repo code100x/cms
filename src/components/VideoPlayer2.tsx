@@ -127,6 +127,11 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
         ) {
           return; // Do nothing if the active element is an input or textarea
         }
+        const TIME = (part: number) => {
+          const videoLength: number = Math.round(player.duration());
+          const SECTION = videoLength / 10;
+          return Math.round(SECTION) * part;
+        };
         switch (event.code) {
           case 'Space': // Space bar for play/pause
             if (player.paused()) {
@@ -191,6 +196,39 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
                 player.textTracks()[0].mode = 'showing';
               }
             }
+            break;
+          // Incrementing or decrementing video based on number pressed for example if user
+          // press 4 he will take up to 4/10 part of video like youtube
+          case 'Digit0':
+            player.currentTime(TIME(0));
+
+            break;
+          case 'Digit1':
+            player.currentTime(TIME(1));
+            break;
+          case 'Digit2':
+            player.currentTime(TIME(2));
+            break;
+          case 'Digit3':
+            player.currentTime(TIME(3));
+            break;
+          case 'Digit4':
+            player.currentTime(TIME(4));
+            break;
+          case 'Digit5':
+            player.currentTime(TIME(5));
+            break;
+          case 'Digit6':
+            player.currentTime(TIME(6));
+            break;
+          case 'Digit7':
+            player.currentTime(TIME(7));
+            break;
+          case 'Digit8':
+            player.currentTime(TIME(8));
+            break;
+          case 'Digit9':
+            player.currentTime(TIME(9));
             break;
         }
       }
