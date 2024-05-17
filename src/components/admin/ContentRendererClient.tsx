@@ -82,6 +82,7 @@ export const ContentRendererClient = ({
     );
 
     if (data.contentId) {
+      window.location.reload();
       setContentCompleted((prev) => !prev);
     }
     setLoadingMarkAs(false);

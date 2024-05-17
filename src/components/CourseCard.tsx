@@ -4,6 +4,8 @@ import PercentageComplete from './PercentageComplete';
 import { PrimaryButton } from './buttons/PrimaryButton';
 import { SecondaryButton } from './buttons/SecondaryButton';
 import { useRouter } from 'next/navigation';
+import { Button } from './ui/button';
+import { ChevronRight } from 'lucide-react';
 
 export const CourseCard = ({
   course,
