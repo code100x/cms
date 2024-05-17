@@ -137,6 +137,28 @@ export default async function Home({
 
   const tabType = searchParams.tabtype || TabType.mu;
   const response = await fetchQuestionsByTabType(searchParams, sessionId!);
+  let questionsArray = response.data ? [...response.data] : [];
+
+  switch (tabType) {
+    case TabType.mq:
+      questionsArray = questionsArray.filter(
+        (question) => question.author.id === sessionId,
+      );
+      break;
+    case TabType.md:
+      questionsArray.sort((a, b) => b.downvotes - a.downvotes);
+      break;
+    case TabType.mr:
+      questionsArray.sort(
+        (a, b) =>
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+      );
+      break;
+    case TabType.mu:
+    default:
+      questionsArray.sort((a, b) => b.upvotes - a.upvotes);
+      break;
+  }
 
   return (
     <>
@@ -217,7 +239,7 @@ export default async function Home({
             </div>
             <div className="w-full m-auto">
               <div className="space-y-4 w-full">
-                {response?.data?.map((post) => (
+                {questionsArray?.map((post) => (
                   <PostCard
                     post={post}
                     sessionUser={session?.user}
