@@ -115,7 +115,9 @@ export const ContentRendererClient = ({
             sources: [source],
           }}
           onVideoEnd={() => {
-            setContentCompleted(true);
+            if (!contentCompleted) {
+              handleMarkCompleted();
+            }
           }}
         />
         <div className="flex justify-between mb-2">

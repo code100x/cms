@@ -159,19 +159,21 @@ export function Sidebar({
   }
 
   return (
-    <div className="overflow-y-scroll h-sidebar w-[300px] min-w-[300px] bg-gray-50 dark:bg-gray-800 cursor-pointer sticky top-[64px] self-start w-84">
-      <div className="flex">
-        {/* <ToggleButton
+    <div className="fixed z-20 md:sticky md:top-[64px] md:z-0 self-start bg-background/70 w-full md:w-[300px]">
+      <div className="overflow-y-scroll h-sidebar w-[300px] min-w-[300px] bg-gray-50 dark:bg-gray-800 cursor-pointer   w-84">
+        <div className="flex">
+          {/* <ToggleButton
             onClick={() => {
               setSidebarOpen((s) => !s);
             }}
           /> */}
-        <GoBackButton />
+          <GoBackButton />
+        </div>
+        <Accordion type="single" collapsible className="w-full">
+          {/* Render course content */}
+          {renderContent(fullCourseContent)}
+        </Accordion>
       </div>
-      <Accordion type="single" collapsible className="w-full">
-        {/* Render course content */}
-        {renderContent(fullCourseContent)}
-      </Accordion>
     </div>
   );
 }

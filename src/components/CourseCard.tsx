@@ -4,17 +4,19 @@ import PercentageComplete from './PercentageComplete';
 import { PrimaryButton } from './buttons/PrimaryButton';
 import { SecondaryButton } from './buttons/SecondaryButton';
 import { useRouter } from 'next/navigation';
+import { Button } from './ui/button';
+import { ChevronRight } from 'lucide-react';
 
 export const CourseCard = ({
   course,
   onClick,
   buttonColor,
-  roundedCardSize,
+  roundedCardSize = 'lg',
 }: {
   course: Course;
   onClick: () => void;
-  buttonColor: string;
-  roundedCardSize: 'lg' | 'xl' | '2xl' | '3xl';
+  buttonColor?: string;
+  roundedCardSize?: 'lg' | 'xl' | '2xl' | '3xl';
 }) => {
   const roundedClassNames = {
     lg: 'rounded-lg',
