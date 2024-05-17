@@ -2,7 +2,7 @@ import { withAuth } from 'next-auth/middleware';
 import { NextResponse } from 'next/server';
 
 export const config = {
-  matcher: ['/courses/:path*'],
+  matcher: ['/courses/:path*', '/blog/new/:path*'],
 };
 
 export default withAuth(async (req) => {

@@ -147,6 +147,7 @@ model User {
   questions      Question[]
   answers        Answer[]
   certificate    Certificate[]
+  Post           Blog[]
 }
 
 model DiscordConnect {
@@ -247,6 +248,18 @@ model Answer {
   @@index([parentId])
 }
 
+model Blog {
+  id        Int      @id @default(autoincrement())
+  title     String
+  imageUrl  String
+  subtitle  String
+  content   Json
+  createdAt DateTime @default(now())
+  authorId  String
+  author    User     @relation(fields: [authorId], references: [id])
+  tags      String[]
+  updatedAt DateTime @updatedAt
+}
 
 model Vote {
   id        Int      @id @default(autoincrement())

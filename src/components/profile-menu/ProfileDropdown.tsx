@@ -1,7 +1,14 @@
 'use client';
 
 import Link from 'next/link';
-import { BookmarkIcon, HistoryIcon, LogOutIcon, User2Icon } from 'lucide-react';
+import {
+  BookmarkIcon,
+  HistoryIcon,
+  LogOutIcon,
+  User2Icon,
+  Layers,
+  FileQuestion,
+} from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -25,6 +32,16 @@ const ProfileDropdown = () => {
       href: '/bookmarks',
       icon: <BookmarkIcon className="mr-2 h-4 w-4" />,
       label: 'Bookmarks',
+    },
+    {
+      href: '/blog',
+      icon: <Layers className="mr-2 h-4 w-4" />,
+      label: 'Blog',
+    },
+    {
+      href: '/questions',
+      icon: <FileQuestion className="mr-2 h-4 w-4" />,
+      label: 'Q & A',
     },
   ];
 

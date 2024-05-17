@@ -13,6 +13,7 @@ export interface QueryParams {
   timestamp?: number;
   editCommentId?: number;
   newPost?: 'open' | 'close';
+  newBlog?: 'open' | 'close';
 }
 export enum TabType {
   md = 'Most downvotes',

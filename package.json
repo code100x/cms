@@ -28,6 +28,12 @@
     "nextjs-toploader": "^1.6.11",
     "@discordjs/core": "^1.1.1",
     "@discordjs/next": "^0.1.1-dev.1673526225-a580768.0",
+    "@editorjs/editorjs": "^2.29.1",
+    "@editorjs/header": "^2.8.1",
+    "@editorjs/inline-code": "^1.5.0",
+    "@editorjs/list": "^1.9.0",
+    "@editorjs/simple-image": "^1.6.0",
+    "@editorjs/table": "^2.3.0",
     "@icons-pack/react-simple-icons": "^9.4.0",
     "@prisma/client": "^5.6.0",
     "@radix-ui/react-accordion": "^1.1.2",
@@ -41,6 +47,8 @@
     "@types/bcrypt": "^5.0.2",
     "@types/jsonwebtoken": "^9.0.5",
     "@uiw/react-md-editor": "^4.0.4",
+    "ace-builds": "^1.33.2",
+    "ace-code-editorjs": "^1.0.2",
     "axios": "^1.6.2",
     "bcrypt": "^5.1.1",
     "canvas": "^2.11.2",
@@ -79,6 +87,7 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
+    "@types/editorjs__header": "^2.6.3",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
@@ -91,6 +100,7 @@
     "postcss": "^8",
     "prettier": "^3.2.4",
     "prisma": "^5.6.0",
+    "simple-image-editorjs": "^1.4.0",
     "tailwindcss": "^3.3.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.2"

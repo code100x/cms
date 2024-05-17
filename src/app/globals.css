@@ -129,3 +129,137 @@
 .timeline-segments:hover{
   height: 10px;
 }
+
+/*** Works on common browsers ***/
+#editorjs ::selection {
+  background-color: #352e7e !important;
+  color: #fff !important;
+}
+
+/*** Mozilla based browsers ***/
+#editorjs ::-moz-selection {
+  background-color: #352e7e !important;
+  color: #fff !important;
+}
+
+/***For Other Browsers ***/
+#editorjs ::-o-selection {
+  background-color: #352e7e !important;
+  color: #fff !important;
+}
+
+#editorjs ::-ms-selection {
+  background-color: #352e7e;
+  color: #fff;
+}
+
+.ce-toolbar__plus,
+.ce-toolbar__settings-btn {
+  color: grey;
+}
+
+.inline-code {
+  background-color: #1e1e1e !important;
+}
+
+.ce-toolbar__plus:hover,
+.ce-toolbar__settings-btn:hover,
+.ce-inline-toolbar__dropdown:hover,
+.ce-inline-tool:hover,
+.ce-popover-item:hover {
+  background-color: #324156 !important;
+}
+
+.cdx-search-field__icon svg,
+.ce-popover,
+.ce-popover-item,
+.ce-conversion-toolbar,
+.ce-conversion-toolbar__label {
+  color: white;
+}
+
+.cdx-search-field {
+  background-color: #020817cc;
+  border: 1px solid grey;
+  border-radius: 5px;
+}
+
+.ce-popover,
+.ce-inline-toolbar,
+.ce-conversion-toolbar,
+.ce-conversion-tool__icon,
+.ce-block__content {
+  background-color: #020817cc !important;
+}
+
+.ce-popover__items {
+  scrollbar-width: thin;
+  scrollbar-color: #324156 #020817cc;
+}
+
+.ce-popover-item__icon {
+  background-color: transparent;
+}
+
+.ce-popover-item__icon svg {
+  fill: white;
+}
+
+.ce-block {
+  position: relative;
+}
+
+select.cdx-input {
+  position: absolute;
+  z-index: 2;
+  left: 80%;
+  width: 20%;
+  height: 25px;
+  font-size: small;
+  background-color: #324156;
+  color: white;
+  border-radius: 5px;
+  padding: 0px;
+}
+
+#editorjs h1,
+#editorjs h2,
+#editorjs h3,
+#editorjs h4,
+#editorjs h5,
+#editorjs h6 {
+  color: #f5f5f5; 
+  font-family: 'Georgia', serif;
+}
+
+#editorjs h1 {
+  font-size: 3em;
+  line-height: 1.2;
+  margin-top: 0.5em;
+}
+
+#editorjs h2 {
+  font-size: 2.5em;
+}
+
+#editorjs h3 {
+  font-size: 2em;
+}
+
+#editorjs h4 {
+  font-size: 1.75em;
+}
+
+#editorjs h5 {
+  font-size: 1.5em;
+}
+
+#editorjs h6 {
+  font-size: 1.25em;
+}
+
+#editorjs p {
+  color: #f5f5f5;
+  font-family: 'Georgia', serif;
+  font-size: 1.1em;
+}

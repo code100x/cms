@@ -1,8 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
+  reactStrictMode: false,
   experimental: {
     serverActions: {
+      bodySizeLimit: '10mb',
       allowedOrigins: ['localhost:3000', 'app.100xdevs.com', 'app2.100xdevs.com']
     }
   },
