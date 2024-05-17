@@ -4,6 +4,7 @@ import { authOptions } from '@/lib/auth';
 import { cn } from '@/lib/utils';
 import { getServerSession } from 'next-auth';
 import { Poppins } from 'next/font/google';
+import HelpIcon from '@/components/helpSection/helpIcon';
 
 const rs = Poppins({
   weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
@@ -38,6 +39,7 @@ export default async function Home() {
         </div>
 
         <MyCourses />
+        <HelpIcon />
       </main>
     );
   }
