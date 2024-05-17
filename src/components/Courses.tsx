@@ -1,6 +1,6 @@
 'use client';
 
-import { Course } from '@prisma/client';
+import { Course } from '@/store/atoms';
 import { CourseCard } from './CourseCard';
 import { useRouter } from 'next/navigation';
 
@@ -13,6 +13,8 @@ export const Courses = ({ courses }: { courses: Course[] }) => {
           <CourseCard
             key={course.id}
             course={course}
+            buttonColor=""
+            roundedCardSize="lg"
             onClick={() => {
               if (
                 course.title.includes('Machine Learning') ||
