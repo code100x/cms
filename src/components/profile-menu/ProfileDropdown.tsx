@@ -13,6 +13,7 @@ import {
 import ExternalLinks from './ExternalLinks';
 import { signOut } from 'next-auth/react';
 import { SelectTheme } from './SelectTheme';
+import { FaRegQuestionCircle } from 'react-icons/fa';
 
 const ProfileDropdown = () => {
   const menuItemLinks = [
@@ -25,6 +26,11 @@ const ProfileDropdown = () => {
       href: '/bookmarks',
       icon: <BookmarkIcon className="mr-2 h-4 w-4" />,
       label: 'Bookmarks',
+    },
+    {
+      href: '/questions',
+      icon: <FaRegQuestionCircle className="mr-2 h-4 w-4" />,
+      label: 'Questions',
     },
   ];
 
