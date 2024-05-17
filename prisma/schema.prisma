@@ -49,6 +49,7 @@ model Content {
   VideoMetadata    VideoMetadata?
   NotionMetadata   NotionMetadata?
   notionMetadataId Int?
+  notes            Notes[]
   comments         Comment[]
   commentsCount    Int             @default(0)
   bookmark         Bookmark?
@@ -147,6 +148,7 @@ model User {
   questions      Question[]
   answers        Answer[]
   certificate    Certificate[]
+  notes         Notes[]
 }
 
 model DiscordConnect {
@@ -264,6 +266,16 @@ model Vote {
   @@unique([questionId, userId])  
   @@unique([answerId, userId])    
   @@unique([commentId, userId])  
+}
+
+model Notes{
+  id        Int      @id @default(autoincrement())
+  content   Json
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  contentId Int
+  video   Content  @relation(fields: [contentId], references: [id])
+  createdAt DateTime @default(now())
 }
 
 enum VoteType {
