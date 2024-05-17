@@ -15,7 +15,7 @@ const Tag = forwardRef(
     const [backgroundColor, textColor] = useColorGenerator(name);
 
     const tagClassName = cn(
-      'px-4  rounded-xl py-1 text-[12px] cursor-pointer mr-1',
+      'px-4 inline-block mb-2 rounded-xl py-1 text-[12px] cursor-pointer mr-1',
       className,
     );
 
