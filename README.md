@@ -2,24 +2,6 @@
 
 ## Table of contents
 
-- [Prerequisites](#prerequisites)
-- [Setup](#setup)
-  - [Using Docker](#using-docker)
-  - [Without Docker](#without-docker)
-- [Usage](#usage)
-- [Contributing](#contributing)
-
-## Prerequisites
-
-Before you begin, ensure you have met the following requirements
-
-- Node.js and npm installed on your machine.
-- Docker installed (optional, required for Docker setup).
-- Access to a PostgreSQL database (can be local or hosted).
-
-## Setup
-
-### Using Docker
 
 1. Clone the repository:
    ```bash
