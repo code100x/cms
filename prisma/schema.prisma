@@ -182,7 +182,7 @@ model Bookmark {
   userId    String
   contentId Int
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  content   Content  @relation(fields: [contentId], references: [id], onDelete: Cascade)
+  content   Content  @relation(fields: [contentId], references: [id])
   createdAt DateTime @default(now())
 
   @@unique([userId, contentId])
