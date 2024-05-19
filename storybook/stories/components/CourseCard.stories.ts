@@ -19,6 +19,7 @@ export const ButtonColor: Story = {
       id: 1,
       slug: 'course-slug',
       appxCourseId: 1,
+      certIssued: false,
       discordRoleId: 'discord-role-id',
       title: 'Course Title',
       description: 'Course Description',
