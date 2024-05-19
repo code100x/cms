@@ -58,6 +58,12 @@ const deleteBookmarkHandler = async (
   const { id } = data;
 
   try {
+    const bookmark = await db.bookmark.findFirst({
+      where: { id, userId },
+    });
+    if (!bookmark) {
+      return;
+    }
     const deletedBookmark = await db.bookmark.delete({
       where: { id, userId },
     });
