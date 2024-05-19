@@ -20,10 +20,11 @@ export const Appbar = () => {
   const session = useSession();
   const [sidebarOpen, setSidebarOpen] = useRecoilState(sidebarOpenAtom);
   const currentPath = usePathname();
+  const courseId = Number(currentPath.split('/')[2]);
 
   return (
     <>
-      <nav className="fixed z-50 top-0 px-4 w-full h-16 border-b shadow-sm bg-background/80 backdrop-blur-md flex items-center gap-2 print:hidden">
+      <nav className="fixed top-0 z-50 flex items-center w-full h-16 gap-2 px-4 border-b shadow-sm bg-background/80 backdrop-blur-md print:hidden">
         {currentPath.includes('courses') && (
           <ToggleButton
             onClick={() => {
@@ -32,7 +33,7 @@ export const Appbar = () => {
             sidebarOpen={sidebarOpen ? false : true}
           />
         )}
-        <div className="md:max-w-screen-2xl mx-auto flex items-center justify-between w-full">
+        <div className="flex items-center justify-between w-full mx-auto md:max-w-screen-2xl">
           <Logo onFooter={false} />
 
           {session?.data?.user ? (
@@ -43,12 +44,24 @@ export const Appbar = () => {
               <div className="flex items-center space-x-2">
                 {/* Search Bar for smaller devices */}
                 <MobileScreenSearch />
+                {/* resources for cohort 2 and DSA, courses id (3  and 7 respectively) */}
+                {(courseId === 3 || courseId === 7) && (
+                  <Button>
+                    <Link
+                      className="text-white text-md text-bold"
+                      target="_blank"
+                      href="https://projects.100xdevs.com/"
+                    >
+                      Slides(Resources)
+                    </Link>
+                  </Button>
+                )}
                 <ProfileDropdown />
               </div>
             </>
           ) : (
             <div className="flex items-center space-x-2">
-              <div className="hidden sm:flex items-center justify-around md:w-auto md:block space-x-3">
+              <div className="items-center justify-around hidden space-x-3 sm:flex md:w-auto md:block">
                 <AppbarAuth />
 
                 <Button size={'sm'} asChild>
@@ -69,7 +82,7 @@ export const Appbar = () => {
           )}
         </div>
       </nav>
-      <div className="h-16 w-full print:hidden" />
+      <div className="w-full h-16 print:hidden" />
     </>
   );
 };
