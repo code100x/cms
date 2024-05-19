@@ -28,16 +28,11 @@ const createBookmarkHandler = async (
   const userId = session.user.id;
 
   try {
-    const addedBookmark = await db.bookmark.upsert({
-      where: {
+    const addedBookmark = await db.bookmark.create({
+      data: {
         contentId,
         userId,
       },
-      create: {
-        contentId,
-        userId,
-      },
-      update: {},
     });
     reloadBookmarkPage();
     return { data: addedBookmark };
