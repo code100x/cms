@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 
 const TITLE =
-  'Take your development skills from 0 to 100 and join the 100xdevs community';
+  '100xDevs';
 const DESCRIPTION =
   'This is an initiative by Harkirat Singh to personally mentor folks in the field of Programming. Join him in his first course on Full Stack development with a heavy focus on Open source projects to learn programming practically.';
 
