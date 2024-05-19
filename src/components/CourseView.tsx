@@ -1,4 +1,4 @@
-import { Folder } from '@/db/course';
+import { FullCourseContent } from '@/db/course';
 import { ContentRenderer } from './admin/ContentRenderer';
 import { FolderView } from './FolderView';
 import { NotionRenderer } from './NotionRenderer';
@@ -17,7 +17,7 @@ export const CourseView = ({
   searchParams,
   possiblePath,
 }: {
-  fullCourseContent: Folder[];
+  fullCourseContent: FullCourseContent[];
   rest: string[];
   course: any;
   courseContent: any;
