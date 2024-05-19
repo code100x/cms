@@ -40,6 +40,7 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
   const [player, setPlayer] = useState<any>(null);
   const searchParams = useSearchParams();
   const vidUrl = options.sources[0].src;
+
   useEffect(() => {
     const t = searchParams.get('timestamp');
     if (contentId && player && !t) {
@@ -146,7 +147,7 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
             player.currentTime(player.currentTime() - 5);
             event.stopPropagation();
             break;
-          case 'ArrowUp': // Arrow up for increasing volume
+            case 'ArrowUp': // Arrow up for increasing volume
             event.preventDefault();
             player.volume(player.volume() + 0.1);
             event.stopPropagation();
@@ -201,6 +202,46 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
                 player.textTracks()[0].mode = 'showing';
               }
             }
+            break;
+          case 'Digit1':
+            player.currentTime(player.duration() * 0.1);
+            event.stopPropagation();
+            break;
+          case 'Digit2':
+            player.currentTime(player.duration() * 0.2);
+            event.stopPropagation();
+            break;
+          case 'Digit3':
+            player.currentTime(player.duration() * 0.3);
+            event.stopPropagation();
+            break;
+          case 'Digit4':
+            player.currentTime(player.duration() * 0.4);
+            event.stopPropagation();
+            break;
+          case 'Digit5':
+            player.currentTime(player.duration() * 0.5);
+            event.stopPropagation();
+            break;
+          case 'Digit6':
+            player.currentTime(player.duration() * 0.6);
+            event.stopPropagation();
+            break;
+          case 'Digit7':
+            player.currentTime(player.duration() * 0.7);
+            event.stopPropagation();
+            break;
+          case 'Digit8':
+            player.currentTime(player.duration() * 0.8);
+            event.stopPropagation();
+            break;
+          case 'Digit9':
+            player.currentTime(player.duration() * 0.9);
+            event.stopPropagation();
+            break;
+          case 'Digit0':
+            player.currentTime(0);
+            event.stopPropagation();
             break;
         }
       }
