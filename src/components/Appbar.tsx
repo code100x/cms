@@ -45,7 +45,7 @@ export const Appbar = () => {
                 {/* Search Bar for smaller devices */}
                 <MobileScreenSearch />
                 {/* resources for cohort 2 and DSA, courses id (3  and 7 respectively) */}
-                {(courseId === 3 || courseId === 7) && (
+                {(courseId === 2 || courseId === 7) && (
                   <Button>
                     <Link
                       className="text-white text-md text-bold"
