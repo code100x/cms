@@ -173,11 +173,11 @@ export const getNextVideo = async (currentVideoId: number) => {
   return latestContent;
 };
 
-async function getAllContent() {
-  const value = Cache.getInstance().get('getAllContent', []);
-  if (value) {
-    return value;
-  }
+async function getAllContent(userId: string) {
+  //   const value = Cache.getInstance().get('getAllContent', []);
+  //   if (value) {
+  //     return value;
+  //   }
   const allContent = await db.content.findMany({
     where: {
       hidden: false,
@@ -188,10 +188,14 @@ async function getAllContent() {
           duration: true,
         },
       },
-      bookmark: true,
+      bookmark: {
+        where: {
+          userId,
+        },
+      },
     },
   });
-  Cache.getInstance().set('getAllContent', [], allContent);
+  // Cache.getInstance().set('getAllContent', [], allContent);
 
   return allContent;
 }
@@ -245,7 +249,7 @@ export const getFullCourseContent = async (courseId: number) => {
   if (!session?.user) {
     return [];
   }
-  const contents = await getAllContent();
+  const contents = await getAllContent(session?.user?.id);
   const courseContent = await getRootCourseContent(courseId);
   const videoProgress = await getVideoProgressForUser(session?.user?.id);
   const contentMap = new Map<string, any>(
