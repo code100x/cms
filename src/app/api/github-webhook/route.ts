@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import crypto from 'crypto-js';
 import db from '@/db';
 import {
   formatINR,
@@ -9,6 +10,8 @@ import {
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
+  const receivedHash = req.headers.get('X-Hash');
+
   const USD_amount = +body.bountyAmount.split('$')[1];
   const PR_By = body.author;
   const PR_Link = body.pr_link;
@@ -17,6 +20,14 @@ export async function POST(req: NextRequest) {
   const PR_No: string = PR_Link.split('/')[6];
   const username = body.username;
   const PR_Title = body.PR_Title;
+  const SECRET_KEY = process.env.HASHING_SECRET_KEY || '';
+  const SALT = 'mySalt';
+  const payload = JSON.stringify(body);
+  const expectedHash = crypto.HmacSHA256(SALT + payload, SECRET_KEY).toString();
+
+  if (receivedHash !== expectedHash) {
+    return NextResponse.json({ message: 'Invalid hash' }, { status: 401 });
+  }
 
   try {
     const INR_amount = await getCurrencyRate(USD_amount);
