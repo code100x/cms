@@ -432,3 +432,30 @@ export const getCurrentContentType = async (
 
   return content.type;
 };
+
+export async function getGithubDetail({ userId }: { userId: string }) {
+  try {
+    const bountyInfo = await db.githubUser.findFirst({
+      where: { userId },
+      include: { bountyInfo: true },
+    });
+    return bountyInfo;
+  } catch (e) {
+    return null;
+  }
+}
+
+export async function getAllBountyDetail() {
+  try {
+    const userInfo = await db.githubUser.findMany({
+      include: { bountyInfo: true },
+    });
+
+    const bountyInfo = await db.bountyInfo.findMany();
+    const allInfo = { userInfo, bountyInfo };
+
+    return allInfo;
+  } catch (e) {
+    return null;
+  }
+}
