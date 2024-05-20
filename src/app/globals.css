@@ -66,7 +66,6 @@
   transform: translateX(-50%);
 }
 
-
 /* Hide scrollbar for Chrome, Safari and Opera */
 .no-scrollbar::-webkit-scrollbar {
   display: none;
@@ -87,7 +86,7 @@
   display: block !important;
 }
 
-.video-js .vjs-current-time{
+.video-js .vjs-current-time {
   display: block !important;
 }
 
@@ -95,18 +94,18 @@
   display: block !important;
 }
 
-.vjs-tech:focus-visible{
+.vjs-tech:focus-visible {
   outline: none;
 }
 
-.timeline-segments  {
+.timeline-segments {
   position: relative;
   left: 0;
   height: 5px;
   background-color: #afa4a4;
   transition: height 150ms ease-in-out;
 }
-.timeline-segments-preview{
+.timeline-segments-preview {
   position: absolute;
   left: 0;
   background: #fff;
@@ -114,7 +113,6 @@
   bottom: 0;
   z-index: 1;
   pointer-events: none;
-
 }
 .timeline-segments-progress {
   position: absolute;
@@ -124,8 +122,20 @@
   bottom: 0;
   z-index: 2;
   pointer-events: none;
-
 }
-.timeline-segments:hover{
+.timeline-segments:hover {
   height: 10px;
+}
+
+button[type='submit'] {
+  @apply w-24 relative;
+}
+
+button[type='submit']:hover span {
+  @apply hidden;
+}
+
+button[type='submit']:hover::before {
+  content: 'Pay';
+  @apply absolute inset-0 flex items-center justify-center;
 }

@@ -1,5 +1,6 @@
 import db from '@/db';
 import CredentialsProvider from 'next-auth/providers/credentials';
+import GitHubProvider, { GithubProfile } from 'next-auth/providers/github';
 import { JWTPayload, SignJWT, importJWK } from 'jose';
 import bcrypt from 'bcrypt';
 import prisma from '@/db';
@@ -22,12 +23,20 @@ export interface session extends Session {
     role: string;
     email: string;
     name: string;
+    provider: string;
+    g_username?: string;
+    g_name?: string;
+    g_email?: string;
   };
 }
 
 interface token extends JWT {
   uid: string;
   jwtToken: string;
+  provider: string;
+  g_login: string;
+  g_name: string;
+  g_email: string;
 }
 
 interface user {
@@ -108,6 +117,10 @@ async function validateUser(
 
 export const authOptions = {
   providers: [
+    GitHubProvider({
+      clientId: process.env.GITHUB_CLIENT_ID || '',
+      clientSecret: process.env.GITHUB_CLIENT_SECRET || '',
+    }),
     CredentialsProvider({
       name: 'Credentials',
       credentials: {
@@ -219,6 +232,12 @@ export const authOptions = {
     session: async ({ session, token }) => {
       const newSession: session = session as session;
       if (newSession.user && token.uid) {
+        if (token.provider === 'github') {
+          newSession.user.provider = token.provider as string;
+          newSession.user.g_username = token.g_login as string;
+          newSession.user.g_name = token.g_name as string;
+          newSession.user.g_email = token.g_email as string;
+        }
         newSession.user.id = token.uid as string;
         newSession.user.jwtToken = token.jwtToken as string;
         newSession.user.role = process.env.ADMINS?.split(',').includes(
@@ -229,8 +248,19 @@ export const authOptions = {
       }
       return newSession!;
     },
-    jwt: async ({ token, user }): Promise<JWT> => {
+    jwt: async ({ token, user, account, profile }): Promise<JWT> => {
       const newToken: token = token as token;
+      const myProfile: GithubProfile = profile as GithubProfile;
+
+      if (account) {
+        newToken.provider = account.provider;
+      }
+
+      if (account && account.provider === 'github') {
+        newToken.g_email = myProfile.email || '';
+        newToken.g_login = myProfile.login;
+        newToken.g_name = myProfile.name || '';
+      }
 
       if (user) {
         newToken.uid = user.id;
