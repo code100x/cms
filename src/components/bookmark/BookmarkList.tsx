@@ -22,7 +22,7 @@ const BookmarkList = ({
         <div className="cursor-pointer grid grid-cols-1 gap-5 md:grid-cols-3 lg:grid-cols-4 auto-rows-fr">
           {bookmarkData.map((bookmark) => {
             const {
-              id: contentId,
+              contentId,
               content: { type, parent, title, hidden, thumbnail },
             } = bookmark;
             if (type === 'video' && parent && !hidden) {
