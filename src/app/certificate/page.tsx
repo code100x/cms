@@ -11,6 +11,7 @@ const CertificatePage = async () => {
           certificateId={cert.id}
           course={course}
           certificateSlug={cert.slug}
+          completedAt={cert.completedAt}
           userName={user.name!}
           key={course.id}
         />

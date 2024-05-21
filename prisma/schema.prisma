@@ -70,6 +70,7 @@ model Certificate {
   userId            String
   course            Course    @relation(fields: [courseId], references: [id])
   courseId          Int
+  completedAt       DateTime?
 
   @@unique([userId, courseId])
 }
