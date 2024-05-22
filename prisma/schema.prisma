@@ -51,7 +51,7 @@ model Content {
   notionMetadataId Int?
   comments         Comment[]
   commentsCount    Int             @default(0)
-  bookmark         Bookmark?
+  bookmark         Bookmark[]
 }
 
 model CourseContent {
@@ -180,9 +180,9 @@ model VideoProgress {
 model Bookmark {
   id        Int      @id @default(autoincrement())
   userId    String
-  contentId Int      @unique
+  contentId Int
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  content   Content  @relation(fields: [contentId], references: [id], onDelete: Cascade)
+  content   Content  @relation(fields: [contentId], references: [id])
   createdAt DateTime @default(now())
 }
 

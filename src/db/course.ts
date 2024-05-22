@@ -2,6 +2,8 @@ import db from '@/db';
 import { Cache } from '@/db/Cache';
 import { authOptions } from '@/lib/auth';
 import { getServerSession } from 'next-auth';
+import { Bookmark } from '@prisma/client';
+import { getBookmarkData } from './bookmark';
 
 export interface Content {
   id: number;
@@ -173,7 +175,20 @@ export const getNextVideo = async (currentVideoId: number) => {
   return latestContent;
 };
 
-async function getAllContent() {
+async function getAllContent(): Promise<
+  {
+    id: number;
+    type: string;
+    title: string;
+    description: string | null;
+    thumbnail: string | null;
+    parentId: number | null;
+    createdAt: Date;
+    VideoMetadata: {
+      duration: number | null;
+    } | null;
+  }[]
+> {
   const value = Cache.getInstance().get('getAllContent', []);
   if (value) {
     return value;
@@ -188,7 +203,6 @@ async function getAllContent() {
           duration: true,
         },
       },
-      bookmark: true,
     },
   });
   Cache.getInstance().set('getAllContent', [], allContent);
@@ -196,7 +210,24 @@ async function getAllContent() {
   return allContent;
 }
 
-async function getRootCourseContent(courseId: number) {
+interface ContentWithMetadata {
+  id: number;
+  type: string;
+  title: string;
+  description: string | null;
+  thumbnail: string | null;
+  parentId: number | null;
+  createdAt: Date;
+  VideoMetadata?: {
+    duration: number | null;
+  } | null;
+}
+
+async function getRootCourseContent(courseId: number): Promise<
+  {
+    content: ContentWithMetadata;
+  }[]
+> {
   const value = Cache.getInstance().get('getRootCourseContent', [
     courseId.toString(),
   ]);
@@ -234,7 +265,26 @@ export function getVideoProgressForUser(
   });
 }
 
-export const getFullCourseContent = async (courseId: number) => {
+interface VideoProgress {
+  duration: number | null;
+  markAsCompleted?: boolean;
+  videoFullDuration: number | null;
+}
+
+export type FullCourseContent = {
+  children?: ({
+    videoProgress: VideoProgress | null;
+    bookmark?: Bookmark;
+  } & ContentWithMetadata)[];
+  videoProgress: VideoProgress | null;
+  bookmark?: Bookmark;
+} & ContentWithMetadata;
+
+//TODO: add a cache here
+
+export const getFullCourseContent = async (
+  courseId: number,
+): Promise<FullCourseContent[]> => {
   // const value = Cache.getInstance().get('getFullCourseContent', [
   //   courseId.toString(),
   // ]);
@@ -248,12 +298,14 @@ export const getFullCourseContent = async (courseId: number) => {
   const contents = await getAllContent();
   const courseContent = await getRootCourseContent(courseId);
   const videoProgress = await getVideoProgressForUser(session?.user?.id);
-  const contentMap = new Map<string, any>(
+  const bookmarkData = await getBookmarkData();
+  const contentMap = new Map<string, FullCourseContent>(
     contents.map((content: any) => [
       content.id,
       {
         ...content,
         children: [],
+        bookmark: bookmarkData.find((x) => x.contentId === content.id),
         videoProgress:
           content.type === 'video'
             ? {
@@ -268,16 +320,18 @@ export const getFullCourseContent = async (courseId: number) => {
       },
     ]),
   );
-  const rootContents: any[] = [];
+
+  const rootContents: FullCourseContent[] = [];
+
   contents
-    .sort((a: any, b: any) => (a.id < b.id ? -1 : 1))
+    .sort((a, b) => (a.id < b.id ? -1 : 1))
     .forEach((content: any) => {
       if (content.parentId) {
         contentMap
           .get(content.parentId)
-          .children.push(contentMap.get(content.id));
+          ?.children?.push(contentMap.get(content.id)!);
       } else if (courseContent.find((x: any) => x.contentId === content.id)) {
-        rootContents.push(contentMap.get(content.id));
+        rootContents.push(contentMap.get(content.id)!);
       }
     });
 
