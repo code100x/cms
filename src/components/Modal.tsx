@@ -11,7 +11,14 @@ const Modal = forwardRef<HTMLDialogElement, ModalProps>(
     { children, onClose },
     ref,
   ) => {
-    return <dialog ref={ref}>{children}</dialog>;
+    return (
+      <dialog ref={ref} className='fixed inset-0 bg-transparent w-11/12 max-w-[700px]'>
+        <div className='bg-[rgba(0,0,0,.3)] fixed inset-0'></div>
+        <div className='z-50 relative bg-white dark:bg-gray-800 mx-auto rounded-[20px]'>
+          {children}
+        </div>
+      </dialog>
+    );
   },
 );
 
