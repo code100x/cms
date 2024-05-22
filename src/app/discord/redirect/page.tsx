@@ -5,9 +5,10 @@ import { useEffect, useState } from 'react';
 
 export default function DiscordOauthRedirect() {
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState('');
   const searchParams = useSearchParams();
   const code = searchParams.get('code');
+  const discordError = searchParams.get('error');
 
   const updateDiscordUser = async (code: string) => {
     try {
@@ -39,7 +40,11 @@ export default function DiscordOauthRedirect() {
     if (code) {
       updateDiscordUser(code);
     }
-  }, [code]);
+    if (discordError) {
+      setLoading(false);
+      setError(discordError);
+    }
+  }, [code, discordError]);
 
   if (loading) {
     return <div>Loading...</div>;
