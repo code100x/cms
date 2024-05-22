@@ -1,6 +1,5 @@
 'use client';
 
-import * as React from 'react';
 import { SunDimIcon, SunMoonIcon } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import { Button } from './ui/button';

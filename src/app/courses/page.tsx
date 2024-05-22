@@ -2,7 +2,7 @@ import db from '@/db';
 import { Courses } from '@/components/Courses';
 
 async function getCourses() {
-  const courses = db.course.findMany();
+  const courses = await db.course.findMany();
   return courses;
 }
 

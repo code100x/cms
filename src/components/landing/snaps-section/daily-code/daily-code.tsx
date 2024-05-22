@@ -27,13 +27,13 @@ const DailyCodeSection = () => {
         </p>
 
         <Button
-          className="mt-6 rounded-full hover:shadow-sm"
+          className="mt-6 rounded-full hover:shadow-sm group"
           size={'lg'}
           asChild
         >
           <Link href={'https://projects.100xdevs.com'} target="_blank">
-            <p className="text-white">See more</p>{' '}
-            <ChevronRight className="text-white h-4 w-4 ml-1 hover:translate-x-1 ease-in-out duration-200 " />
+            <p className="text-white">See more</p>
+            <ChevronRight className="text-white h-4 w-4 ml-1 group-hover:translate-x-1 ease-in-out duration-200 " />
           </Link>
         </Button>
       </div>

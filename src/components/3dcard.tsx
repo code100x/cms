@@ -2,8 +2,6 @@
 'use client';
 
 import { cn } from '@/lib/utils';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import Image from 'next/image';
 import React, {
   createContext,
   useState,

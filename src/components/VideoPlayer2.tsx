@@ -259,6 +259,7 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
     // Cleanup function
     return () => {
       document.removeEventListener('keydown', handleKeyPress);
+      document.removeEventListener('keyup', handleKeyUp);
     };
   }, [player]);
 
@@ -326,56 +327,53 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
         videoElement.append(subtitlesEl);
       }
       videoRef.current.appendChild(videoElement);
-      const player: any = (playerRef.current = videojs(
+      const localPlayer: any = (playerRef.current = videojs(
         videoElement,
         {
           ...options,
           playbackRates: [0.5, 1, 1.25, 1.5, 1.75, 2],
         },
         () => {
-          player.mobileUi(); // mobile ui #https://github.com/mister-ben/videojs-mobile-ui
-          player.eme(); // Initialize EME
-          player.seekButtons({
+          localPlayer.mobileUi(); // mobile ui #https://github.com/mister-ben/videojs-mobile-ui
+          localPlayer.eme(); // Initialize EME
+          localPlayer.seekButtons({
             forward: 15,
             back: 15,
           });
 
-          player.qualitySelector = setQuality;
-          const qualitySelector = player.controlBar.addChild(
+          localPlayer.qualitySelector = setQuality;
+          const qualitySelector = localPlayer.controlBar.addChild(
             'QualitySelectorControllBar',
           );
-          const controlBar = player.getChild('controlBar');
+          const controlBar = localPlayer.getChild('controlBar');
           const fullscreenToggle = controlBar.getChild('fullscreenToggle');
 
           controlBar
             .el()
             .insertBefore(qualitySelector.el(), fullscreenToggle.el());
-          setPlayer(player);
+          setPlayer(localPlayer);
           if (options.isComposite) {
-            player.spriteThumbnails({
+            localPlayer.spriteThumbnails({
               interval: options.delta,
               url: options.thumbnail.secure_url,
               width: options.width,
               height: options.height,
             });
           }
-          player.on('loadedmetadata', () => {
+          localPlayer.on('loadedmetadata', () => {
             if (onReady) {
-              onReady(player);
+              onReady(localPlayer);
             }
           });
           // Focus the video player when toggling fullscreen
-          player.on('fullscreenchange', () => {
+          localPlayer.on('fullscreenchange', () => {
             videoElement.focus();
           });
         },
       ));
 
-      if (
-        options.sources &&
-        options.sources[0].type.includes('application/dash+xml')
-      ) {
-        player.src(options.sources[0]);
+      if (options.sources[0]?.type.includes('application/dash+xml')) {
+        localPlayer.src(options.sources[0]);
       }
     }
   }, [options, onReady]);
@@ -399,10 +397,10 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
   }, []);
 
   useEffect(() => {
-    const t = searchParams.get('timestamp');
+    const timeStamp = searchParams.get('timestamp');
 
-    if (player && t) {
-      player.currentTime(parseInt(t, 10));
+    if (player && timeStamp) {
+      player.currentTime(parseInt(timeStamp, 10));
     }
   }, [searchParams, player]);
 

@@ -37,25 +37,23 @@ export const CourseView = ({
           rest={rest}
         />
       </div>
-      {contentType === 'notion' ? (
-        <NotionRenderer id={courseContent[0]?.id} />
-      ) : null}
+      {contentType === 'notion' && <NotionRenderer id={courseContent[0]?.id} />}
 
-      {contentType === 'video' ? (
+      {contentType === 'video' && (
         <ContentRenderer
           nextContent={nextContent}
           content={{
             thumbnail: courseContent[0]?.thumbnail || '',
             id: courseContent[0]?.id || 0,
             title: courseContent[0]?.title || '',
-            type: contentType || 'video',
+            type: contentType,
             description: courseContent[0]?.description || '',
             markAsCompleted:
               courseContent[0]?.videoProgress?.markAsCompleted || false,
             bookmark: courseContent[0].bookmark,
           }}
         />
-      ) : null}
+      )}
       {(contentType === 'video' || contentType === 'notion') && (
         <Comments
           content={{
@@ -67,7 +65,7 @@ export const CourseView = ({
           searchParams={searchParams}
         />
       )}
-      {contentType === 'folder' ? (
+      {contentType === 'folder' && (
         <FolderView
           rest={rest}
           courseContent={courseContent?.map((x: any) => ({
@@ -82,7 +80,7 @@ export const CourseView = ({
           }))}
           courseId={parseInt(course.id, 10)}
         />
-      ) : null}
+      )}
     </>
   );
 };

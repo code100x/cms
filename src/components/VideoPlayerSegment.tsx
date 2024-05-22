@@ -19,7 +19,6 @@ export interface Thumbnail {
 
 interface VideoProps {
   setQuality: React.Dispatch<React.SetStateAction<string>>;
-  thumbnails: Thumbnail[];
   segments: Segment[];
   subtitles: string;
   videoJsOptions: any;
@@ -35,8 +34,6 @@ export const VideoPlayerSegment: FunctionComponent<VideoProps> = ({
   videoJsOptions,
   onVideoEnd,
 }) => {
-  const playerRef = useRef<Player | null>(null);
-
   const thumbnailPreviewRef = useRef<HTMLDivElement>(null);
 
   const overrideUpdateTime = (player: Player) => {
@@ -50,11 +47,7 @@ export const VideoPlayerSegment: FunctionComponent<VideoProps> = ({
       if (mouseTimeDisplay) {
         const timeTooltip: any = mouseTimeDisplay.getChild('timeTooltip');
         if (timeTooltip) {
-          timeTooltip.update = function (
-            seekBarRect: any,
-            seekBarPoint: any,
-            time: string,
-          ) {
+          timeTooltip.update = function (time: string) {
             const segmentName = getCurrentSegmentName(time, segments);
             this.write(`${time} - ${segmentName}`);
 
@@ -81,9 +74,7 @@ export const VideoPlayerSegment: FunctionComponent<VideoProps> = ({
       console.error('SeekBar component not found.');
     }
   };
-  const handlePlayerReady = async (player: Player) => {
-    playerRef.current = player;
-
+  const handlePlayerReady = (player: Player) => {
     createSegmentMarkersWithoutDuration(player, segments);
     overrideUpdateTime(player);
   };

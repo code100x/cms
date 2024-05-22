@@ -1,23 +1,23 @@
 'use client';
+import React, { useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import React, { useRef, useState } from 'react';
-
 import { toast } from 'sonner';
+
 const Signin = () => {
-  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-  const [checkingPassword, setCheckingPassword] = useState(false);
+  const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
+  const [checkingPassword, setCheckingPassword] = useState<boolean>(false);
   const [requiredError, setRequiredError] = useState({
     emailReq: false,
     passReq: false,
   });
 
   function togglePasswordVisibility() {
-    setIsPasswordVisible((prevState: any) => !prevState);
+    setIsPasswordVisible((prevState) => !prevState);
   }
   const router = useRouter();
   const email = useRef('');

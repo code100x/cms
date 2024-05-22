@@ -18,13 +18,13 @@ const PreFooterSection = () => {
         </p>
       </div>
 
-      <Button size={'lg'} className="text-lg rounded-full" asChild>
+      <Button size={'lg'} className="text-lg rounded-full group" asChild>
         <Link
           href={'https://harkirat.classx.co.in/new-courses'}
           target="_blank"
         >
-          <p className="text-white">Join now</p>{' '}
-          <Sparkles className="text-white ml-2 h-4 w-4 hover:translate-x-0.5 ease-linear duration-200" />
+          <p className="text-white">Join now</p>
+          <Sparkles className="text-white ml-2 h-4 w-4 group-hover:translate-x-0.5 ease-linear duration-200" />
         </Link>
       </Button>
     </div>

@@ -19,14 +19,8 @@ export const getMetadata = async (contentId: number) => {
     return null;
   }
 
-  //@ts-ignore
   const userId: string = (1).toString();
-  // const user = await db.user.findFirst({
-  //   where: {
-  //     id: session?.user?.id?.toString() || '-1',
-  //   },
-  // });
-  //@ts-ignore
+
   return {
     //@ts-ignore
     1080: metadata[`video_1080p_mp4_${userId}`],

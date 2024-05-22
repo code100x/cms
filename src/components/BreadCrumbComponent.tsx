@@ -52,11 +52,6 @@ export default function BreadCrumbComponent({
       }
     }
 
-    // if (courseContent.length > 0 && contentType !== 'folder') {
-    //     // breadcrumbs.push(courseContent[0]);
-    //     // console.log("courseContent[0] : ", courseContent[0]);
-    // }
-
     return breadcrumbs;
   }, [rest, fullCourseContent, courseContent, contentType]);
 

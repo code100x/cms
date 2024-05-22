@@ -6,18 +6,6 @@ import { getPurchases } from '@/utiles/appx';
 import { getServerSession } from 'next-auth';
 import { redirect } from 'next/navigation';
 
-// interface PurchaseType {
-//   id: number;
-//   title: string;
-//   imageUrl: string;
-//   description: string;
-//   appxCourseId: number;
-//   openToEveryone: boolean;
-//   slug: string;
-//   discordRoleId: string;
-//   totalVideos?: number;
-//   totalVideosWatched: number;
-// }
 const checkAccess = async (courseId: string) => {
   const session = await getServerSession(authOptions);
 

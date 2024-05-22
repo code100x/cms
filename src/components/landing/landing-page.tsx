@@ -73,14 +73,14 @@ export default function LandingPage() {
         </Button>
 
         <Button
-          className="mt-6 rounded-full hover:shadow-sm"
+          className="mt-6 rounded-full hover:shadow-sm group"
           size={'lg'}
           variant={'outline'}
           asChild
         >
           <Link href={'#trustedby'}>
             See more{' '}
-            <ChevronRight className="text-black dark:text-white h-4 w-4 ml-1 hover:translate-x-1 ease-in-out duration-200" />
+            <ChevronRight className="text-black dark:text-white h-4 w-4 ml-1 group-hover:translate-x-1 ease-in-out duration-200" />
           </Link>
         </Button>
       </div>

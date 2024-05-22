@@ -9,7 +9,7 @@ import {
 import { FullCourseContent } from '@/db/course';
 import { Button } from './ui/button';
 import { BackArrow } from '@/icons/BackArrow';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { sidebarOpen as sidebarOpenAtom } from '@/store/atoms/sidebar';
 import { useEffect, useState } from 'react';
 import { handleMarkAsCompleted } from '@/lib/utils';
@@ -24,17 +24,15 @@ export function Sidebar({
   courseId: string;
 }) {
   const pathName = usePathname();
-
-  const [sidebarOpen, setSidebarOpen] = useRecoilState(sidebarOpenAtom);
+  const sidebarOpen = useRecoilValue(sidebarOpenAtom);
   const [currentActiveContentIds, setCurrentActiveContentIds] = useState<
     number[]
   >([]);
 
   useEffect(() => {
-    const urlRegex = /\/courses\/.*./;
     const courseUrlRegex = /\/courses\/\d+((?:\/\d+)+)/;
 
-    if (urlRegex.test(pathName)) {
+    if (pathName.includes('courses')) {
       const matchArray = pathName.match(courseUrlRegex);
       let currentUrlContentId;
       // if matchArray is not null
@@ -51,12 +49,6 @@ export function Sidebar({
       setCurrentActiveContentIds(pathArray);
     }
   }, [pathName]);
-
-  useEffect(() => {
-    if (window.innerWidth < 500) {
-      setSidebarOpen(false);
-    }
-  }, []);
 
   const findPathToContent = (
     contents: FullCourseContent[],
@@ -154,56 +146,36 @@ export function Sidebar({
     });
   };
 
-  if (!sidebarOpen) {
-    return null;
-  }
-
   return (
-    <div className="overflow-y-scroll h-sidebar w-[300px] min-w-[300px] bg-gray-50 dark:bg-gray-800 cursor-pointer sticky top-[64px] self-start w-84">
-      <div className="flex">
-        {/* <ToggleButton
-            onClick={() => {
-              setSidebarOpen((s) => !s);
-            }}
-          /> */}
+    sidebarOpen && (
+      <div className="overflow-y-scroll h-sidebar min-w-[300px] bg-gray-50 dark:bg-gray-800 absolute top-[64px] left-0 sm:sticky z-20">
         <GoBackButton />
+        <Accordion type="single" collapsible className="w-full">
+          {/* Render course content */}
+          {renderContent(fullCourseContent)}
+        </Accordion>
       </div>
-      <Accordion type="single" collapsible className="w-full">
-        {/* Render course content */}
-        {renderContent(fullCourseContent)}
-      </Accordion>
-    </div>
+    )
   );
 }
 
-export function ToggleButton({
-  onClick,
-  sidebarOpen,
-}: {
-  onClick: () => void;
-  sidebarOpen: boolean;
-}) {
+export function ToggleButton() {
+  const [sidebarOpen, setSidebarOpen] =
+    useRecoilState<boolean>(sidebarOpenAtom);
+
   return (
     <button
-      onClick={onClick}
+      onClick={() => setSidebarOpen(!sidebarOpen)}
       className="flex flex-col justify-center items-center"
     >
       <span
-        className={`dark:bg-white bg-black block transition-all duration-300 ease-out  h-0.5 w-6 rounded-sm ${!sidebarOpen ? 'rotate-45 translate-y-1' : '-translate-y-0.5'}`}
+        className={`dark:bg-white bg-black block transition-all duration-300 ease-out h-0.5 w-6 rounded-sm ${sidebarOpen ? 'rotate-45 translate-y-1' : '-translate-y-0.5'}`}
       ></span>
       <span
-        className={`dark:bg-white bg-black block transition-all duration-300 ease-out 
-                    h-0.5 w-6 rounded-sm my-0.5 ${
-                      !sidebarOpen ? 'opacity-0' : 'opacity-100'
-                    }`}
+        className={`dark:bg-white bg-black block transition-all duration-300 ease-out h-0.5 w-6 rounded-sm my-0.5 ${sidebarOpen ? 'opacity-0' : 'opacity-100'}`}
       ></span>
       <span
-        className={`dark:bg-white bg-black block transition-all duration-300 ease-out 
-                    h-0.5 w-6 rounded-sm ${
-                      !sidebarOpen
-                        ? '-rotate-45 -translate-y-1'
-                        : 'translate-y-0.5'
-                    }`}
+        className={`dark:bg-white bg-black block transition-all duration-300 ease-out h-0.5 w-6 rounded-sm ${sidebarOpen ? '-rotate-45 -translate-y-1' : 'translate-y-0.5'}`}
       ></span>
     </button>
   );
@@ -212,25 +184,14 @@ export function ToggleButton({
 function GoBackButton() {
   const router = useRouter();
 
-  const goBack = () => {
-    const pathSegments = window.location.pathname.split('/');
-
-    // Remove the last segment of the path
-    pathSegments.pop();
-
-    // Check if it's the last page in the course, then go to root
-    if (pathSegments.length <= 2) {
-      router.push('/');
-    } else {
-      const newPath = pathSegments.join('/');
-      router.push(newPath);
-    }
-  };
-
   return (
     <div className="w-full p-2">
       {/* Your component content */}
-      <Button size={'full'} onClick={goBack} className="group rounded-full">
+      <Button
+        size={'full'}
+        onClick={() => router.back()}
+        className="group rounded-full"
+      >
         <BackArrow className="group-hover:-translate-x-1 w-5 h-5 rtl:rotate-180 transition-all duration-200 ease-in-out" />{' '}
         <div className="pl-4">Go Back</div>
       </Button>
@@ -276,10 +237,9 @@ function NotionIcon() {
   );
 }
 
-// Todo: Fix types here
-function Check({ content }: { content: any }) {
+function Check({ content }: { content: FullCourseContent }) {
   const [completed, setCompleted] = useState(
-    content?.videoProgress?.markAsCompleted || false,
+    content.videoProgress?.markAsCompleted || false,
   );
   return (
     <>
