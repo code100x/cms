@@ -43,6 +43,7 @@ export const CourseView = ({
 
       {contentType === 'video' ? (
         <ContentRenderer
+          courseId={course.id}
           nextContent={nextContent}
           content={{
             thumbnail: courseContent[0]?.thumbnail || '',

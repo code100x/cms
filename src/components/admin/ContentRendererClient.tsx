@@ -10,6 +10,7 @@ export const ContentRendererClient = ({
   metadata,
   content,
   nextContent,
+  prevNextUrls,
 }: {
   nextContent: {
     id: number;
@@ -25,6 +26,10 @@ export const ContentRendererClient = ({
     description: string;
     markAsCompleted: boolean;
   };
+  prevNextUrls: {
+    nextContentUrl: string | null;
+    prevContentUrl: string | null;
+  };
 }) => {
   const [contentCompleted, setContentCompleted] = useState(
     content.markAsCompleted,
@@ -34,7 +39,6 @@ export const ContentRendererClient = ({
     metadata?.segments?.length > 0,
   );
   const searchParams = useSearchParams();
-
   const router = useRouter();
 
   //@ts-ignore
@@ -150,6 +154,26 @@ export const ContentRendererClient = ({
                 </a>
               </div>
             ) : null}
+            <div className="flex">
+              <button
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold rounded p-2 m-4"
+                disabled={!prevNextUrls.prevContentUrl}
+                onClick={() => {
+                  router.push(prevNextUrls.prevContentUrl!);
+                }}
+              >
+                Prev
+              </button>
+              <button
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold rounded p-2 my-4"
+                disabled={!prevNextUrls.nextContentUrl}
+                onClick={() => {
+                  router.push(prevNextUrls.nextContentUrl!);
+                }}
+              >
+                Next
+              </button>
+            </div>
             {!showChapters && metadata.segments?.length > 0 && (
               <button
                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold rounded my-4 p-2"

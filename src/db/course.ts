@@ -198,11 +198,19 @@ async function getAllContent(): Promise<
       hidden: false,
     },
     include: {
+      courses: {
+        select: {
+          courseId: true,
+        },
+      },
       VideoMetadata: {
         select: {
           duration: true,
         },
       },
+    },
+    orderBy: {
+      id: 'asc',
     },
   });
   Cache.getInstance().set('getAllContent', [], allContent);
@@ -431,4 +439,55 @@ export const getCurrentContentType = async (
   }
 
   return content.type;
+};
+
+export const getNextPrevUrls = async (contentId: number, courseId: number) => {
+  const content = await getAllContent();
+
+  const nextContentIdx = content.findIndex(
+    (x: any) =>
+      x.type === 'video' &&
+      x.id > contentId &&
+      x.courses[0]?.courseId === courseId,
+  );
+  const nextContent =
+    nextContentIdx !== -1 ? content[nextContentIdx] : undefined;
+  let prevContent = null;
+  for (
+    let i = nextContentIdx !== -1 ? nextContentIdx - 1 : content.length - 1;
+    i >= 0;
+    i--
+  ) {
+    if (
+      content[i].type === 'video' &&
+      content[i].id < contentId &&
+      content[i].courses[0]?.courseId === courseId
+    ) {
+      prevContent = content[i];
+      break;
+    }
+  }
+
+  let nextContentUrl = null;
+  if (nextContent) {
+    if (nextContent.parentId) {
+      nextContentUrl = `/courses/${courseId}/${nextContent.parentId}/${nextContent.id}`;
+    } else {
+      nextContentUrl = `/courses/${courseId}/${nextContent.id}`;
+    }
+  }
+
+  let prevContentUrl = null;
+  if (prevContent) {
+    if (prevContent.parentId) {
+      prevContentUrl = `/courses/${courseId}/${prevContent.parentId}/${prevContent.id}`;
+    } else {
+      prevContentUrl = `/courses/${courseId}/${prevContent.id}`;
+    }
+  }
+
+  return {
+    nextContentUrl,
+    prevContentUrl,
+  };
 };

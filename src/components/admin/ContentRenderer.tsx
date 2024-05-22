@@ -3,6 +3,7 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { ContentRendererClient } from './ContentRendererClient';
 import { Bookmark } from '@prisma/client';
+import { getNextPrevUrls } from '@/db/course';
 
 export const getMetadata = async (contentId: number) => {
   const session = await getServerSession(authOptions);
@@ -61,6 +62,7 @@ export const getMetadata = async (contentId: number) => {
 export const ContentRenderer = async ({
   content,
   nextContent,
+  courseId,
 }: {
   nextContent: {
     id: number;
@@ -77,11 +79,13 @@ export const ContentRenderer = async ({
     markAsCompleted: boolean;
     bookmark: Bookmark | null;
   };
+  courseId: number;
 }) => {
   const metadata = await getMetadata(content.id);
-
+  const prevNextUrls = await getNextPrevUrls(content.id, courseId);
   return (
     <ContentRendererClient
+      prevNextUrls={prevNextUrls}
       nextContent={nextContent}
       metadata={metadata}
       content={content}
