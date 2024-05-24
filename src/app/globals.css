@@ -78,6 +78,30 @@
   scrollbar-width: none; /* Firefox */
 }
 
+/* custom scrollbar */
+
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #020817;
+  border-radius: 15px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #2a2e3a;
+  border-radius: 15px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
 /*Timestamp overlapping removal */
 
 .vjs-play-progress .vjs-time-tooltip {
