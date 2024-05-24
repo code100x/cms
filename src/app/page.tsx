@@ -1,4 +1,5 @@
 import { MyCourses } from '@/components/MyCourses';
+import HelpIcon from '@/components/helpSection/helpIcon';
 import LandingPage from '@/components/landing/landing-page';
 import { authOptions } from '@/lib/auth';
 import { cn } from '@/lib/utils';
@@ -38,6 +39,7 @@ export default async function Home() {
         </div>
 
         <MyCourses />
+        <HelpIcon />
       </main>
     );
   }
