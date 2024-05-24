@@ -1,6 +1,6 @@
 import { QueryParams } from '@/actions/types';
 import { Sidebar } from '@/components/Sidebar';
-import { Folder, getFullCourseContent } from '@/db/course';
+import { getFullCourseContent } from '@/db/course';
 import { authOptions } from '@/lib/auth';
 import { getPurchases } from '@/utiles/appx';
 import { getServerSession } from 'next-auth';
@@ -46,9 +46,7 @@ const Layout = async ({
     redirect('/api/auth/signin');
   }
 
-  const fullCourseContent: Folder[] = await getFullCourseContent(
-    parseInt(courseId, 10),
-  );
+  const fullCourseContent = await getFullCourseContent(parseInt(courseId, 10));
 
   return (
     <div className="flex h-full">
