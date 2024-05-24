@@ -1,7 +1,11 @@
-import { describe, it, expect } from 'vitest';
+import { expect, test } from 'vitest';
+import { render, screen } from '@testing-library/react';
+import Page from '../app/page';
 
-describe('Example Test', () => {
-  it('should work correctly', () => {
-    expect(true).toBe(true);
-  });
+test('Page', async () => {
+  const ui = await Page();
+  render(ui);
+  expect(
+    screen.getByRole('heading', { level: 1, name: '100xdevs' }),
+  ).toBeDefined();
 });
