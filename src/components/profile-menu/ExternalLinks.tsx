@@ -22,6 +22,11 @@ const ExternalLinks = () => {
       label: 'Slides',
       icon: <SiNotion className="h-4 w-4" />,
     },
+    {
+      href: 'https://github.com/code100x/cms',
+      label: 'Contribute',
+      icon: <SiGithub className="h-4 w-4" />,
+    },
   ];
   return externalLinks.map((link) => (
     <Link key={link.href} href={link.href} target="_blank">
