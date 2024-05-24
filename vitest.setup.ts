@@ -1,19 +1,18 @@
-import { vi } from "vitest";
-import '@testing-library/jest-dom'
+import { vi } from 'vitest';
+import '@testing-library/jest-dom';
 
-vi.mock("next/font/local", () => ({
+vi.mock('next/font/local', () => ({
   default: () => ({
     className: 'mocked-font-class',
   }),
 }));
 
 vi.mock('next/font/google', () => ({
-   Poppins: () => ({
-     className: 'mocked-google-font-class',
-   }),
- }));
+  Poppins: () => ({
+    className: 'mocked-google-font-class',
+  }),
+}));
 
- vi.mock('next-auth', () => ({
-   getServerSession: vi.fn(),
- })); 
- 
+vi.mock('next-auth', () => ({
+  getServerSession: vi.fn(),
+}));
