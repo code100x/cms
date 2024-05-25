@@ -8,6 +8,7 @@ export type TSearchedVideos = {
   id: number;
   parentId: number | null;
   title: string;
+  type: string;
 } & {
   parent: { courses: CourseContent[] } | null;
 };
@@ -37,13 +38,14 @@ export async function GET(request: Request) {
 
     const allVideos = await db.content.findMany({
       where: {
-        type: 'video',
+        OR: [{ type: 'video' }, { type: 'notion' }],
         hidden: false,
       },
       select: {
         id: true,
         parentId: true,
         title: true,
+        type: true,
         parent: {
           select: {
             courses: true,
