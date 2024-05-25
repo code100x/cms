@@ -65,6 +65,7 @@ const SearchBar = ({ onCardClick }: { onCardClick?: () => void }) => {
       if (event.key === 'Escape') {
         setIsInputFocused(false);
         searchInputRef.current?.blur();
+        setSearchTerm('');
       }
       if (
         isInputFocused &&
@@ -157,27 +158,29 @@ const SearchBar = ({ onCardClick }: { onCardClick?: () => void }) => {
       ref={ref}
     >
       {/* Search Input Bar */}
-      <SearchIcon className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-gray-500" />
+      <SearchIcon className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-gray-300 z-20" />
       <Input
         placeholder="Search.."
-        className="px-10 border-2 focus-visible:ring-transparent rounded-full placeholder:font-semibold placeholder:dark:text-gray-200 placeholder:text-gray-600"
+        className="px-10 border-2 focus-visible:ring-transparent rounded-lg placeholder:font-semibold placeholder:dark:text-gray-200 placeholder:text-gray-600 z-10"
         value={searchTerm}
         onChange={handleInputChange}
         onFocus={() => setIsInputFocused(true)}
         ref={searchInputRef}
       />
-      {isInputFocused ? (
-        <kbd className="bg-gray-200 dark:bg-gray-700 px-1.5 py-1 rounded-sm text-xs leading-3 -translate-x-14 md:-translate-x-20 w-12">
-          Esc
-        </kbd>
-      ) : (
-        <kbd className="bg-gray-200 dark:bg-gray-700 px-1.5 py-1 rounded-sm text-xs leading-3 -translate-x-14 md:-translate-x-20 w-16">
-          Ctrl K
-        </kbd>
-      )}
+      <div className="absolute inset-0 flex justify-end items-center pr-3 z-1">
+        {isInputFocused ? (
+          <kbd className="bg-gray-200 dark:bg-gray-700 px-1.5 rounded-sm text-xs leading-3 md:-translate-x-7 w-10 z-20 h-6 flex items-center justify-center">
+            Esc
+          </kbd>
+        ) : (
+          <kbd className="bg-gray-200 dark:bg-gray-700 px-1.5 rounded-sm text-xs leading-3 md:-translate-x-7 w-16 z-20 h-6 flex items-center justify-center">
+            Ctrl K
+          </kbd>
+        )}
+      </div>
       {searchTerm.length > 0 && (
         <XCircleIcon
-          className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 transform cursor-pointer"
+          className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 transform cursor-pointer z-10"
           onClick={handleClearInput}
         />
       )}
