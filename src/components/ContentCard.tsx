@@ -50,7 +50,7 @@ export const ContentCard = ({
         </div>
       )}
       {type === 'video' && (
-        <div className=" absolute bottom-12 right-2 z-10  text-white bg-zinc-900 p-1 px-2 rounded-md font-semibold text-blue-900g">
+        <div className=" absolute bottom-12 right-2 z-10 bg-zinc-900 p-1 px-2 rounded-md font-semibold text-blue-900g">
           {contentDuration && formatTime(contentDuration)}
         </div>
       )}
@@ -70,7 +70,8 @@ export const ContentCard = ({
       {type === 'video' && (
         <div className="relative overflow-hidden rounded-md ">
           <VideoThumbnail
-            contentId={contentId ?? 0}
+            //@ts-ignore
+            contentId={contentId}
             imageUrl={
               'https://d2szwvl7yo497w.cloudfront.net/courseThumbnails/video.png'
             }
