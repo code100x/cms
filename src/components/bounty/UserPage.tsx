@@ -43,7 +43,7 @@ export interface UserInfoType {
   paymentInfo: PaymentInfoType | null;
 }
 
-const BountyUser = ({
+const UserPage = ({
   userInfo,
   role,
 }: {
@@ -148,30 +148,6 @@ const BountyUser = ({
                   </span>
                 </div>
               )}
-            {/* {userInfo.paymentInfo && userInfo.paymentInfo?.upiId ? (
-              userInfo.paymentInfo.accountName ? (
-                <div className=" flex  justify-center items-center gap-2 bg-green-400 rounded-xl p-2 mx-5">
-                  <span>Added</span>
-                  <span className="">
-                    <FaCheckCircle fill="green" />
-                  </span>
-                </div>
-              ) : (
-                <div className=" flex  justify-center items-center gap-2 bg-blue-400 rounded-xl p-2 mx-5">
-                  <span>Added</span>
-                  <span className="">
-                    <FaExclamationCircle fill="blue" />
-                  </span>
-                </div>
-              )
-            ) : (
-              <div className=" flex  justify-center items-center gap-2 bg-red-400 rounded-xl p-2 mx-5">
-                <span>Not-Added</span>
-                <span className="">
-                  <FaExclamationCircle fill="red" />
-                </span>
-              </div>
-            )} */}
           </div>
         </div>
       </div>
@@ -206,4 +182,4 @@ const BountyUser = ({
   );
 };
 
-export default BountyUser;
+export default UserPage;

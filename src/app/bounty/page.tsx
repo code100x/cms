@@ -1,5 +1,5 @@
-import BountyAdmin from '@/components/bounty/AdminPage';
-import BountyUser from '@/components/bounty/UserPage';
+import AdminPage from '@/components/bounty/AdminPage';
+import UserPage from '@/components/bounty/UserPage';
 import { getAllBountyDetail, getGithubDetail } from '@/db/course';
 import { authOptions } from '@/lib/auth';
 import { getServerSession } from 'next-auth';
@@ -19,7 +19,7 @@ export default async function BountyPage() {
     if (!userInfo || userInfo.isLinked === false) {
       redirect('/signInGithub');
     }
-    return <BountyUser userInfo={userInfo} role={role} />;
+    return <UserPage userInfo={userInfo} role={role} />;
   }
 
   if (role === 'admin') {
@@ -28,6 +28,6 @@ export default async function BountyPage() {
       return <div>No bounties</div>;
     }
 
-    return <BountyAdmin allInfo={userInfo} />;
+    return <AdminPage allInfo={userInfo} />;
   }
 }

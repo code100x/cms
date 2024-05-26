@@ -1,3 +1,8 @@
+/**
+ * PUT - To make payment (only accessible to admin)
+ * GET - To get bounty Info
+ */
+
 import db from '@/db';
 import { authOptions } from '@/lib/auth';
 import { getServerSession } from 'next-auth';

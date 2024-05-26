@@ -1,3 +1,8 @@
+/**
+ * POST - Add the payment info (upi and Bank details)
+ * GET - Get the payment info
+ */
+
 import db from '@/db';
 import { authOptions } from '@/lib/auth';
 import { getServerSession } from 'next-auth';

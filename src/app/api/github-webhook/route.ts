@@ -1,3 +1,8 @@
+/**
+ * To get bounty comment info from bounty-webhook after verification
+ * Add the info to DB and then send verification comment to Github PR
+ */
+
 import { NextRequest, NextResponse } from 'next/server';
 import crypto from 'crypto-js';
 import db from '@/db';

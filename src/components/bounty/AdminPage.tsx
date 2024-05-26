@@ -23,7 +23,7 @@ export const formatINR = new Intl.NumberFormat('en-IN', {
   currency: 'INR',
 });
 
-const BountyAdmin = ({ allInfo }: { allInfo: UserBountyType }) => {
+const AdminPage = ({ allInfo }: { allInfo: UserBountyType }) => {
   const [showPopup, setShowPopup] = useState<boolean>(false);
   const [payTo, setPayTo] = useState<PaymentInfoType | null>(null);
   const [myUserInfo, setMyUserInfo] = useState<BountyInfoType | null>(null);
@@ -147,31 +147,6 @@ const BountyAdmin = ({ allInfo }: { allInfo: UserBountyType }) => {
                         </span>
                       </div>
                     )}
-
-                  {/* {user.bountyInfo && user.paymentInfo?.upiId ? (
-                    user.paymentInfo.accountName ? (
-                      <div className=" flex  justify-center items-center gap-2 bg-green-400 rounded-xl p-2 mx-5">
-                        <span>Added</span>
-                        <span className="">
-                          <FaCheckCircle fill="green" />
-                        </span>
-                      </div>
-                    ) : (
-                      <div className=" flex  justify-center items-center gap-2 bg-blue-400 rounded-xl p-2 mx-5">
-                        <span>Added</span>
-                        <span className="">
-                          <FaExclamationCircle fill="blue" />
-                        </span>
-                      </div>
-                    )
-                  ) : (
-                    <div className=" flex  justify-center items-center gap-2 bg-red-400 rounded-xl p-2 mx-5">
-                      <span>Not-Added</span>
-                      <span className="">
-                        <FaExclamationCircle fill="red" />
-                      </span>
-                    </div>
-                  )} */}
                 </div>
               </Link>
             ))}
@@ -265,4 +240,4 @@ const BountyAdmin = ({ allInfo }: { allInfo: UserBountyType }) => {
   );
 };
 
-export default BountyAdmin;
+export default AdminPage;

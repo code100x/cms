@@ -1,3 +1,8 @@
+/**
+ * POST - Link userId and github username to be verified later
+ * PUT - Verify the userId and github from db
+ */
+
 import { NextRequest, NextResponse } from 'next/server';
 import db from '@/db';
 import { getServerSession } from 'next-auth';

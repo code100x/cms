@@ -1,3 +1,9 @@
+/**
+ * Check DB for details
+ * First need to write UPI details to get payment
+ * After successful, Provide Bank detail page with PAN info (as all user may not have PAN Card)
+ */
+
 'use client';
 import axios from 'axios';
 import { useSession } from 'next-auth/react';

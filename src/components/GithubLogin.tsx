@@ -1,3 +1,11 @@
+/**
+ * You need to signin via credentials, If not then it will logout
+ * Inputbox to write github username (to link with existing userid)
+ * -> Prompt to githublogin
+ * -> Check DB for linked username
+ * -> If fount link the account else show error to try again
+ */
+
 'use client';
 import axios from 'axios';
 import { signIn, signOut, useSession } from 'next-auth/react';
