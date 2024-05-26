@@ -97,12 +97,16 @@ const VideoThumbnail = ({
       setVideoUrl(null);
     };
   }, [contentId]);
-
+  let hoverTimeout: any;
   const handleMouseEnter = () => {
+    hoverTimeout = setTimeout(() => {
+      setHover(true);
+    }, 500);
     setHover(true);
   };
 
   const handleMouseLeave = () => {
+    clearTimeout(hoverTimeout);
     setHover(false);
   };
   const handlePlayerReady = async (player: Player) => {
