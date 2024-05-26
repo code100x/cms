@@ -1,4 +1,4 @@
-import BountyUser from '@/components/BountyUser';
+import BountyUser from '@/components/bounty/UserPage';
 import { getGithubDetail } from '@/db/course';
 import { authOptions } from '@/lib/auth';
 import { getServerSession } from 'next-auth';

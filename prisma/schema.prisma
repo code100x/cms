@@ -283,14 +283,15 @@ enum CommentType {
 }
 
 model GithubUser {
-  id         Int          @id @default(autoincrement())
-  userId     String       @unique
-  username   String       @unique
-  email      String?      @unique
-  publicName String?
-  isLinked   Boolean      @default(false)
-  user       User?        @relation(fields: [userId], references: [id])
-  bountyInfo BountyInfo[]
+  id          Int          @id @default(autoincrement())
+  userId      String       @unique
+  username    String       @unique
+  email       String?      @unique
+  publicName  String?
+  isLinked    Boolean      @default(false)
+  user        User?        @relation(fields: [userId], references: [id])
+  bountyInfo  BountyInfo[]
+  paymentInfo PaymentInfo?
 }
 
 model BountyInfo {
@@ -305,4 +306,17 @@ model BountyInfo {
   createdAt    DateTime    @default(now())
   githubUser   GithubUser? @relation(fields: [githubUserId], references: [userId])
   githubUserId String?
+}
+
+model PaymentInfo {
+  id            String     @id @default(cuid())
+  upiId         String     @unique
+  qrCodeImage   String
+  accountName   String?
+  accountNumber String?    @unique
+  ifscCode      String?
+  panNumber     String?    @unique
+  panCardPdf    String?
+  githubUserId  String     @unique
+  githubUser    GithubUser @relation(fields: [githubUserId], references: [userId])
 }

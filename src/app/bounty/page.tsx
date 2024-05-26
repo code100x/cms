@@ -1,5 +1,5 @@
-import BountyAdmin from '@/components/BountyAdmin';
-import BountyUser from '@/components/BountyUser';
+import BountyAdmin from '@/components/bounty/AdminPage';
+import BountyUser from '@/components/bounty/UserPage';
 import { getAllBountyDetail, getGithubDetail } from '@/db/course';
 import { authOptions } from '@/lib/auth';
 import { getServerSession } from 'next-auth';
@@ -23,15 +23,11 @@ export default async function BountyPage() {
   }
 
   if (role === 'admin') {
-    const allGithubBountyInfo = await getAllBountyDetail();
-    if (!allGithubBountyInfo) {
+    const userInfo = await getAllBountyDetail();
+    if (!userInfo) {
       return <div>No bounties</div>;
     }
-    const allDetails = {
-      userInfo: allGithubBountyInfo.userInfo,
-      bountyInfo: allGithubBountyInfo.bountyInfo,
-    };
 
-    return <BountyAdmin allGithubBountyInfo={allDetails} />;
+    return <BountyAdmin allInfo={userInfo} />;
   }
 }

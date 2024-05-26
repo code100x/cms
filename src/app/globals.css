@@ -127,15 +127,28 @@
   height: 10px;
 }
 
-button[type='submit'] {
+.pay {
   @apply w-24 relative;
 }
 
-button[type='submit']:hover span {
+.pay:hover span {
   @apply hidden;
 }
 
-button[type='submit']:hover::before {
+.pay:hover::before {
   content: 'Pay';
+  @apply absolute inset-0 flex items-center justify-center;
+}
+
+.noInfo {
+  @apply w-24 relative;
+}
+
+.noInfo:hover span {
+  @apply hidden;
+}
+
+.noInfo:hover::before {
+  content: 'No Info';
   @apply absolute inset-0 flex items-center justify-center;
 }
