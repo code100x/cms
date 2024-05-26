@@ -6,6 +6,9 @@ import { getFolderPercentCompleted } from '@/lib/utils';
 import Comments from './comment/Comments';
 import { QueryParams } from '@/actions/types';
 import BreadCrumbComponent from './BreadCrumbComponent';
+import parse from 'html-react-parser';
+
+import './text-editor/Tiptap.css';
 
 export const CourseView = ({
   rest,
@@ -37,6 +40,13 @@ export const CourseView = ({
           rest={rest}
         />
       </div>
+
+      {rest.length <= 0 && (
+        <div className="ProseMirror ProseMirror-readonly">
+          {parse(course.description)}
+        </div>
+      )}
+
       {contentType === 'notion' ? (
         <NotionRenderer id={courseContent[0]?.id} />
       ) : null}

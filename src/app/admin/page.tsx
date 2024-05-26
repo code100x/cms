@@ -9,100 +9,170 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
+import Tiptap from '@/components/text-editor/Tiptap';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from '@/components/ui/form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import { toast } from 'sonner';
+import { adminCourseCreationSchema } from '@/utiles/zodSchemas';
 
-type FormInput = {
-  title: string;
-  imageUrl: string;
-  description: string;
-  slug: string;
-  id: string;
-  adminSecret: string;
-  appxCourseId: string;
-  discordRoleId: string;
-};
+import '../../components/text-editor/Tiptap.css';
 
 export default function Courses() {
-  const { register, handleSubmit } = useForm<FormInput>();
+  const form = useForm<z.infer<typeof adminCourseCreationSchema>>({
+    resolver: zodResolver(adminCourseCreationSchema),
+    defaultValues: {
+      title: '',
+      imageUrl: '',
+      description: '',
+      slug: '',
+      id: '',
+      adminSecret: '',
+      appxCourseId: '',
+      discordRoleId: '',
+    },
+  });
 
-  const onSubmit: SubmitHandler<FormInput> = async (data) => {
-    await fetch('/api/admin/course', {
+  const onSubmit = async (data: z.infer<typeof adminCourseCreationSchema>) => {
+    const result = await fetch('/api/admin/course', {
       body: JSON.stringify(data),
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
     });
+    if (result.ok) {
+      toast('Course created');
+    }
   };
 
   return (
-    <Card className="lg:mt-10 w-full max-w-6xl mx-auto overflow-y-auto">
+    <Card className="my-4 lg:my-10 w-full max-w-6xl mx-auto overflow-y-auto">
       <CardHeader>
         <CardTitle>Create a new course</CardTitle>
         <CardDescription>Fill in the course details below</CardDescription>
       </CardHeader>
       <CardContent className="p-4 pt-0 grid gap-4">
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="grid gap-3.5 md:grid-cols-2"
-        >
-          <Input
-            id="name"
-            placeholder="Enter the course name"
-            required
-            {...register('title', { required: true })}
-          />
-          <Input
-            id="image"
-            placeholder="Enter the image URL"
-            required
-            {...register('imageUrl', {
-              required: true,
-              pattern: /^http[^\\?]*.(jpg|jpeg|gif|png|tiff|bmp)(\?(.*))?$/gim,
-            })}
-          />
-          <Textarea
-            className="md:col-span-2"
-            id="description"
-            placeholder="Enter the course description"
-            required
-            {...register('description', { required: true })}
-          />
-          <Input
-            id="slug"
-            placeholder="Enter the course slug"
-            required
-            {...register('slug', { required: true })}
-          />
-          <Input
-            id="id"
-            placeholder="Enter the course ID"
-            required
-            {...register('id', { required: true })}
-          />
-          <Input
-            id="admin-secret"
-            placeholder="Enter the admin secret"
-            required
-            {...register('adminSecret', { required: true })}
-          />
-          <Input
-            id="appx-course-id"
-            placeholder="Enter the appx course ID"
-            required
-            {...register('appxCourseId', { required: true })}
-          />
-          <Input
-            id="discord-id"
-            placeholder="Enter the Discord ID"
-            required
-            {...register('discordRoleId', { required: true })}
-          />
-          <div className="flex flex-1 w-full justify-center">
-            <Button type="submit">Create</Button>
-          </div>
-        </form>
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="grid gap-3.5 md:grid-cols-2"
+          >
+            <FormField
+              name="title"
+              control={form.control}
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Input placeholder="Enter the course name" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              name="imageUrl"
+              control={form.control}
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Input placeholder="Enter the image URL" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              name="description"
+              control={form.control}
+              render={({ field }) => (
+                <FormItem className="md:col-span-2">
+                  <div>
+                    <FormControl>
+                      <Tiptap
+                        content={field.value}
+                        setContent={(value: string) => field.onChange(value)}
+                      />
+                    </FormControl>
+                  </div>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              name="slug"
+              control={form.control}
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Input placeholder="Enter the course slug" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              name="id"
+              control={form.control}
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Input placeholder="Enter the course ID" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              name="adminSecret"
+              control={form.control}
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Input placeholder="Enter the admin secret" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              name="appxCourseId"
+              control={form.control}
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Input placeholder="Enter the appx course ID" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              name="discordRoleId"
+              control={form.control}
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Input placeholder="Enter the Discord ID" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <div className="flex flex-1 w-full justify-center md:col-span-2">
+              <Button type="submit" disabled={form.formState.isSubmitting}>
+                {form.formState.isSubmitting ? 'Creating...' : 'Create'}
+              </Button>
+            </div>
+          </form>
+        </Form>
       </CardContent>
     </Card>
   );

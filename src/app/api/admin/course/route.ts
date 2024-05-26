@@ -1,20 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import db from '@/db';
-import { z } from 'zod';
-
-const requestBodySchema = z.object({
-  adminSecret: z.string(),
-  title: z.string(),
-  description: z.string(),
-  imageUrl: z.string().url().or(z.string()),
-  id: z.string(),
-  slug: z.string(),
-  appxCourseId: z.string(),
-  discordRoleId: z.string(),
-});
+import { adminCourseCreationSchema } from '@/utiles/zodSchemas';
 
 export async function POST(req: NextRequest) {
-  const parseResult = requestBodySchema.safeParse(await req.json());
+  const parseResult = adminCourseCreationSchema.safeParse(await req.json());
 
   if (!parseResult.success) {
     return NextResponse.json(
@@ -34,8 +23,12 @@ export async function POST(req: NextRequest) {
     discordRoleId,
   } = parseResult.data;
 
+  if (isNaN(Number(id)) || isNaN(Number(appxCourseId))) {
+    return NextResponse.json({ message: 'Bad Request' }, { status: 400 });
+  }
+
   if (adminSecret !== process.env.ADMIN_SECRET) {
-    return NextResponse.json({}, { status: 401 });
+    return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
   }
 
   await db.course.create({
@@ -51,7 +44,7 @@ export async function POST(req: NextRequest) {
   });
 
   return NextResponse.json(
-    {},
+    { message: 'Course created' },
     {
       status: 200,
     },

@@ -1,0 +1,113 @@
+.ProseMirror {
+  color: inherit;
+  background-color: hsl(var(--background));
+  width: 100%;
+  min-height: 200px;
+  margin: 0;
+  border-width: 0px 1px 1px 1px;
+  border-style: solid;
+  border-radius: calc(var(--radius) - 2px);
+  padding: 16px;
+}
+
+.ProseMirror.ProseMirror-readonly {
+  border: none;
+}
+
+.ProseMirror.ProseMirror-focused {
+  outline: none;
+  @apply ring-2;
+}
+
+.tiptap-header {
+  width: 100%;
+  background-color: hsl(var(--secondary));
+  padding: 8px;
+  border-top-right-radius: calc(var(--radius) - 2px);
+  border-top-left-radius: calc(var(--radius) - 2px);
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.tiptap-sub-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  column-gap: 4px;
+}
+
+.tiptap-sub-header {
+  justify-self: end;
+  margin-left: auto;
+}
+
+.tiptap-header button {
+  color: inherit;
+  cursor: pointer;
+  border-radius: 3px;
+  font-size: 20px;
+  padding: 4px;
+}
+
+.tiptap-header button:hover {
+  background-color: hsl(var(--muted-foreground));
+}
+
+.tiptap-header button:disabled {
+  cursor: not-allowed;
+}
+.tiptap-header button.is-active {
+  color: hsl(var(--ring));
+}
+
+.ProseMirror ul,
+ol {
+  padding: 0 1rem;
+  list-style: initial;
+}
+
+.ProseMirror ol {
+  list-style: decimal;
+}
+
+.ProseMirror h1 {
+  font-size: 24px;
+  line-height: 1.3;
+}
+
+.ProseMirror h2 {
+  font-size: 20px;
+  line-height: 1.2;
+}
+
+.ProseMirror h3 {
+  font-size: 16px;
+  line-height: 1.1;
+}
+
+.ProseMirror p {
+  font-size: 16px;
+  line-height: 2.2;
+}
+
+.ProseMirror pre {
+  background: hsl(var(--secondary));
+  color: inherit;
+  font-family: 'JetBrainsMono', monospace;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid #646464;
+}
+
+.ProseMirror blockquote {
+  padding-left: 1rem;
+}
+
+.ProseMirror hr {
+  border: none;
+  border-top: 1px solid hsl(var(--border));
+  margin: 2rem 0;
+}
