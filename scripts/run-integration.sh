@@ -1,4 +1,3 @@
-# docker compose up -d
 DIR="$(cd "$(dirname "$0")" && pwd)"
 export $(grep -v '^#' .env.test | xargs)
  docker run -d \
@@ -14,4 +13,4 @@ echo $DATABASE_URL
 npx prisma migrate dev --name init
 vitest -c ./vitest.config.integration.ts
 docker stop db && docker rm db
-# docker compose down
+

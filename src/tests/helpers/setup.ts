@@ -1,8 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import '@testing-library/jest-dom';
 import { beforeAll, beforeEach, afterAll, afterEach } from 'vitest';
-process.env.DATABASE_URL =
-  'postgresql://postgres:postgres@localhost:5432/cms?schema=public';
 
 const prisma = new PrismaClient();
 
