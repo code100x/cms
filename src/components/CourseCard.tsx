@@ -59,6 +59,16 @@ export const CourseCard = ({
           >
             View Content
           </button>
+          {course.certIssued && (
+            <SecondaryButton
+              onClick={(e) => {
+                e.stopPropagation();
+                router.push('/certificate');
+              }}
+            >
+              Download Certificate
+            </SecondaryButton>
+          )}
         </div>
       </div>
     </div>
