@@ -145,6 +145,17 @@ export default async function Home({
           <div className="text-3xl dark:text-white  text-black transition-colors duration-500">
             <h1 className="text-black  dark:text-white">Questions</h1>
           </div>
+          <Link
+            className="block md:hidden bg-black  text-white h-10  truncate  text-sm font-medium dark:bg-white dark:text-black light:text-black transition-colors duration-500 sticky p-3 rounded-md "
+            href={getUpdatedUrl('/questions', searchParams, {
+              newPost:
+                searchParams.newPost === 'close' || !searchParams.newPost
+                  ? 'open'
+                  : 'close',
+            })}
+          >
+            New Question
+          </Link>
         </div>
         <NewPostDialog />
         <div className="md:mx-[10%] mx-auto md:p-10 ">
@@ -206,7 +217,7 @@ export default async function Home({
                 </div>
               </div>
               <Link
-                className="bg-black text-white h-10  truncate  text-sm font-medium dark:bg-white dark:text-black light:text-black transition-colors duration-500 sticky p-3 rounded-md "
+                className=" hidden md:block bg-black  text-white h-10  truncate  text-sm font-medium dark:bg-white dark:text-black light:text-black transition-colors duration-500 sticky p-3 rounded-md "
                 href={getUpdatedUrl('/questions', searchParams, {
                   newPost:
                     searchParams.newPost === 'close' || !searchParams.newPost
