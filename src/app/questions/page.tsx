@@ -24,6 +24,7 @@ import { authOptions } from '@/lib/auth';
 import PostCard from '@/components/posts/PostCard';
 import Pagination from '@/components/Pagination';
 import { redirect } from 'next/navigation';
+import NewQuestionButton from '@/components/videoPlayer/NewQuestionButton';
 
 type QuestionsResponse = {
   data: ExtendedQuestion[] | null;
@@ -145,22 +146,14 @@ export default async function Home({
           <div className="text-3xl dark:text-white  text-black transition-colors duration-500">
             <h1 className="text-black  dark:text-white">Questions</h1>
           </div>
-          <Link
-            className="block md:hidden bg-black  text-white h-10  truncate  text-sm font-medium dark:bg-white dark:text-black light:text-black transition-colors duration-500 sticky p-3 rounded-md "
-            href={getUpdatedUrl('/questions', searchParams, {
-              newPost:
-                searchParams.newPost === 'close' || !searchParams.newPost
-                  ? 'open'
-                  : 'close',
-            })}
-          >
-            New Question
-          </Link>
+          <div className="md:hidden">
+            <NewQuestionButton searchParams={searchParams} />
+          </div>
         </div>
         <NewPostDialog />
         <div className="md:mx-[10%] mx-auto md:p-10 ">
           <div className="flex flex-col  items-center p-4 dark:text-white">
-            <div className="flex">
+            <div className="flex ">
               <div className="flex ">
                 <Search />
                 <div className="px-3">
@@ -216,17 +209,9 @@ export default async function Home({
                   </DropdownMenu>
                 </div>
               </div>
-              <Link
-                className=" hidden md:block bg-black  text-white h-10  truncate  text-sm font-medium dark:bg-white dark:text-black light:text-black transition-colors duration-500 sticky p-3 rounded-md "
-                href={getUpdatedUrl('/questions', searchParams, {
-                  newPost:
-                    searchParams.newPost === 'close' || !searchParams.newPost
-                      ? 'open'
-                      : 'close',
-                })}
-              >
-                New Question
-              </Link>
+              <div className=" mt-[5px] hidden md:block">
+                <NewQuestionButton searchParams={searchParams} />
+              </div>
             </div>
             <div className="w-full overflow-y-scroll h-[500px] m-auto">
               <div className="space-y-4 w-full">
