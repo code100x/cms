@@ -6,7 +6,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
-import { Folder } from '@/db/course';
+import { FullCourseContent } from '@/db/course';
 import { Button } from './ui/button';
 import { BackArrow } from '@/icons/BackArrow';
 import { useRecoilState } from 'recoil';
@@ -20,7 +20,7 @@ export function Sidebar({
   courseId,
   fullCourseContent,
 }: {
-  fullCourseContent: Folder[];
+  fullCourseContent: FullCourseContent[];
   courseId: string;
 }) {
   const pathName = usePathname();
@@ -46,7 +46,7 @@ export function Sidebar({
       }
       const pathArray = findPathToContent(
         fullCourseContent,
-        currentUrlContentId,
+        currentUrlContentId!,
       );
       setCurrentActiveContentIds(pathArray);
     }
@@ -59,9 +59,9 @@ export function Sidebar({
   }, []);
 
   const findPathToContent = (
-    contents: any,
-    targetId: any,
-    currentPath: any[] = [],
+    contents: FullCourseContent[],
+    targetId: number,
+    currentPath: number[] = [],
   ): any => {
     for (const content of contents) {
       const newPath = [...currentPath, content.id];
@@ -91,8 +91,8 @@ export function Sidebar({
     return null;
   };
 
-  const renderContent = (contents: any) => {
-    return contents.map((content: any) => {
+  const renderContent = (contents: FullCourseContent[]) => {
+    return contents.map((content) => {
       const isActiveContent = currentActiveContentIds?.some(
         (id) => content.id === id,
       );
@@ -113,7 +113,7 @@ export function Sidebar({
             </AccordionTrigger>
             <AccordionContent className="p-0 m-0">
               {/* Render the children of this folder */}
-              {renderContent(content.children)}
+              {renderContent(content.children ?? [])}
             </AccordionContent>
           </AccordionItem>
         );
@@ -140,7 +140,7 @@ export function Sidebar({
             {content.type === 'video' ? (
               <div className="flex items-center gap-1">
                 <BookmarkButton
-                  bookmark={content.bookmark}
+                  bookmark={content.bookmark ?? null}
                   contentId={content.id}
                 />
                 <div className="flex flex-col justify-center ml-2">

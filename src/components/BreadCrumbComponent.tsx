@@ -8,7 +8,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
-import { Folder } from '@/db/course';
+import { FullCourseContent } from '@/db/course';
 import Link from 'next/link';
 import { useMemo } from 'react';
 
@@ -19,7 +19,7 @@ export default function BreadCrumbComponent({
   courseContent,
   contentType,
 }: {
-  fullCourseContent: Folder[];
+  fullCourseContent: FullCourseContent[];
   rest: string[];
   course: any;
   contentType: any;

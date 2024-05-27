@@ -10,7 +10,7 @@ const requestBodySchema = z.object({
 });
 
 export async function POST(req: NextRequest) {
-  const parseResult = requestBodySchema.safeParse(req.json());
+  const parseResult = requestBodySchema.safeParse(await req.json());
   if (!parseResult.success) {
     return NextResponse.json(
       { error: parseResult.error.message },
