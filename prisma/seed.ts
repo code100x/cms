@@ -107,39 +107,43 @@ async function seedCourses() {
 }
 
 async function seedContent() {
-  const content = [
-    {
-      id: 1,
-      type: 'folder',
-      title: 'week 1',
-      hidden: false,
-      thumbnail:
-        'https://appx-recordings.s3.ap-south-1.amazonaws.com/drm/100x/images/week-1.jpg',
-      commentsCount: 0,
-    },
-    {
-      id: 2,
-      type: 'notion',
-      title: 'Notes for week 1',
-      hidden: false,
-      thumbnail:
-        'https://appx-recordings.s3.ap-south-1.amazonaws.com/drm/100x/images/notes.png',
-      parentId: 1,
-      commentsCount: 0,
-    },
-    {
-      id: 3,
-      type: 'video',
-      title: 'test video for week 1',
-      hidden: false,
-      thumbnail:
-        'https://appx-recordings.s3.ap-south-1.amazonaws.com/drm/100x/images/week-1-orientation.jpg',
-      parentId: 1,
-      commentsCount: 0,
-    },
-  ];
+  const folderData = {
+    type: 'folder',
+    title: 'week 1',
+    hidden: false,
+    thumbnail:
+      'https://appx-recordings.s3.ap-south-1.amazonaws.com/drm/100x/images/week-1.jpg',
+    commentsCount: 0,
+  };
+
   try {
-    await db.content.createMany({ data: content });
+    const createdFolder = await db.content.create({ data: folderData });
+    console.log('Created folder:', createdFolder);
+    const folderId = createdFolder.id;
+
+    const contentData = [
+      {
+        type: 'notion',
+        title: 'Notes for week 1',
+        hidden: false,
+        thumbnail:
+          'https://appx-recordings.s3.ap-south-1.amazonaws.com/drm/100x/images/notes.png',
+        parentId: folderId,
+        commentsCount: 0,
+      },
+      {
+        type: 'video',
+        title: 'test video for week 1',
+        hidden: false,
+        thumbnail:
+          'https://appx-recordings.s3.ap-south-1.amazonaws.com/drm/100x/images/week-1-orientation.jpg',
+        parentId: folderId,
+        commentsCount: 0,
+      },
+    ];
+
+    const createdContent = await db.content.createMany({ data: contentData });
+    console.log('Created content:', createdContent);
   } catch (error) {
     console.error('Error seeding content:', error);
     throw error;
