@@ -145,75 +145,77 @@ export default async function Home({
           <div className="text-3xl dark:text-white  text-black transition-colors duration-500">
             <h1 className="text-black  dark:text-white">Questions</h1>
           </div>
-          <Link
-            className="bg-black text-white dark:bg-white dark:text-black light:text-black transition-colors duration-500 sticky p-3 rounded-md"
-            href={getUpdatedUrl('/questions', searchParams, {
-              newPost:
-                searchParams.newPost === 'close' || !searchParams.newPost
-                  ? 'open'
-                  : 'close',
-            })}
-          >
-            New Question
-          </Link>
         </div>
         <NewPostDialog />
-        <div className="md:mx-[15%] mx-auto md:p-10 ">
+        <div className="md:mx-[10%] mx-auto md:p-10 ">
           <div className="flex flex-col  items-center p-4 dark:text-white">
-            <div className="flex ">
-              <Search />
-              <div className="px-3">
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button className="shrink-0" variant="outline">
-                      <ArrowUpDownIcon className="w-4 h-4 mr-2" />
-                      Sort by
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="w-[200px]">
-                    <DropdownMenuRadioGroup value={tabType}>
-                      <Link
-                        className="py-2"
-                        href={getUpdatedUrl('/questions', searchParams, {
-                          tabtype: TabType.mq,
-                        })}
-                      >
-                        <DropdownMenuRadioItem value={TabType.mq}>
-                          Your questions
-                        </DropdownMenuRadioItem>
-                      </Link>
+            <div className="flex">
+              <div className="flex ">
+                <Search />
+                <div className="px-3">
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button className="shrink-0" variant="outline">
+                        <ArrowUpDownIcon className="w-4 h-4 mr-2" />
+                        Sort by
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end" className="w-[200px]">
+                      <DropdownMenuRadioGroup value={tabType}>
+                        <Link
+                          className="py-2"
+                          href={getUpdatedUrl('/questions', searchParams, {
+                            tabtype: TabType.mq,
+                          })}
+                        >
+                          <DropdownMenuRadioItem value={TabType.mq}>
+                            Your questions
+                          </DropdownMenuRadioItem>
+                        </Link>
 
-                      <Link
-                        href={getUpdatedUrl('/questions', searchParams, {
-                          tabtype: TabType.mu,
-                        })}
-                      >
-                        <DropdownMenuRadioItem value={TabType.mu}>
-                          Most Voted
-                        </DropdownMenuRadioItem>
-                      </Link>
-                      <Link
-                        href={getUpdatedUrl(`/questions`, searchParams, {
-                          tabtype: TabType.md,
-                        })}
-                      >
-                        <DropdownMenuRadioItem value={TabType.md}>
-                          Most Down Voted
-                        </DropdownMenuRadioItem>
-                      </Link>
-                      <Link
-                        href={getUpdatedUrl('/questions', searchParams, {
-                          tabtype: TabType.mr,
-                        })}
-                      >
-                        <DropdownMenuRadioItem value={TabType.mr}>
-                          Most Recent
-                        </DropdownMenuRadioItem>
-                      </Link>
-                    </DropdownMenuRadioGroup>
-                  </DropdownMenuContent>
-                </DropdownMenu>
+                        <Link
+                          href={getUpdatedUrl('/questions', searchParams, {
+                            tabtype: TabType.mu,
+                          })}
+                        >
+                          <DropdownMenuRadioItem value={TabType.mu}>
+                            Most Voted
+                          </DropdownMenuRadioItem>
+                        </Link>
+                        <Link
+                          href={getUpdatedUrl(`/questions`, searchParams, {
+                            tabtype: TabType.md,
+                          })}
+                        >
+                          <DropdownMenuRadioItem value={TabType.md}>
+                            Most Down Voted
+                          </DropdownMenuRadioItem>
+                        </Link>
+                        <Link
+                          href={getUpdatedUrl('/questions', searchParams, {
+                            tabtype: TabType.mr,
+                          })}
+                        >
+                          <DropdownMenuRadioItem value={TabType.mr}>
+                            Most Recent
+                          </DropdownMenuRadioItem>
+                        </Link>
+                      </DropdownMenuRadioGroup>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </div>
               </div>
+              <Link
+                className="bg-black text-white h-10  truncate  text-sm font-medium dark:bg-white dark:text-black light:text-black transition-colors duration-500 sticky p-3 rounded-md "
+                href={getUpdatedUrl('/questions', searchParams, {
+                  newPost:
+                    searchParams.newPost === 'close' || !searchParams.newPost
+                      ? 'open'
+                      : 'close',
+                })}
+              >
+                New Question
+              </Link>
             </div>
             <div className="w-full overflow-y-scroll h-[500px] m-auto">
               <div className="space-y-4 w-full">
