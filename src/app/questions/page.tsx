@@ -24,7 +24,7 @@ import { authOptions } from '@/lib/auth';
 import PostCard from '@/components/posts/PostCard';
 import Pagination from '@/components/Pagination';
 import { redirect } from 'next/navigation';
-import NewQuestionButton from '@/components/videoPlayer/NewQuestionButton';
+import NewQuestionButton from '@/components/NewQuestionButton';
 
 type QuestionsResponse = {
   data: ExtendedQuestion[] | null;
