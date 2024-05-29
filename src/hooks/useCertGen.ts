@@ -122,6 +122,15 @@ export function useGenerateCertificate({
       const yRecipient = offscreenCanvas.height * 0.54;
       ctx.fillText(recipientName, xRecipient, yRecipient);
 
+      const certificatDescription = 35;
+      ctx.font = `${certificatDescription}px Helvetica`;
+      const certificatDescriptionText = `had successfully complete ${certificateDetails.course.title} Full Stack Web Development Course`;
+      ctx.fillText(
+        certificatDescriptionText,
+        offscreenCanvas.width * 0.14 + 120,
+        offscreenCanvas.height * 0.62,
+      );
+
       const certificateNumberFontSize = 35;
       ctx.font = `${certificateNumberFontSize}px Helvetica`;
       const certificateNumberText = `Certificate No: ${certificateDetails.certificateSlug}`;
