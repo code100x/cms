@@ -90,7 +90,7 @@ export const FolderView = ({
         >
           <option value="reverse">Newest First</option>
           <option value="same">Oldest First</option>
-          <option value="recent">Continue Watching</option>
+          <option value="recent">Recently Watched</option>
         </select>
       </div>
 
