@@ -17,7 +17,12 @@ export function RefreshDb({ refreshDb }) {
     }
   };
 
-  if (session.status === 'loading') return <>Loading...</>;
+  if (session.status === 'loading')
+    return (
+      <>
+        <div className="flex justify-center items-center">Loading...</div>
+      </>
+    );
 
   return (
     <div className="flex flex-col gap-2 mx-auto">
