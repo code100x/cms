@@ -54,7 +54,7 @@ export const FolderView = ({
       const userId = session.user.id;
       const res = await fetch(`/api/user/history?id=${userId}`);
       const userHistory = await res.json();
-      setRecentvideo(userHistory[0].content.parent.id);
+      setRecentvideo(userHistory.content.parent.id);
     }
     getHistory();
   }, []);

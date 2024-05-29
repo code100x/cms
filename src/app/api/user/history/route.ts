@@ -9,7 +9,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.json('Id not found');
   }
 
-  const data = await db.videoProgress.findMany({
+  const data = await db.videoProgress.findFirst({
     where: {
       userId,
     },
