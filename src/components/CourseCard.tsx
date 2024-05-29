@@ -1,6 +1,8 @@
 'use client';
 import { Course } from '@/store/atoms';
 import PercentageComplete from './PercentageComplete';
+import { Button } from './ui/button';
+import { ChevronRight } from 'lucide-react';
 import { PrimaryButton } from './buttons/PrimaryButton';
 import { SecondaryButton } from './buttons/SecondaryButton';
 import { useRouter } from 'next/navigation';
