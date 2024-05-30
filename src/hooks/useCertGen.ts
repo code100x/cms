@@ -49,40 +49,45 @@ export function useGenerateCertificate({
         res.arrayBuffer(),
       );
       const pdfDoc = await PDFDocument.load(existingPdfBytes);
-      const timesRomanBoldFont = await pdfDoc.embedFont(
-        StandardFonts.HelveticaBold,
-      );
+      const timesRoman = await pdfDoc.embedFont(StandardFonts.TimesRoman);
+      const helveticaFont = await pdfDoc.embedFont(StandardFonts.Helvetica);
 
       const pages = pdfDoc.getPages();
       const firstPage = pages[0];
       const { width, height } = firstPage.getSize();
 
-      const fontSize = 30;
-      const textWidth = timesRomanBoldFont.widthOfTextAtSize(
-        userName,
-        fontSize,
-      );
+      const fontSize = 35;
+      const textWidth = timesRoman.widthOfTextAtSize(userName, fontSize);
       const xRecipient = (width - textWidth) / 2;
       const yRecipient = height * 0.46;
       firstPage.drawText(capitalizeFirstLetter(userName), {
         x: xRecipient,
         y: yRecipient,
         size: fontSize,
-        font: timesRomanBoldFont,
+        font: timesRoman,
         color: rgb(0, 0, 0),
       });
 
-      const certificateNumberFontSize = 28;
+      const certificateNumberFontSize = 14;
       firstPage.drawText(
-        `Certificate No:${certificateDetails.certificateSlug}`,
+        `Certificate No: ${certificateDetails.certificateSlug}`,
         {
-          x: width * 0.3,
-          y: height * 0.12,
+          x: width * 0.6,
+          y: height * 0.25,
           size: certificateNumberFontSize,
-          font: timesRomanBoldFont,
+          font: helveticaFont,
           color: rgb(0, 0, 0),
         },
       );
+
+      const downloadDateText = ` ${new Date().toLocaleDateString()}`;
+      firstPage.drawText(downloadDateText, {
+        x: width * 0.2 + 5,
+        y: height * 0.1 - 11,
+        size: certificateNumberFontSize,
+        font: helveticaFont,
+        color: rgb(0, 0, 0),
+      });
 
       const pdfDataUri = await pdfDoc.saveAsBase64({ dataUri: true });
       setCertificatePdfUrl(pdfDataUri);
