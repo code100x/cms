@@ -56,7 +56,7 @@ export function useGenerateCertificate({
       const firstPage = pages[0];
       const { width, height } = firstPage.getSize();
 
-      const fontSize = 35;
+      const fontSize = 32;
       const textWidth = timesRoman.widthOfTextAtSize(userName, fontSize);
       const xRecipient = (width - textWidth) / 2;
       const yRecipient = height * 0.46;
@@ -79,6 +79,20 @@ export function useGenerateCertificate({
           color: rgb(0, 0, 0),
         },
       );
+
+      const certificatDescriptionText = `has successfully completed ${certificateDetails.course.title} Full Stack Web Development Course`;
+      const certificatDescription = 12;
+      const descriptionTextWidth = helveticaFont.widthOfTextAtSize(
+        certificatDescriptionText,
+        certificatDescription,
+      );
+      firstPage.drawText(certificatDescriptionText, {
+        x: (width - descriptionTextWidth) / 2,
+        y: height * 0.4,
+        size: certificatDescription,
+        font: helveticaFont,
+        color: rgb(0, 0, 0),
+      });
 
       const downloadDateText = ` ${new Date().toLocaleDateString()}`;
       firstPage.drawText(downloadDateText, {
