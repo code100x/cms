@@ -130,6 +130,14 @@ export function useGenerateCertificate({
         offscreenCanvas.width * 0.35 + 510,
         offscreenCanvas.height * 0.77,
       );
+      
+      // Added dynamic desciption based on course title
+      const courseCompletionText = `has successfully completed ${certificateDetails.course.title}`;
+      ctx.font = '35px Helvetica';
+      const textWidthCourse = ctx.measureText(courseCompletionText).width;
+      const xCourse = (offscreenCanvas.width - textWidthCourse) / 2;
+      const yCourse = offscreenCanvas.height * 0.64;
+      ctx.fillText(courseCompletionText, xCourse, yCourse);
 
       // Add download date
       const downloadDateText = ` ${new Date().toLocaleDateString()}`;

@@ -23,13 +23,15 @@ export const CertificateVerify = ({
       <h1 className="text-4xl text-center py-4">100x Devs Certificate</h1>
       <div className="flex justify-center pb-20 mx-10">
         <Card className="my-4">
-          <CardContent className="flex-none w-[90vw] max-w-[800px]">
+          <CardContent className="flex items-center justify-center mt-3">
             {certificateImageUrl ? (
-              <img
-                src={certificateImageUrl}
-                alt="Generated Certificate"
-                className="w-full h-auto"
-              />
+              <div className="w-[90vw] max-w-[800px]">
+                <img
+                  src={certificateImageUrl}
+                  alt="Generated Certificate"
+                  className="w-full h-auto"
+                />
+              </div>
             ) : (
               <div className="min-h-[500px] flex justify-center items-center">
                 Loading...
