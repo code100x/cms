@@ -15,14 +15,15 @@ const TimeCodeComment: React.FC<TimeCodeCommentProps> = ({
   searchParams,
 }) => {
   const convertToSeconds = (timeCode: string): number => {
-    const parts = timeCode.split(':').reverse().map(Number);
-    return (parts || []).reduce(
-      (acc, part, index) => acc + part * Math.pow(60, index),
-      0,
-    );
+    const parts = timeCode.split(':').map(Number);
+    while (parts.length < 3) {
+      parts.unshift(0);
+    }
+    const [hours, minutes, seconds] = parts;
+    return hours * 3600 + minutes * 60 + seconds;
   };
 
-  const timeCodeRegex = /(?:(\d{1,2}):)?(\d{1,2}):(\d{1,2})/g;
+  const timeCodeRegex = /\b(?:(\d{1,2}):)?(\d{1,2}):(\d{2})\b/g;
 
   const processLine = (line: string) => {
     const elements = [];
