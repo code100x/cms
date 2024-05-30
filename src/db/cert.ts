@@ -10,7 +10,7 @@ export const getCertificates = async () => {
     return [];
   }
   const purchases = await getPurchases(session?.user.email || '');
-  const courses = purchases.filter((x) => x.certIssued === true);
+  const courses = purchases.filter((x) => x.certIssued === false);
 
   const courseWithCert: {
     course: Course;

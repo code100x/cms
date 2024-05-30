@@ -8,10 +8,10 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Button } from './ui/button';
-import { FaFileImage, FaLinkedin, FaTwitter } from 'react-icons/fa';
+import { FaDownload, FaFileImage, FaLinkedin, FaTwitter } from 'react-icons/fa';
 import { useGenerateCertificate } from '@/hooks/useCertGen';
 import { OneCertificate } from '@/utiles/certificate';
-import { useMemo } from 'react'; //used to fix maximum update depth exceeded err
+import { useMemo } from 'react';
 
 export const CertificateComponent = ({
   certificateId,
@@ -20,29 +20,24 @@ export const CertificateComponent = ({
   userName,
 }: OneCertificate & { userName: string }) => {
   const certificateDetails = useMemo(
-    () => ({
-      certificateId,
-      course,
-      userName,
-      certificateSlug,
-    }),
+    () => ({ certificateId, course, userName, certificateSlug }),
     [certificateId, course, userName, certificateSlug],
   );
-
   const { certificatePdfUrl, certificateImageUrl } = useGenerateCertificate({
     certificateDetails,
     userName,
   });
 
-  // const handleDownloadPDF = async () => {
-  //   const downloadUrl = certificatePdfUrl;
-  //   const a = document.createElement('a');
-  //   a.href = downloadUrl!;
-  //   a.download = 'certificate.pdf';
-  //   document.body.appendChild(a);
-  //   a.click();
-  //   document.body.removeChild(a);
-  // };
+  const handleDownloadPDF = async () => {
+    if (certificatePdfUrl) {
+      const a = document.createElement('a');
+      a.href = certificatePdfUrl;
+      a.download = 'certificate.pdf';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+  };
 
   const handleDownloadPNG = async () => {
     const downloadUrl = certificateImageUrl;
@@ -58,9 +53,7 @@ export const CertificateComponent = ({
   const handleShareLinkedIn = async () => {
     const certificateUrl = `${window.location.origin}/certificate/verify/${certificateSlug}`;
     const postContent = `I just earned the "${course.title}" certificate on 100xDevs! Check it out: ${certificateUrl}`;
-    const shareUrl = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(
-      certificateUrl,
-    )}&text=${encodeURIComponent(postContent)}`;
+    const shareUrl = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(certificateUrl)}&text=${encodeURIComponent(postContent)}`;
     window.open(shareUrl);
   };
 
@@ -87,21 +80,25 @@ export const CertificateComponent = ({
         <CardDescription>{course.description}</CardDescription>
       </CardHeader>
       <CardFooter className="flex justify-end">
-        {/* <Button onClick={() => handleDownloadPDF()} className="mr-2">
-          <FaDownload className="mr-1" /> Download PDF
-        </Button> */}
+        <Button onClick={handleDownloadPDF} className="mr-2">
+          <FaDownload className="mr-1" />
+          Download PDF
+        </Button>
         <Button onClick={() => handleDownloadPNG()} className="mr-2">
-          <FaFileImage className="mr-1" /> Download PNG
+          <FaFileImage className="mr-1" />
+          Download PNG
         </Button>
         <div className="flex items-center justify-center">
           <Button
             className="share-button flex items-center mr-2 bg-transparent"
             onClick={handleShareLinkedIn}
           >
-            <FaLinkedin className="mr-1" /> Share on LinkedIn
+            <FaLinkedin className="mr-1" />
+            Share on LinkedIn
           </Button>
           <Button onClick={handleShareTwitter} className="mr-2">
-            <FaTwitter className="mr-1" /> Share on Twitter
+            <FaTwitter className="mr-1" />
+            Share on Twitter
           </Button>
         </div>
       </CardFooter>
