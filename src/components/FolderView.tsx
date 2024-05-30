@@ -52,9 +52,11 @@ export const FolderView = ({
       }
 
       const userId = session.user.id;
-      const res = await fetch(`/api/user/history?id=${userId}`);
+      const res = await fetch(
+        `/api/user/history?id=${userId}&courseId=${courseId}`,
+      );
       const userHistory = await res.json();
-      setRecentvideo(userHistory.content.parent.id);
+      setRecentvideo(userHistory.id);
     }
     getHistory();
   }, []);
