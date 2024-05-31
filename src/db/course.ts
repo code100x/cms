@@ -400,7 +400,7 @@ export async function getAllBountyDetail() {
     const bountyInfo = await db.bountyInfo.findMany({
       where: { githubUserId: null },
     });
-    console.log({ nullbountyInfo: bountyInfo });
+
     const allInfo = { allUserInfo, bountyInfo };
     return allInfo;
   } catch (e) {

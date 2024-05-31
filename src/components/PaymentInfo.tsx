@@ -101,6 +101,11 @@ const PaymentInfo = () => {
     if (!upiFormValues.upiId) newErrors.upiId = 'UPI ID is required';
     if (!upiFormValues.qrCodeImage)
       newErrors.qrCodeImage = 'QR Code Image is required';
+    if (
+      upiFormValues.qrCodeImage instanceof File &&
+      upiFormValues.qrCodeImage?.size > 5000000
+    )
+      newErrors.qrCodeImage = 'file size under 5 MB';
     setUpiErrors(newErrors);
 
     return Object.keys(newErrors).length === 0;
@@ -116,6 +121,11 @@ const PaymentInfo = () => {
       newErrors.panNumber = 'PAN Number is required';
     if (!bankFormValues.panCardPdf)
       newErrors.panCardPdf = 'PAN Card is required';
+    if (
+      bankFormValues.panCardPdf instanceof File &&
+      bankFormValues.panCardPdf?.size > 5000000
+    )
+      newErrors.panCardPdf = 'file size under 5 MB';
 
     setBankErrors(newErrors);
 

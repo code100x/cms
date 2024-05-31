@@ -23,7 +23,12 @@ export async function POST(req: NextRequest) {
     const upiId = body.get('upiId')?.toString();
 
     const qrCodeImage = body.get('qrCodeImage');
-    console.log(qrCodeImage, 'add to S3 account');
+    if (qrCodeImage instanceof Blob && qrCodeImage.size > 5000000) {
+      return NextResponse.json(
+        { message: 'Exceed file size limit of 5 MB' },
+        { status: 413 },
+      );
+    }
     // TODO:Sending the qrCodeImage to S3 and getting a image link
     const link =
       'https://assetscdn1.paytm.com/images/catalog/product/F/FU/FULLAMINATED-PAOCL-870346F991C1DE/1661943487574_20.jpg';
@@ -52,7 +57,12 @@ export async function POST(req: NextRequest) {
     const panNumber = body.get('panNumber')?.toString();
 
     const panCardPdf = body.get('panCardPdf');
-    console.log(panCardPdf, 'add to S3 account');
+    if (panCardPdf instanceof Blob && panCardPdf.size > 5000000) {
+      return NextResponse.json(
+        { message: 'Exceed file size limit of 5 MB' },
+        { status: 413 },
+      );
+    }
     // TODO:Sending the qrCodeImage to S3 and getting a image link
     const link =
       'https://assetscdn1.paytm.com/images/catalog/product/F/FU/FULLAMINATED-PAOCL-870346F991C1DE/1661943487574_20.jpg';
