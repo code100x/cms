@@ -25,9 +25,5 @@ export default async function Page({
     redirect('/signInGithub');
   }
 
-  return (
-    <div>
-      {role === 'admin' && <BountyUser userInfo={userInfo} role={role} />}
-    </div>
-  );
+  return <div>{role === 'admin' && <BountyUser userInfo={userInfo} />}</div>;
 }

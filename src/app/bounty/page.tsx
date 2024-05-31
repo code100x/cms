@@ -19,13 +19,13 @@ export default async function BountyPage() {
     if (!userInfo || userInfo.isLinked === false) {
       redirect('/signInGithub');
     }
-    return <UserPage userInfo={userInfo} role={role} />;
+    return <UserPage userInfo={userInfo} />;
   }
 
   if (role === 'admin') {
     const userInfo = await getAllBountyDetail();
     if (!userInfo) {
-      return <div>No bounties</div>;
+      return <div>No bounties added</div>;
     }
 
     return <AdminPage allInfo={userInfo} />;

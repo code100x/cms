@@ -10,7 +10,7 @@ const BountyTitle = ({
   setIsUSD: Dispatch<SetStateAction<boolean>>;
 }) => {
   return (
-    <div className=" grid grid-cols-8 items-center text-center">
+    <div className=" grid grid-cols-7 items-center text-center">
       <div>No.</div>
       <div>Repo Name</div>
       <div className=" col-span-2">PR Title</div>
@@ -24,7 +24,6 @@ const BountyTitle = ({
           {isUSD ? '$' : '₹'}
         </button>
       </div>
-      <div>Payment</div>
       <div>Created Date</div>
     </div>
   );

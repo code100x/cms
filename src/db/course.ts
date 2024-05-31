@@ -383,7 +383,7 @@ export async function getGithubDetail({ userId }: { userId: string }) {
   try {
     const bountyInfo = await db.githubUser.findFirst({
       where: { userId },
-      include: { bountyInfo: true, paymentInfo: true },
+      include: { bountyInfo: true },
     });
     return bountyInfo;
   } catch (e) {
@@ -394,7 +394,7 @@ export async function getGithubDetail({ userId }: { userId: string }) {
 export async function getAllBountyDetail() {
   try {
     const allUserInfo = await db.githubUser.findMany({
-      include: { bountyInfo: true, paymentInfo: true },
+      include: { bountyInfo: true },
     });
 
     const bountyInfo = await db.bountyInfo.findMany({

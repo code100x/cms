@@ -19,7 +19,6 @@ CREATE TABLE "BountyInfo" (
     "repoName" TEXT NOT NULL,
     "USD_amount" INTEGER NOT NULL,
     "INR_amount" INTEGER NOT NULL,
-    "isPaid" BOOLEAN NOT NULL DEFAULT false,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "githubUserId" TEXT,
 

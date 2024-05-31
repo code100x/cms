@@ -1,10 +1,8 @@
 'use client';
 import { useState } from 'react';
-import { BountyInfoType, PaymentInfoType, UserInfoType } from './UserPage';
+import { BountyInfoType, UserInfoType } from './UserPage';
 import { ToggleLeftIcon, ToggleRightIcon } from 'lucide-react';
 import Link from 'next/link';
-import { FaCheckCircle, FaExclamationCircle } from 'react-icons/fa';
-import PaymentPopup from './PaymentPopup';
 import BountyList from './BountyList';
 import BountyTitle from './BountyTitle';
 
@@ -24,9 +22,6 @@ export const formatINR = new Intl.NumberFormat('en-IN', {
 });
 
 const AdminPage = ({ allInfo }: { allInfo: UserBountyType }) => {
-  const [showPopup, setShowPopup] = useState<boolean>(false);
-  const [payTo, setPayTo] = useState<PaymentInfoType | null>(null);
-  const [myUserInfo, setMyUserInfo] = useState<BountyInfoType | null>(null);
   const [isUSD, setIsUSD] = useState<boolean>(true);
   const [isUser, setIsUser] = useState<boolean>(false);
   if (!allInfo) {
@@ -51,7 +46,7 @@ const AdminPage = ({ allInfo }: { allInfo: UserBountyType }) => {
       {!isUser && (
         <div>
           <div className=" bg-gray-800 items-center border-2 border-black rounded-lg p-4 m-2 ">
-            <div className=" grid grid-cols-12 items-center text-center">
+            <div className=" grid grid-cols-10 items-center text-center">
               <div>No.</div>
               <div className=" col-span-2">Name</div>
               <div className=" col-span-2">Email</div>
@@ -66,14 +61,13 @@ const AdminPage = ({ allInfo }: { allInfo: UserBountyType }) => {
                   {isUSD ? '$' : '₹'}
                 </button>
               </div>
-              <div className="col-span-2">Payment Info</div>
             </div>
 
             {allInfo.allUserInfo.map((user, index) => (
               <Link
                 key={user.userId}
                 href={`/bounty/${user.userId}`}
-                className=" bg-gray-500 hover:bg-slate-600  grid grid-cols-12 items-center text-center border-2 border-black rounded-lg py-4 my-2"
+                className=" bg-gray-500 hover:bg-slate-600  grid grid-cols-10 items-center text-center border-2 border-black rounded-lg py-4 my-2"
               >
                 <div>{index + 1}</div>
                 <div className=" col-span-2">
@@ -120,34 +114,6 @@ const AdminPage = ({ allInfo }: { allInfo: UserBountyType }) => {
                 ) : (
                   <div className=" col-span-2">0</div>
                 )}
-                <div className=" col-span-2">
-                  {!user.paymentInfo?.upiId && (
-                    <div className=" flex  justify-center items-center gap-2 bg-red-400 rounded-xl p-2 mx-5">
-                      <span>Not-Added</span>
-                      <span className="">
-                        <FaExclamationCircle fill="red" />
-                      </span>
-                    </div>
-                  )}
-                  {user.paymentInfo?.upiId &&
-                    !user.paymentInfo.accountNumber && (
-                      <div className=" flex  justify-center items-center gap-2 bg-blue-400 rounded-xl p-2 mx-5">
-                        <span>Added</span>
-                        <span className="">
-                          <FaExclamationCircle fill="blue" />
-                        </span>
-                      </div>
-                    )}
-                  {user.paymentInfo?.upiId &&
-                    user.paymentInfo.accountNumber && (
-                      <div className=" flex  justify-center items-center gap-2 bg-green-400 rounded-xl p-2 mx-5">
-                        <span>Added</span>
-                        <span className="">
-                          <FaCheckCircle fill="green" />
-                        </span>
-                      </div>
-                    )}
-                </div>
               </Link>
             ))}
           </div>
@@ -162,13 +128,8 @@ const AdminPage = ({ allInfo }: { allInfo: UserBountyType }) => {
                 {userInfo.bountyInfo?.map((info, index) => (
                   <BountyList
                     key={info.id}
-                    userInfo={userInfo}
                     info={info}
                     index={index}
-                    role={'admin'}
-                    setShowPopup={setShowPopup}
-                    setPayTo={setPayTo}
-                    setMyUserInfo={setMyUserInfo}
                     isUSD={isUSD}
                   />
                 ))}
@@ -186,7 +147,7 @@ const AdminPage = ({ allInfo }: { allInfo: UserBountyType }) => {
             {allInfo.bountyInfo.map((info, index) => (
               <div
                 key={info.id}
-                className=" bg-gray-500 hover:bg-slate-600s grid grid-cols-8 items-center text-center border-2 border-black rounded-lg py-4 my-2 gap-1"
+                className=" bg-gray-500 hover:bg-slate-600s grid grid-cols-7 items-center text-center border-2 border-black rounded-lg py-4 my-2 gap-1"
               >
                 <div>{index + 1}</div>
                 <div>{info.repoName}</div>
@@ -204,36 +165,12 @@ const AdminPage = ({ allInfo }: { allInfo: UserBountyType }) => {
                     ? `${formatUSD.format(info.USD_amount).split('.')[0]}`
                     : `${formatINR.format(info.INR_amount).split('.')[0]}`}
                 </div>
-                {info.isPaid && (
-                  <button
-                    disabled={true}
-                    className=" bg-green-600 rounded-lg py-2 px-2 mx-9 "
-                  >
-                    Paid
-                  </button>
-                )}
-                {!info.isPaid && (
-                  <button
-                    disabled={true}
-                    className=" noInfo  hover:bg-red-500 bg-stone-600 rounded-lg py-2 px-1 mx-10 hover:py-5"
-                  >
-                    <span>Not&nbsp;Paid</span>
-                  </button>
-                )}
-
                 <div>
                   {new Date(info.createdAt).toLocaleDateString('en-GB')}
                 </div>
               </div>
             ))}
           </div>
-          {showPopup && (
-            <PaymentPopup
-              setShowPopup={setShowPopup}
-              payTo={payTo as PaymentInfoType}
-              myUserInfo={myUserInfo as BountyInfoType}
-            />
-          )}
         </div>
       )}
     </>
