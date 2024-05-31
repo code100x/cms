@@ -152,22 +152,20 @@ export const ContentRendererClient = ({
               </div>
             ) : null}
             {!showChapters && metadata.segments?.length > 0 && (
-              <button
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold rounded my-4 p-2"
+              <Button
                 onClick={() => {
                   scrollTo({ top: 0, behavior: 'smooth' });
                   toggleShowChapters();
                 }}
               >
                 View All Chapters
-              </button>
+              </Button>
             )}
           </div>
         </div>
         {nextContent ? (
           <div className="flex flex-row-reverse">
-            <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-4"
+            <Button
               onClick={() => {
                 const originalPath = window.location.pathname;
                 const parts = originalPath.split('/');
@@ -178,7 +176,7 @@ export const ContentRendererClient = ({
               }}
             >
               {nextContent.title}
-            </button>{' '}
+            </Button>{' '}
           </div>
         ) : null}
       </div>
