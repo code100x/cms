@@ -7,6 +7,7 @@ import {
   LogOutIcon,
   User2Icon,
   Bird,
+  Lock,
 } from 'lucide-react';
 import {
   DropdownMenu,
@@ -71,15 +72,22 @@ const ProfileDropdown = () => {
         </DropdownMenuGroup>
 
         <DropdownMenuSeparator />
-
-        <DropdownMenuItem
-          onClick={() => {
-            signOut();
-          }}
-        >
-          <LogOutIcon className="mr-2 h-4 w-4" />
-          <span>Logout</span>
-        </DropdownMenuItem>
+        <DropdownMenuGroup>
+          <DropdownMenuItem>
+            <Link href={'/profile'} className="flex">
+              <Lock className="mr-2 h-4 w-4" />
+              <span>Change Password</span>
+            </Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={() => {
+              signOut();
+            }}
+          >
+            <LogOutIcon className="mr-2 h-4 w-4" />
+            <span>Logout</span>
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>
   );
