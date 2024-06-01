@@ -37,7 +37,8 @@ export type ReturnTypeDeleteComment = ActionState<
 export type InputTypePinComment = z.infer<typeof CommentPinSchema>;
 export type ReturnTypePinComment = ActionState<InputTypePinComment, Comment>;
 
-export interface ExtendedComment extends Comment {
-  user?: User;
-  votes?: Vote[];
-}
+export type ExtendedComment = Comment & {
+  user: User;
+  votes: Vote[];
+  children?: ExtendedComment[]; // Add this line to include nested comments
+};

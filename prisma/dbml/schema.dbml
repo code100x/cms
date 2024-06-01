@@ -1,0 +1,328 @@
+//// ------------------------------------------------------
+//// THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+//// ------------------------------------------------------
+
+Table Course {
+  id Int [pk, increment]
+  appxCourseId Int [not null]
+  discordRoleId String [not null]
+  title String [not null]
+  imageUrl String [not null]
+  description String [not null]
+  openToEveryone Boolean [not null, default: false]
+  slug String [not null]
+  content CourseContent [not null]
+  purchasedBy UserPurchases [not null]
+  certificate Certificate [not null]
+  certIssued Boolean [not null, default: false]
+}
+
+Table UserPurchases {
+  user User [not null]
+  userId String [not null]
+  course Course [not null]
+  courseId Int [not null]
+  assignedAt DateTime [default: `now()`, not null]
+
+  indexes {
+    (userId, courseId) [pk]
+  }
+}
+
+Table Content {
+  id Int [pk, increment]
+  type String [not null, default: 'folder']
+  title String [not null]
+  hidden Boolean [not null, default: false]
+  description String
+  thumbnail String
+  parentId Int
+  parent Content
+  videoProgress VideoProgress [not null]
+  children Content [not null]
+  courses CourseContent [not null]
+  createdAt DateTime [default: `now()`, not null]
+  VideoMetadata VideoMetadata
+  NotionMetadata NotionMetadata
+  notionMetadataId Int
+  comments Comment [not null]
+  commentsCount Int [not null, default: 0]
+  bookmark Bookmark [not null]
+}
+
+Table CourseContent {
+  course Course [not null]
+  courseId Int [not null]
+  content Content [not null]
+  contentId Int [not null]
+
+  indexes {
+    (courseId, contentId) [pk]
+  }
+}
+
+Table Certificate {
+  id String [pk]
+  slug String [not null, default: 'certId']
+  user User [not null]
+  userId String [not null]
+  course Course [not null]
+  courseId Int [not null]
+
+  indexes {
+    (userId, courseId) [unique]
+  }
+}
+
+Table NotionMetadata {
+  id Int [pk, increment]
+  contentId Int [unique, not null]
+  content Content [not null]
+  notionId String [not null]
+}
+
+Table VideoMetadata {
+  id Int [pk, increment]
+  contentId Int [unique, not null]
+  video_1080p_mp4_1 String
+  video_1080p_mp4_2 String
+  video_1080p_mp4_3 String
+  video_1080p_mp4_4 String
+  video_1080p_1 String
+  video_1080p_2 String
+  video_1080p_3 String
+  video_1080p_4 String
+  video_720p_mp4_1 String
+  video_720p_mp4_2 String
+  video_720p_mp4_3 String
+  video_720p_mp4_4 String
+  video_720p_1 String
+  video_720p_2 String
+  video_720p_3 String
+  video_720p_4 String
+  video_360p_mp4_1 String
+  video_360p_mp4_2 String
+  video_360p_mp4_3 String
+  video_360p_mp4_4 String
+  video_360p_1 String
+  video_360p_2 String
+  video_360p_3 String
+  video_360p_4 String
+  subtitles String
+  segments Json
+  content Content [not null]
+  slides String
+  thumbnail_mosiac_url String
+  duration Int
+}
+
+Table Session {
+  id String [pk]
+  sessionToken String [unique, not null]
+  userId String [not null]
+  expires DateTime [not null]
+  user User [not null]
+}
+
+Table User {
+  id String [pk]
+  name String
+  email String [unique]
+  token String
+  sessions Session [not null]
+  purchases UserPurchases [not null]
+  videoProgress VideoProgress [not null]
+  comments Comment [not null]
+  votes Vote [not null]
+  discordConnect DiscordConnect
+  disableDrm Boolean [not null, default: false]
+  bookmarks Bookmark [not null]
+  password String
+  appxUserId String
+  appxUsername String
+  questions Question [not null]
+  answers Answer [not null]
+  certificate Certificate [not null]
+}
+
+Table DiscordConnect {
+  id String [pk]
+  username String [not null]
+  discordId String [unique, not null]
+  userId String [unique, not null]
+  user User [not null]
+}
+
+Table DiscordConnectBulk {
+  id String [pk]
+  username String [not null]
+  discordId String [not null]
+  userId String [not null]
+}
+
+Table VideoProgress {
+  id Int [pk, increment]
+  userId String [not null]
+  contentId Int [not null]
+  currentTimestamp Int [not null]
+  user User [not null]
+  content Content [not null]
+  markAsCompleted Boolean [not null, default: false]
+  updatedAt DateTime [default: `now()`, not null]
+
+  indexes {
+    (contentId, userId) [unique]
+  }
+}
+
+Table Bookmark {
+  id Int [pk, increment]
+  userId String [not null]
+  contentId Int [not null]
+  user User [not null]
+  content Content [not null]
+  createdAt DateTime [default: `now()`, not null]
+}
+
+Table Comment {
+  id Int [pk, increment]
+  content String [not null]
+  commentType CommentType [not null, default: 'DEFAULT']
+  approved Boolean [not null, default: false]
+  contentId Int [not null]
+  commentedOn Content [not null]
+  parentId Int
+  parent Comment
+  children Comment [not null]
+  userId String [not null]
+  user User [not null]
+  upvotes Int [not null, default: 0]
+  downvotes Int [not null, default: 0]
+  repliesCount Int [not null, default: 0]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  votes Vote [not null]
+  isPinned Boolean [not null, default: false]
+}
+
+Table Question {
+  id Int [pk, increment]
+  title String [not null]
+  content String [not null]
+  slug String [unique, not null]
+  createdAt DateTime [default: `now()`, not null]
+  author User [not null]
+  authorId String [not null]
+  upvotes Int [not null, default: 0]
+  downvotes Int [not null, default: 0]
+  totalanswers Int [not null, default: 0]
+  answers Answer [not null]
+  votes Vote [not null]
+  tags String[] [not null]
+  updatedAt DateTime [not null]
+}
+
+Table Answer {
+  id Int [pk, increment]
+  content String [not null]
+  createdAt DateTime [default: `now()`, not null]
+  question Question [not null]
+  questionId Int [not null]
+  author User [not null]
+  authorId String [not null]
+  votes Vote [not null]
+  upvotes Int [not null, default: 0]
+  downvotes Int [not null, default: 0]
+  totalanswers Int [not null, default: 0]
+  parentId Int
+  responses Answer [not null]
+  parent Answer
+  updatedAt DateTime [not null]
+}
+
+Table Vote {
+  id Int [pk, increment]
+  questionId Int
+  question Question
+  answerId Int
+  answer Answer
+  commentId Int
+  comment Comment
+  userId String [not null]
+  user User [not null]
+  voteType VoteType [not null]
+  createdAt DateTime [default: `now()`, not null]
+
+  indexes {
+    (questionId, userId) [unique]
+    (answerId, userId) [unique]
+    (commentId, userId) [unique]
+  }
+}
+
+Enum VoteType {
+  UPVOTE
+  DOWNVOTE
+}
+
+Enum PostType {
+  QUESTION
+  ANSWER
+}
+
+Enum CommentType {
+  INTRO
+  DEFAULT
+}
+
+Ref: UserPurchases.userId > User.id
+
+Ref: UserPurchases.courseId > Course.id
+
+Ref: Content.parentId - Content.id
+
+Ref: CourseContent.courseId > Course.id
+
+Ref: CourseContent.contentId > Content.id
+
+Ref: Certificate.userId > User.id
+
+Ref: Certificate.courseId > Course.id
+
+Ref: NotionMetadata.contentId - Content.id
+
+Ref: VideoMetadata.contentId - Content.id
+
+Ref: Session.userId > User.id [delete: Cascade]
+
+Ref: DiscordConnect.userId - User.id [delete: Cascade]
+
+Ref: VideoProgress.userId > User.id [delete: Cascade]
+
+Ref: VideoProgress.contentId > Content.id [delete: Cascade]
+
+Ref: Bookmark.userId > User.id [delete: Cascade]
+
+Ref: Bookmark.contentId > Content.id
+
+Ref: Comment.contentId > Content.id
+
+Ref: Comment.parentId - Comment.id
+
+Ref: Comment.userId > User.id
+
+Ref: Question.authorId > User.id
+
+Ref: Answer.questionId > Question.id
+
+Ref: Answer.authorId > User.id
+
+Ref: Answer.parentId > Answer.id
+
+Ref: Vote.questionId > Question.id
+
+Ref: Vote.answerId > Answer.id
+
+Ref: Vote.commentId > Comment.id
+
+Ref: Vote.userId > User.id

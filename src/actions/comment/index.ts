@@ -474,3 +474,39 @@ export const approveComment = createSafeAction(
   approveIntroCommentHandler,
 );
 export const pinComment = createSafeAction(CommentPinSchema, pinCommentHandler);
+
+export const getCommentsWithFullProperties = async (
+  query: any,
+  parentId: number | null = null,
+) => {
+  const comments = await prisma.comment.findMany({
+    ...query,
+    where: {
+      ...query.where,
+      parentId,
+    },
+    include: {
+      user: true,
+      children: {
+        include: {
+          user: true,
+          children: {
+            include: {
+              user: true,
+              children: {
+                include: {
+                  user: true,
+                  children: true, // Include full nested children properties
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    orderBy: {
+      createdAt: 'asc', // Ensuring comments are ordered by created time
+    },
+  });
+  return comments;
+};
