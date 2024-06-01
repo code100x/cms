@@ -4,6 +4,7 @@ CREATE TABLE "GithubUser" (
     "userId" TEXT NOT NULL,
     "username" TEXT NOT NULL,
     "email" TEXT,
+    "image" TEXT,
     "publicName" TEXT,
     "isLinked" BOOLEAN NOT NULL DEFAULT false,
 

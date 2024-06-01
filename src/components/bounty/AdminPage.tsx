@@ -1,9 +1,18 @@
 'use client';
-import { useState } from 'react';
 import { BountyInfoType, UserInfoType } from './UserPage';
-import { ToggleLeftIcon, ToggleRightIcon } from 'lucide-react';
 import Link from 'next/link';
-import BountyList from './BountyList';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
+import {
+  Table,
+  TableHeader,
+  TableRow,
+  TableHead,
+  TableBody,
+  TableCell,
+} from '../ui/table';
+import React, { useMemo, useState } from 'react';
+import BountyInfo from './BountyInfo';
+import SidebarInfo from './SidebarInfo';
 import BountyTitle from './BountyTitle';
 
 export interface UserBountyType {
@@ -21,160 +30,206 @@ export const formatINR = new Intl.NumberFormat('en-IN', {
   currency: 'INR',
 });
 
-const AdminPage = ({ allInfo }: { allInfo: UserBountyType }) => {
+export default function AdminPage({ allInfo }: { allInfo: UserBountyType }) {
   const [isUSD, setIsUSD] = useState<boolean>(true);
-  const [isUser, setIsUser] = useState<boolean>(false);
+
   if (!allInfo) {
     return;
   }
+  function getTotalAmount({
+    bountyInfo,
+  }: {
+    bountyInfo: BountyInfoType[] | null;
+  }) {
+    if (!bountyInfo) return;
+    return isUSD
+      ? formatUSD
+          .format(
+            bountyInfo.reduce((result, value) => result + value.USD_amount, 0),
+          )
+          .split('.')[0] || 0
+      : formatUSD
+          .format(
+            bountyInfo.reduce((result, value) => result + value.INR_amount, 0),
+          )
+          .split('.')[0] || 0;
+  }
+
+  const totalBounty = useMemo(() => {
+    let usdBounty = 0;
+    let inrBounty = 0;
+    allInfo.allUserInfo.forEach((user) => {
+      if (user.bountyInfo) {
+        inrBounty += user.bountyInfo.reduce(
+          (result, value) => result + value.INR_amount,
+          0,
+        );
+        usdBounty += user.bountyInfo.reduce(
+          (result, value) => result + value.USD_amount,
+          0,
+        );
+      }
+    });
+    inrBounty += allInfo.bountyInfo.reduce(
+      (result, value) => result + value.INR_amount,
+      0,
+    );
+    usdBounty += allInfo.bountyInfo.reduce(
+      (result, value) => result + value.USD_amount,
+      0,
+    );
+    return { inrBounty, usdBounty };
+  }, [allInfo]);
+
+  const totalPr = useMemo(() => {
+    let myPr = 0;
+    allInfo.allUserInfo.forEach((user) => {
+      if (user.bountyInfo) {
+        myPr += user.bountyInfo.length;
+      }
+    });
+
+    myPr += allInfo.bountyInfo.length;
+
+    return myPr;
+  }, [allInfo]);
+
+  const repoName = useMemo(() => {
+    const repoCounts: { [key: string]: number } = {};
+    allInfo.allUserInfo.forEach((user) => {
+      if (user.bountyInfo) {
+        user.bountyInfo.forEach((bounty) => {
+          const repoName = bounty.repoName;
+          if (repoCounts[repoName]) {
+            repoCounts[repoName]++;
+          } else {
+            repoCounts[repoName] = 1;
+          }
+        });
+      }
+    });
+
+    allInfo.bountyInfo.forEach((bounty) => {
+      const repoName = bounty.repoName;
+
+      if (repoCounts[repoName]) {
+        repoCounts[repoName]++;
+      } else {
+        repoCounts[repoName] = 1;
+      }
+    });
+    return repoCounts;
+  }, [allInfo]);
 
   return (
-    <>
-      <div className="flex justify-center items-center">
-        <button
-          className=" bg-stone-400 rounded-lg py-2 px-4 my-4"
-          onClick={() => {
-            setIsUser((p) => !p);
-          }}
-        >
-          <div className="flex gap-2">
-            {isUser ? <ToggleLeftIcon /> : <ToggleRightIcon />}
-            <span>{isUser ? 'All' : 'Users'}</span>
-          </div>
-        </button>
-      </div>
-      {!isUser && (
-        <div>
-          <div className=" bg-gray-800 items-center border-2 border-black rounded-lg p-4 m-2 ">
-            <div className=" grid grid-cols-10 items-center text-center">
-              <div>No.</div>
-              <div className=" col-span-2">Name</div>
-              <div className=" col-span-2">Email</div>
-              <div className=" col-span-2">Username</div>
-              <div className=" col-span-1">Total Bounty PR</div>
-              <div className=" col-span-2">
-                Total Bounty
-                <button
-                  onClick={() => setIsUSD((prev) => !prev)}
-                  className=" border rounded-lg m-1 px-2 py-1 border-black"
-                >
-                  {isUSD ? '$' : '₹'}
-                </button>
-              </div>
-            </div>
+    <div className="grid grid-cols-1 md:grid-cols-[300px_1fr] gap-8 p-6 md:p-10 dark:bg-gray-950 dark:text-gray-50">
+      <SidebarInfo
+        totalBounty={totalBounty}
+        totalPr={totalPr}
+        repoName={repoName}
+        role={'admin'}
+      />
+      <Tabs defaultValue="bounty">
+        <div className=" text-center mb-4">
+          <TabsList>
+            <TabsTrigger value="bounty">Bounty</TabsTrigger>
+            <TabsTrigger value="user">User</TabsTrigger>
+          </TabsList>
+        </div>
+        <div className="dark:bg-slate-900 rounded-lg shadow-md border-4">
+          <div className="p-6">
+            <TabsContent value="bounty">
+              {allInfo.bountyInfo.length > 0 && (
+                <h3 className="text-lg font-semibold mb-4">
+                  Bounties with Linked Github Account
+                </h3>
+              )}
+              <Table>
+                <BountyTitle isUSD={isUSD} setIsUSD={setIsUSD} />
 
-            {allInfo.allUserInfo.map((user, index) => (
-              <Link
-                key={user.userId}
-                href={`/bounty/${user.userId}`}
-                className=" bg-gray-500 hover:bg-slate-600  grid grid-cols-10 items-center text-center border-2 border-black rounded-lg py-4 my-2"
-              >
-                <div>{index + 1}</div>
-                <div className=" col-span-2">
-                  {user.publicName || 'No Name'}
-                </div>
-                <div className=" col-span-2">{user.email}</div>
-                <div className=" col-span-2">{user.username}</div>
-                <div className=" col-span-1">
-                  {user.bountyInfo && user.bountyInfo?.length > 0
-                    ? user.bountyInfo.length
-                    : '0'}
-                </div>
-                {user.bountyInfo && user.bountyInfo?.length > 0 ? (
-                  <div className=" col-span-2">
-                    {!isUSD && (
-                      <div>
-                        {
-                          formatINR
-                            .format(
-                              user.bountyInfo?.reduce(
-                                (result, value) => result + value.INR_amount,
-                                0,
-                              ),
-                            )
-                            .split('.')[0]
-                        }
-                      </div>
-                    )}
-                    {isUSD && (
-                      <div>
-                        {
-                          formatUSD
-                            .format(
-                              user.bountyInfo?.reduce(
-                                (result, value) => result + value.USD_amount,
-                                0,
-                              ),
-                            )
-                            .split('.')[0]
-                        }
-                      </div>
-                    )}
-                  </div>
-                ) : (
-                  <div className=" col-span-2">0</div>
+                {allInfo.allUserInfo.map((userInfo) =>
+                  userInfo.bountyInfo?.map((info, index) => (
+                    <BountyInfo
+                      key={info.id}
+                      bountyInfo={info}
+                      index={index}
+                      isUSD={isUSD}
+                    />
+                  )),
                 )}
-              </Link>
-            ))}
-          </div>
-        </div>
-      )}
-      {isUser && (
-        <div className=" bg-gray-800 items-center border-2 border-black rounded-lg p-4 m-2 ">
-          <BountyTitle isUSD={isUSD} setIsUSD={setIsUSD} />
-          <div>
-            {allInfo.allUserInfo.map((userInfo) => (
-              <div key={userInfo.id}>
-                {userInfo.bountyInfo?.map((info, index) => (
-                  <BountyList
-                    key={info.id}
-                    info={info}
-                    index={index}
-                    isUSD={isUSD}
-                  />
-                ))}
-              </div>
-            ))}
-          </div>
-          {allInfo.bountyInfo.length > 0 && (
-            <div className=" text-center my-4">
-              <span className=" border px-6 py-2 rounded-xl font-bold text-2xl">
-                Bounties without Linked Github Account
-              </span>
-            </div>
-          )}
-          <div>
-            {allInfo.bountyInfo.map((info, index) => (
-              <div
-                key={info.id}
-                className=" bg-gray-500 hover:bg-slate-600s grid grid-cols-7 items-center text-center border-2 border-black rounded-lg py-4 my-2 gap-1"
-              >
-                <div>{index + 1}</div>
-                <div>{info.repoName}</div>
-                <div className=" text-nowrap whitespace-nowrap overflow-ellipsis overflow-hidden col-span-2">
-                  {info.PR_Title}
-                </div>
-                <a
-                  className="border-2 rounded-lg mx-12 py-2 bg-zinc-700 hover:bg-slate-600"
-                  href={info.PR_Link}
-                >
-                  PR
-                </a>
-                <div>
-                  {isUSD
-                    ? `${formatUSD.format(info.USD_amount).split('.')[0]}`
-                    : `${formatINR.format(info.INR_amount).split('.')[0]}`}
-                </div>
-                <div>
-                  {new Date(info.createdAt).toLocaleDateString('en-GB')}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-    </>
-  );
-};
+              </Table>
+              {allInfo.bountyInfo.length > 0 && (
+                <>
+                  <h3 className="text-lg font-semibold my-4">
+                    Bounties without Linked Github Account
+                  </h3>
+                  <Table>
+                    <BountyTitle isUSD={isUSD} setIsUSD={setIsUSD} />
 
-export default AdminPage;
+                    {allInfo.bountyInfo.map((info, index) => (
+                      <BountyInfo
+                        key={info.id}
+                        bountyInfo={info}
+                        index={index}
+                        isUSD={isUSD}
+                      />
+                    ))}
+                  </Table>
+                </>
+              )}
+            </TabsContent>
+            <TabsContent value="user">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>No.</TableHead>
+                    <TableHead>Name</TableHead>
+                    <TableHead>Email</TableHead>
+                    <TableHead>Username</TableHead>
+                    <TableHead>Total PR</TableHead>
+                    <TableHead>
+                      Amount
+                      <button
+                        onClick={() => setIsUSD((prev) => !prev)}
+                        className=" border rounded-lg m-1 px-2 py-1 border-neutral-500"
+                      >
+                        {isUSD ? '$' : '₹'}
+                      </button>
+                    </TableHead>
+                    <TableHead>Account</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {allInfo.allUserInfo.map((user, index) => (
+                    <TableRow key={index}>
+                      <TableCell>{index + 1}</TableCell>
+                      <TableCell>{user.publicName || 'No Name'}</TableCell>
+                      <TableCell>{user.email}</TableCell>
+                      <TableCell>{user.username}</TableCell>
+                      <TableCell>
+                        {user.bountyInfo && user.bountyInfo?.length > 0
+                          ? user.bountyInfo.length
+                          : '0'}
+                      </TableCell>
+                      <TableCell>
+                        {getTotalAmount({ bountyInfo: user.bountyInfo })}
+                      </TableCell>
+                      <TableCell>
+                        <Link
+                          href={`/bounty/${user.userId}`}
+                          className=" bg-blue-400 py-1 px-2 rounded-xl"
+                        >
+                          Visit
+                        </Link>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TabsContent>
+          </div>
+        </div>
+      </Tabs>
+    </div>
+  );
+}

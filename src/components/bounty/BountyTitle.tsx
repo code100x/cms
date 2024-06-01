@@ -1,6 +1,6 @@
 'use client';
-
 import { Dispatch, SetStateAction } from 'react';
+import { TableHeader, TableRow, TableHead } from '../ui/table';
 
 const BountyTitle = ({
   isUSD,
@@ -10,22 +10,24 @@ const BountyTitle = ({
   setIsUSD: Dispatch<SetStateAction<boolean>>;
 }) => {
   return (
-    <div className=" grid grid-cols-7 items-center text-center">
-      <div>No.</div>
-      <div>Repo Name</div>
-      <div className=" col-span-2">PR Title</div>
-      <div>PR Link</div>
-      <div>
-        Amount in
-        <button
-          className=" border-2 rounded-lg m-1 px-2 py-1 border-black"
-          onClick={() => setIsUSD((prev) => !prev)}
-        >
-          {isUSD ? '$' : '₹'}
-        </button>
-      </div>
-      <div>Created Date</div>
-    </div>
+    <TableHeader>
+      <TableRow className=" grid grid-cols-12 w-full">
+        <TableHead>No.</TableHead>
+        <TableHead className=" col-span-2">Repo Name</TableHead>
+        <TableHead className=" col-span-3">PR Title</TableHead>
+        <TableHead className=" col-span-2">PR Link</TableHead>
+        <TableHead className=" col-span-2">
+          Amount
+          <button
+            onClick={() => setIsUSD((prev) => !prev)}
+            className=" border rounded-lg m-1 px-2 py-1 border-neutral-500"
+          >
+            {isUSD ? '$' : '₹'}
+          </button>
+        </TableHead>
+        <TableHead className=" col-span-2">Created Date</TableHead>
+      </TableRow>
+    </TableHeader>
   );
 };
 

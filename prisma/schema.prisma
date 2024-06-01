@@ -287,6 +287,7 @@ model GithubUser {
   userId     String       @unique
   username   String       @unique
   email      String?      @unique
+  image      String?
   publicName String?
   isLinked   Boolean      @default(false)
   user       User?        @relation(fields: [userId], references: [id])

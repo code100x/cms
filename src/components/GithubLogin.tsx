@@ -38,6 +38,7 @@ export default function GithubLogin({
           username: myData.username,
           email: myData.email,
           publicName: myData.publicName,
+          image: myData.image,
         },
       });
       const result = await res.data;
@@ -85,6 +86,7 @@ export default function GithubLogin({
         username: session.user.g_username,
         email: session.user.g_email,
         publicName: session.user.g_name,
+        image: session.user.g_image,
       };
 
       updateGithubData(myData);

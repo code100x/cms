@@ -41,7 +41,7 @@ export async function PUT(req: NextRequest) {
     );
   }
 
-  const { username, email, publicName } = await req.json();
+  const { username, email, publicName, image } = await req.json();
   if (!username) {
     return NextResponse.json(
       { message: 'error while fetching username' },
@@ -60,7 +60,7 @@ export async function PUT(req: NextRequest) {
     }
     const updateInfo = await db.githubUser.update({
       where: { username },
-      data: { isLinked: true, email, publicName },
+      data: { isLinked: true, email, publicName, image },
     });
 
     await db.bountyInfo.updateMany({

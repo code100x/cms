@@ -26,6 +26,7 @@ export interface session extends Session {
     provider: string;
     g_username?: string;
     g_name?: string;
+    g_image?: string;
     g_email?: string;
   };
 }
@@ -36,6 +37,7 @@ interface token extends JWT {
   provider: string;
   g_login: string;
   g_name: string;
+  g_image: string;
   g_email: string;
 }
 
@@ -236,6 +238,7 @@ export const authOptions = {
           newSession.user.provider = token.provider as string;
           newSession.user.g_username = token.g_login as string;
           newSession.user.g_name = token.g_name as string;
+          newSession.user.g_image = token.g_image as string;
           newSession.user.g_email = token.g_email as string;
         }
         newSession.user.id = token.uid as string;
@@ -260,6 +263,7 @@ export const authOptions = {
         newToken.g_email = myProfile.email || '';
         newToken.g_login = myProfile.login;
         newToken.g_name = myProfile.name || '';
+        newToken.g_image = myProfile.avatar_url || '';
       }
 
       if (user) {

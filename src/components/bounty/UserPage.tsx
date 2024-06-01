@@ -1,7 +1,8 @@
 'use client';
-import { formatINR, formatUSD } from './AdminPage';
-import { useEffect, useState } from 'react';
-import BountyList from './BountyList';
+import { Table } from '../ui/table';
+import React, { useMemo, useState } from 'react';
+import BountyInfo from './BountyInfo';
+import SidebarInfo from './SidebarInfo';
 import BountyTitle from './BountyTitle';
 
 export interface BountyInfoType {
@@ -21,88 +22,80 @@ export interface UserInfoType {
   userId: string;
   username: string;
   email: string | null;
+  image: string | null;
   publicName: string | null;
   isLinked: boolean;
   bountyInfo: BountyInfoType[] | null;
 }
 
-const UserPage = ({ userInfo }: { userInfo: UserInfoType }) => {
+export default function UserPage({ userInfo }: { userInfo: UserInfoType }) {
   const [isUSD, setIsUSD] = useState<boolean>(true);
-  const [isLength, setIsLength] = useState<boolean | null>(false);
 
-  useEffect(() => {
-    setIsLength(userInfo.bountyInfo && userInfo.bountyInfo?.length > 0);
+  const totalBounty = useMemo(() => {
+    let usdBounty = 0;
+    let inrBounty = 0;
+
+    if (userInfo.bountyInfo && userInfo.bountyInfo?.length > 0) {
+      inrBounty = userInfo.bountyInfo.reduce(
+        (result, value) => result + value.INR_amount,
+        0,
+      );
+      usdBounty = userInfo.bountyInfo.reduce(
+        (result, value) => result + value.USD_amount,
+        0,
+      );
+    }
+    return { inrBounty, usdBounty };
   }, [userInfo]);
 
+  const totalPr = useMemo(() => {
+    let myPr = 0;
+    if (userInfo.bountyInfo && userInfo.bountyInfo?.length > 0) {
+      myPr = userInfo.bountyInfo?.length;
+    }
+    return myPr;
+  }, [userInfo]);
+
+  const repoName = useMemo(() => {
+    const repoCounts: { [key: string]: number } = {};
+    userInfo.bountyInfo?.forEach((bounty) => {
+      const repoName = bounty.repoName;
+      if (repoCounts[repoName]) {
+        repoCounts[repoName]++;
+      } else {
+        repoCounts[repoName] = 1;
+      }
+    });
+    return repoCounts;
+  }, []);
+
   return (
-    <>
-      <div className=" bg-stone-700 border-2 border-black rounded-lg py-4 m-2 mb-10">
-        <div className=" grid grid-cols-5 text-center items-center pb-5 text-2xl font-bold border-b-4 mb-6">
-          <div>Name</div>
-          <div>Email</div>
-          <div>Username</div>
-          <div>Total Bounty PR</div>
-          <div>
-            Total Bounty
-            <button
-              onClick={() => setIsUSD((prev) => !prev)}
-              className=" border rounded-lg m-1 px-2 py-1 border-black"
-            >
-              {isUSD ? '$' : '₹'}
-            </button>
-          </div>
-        </div>
-        <div className=" grid grid-cols-5 text-center justify-center items-center">
-          <div>{userInfo.publicName}</div>
-          <div>{userInfo.email}</div>
-          <div>{userInfo.username}</div>
-          <div>{isLength ? userInfo.bountyInfo?.length : '0'}</div>
-          {isLength ? (
-            <div>
-              {!isUSD &&
-                userInfo.bountyInfo &&
-                formatINR
-                  .format(
-                    userInfo.bountyInfo.reduce(
-                      (result, value) => result + value.INR_amount,
-                      0,
-                    ),
-                  )
-                  .split('.')[0]}
-
-              {isUSD &&
-                userInfo.bountyInfo &&
-                formatUSD
-                  .format(
-                    userInfo.bountyInfo?.reduce(
-                      (result, value) => result + value.USD_amount,
-                      0,
-                    ),
-                  )
-                  .split('.')[0]}
-            </div>
-          ) : (
-            '0'
-          )}
+    <div className="grid grid-cols-1 md:grid-cols-[300px_1fr] gap-8 p-6 md:p-10 dark:bg-gray-950 dark:text-gray-50">
+      <SidebarInfo
+        userInfo={userInfo}
+        totalBounty={totalBounty}
+        totalPr={totalPr}
+        repoName={repoName}
+        role={'user'}
+      />
+      <div className="dark:bg-slate-900 rounded-lg shadow-md border-4">
+        <div className="p-6">
+          <h2 className="text-xl font-semibold mb-4">Bounty Info</h2>
+          <Table>
+            <BountyTitle isUSD={isUSD} setIsUSD={setIsUSD} />
+            {userInfo.bountyInfo &&
+              userInfo.bountyInfo?.length > 0 &&
+              userInfo.bountyInfo?.map((info, index) => (
+                <BountyInfo
+                  key={index}
+                  bountyInfo={info}
+                  index={index}
+                  isUSD={isUSD}
+                />
+              ))}
+          </Table>
         </div>
       </div>
-      <div className=" bg-gray-800 items-center border-2 border-black rounded-lg p-4 m-2 ">
-        <BountyTitle isUSD={isUSD} setIsUSD={setIsUSD} />
-        <div>
-          {userInfo.bountyInfo &&
-            userInfo.bountyInfo?.length > 0 &&
-            userInfo.bountyInfo?.map((info, index) => (
-              <BountyList
-                key={info.id}
-                info={info}
-                index={index}
-                isUSD={isUSD}
-              />
-            ))}
-        </div>
-      </div>
-    </>
+    </div>
   );
-};
-
-export default UserPage;
+}
