@@ -115,7 +115,7 @@ export function useGenerateCertificate({
 
       ctx.drawImage(certificateImage, 0, 0);
 
-      ctx.font = '85px "Brush Script MT", cursive'; // Changed to  font
+      ctx.font = '85px "Brush Script MT", cursive';
       ctx.fillStyle = 'black';
       const textWidth = ctx.measureText(recipientName).width;
       const xRecipient = (offscreenCanvas.width - textWidth) / 2;
@@ -129,6 +129,16 @@ export function useGenerateCertificate({
         certificateNumberText,
         offscreenCanvas.width * 0.35 + 510,
         offscreenCanvas.height * 0.77,
+      );
+
+      // Add dynamic course count
+      const courseId = certificateDetails.course.id; // actual course ID
+      const courseCountText = `has successfully completed ${courseId} MERN Full Stack Web Development Course`;
+      ctx.font = `${certificateNumberFontSize / 1}px Helvetica`;
+      ctx.fillText(
+        courseCountText,
+        offscreenCanvas.width * 0.18 + 30,
+        offscreenCanvas.height * 0.61,
       );
 
       // Add download date
