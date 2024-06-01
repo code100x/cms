@@ -116,6 +116,8 @@ model VideoMetadata {
   slides               String? // link to slides
   thumbnail_mosiac_url String?
   duration             Int?
+  migration_status MigrationStatus @default(NOT_MIGRATED)
+  migration_pickup_time DateTime?
 
   @@unique([contentId])
 }
@@ -277,4 +279,10 @@ enum PostType {
 enum CommentType {
   INTRO
   DEFAULT
+}
+enum MigrationStatus {
+  NOT_MIGRATED
+  IN_PROGRESS
+  MIGRATED
+  MIGRATION_ERROR
 }
