@@ -28,12 +28,7 @@ import CommentApproveForm from './CommentApproveForm';
 
 dayjs.extend(relativeTime);
 
-const CommentsClient = ({
-  content,
-  searchParams,
-  session,
-  data,
-}: {
+const CommentsClient: React.FC<{
   content: {
     id: number;
     courseId: number;
@@ -43,7 +38,7 @@ const CommentsClient = ({
   searchParams: QueryParams;
   session: any;
   data: any;
-}) => {
+}> = ({ content, searchParams, session, data }) => {
   console.log(content);
   console.log(data);
   const [activeReplyCommentId, setActiveReplyCommentId] = useState<
@@ -299,7 +294,7 @@ const CommentsClient = ({
 
 export default CommentsClient;
 
-const ReplyIcon = (props: any) => (
+const ReplyIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="24"
