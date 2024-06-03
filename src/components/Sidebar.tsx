@@ -159,7 +159,7 @@ export function Sidebar({
   }
 
   return (
-    <div className="overflow-y-scroll h-sidebar w-[300px] min-w-[300px] bg-gray-50 dark:bg-gray-800 cursor-pointer sticky top-[64px] self-start w-84">
+    <div className="overflow-y-scroll h-screen sm:h-sidebar w-full sm:w-[300px] min-w-full sm:min-w-[300px] bg-gray-50 dark:bg-gray-800 cursor-pointer sticky top-0 sm:top-[64px] self-start">
       <div className="flex">
         {/* <ToggleButton
             onClick={() => {
