@@ -7,20 +7,20 @@ import { CardContainer, CardItem } from '@/components/3dcard';
 
 const DiscordSection = () => {
   return (
-    <div className="w-full flex items-center justify-between py-32 my-20 bg-neutral-900 dark:bg-slate-200">
-      <div className="w-full flex flex-col items-start justify-center px-4 md:px-12">
-        <h3 className="font-medium text-sm text-neutral-200 dark:text-neutral-800">
-          <span className="font-bold text-blue-600 pr-1 text-lg">|</span>Discord
+    <div className="my-20 flex w-full items-center justify-between bg-neutral-900 py-32 dark:bg-slate-200">
+      <div className="flex w-full flex-col items-start justify-center px-4 md:px-12">
+        <h3 className="text-sm font-medium text-neutral-200 dark:text-neutral-800">
+          <span className="pr-1 text-lg font-bold text-blue-600">|</span>Discord
           Support
         </h3>
-        <h2 className="text-2xl md:text-4xl font-semibold text-neutral-100 dark:text-neutral-900 mt-2 mb-6">
+        <h2 className="mb-6 mt-2 text-2xl font-semibold text-neutral-100 dark:text-neutral-900 md:text-4xl">
           Never miss on anything!
         </h2>
-        <p className="text-lg text-neutral-100 dark:text-neutral-800  font-medium mb-4">
+        <p className="mb-4 text-lg font-medium text-neutral-100 dark:text-neutral-800">
           Personal TAs make it easy for you to get your doubts solved within
           minutes. Got any doubt? Ask on the discord community.
         </p>
-        <p className="text-lg text-neutral-200 dark:text-neutral-600 font-medium my-2">
+        <p className="my-2 text-lg font-medium text-neutral-200 dark:text-neutral-600">
           Facing any issues while setting up the environment? Get it fixed, Ask
           on the discord communtiy!
         </p>
@@ -35,13 +35,13 @@ const DiscordSection = () => {
             target="_blank"
           >
             <p className="text-white">Explore courses</p>{' '}
-            <ChevronRight className="text-white h-4 w-4 ml-1 hover:translate-x-1 ease-in-out duration-200 " />
+            <ChevronRight className="ml-1 h-4 w-4 text-white duration-200 ease-in-out hover:translate-x-1" />
           </Link>
         </Button>
       </div>
       <CardContainer className="w-full cursor-pointer">
         <Link href="https://discord.gg/pusrVQsFbQ" target="_blank">
-          <div className="hidden md:block py-3 pl-3 md:py-6 md:pl-6 rounded-l-xl md:rounded-l-2xl bg-neutral-800 shadow-2xl">
+          <div className="hidden rounded-l-xl bg-neutral-800 py-3 pl-3 shadow-2xl md:block md:rounded-l-2xl md:py-6 md:pl-6">
             <CardItem>
               <Image
                 src={discord}

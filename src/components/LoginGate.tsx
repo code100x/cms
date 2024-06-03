@@ -12,7 +12,7 @@ const LoginGate = () => {
       <div className="mb-4">Please sign in to continue</div>
       <button
         onClick={handleSignIn}
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        className="rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
       >
         Sign in
       </button>

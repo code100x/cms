@@ -62,11 +62,11 @@ const Comments = async ({
   const modifiedSearchParams = { ...searchParams };
   delete modifiedSearchParams.parentId;
   return (
-    <Card key="1" className="w-full border-none  flex justify-center flex-col">
+    <Card key="1" className="flex w-full flex-col justify-center border-none">
       <CardHeader className="p-6">
         {data.parentComment && (
           <Link
-            className="p-1 "
+            className="p-1"
             href={getUpdatedUrl(
               `/courses/${content.possiblePath}`,
               modifiedSearchParams,
@@ -115,12 +115,12 @@ const Comments = async ({
           </div>
         </div>
       </CardHeader>
-      <CardContent className="p-0 lg:p-8 border dark:border-primary-darker rounded-md">
+      <CardContent className="dark:border-primary-darker rounded-md border p-0 lg:p-8">
         <CommentInputForm
           contentId={content.id}
           parentId={data?.parentComment?.id}
         />
-        <div className="mb-5 flex mt-5">
+        <div className="mb-5 mt-5 flex">
           <DropdownMenu key="1" modal={false}>
             <DropdownMenuTrigger asChild>
               <Button
@@ -128,7 +128,7 @@ const Comments = async ({
                 variant="ghost"
               >
                 <span>{searchParams.tabtype || TabType.mu}</span>
-                <ChevronDownIcon className="w-4 h-4" />
+                <ChevronDownIcon className="h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
@@ -183,7 +183,7 @@ const Comments = async ({
                     ? CommentType.INTRO
                     : 'All comments' || 'All comments'}
                 </span>
-                <ChevronDownIcon className="w-4 h-4" />
+                <ChevronDownIcon className="h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
@@ -217,27 +217,27 @@ const Comments = async ({
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
-        <div className="grid gap-6 max-h-[400px] overflow-y-auto">
+        <div className="grid max-h-[400px] gap-6 overflow-y-auto">
           {data.comments.map((c) => (
             <div
-              className="text-sm flex items-start gap-4 w-full border p-4 rounded-md"
+              className="flex w-full items-start gap-4 rounded-md border p-4 text-sm"
               key={c.id}
             >
-              <div className="flex items-start gap-4 w-full">
-                <Avatar className="w-10 h-10 border">
+              <div className="flex w-full items-start gap-4">
+                <Avatar className="h-10 w-10 border">
                   <AvatarImage alt="@shadcn" src="/placeholder-user.jpg" />
                   <AvatarFallback>{`${(c as ExtendedComment).user?.name?.substring(0, 2)}`}</AvatarFallback>
                 </Avatar>
-                <div className="grid gap-1.5 w-full">
+                <div className="grid w-full gap-1.5">
                   <div className="flex items-center gap-2">
                     <div className="font-semibold">
                       @{(c as ExtendedComment).user?.name ?? ''}
                     </div>
-                    <div className="text-gray-500 text-xs dark:text-gray-400">
+                    <div className="text-xs text-gray-500 dark:text-gray-400">
                       {dayjs(c.createdAt).fromNow()}
                     </div>
                     {c.isPinned && (
-                      <div className="text-gray-500 text-xs dark:text-gray-400">
+                      <div className="text-xs text-gray-500 dark:text-gray-400">
                         Pinned
                       </div>
                     )}
@@ -309,7 +309,7 @@ const Comments = async ({
                         scroll={false}
                         className="flex items-center gap-1 text-gray-500 dark:text-gray-400"
                       >
-                        <ReplyIcon className="w-4 h-4" />
+                        <ReplyIcon className="h-4 w-4" />
                         <span>{c.repliesCount}</span>
                         <span>Reply</span>
                       </Link>

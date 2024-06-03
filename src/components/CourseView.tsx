@@ -28,7 +28,7 @@ export const CourseView = ({
 }) => {
   return (
     <>
-      <div className=" min-h-[2.5rem] max-h-fit mb-2 flex items-center px-4">
+      <div className="mb-2 flex max-h-fit min-h-[2.5rem] items-center px-4">
         <BreadCrumbComponent
           course={course}
           contentType={contentType}

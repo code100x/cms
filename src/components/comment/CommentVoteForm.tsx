@@ -54,7 +54,7 @@ const CommentVoteForm = ({
           type="submit"
         >
           <ThumbsUpIcon
-            className="w-4 h-4"
+            className="h-4 w-4"
             type="submit"
             fill={
               voteType && voteType === VoteType.UPVOTE ? 'currentColor' : 'none'
@@ -70,7 +70,7 @@ const CommentVoteForm = ({
           type="submit"
         >
           <ThumbsDownIcon
-            className="w-4 h-4"
+            className="h-4 w-4"
             fill={
               voteType && voteType === VoteType.DOWNVOTE
                 ? 'currentColor'

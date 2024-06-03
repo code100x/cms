@@ -64,6 +64,7 @@
     "node-fetch": "^3.3.2",
     "notion-client": "^6.16.0",
     "pdf-lib": "^1.17.1",
+    "prettier-plugin-tailwindcss": "^0.6.1",
     "react": "^18",
     "react-dom": "^18",
     "react-hook-form": "^7.50.1",
