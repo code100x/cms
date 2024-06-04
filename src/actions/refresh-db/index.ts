@@ -7,7 +7,7 @@ import { checkUserEmailForPurchase } from '@/utiles/appx-check-mail';
 import { Course } from '@prisma/client';
 import { getServerSession } from 'next-auth';
 
-type RefreshDbFn = (args: { userId: string; email: string }) => Promise<{
+type RefreshDbFn = () => Promise<{
   error: boolean;
   message: string;
 }>;

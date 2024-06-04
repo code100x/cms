@@ -9,15 +9,15 @@ import React, { useRef, useState } from 'react';
 
 import { toast } from 'sonner';
 const Signin = () => {
-  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-  const [checkingPassword, setCheckingPassword] = useState(false);
+  const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
+  const [checkingPassword, setCheckingPassword] = useState<boolean>(false);
   const [requiredError, setRequiredError] = useState({
     emailReq: false,
     passReq: false,
   });
 
   function togglePasswordVisibility() {
-    setIsPasswordVisible((prevState: any) => !prevState);
+    setIsPasswordVisible((prevState) => !prevState);
   }
   const router = useRouter();
   const email = useRef('');
@@ -92,7 +92,7 @@ const Signin = () => {
                     }));
                     password.current = e.target.value;
                   }}
-                  onKeyDown={async (e) => {
+                  onKeyDown={(e) => {
                     if (e.key === 'Enter') {
                       setIsPasswordVisible(false);
                       handleSubmit();
