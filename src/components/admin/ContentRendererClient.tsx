@@ -88,8 +88,8 @@ export const ContentRendererClient = ({
   };
 
   return (
-    <div className="flex gap-2 items-start flex-col lg:flex-row">
-      <div className="flex-1 w-full">
+    <div className="flex flex-col items-start gap-2 lg:flex-row">
+      <div className="w-full flex-1">
         <VideoPlayerSegment
           setQuality={setQuality}
           contentId={content.id}
@@ -118,14 +118,14 @@ export const ContentRendererClient = ({
             setContentCompleted(true);
           }}
         />
-        <div className="flex justify-between mb-2">
+        <div className="mb-2 flex justify-between">
           <div>
-            <div className="text-gray-900 dark:text-white font-bold text-2xl">
+            <div className="text-2xl font-bold text-gray-900 dark:text-white">
               {content.title}
             </div>
 
             <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold rounded p-2 my-4"
+              className="my-4 rounded bg-blue-500 p-2 font-bold text-white hover:bg-blue-700"
               disabled={loadingMarkAs}
               onClick={handleMarkCompleted}
             >
@@ -144,7 +144,7 @@ export const ContentRendererClient = ({
                 }}
               >
                 <a href={metadata.slides} target="_blank">
-                  <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold rounded p-2">
+                  <button className="rounded bg-blue-500 p-2 font-bold text-white hover:bg-blue-700">
                     Slides
                   </button>
                 </a>
@@ -152,7 +152,7 @@ export const ContentRendererClient = ({
             ) : null}
             {!showChapters && metadata.segments?.length > 0 && (
               <button
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold rounded my-4 p-2"
+                className="my-4 rounded bg-blue-500 p-2 font-bold text-white hover:bg-blue-700"
                 onClick={() => {
                   scrollTo({ top: 0, behavior: 'smooth' });
                   toggleShowChapters();
@@ -166,7 +166,7 @@ export const ContentRendererClient = ({
         {nextContent ? (
           <div className="flex flex-row-reverse">
             <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-4"
+              className="ml-4 rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
               onClick={() => {
                 const originalPath = window.location.pathname;
                 const parts = originalPath.split('/');

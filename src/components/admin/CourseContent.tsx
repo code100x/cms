@@ -18,7 +18,7 @@ export const AdminCourseContent = ({
   return (
     <div>
       Course content
-      <div className="max-w-screen-xl justify-between mx-auto p-4 cursor-pointer grid grid-cols-1 gap-5 md:grid-cols-3">
+      <div className="mx-auto grid max-w-screen-xl cursor-pointer grid-cols-1 justify-between gap-5 p-4 md:grid-cols-3">
         {courseContent.map(
           (content: { image: string; id: number; title: string }) => (
             <ContentCard

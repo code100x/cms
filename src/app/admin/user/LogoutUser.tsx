@@ -20,15 +20,15 @@ const LogoutUserComp = () => {
   };
   return (
     <form onSubmit={handlLogout} ref={formRef}>
-      <div className="w-full max-w-sm rounded-lg border border-gray-200 grid grid-rows-5 shadow-sm dark:border-gray-800">
-        <div className="p-6 grid gap-2 items-center row-span-3">
+      <div className="grid w-full max-w-sm grid-rows-5 rounded-lg border border-gray-200 shadow-sm dark:border-gray-800">
+        <div className="row-span-3 grid items-center gap-2 p-6">
           <div className="text-3xl font-bold">Logout the user</div>
           <div className="text-sm font-medium leading-none text-gray-500 dark:text-gray-400">
             Enter the information below to logout the user
           </div>
         </div>
 
-        <div className="p-6 flex items-center row-span-2">
+        <div className="row-span-2 flex items-center p-6">
           <Label className="sr-only">EMAIL</Label>
           <Input
             className="w-full"
@@ -40,7 +40,7 @@ const LogoutUserComp = () => {
             }}
           />
         </div>
-        <div className="p-6 flex items-center row-span-2">
+        <div className="row-span-2 flex items-center p-6">
           <Label className="sr-only">Admin password</Label>
           <Input
             className="w-full"
@@ -52,7 +52,7 @@ const LogoutUserComp = () => {
             }}
           />
         </div>
-        <div className="p-6 flex items-center justify-center row-span-2">
+        <div className="row-span-2 flex items-center justify-center p-6">
           <Button className="w-full">Logout</Button>
         </div>
       </div>
