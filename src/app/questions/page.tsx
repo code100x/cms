@@ -104,19 +104,19 @@ const fetchQuestionsByTabType = async (
   sessionId: string,
 ) => {
   const orderByDefaults = {
-    mu: { upvotes: 'desc' },
-    mr: { createdAt: 'desc' },
-    md: { downvotes: 'asc' },
+    'Most upvotes': { upvotes: 'desc' },
+    'Most Recent': { createdAt: 'desc' },
+    'Most downvotes': { downvotes: 'desc' },
   };
 
   const queryModifiers: any = {
-    default: { orderBy: orderByDefaults.mu },
-    mr: { orderBy: orderByDefaults.mr },
-    md: { orderBy: orderByDefaults.md },
-    mq: { where: { authorId: sessionId } },
+    default: { orderBy: orderByDefaults['Most upvotes'] },
+    'Most Recent': { orderBy: orderByDefaults['Most Recent'] },
+    'Most downvotes': { orderBy: orderByDefaults['Most downvotes'] },
+    'My question': { where: { authorId: sessionId } },
   };
 
-  const tabType = searchParams.tabtype || 'mu';
+  const tabType = searchParams.tabtype || 'Most upvotes';
   const additionalQuery = queryModifiers[tabType] || queryModifiers.default;
 
   return getQuestionsWithQuery(additionalQuery, searchParams, sessionId);
