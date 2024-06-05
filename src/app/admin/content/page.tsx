@@ -10,7 +10,7 @@ async function getCourses() {
 export default async function CourseContent() {
   const courses = await getCourses();
   return (
-    <div className="max-w-screen-xl justify-between mx-auto p-4 cursor-pointer">
+    <div className="mx-auto max-w-screen-xl cursor-pointer justify-between p-4">
       <SelectCourse courses={courses} />
     </div>
   );

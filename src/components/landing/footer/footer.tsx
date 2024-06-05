@@ -6,29 +6,29 @@ import Logo from '../logo/logo';
 
 const Footer = () => {
   return (
-    <div className="bottom-0 w-full p-4 bg-neutral-900 dark:bg-slate-900 px-6 lg:px-36 print:hidden">
-      <div className="md:max-w-screen-2xl mt-4 mx-auto flex flex-row items-start justify-between w-full">
-        <div className="flex flex-col md:flex-row w-3/5 md:justify-between">
+    <div className="bottom-0 w-full bg-neutral-900 p-4 px-6 dark:bg-slate-900 lg:px-36 print:hidden">
+      <div className="mx-auto mt-4 flex w-full flex-row items-start justify-between md:max-w-screen-2xl">
+        <div className="flex w-3/5 flex-col md:flex-row md:justify-between">
           <div className="flex">
             <Logo onFooter={true} />
           </div>
-          <div className="flex flex-col justify-center my-8 md:my-0">
-            <h3 className="font-semibold text-neutral-100 mb-4">Quick Links</h3>
+          <div className="my-8 flex flex-col justify-center md:my-0">
+            <h3 className="mb-4 font-semibold text-neutral-100">Quick Links</h3>
             <Link
               href={'/tnc'}
-              className="hover:text-blue-500 text-neutral-200"
+              className="text-neutral-200 hover:text-blue-500"
             >
               Terms & Conditions
             </Link>
             <Link
               href={'/privacy-policy'}
-              className="hover:text-blue-500 text-neutral-200"
+              className="text-neutral-200 hover:text-blue-500"
             >
               Privacy Policy
             </Link>
             <Link
               href={'/refund'}
-              className="hover:text-blue-500 text-neutral-200"
+              className="text-neutral-200 hover:text-blue-500"
             >
               Refund & Cancellation
             </Link>
@@ -41,11 +41,11 @@ const Footer = () => {
               'https://play.google.com/store/apps/details?id=com.hundredx.devs'
             }
             target="_blank"
-            className="hover:text-blue-500 font-semibold  text-neutral-200 mb-4"
+            className="mb-4 font-semibold text-neutral-200 hover:text-blue-500"
           >
             Download App
             <Image
-              className="shadow-md mt-2"
+              className="mt-2 shadow-md"
               src={playstore}
               alt={'playstore'}
               height={50}
@@ -53,7 +53,7 @@ const Footer = () => {
             />
           </Link>
           <div>
-            <h4 className="text-neutral-200 font-semibold mb-2">Follow us</h4>
+            <h4 className="mb-2 font-semibold text-neutral-200">Follow us</h4>
             <div className="flex gap-x-2">
               <Link target="_blank" href={'https://twitter.com/kirat_tw'}>
                 <SiX className="text-white hover:text-blue-500" />

@@ -18,7 +18,7 @@ export function SelectTheme() {
         <DropdownMenuSubTrigger>
           <MoonIcon className="mr-2 h-4 w-4" />
           <span>
-            Appearance: <span className="capitalize ml-1">{theme}</span>
+            Appearance: <span className="ml-1 capitalize">{theme}</span>
           </span>
         </DropdownMenuSubTrigger>
         <DropdownMenuPortal>

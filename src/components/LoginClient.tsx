@@ -5,7 +5,7 @@ export const LoginClient = () => {
   return (
     <Link href={'#trustedby'}>
       Login{' '}
-      <ChevronRight className="text-white h-4 w-4 ml-1 hover:translate-x-1 ease-in-out duration-200" />
+      <ChevronRight className="ml-1 h-4 w-4 text-white duration-200 ease-in-out hover:translate-x-1" />
     </Link>
   );
 };

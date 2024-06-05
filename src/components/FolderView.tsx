@@ -28,7 +28,7 @@ export const FolderView = ({
 
   if (!courseContent?.length) {
     return (
-      <div className="flex mt-64">
+      <div className="mt-64 flex">
         <div className="m-auto">No content here yet!</div>
       </div>
     );
@@ -84,19 +84,18 @@ export const FolderView = ({
     <div>
       <div></div>
 
-      <div className="w-full md:w-1/2 lg:w-1/3 xl:w-1/4 mx-auto">
+      <div className="mx-auto w-full md:w-1/2 lg:w-1/3 xl:w-1/4">
         <select
           value={sortby}
           onChange={handleChange}
-          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           <option value="reverse">Newest First</option>
           <option value="same">Oldest First</option>
           <option value="recent">Recently Watched</option>
         </select>
       </div>
-
-      <div className="max-w-screen-xl justify-between mx-auto p-4 cursor-pointer grid grid-cols-1 gap-5 md:grid-cols-3">
+      <div className="mx-auto grid max-w-screen-xl cursor-pointer grid-cols-1 justify-between gap-5 p-4 md:grid-cols-3">
         {sortedContent.map((content) => {
           const videoProgressPercent =
             content.type === 'video' &&
