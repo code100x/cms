@@ -95,7 +95,6 @@ export const FolderView = ({
           <option value="recent">Recently Watched</option>
         </select>
       </div>
-
       <div className="mx-auto grid max-w-screen-xl cursor-pointer grid-cols-1 justify-between gap-5 p-4 md:grid-cols-3">
         {sortedContent.map((content) => {
           const videoProgressPercent =
