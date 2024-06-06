@@ -19,36 +19,38 @@ export const getMetadata = async (contentId: number) => {
     return null;
   }
 
+  //@ts-ignore
   const userId: string = (1).toString();
   // const user = await db.user.findFirst({
   //   where: {
   //     id: session?.user?.id?.toString() || '-1',
   //   },
   // });
-  if (metadata.migration_status === 'MIGRATED') {
-    return {
-      //@ts-ignore
-      1080: metadata[`migrated_video_1080p_mp4_1`].replace(
-        '100x.b-cdn.net',
-        'cdn.100xdevs.com',
-      ),
-      //@ts-ignore
-      720: metadata[`migrated_video_720p_mp4_1`].replace(
-        '100x.b-cdn.net',
-        'cdn.100xdevs.com',
-      ),
-      //@ts-ignore
-      360: metadata[`migrated_video_360p_mp4_1`].replace(
-        '100x.b-cdn.net',
-        'cdn.100xdevs.com',
-      ),
-      subtitles: metadata['subtitles'],
-      //@ts-ignore
-      slides: metadata['slides'],
-      //@ts-ignore
-      segments: metadata['segments'],
-    };
-  }
+  //@ts-ignore
+  // if (metadata.migration_status === 'MIGRATED') {
+  //   return {
+  //     //@ts-ignore
+  //     1080: metadata[`migrated_video_1080p_mp4_1`].replace(
+  //       '100x.b-cdn.net',
+  //       'cdn.100xdevs.com',
+  //     ),
+  //     //@ts-ignore
+  //     720: metadata[`migrated_video_720p_mp4_1`].replace(
+  //       '100x.b-cdn.net',
+  //       'cdn.100xdevs.com',
+  //     ),
+  //     //@ts-ignore
+  //     360: metadata[`migrated_video_360p_mp4_1`].replace(
+  //       '100x.b-cdn.net',
+  //       'cdn.100xdevs.com',
+  //     ),
+  //     subtitles: metadata['subtitles'],
+  //     //@ts-ignore
+  //     slides: metadata['slides'],
+  //     //@ts-ignore
+  //     segments: metadata['segments'],
+  //   };
+  // }
   return {
     //@ts-ignore
     1080: metadata[`video_1080p_mp4_${userId}`],
