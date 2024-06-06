@@ -1,7 +1,7 @@
 import db from '@repo/db/client';
-import { TBookmarkWithContent } from '@/actions/bookmark/types';
+import { TBookmarkWithContent } from '@repo/common/types/bookmark';
 import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth';
+import { authOptions } from '@repo/common/lib/auth';
 
 export const getBookmarkDataWithContent = async (): Promise<
   TBookmarkWithContent[] | { error: string }

@@ -1,6 +1,6 @@
 import { Content, CourseContent, VideoProgress } from '@prisma/client';
 import BookmarkView from '@/components/bookmark/BookmarkView';
-import { getBookmarkDataWithContent } from '@repo/db/bookmark';
+import { getBookmarkDataWithContent } from '@/db/bookmark';
 
 export type TWatchHistory = VideoProgress & {
   content: Content & {

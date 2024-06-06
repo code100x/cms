@@ -3,7 +3,7 @@
 import { forwardRef } from 'react';
 import { useFormStatus } from 'react-dom';
 
-import { cn } from '@/lib/utils';
+import { cn } from '@repo/common/lib/utils';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { FormPostErrors } from './form-errors';

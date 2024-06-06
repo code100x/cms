@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import db from '@repo/db/client';
 import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth';
+import { authOptions } from '@repo/common/lib/auth';
 import { revalidatePath } from 'next/cache';
-import { z } from 'zod';
+import { videoProRequestBodySchema } from '@repo/common/schema/course';
 
 export async function GET(req: NextRequest) {
   const url = new URL(req.url);
@@ -27,13 +27,8 @@ export async function GET(req: NextRequest) {
   });
 }
 
-const requestBodySchema = z.object({
-  contentId: z.number(),
-  currentTimestamp: z.number(),
-});
-
 export async function POST(req: NextRequest) {
-  const parseResult = requestBodySchema.safeParse(await req.json());
+  const parseResult = videoProRequestBodySchema.safeParse(await req.json());
   if (!parseResult.success) {
     return NextResponse.json(
       { error: parseResult.error.message },

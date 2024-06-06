@@ -2,7 +2,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import VideoPlayerControls from './videoControls';
 import videojs from 'video.js';
-import { Segment, handleMarkAsCompleted } from '@/lib/utils';
+import { Segment, handleMarkAsCompleted } from '@repo/common/lib/utils';
 import Player from 'video.js/dist/types/player';
 import 'video.js/dist/video-js.css';
 import { useSearchParams } from 'next/navigation';

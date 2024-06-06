@@ -1,8 +1,8 @@
-import db from '@repo/db/client';
+import db from '../../../database/src/index';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { JWTPayload, SignJWT, importJWK } from 'jose';
 import bcrypt from 'bcrypt';
-import prisma from '@repo/db/client';
+import prisma from '../../../database/src/index';
 import { NextAuthOptions } from 'next-auth';
 import { Session } from 'next-auth';
 import { JWT } from 'next-auth/jwt';

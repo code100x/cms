@@ -1,5 +1,5 @@
 'use client';
-import { Segment, formatTime } from '@/lib/utils';
+import { Segment, formatTime } from '@repo/common/lib/utils';
 import { X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 

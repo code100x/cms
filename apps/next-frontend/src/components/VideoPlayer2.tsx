@@ -9,7 +9,7 @@ import 'videojs-seek-buttons/dist/videojs-seek-buttons.css';
 import 'videojs-mobile-ui';
 import 'videojs-sprite-thumbnails';
 import 'videojs-seek-buttons';
-import { handleMarkAsCompleted } from '@/lib/utils';
+import { handleMarkAsCompleted } from '@repo/common/lib/utils';
 import { useSearchParams } from 'next/navigation';
 import './QualitySelectorControllBar';
 import { YoutubeRenderer } from './YoutubeRenderer';

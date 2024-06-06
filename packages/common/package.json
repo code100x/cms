@@ -11,10 +11,27 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@repo/db": "*",
     "zod": "^3.23.8"
   },
   "exports": {
-    "./zodSchema": "./src/zodSchema/index.ts",
-    "./zodTypes": "./src/zodTypes/index.ts"
+    "./schema/answer": "./src/zodSchema/answer.ts",
+    "./schema/bookmark": "./src/zodSchema/bookmark.ts",
+    "./schema/comment": "./src/zodSchema/comment.ts",
+    "./schema/commentVote": "./src/zodSchema/commentVote.ts",
+    "./schema/question": "./src/zodSchema/question.ts",
+    "./schema/admin": "./src/zodSchema/admin.ts",
+    "./schema/course": "./src/zodSchema/course.ts",
+    "./types/answer": "./src/zodTypes/answer.ts",
+    "./types/bookmark": "./src/zodTypes/bookmark.ts",
+    "./types/comment": "./src/zodTypes/comment.ts",
+    "./types/commentVote": "./src/zodTypes/commentVote.ts",
+    "./types/question": "./src/zodTypes/question.ts",
+    "./lib/auth": "./src/lib/auth.ts",
+    "./lib/create-safe-action": "./src/lib/create-safe-action.ts",
+    "./lib/createAndHandleSegments": "./src/lib/createAndHandleSegments.ts",
+    "./lib/find-content-by-id": "./src/lib/find-content-by-id.ts",
+    "./lib/utils": "./src/lib/utils.ts",
+    "./types": "./src/types/index.ts"
   }
 }

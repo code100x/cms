@@ -4,7 +4,7 @@ import {
   getUpdatedUrl,
   paginationData,
   searchParamsToObject,
-} from '@/lib/utils';
+} from '@repo/common/lib/utils';
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
 import React from 'react';

@@ -2,11 +2,11 @@ import {
   getAllCoursesAndContentHierarchy,
   getAllVideos,
   getVideoProgressForUser,
-} from '@repo/db/course';
-import { authOptions } from '@/lib/auth';
+} from '@/db/course';
+import { authOptions } from '@repo/common/lib/auth';
 import { Course } from '@/store/atoms';
 import { getServerSession } from 'next-auth';
-import { Cache } from '@repo/db/cache';
+import { Cache } from '@/db/Cache';
 import prisma from '@repo/db/client';
 import { checkUserEmailForPurchase } from './appx-check-mail';
 

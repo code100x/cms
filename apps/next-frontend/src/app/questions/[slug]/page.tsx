@@ -1,4 +1,4 @@
-import { getDisabledFeature } from '@/lib/utils';
+import { getDisabledFeature } from '@repo/common/lib/utils';
 import { redirect } from 'next/navigation';
 
 const page = () => {

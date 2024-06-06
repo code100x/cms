@@ -1,6 +1,6 @@
 'use client';
 import useColorGenerator from '@/hooks/useColorGenerator';
-import { cn } from '@/lib/utils';
+import { cn } from '@repo/common/lib/utils';
 import React, { forwardRef, Ref } from 'react';
 
 interface TagProps extends React.HTMLAttributes<HTMLSpanElement> {

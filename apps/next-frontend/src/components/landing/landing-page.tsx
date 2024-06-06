@@ -1,4 +1,4 @@
-import { cn } from '@/lib/utils';
+import { cn } from '@repo/common/lib/utils';
 import { ChevronRight, Medal } from 'lucide-react';
 import { Poppins } from 'next/font/google';
 import localFont from 'next/font/local';

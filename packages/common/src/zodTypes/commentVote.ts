@@ -1,7 +1,7 @@
 import { Answer, Comment, Question } from '@prisma/client';
-import { ActionState } from '@/lib/create-safe-action';
+import { ActionState } from '@repo/common/src/lib/create-safe-action';
 import { z } from 'zod';
-import { VoteHandleSchema } from './schema';
+import { VoteHandleSchema } from '../zodSchema/commentVote';
 
 export type InputTypeHandleVote = z.infer<typeof VoteHandleSchema>;
 export type ReturnTypeHandleVote = ActionState<

@@ -1,8 +1,8 @@
 'use server';
 import db from '@repo/db/client';
-import { Cache } from '@repo/db/cache';
-import { getAllCourses } from '@repo/db/course';
-import { authOptions } from '@/lib/auth';
+import { Cache } from '@/db/Cache';
+import { getAllCourses } from '@/db/course';
+import { authOptions } from '@repo/common/lib/auth';
 import { checkUserEmailForPurchase } from '@/utiles/appx-check-mail';
 import { Course } from '@prisma/client';
 import { getServerSession } from 'next-auth';

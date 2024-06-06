@@ -22,11 +22,6 @@
     "prisma": "^5.12.0"
   },
   "exports": {
-    "./client": "./db/index.ts",
-    "./course": "./db/course.ts",
-    "./cert": "./db/cert.ts",
-    "./cache": "./db/Cache.ts",
-    "./bookmark": "./db/bookmark.ts",
-    "./mocks": "./db/__mocks__/index.ts"
+    "./client": "./src/index.ts"
   }
 }

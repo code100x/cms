@@ -1,4 +1,4 @@
-import { Cache } from '@repo/db/cache';
+import { Cache } from '@/db/Cache';
 import db from '@repo/db/client';
 import { CourseContent } from '@prisma/client';
 import Fuse from 'fuse.js';

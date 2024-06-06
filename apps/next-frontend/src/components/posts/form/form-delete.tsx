@@ -5,10 +5,10 @@ import { toast } from 'sonner';
 
 import { deleteQuestion } from '@/actions/question';
 import { deleteAnswer } from '@/actions/answer';
-import { ActionState } from '@/lib/create-safe-action';
+import { ActionState } from '@repo/common/lib/create-safe-action';
 
 import { useRouter } from 'next/navigation';
-import { Delete } from '@/lib/utils';
+import { Delete } from '@repo/common/lib/utils';
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
 interface IVoteFormProps {
   questionId: number | undefined;

@@ -14,7 +14,7 @@ import { createQuestion } from '@/actions/question';
 import { toast } from 'sonner';
 
 import { useTheme } from 'next-themes';
-import { getUpdatedUrl, searchParamsToObject } from '@/lib/utils';
+import { getUpdatedUrl, searchParamsToObject } from '@repo/common/lib/utils';
 import { FormPostInput } from './posts/form/form-input';
 import { FormPostErrors } from './posts/form/form-errors';
 

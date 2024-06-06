@@ -18,7 +18,7 @@ import {
   Author,
   ExtendedAnswer,
   ExtendedQuestion,
-} from '@/actions/question/types';
+} from '@repo/common/types/question';
 import { useAction } from '@/hooks/useAction';
 import { createAnswer } from '@/actions/answer';
 import { toast } from 'sonner';
@@ -32,7 +32,7 @@ import {
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu';
 import { MessageSquareReply, MoreHorizontal } from 'lucide-react';
-import { ROLES } from '@/actions/types';
+import { ROLES } from '@repo/common/types';
 import { FormPostErrors } from './form/form-errors';
 import { Button } from '../ui/button';
 import { Card, CardFooter } from '../ui/card';

@@ -4,7 +4,7 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import { VideoPlayerSegment } from '@/components/VideoPlayerSegment';
 import VideoContentChapters from '../VideoContentChapters';
 import { useMemo, useState } from 'react';
-import { handleMarkAsCompleted } from '@/lib/utils';
+import { handleMarkAsCompleted } from '@repo/common/lib/utils';
 
 export const ContentRendererClient = ({
   metadata,

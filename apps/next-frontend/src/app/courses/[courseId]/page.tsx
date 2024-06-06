@@ -1,7 +1,7 @@
-import { QueryParams } from '@/actions/types';
+import { QueryParams } from '@repo/common/types';
 import { CourseView } from '@/components/CourseView';
-import { getCourse, getFullCourseContent } from '@repo/db/course';
-import findContentById from '@/lib/find-content-by-id';
+import { getCourse, getFullCourseContent } from '@/db/course';
+import findContentById from '@repo/common/lib/find-content-by-id';
 
 export default async function Course({
   params,

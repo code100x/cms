@@ -1,6 +1,6 @@
 import db from '@repo/db/client';
-import { Cache } from '@repo/db/cache';
-import { authOptions } from '@/lib/auth';
+import { Cache } from './Cache';
+import { authOptions } from '@repo/common/lib/auth';
 import { getServerSession } from 'next-auth';
 import { Bookmark } from '@prisma/client';
 import { getBookmarkData } from './bookmark';

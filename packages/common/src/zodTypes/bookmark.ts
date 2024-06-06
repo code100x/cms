@@ -1,6 +1,9 @@
 import { z } from 'zod';
-import { BookmarkCreateSchema, BookmarkDeleteSchema } from './schema';
-import { ActionState } from '@/lib/create-safe-action';
+import {
+  BookmarkCreateSchema,
+  BookmarkDeleteSchema,
+} from '../zodSchema/bookmark';
+import { ActionState } from '@repo/common/src/lib/create-safe-action';
 import { Bookmark, Content, CourseContent } from '@prisma/client';
 
 export type InputTypeCreateBookmark = z.infer<typeof BookmarkCreateSchema>;

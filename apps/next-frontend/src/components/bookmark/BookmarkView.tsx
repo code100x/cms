@@ -1,5 +1,5 @@
 import BookmarkList from './BookmarkList';
-import { TBookmarkWithContent } from '@/actions/bookmark/types';
+import { TBookmarkWithContent } from '@repo/common/types/bookmark';
 
 const BookmarkView = ({
   bookmarkData,

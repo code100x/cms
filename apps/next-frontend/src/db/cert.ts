@@ -1,4 +1,4 @@
-import { authOptions } from '@/lib/auth';
+import { authOptions } from '@repo/common/lib/auth';
 import { getPurchases } from '@/utiles/appx';
 import { getServerSession } from 'next-auth';
 import db from '@repo/db/client';

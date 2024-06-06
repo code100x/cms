@@ -1,14 +1,17 @@
 'use server';
-import { createSafeAction } from '@/lib/create-safe-action';
-import { BookmarkCreateSchema, BookmarkDeleteSchema } from './schema';
+import { createSafeAction } from '@repo/common/lib/create-safe-action';
+import {
+  BookmarkCreateSchema,
+  BookmarkDeleteSchema,
+} from '@repo/common/schema/bookmark';
 import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth';
+import { authOptions } from '@repo/common/lib/auth';
 import db from '@repo/db/client';
 import {
   InputTypeCreateBookmark,
   InputTypeDeleteBookmark,
   ReturnTypeCreateBookmark,
-} from './types';
+} from '@repo/common/types/bookmark';
 import { revalidatePath } from 'next/cache';
 
 const reloadBookmarkPage = () => {

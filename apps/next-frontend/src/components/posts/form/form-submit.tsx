@@ -2,7 +2,7 @@
 
 import { useFormStatus } from 'react-dom';
 
-import { cn } from '@/lib/utils';
+import { cn } from '@repo/common/lib/utils';
 import { Button } from '@/components/ui/button';
 import React from 'react';
 

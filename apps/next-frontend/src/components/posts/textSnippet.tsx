@@ -1,4 +1,4 @@
-import { cn } from '@/lib/utils';
+import { cn } from '@repo/common/lib/utils';
 import React, { forwardRef } from 'react';
 
 const TextSnippet = forwardRef<

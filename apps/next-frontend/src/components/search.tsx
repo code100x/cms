@@ -4,7 +4,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import { Input } from './ui/input';
 import { Button } from './ui/button';
-import { getUpdatedUrl, searchParamsToObject } from '@/lib/utils';
+import { getUpdatedUrl, searchParamsToObject } from '@repo/common/lib/utils';
 
 const Search = () => {
   const router = useRouter();

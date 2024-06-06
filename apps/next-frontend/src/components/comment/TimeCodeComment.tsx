@@ -1,5 +1,5 @@
-import { QueryParams } from '@/actions/types';
-import { getUpdatedUrl } from '@/lib/utils';
+import { QueryParams } from '@repo/common/types';
+import { getUpdatedUrl } from '@repo/common/lib/utils';
 import Link from 'next/link';
 import React from 'react';
 

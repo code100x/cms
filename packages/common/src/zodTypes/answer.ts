@@ -1,12 +1,12 @@
 import { z } from 'zod';
 import { Answer } from '@prisma/client';
-import { ActionState } from '@/lib/create-safe-action';
+import { ActionState } from '@repo/common/src/lib/create-safe-action';
 import {
   AnswerDeleteSchema,
   AnswerInsertSchema,
   AnswerUpdateSchema,
-} from './schema';
-import { Delete } from '@/lib/utils';
+} from '../zodSchema/answer';
+import { Delete } from '@repo/common/src/lib/utils';
 
 // Import or define your Answer Zod schemas here
 // For example:

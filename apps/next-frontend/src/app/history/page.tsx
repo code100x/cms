@@ -1,6 +1,6 @@
 import db from '@repo/db/client';
 import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth';
+import { authOptions } from '@repo/common/lib/auth';
 import { Content, CourseContent, VideoProgress } from '@prisma/client';
 import WatchHistoryClient from '@/components/WatchHistoryClient';
 import { Fragment } from 'react';

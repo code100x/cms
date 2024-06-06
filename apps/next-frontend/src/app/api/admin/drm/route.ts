@@ -1,15 +1,9 @@
 import db from '@repo/db/client';
 import { NextRequest, NextResponse } from 'next/server';
-import { z } from 'zod';
-
-const requestBodySchema = z.object({
-  adminSecret: z.string(),
-  email: z.string().email(),
-  disableDrm: z.boolean(),
-});
+import { drmRequestBodySchema } from '@repo/common/schema/admin';
 
 export async function POST(req: NextRequest) {
-  const parseResult = requestBodySchema.safeParse(await req.json());
+  const parseResult = drmRequestBodySchema.safeParse(await req.json());
 
   if (!parseResult.success) {
     return NextResponse.json(

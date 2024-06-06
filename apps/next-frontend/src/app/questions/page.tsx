@@ -3,7 +3,7 @@ import { NewPostDialog } from '@/components/NewPostDialog';
 import Link from 'next/link';
 import dayjs from 'dayjs';
 
-import { ExtendedQuestion, QuestionQuery } from '@/actions/question/types';
+import { ExtendedQuestion, QuestionQuery } from '@repo/common/types/question';
 import Search from '@/components/search';
 import { ArrowUpDownIcon } from 'lucide-react';
 
@@ -16,11 +16,15 @@ import {
 } from '@/components/ui/dropdown-menu';
 
 import { Button } from '@/components/ui/button';
-import { QueryParams, TabType } from '@/actions/types';
-import { getDisabledFeature, getUpdatedUrl, paginationData } from '@/lib/utils';
+import { QueryParams, TabType } from '@repo/common/types';
+import {
+  getDisabledFeature,
+  getUpdatedUrl,
+  paginationData,
+} from '@repo/common/lib/utils';
 import db from '@repo/db/client';
 import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth';
+import { authOptions } from '@repo/common/lib/auth';
 import PostCard from '@/components/posts/PostCard';
 import Pagination from '@/components/Pagination';
 import { redirect } from 'next/navigation';

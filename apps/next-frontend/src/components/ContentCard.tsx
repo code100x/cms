@@ -2,7 +2,7 @@ import { CheckCircle2 } from 'lucide-react';
 import PercentageComplete from './PercentageComplete';
 import { Bookmark } from '@prisma/client';
 import BookmarkButton from './bookmark/BookmarkButton';
-import { formatTime } from '@/lib/utils';
+import { formatTime } from '@repo/common/lib/utils';
 import VideoThumbnail from './videothumbnail';
 
 export const ContentCard = ({

@@ -8,7 +8,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
-import { FullCourseContent } from '@repo/db/course';
+import { FullCourseContent } from '@/db/course';
 import Link from 'next/link';
 import { useMemo } from 'react';
 

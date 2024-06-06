@@ -1,7 +1,7 @@
 import { MyCourses } from '@/components/MyCourses';
 import LandingPage from '@/components/landing/landing-page';
-import { authOptions } from '@/lib/auth';
-import { cn } from '@/lib/utils';
+import { authOptions } from '@repo/common/lib/auth';
+import { cn } from '@repo/common/lib/utils';
 import { getServerSession } from 'next-auth';
 import { Poppins } from 'next/font/google';
 

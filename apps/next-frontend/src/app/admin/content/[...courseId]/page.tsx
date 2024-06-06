@@ -2,7 +2,7 @@ import {
   getCourse,
   getCourseContent,
   getCurrentContentType,
-} from '@repo/db/course';
+} from '@/db/course';
 import { AddContent } from '@/components/admin/AddContent';
 import { AdminCourseContent } from '@/components/admin/CourseContent';
 

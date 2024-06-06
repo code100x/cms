@@ -1,7 +1,7 @@
-import { QueryParams } from '@/actions/types';
+import { QueryParams } from '@repo/common/types';
 import { Sidebar } from '@/components/Sidebar';
-import { getFullCourseContent } from '@repo/db/course';
-import { authOptions } from '@/lib/auth';
+import { getFullCourseContent } from '@/db/course';
+import { authOptions } from '@repo/common/lib/auth';
 import { getPurchases } from '@/utiles/appx';
 import { getServerSession } from 'next-auth';
 import { redirect } from 'next/navigation';

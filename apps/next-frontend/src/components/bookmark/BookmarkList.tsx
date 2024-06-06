@@ -1,6 +1,6 @@
 'use client';
 
-import { TBookmarkWithContent } from '@/actions/bookmark/types';
+import { TBookmarkWithContent } from '@repo/common/types/bookmark';
 import { useRouter } from 'next/navigation';
 import { ContentCard } from '../ContentCard';
 

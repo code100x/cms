@@ -1,15 +1,15 @@
 import React from 'react';
 import { Card, CardContent, CardFooter, CardHeader } from '../ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
-import { TabType, QueryParams, ROLES } from '@/actions/types';
+import { TabType, QueryParams, ROLES } from '@repo/common/types';
 import {
   constructCommentPrismaQuery,
   getUpdatedUrl,
   paginationData,
-} from '@/lib/utils';
+} from '@repo/common/lib/utils';
 import CommentInputForm from './CommentInputForm';
-import { getComments } from '../../actions/comment/index';
-import { ExtendedComment } from '@/actions/comment/types';
+import { getComments } from '@/actions/comment';
+import { ExtendedComment } from '@repo/common/types/comment';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import CommentVoteForm from './CommentVoteForm';
@@ -28,7 +28,7 @@ import {
 import { Button } from '../ui/button';
 import { CommentType } from '@prisma/client';
 import CommentDeleteForm from './CommentDeleteForm';
-import { authOptions } from '@/lib/auth';
+import { authOptions } from '@repo/common/lib/auth';
 import { getServerSession } from 'next-auth';
 import CommentPinForm from './CommentPinForm';
 import CommentApproveForm from './CommentApproveForm';

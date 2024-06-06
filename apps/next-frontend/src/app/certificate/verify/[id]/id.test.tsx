@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import VerifyPage from './page';
 import { describe, expect, it, vi } from 'vitest';
-import db from '@repo/db/mocks';
+import db from '@/db/__mocks__';
 
 vi.mock('@/db');
 

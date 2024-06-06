@@ -1,4 +1,4 @@
-import { TabType, QueryParams } from '@/actions/types';
+import { TabType, QueryParams } from '../types';
 import { CommentType, Prisma } from '@prisma/client';
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';

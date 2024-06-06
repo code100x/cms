@@ -7,19 +7,19 @@ import {
   ReturnTypeCreateAnswer,
   ReturnTypeDeleteAnswer,
   ReturnTypeUpdateAnswer,
-} from './types';
+} from '@repo/common/types/answer';
 
-import { createSafeAction } from '@/lib/create-safe-action';
+import { createSafeAction } from '@repo/common/lib/create-safe-action';
 import {
   AnswerDeleteSchema,
   AnswerInsertSchema,
   AnswerUpdateSchema,
-} from './schema';
+} from '@repo/common/schema/answer';
 import { revalidatePath } from 'next/cache';
-import { authOptions } from '@/lib/auth';
+import { authOptions } from '@repo/common/lib/auth';
 import { getServerSession } from 'next-auth';
 import db from '@repo/db/client';
-import { ROLES } from '../types';
+import { ROLES } from '@repo/common/types';
 
 const createAnswerHandler = async (
   data: InputTypeCreateAnswer,

@@ -1,13 +1,13 @@
 import { z } from 'zod';
 
-import { ActionState } from '@/lib/create-safe-action';
+import { ActionState } from '@repo/common/src/lib/create-safe-action';
 import {
   QuestionDeleteSchema,
   QuestionInsertSchema,
   QuestionUpdateSchema,
-} from './schema';
+} from '../zodSchema/question';
 import { Answer, Question } from '@prisma/client';
-import { Delete } from '@/lib/utils';
+import { Delete } from '@repo/common/src/lib/utils';
 
 export type InputTypeCreate = z.infer<typeof QuestionInsertSchema>;
 export type ReturnTypeCreate = ActionState<InputTypeCreate, Question>;

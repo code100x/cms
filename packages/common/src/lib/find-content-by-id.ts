@@ -1,9 +1,4 @@
-import { FullCourseContent } from '@repo/db/course';
-
-export default function findContentById(
-  contents: FullCourseContent[],
-  ids: number[],
-) {
+export default function findContentById(contents: any[], ids: number[]) {
   if (ids.length === 0) return contents;
 
   const currentId = ids[0];

@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import localFont from 'next/font/local';
-import { cn } from '@/lib/utils';
+import { cn } from '@repo/common/lib/utils';
 
 const headingFont = localFont({
   src: '../../../../public/fonts/font.woff2',

@@ -1,4 +1,4 @@
-import { Segment, formatTime } from '@/lib/utils';
+import { Segment, formatTime } from '@repo/common/lib/utils';
 import React, { useEffect, useRef, useState } from 'react';
 import {
   CaptionIcon,
@@ -19,7 +19,10 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from './../ui/dropdown-menu';
-import { segmentsHandler, updateTimeline } from '@/lib/createAndHandleSegments';
+import {
+  segmentsHandler,
+  updateTimeline,
+} from '@repo/common/lib/createAndHandleSegments';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 export default function VideoPlayerControls({

@@ -1,5 +1,5 @@
 import { CertificateComponent } from '@/components/Certificate';
-import { getCertificates } from '@repo/db/cert';
+import { getCertificates } from '@/db/cert';
 
 const CertificatePage = async () => {
   const certificates = await getCertificates();

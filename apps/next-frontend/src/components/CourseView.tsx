@@ -1,10 +1,10 @@
-import { FullCourseContent } from '@repo/db/course';
+import { FullCourseContent } from '@/db/course';
 import { ContentRenderer } from './admin/ContentRenderer';
 import { FolderView } from './FolderView';
 import { NotionRenderer } from './NotionRenderer';
-import { getFolderPercentCompleted } from '@/lib/utils';
+import { getFolderPercentCompleted } from '@repo/common/lib/utils';
 import Comments from './comment/Comments';
-import { QueryParams } from '@/actions/types';
+import { QueryParams } from '@repo/common/types';
 import BreadCrumbComponent from './BreadCrumbComponent';
 
 export const CourseView = ({

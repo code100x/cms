@@ -1,4 +1,4 @@
-import { ActionState } from '@/lib/create-safe-action';
+import { ActionState } from '@repo/common/src/lib/create-safe-action';
 import { z } from 'zod';
 import {
   CommentInsertSchema,
@@ -6,7 +6,7 @@ import {
   CommentDeleteSchema,
   CommentApproveIntroSchema,
   CommentPinSchema,
-} from './schema';
+} from '../zodSchema/comment';
 import { Delete } from '../types';
 import { User, Comment, Vote } from '@prisma/client';
 

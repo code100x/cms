@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import { Inter as FontSans } from 'next/font/google';
-import { cn } from '@/lib/utils';
+import { cn } from '@repo/common/lib/utils';
 import type { Metadata } from 'next';
 import './globals.css';
 import { Appbar } from '@/components/Appbar';

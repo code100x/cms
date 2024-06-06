@@ -10,11 +10,11 @@ import { Button } from '@/components/ui/button';
 
 import Link from 'next/link';
 import { Answer } from '@prisma/client';
-import { QueryParams, TabType } from '@/actions/types';
-import { getUpdatedUrl, paginationData } from '@/lib/utils';
+import { QueryParams, TabType } from '@repo/common/types';
+import { getUpdatedUrl, paginationData } from '@repo/common/lib/utils';
 import db from '@repo/db/client';
 import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth';
+import { authOptions } from '@repo/common/lib/auth';
 import PostCard from '@/components/posts/PostCard';
 import Pagination from '@/components/Pagination';
 

@@ -4,10 +4,10 @@ import { VideoPlayer } from '@/components/VideoPlayer2';
 import {
   createSegmentMarkersWithoutDuration,
   getCurrentSegmentName,
-} from '@/lib/utils';
+} from '@repo/common/lib/utils';
 import Player from 'video.js/dist/types/player';
 
-import { Segment } from '@/lib/utils';
+import { Segment } from '@repo/common/lib/utils';
 
 export interface Thumbnail {
   public_id: string;

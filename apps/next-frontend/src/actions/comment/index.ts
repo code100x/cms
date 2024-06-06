@@ -11,9 +11,9 @@ import {
   ReturnTypeDeleteComment,
   ReturnTypePinComment,
   ReturnTypeUpdateComment,
-} from './types';
-import { authOptions } from '@/lib/auth';
-import { rateLimit } from '@/lib/utils';
+} from '@repo/common/types/comment';
+import { authOptions } from '@repo/common/lib/auth';
+import { rateLimit } from '@repo/common/lib/utils';
 import prisma from '@repo/db/client';
 import {
   CommentApproveIntroSchema,
@@ -21,11 +21,11 @@ import {
   CommentInsertSchema,
   CommentPinSchema,
   CommentUpdateSchema,
-} from './schema';
-import { createSafeAction } from '@/lib/create-safe-action';
+} from '@repo/common/schema/comment';
+import { createSafeAction } from '@repo/common/lib/create-safe-action';
 import { CommentType, Prisma } from '@prisma/client';
 import { revalidatePath } from 'next/cache';
-import { ROLES } from '../types';
+import { ROLES } from '@repo/common/types';
 
 export const getComments = async (
   q: Prisma.CommentFindManyArgs,

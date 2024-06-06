@@ -7,20 +7,20 @@ import {
   ReturnTypeCreate,
   ReturnTypeDelete,
   ReturnTypeUpdate,
-} from './types';
+} from '@repo/common/types/question';
 import { revalidatePath } from 'next/cache';
 
 import {
   QuestionDeleteSchema,
   QuestionInsertSchema,
   QuestionUpdateSchema,
-} from './schema';
-import { createSafeAction } from '@/lib/create-safe-action';
+} from '@repo/common/schema/question';
+import { createSafeAction } from '@repo/common/lib/create-safe-action';
 import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth';
-import { generateHandle } from '@/lib/utils';
+import { authOptions } from '@repo/common/lib/auth';
+import { generateHandle } from '@repo/common/lib/utils';
 import db from '@repo/db/client';
-import { ROLES } from '../types';
+import { ROLES } from '@repo/common/types';
 
 const createQuestionHandler = async (
   data: InputTypeCreate,
