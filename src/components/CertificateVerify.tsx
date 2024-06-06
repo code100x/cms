@@ -1,12 +1,6 @@
 'use client';
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Certificate, Course, User } from '@prisma/client';
 import { useGenerateCertificate } from '@/hooks/useCertGen';
 
@@ -25,33 +19,34 @@ export const CertificateVerify = ({
   });
 
   return (
-    <div className="h-screen flex justify-center flex-col pb-20 mx-10">
-      <h1 className="text-4xl text-center pb-4">100x Devs Certificate</h1>
-      <Card className="w-500 my-4 flex">
-        <CardContent className="flex-none mr-4 w-1/2">
-          {certificateImageUrl ? (
-            <img
-              src={certificateImageUrl}
-              alt="Generated Certificate"
-              className="w-full h-auto"
-            />
-          ) : (
-            'Loading...'
-          )}
-        </CardContent>
+    <div>
+      <h1 className="text-4xl text-center py-4">100x Devs Certificate</h1>
+      <div className="flex justify-center pb-20 mx-10">
+        <Card className="my-4">
+          <CardContent className="flex-none w-[90vw] max-w-[800px]">
+            {certificateImageUrl ? (
+              <img
+                src={certificateImageUrl}
+                alt="Generated Certificate"
+                className="w-full h-auto"
+              />
+            ) : (
+              <div className="min-h-[500px] flex justify-center items-center">
+                Loading...
+              </div>
+            )}
+          </CardContent>
 
-        <div className="flex-grow">
-          <CardHeader>
-            <CardTitle>
-              This Certificate was issued to {certificate.user.name} for
-              completing {certificate.course.title}
-            </CardTitle>
-            <CardDescription>
-              Course Description: {certificate.course.description}
-            </CardDescription>
-          </CardHeader>
-        </div>
-      </Card>
+          <div className="flex justify-center">
+            <CardHeader>
+              <CardTitle>
+                This Certificate was issued to {certificate.user.name} for
+                completing {certificate.course.title}
+              </CardTitle>
+            </CardHeader>
+          </div>
+        </Card>
+      </div>
     </div>
   );
 };
