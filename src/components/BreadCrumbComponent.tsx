@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/breadcrumb';
 import { FullCourseContent } from '@/db/course';
 import Link from 'next/link';
-import { useMemo } from 'react';
+import { Fragment, useMemo } from 'react';
 
 export default function BreadCrumbComponent({
   rest,
@@ -89,7 +89,7 @@ export default function BreadCrumbComponent({
               finalRouteArray = [...rest];
             }
             return (
-              <>
+              <Fragment key={breadcrumb.id}>
                 {index !== array.length - 1 ? (
                   <>
                     <BreadcrumbItem>
@@ -111,7 +111,7 @@ export default function BreadCrumbComponent({
                     </BreadcrumbPage>
                   </BreadcrumbItem>
                 )}
-              </>
+              </Fragment>
             );
           })}
         </BreadcrumbList>
