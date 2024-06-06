@@ -32,7 +32,7 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
   subtitles,
   onVideoEnd,
 }) => {
-  const videoRef = useRef<HTMLDivElement>(null);
+  const videoContainerRef = useRef<HTMLDivElement>(null);
   const [player, setPlayer] = useState<any>(null);
   const searchParams = useSearchParams();
   const vidUrl: string = options.sources[0].src;
@@ -189,7 +189,7 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
       fetch(`/api/course/videoProgress?contentId=${contentId}`).then(
         async (res) => {
           const json = await res.json();
-          player.currentTime(json.progress || 0);
+          player?.currentTime(json.progress || 0);
         },
       );
     }
@@ -215,24 +215,22 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
         Math.ceil((100 * 1000) / player.playbackRate()),
       );
     };
-    const handleVideoEnded = (interval: number) => {
+    const handleVideoEnded = () => {
       handleMarkAsCompleted(true, contentId);
       window.clearInterval(interval);
       onVideoEnd();
     };
 
     player.on('play', handleVideoProgress);
-    player.on('ended', () => handleVideoEnded(interval));
+    player.on('ended', () => handleVideoEnded);
 
     return () => {
       window.clearInterval(interval);
-      player.dispose();
-      setPlayer(null);
     };
   }, [player]);
 
   useEffect(() => {
-    if (!videoRef.current) {
+    if (!videoContainerRef.current) {
       return;
     }
     const videoElement = document.createElement('video-js');
@@ -247,7 +245,7 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
 
       videoElement.append(subtitlesEl);
     }
-    videoRef.current.appendChild(videoElement);
+    videoContainerRef.current.appendChild(videoElement);
     const localPlayer: any = videojs(videoElement, { ...options }, () => {
       localPlayer.mobileUi();
       localPlayer.eme();
@@ -285,6 +283,8 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
 
     return () => {
       localPlayer.dispose();
+      player?.dispose();
+      setPlayer(null);
     };
   }, []);
 
@@ -301,7 +301,7 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
     <div
       data-vjs-player
       className="mx-auto md:max-w-[calc(100vw-3rem)] 2xl:max-w-[calc(100vw-17rem)]"
-      ref={videoRef}
+      ref={videoContainerRef}
     ></div>
   );
 };
