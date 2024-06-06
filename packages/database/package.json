@@ -1,0 +1,32 @@
+{
+  "name": "@repo/db",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
+  },
+  "scripts": {
+    "studio": "prisma studio",
+    "prisma:migrate": "prisma migrate deploy",
+    "db:seed": "prisma db seed",
+    "db:reset": "prisma migrate reset",
+    "lint:fix": "eslint --max-warnings 0 --config .eslintrc . --fix",
+    "format:fix": "prettier --write \"**/*.{ts,tsx,json}\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@prisma/client": "5.12.0",
+    "prisma": "^5.12.0"
+  },
+  "exports": {
+    "./client": "./db/index.ts",
+    "./course": "./db/course.ts",
+    "./cert": "./db/cert.ts",
+    "./cache": "./db/Cache.ts",
+    "./bookmark": "./db/bookmark.ts",
+    "./mocks": "./db/__mocks__/index.ts"
+  }
+}
