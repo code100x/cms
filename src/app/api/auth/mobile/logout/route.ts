@@ -17,11 +17,11 @@ export async function POST(request: NextRequest) {
         message: 'Logout successful',
         success: true,
       });
-    } 
-      return NextResponse.json(
-        { message: 'User Id not available' },
-        { status: 400 },
-      );
+    }
+    return NextResponse.json(
+      { message: 'User Id not available' },
+      { status: 400 },
+    );
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
