@@ -1,4 +1,4 @@
-import db from '../db';
+import db from './index';
 
 async function seedUsers() {
   try {

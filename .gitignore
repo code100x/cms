@@ -23,6 +23,7 @@ out
 .DS_Store
 *.pem
 .idea
+dist
 
 # debug
 npm-debug.log*

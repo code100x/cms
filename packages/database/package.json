@@ -4,11 +4,11 @@
   "description": "",
   "main": "index.js",
   "prisma": {
-    "seed": "ts-node prisma/seed.ts"
+    "seed": "ts-node src/seed.ts"
   },
   "scripts": {
     "studio": "prisma studio",
-    "prisma:migrate": "prisma migrate deploy",
+    "prisma:migrate": "prisma migrate dev",
     "db:seed": "prisma db seed",
     "db:reset": "prisma migrate reset",
     "lint:fix": "eslint --max-warnings 0 --config .eslintrc . --fix",

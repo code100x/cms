@@ -11,7 +11,7 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "prepare": "husky",
     "dev:docker": "npm run prisma:docker & yarn run dev",
-    "prisma:docker": "cd packages/db && npm run prisma:migrate && npm run db:seed && npm run studio"
+    "prisma:docker": "cd packages/database && npm run prisma:migrate && npm run db:seed && npm run studio"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.16",
