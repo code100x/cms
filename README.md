@@ -40,22 +40,28 @@
    ```
    DATABASE_URL=postgresql://myuser:mypassword@localhost:5432/mydatabase?schema=public
    ```
-4. Create a `.env` file based on the `.env.example` file and configure the `DATABASE_URL` with your postgreSQL connection string.
+4. Create a `.env` file based on the `.env.example` file and configure the `DATABASE_URL` with your postgreSQL connection string in the apps/next-frontend.
+
 5. Install dependencies:
    ```bash
-   npm install
+   yarn install
    ```
-6. Run database migrations:
+6. Navigate to database package.
    ```bash
-   npm run prisma:migrate
+   cd packages/database
    ```
-7. Seed the database:
+7. Run database migrations:
    ```bash
-   npm run db:seed
+   yarn run prisma:migrate
    ```
-8. Start the development server:
+8. Seed the database:
    ```bash
-   npm run dev
+   yarn run db:seed
+   ```
+9. Start the development server in the root folder:
+   ```bash
+   cd ../..
+   yarn run dev
    ```
 
 ## Usage
