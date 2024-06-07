@@ -124,7 +124,7 @@ export function useGenerateCertificate({
 
       const certificatDescription = 35;
       ctx.font = `${certificatDescription}px Helvetica`;
-      const certificatDescriptionText = `has successfully completed ${certificateDetails.course.title} Full Stack Web Development Course`;
+      const certificatDescriptionText = `for successfully completing the ${certificateDetails.course.title} Full Stack Web Development Course`;
 
       const descriptionWidth = ctx.measureText(certificatDescriptionText).width;
       const xDescription = (offscreenCanvas.width - descriptionWidth) / 2;
