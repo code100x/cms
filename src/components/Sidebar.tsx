@@ -91,7 +91,7 @@ export function Sidebar({
   };
 
   const renderContent = (contents: FullCourseContent[]) => {
-    return contents.map((content) => {
+    return contents.map((content, index) => {
       const isActiveContent = currentActiveContentIds?.some(
         (id) => content.id === id,
       );
@@ -103,7 +103,7 @@ export function Sidebar({
           <AccordionItem
             key={content.id}
             value={`item-${content.id}`}
-            className={` mx-2 drop-shadow-lg backdrop-blur-md  rounded-t-md
+            className={` ${index === 0 && 'rounded-t-md'}
              ${
                content.type === 'folder' && isActiveContent
                  ? 'dark:bg-gray-700 bg-gray-200 dark:text-white text-black'
@@ -126,7 +126,7 @@ export function Sidebar({
         <Link
           key={content.id}
           href={navigateToContent(content.id) || '#'}
-          className={`p-2 flex  hover:bg-gray-200 cursor-pointer border-t border-b-gray-700 ${
+          className={`p-2 flex  hover:bg-gray-200 cursor-pointer  border-b-gray-700 ${
             isActiveContent
               ? 'dark:bg-gray-700 bg-gray-300 dark:text-white text-black'
               : 'bg-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-white text-black'
@@ -162,7 +162,7 @@ export function Sidebar({
   }
 
   return (
-    <div className="custom-scrollbar overflow-y-auto h-sidebar w-[400px] min-w-[400px] bg-gray-50 dark:bg-background  sticky top-[64px] self-start w-84">
+    <div className="custom-scrollbar mx-2 px-2 overflow-y-auto overflow-x-hidden h-sidebar w-[400px] min-w-[400px] bg-gray-50 dark:bg-background  sticky top-[64px] self-start w-84">
       <div className="flex w-full justify-between items-center px-4">
         <GoBackButton />
         <div
@@ -173,7 +173,11 @@ export function Sidebar({
           <ToggleButton sidebarOpen={!sidebarOpen} />
         </div>
       </div>
-      <Accordion type="single" collapsible className="w-full z-50">
+      <Accordion
+        type="single"
+        collapsible
+        className="w-full drop-shadow-md rounded-t-md "
+      >
         {/* Render course content */}
         {renderContent(fullCourseContent)}
       </Accordion>
