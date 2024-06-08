@@ -226,13 +226,13 @@ function GoBackButton() {
   return (
     <div className="w-full  my-4  ">
       {/* Your component content */}
-      <p
+      <div
         onClick={goBack}
         className="group flex w-fit justify-center items-center cursor-pointer"
       >
         <BackArrow className="group-hover:-translate-x-1 w-5 h-5 rtl:rotate-180 transition-all duration-200 ease-in-out stroke-black dark:stroke-white" />
-        <div className="pl-3 ">Go Back</div>
-      </p>
+        <p className="pl-3 ">Go Back</p>
+      </div>
     </div>
   );
 }

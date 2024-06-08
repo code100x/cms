@@ -89,7 +89,7 @@ export default function BreadCrumbComponent({
               finalRouteArray = [...rest];
             }
             return (
-              <>
+              <div key={`${index}-${breadcrumb.title} `}>
                 {index !== array.length - 1 ? (
                   <>
                     <BreadcrumbItem>
@@ -111,7 +111,7 @@ export default function BreadCrumbComponent({
                     </BreadcrumbPage>
                   </BreadcrumbItem>
                 )}
-              </>
+              </div>
             );
           })}
         </BreadcrumbList>
