@@ -24,6 +24,7 @@
     --input: 214.3 31.8% 91.4%;
     --ring: 221.2 83.2% 53.3%;
     --radius: 0.5rem;
+    --scrollbar: 216, 12%, 84%;
   }
 
   .dark {
@@ -46,6 +47,7 @@
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
     --ring: 224.3 76.3% 48%;
+    --scrollbar: 217, 19%, 27%;
   }
 }
 
@@ -65,7 +67,6 @@
   left: 50%;
   transform: translateX(-50%);
 }
-
 
 /* Hide scrollbar for Chrome, Safari and Opera */
 .no-scrollbar::-webkit-scrollbar {
@@ -87,7 +88,7 @@
   display: block !important;
 }
 
-.video-js .vjs-current-time{
+.video-js .vjs-current-time {
   display: block !important;
 }
 
@@ -95,18 +96,18 @@
   display: block !important;
 }
 
-.vjs-tech:focus-visible{
+.vjs-tech:focus-visible {
   outline: none;
 }
 
-.timeline-segments  {
+.timeline-segments {
   position: relative;
   left: 0;
   height: 5px;
   background-color: #afa4a4;
   transition: height 150ms ease-in-out;
 }
-.timeline-segments-preview{
+.timeline-segments-preview {
   position: absolute;
   left: 0;
   background: #fff;
@@ -114,7 +115,6 @@
   bottom: 0;
   z-index: 1;
   pointer-events: none;
-
 }
 .timeline-segments-progress {
   position: absolute;
@@ -124,8 +124,49 @@
   bottom: 0;
   z-index: 2;
   pointer-events: none;
-
 }
-.timeline-segments:hover{
+.timeline-segments:hover {
   height: 10px;
+}
+body::-webkit-scrollbar,
+.custom-scrollbar::-webkit-scrollbar {
+  width: 10px;
+  height: 2px;
+}
+
+body::-webkit-scrollbar-thumb,
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background-color: hsl(var(--scrollbar));
+}
+
+body::-webkit-scrollbar-track,
+.custom-scrollbar::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+/* styles.css */
+.custom-checkbox {
+  appearance: none; /* Remove default checkbox styling */
+  width: 0.9rem;
+  height: 0.9rem;
+  background-color: transparent;
+  border: 2px solid hsl(217, 91%, 60%);
+  border-radius: 3px;
+  transition:
+    background-color 0.2s,
+    border-color 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.custom-checkbox:checked {
+  background-color: #2563eb;
+  border-color: #4a90e2;
+}
+
+.custom-checkbox:checked::after {
+  content: '✓';
+  color: white;
+  font-size: 0.85rem;
 }

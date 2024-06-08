@@ -7,8 +7,7 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import { FullCourseContent } from '@/db/course';
-import { Button } from './ui/button';
-import { BackArrow } from '@/icons/BackArrow';
+import BackArrow from '@/icons/BackArrow';
 import { useRecoilState } from 'recoil';
 import { sidebarOpen as sidebarOpenAtom } from '@/store/atoms/sidebar';
 import { useEffect, useState } from 'react';
@@ -98,18 +97,22 @@ export function Sidebar({
       );
       if (content.children && content.children.length > 0) {
         // This is a folder with children
+        const capitalizetitle =
+          content.title.charAt(0).toUpperCase() + content.title.slice(1);
         return (
           <AccordionItem
             key={content.id}
             value={`item-${content.id}`}
-            className={
-              content.type === 'folder' && isActiveContent
-                ? 'dark:bg-gray-600  bg-gray-200 dark:text-white text-black dark:hover:bg-gray-500 hover:bg-gray-100'
-                : ''
-            }
+            className={` mx-2 drop-shadow-lg backdrop-blur-md  rounded-t-md
+             ${
+               content.type === 'folder' && isActiveContent
+                 ? 'dark:bg-gray-700 bg-gray-200 dark:text-white text-black'
+                 : 'dark:bg-gray-800'
+             }
+            `}
           >
-            <AccordionTrigger className="px-2 text-left">
-              {content.title}
+            <AccordionTrigger className="pl-3 pr-2 text-left">
+              {capitalizetitle}
             </AccordionTrigger>
             <AccordionContent className="p-0 m-0">
               {/* Render the children of this folder */}
@@ -123,14 +126,14 @@ export function Sidebar({
         <Link
           key={content.id}
           href={navigateToContent(content.id) || '#'}
-          className={`p-2 flex border-b hover:bg-gray-200 cursor-pointer ${
+          className={`p-2 flex  hover:bg-gray-200 cursor-pointer border-t border-b-gray-700 ${
             isActiveContent
-              ? 'dark:bg-gray-700 bg-gray-300 dark:text-white text-black dark:hover:bg-gray-500'
+              ? 'dark:bg-gray-700 bg-gray-300 dark:text-white text-black'
               : 'bg-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-white text-black'
           }`}
         >
-          <div className="flex justify-between w-full">
-            <div className="flex">
+          <div className="flex pl-3 py-1 justify-between w-full">
+            <div className="flex items-center">
               <div className="pr-2">
                 {content.type === 'video' ? <VideoIcon /> : null}
                 {content.type === 'notion' ? <NotionIcon /> : null}
@@ -138,7 +141,7 @@ export function Sidebar({
               <div>{content.title}</div>
             </div>
             {content.type === 'video' ? (
-              <div className="flex items-center gap-1">
+              <div className="flex items-center gap-1 pr-1">
                 <BookmarkButton
                   bookmark={content.bookmark ?? null}
                   contentId={content.id}
@@ -159,16 +162,18 @@ export function Sidebar({
   }
 
   return (
-    <div className="overflow-y-scroll h-sidebar w-[300px] min-w-[300px] bg-gray-50 dark:bg-gray-800 cursor-pointer sticky top-[64px] self-start w-84">
-      <div className="flex">
-        {/* <ToggleButton
-            onClick={() => {
-              setSidebarOpen((s) => !s);
-            }}
-          /> */}
+    <div className="custom-scrollbar overflow-y-auto h-sidebar w-[400px] min-w-[400px] bg-gray-50 dark:bg-background  sticky top-[64px] self-start w-84">
+      <div className="flex w-full justify-between items-center px-4">
         <GoBackButton />
+        <div
+          onClick={() => {
+            setSidebarOpen((s) => !s);
+          }}
+        >
+          <ToggleButton sidebarOpen={!sidebarOpen} />
+        </div>
       </div>
-      <Accordion type="single" collapsible className="w-full">
+      <Accordion type="single" collapsible className="w-full z-50">
         {/* Render course content */}
         {renderContent(fullCourseContent)}
       </Accordion>
@@ -176,18 +181,9 @@ export function Sidebar({
   );
 }
 
-export function ToggleButton({
-  onClick,
-  sidebarOpen,
-}: {
-  onClick: () => void;
-  sidebarOpen: boolean;
-}) {
+export function ToggleButton({ sidebarOpen }: { sidebarOpen: boolean }) {
   return (
-    <button
-      onClick={onClick}
-      className="flex flex-col justify-center items-center"
-    >
+    <button className="flex flex-col justify-center items-center">
       <span
         className={`dark:bg-white bg-black block transition-all duration-300 ease-out  h-0.5 w-6 rounded-sm ${!sidebarOpen ? 'rotate-45 translate-y-1' : '-translate-y-0.5'}`}
       ></span>
@@ -228,12 +224,15 @@ function GoBackButton() {
   };
 
   return (
-    <div className="w-full p-2">
+    <div className="w-full  my-4  ">
       {/* Your component content */}
-      <Button size={'full'} onClick={goBack} className="group rounded-full">
-        <BackArrow className="group-hover:-translate-x-1 w-5 h-5 rtl:rotate-180 transition-all duration-200 ease-in-out" />{' '}
-        <div className="pl-4">Go Back</div>
-      </Button>
+      <p
+        onClick={goBack}
+        className="group flex w-fit justify-center items-center cursor-pointer"
+      >
+        <BackArrow className="group-hover:-translate-x-1 w-5 h-5 rtl:rotate-180 transition-all duration-200 ease-in-out stroke-black dark:stroke-white" />
+        <div className="pl-3 ">Go Back</div>
+      </p>
     </div>
   );
 }
@@ -246,7 +245,7 @@ function VideoIcon() {
       viewBox="0 0 24 24"
       stroke-width="1.5"
       stroke="currentColor"
-      className="w-6 h-6"
+      className="w-4 h-4"
     >
       <path
         stroke-linecap="round"
@@ -265,7 +264,7 @@ function NotionIcon() {
       viewBox="0 0 24 24"
       stroke-width="1.5"
       stroke="currentColor"
-      className="w-6 h-6"
+      className="w-4 h-4"
     >
       <path
         stroke-linecap="round"
@@ -291,7 +290,7 @@ function Check({ content }: { content: any }) {
           e.stopPropagation();
         }}
         type="checkbox"
-        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+        className="w-4 h-4 cursor-pointer custom-checkbox"
       />
     </>
   );

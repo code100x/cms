@@ -38,7 +38,6 @@ export const VideoPlayerSegment: FunctionComponent<VideoProps> = ({
   const playerRef = useRef<Player | null>(null);
 
   const thumbnailPreviewRef = useRef<HTMLDivElement>(null);
-
   const overrideUpdateTime = (player: Player) => {
     const seekBar = player
       .getChild('ControlBar')

@@ -1,13 +1,24 @@
-export const BackArrow = ({ ...props }) => {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
-      viewBox="0 0 24 24"
-      stroke="black"
-      {...props}
-    >
-      <path d="M6.75 15.75L3 12m0 0l3.75-3.75M3 12h18" />
-    </svg>
-  );
-};
+import React from 'react';
+
+interface BackArrowProps extends React.SVGProps<SVGSVGElement> {
+  className?: string;
+}
+
+const BackArrow: React.FC<BackArrowProps> = ({ className }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 24 24"
+    strokeWidth="1.5"
+    stroke="currentColor"
+    className={`${className} transition-all duration-200 ease-in-out`}
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M15.75 19.5L8.25 12l7.5-7.5"
+    />
+  </svg>
+);
+
+export default BackArrow;
