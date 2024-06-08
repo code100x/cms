@@ -47,7 +47,6 @@ const Layout = async ({
   }
 
   const fullCourseContent = await getFullCourseContent(parseInt(courseId, 10));
-  console.log(fullCourseContent, courseId);
   return (
     <div className="flex h-full">
       <div className="grow p-2 overflow-y-auto no-scrollbar">{children}</div>
