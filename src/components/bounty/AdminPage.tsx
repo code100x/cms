@@ -10,7 +10,7 @@ import {
   TableBody,
   TableCell,
 } from '../ui/table';
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import BountyInfo from './BountyInfo';
 import SidebarInfo from './SidebarInfo';
 import BountyTitle from './BountyTitle';
@@ -36,24 +36,30 @@ export default function AdminPage({ allInfo }: { allInfo: UserBountyType }) {
   if (!allInfo) {
     return;
   }
-  function getTotalAmount({
-    bountyInfo,
-  }: {
-    bountyInfo: BountyInfoType[] | null;
-  }) {
-    if (!bountyInfo) return;
-    return isUSD
-      ? formatUSD
-          .format(
-            bountyInfo.reduce((result, value) => result + value.USD_amount, 0),
-          )
-          .split('.')[0] || 0
-      : formatUSD
-          .format(
-            bountyInfo.reduce((result, value) => result + value.INR_amount, 0),
-          )
-          .split('.')[0] || 0;
-  }
+
+  const getTotalAmount = useCallback(
+    ({ bountyInfo }: { bountyInfo: BountyInfoType[] | null }) => {
+      if (!bountyInfo) return;
+      return isUSD
+        ? formatUSD
+            .format(
+              bountyInfo.reduce(
+                (result, value) => result + value.USD_amount,
+                0,
+              ),
+            )
+            .split('.')[0] || 0
+        : formatUSD
+            .format(
+              bountyInfo.reduce(
+                (result, value) => result + value.INR_amount,
+                0,
+              ),
+            )
+            .split('.')[0] || 0;
+    },
+    [allInfo],
+  );
 
   const totalBounty = useMemo(() => {
     let usdBounty = 0;
@@ -79,6 +85,17 @@ export default function AdminPage({ allInfo }: { allInfo: UserBountyType }) {
       0,
     );
     return { inrBounty, usdBounty };
+  }, [allInfo]);
+
+  const indexedBountyInfo = useMemo(() => {
+    let continuousIndex = 0;
+    return allInfo.allUserInfo.flatMap(
+      (userInfo) =>
+        userInfo.bountyInfo?.map((info) => ({
+          ...info,
+          index: continuousIndex++,
+        })) || [],
+    );
   }, [allInfo]);
 
   const totalPr = useMemo(() => {
@@ -118,6 +135,7 @@ export default function AdminPage({ allInfo }: { allInfo: UserBountyType }) {
         repoCounts[repoName] = 1;
       }
     });
+
     return repoCounts;
   }, [allInfo]);
 
@@ -147,16 +165,14 @@ export default function AdminPage({ allInfo }: { allInfo: UserBountyType }) {
               <Table>
                 <BountyTitle isUSD={isUSD} setIsUSD={setIsUSD} />
 
-                {allInfo.allUserInfo.map((userInfo) =>
-                  userInfo.bountyInfo?.map((info, index) => (
-                    <BountyInfo
-                      key={info.id}
-                      bountyInfo={info}
-                      index={index}
-                      isUSD={isUSD}
-                    />
-                  )),
-                )}
+                {indexedBountyInfo.map((info) => (
+                  <BountyInfo
+                    key={info.id}
+                    bountyInfo={info}
+                    index={info.index}
+                    isUSD={isUSD}
+                  />
+                ))}
               </Table>
               {allInfo.bountyInfo.length > 0 && (
                 <>
