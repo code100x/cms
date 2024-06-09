@@ -33,7 +33,16 @@ export default prisma;
 
 if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma;
 
+<<<<<<< HEAD
 export { CommentType, Prisma, VoteType, PrismaClient };
+=======
+export {
+  CommentType,
+  Prisma,
+  VoteType,
+  PrismaClient
+}
+>>>>>>> 1d267da (feat: apps/next-frontend packages/common packages/database packages/eslint packages/tsconfig packages/ui)
 
 export type {
   Answer,
@@ -46,5 +55,10 @@ export type {
   Question,
   Course,
   Certificate,
+<<<<<<< HEAD
   VideoProgress,
 };
+=======
+  VideoProgress
+}
+>>>>>>> 1d267da (feat: apps/next-frontend packages/common packages/database packages/eslint packages/tsconfig packages/ui)

@@ -11,14 +11,14 @@ interface FormSubmitProps {
   disabled?: boolean;
   className?: string;
   variant?:
-    | 'default'
-    | 'destructive'
-    | 'outline'
-    | 'secondary'
-    | 'ghost'
-    | 'link'
-    | null
-    | undefined;
+  | 'default'
+  | 'destructive'
+  | 'outline'
+  | 'secondary'
+  | 'ghost'
+  | 'link'
+  | null
+  | undefined;
 }
 
 export const FormSubmit = ({

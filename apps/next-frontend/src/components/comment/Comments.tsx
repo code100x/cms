@@ -257,10 +257,10 @@ const Comments = async ({
                         {(session.user.id.toString() ===
                           (c as ExtendedComment).userId.toString() ||
                           session.user.role === ROLES.ADMIN) && (
-                          <DropdownMenuItem>
-                            <CommentDeleteForm commentId={c.id} />
-                          </DropdownMenuItem>
-                        )}
+                            <DropdownMenuItem>
+                              <CommentDeleteForm commentId={c.id} />
+                            </DropdownMenuItem>
+                          )}
                         {session.user.role === ROLES.ADMIN && (
                           <DropdownMenuItem>
                             <CommentPinForm

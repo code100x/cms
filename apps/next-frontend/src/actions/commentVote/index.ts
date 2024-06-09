@@ -1,10 +1,14 @@
 'use server';
 
 import { getServerSession } from 'next-auth';
+<<<<<<< HEAD
 import {
   InputTypeHandleVote,
   ReturnTypeHandleVote,
 } from '@repo/common/zodTypes/commentVote';
+=======
+import { InputTypeHandleVote, ReturnTypeHandleVote } from '@repo/common/zodTypes/commentVote';
+>>>>>>> 1d267da (feat: apps/next-frontend packages/common packages/database packages/eslint packages/tsconfig packages/ui)
 import { authOptions } from '@repo/common/lib/auth';
 import prisma from '@repo/db';
 import { VoteType } from '@repo/db';
