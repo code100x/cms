@@ -1,0 +1,20 @@
+{
+  "name": "@repo/db",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@repo/typescript-config": "*",
+    "@repo/eslint-config": "*",
+    "@prisma/client": "^5.15.0",
+    "prisma": "^5.15.0"
+  },
+  "exports": {
+    ".": "./src/index.ts"
+  }
+}
