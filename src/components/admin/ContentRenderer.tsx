@@ -5,7 +5,16 @@ import { ContentRendererClient } from './ContentRendererClient';
 import { Bookmark } from '@prisma/client';
 
 function bunnyUrl(url: string) {
-  return url.replace("https://appxcontent.kaxa.in", "https://appxcontent.b-cdn.net").replace("https://appx-transcoded-videos.livelearn.in", "https://appx-transcoded-videos.b-cdn.net").replace("https://appx-recordings.livelearn.in", "https://appx-recordings.b-cdn.net");
+  return url
+    .replace('https://appxcontent.kaxa.in', 'https://appxcontent.b-cdn.net')
+    .replace(
+      'https://appx-transcoded-videos.livelearn.in',
+      'https://appx-transcoded-videos.b-cdn.net',
+    )
+    .replace(
+      'https://appx-recordings.livelearn.in',
+      'https://appx-recordings.b-cdn.net',
+    );
 }
 
 export const getMetadata = async (contentId: number) => {
