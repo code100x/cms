@@ -2,8 +2,19 @@
   "name": "@repo/db",
   "version": "1.0.0",
   "main": "index.js",
+  "prisma": {
+    "seed": "ts-node ./prisma/seed.ts"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "studio": "prisma studio &",
+    "prisma:migrate": "prisma migrate dev --skip-seed",
+    "db:seed": "prisma db seed",
+    "db:reset": "prisma migrate reset",
+    "lint": "eslint --max-warnings 0 --config .eslintrc .",
+    "lint:fix": "eslint --max-warnings 0 --config .eslintrc . --fix",
+    "format:fix": "prettier --write \"**/*.{ts,tsx,json}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,json}\""
   },
   "author": "",
   "license": "ISC",
