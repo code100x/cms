@@ -1,6 +1,9 @@
 'use server';
 import { createSafeAction } from '@repo/common/lib/create-safe-action';
-import { BookmarkCreateSchema, BookmarkDeleteSchema } from '@repo/common/zodSchema/bookmark';
+import {
+  BookmarkCreateSchema,
+  BookmarkDeleteSchema,
+} from '@repo/common/zodSchema/bookmark';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@repo/common/lib/auth';
 import db from '@repo/db';

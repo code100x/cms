@@ -13,7 +13,7 @@ import {
   Question,
   Course,
   Certificate,
-  VideoProgress
+  VideoProgress,
 } from '@prisma/client';
 
 const prismaClientSingleton = () => {
@@ -33,12 +33,7 @@ export default prisma;
 
 if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma;
 
-export {
-  CommentType,
-  Prisma,
-  VoteType,
-  PrismaClient
-}
+export { CommentType, Prisma, VoteType, PrismaClient };
 
 export type {
   Answer,
@@ -51,5 +46,5 @@ export type {
   Question,
   Course,
   Certificate,
-  VideoProgress
-}
+  VideoProgress,
+};

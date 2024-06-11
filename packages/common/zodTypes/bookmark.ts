@@ -1,5 +1,8 @@
 import { z } from 'zod';
-import { BookmarkCreateSchema, BookmarkDeleteSchema } from '@/zodSchema/bookmark';
+import {
+  BookmarkCreateSchema,
+  BookmarkDeleteSchema,
+} from '@/zodSchema/bookmark';
 import { ActionState } from '@/lib/create-safe-action';
 import { Bookmark, Content, CourseContent } from '@repo/db';
 
