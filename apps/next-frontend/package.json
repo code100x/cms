@@ -9,7 +9,7 @@
     "test": "vitest -c ./vitest.config.unit.ts",
     "test:integration": "./scripts/run-integration.sh",
     "coverage": "vitest run -c ./vitest.config.unit.ts --coverage",
-    "lint:check": "eslint --max-warnings 0 --config .eslintrc .",
+    "lint": "eslint --max-warnings 0 --config .eslintrc .",
     "lint:fix": "eslint --max-warnings 0 --config .eslintrc . --fix",
     "format:fix": "prettier --write \"**/*.{ts,tsx,json}\"",
     "format:check": "prettier --check \"**/*.{ts,tsx,json}\"",
