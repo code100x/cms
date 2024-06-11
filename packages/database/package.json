@@ -11,8 +11,8 @@
     "prisma:migrate": "prisma migrate dev --skip-seed",
     "db:seed": "prisma db seed",
     "db:reset": "prisma migrate reset",
-    "lint": "eslint --max-warnings 0 --config .eslintrc .",
-    "lint:fix": "eslint --max-warnings 0 --config .eslintrc . --fix",
+    "lint": "eslint --max-warnings 0 --config .eslintrc.js",
+    "lint:fix": "eslint --max-warnings 0 --config .eslintrc.js --fix",
     "format:fix": "prettier --write \"**/*.{ts,tsx,json}\"",
     "format:check": "prettier --check \"**/*.{ts,tsx,json}\""
   },

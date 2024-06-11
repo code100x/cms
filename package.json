@@ -5,7 +5,7 @@
     "build": "turbo build",
     "dev": "turbo dev",
     "lint": "turbo lint",
-    "lint:fix": "eslint --max-warnings 0 --config .eslintrc . --fix",
+    "lint:fix": "eslint --max-warnings 0 --config .eslintrc.js --fix",
     "format:check": "prettier --check \"**/*.{ts,tsx,json}\"",
     "format:fix": "pretter --write \"**/*.{ts,tsx,md}\"",
     "dev:docker": "yarn run prisma:docker && yarn run dev",

@@ -3,7 +3,10 @@ import { NewPostDialog } from '@/components/NewPostDialog';
 import Link from 'next/link';
 import dayjs from 'dayjs';
 
-import { ExtendedQuestion, QuestionQuery } from '@repo/common/zodTypes/question';
+import {
+  ExtendedQuestion,
+  QuestionQuery,
+} from '@repo/common/zodTypes/question';
 import Search from '@/components/search';
 import { ArrowUpDownIcon } from 'lucide-react';
 
@@ -17,7 +20,11 @@ import {
 
 import { Button } from '@repo/ui/shad/button';
 import { QueryParams, TabType } from '@repo/common/types';
-import { getDisabledFeature, getUpdatedUrl, paginationData } from '@repo/common/lib/utils';
+import {
+  getDisabledFeature,
+  getUpdatedUrl,
+  paginationData,
+} from '@repo/common/lib/utils';
 import db from '@repo/db';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@repo/common/lib/auth';
@@ -62,14 +69,14 @@ const getQuestionsWithQuery = async (
 
   const searchQuery = searchParams.search
     ? {
-      where: {
-        ...additionalQuery.where,
-        title: {
-          contains: searchParams.search,
-          mode: 'insensitive',
+        where: {
+          ...additionalQuery.where,
+          title: {
+            contains: searchParams.search,
+            mode: 'insensitive',
+          },
         },
-      },
-    }
+      }
     : {};
 
   const dateFilter = searchParams.date;

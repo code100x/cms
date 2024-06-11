@@ -3,12 +3,6 @@
   "compilerOptions": {
     "outDir": "dist"
   },
-  "include": [
-    "src"
-  ],
-  "exclude": [
-    "node_modules",
-    "dist",
-    ".eslintrc.js"
-  ]
+  "include": ["src"],
+  "exclude": ["node_modules", "dist", ".eslintrc.js"]
 }

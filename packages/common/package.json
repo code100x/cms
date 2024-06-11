@@ -4,8 +4,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "eslint --max-warnings 0 --config .eslintrc .",
-    "lint:fix": "eslint --max-warnings 0 --config .eslintrc . --fix",
+    "lint": "eslint --max-warnings 0 --config .eslintrc.js",
+    "lint:fix": "eslint --max-warnings 0 --config .eslintrc.js --fix --no-ignore",
     "format:fix": "prettier --write \"**/*.{ts,tsx,json}\"",
     "format:check": "prettier --check \"**/*.{ts,tsx,json}\""
   },

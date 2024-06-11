@@ -19,7 +19,10 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@reop/ui/shad/dropdown-menu';
-import { segmentsHandler, updateTimeline } from '@repo/common/lib/createAndHandleSegments';
+import {
+  segmentsHandler,
+  updateTimeline,
+} from '@repo/common/lib/createAndHandleSegments';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 export default function VideoPlayerControls({

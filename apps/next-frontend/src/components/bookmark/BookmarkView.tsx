@@ -10,8 +10,8 @@ const BookmarkView = ({
     <div className="flex h-full">
       <div className="no-scrollbar grow overflow-y-auto p-2">
         {bookmarkData === null ||
-          'error' in bookmarkData ||
-          !bookmarkData.length ? (
+        'error' in bookmarkData ||
+        !bookmarkData.length ? (
           <div className="flex mt-64">
             <div className="m-auto">No bookmark added yet!</div>
           </div>

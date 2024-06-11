@@ -27,7 +27,7 @@ const VoteForm: React.FC<IVoteFormProps> = ({
 }) => {
   const currentPath = usePathname();
   const { execute } = useAction(voteHandlerAction, {
-    onSuccess: () => { },
+    onSuccess: () => {},
     onError: (error) => {
       toast.error(error);
     },
@@ -37,15 +37,15 @@ const VoteForm: React.FC<IVoteFormProps> = ({
       execute({ voteType, questionId, answerId, currentPath }),
       voteType === VoteType.DOWNVOTE
         ? {
-          loading: 'Downvoting...',
-          success: 'Question has been downvoted.',
-          error: 'Error',
-        }
+            loading: 'Downvoting...',
+            success: 'Question has been downvoted.',
+            error: 'Error',
+          }
         : {
-          loading: 'Upvoting...',
-          success: 'Question has been upvoted.',
-          error: 'Error',
-        },
+            loading: 'Upvoting...',
+            success: 'Question has been upvoted.',
+            error: 'Error',
+          },
     );
   };
 
