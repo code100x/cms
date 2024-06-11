@@ -99,11 +99,11 @@ export const NewPostDialog = () => {
             className="relative z-10 bg-white dark:bg-gray-800 rounded-lg shadow-lg max-w-3xl md:max-w-4xl pt-8 p-2 space-y-4  w-full h-5/6 "
           >
             <button
-              type="button"
-              className="absolute top-2 right-2 bg-red-500 text-white w-6 h-6 rounded-full flex items-center justify-center"
+              className="absolute top-2 right-2 bg-red-500 w-10 h-8 hover:bg-red-600 rounded-full justify-center items-center"
               onClick={handleOnCloseClick}
+              type="button"
             >
-              x
+              X
             </button>
             <FormPostInput
               id="title"

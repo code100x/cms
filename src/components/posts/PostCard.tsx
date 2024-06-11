@@ -120,7 +120,7 @@ const PostCard: React.FC<IProps> = ({
                 className="active:outline-none hover:outline-none rounded-full border p-1.5 "
               />
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="rounded-xl backdrop-blur bg-gray-200/30  dark:bg-gray-700/30 px-2 cursor-pointer py-2">
+            <DropdownMenuContent className="rounded-xl flex items-center justify-center backdrop-blur bg-gray-200/30  dark:bg-gray-700/30 px-2 cursor-pointer py-2">
               {(sessionUser?.role === ROLES.ADMIN ||
                 post?.author?.id === sessionUser?.id) && (
                 <DeleteForm
@@ -201,7 +201,7 @@ const PostCard: React.FC<IProps> = ({
 
       <CardFooter className="flex items-center justify-between  border-gray-200 dark:border-gray-700 flex-col p-0 px-1 pb-2 md:px-5">
         <div className="flex justify-between w-full">
-          <div className="flex">
+          <div className="flex gap-2">
             <VoteForm
               upvotes={post.upvotes}
               downvotes={post.downvotes}

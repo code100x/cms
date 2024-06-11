@@ -215,19 +215,25 @@ export default async function Home({
                 </DropdownMenu>
               </div>
             </div>
-            <div className="w-full overflow-y-scroll h-[500px] m-auto">
+            <div className="w-full overflow-y-auto h-[500px] m-auto">
               <div className="space-y-4 w-full">
-                {response?.data?.map((post) => (
-                  <PostCard
-                    post={post}
-                    sessionUser={session?.user}
-                    key={post.id}
-                    isAnswer={false}
-                    questionId={post.id}
-                    enableLink={true}
-                    reply={false}
-                  />
-                ))}
+                {response?.data && response?.data.length > 0 ? (
+                  response?.data?.map((post) => (
+                    <PostCard
+                      post={post}
+                      sessionUser={session?.user}
+                      key={post.id}
+                      isAnswer={false}
+                      questionId={post.id}
+                      enableLink={true}
+                      reply={false}
+                    />
+                  ))
+                ) : (
+                  <div className="flex items-center justify-center pt-10">
+                    No Question to Display
+                  </div>
+                )}
               </div>
             </div>
           </div>
