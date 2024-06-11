@@ -1,13 +1,19 @@
 'use server';
 import { createSafeAction } from '@repo/common/lib/create-safe-action';
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> eabb399 (prettier and eslint fix, github templates)
 import {
   BookmarkCreateSchema,
   BookmarkDeleteSchema,
 } from '@repo/common/zodSchema/bookmark';
+<<<<<<< HEAD
 =======
 import { BookmarkCreateSchema, BookmarkDeleteSchema } from '@repo/common/zodSchema/bookmark';
 >>>>>>> 1d267da (feat: apps/next-frontend packages/common packages/database packages/eslint packages/tsconfig packages/ui)
+=======
+>>>>>>> eabb399 (prettier and eslint fix, github templates)
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@repo/common/lib/auth';
 import db from '@repo/db';

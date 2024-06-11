@@ -69,14 +69,14 @@ const getQuestionsWithQuery = async (
 
   const searchQuery = searchParams.search
     ? {
-      where: {
-        ...additionalQuery.where,
-        title: {
-          contains: searchParams.search,
-          mode: 'insensitive',
+        where: {
+          ...additionalQuery.where,
+          title: {
+            contains: searchParams.search,
+            mode: 'insensitive',
+          },
         },
-      },
-    }
+      }
     : {};
 
   const dateFilter = searchParams.date;

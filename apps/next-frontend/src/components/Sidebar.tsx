@@ -191,15 +191,11 @@ export function ToggleButton({
         className={`block h-0.5 w-6 rounded-sm bg-black transition-all duration-300 ease-out dark:bg-white ${!sidebarOpen ? 'translate-y-1 rotate-45' : '-translate-y-0.5'}`}
       ></span>
       <span
-        className={`dark:bg-white bg-black block transition-all duration-300 ease-out 
-                    h-0.5 w-6 rounded-sm my-0.5 ${!sidebarOpen ? 'opacity-0' : 'opacity-100'
+        className={`my-0.5 block h-0.5 w-6 rounded-sm bg-black transition-all duration-300 ease-out dark:bg-white ${!sidebarOpen ? 'opacity-0' : 'opacity-100'
           }`}
       ></span>
       <span
-        className={`dark:bg-white bg-black block transition-all duration-300 ease-out 
-                    h-0.5 w-6 rounded-sm ${!sidebarOpen
-            ? '-rotate-45 -translate-y-1'
-            : 'translate-y-0.5'
+        className={`block h-0.5 w-6 rounded-sm bg-black transition-all duration-300 ease-out dark:bg-white ${!sidebarOpen ? '-translate-y-1 -rotate-45' : 'translate-y-0.5'
           }`}
       ></span>
     </button>
