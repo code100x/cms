@@ -1,10 +1,11 @@
 'use client';
 import { useSearchParams, useRouter } from 'next/navigation';
-// import { QualitySelector } from '../QualitySelector';
 import { VideoPlayerSegment } from '@/components/VideoPlayerSegment';
 import VideoContentChapters from '../VideoContentChapters';
 import { useMemo, useState } from 'react';
 import { handleMarkAsCompleted } from '@/lib/utils';
+import { Button } from '../ui/button';
+import BookmarkButton from '../bookmark/BookmarkButton';
 
 export const ContentRendererClient = ({
   metadata,
@@ -37,7 +38,7 @@ export const ContentRendererClient = ({
 
   const router = useRouter();
 
-  //@ts-ignore
+  // @ts-ignore
   const [quality, setQuality] = useState<string>(
     searchParams.get('quality') ?? '1080',
   );
@@ -123,18 +124,20 @@ export const ContentRendererClient = ({
             <div className="text-gray-900 dark:text-white font-bold text-2xl">
               {content.title}
             </div>
-
-            <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold rounded p-2 my-4"
-              disabled={loadingMarkAs}
-              onClick={handleMarkCompleted}
-            >
-              {contentCompleted ? 'Mark as Incomplete' : 'Mark as completed'}
-            </button>
+            <div className="flex justify-center items-center space-x-2">
+              <Button disabled={loadingMarkAs} onClick={handleMarkCompleted}>
+                {contentCompleted ? 'Mark as Incomplete' : 'Mark as completed'}
+              </Button>
+              <div className="flex justify-center items-center">
+                <BookmarkButton
+                  bookmark={null}
+                  contentId={content.id}
+                  type="text"
+                />
+              </div>
+            </div>
           </div>
-
-          <div>
-            {/* <QualitySelector /> */}
+          <div className="flex justify-end items-end">
             {metadata.slides ? (
               <div
                 style={{
@@ -144,29 +147,25 @@ export const ContentRendererClient = ({
                 }}
               >
                 <a href={metadata.slides} target="_blank">
-                  <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold rounded p-2">
-                    Slides
-                  </button>
+                  <Button>Slides</Button>
                 </a>
               </div>
             ) : null}
             {!showChapters && metadata.segments?.length > 0 && (
-              <button
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold rounded my-4 p-2"
+              <Button
                 onClick={() => {
                   scrollTo({ top: 0, behavior: 'smooth' });
                   toggleShowChapters();
                 }}
               >
                 View All Chapters
-              </button>
+              </Button>
             )}
           </div>
         </div>
         {nextContent ? (
           <div className="flex flex-row-reverse">
-            <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-4"
+            <Button
               onClick={() => {
                 const originalPath = window.location.pathname;
                 const parts = originalPath.split('/');
@@ -177,7 +176,7 @@ export const ContentRendererClient = ({
               }}
             >
               {nextContent.title}
-            </button>{' '}
+            </Button>{' '}
           </div>
         ) : null}
       </div>

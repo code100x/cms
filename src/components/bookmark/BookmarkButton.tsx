@@ -10,6 +10,7 @@ import { Bookmark } from '@prisma/client';
 import { Button } from '../ui/button';
 type Side = 'top' | 'right' | 'bottom' | 'left';
 type Align = 'center' | 'start' | 'end';
+type BookmarkType = 'icon' | 'text';
 
 const BookmarkButton = ({
   bookmark,
@@ -17,12 +18,14 @@ const BookmarkButton = ({
   size = 20,
   side = 'top',
   align = 'center',
+  type = 'icon',
 }: {
   bookmark: Bookmark | null;
   contentId: number;
   size?: number;
   side?: Side;
   align?: Align;
+  type?: BookmarkType;
 }) => {
   const { isDisabled, addedBookmark, handleBookmark } = useBookmark(
     bookmark,
@@ -35,20 +38,26 @@ const BookmarkButton = ({
         <TooltipTrigger asChild>
           <Button
             disabled={isDisabled}
-            variant="ghost"
-            className="p-0 h-0 text-primary hover:text-primary"
+            variant={type === 'text' ? 'default' : 'ghost'}
+            className="text-primary hover:text-primary"
             onClick={handleBookmark}
           >
-            <BookmarkIcon
-              size={size}
-              {...(addedBookmark && { fill: '#2563EB' })}
-              className="drop-shadow-2xl"
-            />
+            {type === 'text' ? (
+              <>{addedBookmark ? 'Remove Bookmark' : 'Add Bookmark'}</>
+            ) : (
+              <BookmarkIcon
+                size={size}
+                {...(addedBookmark && { fill: '#2563EB' })}
+                className="drop-shadow-2xl"
+              />
+            )}
           </Button>
         </TooltipTrigger>
-        <TooltipContent sideOffset={16} side={side} align={align}>
-          <p>{addedBookmark ? 'Remove bookmark' : 'Bookmark this video'}</p>
-        </TooltipContent>
+        {type === 'text' ? null : (
+          <TooltipContent sideOffset={16} side={side} align={align}>
+            <p>{addedBookmark ? 'Remove bookmark' : 'Bookmark this video'}</p>
+          </TooltipContent>
+        )}
       </Tooltip>
     </TooltipProvider>
   );
