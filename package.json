@@ -9,7 +9,9 @@
     "format:check": "prettier --check \"**/*.{ts,tsx,json}\"",
     "format:fix": "pretter --write \"**/*.{ts,tsx,md}\"",
     "dev:docker": "yarn run prisma:docker && yarn run dev",
-    "prisma:docker": "cd ./packages/database/ && yarn run prisma:migrate && yarn run db:seed && yarn run studio"
+    "prisma:docker": "cd ./packages/database/ && yarn run prisma:migrate && yarn run db:seed && yarn run studio",
+    "env:local": "cd apps/next-frontend/ && cp .env.example .env && cd ../../packages/database && echo 'DATABASE_URL=postgresql://myuser:mypassword@localhost:5432/mydatabase?schema=public' > .env && cd ../../",
+    "env:docker": "cd apps/next-frontend/ && cp .env.example .env && cd ../../packages/database && echo 'DATABASE_URL=postgresql://myuser:mypassword@db:5432/mydatabase?schema=public' > .env && cd ../../"
   },
   "devDependencies": {
     "@repo/eslint-config": "*",

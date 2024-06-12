@@ -11,7 +11,13 @@
    ```bash
    cd cms
    ```
-3. Run the following command to start the application:
+
+3. Run the following command to configure environment variables.
+   ```bash
+   yarn run env:docker
+   ```
+
+4. Run the following command to start the application:
    ```bash
    docker-compose up
    ```
@@ -36,27 +42,19 @@
        -p 5432:5432 \
        postgres
    ```
-   based on this command the connection url will be
+4. (optional) Run the following command to configure environment variables if you started postgres locally otherwise put you database url.
+   ```bash
+   yarn run env:local
    ```
-   DATABASE_URL=postgresql://myuser:mypassword@localhost:5432/mydatabase?schema=public
-   ```
-4. Create a `.env` file based on the `.env.example` file and configure the `DATABASE_URL` with your postgreSQL connection string.
 5. Install dependencies:
    ```bash
-   npm install
+   yarn install
    ```
 6. Run database migrations:
-   ```bash
-   npm run prisma:migrate
+    ```bash
+   yarn run dev:docker
    ```
-7. Seed the database:
-   ```bash
-   npm run db:seed
-   ```
-8. Start the development server:
-   ```bash
-   npm run dev
-   ```
+
 
 ## Usage
 
