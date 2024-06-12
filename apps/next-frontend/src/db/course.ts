@@ -292,13 +292,13 @@ export const getFullCourseContent = async (
         videoProgress:
           content.type === 'video'
             ? {
-                duration: videoProgress.find((x) => x.contentId === content.id)
-                  ?.currentTimestamp,
-                markAsCompleted: videoProgress.find(
-                  (x) => x.contentId === content.id,
-                )?.markAsCompleted,
-                videoFullDuration: content.VideoMetadata?.duration,
-              }
+              duration: videoProgress.find((x) => x.contentId === content.id)
+                ?.currentTimestamp,
+              markAsCompleted: videoProgress.find(
+                (x) => x.contentId === content.id,
+              )?.markAsCompleted,
+              videoFullDuration: content.VideoMetadata?.duration,
+            }
             : null,
       },
     ]),
