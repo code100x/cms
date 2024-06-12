@@ -6,14 +6,14 @@ import {
 import { authOptions } from '@/lib/auth';
 import { Course } from '@/store/atoms';
 import { getServerSession } from 'next-auth';
-import { Cache } from '@/db/Cache';
+import { cache } from '@/db/Cache';
 import prisma from '@/db';
 import { checkUserEmailForPurchase } from './appx-check-mail';
 
 const LOCAL_CMS_PROVIDER = process.env.LOCAL_CMS_PROVIDER;
 
 export async function getPurchases(email: string): Promise<Course[]> {
-  const value = Cache.getInstance().get('courses', [email]);
+  const value = cache.get('courses', [email]);
   if (value) {
     return value;
   }
@@ -81,7 +81,7 @@ export async function getPurchases(email: string): Promise<Course[]> {
       ...coursesFromDb,
       ...courses.filter((x) => x.openToEveryone),
     ];
-    Cache.getInstance().set('courses', [email], allCourses, 60 * 60);
+    cache.set('courses', [email], allCourses, 60 * 60);
     return allCourses;
   }
 
@@ -107,6 +107,6 @@ export async function getPurchases(email: string): Promise<Course[]> {
     }
   }
 
-  Cache.getInstance().set('courses', [email], responses, 60 * 60 * 24);
+  cache.set('courses', [email], responses, 60 * 60 * 24);
   return responses;
 }
