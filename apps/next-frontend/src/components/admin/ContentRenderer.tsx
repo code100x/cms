@@ -47,7 +47,7 @@ export const getMetadata = async (contentId: number) => {
     },
   });
 
-  //@ts-ignore
+  // //@ts-ignore
   // if (metadata.migration_status === 'MIGRATED') {
   //   return {
   //     //@ts-ignore
@@ -86,41 +86,42 @@ export const getMetadata = async (contentId: number) => {
   }
 
   const mainUrls = {
-  1080: metadata[`video_1080p_mp4_${userId}`],
-  720: metadata[`video_720p_mp4_${userId}`],
-  360: metadata[`video_360p_mp4_${userId}`],
-  subtitles: metadata['subtitles'],
-  slides: metadata['slides'],
-  segments: metadata['segments'],
-  thumbnails: metadata['thumbnail_mosiac_url'],
-};
+    1080: metadata[`video_1080p_mp4_${userId}`],
+    720: metadata[`video_720p_mp4_${userId}`],
+    360: metadata[`video_360p_mp4_${userId}`],
+    subtitles: metadata['subtitles'],
+    slides: metadata['slides'],
+    segments: metadata['segments'],
+    thumbnails: metadata['thumbnail_mosiac_url'],
+  };
 
-const bunnyUrls = {
-  1080: bunnyUrl(metadata[`video_1080p_mp4_${userId}`]),
-  720: bunnyUrl(metadata[`video_720p_mp4_${userId}`]),
-  360: bunnyUrl(metadata[`video_360p_mp4_${userId}`]),
-  subtitles: metadata['subtitles'],
-  slides: metadata['slides'],
-  segments: metadata['segments'],
-  thumbnails: metadata['thumbnail_mosiac_url'],
-};
+  const bunnyUrls = {
+    1080: bunnyUrl(metadata[`video_1080p_mp4_${userId}`]),
+    720: bunnyUrl(metadata[`video_720p_mp4_${userId}`]),
+    360: bunnyUrl(metadata[`video_360p_mp4_${userId}`]),
+    subtitles: metadata['subtitles'],
+    slides: metadata['slides'],
+    segments: metadata['segments'],
+    thumbnails: metadata['thumbnail_mosiac_url'],
+  };
 
-const isHighestQualityUrlAccessible = await isUrlAccessible(mainUrls['1080']);
+  const isHighestQualityUrlAccessible = await isUrlAccessible(mainUrls['1080']);
 
-if (isHighestQualityUrlAccessible) {
-  return mainUrls;
-}
-
-const otherQualities = ['720', '360'];
-for (const quality of otherQualities) {
-  const urlKey = `${quality}`;
-  const isAccessible = await isUrlAccessible(mainUrls[urlKey]);
-  if (isAccessible) {
+  if (isHighestQualityUrlAccessible) {
     return mainUrls;
   }
-}
 
-return bunnyUrls;
+  const otherQualities = ['720', '360'];
+  for (const quality of otherQualities) {
+    const urlKey = `${quality}`;
+    const isAccessible = await isUrlAccessible(mainUrls[urlKey]);
+    if (isAccessible) {
+      return mainUrls;
+    }
+  }
+
+  return bunnyUrls;
+};
 
 export const ContentRenderer = async ({
   content,
