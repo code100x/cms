@@ -309,7 +309,7 @@ const Comments = async ({
                         scroll={false}
                         className="flex items-center gap-1 text-gray-500 dark:text-gray-400"
                       >
-                        <ReplyIcon className="w-4 h-4" />
+                        <ReplyIcon className="w-4 h-4 "  />
                         <span>{c.repliesCount}</span>
                         <span>Reply</span>
                       </Link>
@@ -379,10 +379,12 @@ function ReplyIcon(props: any) {
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
+      
     >
       <polyline points="9 17 4 12 9 7" />
       <path d="M20 18v-2a4 4 0 0 0-4-4H4" />
     </svg>
+    
   );
 }
 

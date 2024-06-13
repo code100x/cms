@@ -95,7 +95,7 @@ export const CertificateComponent = ({
         </Button>
         <div className="flex items-center justify-center">
           <Button
-            className="share-button flex items-center mr-2 bg-transparent"
+            className="share-button flex items-center mr-2 bg-blue-600/90"
             onClick={handleShareLinkedIn}
           >
             <FaLinkedin className="mr-1" /> Share on LinkedIn

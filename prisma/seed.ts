@@ -27,6 +27,7 @@ async function seedUsers() {
       },
       update: {},
     });
+    
   } catch (error) {
     console.error('Error seeding users:', error);
     throw error;
