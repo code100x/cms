@@ -41,11 +41,11 @@ export const getMetadata = async (contentId: number) => {
   }
   
   const userId: string = (1).toString();
-  // const user = await db.user.findFirst({
-  //   where: {
-  //     id: session?.user?.id?.toString() || '-1',
-  //   },
-  // });
+   const user = await db.user.findFirst({
+    where: {
+    id: session?.user?.id?.toString() || '-1',
+   },
+ });
   //@ts-ignore
   // if (metadata.migration_status === 'MIGRATED') {
   //   return {
