@@ -81,65 +81,47 @@ export const getMetadata = async (contentId: number) => {
       subtitles: metadata['subtitles'],
       slides: metadata['slides'],
       segments: metadata['segments'],
-      thumnnails: metadata['thumbnail_mosiac_url'],
+      thumbnails: metadata['thumbnail_mosiac_url'],
     };
   }
 
-  // Check the highest quality video URL (1080p) first
-  const highestQualityUrl = metadata[`video_1080p_mp4_${userId}`];
-  const isHighestQualityUrlAccessible = await isUrlAccessible(highestQualityUrl);
+  const mainUrls = {
+    1080: metadata[`video_1080p_mp4_${userId}`],
+    720: metadata[`video_720p_mp4_${userId}`],
+    360: metadata[`video_360p_mp4_${userId}`],
+    subtitles: metadata['subtitles'],
+    slides: metadata['slides'],
+    segments: metadata['segments'],
+    thumbnails: metadata['thumbnail_mosiac_url'],
+  };
 
-  if (isHighestQualityUrlAccessible) {
-    // If the highest quality URL is accessible, return all main URLs
-    return {
-      1080: highestQualityUrl,
-      720: metadata[`video_720p_mp4_${userId}`],
-      360: metadata[`video_360p_mp4_${userId}`],
-      subtitles: metadata['subtitles'],
-      slides: metadata['slides'],
-      segments: metadata['segments'],
-    };
-  }
-
-  // If the highest quality URL is not accessible, check the 720p URL
-  const mediumQualityUrl = metadata[`video_720p_mp4_${userId}`];
-  const isMediumQualityUrlAccessible = await isUrlAccessible(mediumQualityUrl);
-
-  if (isMediumQualityUrlAccessible) {
-    // If the 720p URL is accessible, return main URLs for 720p and 360p
-    return {
-      720: mediumQualityUrl,
-      360: metadata[`video_360p_mp4_${userId}`],
-      subtitles: metadata['subtitles'],
-      slides: metadata['slides'],
-      segments: metadata['segments'],
-    };
-  }
-
-  // If the 720p URL is not accessible, check the 360p URL
-  const lowestQualityUrl = metadata[`video_360p_mp4_${userId}`];
-  const isLowestQualityUrlAccessible = await isUrlAccessible(lowestQualityUrl);
-
-  if (isLowestQualityUrlAccessible) {
-    // If the 360p URL is accessible, return the main URL for 360p
-    return {
-      360: lowestQualityUrl,
-      subtitles: metadata['subtitles'],
-      slides: metadata['slides'],
-      segments: metadata['segments'],
-    };
-  }
-
-  // If none of the main URLs are accessible, return Bunny URLs
-  return {
+  const bunnyUrls = {
     1080: bunnyUrl(metadata[`video_1080p_mp4_${userId}`]),
     720: bunnyUrl(metadata[`video_720p_mp4_${userId}`]),
     360: bunnyUrl(metadata[`video_360p_mp4_${userId}`]),
     subtitles: metadata['subtitles'],
     slides: metadata['slides'],
     segments: metadata['segments'],
-    thumnnails: metadata['thumbnail_mosiac_url'],
+    thumbnails: metadata['thumbnail_mosiac_url'],
   };
+
+  const isHighestQualityUrlAccessible = await isUrlAccessible(mainUrls['1080']);
+
+  if (isHighestQualityUrlAccessible) {
+    return mainUrls;
+  }
+
+  const otherQualities = ['720', '360'];
+  for (const quality of otherQualities) {
+    const urlKey = `${quality}`;
+    const isAccessible = await isUrlAccessible(mainUrls[urlKey]);
+    if (isAccessible) {
+      return mainUrls;
+    }
+  }
+
+  // If none of the main URLs are accessible, return Bunny URLs
+  return bunnyUrls;
 };
 
 export const ContentRenderer = async ({
