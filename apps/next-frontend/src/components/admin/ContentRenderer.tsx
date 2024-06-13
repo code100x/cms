@@ -36,7 +36,6 @@ export const getMetadata = async (contentId: number) => {
       contentId,
     },
   });
-
   if (!metadata) {
     return null;
   }
@@ -48,33 +47,33 @@ export const getMetadata = async (contentId: number) => {
     },
   });
 
-  // @ts-ignore
+  //@ts-ignore
   // if (metadata.migration_status === 'MIGRATED') {
   //   return {
-  //     // @ts-ignore
+  //     //@ts-ignore
   //     1080: metadata[`migrated_video_1080p_mp4_1`].replace(
   //       '100x.b-cdn.net',
   //       'cdn.100xdevs.com',
   //     ),
-  //     // @ts-ignore
+  //     //@ts-ignore
   //     720: metadata[`migrated_video_720p_mp4_1`].replace(
   //       '100x.b-cdn.net',
   //       'cdn.100xdevs.com',
   //     ),
-  //     // @ts-ignore
+  //     //@ts-ignore
   //     360: metadata[`migrated_video_360p_mp4_1`].replace(
   //       '100x.b-cdn.net',
   //       'cdn.100xdevs.com',
   //     ),
   //     subtitles: metadata['subtitles'],
-  //     // @ts-ignore
+  //     //@ts-ignore
   //     slides: metadata['slides'],
-  //     // @ts-ignore
+  //     //@ts-ignore
   //     segments: metadata['segments'],
   //   };
   // }
 
-  if (user?.bunnyProxyEnabled) {
+  if (user.bunnyProxyEnabled) {
     return {
       1080: bunnyUrl(metadata[`video_1080p_mp4_${userId}`]),
       720: bunnyUrl(metadata[`video_720p_mp4_${userId}`]),
@@ -86,25 +85,52 @@ export const getMetadata = async (contentId: number) => {
     };
   }
 
-  const mainUrls = {
-    1080: metadata[`video_1080p_mp4_${userId}`],
-    720: metadata[`video_720p_mp4_${userId}`],
-    360: metadata[`video_360p_mp4_${userId}`],
-    subtitles: metadata['subtitles'],
-    slides: metadata['slides'],
-    segments: metadata['segments'],
-    thumbnails: metadata['thumbnail_mosiac_url'],
-  };
+  // Check the highest quality video URL (1080p) first
+  const highestQualityUrl = metadata[`video_1080p_mp4_${userId}`];
+  const isHighestQualityUrlAccessible = await isUrlAccessible(highestQualityUrl);
 
-  const isMainUrlAccessible = await Promise.all(
-    Object.values(mainUrls).map(isUrlAccessible)
-  );
-
-  if (isMainUrlAccessible.every(Boolean)) {
-    return mainUrls;
+  if (isHighestQualityUrlAccessible) {
+    // If the highest quality URL is accessible, return all main URLs
+    return {
+      1080: highestQualityUrl,
+      720: metadata[`video_720p_mp4_${userId}`],
+      360: metadata[`video_360p_mp4_${userId}`],
+      subtitles: metadata['subtitles'],
+      slides: metadata['slides'],
+      segments: metadata['segments'],
+    };
   }
 
-  // If any main URL is not accessible, return Bunny URLs
+  // If the highest quality URL is not accessible, check the 720p URL
+  const mediumQualityUrl = metadata[`video_720p_mp4_${userId}`];
+  const isMediumQualityUrlAccessible = await isUrlAccessible(mediumQualityUrl);
+
+  if (isMediumQualityUrlAccessible) {
+    // If the 720p URL is accessible, return main URLs for 720p and 360p
+    return {
+      720: mediumQualityUrl,
+      360: metadata[`video_360p_mp4_${userId}`],
+      subtitles: metadata['subtitles'],
+      slides: metadata['slides'],
+      segments: metadata['segments'],
+    };
+  }
+
+  // If the 720p URL is not accessible, check the 360p URL
+  const lowestQualityUrl = metadata[`video_360p_mp4_${userId}`];
+  const isLowestQualityUrlAccessible = await isUrlAccessible(lowestQualityUrl);
+
+  if (isLowestQualityUrlAccessible) {
+    // If the 360p URL is accessible, return the main URL for 360p
+    return {
+      360: lowestQualityUrl,
+      subtitles: metadata['subtitles'],
+      slides: metadata['slides'],
+      segments: metadata['segments'],
+    };
+  }
+
+  // If none of the main URLs are accessible, return Bunny URLs
   return {
     1080: bunnyUrl(metadata[`video_1080p_mp4_${userId}`]),
     720: bunnyUrl(metadata[`video_720p_mp4_${userId}`]),
