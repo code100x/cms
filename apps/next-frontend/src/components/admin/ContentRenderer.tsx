@@ -73,32 +73,24 @@ export const getMetadata = async (contentId: number) => {
   //   };
   // }
 
-  if (user.bunnyProxyEnabled) {
-    return {
-      1080: bunnyUrl(metadata[`video_1080p_mp4_${userId}`]),
-      720: bunnyUrl(metadata[`video_720p_mp4_${userId}`]),
-      360: bunnyUrl(metadata[`video_360p_mp4_${userId}`]),
-      subtitles: metadata['subtitles'],
-      slides: metadata['slides'],
-      segments: metadata['segments'],
-      thumbnails: metadata['thumbnail_mosiac_url'],
-    };
-  }
-
-  const mainUrls = {
-    1080: metadata[`video_1080p_mp4_${userId}`],
-    720: metadata[`video_720p_mp4_${userId}`],
-    360: metadata[`video_360p_mp4_${userId}`],
+  const bunnyUrls = {
+    1080: bunnyUrl(metadata[`video_1080p_mp4_${userId}`]),
+    720: bunnyUrl(metadata[`video_720p_mp4_${userId}`]),
+    360: bunnyUrl(metadata[`video_360p_mp4_${userId}`]),
     subtitles: metadata['subtitles'],
     slides: metadata['slides'],
     segments: metadata['segments'],
     thumbnails: metadata['thumbnail_mosiac_url'],
   };
 
-  const bunnyUrls = {
-    1080: bunnyUrl(metadata[`video_1080p_mp4_${userId}`]),
-    720: bunnyUrl(metadata[`video_720p_mp4_${userId}`]),
-    360: bunnyUrl(metadata[`video_360p_mp4_${userId}`]),
+  if (user.bunnyProxyEnabled) {
+    return bunnyUrls;
+  }
+
+  const mainUrls = {
+    1080: metadata[`video_1080p_mp4_${userId}`],
+    720: metadata[`video_720p_mp4_${userId}`],
+    360: metadata[`video_360p_mp4_${userId}`],
     subtitles: metadata['subtitles'],
     slides: metadata['slides'],
     segments: metadata['segments'],
@@ -120,6 +112,7 @@ export const getMetadata = async (contentId: number) => {
     }
   }
 
+  // If none of the main URLs are accessible, return Bunny URLs
   return bunnyUrls;
 };
 
