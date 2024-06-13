@@ -36,6 +36,7 @@ export const getMetadata = async (contentId: number) => {
       contentId,
     },
   });
+  
   if (!metadata) {
     return null;
   }
