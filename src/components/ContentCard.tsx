@@ -4,6 +4,8 @@ import { Bookmark } from '@prisma/client';
 import BookmarkButton from './bookmark/BookmarkButton';
 import { formatTime } from '@/lib/utils';
 import VideoThumbnail from './videothumbnail';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css';
 
 export const ContentCard = ({
   title,
@@ -56,7 +58,12 @@ export const ContentCard = ({
       )}
       {type !== 'video' && (
         <div className="relative overflow-hidden rounded-md">
-          <img src={image} alt={title} className="" />
+          <LazyLoadImage
+            alt={title}
+            effect="blur"
+            src={image}
+            className="rounded-md"
+          />
           {!!videoProgressPercent && (
             <div className="absolute bottom-0 w-full h-1 bg-[#707071]">
               <div

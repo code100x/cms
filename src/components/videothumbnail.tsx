@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import VideoPreview from '@/actions/videopreview/videoPreview';
 import { useEffect } from 'react';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css';
 
 const VideoThumbnail = ({
   imageUrl,
@@ -40,8 +42,9 @@ const VideoThumbnail = ({
             </video>
           </div>
         ) : (
-          <img
+          <LazyLoadImage
             src={imageUrl}
+            effect="blur"
             alt="Video Thumbnail"
             className=" w-full h-full object-cover"
           />

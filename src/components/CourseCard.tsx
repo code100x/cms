@@ -6,6 +6,8 @@ import { SecondaryButton } from './buttons/SecondaryButton';
 import { useRouter } from 'next/navigation';
 import { Button } from './ui/button';
 import { ChevronRight } from 'lucide-react';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css';
 
 export const CourseCard = ({
   course,
@@ -44,7 +46,12 @@ export const CourseCard = ({
             />
           )}
       </div>
-      <img src={course.imageUrl} alt={course.title} className="rounded-md" />
+      <LazyLoadImage
+        alt={course.title}
+        effect="blur"
+        src={course.imageUrl}
+        className="rounded-md"
+      />
       <div className="p-2">
         <div className="flex justify-between">
           <div className="mt-4 mb-2">{course.title} Cohort</div>

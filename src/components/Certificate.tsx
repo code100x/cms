@@ -12,6 +12,8 @@ import { FaFileImage, FaLinkedin, FaTwitter } from 'react-icons/fa';
 import { useGenerateCertificate } from '@/hooks/useCertGen';
 import { OneCertificate } from '@/utiles/certificate';
 import { useMemo } from 'react'; //used to fix maximum update depth exceeded err
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css';
 
 export const CertificateComponent = ({
   certificateId,
@@ -76,7 +78,7 @@ export const CertificateComponent = ({
   return (
     <Card className="w-500 my-4" key={course.id}>
       <CardContent className="flex justify-center">
-        <img
+        <LazyLoadImage
           src={certificateImageUrl}
           alt=""
           className="w-full max-w-screen-md"
