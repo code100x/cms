@@ -41,13 +41,12 @@ export const getMetadata = async (contentId: number) => {
   }
 
   const userId: string = (1).toString();
-  const user = await db.user.findFirst({
-    where: {
-      id: session?.user?.id?.toString() || '-1',
-    },
-  });
-
-  // //@ts-ignore
+  // const user = await db.user.findFirst({
+  //   where: {
+  //     id: session?.user?.id?.toString() || '-1',
+  //   },
+  // });
+  //@ts-ignore
   // if (metadata.migration_status === 'MIGRATED') {
   //   return {
   //     //@ts-ignore
@@ -84,7 +83,15 @@ export const getMetadata = async (contentId: number) => {
   };
 
   if (user.bunnyProxyEnabled) {
-    return bunnyUrls;
+    return {
+      1080: bunnyUrl(metadata[`video_1080p_mp4_${userId}`]),
+      720: bunnyUrl(metadata[`video_720p_mp4_${userId}`]),
+      360: bunnyUrl(metadata[`video_360p_mp4_${userId}`]),
+      subtitles: metadata['subtitles'],
+      slides: metadata['slides'],
+      segments: metadata['segments'],
+      thumnnails: metadata['thumbnail_mosiac_url'],
+    };
   }
 
   const mainUrls = {
@@ -97,22 +104,24 @@ export const getMetadata = async (contentId: number) => {
     thumbnails: metadata['thumbnail_mosiac_url'],
   };
 
-  const isHighestQualityUrlAccessible = await isUrlAccessible(mainUrls['1080']);
+  const isMainUrlAccessible = await Promise.all(
+    Object.values(mainUrls).map(isUrlAccessible)
+  );
 
-  if (isHighestQualityUrlAccessible) {
+  if (isMainUrlAccessible.every(Boolean)) {
     return mainUrls;
   }
 
-  const otherQualities = ['720', '360'];
-  for (const quality of otherQualities) {
-    const isAccessible = await isUrlAccessible(mainUrls[quality]);
-    if (isAccessible) {
-      return mainUrls;
-    }
-  }
-
-  // If none of the main URLs are accessible, return Bunny URLs
-  return bunnyUrls;
+  // If any main URL is not accessible, return Bunny URLs
+  return {
+    1080: bunnyUrl(metadata[`video_1080p_mp4_${userId}`]),
+    720: bunnyUrl(metadata[`video_720p_mp4_${userId}`]),
+    360: bunnyUrl(metadata[`video_360p_mp4_${userId}`]),
+    subtitles: metadata['subtitles'],
+    slides: metadata['slides'],
+    segments: metadata['segments'],
+    thumnnails: metadata['thumbnail_mosiac_url'],
+  };
 };
 
 export const ContentRenderer = async ({
