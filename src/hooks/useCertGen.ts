@@ -115,12 +115,22 @@ export function useGenerateCertificate({
 
       ctx.drawImage(certificateImage, 0, 0);
 
-      ctx.font = '85px "Brush Script MT", cursive'; // Changed to  font
+      ctx.font = '85px "Brush Script MT", cursive '; // Changed to  font
       ctx.fillStyle = 'black';
       const textWidth = ctx.measureText(recipientName).width;
       const xRecipient = (offscreenCanvas.width - textWidth) / 2;
       const yRecipient = offscreenCanvas.height * 0.54;
       ctx.fillText(recipientName, xRecipient, yRecipient);
+
+      const certificatDescription = 35;
+      ctx.font = `${certificatDescription}px Helvetica`;
+      const certificatDescriptionText = `has successfully completed ${certificateDetails.course.title} Full Stack Web Development Course`;
+
+      const descriptionWidth = ctx.measureText(certificatDescriptionText).width;
+      const xDescription = (offscreenCanvas.width - descriptionWidth) / 2;
+      const yDescription = offscreenCanvas.height * 0.62;
+
+      ctx.fillText(certificatDescriptionText, xDescription, yDescription);
 
       const certificateNumberFontSize = 35;
       ctx.font = `${certificateNumberFontSize}px Helvetica`;
