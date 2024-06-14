@@ -17,6 +17,9 @@ const nextConfig = {
     }
     return config;
   },
+  images: {
+    domains: ['appx-recordings.s3.ap-south-1.amazonaws.com', 'cdn.dribbble.com'],
+  },
 };
 
 module.exports = nextConfig;
