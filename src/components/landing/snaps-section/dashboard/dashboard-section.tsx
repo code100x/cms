@@ -7,16 +7,16 @@ import { CardContainer, CardItem } from '@/components/3dcard';
 
 const DashboardSection = () => {
   return (
-    <div className="w-full flex items-center justify-between my-20">
-      <div className="w-full flex flex-col items-start justify-center px-4 md:px-12">
-        <h3 className="font-medium text-sm text-neutral-500 dark:text-neutral-400">
-          <span className="font-bold text-blue-600 pr-1 text-lg">|</span>The
+    <div className="my-20 flex w-full items-center justify-between">
+      <div className="flex w-full flex-col items-start justify-center px-4 md:px-12">
+        <h3 className="text-sm font-medium text-neutral-500 dark:text-neutral-400">
+          <span className="pr-1 text-lg font-bold text-blue-600">|</span>The
           best learning platform!
         </h3>
-        <h2 className="text-2xl md:text-4xl font-semibold text-neutral-800 dark:text-neutral-200 mt-2 mb-6">
+        <h2 className="mb-6 mt-2 text-2xl font-semibold text-neutral-800 dark:text-neutral-200 md:text-4xl">
           What is 100xdevs?
         </h2>
-        <p className="text-lg text-neutral-600 dark:text-neutral-400 font-medium">
+        <p className="text-lg font-medium text-neutral-600 dark:text-neutral-400">
           100xDevs, a learning platform that offers courses on the latest trends
           in the software engineering industry. Whether you&apos;re a beginner
           or looking to upgrade your skills, 100xDevs provides a user-friendly
@@ -34,13 +34,13 @@ const DashboardSection = () => {
             target="_blank"
           >
             <p className="text-white">Explore courses</p>{' '}
-            <ChevronRight className="text-white h-4 w-4 ml-1 hover:translate-x-1 ease-in-out duration-200 " />
+            <ChevronRight className="ml-1 h-4 w-4 text-white duration-200 ease-in-out hover:translate-x-1" />
           </Link>
         </Button>
       </div>
       <CardContainer className="w-full cursor-pointer">
         <Link href="" target="_blank">
-          <div className="hidden md:block py-3 md:py-6 pl-3 md:pl-6 rounded-l-xl md:rounded-l-2xl bg-slate-200 dark:bg-slate-800">
+          <div className="hidden rounded-l-xl bg-slate-200 py-3 pl-3 dark:bg-slate-800 md:block md:rounded-l-2xl md:py-6 md:pl-6">
             <CardItem>
               <Image
                 src={dashboard}

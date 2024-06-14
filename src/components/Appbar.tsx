@@ -25,7 +25,7 @@ export const Appbar = () => {
 
   return (
     <>
-      <nav className="fixed z-50 top-0 px-4 w-full h-16 border-b shadow-sm bg-background/80 backdrop-blur-md flex items-center gap-2 print:hidden">
+      <nav className="fixed top-0 z-50 flex h-16 w-full items-center gap-2 border-b bg-background/80 px-4 shadow-sm backdrop-blur-md print:hidden">
         {currentPath.includes('courses') && (
           <ToggleButton
             onClick={() => {
@@ -34,7 +34,7 @@ export const Appbar = () => {
             sidebarOpen={sidebarOpen ? false : true}
           />
         )}
-        <div className="md:max-w-screen-2xl mx-auto flex items-center justify-between w-full">
+        <div className="mx-auto flex w-full items-center justify-between md:max-w-screen-2xl">
           <Logo onFooter={false} />
 
           {session?.user
@@ -52,7 +52,7 @@ export const Appbar = () => {
               )
             : !isLoading && (
                 <div className="flex items-center space-x-2">
-                  <div className="hidden sm:flex items-center justify-around md:w-auto md:block space-x-3">
+                  <div className="hidden items-center justify-around space-x-3 sm:flex md:block md:w-auto">
                     <AppbarAuth />
 
                     <Button size={'sm'} asChild>
@@ -61,7 +61,7 @@ export const Appbar = () => {
                         target="_blank"
                       >
                         <p className="text-white">Join now</p>{' '}
-                        <Sparkles className="text-white ml-2 h-4 w-4 hover:translate-x-0.5 ease-linear duration-200" />
+                        <Sparkles className="ml-2 h-4 w-4 text-white duration-200 ease-linear hover:translate-x-0.5" />
                       </Link>
                     </Button>
                   </div>

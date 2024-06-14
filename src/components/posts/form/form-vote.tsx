@@ -66,7 +66,7 @@ const VoteForm: React.FC<IVoteFormProps> = ({
           type="submit"
         >
           <ThumbsUpIcon
-            className="w-4 h-4"
+            className="h-4 w-4"
             type="submit"
             fill={
               userVoted && userVoteVal.voteType === VoteType.UPVOTE
@@ -90,7 +90,7 @@ const VoteForm: React.FC<IVoteFormProps> = ({
           type="submit"
         >
           <ThumbsDownIcon
-            className="w-4 h-4"
+            className="h-4 w-4"
             fill={
               userVoted && userVoteVal.voteType === VoteType.DOWNVOTE
                 ? 'currentColor'

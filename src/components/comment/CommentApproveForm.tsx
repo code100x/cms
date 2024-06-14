@@ -36,8 +36,8 @@ const CommentApproveForm = ({
   return (
     <form onSubmit={handleFormSubmit}>
       <button type="submit">
-        <div className="flex gap-1 items-center">
-          Approve Chapters <CheckIcon className="w-4 h-4" />
+        <div className="flex items-center gap-1">
+          Approve Chapters <CheckIcon className="h-4 w-4" />
         </div>
       </button>
     </form>
