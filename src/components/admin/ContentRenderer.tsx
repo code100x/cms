@@ -4,6 +4,19 @@ import { authOptions } from '@/lib/auth';
 import { ContentRendererClient } from './ContentRendererClient';
 import { Bookmark } from '@prisma/client';
 
+function bunnyUrl(url: string) {
+  return url
+    .replace('https://appxcontent.kaxa.in', 'https://appxcontent.b-cdn.net')
+    .replace(
+      'https://appx-transcoded-videos.livelearn.in',
+      'https://appx-transcoded-videos.b-cdn.net',
+    )
+    .replace(
+      'https://appx-recordings.livelearn.in',
+      'https://appx-recordings.b-cdn.net',
+    );
+}
+
 export const getMetadata = async (contentId: number) => {
   const session = await getServerSession(authOptions);
   if (!session?.user) {
@@ -21,34 +34,51 @@ export const getMetadata = async (contentId: number) => {
 
   //@ts-ignore
   const userId: string = (1).toString();
-  // const user = await db.user.findFirst({
-  //   where: {
-  //     id: session?.user?.id?.toString() || '-1',
-  //   },
-  // });
+  const user = await db.user.findFirst({
+    where: {
+      id: session?.user?.id?.toString() || '-1',
+    },
+  });
   //@ts-ignore
-  if (metadata.migration_status === 'MIGRATED') {
+  // if (metadata.migration_status === 'MIGRATED') {
+  //   return {
+  //     //@ts-ignore
+  //     1080: metadata[`migrated_video_1080p_mp4_1`].replace(
+  //       '100x.b-cdn.net',
+  //       'cdn.100xdevs.com',
+  //     ),
+  //     //@ts-ignore
+  //     720: metadata[`migrated_video_720p_mp4_1`].replace(
+  //       '100x.b-cdn.net',
+  //       'cdn.100xdevs.com',
+  //     ),
+  //     //@ts-ignore
+  //     360: metadata[`migrated_video_360p_mp4_1`].replace(
+  //       '100x.b-cdn.net',
+  //       'cdn.100xdevs.com',
+  //     ),
+  //     subtitles: metadata['subtitles'],
+  //     //@ts-ignore
+  //     slides: metadata['slides'],
+  //     //@ts-ignore
+  //     segments: metadata['segments'],
+  //   };
+  // }
+  if (user.bunnyProxyEnabled) {
     return {
       //@ts-ignore
-      1080: metadata[`migrated_video_1080p_mp4_1`].replace(
-        '100x.b-cdn.net',
-        'cdn.100xdevs.com',
-      ),
+      1080: bunnyUrl(metadata[`video_1080p_mp4_${userId}`]),
       //@ts-ignore
-      720: metadata[`migrated_video_720p_mp4_1`].replace(
-        '100x.b-cdn.net',
-        'cdn.100xdevs.com',
-      ),
+      720: bunnyUrl(metadata[`video_720p_mp4_${userId}`]),
       //@ts-ignore
-      360: metadata[`migrated_video_360p_mp4_1`].replace(
-        '100x.b-cdn.net',
-        'cdn.100xdevs.com',
-      ),
+      360: bunnyUrl(metadata[`video_360p_mp4_${userId}`]),
       subtitles: metadata['subtitles'],
       //@ts-ignore
       slides: metadata['slides'],
       //@ts-ignore
       segments: metadata['segments'],
+      // @ts-ignore
+      thumnnails: metadata['thumbnail_mosiac_url'],
     };
   }
   return {
