@@ -32,6 +32,7 @@ import { authOptions } from '@/lib/auth';
 import { getServerSession } from 'next-auth';
 import CommentPinForm from './CommentPinForm';
 import CommentApproveForm from './CommentApproveForm';
+import CommentUpdateForm from './CommentUpdateForm';
 dayjs.extend(relativeTime);
 const Comments = async ({
   content,
@@ -259,6 +260,16 @@ const Comments = async ({
                           session.user.role === ROLES.ADMIN) && (
                           <DropdownMenuItem>
                             <CommentDeleteForm commentId={c.id} />
+                          </DropdownMenuItem>
+                        )}
+                        {(session.user.id.toString() ===
+                          (c as ExtendedComment).userId.toString() ||
+                          session.user.role === ROLES.ADMIN) && (
+                          <DropdownMenuItem>
+                            <CommentUpdateForm
+                              commentId={c.id}
+                              comment={c.content}
+                            />
                           </DropdownMenuItem>
                         )}
                         {session.user.role === ROLES.ADMIN && (
