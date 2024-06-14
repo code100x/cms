@@ -66,6 +66,7 @@
     "nextjs-toploader": "^1.6.11",
     "node-fetch": "^3.3.2",
     "notion-client": "^6.16.0",
+    "razorpay": "^2.9.2",
     "pdf-lib": "^1.17.1",
     "react": "^18",
     "react-dom": "^18",

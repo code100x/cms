@@ -138,11 +138,13 @@ export const authOptions = {
               name: true,
             },
           });
-          if (
-            userDb &&
-            userDb.password &&
-            (await bcrypt.compare(credentials.password, userDb.password))
-          ) {
+          if (userDb && userDb.password) {
+            const valid = await bcrypt.compare(
+              credentials.password,
+              userDb.password,
+            );
+            if (!valid) return null;
+
             const jwt = await generateJWT({
               id: userDb.id,
             });

@@ -5,6 +5,7 @@ import {
   BookmarkIcon,
   HistoryIcon,
   LogOutIcon,
+  Receipt,
   User2Icon,
   Bird,
 } from 'lucide-react';
@@ -31,6 +32,11 @@ const ProfileDropdown = () => {
       href: '/bookmarks',
       icon: <BookmarkIcon className="mr-2 h-4 w-4" />,
       label: 'Bookmarks',
+    },
+    {
+      href: '/receipts',
+      icon: <Receipt className="mr-2 h-4 w-4" />,
+      label: 'Receipts',
     },
     {
       href: '/questions',
