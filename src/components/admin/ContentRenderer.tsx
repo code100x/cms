@@ -105,8 +105,7 @@ export const getMetadata = async (contentId: number) => {
 
   const otherQualities = ['720', '360'];
   for (const quality of otherQualities) {
-    const urlKey = `${quality}`;
-    const isAccessible = await isUrlAccessible(mainUrls[urlKey]);
+    const isAccessible = await isUrlAccessible(mainUrls[quality]);
     if (isAccessible) {
       return mainUrls;
     }
