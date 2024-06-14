@@ -25,11 +25,11 @@ export default async function Home() {
 
   if (session?.user) {
     return (
-      <main className="max-w-screen-xl flex-col flex text-lg mx-auto pt-10 pb-6 h-full overflow-y-auto no-scrollbar">
-        <div className="px-6 max-w-2xl antialiased">
+      <main className="no-scrollbar mx-auto flex h-full max-w-screen-xl flex-col overflow-y-auto pb-6 pt-10 text-lg">
+        <div className="max-w-2xl px-6 antialiased">
           <h1
             className={cn(
-              'text-2xl font-semibold text-neutral-800 dark:text-neutral-200 md:text-3xl mb-2',
+              'mb-2 text-2xl font-semibold text-neutral-800 dark:text-neutral-200 md:text-3xl',
               rs.className,
             )}
           >
@@ -43,7 +43,7 @@ export default async function Home() {
   }
 
   return (
-    <main className="pt-36 pb-20">
+    <main className="pb-20 pt-36">
       <LandingPage />
     </main>
   );
