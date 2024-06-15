@@ -12,8 +12,8 @@ export default function DiscordPage() {
   const [adminSecret, setAdminSecret] = useState('');
   const [contentId, setContentId] = useState('');
   return (
-    <div className="flex flex-col lg:flex-row justify-between p-2 sm:p-10 gap-2">
-      <form className="flex flex-col gap-5 w-full p-5 border rounded-xl items-center">
+    <div className="flex flex-col justify-between gap-2 p-2 sm:p-10 lg:flex-row">
+      <form className="flex w-full flex-col items-center gap-5 rounded-xl border p-5">
         <h1 className="text-xl sm:text-2xl md:text-4xl">Toggle DRM</h1>
         <Input
           placeholder="email"
@@ -33,7 +33,7 @@ export default function DiscordPage() {
         />
 
         <Button
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full"
+          className="w-full rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
           onClick={async () => {
             await fetch('/api/admin/drm', {
               body: JSON.stringify({
@@ -51,7 +51,7 @@ export default function DiscordPage() {
           Enable DRM
         </Button>
         <Button
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full"
+          className="w-full rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
           onClick={async () => {
             await fetch('/api/admin/drm', {
               body: JSON.stringify({
@@ -71,9 +71,9 @@ export default function DiscordPage() {
       </form>
 
       <br />
-      <div className="flex flex-col items-center gap-5 border rounded-lg px-2">
+      <div className="flex flex-col items-center gap-5 rounded-lg border px-2">
         <br />
-        <h2 className="text-xl sm:text-2xl md:text-4xl text-center">
+        <h2 className="text-center text-xl sm:text-2xl md:text-4xl">
           Add video metadata
         </h2>
 
@@ -81,7 +81,7 @@ export default function DiscordPage() {
           // style={{ width: 800 }}
           rows={10}
           placeholder="segments json"
-          className="text-black dark:text-white w-[80vw] lg:w-[800px]"
+          className="w-[80vw] text-black dark:text-white lg:w-[800px]"
           onChange={(e) => {
             setSegmentsJson(e.target.value);
           }}
@@ -105,7 +105,7 @@ export default function DiscordPage() {
 
         <h1>JSON is validated in the form.</h1>
         <Button
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          className="rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
           onClick={async () => {
             if (!isValidJsonString(segmentsJson)) {
               return toast.warning('Not a valid JSON');

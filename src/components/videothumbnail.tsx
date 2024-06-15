@@ -30,13 +30,13 @@ const VideoThumbnail = ({
 
   return (
     <div
-      className="m max-h-[573px] max-w-[1053px]  relative"
+      className="m relative max-h-[573px] max-w-[1053px]"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <div className=" w-full h-full relative">
+      <div className="relative h-full w-full">
         {hover && videoUrl ? (
-          <div className="w-full h-full">
+          <div className="h-full w-full">
             <video muted autoPlay width="100%" height="100%">
               <source src={videoUrl} type="video/mp4" />
             </video>
@@ -47,7 +47,7 @@ const VideoThumbnail = ({
             alt="Video Thumbnail"
             width={500}
             height={250}
-            className=" w-full h-full object-cover"
+            className="h-full w-full object-cover"
           />
         )}
       </div>

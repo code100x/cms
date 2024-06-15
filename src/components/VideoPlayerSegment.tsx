@@ -90,11 +90,11 @@ export const VideoPlayerSegment: FunctionComponent<VideoProps> = ({
 
   return (
     <div className="mb-6">
-      <div className="flex-1 relative">
+      <div className="relative flex-1">
         <div
           id="thumbnail-preview"
           ref={thumbnailPreviewRef}
-          className="hidden absolute bg-no-repeat bg-cover w-[320px] h-[180px] pointer-events-none z-10"
+          className="pointer-events-none absolute z-10 hidden h-[180px] w-[320px] bg-cover bg-no-repeat"
         />
         <VideoPlayer
           setQuality={setQuality}

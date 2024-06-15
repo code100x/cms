@@ -4,27 +4,27 @@ import Link from 'next/link';
 
 const PreFooterSection = () => {
   return (
-    <div className="w-full flex flex-col items-center justify-center px-4 md:px-36 py-32 my-20">
-      <div className="flex flex-col items-center justify-center gap-y-2 mb-3 md:mb-6">
-        <h3 className="text-2xl md:text-4xl text-center font-semibold text-neutral-800 dark:text-neutral-200 px-6 md:px-24">
+    <div className="my-20 flex w-full flex-col items-center justify-center px-4 py-32 md:px-36">
+      <div className="mb-3 flex flex-col items-center justify-center gap-y-2 md:mb-6">
+        <h3 className="px-6 text-center text-2xl font-semibold text-neutral-800 dark:text-neutral-200 md:px-24 md:text-4xl">
           Every developer deserves to be a great engineer, a{' '}
-          <span className="text-transparent font-semibold bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
+          <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text font-semibold text-transparent">
             100xEngineer!
           </span>
         </h3>
 
-        <p className="text-lg text-neutral-600 dark:text-neutral-400 text-center font-medium px-12">
+        <p className="px-12 text-center text-lg font-medium text-neutral-600 dark:text-neutral-400">
           Give yourself the power you deserve with a 100xdevs today!
         </p>
       </div>
 
-      <Button size={'lg'} className="text-lg rounded-full" asChild>
+      <Button size={'lg'} className="rounded-full text-lg" asChild>
         <Link
           href={'https://harkirat.classx.co.in/new-courses'}
           target="_blank"
         >
           <p className="text-white">Join now</p>{' '}
-          <Sparkles className="text-white ml-2 h-4 w-4 hover:translate-x-0.5 ease-linear duration-200" />
+          <Sparkles className="ml-2 h-4 w-4 text-white duration-200 ease-linear hover:translate-x-0.5" />
         </Link>
       </Button>
     </div>

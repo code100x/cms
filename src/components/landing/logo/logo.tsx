@@ -10,7 +10,7 @@ const headingFont = localFont({
 const Logo = ({ onFooter = false }: { onFooter: boolean }) => {
   return (
     <Link href={'/'}>
-      <div className="hover:opacity-90 transition flex items-center gap-x-2">
+      <div className="flex items-center gap-x-2 transition hover:opacity-90">
         <LazyLoadImage
           alt="logo"
           src={
@@ -22,7 +22,7 @@ const Logo = ({ onFooter = false }: { onFooter: boolean }) => {
         />
         <p
           className={cn(
-            'dark:text-neutral-100 text-neutral-700',
+            'text-neutral-700 dark:text-neutral-100',
             onFooter ? 'text-3xl text-neutral-200' : 'text-xl',
             headingFont.className,
           )}

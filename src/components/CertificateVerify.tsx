@@ -21,20 +21,20 @@ export const CertificateVerify = ({
 
   return (
     <div>
-      <h1 className="text-4xl text-center py-4">100x Devs Certificate</h1>
-      <div className="flex justify-center pb-20 mx-10">
+      <h1 className="py-4 text-center text-4xl">100x Devs Certificate</h1>
+      <div className="mx-10 flex justify-center pb-20">
         <Card className="my-4">
-          <CardContent className="flex-none w-[90vw] max-w-[800px]">
+          <CardContent className="w-[90vw] max-w-[800px] flex-none">
             {certificateImageUrl ? (
               <LazyLoadImage
                 src={certificateImageUrl}
                 alt="Generated Certificate"
-                className="w-full h-auto"
+                className="h-auto w-full"
                 width={500}
                 height={250}
               />
             ) : (
-              <div className="min-h-[500px] flex justify-center items-center">
+              <div className="flex min-h-[500px] items-center justify-center">
                 Loading...
               </div>
             )}
