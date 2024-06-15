@@ -95,11 +95,7 @@ export const CertificateComponent = ({
         </Button>
         <div className="flex items-center justify-center">
           <Button
-<<<<<<< tailwind-prettier
             className="share-button mr-2 flex items-center bg-transparent"
-=======
-            className="share-button flex items-center mr-2"
->>>>>>> main
             onClick={handleShareLinkedIn}
           >
             <FaLinkedin className="mr-1" /> Share on LinkedIn
