@@ -32,3 +32,9 @@ export const CommentPinSchema = z.object({
   contentId: z.number(),
   currentPath: z.string().optional(),
 });
+
+export const commentUpdateSchema = z.object({
+  currentPath: z.string().optional(),
+  commentId: z.number(),
+  content: z.string(),
+});

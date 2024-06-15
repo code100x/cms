@@ -11,6 +11,7 @@ import {
   ReturnTypeDeleteComment,
   ReturnTypePinComment,
   ReturnTypeUpdateComment,
+  UpdateCommentType,
 } from './types';
 import { authOptions } from '@/lib/auth';
 import { rateLimit } from '@/lib/utils';
@@ -21,6 +22,7 @@ import {
   CommentInsertSchema,
   CommentPinSchema,
   CommentUpdateSchema,
+  commentUpdateSchema,
 } from './schema';
 import { createSafeAction } from '@/lib/create-safe-action';
 import { CommentType, Prisma } from '@prisma/client';
@@ -424,7 +426,7 @@ const deleteCommentHandler = async (
     return { error: 'Failed to delete comment.' };
   }
 };
-export const updateComment = async (data: any) => {
+export const updateContentHandler = async (data: UpdateCommentType) => {
   const session = await getServerSession(authOptions);
 
   if (!session || !session.user) {
@@ -502,3 +504,8 @@ export const approveComment = createSafeAction(
   approveIntroCommentHandler,
 );
 export const pinComment = createSafeAction(CommentPinSchema, pinCommentHandler);
+
+export const updateComment = createSafeAction(
+  commentUpdateSchema,
+  updateContentHandler,
+);
