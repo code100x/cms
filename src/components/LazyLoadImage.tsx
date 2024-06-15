@@ -1,3 +1,4 @@
+'use client';
 import Image from 'next/image';
 import React, { useState, useRef, useEffect } from 'react';
 
@@ -23,8 +24,8 @@ interface LazyLoadImageProps {
   src: string;
   alt: string;
   className: string;
-  width?: number;
-  height?: number;
+  width: number;
+  height: number;
 }
 export const LazyLoadImage = ({
   src,

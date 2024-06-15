@@ -18,7 +18,7 @@ const nextConfig = {
     return config;
   },
   images: {
-    domains: ['appx-recordings.s3.ap-south-1.amazonaws.com', 'cdn.dribbble.com'],
+    domains: ['appx-recordings.s3.ap-south-1.amazonaws.com', 'cdn.dribbble.com', 'd2szwvl7yo497w.cloudfront.net'],
   },
 };
 

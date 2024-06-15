@@ -3,8 +3,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Certificate, Course, User } from '@prisma/client';
 import { useGenerateCertificate } from '@/hooks/useCertGen';
-import { LazyLoadImage } from 'react-lazy-load-image-component';
-import 'react-lazy-load-image-component/src/effects/blur.css';
+import { LazyLoadImage } from './LazyLoadImage';
 
 export const CertificateVerify = ({
   certificate,
@@ -29,9 +28,10 @@ export const CertificateVerify = ({
             {certificateImageUrl ? (
               <LazyLoadImage
                 src={certificateImageUrl}
-                effect="blur"
                 alt="Generated Certificate"
                 className="w-full h-auto"
+                width={500}
+                height={250}
               />
             ) : (
               <div className="min-h-[500px] flex justify-center items-center">

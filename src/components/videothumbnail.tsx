@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import VideoPreview from '@/actions/videopreview/videoPreview';
 import { useEffect } from 'react';
-import { LazyLoadImage } from 'react-lazy-load-image-component';
-import 'react-lazy-load-image-component/src/effects/blur.css';
+import { LazyLoadImage } from './LazyLoadImage';
 
 const VideoThumbnail = ({
   imageUrl,
@@ -28,6 +27,7 @@ const VideoThumbnail = ({
   const handleMouseLeave = () => {
     setHover(false);
   };
+
   return (
     <div
       className="m max-h-[573px] max-w-[1053px]  relative"
@@ -44,8 +44,9 @@ const VideoThumbnail = ({
         ) : (
           <LazyLoadImage
             src={imageUrl}
-            effect="blur"
             alt="Video Thumbnail"
+            width={500}
+            height={250}
             className=" w-full h-full object-cover"
           />
         )}
