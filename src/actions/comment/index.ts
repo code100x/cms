@@ -424,7 +424,35 @@ const deleteCommentHandler = async (
     return { error: 'Failed to delete comment.' };
   }
 };
+export const updateComment = async (data: any) => {
+  const session = await getServerSession(authOptions);
 
+  if (!session || !session.user) {
+    console.log(session);
+    return {
+      error: 'Unauthorized or insufficient permissions',
+    };
+  }
+  console.log('data', data);
+  try {
+    const comment = await prisma.comment.update({
+      where: {
+        id: data.commentId,
+      },
+      data: {
+        content: data.content,
+      },
+    });
+    console.log(comment);
+    if (data.currentPath) {
+      console.log('path', data.currentPath);
+      revalidatePath(data.currentPath);
+    }
+    return { data: { message: 'successfully updated the comment content' } };
+  } catch (err) {
+    return { error: 'error in updating the comment content' };
+  }
+};
 const pinCommentHandler = async (
   data: InputTypePinComment,
 ): Promise<ReturnTypePinComment> => {

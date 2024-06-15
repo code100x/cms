@@ -12,8 +12,9 @@ import {
 import { Input } from '../ui/input';
 import { useEffect, useState } from 'react';
 import { Button } from '../ui/button';
-import axios from 'axios';
 import { toast } from 'sonner';
+import { useAction } from '@/hooks/useAction';
+import { updateComment } from '@/actions/comment';
 const CommentUpdateForm = ({ commentId, comment }: any) => {
   const currentPath = usePathname();
   const [open, setOpen] = useState(false);
@@ -23,6 +24,15 @@ const CommentUpdateForm = ({ commentId, comment }: any) => {
     setT(comment);
     setPt(comment);
   }, []);
+  const { execute } = useAction(updateComment, {
+    onSuccess: () => {
+      toast('Comment updated successfully');
+      setOpen(false);
+    },
+    onError: (error) => {
+      toast.error(error);
+    },
+  });
   const handleUpdate = async () => {
     const body = {
       content: text,
@@ -32,15 +42,7 @@ const CommentUpdateForm = ({ commentId, comment }: any) => {
     if (text === prevText) {
       return;
     }
-    try {
-      const res = await axios.patch('/api/comment', body);
-      console.log(res);
-      setOpen(false);
-      toast.success('successfully updated the comment');
-    } catch (err) {
-      console.log('update comment error', err);
-      toast.error('something went wrong');
-    }
+    execute(body);
   };
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -65,7 +67,6 @@ const CommentUpdateForm = ({ commentId, comment }: any) => {
             <div className="flex flex-col gap-4">
               <label>Comment</label>
               <Input
-                className="text-white"
                 value={text}
                 onChange={(e) => {
                   setT(e.target.value);
