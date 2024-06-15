@@ -2,7 +2,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 const Loading = () => {
   return (
-    <div className="flex items-center justify-center h-screen">
+    <div className="flex h-screen items-center justify-center">
       <div className="flex items-center space-x-4">
         <Skeleton className="h-12 w-12 rounded-full" />
         <div className="space-y-2">

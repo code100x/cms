@@ -8,7 +8,7 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Button } from './ui/button';
-import { FaDownload, FaFileImage, FaLinkedin, FaTwitter } from 'react-icons/fa';
+import { FaFileImage, FaLinkedin, FaTwitter } from 'react-icons/fa';
 import { useGenerateCertificate } from '@/hooks/useCertGen';
 import { OneCertificate } from '@/utiles/certificate';
 import { useMemo } from 'react'; //used to fix maximum update depth exceeded err
@@ -34,15 +34,15 @@ export const CertificateComponent = ({
     userName,
   });
 
-  const handleDownloadPDF = async () => {
-    const downloadUrl = certificatePdfUrl;
-    const a = document.createElement('a');
-    a.href = downloadUrl!;
-    a.download = 'certificate.pdf';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-  };
+  // const handleDownloadPDF = async () => {
+  //   const downloadUrl = certificatePdfUrl;
+  //   const a = document.createElement('a');
+  //   a.href = downloadUrl!;
+  //   a.download = 'certificate.pdf';
+  //   document.body.appendChild(a);
+  //   a.click();
+  //   document.body.removeChild(a);
+  // };
 
   const handleDownloadPNG = async () => {
     const downloadUrl = certificateImageUrl;
@@ -57,7 +57,7 @@ export const CertificateComponent = ({
 
   const handleShareLinkedIn = async () => {
     const certificateUrl = `${window.location.origin}/certificate/verify/${certificateSlug}`;
-    const postContent = `I just earned the "${course.title}" certificate on 100x Academy! Check it out: ${certificateUrl}`;
+    const postContent = `I just earned the "${course.title}" certificate on 100xDevs! Check it out: ${certificateUrl}`;
     const shareUrl = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(
       certificateUrl,
     )}&text=${encodeURIComponent(postContent)}`;
@@ -65,7 +65,7 @@ export const CertificateComponent = ({
   };
 
   const handleShareTwitter = () => {
-    const tweetText = `I just earned the "${course.title}" certificate on 100x Academy! Check it out:`;
+    const tweetText = `I just earned the "${course.title}" certificate on 100xDevs! Check it out:`;
     const certificateUrl = `${window.location.origin}/certificate/verify/${certificateSlug}`;
     const shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}&url=${encodeURIComponent(certificateUrl)}`;
     window.open(shareUrl);
@@ -87,15 +87,19 @@ export const CertificateComponent = ({
         <CardDescription>{course.description}</CardDescription>
       </CardHeader>
       <CardFooter className="flex justify-end">
-        <Button onClick={() => handleDownloadPDF()} className="mr-2">
+        {/* <Button onClick={() => handleDownloadPDF()} className="mr-2">
           <FaDownload className="mr-1" /> Download PDF
-        </Button>
+        </Button> */}
         <Button onClick={() => handleDownloadPNG()} className="mr-2">
           <FaFileImage className="mr-1" /> Download PNG
         </Button>
         <div className="flex items-center justify-center">
           <Button
-            className="share-button flex items-center mr-2 bg-transparent"
+<<<<<<< tailwind-prettier
+            className="share-button mr-2 flex items-center bg-transparent"
+=======
+            className="share-button flex items-center mr-2"
+>>>>>>> main
             onClick={handleShareLinkedIn}
           >
             <FaLinkedin className="mr-1" /> Share on LinkedIn

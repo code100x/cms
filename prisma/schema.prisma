@@ -116,6 +116,11 @@ model VideoMetadata {
   slides               String? // link to slides
   thumbnail_mosiac_url String?
   duration             Int?
+  migration_status MigrationStatus @default(NOT_MIGRATED)
+  migration_pickup_time DateTime?
+  migrated_video_1080p_mp4_1 String?
+  migrated_video_360p_mp4_1  String?
+  migrated_video_720p_mp4_1  String?
 
   @@unique([contentId])
 }
@@ -140,6 +145,7 @@ model User {
   votes          Vote[]
   discordConnect DiscordConnect?
   disableDrm     Boolean         @default(false)
+  bunnyProxyEnabled Boolean      @default(false)
   bookmarks      Bookmark[]
   password       String?
   appxUserId     String?
@@ -277,4 +283,10 @@ enum PostType {
 enum CommentType {
   INTRO
   DEFAULT
+}
+enum MigrationStatus {
+  NOT_MIGRATED
+  IN_PROGRESS
+  MIGRATED
+  MIGRATION_ERROR
 }

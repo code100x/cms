@@ -140,7 +140,7 @@ const VideoThumbnail = ({
           <img
             src={imageUrl}
             alt="Video Thumbnail"
-            className="w-full h-full object-cover"
+            className="h-full w-full object-cover"
           />
         )}
       </div>

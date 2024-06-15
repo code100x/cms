@@ -9,17 +9,17 @@ export const Gate = () => {
       <br />
       <br />
       <br />
-      <div className="justify-center flex">
+      <div className="flex justify-center">
         This website is temporarily down, Please access the course on <br />
       </div>
       <br />
 
-      <div className="justify-center flex">
+      <div className="flex justify-center">
         <button
           onClick={() => {
             window.location.href = 'https://harkirat.classx.co.in/';
           }}
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          className="rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
         >
           harkirat.classx.co.in
         </button>
