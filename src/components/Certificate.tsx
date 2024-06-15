@@ -13,17 +13,13 @@ import { useGenerateCertificate } from '@/hooks/useCertGen';
 import { OneCertificate } from '@/utiles/certificate';
 import { useMemo, useState, useEffect } from 'react';
 
-type ActionType = 'downloadPNG' | 'shareLinkedIn' | 'shareTwitter';
-
 export const CertificateComponent = ({
   certificateId,
   certificateSlug,
   course,
   userName,
 }: OneCertificate & { userName: string }) => {
-  const [triggeredAction, setTriggeredAction] = useState<ActionType | null>(
-    null,
-  );
+  const [loading, setLoading] = useState(true);
 
   const certificateDetails = useMemo(
     () => ({
@@ -41,47 +37,41 @@ export const CertificateComponent = ({
   });
 
   useEffect(() => {
-    if (!certificateImageUrl || !triggeredAction) return;
-
-    console.log('Url is : ', certificatePdfUrl);
-    switch (triggeredAction) {
-      case 'downloadPNG': {
-        const downloadUrl = certificateImageUrl;
-        const a = document.createElement('a');
-        a.href = downloadUrl;
-        a.download = 'certificate.png';
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        break;
-      }
-      case 'shareLinkedIn': {
-        const certificateUrl = `${window.location.origin}/certificate/verify/${certificateSlug}`;
-        const postContent = `I just earned the "${course.title}" certificate on 100xDevs! Check it out: ${certificateUrl}`;
-        const linkedInShareUrl = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(
-          certificateUrl,
-        )}&text=${encodeURIComponent(postContent)}`;
-        window.open(linkedInShareUrl);
-        break;
-      }
-      case 'shareTwitter': {
-        const tweetText = `I just earned the "${course.title}" certificate on 100xDevs! Check it out:`;
-        const twitterShareUrl = `${window.location.origin}/certificate/verify/${certificateSlug}`;
-        const twitterShareLink = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}&url=${encodeURIComponent(twitterShareUrl)}`;
-        window.open(twitterShareLink);
-        break;
-      }
-      default: {
-        break;
-      }
+    if (certificateImageUrl) {
+      setLoading(false);
     }
+  }, [certificateImageUrl]);
 
-    setTriggeredAction(null);
-  }, [certificateImageUrl, triggeredAction, certificateSlug, course.title]);
-
-  const handleAction = (action: ActionType) => {
-    setTriggeredAction(action);
+  const handleDownloadPNG = async () => {
+    const downloadUrl = certificateImageUrl;
+    console.log('downloadUrl is : ', downloadUrl);
+    const a = document.createElement('a');
+    a.href = downloadUrl;
+    a.download = 'certificate.png';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
   };
+
+  const handleShareLinkedIn = async () => {
+    const certificateUrl = `${window.location.origin}/certificate/verify/${certificateSlug}`;
+    const postContent = `I just earned the "${course.title}" certificate on 100xDevs! Check it out: ${certificateUrl}`;
+    const shareUrl = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(
+      certificateUrl,
+    )}&text=${encodeURIComponent(postContent)}`;
+    window.open(shareUrl);
+  };
+
+  const handleShareTwitter = () => {
+    const tweetText = `I just earned the "${course.title}" certificate on 100xDevs! Check it out:`;
+    const certificateUrl = `${window.location.origin}/certificate/verify/${certificateSlug}`;
+    const shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}&url=${encodeURIComponent(certificateUrl)}`;
+    window.open(shareUrl);
+  };
+
+  if (certificatePdfUrl) {
+    console.log('Url is : ', certificatePdfUrl);
+  }
 
   return (
     <Card className="w-500 my-4" key={course.id}>
@@ -103,17 +93,22 @@ export const CertificateComponent = ({
         <CardDescription>{course.description}</CardDescription>
       </CardHeader>
       <CardFooter className="flex justify-end">
-        <Button onClick={() => handleAction('downloadPNG')} className="mr-2">
+        <Button onClick={handleDownloadPNG} className="mr-2" disabled={loading}>
           <FaFileImage className="mr-1" /> Download PNG
         </Button>
         <div className="flex items-center justify-center">
           <Button
             className="share-button mr-2 flex items-center"
-            onClick={() => handleAction('shareLinkedIn')}
+            onClick={handleShareLinkedIn}
+            disabled={loading}
           >
             <FaLinkedin className="mr-1" /> Share on LinkedIn
           </Button>
-          <Button onClick={() => handleAction('shareTwitter')} className="mr-2">
+          <Button
+            onClick={handleShareTwitter}
+            className="mr-2"
+            disabled={loading}
+          >
             <FaTwitter className="mr-1" /> Share on Twitter
           </Button>
         </div>
