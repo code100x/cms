@@ -13,7 +13,7 @@ const DiscordSection = () => {
           <span className="pr-1 text-lg font-bold text-blue-600">|</span>Discord
           Support
         </h3>
-        <h2 className="mb-6 mt-2 text-2xl font-semibold text-neutral-100 dark:text-neutral-900 md:text-4xl">
+        <h2 className="mb-6 mt-2 text-2xl font-semibold text-neutral-100 md:text-4xl dark:text-neutral-900">
           Never miss on anything!
         </h2>
         <p className="mb-4 text-lg font-medium text-neutral-100 dark:text-neutral-800">

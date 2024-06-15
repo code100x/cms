@@ -21,7 +21,7 @@ const VoteBlock = forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={`flex h-[45px] w-full items-center justify-center border bg-background ${cn(
+    className={`bg-background flex h-[45px] w-full items-center justify-center border ${cn(
       className,
     )}`}
     {...props}

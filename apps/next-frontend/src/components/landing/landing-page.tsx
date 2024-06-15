@@ -41,13 +41,13 @@ export default function LandingPage() {
           100xdevs
         </h1>
 
-        <div className="w-fit px-4 pb-4 text-center text-3xl text-neutral-800 dark:text-neutral-200 md:text-6xl">
+        <div className="w-fit px-4 pb-4 text-center text-3xl text-neutral-800 md:text-6xl dark:text-neutral-200">
           because 10x ain&apos;t enough!
         </div>
 
         <div
           className={cn(
-            'mx-auto mt-4 max-w-sm px-2 text-center text-sm text-neutral-400 dark:text-neutral-500 md:max-w-2xl md:text-xl',
+            'mx-auto mt-4 max-w-sm px-2 text-center text-sm text-neutral-400 md:max-w-2xl md:text-xl dark:text-neutral-500',
             textFont.className,
           )}
         >

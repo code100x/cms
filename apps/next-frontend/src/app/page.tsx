@@ -29,7 +29,7 @@ export default async function Home() {
         <div className="max-w-2xl px-6 antialiased">
           <h1
             className={cn(
-              'mb-2 text-2xl font-semibold text-neutral-800 dark:text-neutral-200 md:text-3xl',
+              'mb-2 text-2xl font-semibold text-neutral-800 md:text-3xl dark:text-neutral-200',
               rs.className,
             )}
           >

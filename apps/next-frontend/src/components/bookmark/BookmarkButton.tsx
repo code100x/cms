@@ -36,7 +36,7 @@ const BookmarkButton = ({
           <Button
             disabled={isDisabled}
             variant="ghost"
-            className="h-0 p-0 text-primary hover:text-primary"
+            className="text-primary hover:text-primary h-0 p-0"
             onClick={handleBookmark}
           >
             <BookmarkIcon

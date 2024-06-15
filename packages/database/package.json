@@ -20,10 +20,12 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@repo/typescript-config": "*",
-    "@repo/eslint-config": "*",
     "@prisma/client": "^5.15.0",
     "prisma": "^5.15.0"
+  },
+  "devDependencies": {
+    "@repo/typescript-config": "*",
+    "@repo/eslint-config": "*"
   },
   "exports": {
     ".": "./src/index.ts"

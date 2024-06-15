@@ -6,7 +6,7 @@ const PreFooterSection = () => {
   return (
     <div className="my-20 flex w-full flex-col items-center justify-center px-4 py-32 md:px-36">
       <div className="mb-3 flex flex-col items-center justify-center gap-y-2 md:mb-6">
-        <h3 className="px-6 text-center text-2xl font-semibold text-neutral-800 dark:text-neutral-200 md:px-24 md:text-4xl">
+        <h3 className="px-6 text-center text-2xl font-semibold text-neutral-800 md:px-24 md:text-4xl dark:text-neutral-200">
           Every developer deserves to be a great engineer, a{' '}
           <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text font-semibold text-transparent">
             100xEngineer!

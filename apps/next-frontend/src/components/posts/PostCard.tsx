@@ -192,14 +192,14 @@ const PostCard: React.FC<IProps> = ({
     );
   };
   return (
-    <Card className="w-full bg-background">
+    <Card className="bg-background w-full">
       <CardBody className="flex h-auto w-full items-start justify-between gap-5 p-2 sm:p-4">
         <div className="flex w-full flex-1 flex-row items-start justify-between">
           {internalDetails()}
         </div>
       </CardBody>
 
-      <CardFooter className="flex flex-col items-center justify-between border-gray-200 p-0 px-1 pb-2 dark:border-gray-700 md:px-5">
+      <CardFooter className="flex flex-col items-center justify-between border-gray-200 p-0 px-1 pb-2 md:px-5 dark:border-gray-700">
         <div className="flex w-full justify-between">
           <div className="flex">
             <VoteForm

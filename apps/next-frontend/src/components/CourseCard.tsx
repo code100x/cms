@@ -93,7 +93,7 @@ export const CourseCard = ({
       <div className="h-full w-full px-6 py-2">
         <div className="flex h-full w-full flex-col items-start justify-between md:py-4">
           <div className="mb-3 w-full items-start">
-            <h2 className="mb-0 text-xl font-semibold text-neutral-800 dark:text-neutral-100 sm:text-3xl md:mb-2">
+            <h2 className="mb-0 text-xl font-semibold text-neutral-800 sm:text-3xl md:mb-2 dark:text-neutral-100">
               {course.title} Cohort
             </h2>
 

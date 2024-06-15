@@ -13,7 +13,7 @@ const DashboardSection = () => {
           <span className="pr-1 text-lg font-bold text-blue-600">|</span>The
           best learning platform!
         </h3>
-        <h2 className="mb-6 mt-2 text-2xl font-semibold text-neutral-800 dark:text-neutral-200 md:text-4xl">
+        <h2 className="mb-6 mt-2 text-2xl font-semibold text-neutral-800 md:text-4xl dark:text-neutral-200">
           What is 100xdevs?
         </h2>
         <p className="text-lg font-medium text-neutral-600 dark:text-neutral-400">
@@ -40,7 +40,7 @@ const DashboardSection = () => {
       </div>
       <CardContainer className="w-full cursor-pointer">
         <Link href="" target="_blank">
-          <div className="hidden rounded-l-xl bg-slate-200 py-3 pl-3 dark:bg-slate-800 md:block md:rounded-l-2xl md:py-6 md:pl-6">
+          <div className="hidden rounded-l-xl bg-slate-200 py-3 pl-3 md:block md:rounded-l-2xl md:py-6 md:pl-6 dark:bg-slate-800">
             <CardItem>
               <Image
                 src={dashboard}

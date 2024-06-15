@@ -25,7 +25,7 @@ export const Appbar = () => {
 
   return (
     <>
-      <nav className="fixed top-0 z-50 flex h-16 w-full items-center gap-2 border-b bg-background/80 px-4 shadow-sm backdrop-blur-md print:hidden">
+      <nav className="bg-background/80 fixed top-0 z-50 flex h-16 w-full items-center gap-2 border-b px-4 shadow-sm backdrop-blur-md print:hidden">
         {currentPath.includes('courses') && (
           <ToggleButton
             onClick={() => {
@@ -39,38 +39,38 @@ export const Appbar = () => {
 
           {session?.user
             ? !isLoading && (
-              <>
-                <div className="hidden md:block">
-                  <SearchBar />
-                </div>
-                <div className="flex items-center space-x-2">
-                  {/* Search Bar for smaller devices */}
-                  <MobileScreenSearch />
-                  <ProfileDropdown />
-                </div>
-              </>
-            )
+                <>
+                  <div className="hidden md:block">
+                    <SearchBar />
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    {/* Search Bar for smaller devices */}
+                    <MobileScreenSearch />
+                    <ProfileDropdown />
+                  </div>
+                </>
+              )
             : !isLoading && (
-              <div className="flex items-center space-x-2">
-                <div className="hidden sm:flex items-center justify-around md:w-auto md:block space-x-3">
-                  <AppbarAuth />
+                <div className="flex items-center space-x-2">
+                  <div className="hidden items-center justify-around space-x-3 sm:flex md:block md:w-auto">
+                    <AppbarAuth />
 
-                  <Button size={'sm'} asChild>
-                    <Link
-                      href={'https://harkirat.classx.co.in/new-courses'}
-                      target="_blank"
-                    >
-                      <p className="text-white">Join now</p>{' '}
-                      <Sparkles className="text-white ml-2 h-4 w-4 hover:translate-x-0.5 ease-linear duration-200" />
-                    </Link>
-                  </Button>
+                    <Button size={'sm'} asChild>
+                      <Link
+                        href={'https://harkirat.classx.co.in/new-courses'}
+                        target="_blank"
+                      >
+                        <p className="text-white">Join now</p>{' '}
+                        <Sparkles className="ml-2 h-4 w-4 text-white duration-200 ease-linear hover:translate-x-0.5" />
+                      </Link>
+                    </Button>
+                  </div>
+                  <ThemeToggler />
+                  <div className="block sm:hidden">
+                    <NavigationMenu />
+                  </div>
                 </div>
-                <ThemeToggler />
-                <div className="block sm:hidden">
-                  <NavigationMenu />
-                </div>
-              </div>
-            )}
+              )}
         </div>
       </nav>
       <div className="h-16 w-full print:hidden" />

@@ -18,6 +18,7 @@ type CarouselProps = {
   opts?: CarouselOptions;
   plugins?: CarouselPlugin;
   orientation?: 'horizontal' | 'vertical';
+  //eslint is giving wrong warning so disabling for one line
   //eslint-disable-next-line
   setApi?: (api: CarouselApi) => void;
 };

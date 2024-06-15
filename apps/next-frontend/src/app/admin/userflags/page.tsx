@@ -81,7 +81,7 @@ export default function DiscordPage() {
           // style={{ width: 800 }}
           rows={10}
           placeholder="segments json"
-          className="w-[80vw] text-black dark:text-white lg:w-[800px]"
+          className="w-[80vw] text-black lg:w-[800px] dark:text-white"
           onChange={(e) => {
             setSegmentsJson(e.target.value);
           }}

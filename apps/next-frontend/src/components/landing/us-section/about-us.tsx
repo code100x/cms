@@ -1,12 +1,12 @@
 const AboutUsSection = () => {
   return (
     <div className="my-20 flex h-full w-full flex-col items-center justify-center">
-      <h2 className="mb-8 text-2xl font-semibold text-slate-800 dark:text-slate-200 md:text-4xl">
+      <h2 className="mb-8 text-2xl font-semibold text-slate-800 md:text-4xl dark:text-slate-200">
         About 100xdevs
       </h2>
 
       <div className="mb-6 flex flex-col items-center justify-center px-4 md:mb-12 lg:px-48">
-        <div className="mb-2 flex w-full flex-col items-start text-xl font-semibold text-neutral-700 dark:text-neutral-300 md:text-2xl">
+        <div className="mb-2 flex w-full flex-col items-start text-xl font-semibold text-neutral-700 md:text-2xl dark:text-neutral-300">
           <h3>
             Welcome to{' '}
             <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
@@ -15,7 +15,7 @@ const AboutUsSection = () => {
           </h3>
         </div>
 
-        <div className="mb-2 w-full text-lg text-neutral-600 dark:text-neutral-400 md:text-xl">
+        <div className="mb-2 w-full text-lg text-neutral-600 md:text-xl dark:text-neutral-400">
           <h3>
             This is an initiative by{' '}
             <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text font-semibold text-transparent">

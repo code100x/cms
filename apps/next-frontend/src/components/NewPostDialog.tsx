@@ -96,7 +96,7 @@ export const NewPostDialog = () => {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8">
           <div
             ref={containerRef}
-            className="relative z-10 h-5/6 w-full max-w-3xl space-y-4 rounded-lg bg-white p-2 pt-8 shadow-lg dark:bg-gray-800 md:max-w-4xl"
+            className="relative z-10 h-5/6 w-full max-w-3xl space-y-4 rounded-lg bg-white p-2 pt-8 shadow-lg md:max-w-4xl dark:bg-gray-800"
           >
             <button
               type="button"
