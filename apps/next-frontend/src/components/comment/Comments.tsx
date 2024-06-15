@@ -68,7 +68,7 @@ const Comments = async ({
           <Link
             className="p-1"
             href={getUpdatedUrl(
-              `/courses/${content.possiblePath}`,
+              `/courses/${content.courseId}/${content.possiblePath}`,
               modifiedSearchParams,
               {},
             )}
@@ -86,6 +86,7 @@ const Comments = async ({
                 possiblePath={content.possiblePath}
                 searchParams={searchParams}
                 comment={data.parentComment.content}
+                contentId={content.courseId}
               />
             </h1>
           )}
@@ -285,6 +286,7 @@ const Comments = async ({
                       possiblePath={content.possiblePath}
                       searchParams={searchParams}
                       comment={c.content}
+                      contentId={content.courseId}
                     />
                   </div>
 
@@ -300,7 +302,7 @@ const Comments = async ({
                     {!data.parentComment && (
                       <Link
                         href={getUpdatedUrl(
-                          `/courses/${content.possiblePath}`,
+                          `/courses/${content.courseId}/${content.possiblePath}`,
                           searchParams,
                           {
                             parentId: c.id,
