@@ -16,7 +16,7 @@ const CommentApproveForm = ({
 }) => {
   const currentPath = usePathname();
 
-  const { execute } = useAction(approveComment, {
+  const { execute, isLoading } = useAction(approveComment, {
     onSuccess: () => {
       toast('Comment Approved');
     },
@@ -35,7 +35,7 @@ const CommentApproveForm = ({
   };
   return (
     <form onSubmit={handleFormSubmit}>
-      <button type="submit">
+      <button type="submit" disabled={isLoading}>
         <div className="flex items-center gap-1">
           Approve Chapters <CheckIcon className="h-4 w-4" />
         </div>
