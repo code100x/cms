@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
 import VideoPreview from '@/actions/videopreview/videoPreview';
 import { useEffect } from 'react';
+import CardComponent from './CardComponent';
 
 const VideoThumbnail = ({
   imageUrl,
   contentId,
+  title,
 }: {
   imageUrl: string;
   contentId: number;
+  title: string;
 }) => {
   const [videoUrl, setVideoUrl] = useState<string | null>(null);
   const [hover, setHover] = useState(false);
@@ -40,11 +43,17 @@ const VideoThumbnail = ({
             </video>
           </div>
         ) : (
-          <img
-            src={imageUrl}
-            alt="Video Thumbnail"
-            className="h-full w-full object-cover"
-          />
+          <>
+            {imageUrl ? (
+              <img
+                src={imageUrl}
+                alt="Video Thumbnail"
+                className="h-full w-full object-cover"
+              />
+            ) : (
+              <CardComponent type="video" title={title} />
+            )}
+          </>
         )}
       </div>
     </div>

@@ -4,6 +4,7 @@ import { Bookmark } from '@prisma/client';
 import BookmarkButton from './bookmark/BookmarkButton';
 import { formatTime } from '@/lib/utils';
 import VideoThumbnail from './videothumbnail';
+import CardComponent from './CardComponent';
 
 export const ContentCard = ({
   title,
@@ -29,13 +30,9 @@ export const ContentCard = ({
   bookmark?: Bookmark | null;
   contentDuration?: number;
 }) => {
-  let image =
-    'https://d2szwvl7yo497w.cloudfront.net/courseThumbnails/folder.png';
-  if (type === 'notion') {
-    image = 'https://d2szwvl7yo497w.cloudfront.net/courseThumbnails/notes.png';
-  } else if (type === 'video') {
-    image = 'https://d2szwvl7yo497w.cloudfront.net/courseThumbnails/video.png';
-  }
+  // let image ;
+  // image = ""
+
   return (
     <div
       onClick={onClick}
@@ -56,7 +53,8 @@ export const ContentCard = ({
       )}
       {type !== 'video' && (
         <div className="relative overflow-hidden rounded-md">
-          <img src={image} alt={title} className="" />
+          <CardComponent title={title} type={type} />
+          {/* <img src={image} alt={title} className="" /> */}
           {!!videoProgressPercent && (
             <div className="absolute bottom-0 h-1 w-full bg-[#707071]">
               <div
@@ -70,10 +68,12 @@ export const ContentCard = ({
       {type === 'video' && (
         <div className="relative overflow-hidden rounded-md">
           <VideoThumbnail
+            title={title}
             contentId={contentId ?? 0}
-            imageUrl={
-              'https://d2szwvl7yo497w.cloudfront.net/courseThumbnails/video.png'
-            }
+            imageUrl=""
+            // imageUrl={
+            //   'https://d2szwvl7yo497w.cloudfront.net/courseThumbnails/video.png'
+            // }
           />
         </div>
       )}
