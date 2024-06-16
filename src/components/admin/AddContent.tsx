@@ -4,8 +4,8 @@ import { AddNotionMetadata } from './AddNotionMetadata';
 import { Input } from '../ui/input';
 import { useRecoilState } from 'recoil';
 import { loader } from '@/store/atoms/loader';
-import DiscordService from '@/app/services/DiscordService';
 import { Checkbox } from '../ui/checkbox';
+import { toast } from 'sonner';
 
 export const AddContent = ({
   rest,
@@ -26,22 +26,6 @@ export const AddContent = ({
   const [adminPassword, setAdminPassword] = useState('');
   const [loading, setLoading] = useRecoilState(loader);
 
-  const { sendUpdateToDiscord } = DiscordService();
-
-  interface DiscordData {
-    type: string;
-    thumbnail: string;
-    title: string;
-    courseTitle: string;
-    courseId: number;
-    currFolderId: number;
-    mediaId: number;
-  }
-
-  const postOnDiscord = (data: DiscordData) => {
-    sendUpdateToDiscord(data);
-  };
-
   const handleContentSubmit = async () => {
     setLoading(true);
     const response = await fetch('/api/admin/content', {
@@ -54,6 +38,9 @@ export const AddContent = ({
         parentContentId,
         metadata,
         adminPassword,
+        courseTitle,
+        rest,
+        checked,
       }),
       method: 'POST',
       headers: {
@@ -61,27 +48,15 @@ export const AddContent = ({
       },
     });
     setLoading(false);
+    const responseData = await response.json();
+    console.log(responseData);
 
-    const respData: { id: number } = await response.json();
-
-    const data = {
-      type,
-      thumbnail:
-        'https://d2szwvl7yo497w.cloudfront.net/courseThumbnails/video.png',
-      title,
-      courseTitle,
-      courseId,
-      currFolderId: parseInt(rest[0], 10),
-      mediaId: respData.id,
-    };
-
-    if (checked && response.status === 200) {
-      if (type === 'notion' || type === 'video') {
-        postOnDiscord(data);
-        setLoading(false);
-      }
+    if (response.status === 200) {
+      // handle success if needed
+      toast.success(responseData.message);
     } else {
-      setLoading(false);
+      // handle error if needed
+      toast.error(responseData.message || 'Something went wrong');
     }
   };
 

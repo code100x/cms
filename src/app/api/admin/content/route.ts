@@ -1,5 +1,39 @@
 import db from '@/db';
+import axios from 'axios';
 import { NextRequest, NextResponse } from 'next/server';
+
+interface DiscordData {
+  type: string;
+  thumbnail: string;
+  title: string;
+  courseTitle: string;
+  courseId: number;
+  currFolderId: number;
+  mediaId: number;
+}
+
+const sendUpdateToDiscord = async (data: DiscordData) => {
+  const body = {
+    content: 'Hello @everyone',
+    tts: false,
+    color: 'white',
+    embeds: [
+      {
+        title: `New ${data?.type === 'notion' ? 'NOTE' : data?.type?.toUpperCase()}`,
+        description: `${data?.title} has been added in the ${data?.courseTitle} , [Click here to visit this ${data?.type === 'notion' ? 'note' : data?.type}](https://app.100xdevs.com/courses/${data.courseId}/${data.currFolderId}/${data.mediaId})`,
+      },
+    ],
+  };
+
+  try {
+    await axios.post(
+      process.env.NEXT_PUBLIC_DISCORD_WEBHOOK_URL as string,
+      body,
+    );
+  } catch (error) {
+    console.error('Failed to send update to Discord:', error);
+  }
+};
 
 export const POST = async (req: NextRequest) => {
   const {
@@ -10,6 +44,9 @@ export const POST = async (req: NextRequest) => {
     parentContentId,
     metadata,
     adminPassword,
+    courseTitle,
+    rest,
+    checked,
   }: {
     type: 'video' | 'folder' | 'notion';
     thumbnail: string;
@@ -18,6 +55,9 @@ export const POST = async (req: NextRequest) => {
     parentContentId: number;
     metadata: any;
     adminPassword: string;
+    courseTitle: string;
+    rest: string[];
+    checked: boolean;
   } = await req.json();
 
   if (adminPassword !== process.env.ADMIN_SECRET) {
@@ -103,5 +143,34 @@ export const POST = async (req: NextRequest) => {
       });
     }
   }
-  return NextResponse.json({ id: content.id }, { status: 200 });
+
+  if (checked && (type === 'notion' || type === 'video')) {
+    if (!process.env.NEXT_PUBLIC_DISCORD_WEBHOOK_URL) {
+      return NextResponse.json(
+        { message: 'Environment variable for discord webhook is not set' },
+        { status: 500 },
+      );
+    }
+    const data: DiscordData = {
+      type,
+      thumbnail:
+        'https://d2szwvl7yo497w.cloudfront.net/courseThumbnails/video.png',
+      title,
+      courseTitle,
+      courseId,
+      currFolderId: parseInt(rest[0], 10),
+      mediaId: content.id,
+    };
+    await sendUpdateToDiscord(data);
+  }
+
+  return NextResponse.json(
+    {
+      message:
+        checked && (type === 'notion' || type === 'video')
+          ? 'Content Added and Discord notification has been sent'
+          : 'Content has been added',
+    },
+    { status: 200 },
+  );
 };
