@@ -43,6 +43,8 @@ export const CertificateComponent = ({
   }, [certificateImageUrl]);
 
   const handleDownloadPNG = async () => {
+    if (loading) return;
+    setLoading(true);
     const downloadUrl = certificateImageUrl;
     console.log('downloadUrl is : ', downloadUrl);
     const a = document.createElement('a');
@@ -51,22 +53,29 @@ export const CertificateComponent = ({
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
+    setLoading(false);
   };
 
   const handleShareLinkedIn = async () => {
+    if (loading) return;
+    setLoading(true);
     const certificateUrl = `${window.location.origin}/certificate/verify/${certificateSlug}`;
     const postContent = `I just earned the "${course.title}" certificate on 100xDevs! Check it out: ${certificateUrl}`;
     const shareUrl = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(
       certificateUrl,
     )}&text=${encodeURIComponent(postContent)}`;
     window.open(shareUrl);
+    setLoading(false);
   };
 
   const handleShareTwitter = () => {
+    if (loading) return;
+    setLoading(true);
     const tweetText = `I just earned the "${course.title}" certificate on 100xDevs! Check it out:`;
     const certificateUrl = `${window.location.origin}/certificate/verify/${certificateSlug}`;
     const shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}&url=${encodeURIComponent(certificateUrl)}`;
     window.open(shareUrl);
+    setLoading(false);
   };
 
   if (certificatePdfUrl) {
