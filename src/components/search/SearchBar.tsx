@@ -94,14 +94,14 @@ const SearchBar = ({ onCardClick }: { onCardClick?: () => void }) => {
 
   return (
     <div
-      className="relative flex items-center w-full lg:w-[300px] xl:w-[400px] h-10"
+      className="relative flex h-10 w-full items-center lg:w-[300px] xl:w-[400px]"
       ref={ref}
     >
       {/* Search Input Bar */}
       <SearchIcon className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-gray-500" />
       <Input
         placeholder="Search for videos..."
-        className="px-10 border-2 focus-visible:ring-transparent rounded-full"
+        className="rounded-full border-2 px-10 focus-visible:ring-transparent"
         value={searchTerm}
         onChange={handleInputChange}
         onFocus={() => setIsInputFocused(true)}
@@ -116,7 +116,7 @@ const SearchBar = ({ onCardClick }: { onCardClick?: () => void }) => {
 
       {/* Search Results */}
       {isInputFocused && searchTerm.length > 0 && (
-        <div className="absolute top-12 bg-white dark:bg-[#020817] rounded-lg border-2 shadow-lg w-full py-2 max-h-[40vh] overflow-y-auto">
+        <div className="absolute top-12 max-h-[40vh] w-full overflow-y-auto rounded-lg border-2 bg-white py-2 shadow-lg dark:bg-[#020817]">
           {renderSearchResults()}
         </div>
       )}

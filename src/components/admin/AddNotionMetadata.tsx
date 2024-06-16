@@ -15,7 +15,7 @@ export function AddNotionMetadata({
   return (
     <div className="py-2">
       <Input
-        className="dark:text-white text-black"
+        className="text-black dark:text-white"
         type="text"
         placeholder="Notion id"
         onChange={async (e) => {

@@ -54,7 +54,7 @@ const DeleteQAForm: React.FC<IVoteFormProps> = ({ questionId, answerId }) => {
       className="w-full"
     >
       <button type="submit">
-        <DropdownMenuItem className="text-sm px-1 py-2 rounded-xl hover:border-none hover:outline-none">
+        <DropdownMenuItem className="rounded-xl px-1 py-2 text-sm hover:border-none hover:outline-none">
           Delete
         </DropdownMenuItem>
       </button>

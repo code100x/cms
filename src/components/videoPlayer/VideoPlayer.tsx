@@ -163,7 +163,7 @@ export const VideoPlayer = ({
     <div
       id="videoContainer"
       data-vjs-player
-      className="relative group/v-container select-none rounded-md overflow-hidden md:max-w-[calc(100vw-3rem)] grid 2xl:max-w-[calc(100vw-17rem)]"
+      className="group/v-container relative grid select-none overflow-hidden rounded-md md:max-w-[calc(100vw-3rem)] 2xl:max-w-[calc(100vw-17rem)]"
     >
       <VideoPlayerControls
         player={player}

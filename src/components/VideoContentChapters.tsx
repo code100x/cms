@@ -34,8 +34,8 @@ const VideoContentChapters = ({
   }, [player]);
 
   return (
-    <div className="w-full lg:w-1/3 rounded-md shadow-md border text-sm">
-      <div className="flex items-center justify-between p-2 py-3 dark:bg-[#212020] bg-[#F5F5F5]">
+    <div className="w-full rounded-md border text-sm shadow-md lg:w-1/3">
+      <div className="flex items-center justify-between bg-[#F5F5F5] p-2 py-3 dark:bg-[#212020]">
         <span>Chapters</span>
         <X onClick={onCancel} className="cursor-pointer" />
       </div>
@@ -44,14 +44,14 @@ const VideoContentChapters = ({
           return (
             <div key={`${index}-${start}${end}${title}`}>
               <div
-                className={`dark:text-white text-black p-2 py-3 flex items-center gap-3 justify-between cursor-pointer ${currentTime >= start && currentTime < end ? 'dark:bg-[#27272A] bg-zinc-200' : ''}`}
+                className={`flex cursor-pointer items-center justify-between gap-3 p-2 py-3 text-black dark:text-white ${currentTime >= start && currentTime < end ? 'bg-zinc-200 dark:bg-[#27272A]' : ''}`}
                 onClick={() => {
                   player.currentTime(start);
                   player.play();
                 }}
               >
                 <span>{title}</span>
-                <div className="dark:bg-[#263850] dark:text-[#37A4FF] bg-[#ffffff] text-[#040fff] px-1.5 py-0.5 rounded">
+                <div className="rounded bg-[#ffffff] px-1.5 py-0.5 text-[#040fff] dark:bg-[#263850] dark:text-[#37A4FF]">
                   {formatTime(start)}
                 </div>
               </div>

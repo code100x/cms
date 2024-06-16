@@ -19,11 +19,11 @@ export class Cache {
   }
 
   static getInstance() {
-    if (!this.instance) {
-      this.instance = new Cache();
+    if (!Cache.instance) {
+      Cache.instance = new Cache();
     }
 
-    return this.instance;
+    return Cache.instance;
   }
 
   set(
@@ -57,3 +57,4 @@ export class Cache {
     return null;
   }
 }
+export const cache = Cache.getInstance();

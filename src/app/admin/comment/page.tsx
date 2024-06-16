@@ -3,7 +3,7 @@ import ApproveComment from './ApproveComment';
 
 const CommentAdminPage = () => {
   return (
-    <div className="flex justify-center h-[100dvh] items-center">
+    <div className="flex h-[100dvh] items-center justify-center">
       <ApproveComment />
     </div>
   );
