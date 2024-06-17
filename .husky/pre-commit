@@ -1,0 +1,14 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+# Check for unwanted lock files in the staged changes
+if git diff --cached --name-only | grep -qE "^(package-lock\.json|pnpm-lock\.yaml|bun\.lockb)$"; then
+	echo "Error: Commits containing 'package-lock.json', 'pnpm-lock.yaml', or 'bun.lockb' are not allowed. Please use Yarn and remove these files from your commit."
+	exit 1
+fi
+
+# Allow only yarn.lock, not mandatory but should be the only lock file if present
+if git diff --cached --name-only | grep -qE "^(package-lock\.json|pnpm-lock\.yaml|bun\.lockb)$"; then
+	echo "Error: Only 'yarn.lock' is allowed as a lock file. Please remove any other lock files from your commit."
+	exit 1
+fi
