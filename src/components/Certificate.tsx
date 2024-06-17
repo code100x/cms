@@ -78,9 +78,7 @@ export const CertificateComponent = ({
     setLoading(false);
   };
 
-  if (certificatePdfUrl) {
-    console.log('Url is : ', certificatePdfUrl);
-  }
+  console.log('Url is : ', certificatePdfUrl);
 
   return (
     <Card className="w-500 my-4" key={course.id}>
