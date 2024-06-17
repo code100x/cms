@@ -1,6 +1,6 @@
 import { importJWK, jwtVerify } from 'jose';
 import { NextRequestWithAuth, withAuth } from 'next-auth/middleware';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse, userAgent } from 'next/server';
 
 const PRIVATE_MOBILE_ROUTES = ['/api/auth/mobile/logout'];
 const SINGLE_USER_ROUTES = ['/courses', '/questions', '/bookmarks'];
@@ -52,3 +52,17 @@ export const nextAuthMiddleware = withAuth(async (req) => {
     }
   }
 });
+
+export const getDeviceType = (request: NextRequest) => {
+  const { device } = userAgent(request);
+  return device.type;
+};
+
+export const isMobile = (request: NextRequest) => {
+  const deviceType = getDeviceType(request);
+  return deviceType === 'mobile' || deviceType === 'tablet';
+};
+
+export const isDesktop = (request: NextRequest) => {
+  return !isMobile(request);
+};

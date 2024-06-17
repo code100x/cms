@@ -1,6 +1,10 @@
 import { NextRequestWithAuth } from 'next-auth/middleware';
 import { NextResponse } from 'next/server';
-import { handleMobileAuth, nextAuthMiddleware } from './lib/middleware-utils';
+import {
+  handleMobileAuth,
+  isMobile,
+  nextAuthMiddleware,
+} from './lib/middleware-utils';
 
 const PUBLIC_ROUTES = [
   '/',
@@ -20,7 +24,9 @@ export async function middleware(request: NextRequestWithAuth) {
   }
 
   // Mobile Auth
-  await handleMobileAuth(request);
+  if (isMobile(request)) {
+    return await handleMobileAuth(request);
+  }
 
   /* 
   NextJS Auth - Other public routes 
