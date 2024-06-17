@@ -2,13 +2,16 @@ import React, { useState } from 'react';
 import VideoPreview from '@/actions/videopreview/videoPreview';
 import { useEffect } from 'react';
 import { LazyLoadImage } from './LazyLoadImage';
+import CardComponent from './CardComponent';
 
 const VideoThumbnail = ({
   imageUrl,
   contentId,
+  title,
 }: {
   imageUrl: string;
   contentId: number;
+  title: string;
 }) => {
   const [videoUrl, setVideoUrl] = useState<string | null>(null);
   const [hover, setHover] = useState(false);
@@ -42,13 +45,19 @@ const VideoThumbnail = ({
             </video>
           </div>
         ) : (
-          <LazyLoadImage
-            src={imageUrl}
-            alt="Video Thumbnail"
-            width={500}
-            height={250}
-            className="h-full w-full object-cover"
-          />
+          <>
+            {imageUrl ? (
+              <LazyLoadImage
+                src={imageUrl}
+                alt="Video Thumbnail"
+                width={500}
+                height={250}
+                className="h-full w-full object-cover"
+              />
+            ) : (
+              <CardComponent type="video" title={title} />
+            )}
+          </>
         )}
       </div>
     </div>
