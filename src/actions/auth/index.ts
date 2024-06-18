@@ -1,10 +1,38 @@
 'use server';
-import { NewPasswordType, ResetPasswordType } from './types';
-import { NewPasswordSchema, ResetPasswordSchema } from './schema';
+import { NewPasswordType, ResetPasswordType, SignInType } from './types';
+import { NewPasswordSchema, ResetPasswordSchema, SignInSchema } from './schema';
 import db from '@/db';
 import { generatePasswordVerificationToken } from '@/lib/token';
 import sendPasswordResetTokenEmail from '@/lib/mail';
 import bcrypt from 'bcrypt';
+import { getUserByEmail } from '@/utiles/user';
+import { signIn } from 'next-auth/react';
+
+export const SignIn = async (values: SignInType) => {
+  const validatedFields = SignInSchema.safeParse(values);
+
+  if (!validatedFields.success) {
+    return { error: 'Invalid Inputs' };
+  }
+
+  const { email, password } = validatedFields.data;
+  const exisitingUser = await getUserByEmail(email);
+  if (!exisitingUser || !exisitingUser.email) {
+    return { error: "Email doesn't exists" };
+  }
+
+  try {
+    const res = await signIn('credentials', {
+      redirect: false,
+      username: email,
+      password,
+    });
+
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 export const ResetPasswordHandler = async (data: ResetPasswordType) => {
   const validatedFields = ResetPasswordSchema.safeParse(data);

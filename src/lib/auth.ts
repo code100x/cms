@@ -6,6 +6,7 @@ import prisma from '@/db';
 import { NextAuthOptions } from 'next-auth';
 import { Session } from 'next-auth';
 import { JWT } from 'next-auth/jwt';
+import { getTwoFactorConfirmationByUserId } from '@/utiles/two-factor-confirmation';
 
 interface AppxSigninResponse {
   data: {
@@ -136,6 +137,7 @@ export const authOptions = {
               password: true,
               id: true,
               name: true,
+              twoFactorEnabled: true,
             },
           });
           if (
@@ -143,6 +145,22 @@ export const authOptions = {
             userDb.password &&
             (await bcrypt.compare(credentials.password, userDb.password))
           ) {
+            // 2FA verification
+            if (userDb?.twoFactorEnabled) {
+              const twoFactorConfirmation =
+                await getTwoFactorConfirmationByUserId(userDb?.id);
+
+              if (!twoFactorConfirmation) {
+                return null;
+              }
+
+              await db.twoFactorConfirmation.delete({
+                where: {
+                  id: twoFactorConfirmation.id,
+                },
+              });
+            }
+
             const jwt = await generateJWT({
               id: userDb.id,
             });

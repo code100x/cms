@@ -8,9 +8,19 @@ const sendPasswordResetTokenEmail = async (email: string, token: string) => {
     from: '100xdevs <100xdevs@resend.dev>',
     to: email,
     subject: 'Email Verification for Password Reset',
-    html: `<p>Below link is valid for only 1hr </p> </br><p><a href="${confirmLink}">here</a>to confirm email.</p>`,
+    html: `<p>Below link is valid for only 1hr </p> </br><p>Click <a href="${confirmLink}">here</a> to confirm email.</p>`,
   });
   return res;
 };
 
 export default sendPasswordResetTokenEmail;
+
+export const sendTwoFactorTokenEmail = async (email: string, token: string) => {
+  const res = await resend.emails.send({
+    from: '100xdevs <100xdevs@resend.dev>',
+    to: email,
+    subject: 'Email Verification for Password Reset',
+    html: `<p>Token is only valid for 1 hr : ${token}</p>`,
+  });
+  return res;
+};

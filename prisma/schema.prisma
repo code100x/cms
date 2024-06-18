@@ -153,6 +153,8 @@ model User {
   questions      Question[]
   answers        Answer[]
   certificate    Certificate[]
+  twoFactorEnabled Boolean @default(false)
+  twoConfirmation TwoFactorConfirmation?
 }
 
 model DiscordConnect {
@@ -298,4 +300,21 @@ model PasswordResetToken {
   expires DateTime 
 
   @@unique([email, token])
+}
+model TwoFactorToken {
+  id String @id @default(cuid())
+  email String
+  token String @unique
+  expires DateTime
+
+  @@unique([email, token])
+}
+
+model TwoFactorConfirmation {
+  id String @id @default(cuid())
+  
+  userId String
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId])
 }

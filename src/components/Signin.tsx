@@ -14,7 +14,6 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import ErrorMessage from './ErrorMessage';
 import { Loader } from './Loader';
-
 import { EyeIcon, EyeOffIcon } from 'lucide-react';
 
 const Signin = () => {
@@ -48,7 +47,6 @@ const Signin = () => {
           username: data.email,
           password: data.password,
         });
-
         if (!res?.error) {
           router.push('/');
           toast.success('Signed In');
