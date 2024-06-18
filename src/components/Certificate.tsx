@@ -31,7 +31,7 @@ export const CertificateComponent = ({
     [certificateId, course, userName, certificateSlug],
   );
 
-  const { certificatePdfUrl, certificateImageUrl } = useGenerateCertificate({
+  const { certificateImageUrl } = useGenerateCertificate({
     certificateDetails,
     userName,
   });
@@ -77,8 +77,6 @@ export const CertificateComponent = ({
     window.open(shareUrl);
     setLoading(false);
   };
-
-  console.log('Url is : ', certificatePdfUrl);
 
   return (
     <Card className="w-500 my-4" key={course.id}>
