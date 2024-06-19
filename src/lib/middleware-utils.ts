@@ -22,7 +22,9 @@ export const handleMobileAuth = async (request: NextRequestWithAuth) => {
   if (token) {
     try {
       const payload: any = await verifyJWT(token);
-      request.nextUrl.searchParams.set('userId', payload.id);
+      // @typo here
+      const userId = payload.payload.userid;
+      console.log(userId);
       return NextResponse.next();
     } catch (error) {
       return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
