@@ -83,7 +83,7 @@ export const getMetadata = async (contentId: number) => {
     thumbnails: metadata['thumbnail_mosiac_url'],
   };
 
-  if (user.bunnyProxyEnabled) {
+  if (user?.bunnyProxyEnabled) {
     return bunnyUrls;
   }
 

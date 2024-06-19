@@ -20,7 +20,7 @@ const CommentVoteForm = ({
 }) => {
   const currentPath = usePathname();
 
-  const { execute } = useAction(voteHandlerAction, {
+  const { execute, isLoading } = useAction(voteHandlerAction, {
     onSuccess: () => {
       toast('Comment Voted');
     },
@@ -50,8 +50,9 @@ const CommentVoteForm = ({
     <div className="flex gap-2">
       <form onSubmit={handleUpvote}>
         <button
-          className="flex items-center gap-1 text-gray-500 dark:text-gray-400"
+          className={`flex items-center gap-1 text-gray-500 dark:text-gray-400 ${isLoading && 'opacity-80'}`}
           type="submit"
+          disabled={isLoading}
         >
           <ThumbsUpIcon
             className="h-4 w-4"
@@ -66,8 +67,9 @@ const CommentVoteForm = ({
       </form>
       <form onSubmit={handleDownVote}>
         <button
-          className="flex items-center gap-1 text-gray-500 dark:text-gray-400"
+          className={`flex items-center gap-1 text-gray-500 dark:text-gray-400 ${isLoading && 'opacity-80'}`}
           type="submit"
+          disabled={isLoading}
         >
           <ThumbsDownIcon
             className="h-4 w-4"
