@@ -74,8 +74,11 @@ export const getMetadata = async (contentId: number) => {
   // }
 
   const bunnyUrls = {
+    //@ts-ignore
     1080: bunnyUrl(metadata[`video_1080p_mp4_${userId}`]),
+    //@ts-ignore
     720: bunnyUrl(metadata[`video_720p_mp4_${userId}`]),
+    //@ts-ignore
     360: bunnyUrl(metadata[`video_360p_mp4_${userId}`]),
     subtitles: metadata['subtitles'],
     slides: metadata['slides'],
