@@ -46,8 +46,10 @@ export default async function UpdateCourseContent({
       {course?.title}
       <div className="font-bold md:text-5xl lg:text-6xl">Content</div>
       <AddContent
+        rest={rest}
         courseId={parseInt(courseId, 10)}
         parentContentId={parseFloat(rest[rest.length - 1])}
+        courseTitle={course?.title}
       />
       <AdminCourseContent
         courseContent={courseContent.map((x: any) => ({
