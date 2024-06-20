@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cms
+  labels:
+    app: cms
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: cms
+  template:
+    metadata:
+      labels:
+        app: cms
+    spec:
+      containers:
+        - name: cms
+          image: 100xdevs/cms:1
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+          volumeMounts:
+            - name: secret
+              mountPath: /usr/src/app/.env
+              subPath: .env
+      volumes:
+        - name: secret
+          secret:
+            secretName: cms-secret
+            items:
+              - key: .env
+                path: .env
