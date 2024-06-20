@@ -5,3 +5,4 @@ build
 .env.example
 postgres-data
 .next
+.env

@@ -1,0 +1,13 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: cms-cert
+  namespace: default
+spec:
+  secretName: cms-tls
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  commonName: app.100xdevs.com
+  dnsNames:
+  - app.100xdevs.com
