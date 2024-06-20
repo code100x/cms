@@ -21,8 +21,7 @@ export default withAuth(async (req) => {
     if (!json.user) {
       return NextResponse.redirect(new URL('/invalidsession', req.url));
     }
-  } catch(e) {
+  } catch (e) {
     return NextResponse.redirect(new URL('/invalidsession', req.url));
   }
-
 });
