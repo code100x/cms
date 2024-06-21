@@ -20,7 +20,7 @@
 
 1. clone the repository:
    ```bash
-   git clone https://github.com/your-username/cms.git
+   git clone https://github.com/code100x/cms.git
    ```
 2. Navigate to the project directory:
    ```bash
