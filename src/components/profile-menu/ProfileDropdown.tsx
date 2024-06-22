@@ -7,6 +7,7 @@ import {
   LogOutIcon,
   User2Icon,
   Bird,
+  User,
 } from 'lucide-react';
 import {
   DropdownMenu,
@@ -22,6 +23,11 @@ import { SelectTheme } from './SelectTheme';
 
 const ProfileDropdown = () => {
   const menuItemLinks = [
+    {
+      href: '/profile',
+      icon: <User className="mr-2 h-4 w-4" />,
+      label: 'Profile',
+    },
     {
       href: '/history',
       icon: <HistoryIcon className="mr-2 h-4 w-4" />,

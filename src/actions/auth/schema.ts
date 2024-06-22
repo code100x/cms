@@ -21,3 +21,22 @@ export const SignInSchema = z.object({
   }),
   twoFactorCode: z.string().optional(),
 });
+
+export const UpdateCredentialsSchema = z
+  .object({
+    email: z.string().email().optional(),
+    name: z.string().optional(),
+    currentPassword: z.optional(z.string().min(4)),
+    newPassword: z.optional(z.string().min(4)),
+    twoFactorEnabled: z.boolean().optional(),
+  })
+  .refine(
+    (data) => {
+      if (!data.currentPassword && data.newPassword) return false;
+      if (data.currentPassword && !data.newPassword) return false;
+      return true;
+    },
+    {
+      message: 'Invalid Password',
+    },
+  );

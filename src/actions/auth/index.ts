@@ -1,5 +1,10 @@
 'use server';
-import { NewPasswordType, ResetPasswordType, SignInType } from './types';
+import {
+  NewPasswordType,
+  ResetPasswordType,
+  SignInType,
+  UpdateCredentialsType,
+} from './types';
 import { NewPasswordSchema, ResetPasswordSchema, SignInSchema } from './schema';
 import db from '@/db';
 import {
@@ -155,4 +160,43 @@ export const createNewPassword = async (
   } catch (error) {
     console.log(error);
   }
+};
+
+export const UpdateCredentials = async (data: UpdateCredentialsType) => {
+  if (!data) return { error: 'Invalid Inputs' };
+  const { name, email, currentPassword, newPassword } = data;
+
+  const exisitingUser = await getUserByEmail(email!);
+
+  if (!exisitingUser || !exisitingUser.email) {
+    return { error: "Email doesn't exists" };
+  }
+
+  if (currentPassword && newPassword && exisitingUser?.password) {
+    const matches = await bcrypt.compare(
+      currentPassword,
+      exisitingUser?.password,
+    );
+
+    if (!matches) {
+      return { error: 'Invalid Password' };
+    }
+
+    const hashedPassword = await bcrypt.hash(data.newPassword!, 10);
+
+    data.currentPassword = hashedPassword;
+  }
+
+  await db.user.update({
+    where: {
+      id: exisitingUser.id,
+    },
+    data: {
+      name,
+      email,
+      password: data.currentPassword,
+    },
+  });
+
+  return { success: true, message: 'Profile Updated' };
 };

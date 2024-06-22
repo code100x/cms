@@ -7,6 +7,7 @@ import { NextAuthOptions } from 'next-auth';
 import { Session } from 'next-auth';
 import { JWT } from 'next-auth/jwt';
 import { getTwoFactorConfirmationByUserId } from '@/utiles/two-factor-confirmation';
+import { getUserByEmail } from '@/utiles/user';
 
 interface AppxSigninResponse {
   data: {
@@ -23,12 +24,14 @@ export interface session extends Session {
     role: string;
     email: string;
     name: string;
+    twoFactorEnabled: boolean;
   };
 }
 
 interface token extends JWT {
   uid: string;
   jwtToken: string;
+  twoFactorEnabled: boolean;
 }
 
 interface user {
@@ -36,6 +39,7 @@ interface user {
   name: string;
   email: string;
   token: string;
+  twoFactorEnabled: boolean;
 }
 
 const generateJWT = async (payload: JWTPayload) => {
@@ -117,16 +121,16 @@ export const authOptions = {
       },
       async authorize(credentials: any) {
         try {
-          if (process.env.LOCAL_CMS_PROVIDER) {
-            return {
-              id: '1',
-              name: 'test',
-              email: 'test@gmail.com',
-              token: await generateJWT({
-                id: '1',
-              }),
-            };
-          }
+          // if (process.env.LOCAL_CMS_PROVIDER) {
+          //   return {
+          //     id: '1',
+          //     name: 'test',
+          //     email: 'test@gmail.com',
+          //     token: await generateJWT({
+          //       id: '1',
+          //     }),
+          //   };
+          // }
           const hashedPassword = await bcrypt.hash(credentials.password, 10);
           const userDb = await prisma.user.findFirst({
             where: {
@@ -159,7 +163,7 @@ export const authOptions = {
                 },
               });
             }
-
+            console.log('checking 2FA');
             const jwt = await generateJWT({
               id: userDb.id,
             });
@@ -177,6 +181,7 @@ export const authOptions = {
               name: userDb.name,
               email: credentials.username,
               token: jwt,
+              twoFactor: userDb.twoFactorEnabled,
             };
           }
           console.log('not in db');
@@ -201,6 +206,7 @@ export const authOptions = {
                   email: credentials.username,
                   token: jwt,
                   password: hashedPassword,
+                  twoFactorEnabled: false,
                 },
                 update: {
                   id: user.data.userid,
@@ -219,6 +225,7 @@ export const authOptions = {
               name: user.data.name,
               email: credentials.username,
               token: jwt,
+              twoFactorEnabled: false,
             };
           }
 
@@ -243,15 +250,17 @@ export const authOptions = {
         )
           ? 'admin'
           : 'user';
+        newSession.user.twoFactorEnabled = token?.twoFactorEnabled as boolean;
       }
       return newSession!;
     },
-    jwt: async ({ token, user }): Promise<JWT> => {
+    jwt: async ({ token }): Promise<JWT> => {
       const newToken: token = token as token;
-
+      const user = await getUserByEmail(token.email!);
       if (user) {
         newToken.uid = user.id;
         newToken.jwtToken = (user as user).token;
+        newToken.twoFactorEnabled = (user as user).twoFactorEnabled;
       }
       return newToken;
     },
