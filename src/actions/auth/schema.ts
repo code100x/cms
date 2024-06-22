@@ -19,4 +19,5 @@ export const SignInSchema = z.object({
   password: z.string().min(4, {
     message: 'Minimum 4 characters is required',
   }),
+  twoFactorCode: z.string().optional(),
 });

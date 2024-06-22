@@ -128,7 +128,6 @@ export const authOptions = {
             };
           }
           const hashedPassword = await bcrypt.hash(credentials.password, 10);
-
           const userDb = await prisma.user.findFirst({
             where: {
               email: credentials.username,

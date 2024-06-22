@@ -2,11 +2,17 @@
 import { NewPasswordType, ResetPasswordType, SignInType } from './types';
 import { NewPasswordSchema, ResetPasswordSchema, SignInSchema } from './schema';
 import db from '@/db';
-import { generatePasswordVerificationToken } from '@/lib/token';
-import sendPasswordResetTokenEmail from '@/lib/mail';
+import {
+  generatePasswordVerificationToken,
+  generateTwoFactorToken,
+} from '@/lib/token';
+import sendPasswordResetTokenEmail, {
+  sendTwoFactorTokenEmail,
+} from '@/lib/mail';
 import bcrypt from 'bcrypt';
 import { getUserByEmail } from '@/utiles/user';
-import { signIn } from 'next-auth/react';
+import { getTwoFactorTokenByEmail } from '@/utiles/two-factor-token';
+import { getTwoFactorConfirmationByUserId } from '@/utiles/two-factor-confirmation';
 
 export const SignIn = async (values: SignInType) => {
   const validatedFields = SignInSchema.safeParse(values);
@@ -15,22 +21,53 @@ export const SignIn = async (values: SignInType) => {
     return { error: 'Invalid Inputs' };
   }
 
-  const { email, password } = validatedFields.data;
+  const { email, twoFactorCode } = validatedFields.data;
   const exisitingUser = await getUserByEmail(email);
   if (!exisitingUser || !exisitingUser.email) {
     return { error: "Email doesn't exists" };
   }
-
-  try {
-    const res = await signIn('credentials', {
-      redirect: false,
-      username: email,
-      password,
-    });
-
-    return res;
-  } catch (error) {
-    console.log(error);
+  if (exisitingUser?.twoFactorEnabled && exisitingUser?.email) {
+    if (twoFactorCode) {
+      const twoFactorToken = await getTwoFactorTokenByEmail(
+        exisitingUser.email,
+      );
+      if (!twoFactorToken) {
+        return { error: 'Invalid token' };
+      }
+      if (twoFactorCode !== twoFactorToken?.token) {
+        return { error: 'Invalid code' };
+      }
+      const hasExpired = new Date(twoFactorToken?.expires) < new Date();
+      if (hasExpired) {
+        return { error: 'Code has been expired' };
+      }
+      const existingConfirmation = await getTwoFactorConfirmationByUserId(
+        exisitingUser?.id,
+      );
+      if (existingConfirmation) {
+        await db.twoFactorConfirmation.delete({
+          where: { id: existingConfirmation?.id },
+        });
+      }
+      await db.twoFactorConfirmation.create({
+        data: {
+          userId: exisitingUser?.id,
+        },
+      });
+      return { success: true, message: 'Signed In' };
+    }
+    const twoFactorToken = await generateTwoFactorToken(exisitingUser.email);
+    if (!twoFactorToken)
+      return { error: 'Error in generating two factor code' };
+    const res = await sendTwoFactorTokenEmail(
+      twoFactorToken.email,
+      twoFactorToken.token,
+    );
+    if (!res?.error)
+      return {
+        twoFactor: true,
+        message: 'Two Factor Code has been sent successfully',
+      };
   }
 };
 
