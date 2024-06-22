@@ -68,7 +68,7 @@ export const SignIn = async (values: SignInType) => {
         twoFactor: true,
         message: 'Two Factor Code has been sent successfully',
       };
-  }
+  } else if (!exisitingUser?.twoFactorEnabled) return { success: true };
 };
 
 export const ResetPasswordHandler = async (data: ResetPasswordType) => {
