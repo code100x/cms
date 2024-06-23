@@ -1,4 +1,4 @@
-import { Metadata } from 'next';
+import { Metadata, Viewport } from 'next';
 
 const TITLE =
   'Take your development skills from 0 to 100 and join the 100xdevs community';
@@ -13,6 +13,7 @@ const BASE_URL = 'https://app.100xdevs.com';
 export const siteConfig: Metadata = {
   title: TITLE,
   description: DESCRIPTION,
+  manifest: '/manifest.json',
   icons: {
     icon: '/favicon.ico',
   },
@@ -63,4 +64,8 @@ export const siteConfig: Metadata = {
     'Javscript to typescript',
   ],
   metadataBase: new URL(BASE_URL),
+};
+
+export const viewport: Viewport = {
+  themeColor: '#FFFFFF',
 };
