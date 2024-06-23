@@ -154,7 +154,7 @@ model User {
   answers        Answer[]
   certificate    Certificate[]
   twoFactorEnabled Boolean @default(false)
-  twoConfirmation TwoFactorConfirmation?
+  twoFactorConfirmation TwoFactorConfirmation?
 }
 
 model DiscordConnect {
