@@ -15,7 +15,7 @@ import TwoFactorEnabledButton from '../TwoFactorEnabledButton';
 const ProfileComponent = () => {
   const { data: session } = useSession();
   const [enableTwoFactorAuth, setenableTwoFactorAuth] = useState(false);
-  const { register, handleSubmit } = useForm<UpdateCredentialsType>({
+  const { register, handleSubmit, setValue } = useForm<UpdateCredentialsType>({
     defaultValues: {
       name: session?.user?.name || '',
       email: session?.user?.email || '',
@@ -24,6 +24,11 @@ const ProfileComponent = () => {
       twoFactorEnabled: enableTwoFactorAuth,
     },
   });
+  const handleTwoFactorAuth = () => {
+    const prev = enableTwoFactorAuth;
+    setenableTwoFactorAuth((p) => !p);
+    setValue('twoFactorEnabled', !prev);
+  };
   const onSubmit: SubmitHandler<UpdateCredentialsType> = async (
     data: UpdateCredentialsType,
   ) => {
@@ -86,7 +91,7 @@ const ProfileComponent = () => {
               <div className="flex items-center justify-between gap-4">
                 <Label htmlFor="email">Two Factor Enabled</Label>
                 <TwoFactorEnabledButton
-                  onClick={() => setenableTwoFactorAuth((p) => !p)}
+                  onClick={handleTwoFactorAuth}
                   twoFactorEnabled={enableTwoFactorAuth}
                 />
               </div>

@@ -164,7 +164,7 @@ export const createNewPassword = async (
 
 export const UpdateCredentials = async (data: UpdateCredentialsType) => {
   if (!data) return { error: 'Invalid Inputs' };
-  const { name, email, currentPassword, newPassword } = data;
+  const { name, email, currentPassword, newPassword, twoFactorEnabled } = data;
 
   const exisitingUser = await getUserByEmail(email!);
 
@@ -172,6 +172,7 @@ export const UpdateCredentials = async (data: UpdateCredentialsType) => {
     return { error: "Email doesn't exists" };
   }
 
+  data.currentPassword = exisitingUser.password!;
   if (currentPassword && newPassword && exisitingUser?.password) {
     const matches = await bcrypt.compare(
       currentPassword,
@@ -182,8 +183,14 @@ export const UpdateCredentials = async (data: UpdateCredentialsType) => {
       return { error: 'Invalid Password' };
     }
 
+    const isPasswordSame = await bcrypt.compare(
+      newPassword,
+      exisitingUser.password,
+    );
+    if (isPasswordSame) {
+      return { error: 'New password cannot be the same as the old password' };
+    }
     const hashedPassword = await bcrypt.hash(data.newPassword!, 10);
-
     data.currentPassword = hashedPassword;
   }
 
@@ -195,6 +202,7 @@ export const UpdateCredentials = async (data: UpdateCredentialsType) => {
       name,
       email,
       password: data.currentPassword,
+      twoFactorEnabled,
     },
   });
 

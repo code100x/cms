@@ -11,6 +11,7 @@ const TwoFactorEnabledButton = ({
   return (
     <div>
       <button
+        type="button"
         onClick={onClick}
         className="flex items-center justify-center rounded-md bg-gray-200 p-2 transition-all duration-300 ease-out hover:bg-gray-300 dark:bg-gray-800 dark:hover:bg-gray-700"
       >
