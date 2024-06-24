@@ -7,12 +7,14 @@ type TimeCodeCommentProps = {
   comment: string;
   possiblePath: string;
   searchParams: QueryParams;
+  contentId: number;
 };
 
 const TimeCodeComment: React.FC<TimeCodeCommentProps> = ({
   comment,
   possiblePath,
   searchParams,
+  contentId,
 }) => {
   const timeCodeRegex = /(?:(\d{1,2}):)?(\d{1,2}):(\d{1,2})/g;
   const urlRegex = /((https)?:\/\/[^\s]+)/g;
@@ -44,9 +46,13 @@ const TimeCodeComment: React.FC<TimeCodeCommentProps> = ({
         <Link
           key={`timecode-${match.index}`}
           className="text-blue-500 hover:underline"
-          href={getUpdatedUrl(`/courses/${possiblePath}`, searchParams, {
-            timestamp: timeInSeconds,
-          })}
+          href={getUpdatedUrl(
+            `/courses/${contentId}/${possiblePath}`,
+            searchParams,
+            {
+              timestamp: timeInSeconds,
+            },
+          )}
         >
           {match[0]}
         </Link>,

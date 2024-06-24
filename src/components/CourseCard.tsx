@@ -26,7 +26,7 @@ export const CourseCard = ({
   const router = useRouter();
   return (
     <div
-      className={`max-w-sm bg-white border border-gray-200 ${roundedClassName} shadow dark:bg-gray-800 dark:border-gray-700 mx-auto w-full`}
+      className={`max-w-sm border border-gray-200 bg-white ${roundedClassName} mx-auto w-full shadow dark:border-gray-700 dark:bg-gray-800`}
       onClick={() => {
         onClick();
       }}
@@ -44,12 +44,12 @@ export const CourseCard = ({
       <img src={course.imageUrl} alt={course.title} className="rounded-md" />
       <div className="p-2">
         <div className="flex justify-between">
-          <div className="mt-4 mb-2">{course.title} Cohort</div>
+          <div className="mb-2 mt-4">{course.title} Cohort</div>
         </div>
         <div>
           <button
             type="button"
-            className="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 w-full"
+            className="mb-2 me-2 w-full rounded-full bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300"
             style={{
               backgroundColor: buttonColor,
             }}
@@ -75,7 +75,7 @@ export const CourseCard = ({
 export const CourseSkeleton = () => {
   return (
     <div className="animate-pulse">
-      <div className="rounded-md bg-slate-50 dark:bg-slate-900 h-64"></div>
+      <div className="h-64 rounded-md bg-slate-50 dark:bg-slate-900"></div>
     </div>
   );
 };

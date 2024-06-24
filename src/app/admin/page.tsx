@@ -37,12 +37,12 @@ export default function Courses() {
   };
 
   return (
-    <Card className="lg:mt-10 w-full max-w-6xl mx-auto overflow-y-auto">
+    <Card className="mx-auto w-full max-w-6xl overflow-y-auto lg:mt-10">
       <CardHeader>
         <CardTitle>Create a new course</CardTitle>
         <CardDescription>Fill in the course details below</CardDescription>
       </CardHeader>
-      <CardContent className="p-4 pt-0 grid gap-4">
+      <CardContent className="grid gap-4 p-4 pt-0">
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="grid gap-3.5 md:grid-cols-2"
@@ -99,7 +99,7 @@ export default function Courses() {
             required
             {...register('discordRoleId', { required: true })}
           />
-          <div className="flex flex-1 w-full justify-center">
+          <div className="flex w-full flex-1 justify-center">
             <Button type="submit">Create</Button>
           </div>
         </form>

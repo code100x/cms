@@ -103,12 +103,12 @@ const SingleAnswerPage = async ({
   );
 
   return (
-    <div className="pt-14 pb-14 md:mx-[15%]">
+    <div className="pb-14 pt-14 md:mx-[15%]">
       <div className="px-3">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button className="shrink-0" variant="outline">
-              <ArrowUpDownIcon className="w-4 h-4 mr-2" />
+              <ArrowUpDownIcon className="mr-2 h-4 w-4" />
               Sort by
             </Button>
           </DropdownMenuTrigger>
@@ -145,7 +145,7 @@ const SingleAnswerPage = async ({
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      <div className=" flex items-center justify-center  px-3 flex-col gap-2 my-3">
+      <div className="my-3 flex flex-col items-center justify-center gap-2 px-3">
         {answers.map((post: any) => (
           <PostCard
             key={post.id}

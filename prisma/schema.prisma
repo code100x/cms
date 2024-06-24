@@ -145,6 +145,7 @@ model User {
   votes          Vote[]
   discordConnect DiscordConnect?
   disableDrm     Boolean         @default(false)
+  bunnyProxyEnabled Boolean      @default(false)
   bookmarks      Bookmark[]
   password       String?
   appxUserId     String?
