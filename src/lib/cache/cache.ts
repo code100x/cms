@@ -4,9 +4,9 @@ export interface ICache {
     args: string[],
     value: any,
     expirySeconds: number,
-  ): Promise<void> | void;
+  ): Promise<void>;
 
-  get(type: string, args: string[]): Promise<any> | any;
+  get(type: string, args: string[]): Promise<any>;
 
-  evict(type: string, args: string[]): Promise<null> | null;
+  evict(type: string, args: string[]): Promise<null>;
 }
