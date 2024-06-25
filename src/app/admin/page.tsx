@@ -1,109 +1,72 @@
-'use client';
-
+import React from 'react';
+import db from '@/db';
+import { SelectCourse } from '@/components/admin/SelectCourse';
+import Link from 'next/link';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import LogoutUserComp from '../../components/admin/LogoutUser';
+import ToggleDRM from '../../components/admin/ToggleDRM';
+import VideoMetaData from '../../components/admin/VideoMetaData';
+import DiscordRefresh from '@/components/admin/DiscordRefresh';
+import DiscordGetInfo from '@/components/admin/DiscordGetInfo';
 
-type FormInput = {
-  title: string;
-  imageUrl: string;
-  description: string;
-  slug: string;
-  id: string;
-  adminSecret: string;
-  appxCourseId: string;
-  discordRoleId: string;
-};
+async function getCourses() {
+  const courses = db.course.findMany();
+  return courses;
+}
 
-export default function Courses() {
-  const { register, handleSubmit } = useForm<FormInput>();
-
-  const onSubmit: SubmitHandler<FormInput> = async (data) => {
-    await fetch('/api/admin/course', {
-      body: JSON.stringify(data),
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-  };
-
+export default async function CourseContent() {
+  const courses = await getCourses();
   return (
-    <Card className="mx-auto w-full max-w-6xl overflow-y-auto lg:mt-10">
-      <CardHeader>
-        <CardTitle>Create a new course</CardTitle>
-        <CardDescription>Fill in the course details below</CardDescription>
-      </CardHeader>
-      <CardContent className="grid gap-4 p-4 pt-0">
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="grid gap-3.5 md:grid-cols-2"
-        >
-          <Input
-            id="name"
-            placeholder="Enter the course name"
-            required
-            {...register('title', { required: true })}
-          />
-          <Input
-            id="image"
-            placeholder="Enter the image URL"
-            required
-            {...register('imageUrl', {
-              required: true,
-              pattern: /^http[^\\?]*.(jpg|jpeg|gif|png|tiff|bmp)(\?(.*))?$/gim,
-            })}
-          />
-          <Textarea
-            className="md:col-span-2"
-            id="description"
-            placeholder="Enter the course description"
-            required
-            {...register('description', { required: true })}
-          />
-          <Input
-            id="slug"
-            placeholder="Enter the course slug"
-            required
-            {...register('slug', { required: true })}
-          />
-          <Input
-            id="id"
-            placeholder="Enter the course ID"
-            required
-            {...register('id', { required: true })}
-          />
-          <Input
-            id="admin-secret"
-            placeholder="Enter the admin secret"
-            required
-            {...register('adminSecret', { required: true })}
-          />
-          <Input
-            id="appx-course-id"
-            placeholder="Enter the appx course ID"
-            required
-            {...register('appxCourseId', { required: true })}
-          />
-          <Input
-            id="discord-id"
-            placeholder="Enter the Discord ID"
-            required
-            {...register('discordRoleId', { required: true })}
-          />
-          <div className="flex w-full flex-1 justify-center">
-            <Button type="submit">Create</Button>
-          </div>
-        </form>
-      </CardContent>
-    </Card>
+    <div>
+      <div className="h-1/6 w-full rounded-b-lg bg-primary duration-300 hover:p-2">
+        <Link href="/admin/create-course">
+          <button className="w-full rounded-b-lg border border-white p-2 font-mono text-xl font-extrabold text-white duration-300 hover:bg-white hover:bg-opacity-30">
+            Create Course +
+          </button>
+        </Link>
+      </div>
+      <div className="mx-auto max-w-screen-xl cursor-pointer justify-between p-4">
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button className="mb-5 w-full text-white dark:text-white md:mb-10">
+              Quick Commands
+            </Button>
+          </DialogTrigger>
+          <DialogContent>
+            <Tabs defaultValue="logout" className="w-full">
+              <TabsList className="grid w-full sm:grid-cols-5">
+                <TabsTrigger value="logout">Logout User</TabsTrigger>
+                <TabsTrigger value="DRM">DRM</TabsTrigger>
+                <TabsTrigger value="discord-refresh">
+                  Discord Refresh
+                </TabsTrigger>
+                <TabsTrigger value="discord-getinfo">
+                  Discord GetInfo
+                </TabsTrigger>
+                <TabsTrigger value="add-metadata">Add MetaData</TabsTrigger>
+              </TabsList>
+              <TabsContent value="logout">
+                <LogoutUserComp />
+              </TabsContent>
+              <TabsContent value="DRM">
+                <ToggleDRM />
+              </TabsContent>
+              <TabsContent value="discord-refresh">
+                <DiscordRefresh />
+              </TabsContent>
+              <TabsContent value="discord-getinfo">
+                <DiscordGetInfo />
+              </TabsContent>
+              <TabsContent value="add-metadata">
+                <VideoMetaData />
+              </TabsContent>
+            </Tabs>
+          </DialogContent>
+        </Dialog>
+        <SelectCourse courses={courses} />
+      </div>
+    </div>
   );
 }

@@ -32,16 +32,26 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ msg: 'User not found' }, { status: 404 });
   }
 
-  await db.discordConnect.delete({
-    where: {
-      userId: user.id,
-    },
-  });
+  try {
+    // no need to check if discord is connected, delete will do nothing if it doesn't exist and will go to catch block
+    await db.discordConnect.delete({
+      where: {
+        userId: user.id,
+      },
+    });
 
-  return NextResponse.json(
-    {},
-    {
-      status: 200,
-    },
-  );
+    return NextResponse.json(
+      {},
+      {
+        status: 200,
+      },
+    );
+  } catch (error) {
+    return NextResponse.json(
+      { msg: 'Discord Not Connected' },
+      {
+        status: 404,
+      },
+    );
+  }
 }
