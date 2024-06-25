@@ -29,7 +29,7 @@ export const refreshDb: RefreshDbFn = async () => {
   }
 
   // Only allow user to refetch every minute
-  if (Cache.getInstance().get('rate-limit', [email])) {
+  if (await Cache.getInstance().get('rate-limit', [email])) {
     return {
       error: true,
       message: 'Wait sometime before refetching',
@@ -78,8 +78,8 @@ export const refreshDb: RefreshDbFn = async () => {
     }
   });
 
-  Cache.getInstance().evict('courses', [email]);
-  Cache.getInstance().set('rate-limit', [email], true, 60);
+  await Cache.getInstance().evict('courses', [email]);
+  await Cache.getInstance().set('rate-limit', [email], true, 60);
 
   return { error: false, message: 'Refetched Courses' };
 };

@@ -13,7 +13,7 @@ import { checkUserEmailForPurchase } from './appx-check-mail';
 const LOCAL_CMS_PROVIDER = process.env.LOCAL_CMS_PROVIDER;
 
 export async function getPurchases(email: string): Promise<Course[]> {
-  const value = Cache.getInstance().get('courses', [email]);
+  const value = await Cache.getInstance().get('courses', [email]);
   if (value) {
     return value;
   }
@@ -81,7 +81,7 @@ export async function getPurchases(email: string): Promise<Course[]> {
       ...coursesFromDb,
       ...courses.filter((x) => x.openToEveryone),
     ];
-    Cache.getInstance().set('courses', [email], allCourses, 60 * 60);
+    await Cache.getInstance().set('courses', [email], allCourses, 60 * 60);
     return allCourses;
   }
 
@@ -107,6 +107,6 @@ export async function getPurchases(email: string): Promise<Course[]> {
     }
   }
 
-  Cache.getInstance().set('courses', [email], responses, 60 * 60 * 24);
+  await Cache.getInstance().set('courses', [email], responses, 60 * 60 * 24);
   return responses;
 }

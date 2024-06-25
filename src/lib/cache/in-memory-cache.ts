@@ -24,7 +24,7 @@ export class InMemoryCache implements ICache {
     type: string,
     args: string[],
     value: any,
-    expirySeconds: number = parseInt(process.env.CACHE_EXPIRE_S || '100', 10),
+    expirySeconds: number,
   ): Promise<void> {
     const key = this.generateKey(type, args);
     this.inMemoryDb.set(key, {
