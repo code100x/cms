@@ -10,7 +10,11 @@ export class RedisCache implements ICache {
     this.client = new Redis(redisUrl);
   }
 
-  static getInstance() {
+  static getInstance(redisUrl: string): RedisCache {
+    if (!this.instance) {
+      this.instance = new RedisCache(redisUrl);
+    }
+
     return this.instance;
   }
 
