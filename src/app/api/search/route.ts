@@ -52,7 +52,7 @@ export async function GET(request: Request) {
       },
     });
 
-    await Cache.getInstance().set(
+    Cache.getInstance().set(
       'getAllVideosForSearch',
       [],
       allVideos,
