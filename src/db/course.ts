@@ -178,7 +178,7 @@ async function getAllContent(): Promise<
     } | null;
   }[]
 > {
-  const value = cache.get('getAllContent', []);
+  const value = await cache.get('getAllContent', []);
   if (value) {
     return value;
   }
@@ -217,7 +217,7 @@ async function getRootCourseContent(courseId: number): Promise<
     content: ContentWithMetadata;
   }[]
 > {
-  const value = cache.get('getRootCourseContent', [courseId.toString()]);
+  const value = await cache.get('getRootCourseContent', [courseId.toString()]);
   if (value) {
     return value;
   }
@@ -292,13 +292,13 @@ export const getFullCourseContent = async (
         videoProgress:
           content.type === 'video'
             ? {
-                duration: videoProgress.find((x) => x.contentId === content.id)
-                  ?.currentTimestamp,
-                markAsCompleted: videoProgress.find(
-                  (x) => x.contentId === content.id,
-                )?.markAsCompleted,
-                videoFullDuration: content.VideoMetadata?.duration,
-              }
+              duration: videoProgress.find((x) => x.contentId === content.id)
+                ?.currentTimestamp,
+              markAsCompleted: videoProgress.find(
+                (x) => x.contentId === content.id,
+              )?.markAsCompleted,
+              videoFullDuration: content.VideoMetadata?.duration,
+            }
             : null,
       },
     ]),
@@ -318,7 +318,7 @@ export const getFullCourseContent = async (
       }
     });
 
-  cache.set('getFullCourseContent', [courseId.toString()], rootContents);
+  await cache.set('getFullCourseContent', [courseId.toString()], rootContents);
   return rootContents;
 };
 
@@ -326,7 +326,7 @@ export const getCourseContent = async (
   courseId: number,
   childrenIds: number[],
 ) => {
-  const value = cache.get('getCourseContent', [
+  const value = await cache.get('getCourseContent', [
     courseId.toString(),
     ...childrenIds.map((x) => x.toString()),
   ]);
