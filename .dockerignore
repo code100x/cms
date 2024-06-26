@@ -1,5 +1,8 @@
 node_modules
+build
 .git
 .gitignore
 .env.example
+postgres-data
+.next
 .env

@@ -1,2 +1,6 @@
 node_modules
 .github
+dist
+.env.*
+.env
+postgres-data
