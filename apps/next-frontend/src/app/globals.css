@@ -95,6 +95,26 @@
   display: block !important;
 }
 
+/* Hiding time divider and duration, and decreasing the 
+width of the controls on screens smaller than 512px */
+@media (max-width: 550px) {
+  .vjs-time-divider {
+    display: none !important;
+  }
+
+  .video-js .vjs-current-time {
+    display: block !important;
+  }
+
+  .vjs-duration {
+    display: none !important;
+  }
+
+  .video-js .vjs-control {
+    width: 2rem !important; 
+  }
+}
+
 .vjs-tech:focus-visible{
   outline: none;
 }
@@ -124,7 +144,7 @@
   bottom: 0;
   z-index: 2;
   pointer-events: none;
-
+  
 }
 .timeline-segments:hover{
   height: 10px;
