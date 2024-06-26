@@ -17,7 +17,7 @@ const Search = () => {
     router.push(getUpdatedUrl(path, paramsObj, { search }));
   };
   return (
-    <div className="flex w-full max-w-md items-center space-x-4  mb-2">
+    <div className="mb-2 flex w-full max-w-md items-center space-x-4">
       <Input
         aria-label="Search Input"
         className="flex-grow"

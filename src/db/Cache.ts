@@ -40,3 +40,4 @@ export class Cache implements ICache {
     return this.delegate.evict(type, args);
   }
 }
+export const cache = Cache.getInstance();
