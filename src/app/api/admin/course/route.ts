@@ -55,7 +55,7 @@ export async function POST(req: NextRequest) {
 
   return NextResponse.json(
     {
-      message : "Course is successfully added"
+      message: 'Course is successfully added',
     },
     {
       status: 200,
