@@ -8,102 +8,194 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import axios from 'axios';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
 
-type FormInput = {
-  title: string;
-  imageUrl: string;
-  description: string;
-  slug: string;
-  id: string;
-  adminSecret: string;
-  appxCourseId: string;
-  discordRoleId: string;
-};
+
+const courseSchema = z.object({
+  title: z.string().min(5, {
+    message: 'Title must be at least 5 characters long.',
+  }),
+  imageUrl: z.string().url({
+    message: 'Invalid URL format for imageUrl.',
+  }),
+  description: z.string().min(8, {
+    message: 'Description must be at least of 8 characters long.',
+  }),
+  slug: z.string(),
+  id: z.string(),
+  adminSecret: z.string(),
+  appxCourseId: z.string(),
+  discordRoleId: z.string(),
+});
 
 export default function Courses() {
-  const { register, handleSubmit } = useForm<FormInput>();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const router = useRouter();
 
-  const onSubmit: SubmitHandler<FormInput> = async (data) => {
-    await fetch('/api/admin/course', {
-      body: JSON.stringify(data),
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+  const form = useForm<z.infer<typeof courseSchema>>({
+    resolver: zodResolver(courseSchema),
+    defaultValues: {
+      title: '',
+      imageUrl: '',
+      description: '',
+      slug: '',
+      id: '',
+      adminSecret: '',
+      appxCourseId: '',
+      discordRoleId: '',
+    },
+  });
+
+  const onSubmit = async (data: z.infer<typeof courseSchema>) => {
+    setIsLoading(true);
+    try {
+      await axios.post('/api/admin/course', data);
+      toast('course succesfully created');
+      router.push('/');
+    } catch (error: any) {
+      console.log(error);
+      toast(error.message);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
     <Card className="mx-auto w-full max-w-6xl overflow-y-auto lg:mt-10">
-      <CardHeader>
-        <CardTitle>Create a new course</CardTitle>
-        <CardDescription>Fill in the course details below</CardDescription>
-      </CardHeader>
-      <CardContent className="grid gap-4 p-4 pt-0">
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="grid gap-3.5 md:grid-cols-2"
-        >
-          <Input
-            id="name"
-            placeholder="Enter the course name"
-            required
-            {...register('title', { required: true })}
-          />
-          <Input
-            id="image"
-            placeholder="Enter the image URL"
-            required
-            {...register('imageUrl', {
-              required: true,
-              pattern: /^http[^\\?]*.(jpg|jpeg|gif|png|tiff|bmp)(\?(.*))?$/gim,
-            })}
-          />
-          <Textarea
-            className="md:col-span-2"
-            id="description"
-            placeholder="Enter the course description"
-            required
-            {...register('description', { required: true })}
-          />
-          <Input
-            id="slug"
-            placeholder="Enter the course slug"
-            required
-            {...register('slug', { required: true })}
-          />
-          <Input
-            id="id"
-            placeholder="Enter the course ID"
-            required
-            {...register('id', { required: true })}
-          />
-          <Input
-            id="admin-secret"
-            placeholder="Enter the admin secret"
-            required
-            {...register('adminSecret', { required: true })}
-          />
-          <Input
-            id="appx-course-id"
-            placeholder="Enter the appx course ID"
-            required
-            {...register('appxCourseId', { required: true })}
-          />
-          <Input
-            id="discord-id"
-            placeholder="Enter the Discord ID"
-            required
-            {...register('discordRoleId', { required: true })}
-          />
-          <div className="flex w-full flex-1 justify-center">
+  <CardHeader>
+    <CardTitle>Create a new course</CardTitle>
+    <CardDescription>Fill in the course details below</CardDescription>
+  </CardHeader>
+  <CardContent className="grid gap-4 p-4 pt-0">
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4 lg:grid-cols-2">
+        <FormField
+          control={form.control}
+          name="title"
+          render={({ field }: { field: any }) => (
+            <FormItem>
+              <FormLabel>Title</FormLabel>
+              <FormControl>
+                <Input placeholder="Enter the Course name" {...field} />
+              </FormControl>
+              <FormMessage/>
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="imageUrl"
+          render={({ field }: { field: any }) => (
+            <FormItem>
+              <FormLabel>Image url</FormLabel>
+              <FormControl>
+                <Input placeholder="Enter the url of Image" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="description"
+          render={({ field }: { field: any }) => (
+            <FormItem>
+              <FormLabel>Description</FormLabel>
+              <FormControl>
+                <Textarea
+                  placeholder="Enter the Description of course"
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="slug"
+          render={({ field }: { field: any }) => (
+            <FormItem>
+              <FormLabel>Slug</FormLabel>
+              <FormControl>
+                <Input placeholder="Enter the Course slug" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="id"
+          render={({ field }: { field: any }) => (
+            <FormItem>
+              <FormLabel>Id</FormLabel>
+              <FormControl>
+                <Input placeholder="Enter the Course ID" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="adminSecret"
+          render={({ field }: { field: any }) => (
+            <FormItem>
+              <FormLabel>Admin Secret</FormLabel>
+              <FormControl>
+                <Input placeholder="Enter the Admin Secret" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="appxCourseId"
+          render={({ field }: { field: any }) => (
+            <FormItem>
+              <FormLabel>app x course id</FormLabel>
+              <FormControl>
+                <Input placeholder="Enter the appx course ID" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="discordRoleId"
+          render={({ field }: { field: any }) => (
+            <FormItem>
+              <FormLabel>Discord Role Id</FormLabel>
+              <FormControl>
+                <Input placeholder="Enter the Discord Role Id" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <div className="lg:col-span-2">
+          {isLoading ? (
+            <Button>Loading...</Button>
+          ) : (
             <Button type="submit">Create</Button>
-          </div>
-        </form>
-      </CardContent>
-    </Card>
+          )}
+        </div>
+      </form>
+    </Form>
+  </CardContent>
+</Card>
+
   );
 }
