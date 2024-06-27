@@ -34,7 +34,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           {/* this is done as to keep footer in the bottom of the page */}
           <div className="min-h-[calc(100vh-64px)]">{children}</div>
           <Footer />
-          <Toaster />
+          <Toaster richColors />
         </Providers>
       </body>
     </html>
