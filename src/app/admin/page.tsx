@@ -9,7 +9,6 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { useToast } from '@/components/ui/use-toast';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -25,6 +24,7 @@ import axios from 'axios';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Textarea } from '@/components/ui/textarea';
+import { toast } from 'sonner';
 
 const courseSchema = z.object({
   title: z.string().min(5, {
@@ -43,7 +43,6 @@ const courseSchema = z.object({
   discordRoleId: z.string(),
 });
 export default function Courses() {
-  const { toast } = useToast();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
 
@@ -65,18 +64,12 @@ export default function Courses() {
     setIsLoading(true);
     try {
       await axios.post('/api/admin/course', data);
-      toast({
-        title: 'Course is successfully added',
-      });
+      toast('course succesfully created');
 
       router.push('/');
     } catch (error: any) {
       console.log(error);
-      toast({
-        title: 'Something went wrong',
-        description: error.message,
-        variant: 'destructive',
-      });
+      toast(error.message);
     } finally {
       setIsLoading(false);
     }

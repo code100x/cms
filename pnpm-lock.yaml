@@ -10,7 +10,7 @@ importers:
     dependencies:
       '@auth/prisma-adapter':
         specifier: ^1.0.6
-        version: 1.2.0(@prisma/client@5.9.1(prisma@5.16.0))
+        version: 1.2.0(@prisma/client@5.16.0(prisma@5.16.0))
       '@discordjs/core':
         specifier: ^1.1.1
         version: 1.1.1
@@ -24,8 +24,8 @@ importers:
         specifier: ^9.4.0
         version: 9.4.0(react@18.2.0)
       '@prisma/client':
-        specifier: ^5.6.0
-        version: 5.9.1(prisma@5.16.0)
+        specifier: ^5.16.0
+        version: 5.16.0(prisma@5.16.0)
       '@radix-ui/react-accordion':
         specifier: ^1.1.2
         version: 1.1.2(@types/react-dom@18.2.18)(@types/react@18.2.51)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
@@ -1707,8 +1707,8 @@ packages:
       webpack-plugin-serve:
         optional: true
 
-  '@prisma/client@5.9.1':
-    resolution: {integrity: sha512-caSOnG4kxcSkhqC/2ShV7rEoWwd3XrftokxJqOCMVvia4NYV/TPtJlS9C2os3Igxw/Qyxumj9GBQzcStzECvtQ==}
+  '@prisma/client@5.16.0':
+    resolution: {integrity: sha512-8NOQSzgrSgpU2YcNm4MsPR4/vNvZdUBPuyX89PwWlClSKZeDjPSZ8+eds/ffu1Ttrjnm8V8D0hjgqpyc6wyqDg==}
     engines: {node: '>=16.13'}
     peerDependencies:
       prisma: '*'
@@ -7806,10 +7806,10 @@ snapshots:
       preact: 10.11.3
       preact-render-to-string: 5.2.3(preact@10.11.3)
 
-  '@auth/prisma-adapter@1.2.0(@prisma/client@5.9.1(prisma@5.16.0))':
+  '@auth/prisma-adapter@1.2.0(@prisma/client@5.16.0(prisma@5.16.0))':
     dependencies:
       '@auth/core': 0.25.0
-      '@prisma/client': 5.9.1(prisma@5.16.0)
+      '@prisma/client': 5.16.0(prisma@5.16.0)
     transitivePeerDependencies:
       - nodemailer
 
@@ -9301,7 +9301,7 @@ snapshots:
       type-fest: 2.19.0
       webpack-hot-middleware: 2.26.1
 
-  '@prisma/client@5.9.1(prisma@5.16.0)':
+  '@prisma/client@5.16.0(prisma@5.16.0)':
     optionalDependencies:
       prisma: 5.16.0
 
