@@ -1,19 +1,35 @@
 'use client';
 import { Course } from '@/store/atoms';
 import PercentageComplete from './PercentageComplete';
+import { PrimaryButton } from './buttons/PrimaryButton';
+import { SecondaryButton } from './buttons/SecondaryButton';
+import { useRouter } from 'next/navigation';
 import { Button } from './ui/button';
 import { ChevronRight } from 'lucide-react';
 
 export const CourseCard = ({
   course,
   onClick,
+  buttonColor,
+  roundedCardSize,
 }: {
   course: Course;
   onClick: () => void;
+  buttonColor: string;
+  roundedCardSize: 'lg' | 'xl' | '2xl' | '3xl';
 }) => {
+  const roundedClassNames = {
+    lg: 'rounded-lg',
+    xl: 'rounded-xl',
+    '2xl': 'rounded-2xl',
+    '3xl': 'rounded-3xl',
+  };
+
+  const roundedClassName = roundedClassNames[roundedCardSize] || 'rounded-lg';
+  const router = useRouter();
   return (
     <div
-      className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 mx-auto w-full"
+      className={`max-w-sm border border-gray-200 bg-white ${roundedClassName} mx-auto w-full shadow dark:border-gray-700 dark:bg-gray-800`}
       onClick={() => {
         onClick();
       }}
@@ -31,22 +47,35 @@ export const CourseCard = ({
       <img src={course.imageUrl} alt={course.title} className="rounded-md" />
       <div className="p-2">
         <div className="flex justify-between">
-          <div className="mt-4 mb-2">{course.title} Cohort</div>
+          <div className="mb-2 mt-4">{course.title} Cohort</div>
         </div>
         <div>
           <button
             type="button"
-            className="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 w-full"
+            className="mb-2 me-2 w-full rounded-full bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300"
+            style={{
+              backgroundColor: buttonColor,
+            }}
           >
             View Content
           </button>
+          {course.certIssued && (
+            <SecondaryButton
+              onClick={(e) => {
+                e.stopPropagation();
+                router.push('/certificate');
+              }}
+            >
+              Download Certificate
+            </SecondaryButton>
+          )}
         </div>
       </div>
     </div>
   );
   return (
     <div
-      className="max-w-full flex flex-col md:flex-row items-center bg-slate-100 md:border rounded-lg shadow-lg dark:bg-gradient-to-t md:dark:bg-gradient-to-l dark:from-slate-900 dark:to-slate-800"
+      className={`flex max-w-full flex-col items-center bg-slate-100 md:flex-row md:border rounded-${roundedCardSize} shadow-lg dark:bg-gradient-to-t dark:from-slate-900 dark:to-slate-800 md:dark:bg-gradient-to-l`}
       onClick={() => {
         onClick();
       }}
@@ -56,29 +85,40 @@ export const CourseCard = ({
           <img
             src={course.imageUrl}
             alt={course.title}
-            className="rounded-t-md md:rounded-l-md md:rounded-r-none md:max-w-md"
+            className="rounded-t-md md:max-w-md md:rounded-l-md md:rounded-r-none"
           />
         </div>
       </div>
 
-      <div className="px-6 py-2 w-full h-full">
-        <div className="flex flex-col w-full h-full items-start justify-between md:py-4">
-          <div className="w-full items-start mb-3">
-            <h2 className="mb-0 md:mb-2 dark:text-neutral-100 text-neutral-800 text-xl sm:text-3xl font-semibold">
+      <div className="h-full w-full px-6 py-2">
+        <div className="flex h-full w-full flex-col items-start justify-between md:py-4">
+          <div className="mb-3 w-full items-start">
+            <h2 className="mb-0 text-xl font-semibold text-neutral-800 dark:text-neutral-100 sm:text-3xl md:mb-2">
               {course.title} Cohort
             </h2>
 
-            <p className="dark:text-neutral-200 text-neutral-700 font-medium">
+            <p className="font-medium text-neutral-700 dark:text-neutral-200">
               {course.description}
             </p>
           </div>
 
-          <div className="w-full flex justify-end pb-2 md:pb-0">
+          <div className="flex w-full justify-end pb-2 md:pb-0">
             <Button className="group">
               Explore Content{' '}
-              <ChevronRight className="h-4 w-4 ml-1 group-hover:translate-x-1 transition" />
+              <ChevronRight className="ml-1 h-4 w-4 transition group-hover:translate-x-1" />
             </Button>
           </div>
+          <PrimaryButton>View Content</PrimaryButton>
+          {course.certIssued && (
+            <SecondaryButton
+              onClick={(e) => {
+                e.stopPropagation();
+                router.push('/certificate');
+              }}
+            >
+              Download Certificate
+            </SecondaryButton>
+          )}
         </div>
       </div>
     </div>
@@ -88,7 +128,7 @@ export const CourseCard = ({
 export const CourseSkeleton = () => {
   return (
     <div className="animate-pulse">
-      <div className="rounded-md bg-slate-50 dark:bg-slate-900 h-64"></div>
+      <div className="h-64 rounded-md bg-slate-50 dark:bg-slate-900"></div>
     </div>
   );
 };

@@ -3,6 +3,7 @@ import db from '@/db';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { revalidatePath } from 'next/cache';
+import { z } from 'zod';
 
 export async function GET(req: NextRequest) {
   const url = new URL(req.url);
@@ -26,8 +27,21 @@ export async function GET(req: NextRequest) {
   });
 }
 
+const requestBodySchema = z.object({
+  contentId: z.number(),
+  currentTimestamp: z.number(),
+});
+
 export async function POST(req: NextRequest) {
-  const { contentId, currentTimestamp } = await req.json();
+  const parseResult = requestBodySchema.safeParse(await req.json());
+  if (!parseResult.success) {
+    return NextResponse.json(
+      { error: parseResult.error.message },
+      { status: 400 },
+    );
+  }
+  const { contentId, currentTimestamp } = parseResult.data;
+
   const session = await getServerSession(authOptions);
   if (!session || !session?.user) {
     return NextResponse.json({}, { status: 401 });

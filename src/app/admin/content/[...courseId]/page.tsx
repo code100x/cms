@@ -25,7 +25,7 @@ export default async function UpdateCourseContent({
 
   if (contentType === 'video') {
     return (
-      <div className="max-w-screen-xl justify-between mx-auto p-4 text-white">
+      <div className="mx-auto max-w-screen-xl justify-between p-4 text-white">
         {/* <ContentRenderer nextContent={null} content={{ id: courseContent[0]?.id || 0, title: courseContent[0]?.title || "", type: contentType || "video", thumbnail: courseContent[0]?.thumbnail || "", description: courseContent[0]?.description ?? "" }} /> */}
         Video
       </div>
@@ -34,7 +34,7 @@ export default async function UpdateCourseContent({
 
   if (contentType === 'notion') {
     return (
-      <div className="max-w-screen-xl justify-between mx-auto p-4 dark:text-white text-blacke">
+      <div className="text-blacke mx-auto max-w-screen-xl justify-between p-4 dark:text-white">
         {/* <NotionRenderer id={courseContent[0]?.id} /> */}
         Notion doc
       </div>
@@ -42,9 +42,9 @@ export default async function UpdateCourseContent({
   }
 
   return (
-    <div className="max-w-screen-xl justify-between mx-auto p-4 dark:text-white text-black">
+    <div className="mx-auto max-w-screen-xl justify-between p-4 text-black dark:text-white">
       {course?.title}
-      <div className="font-bold  md:text-5xl lg:text-6xl">Content</div>
+      <div className="font-bold md:text-5xl lg:text-6xl">Content</div>
       <AddContent
         courseId={parseInt(courseId, 10)}
         parentContentId={parseFloat(rest[rest.length - 1])}

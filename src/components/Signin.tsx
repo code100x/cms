@@ -3,7 +3,6 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Toaster } from '@/components/ui/sonner';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import React, { useRef, useState } from 'react';
@@ -11,6 +10,7 @@ import React, { useRef, useState } from 'react';
 import { toast } from 'sonner';
 const Signin = () => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [checkingPassword, setCheckingPassword] = useState(false);
   const [requiredError, setRequiredError] = useState({
     emailReq: false,
     passReq: false,
@@ -35,7 +35,7 @@ const Signin = () => {
       });
       return;
     }
-
+    setCheckingPassword(true);
     const res = await signIn('credentials', {
       username: email.current,
       password: password.current,
@@ -44,18 +44,15 @@ const Signin = () => {
 
     if (!res?.error) {
       router.push('/');
+      toast.success('Signed In');
     } else {
-      toast('Error Signing in', {
-        action: {
-          label: 'Close',
-          onClick: () => toast.dismiss(),
-        },
-      });
+      toast.error('oops something went wrong..!');
+      setCheckingPassword(false);
     }
   };
   return (
-    <section className="flex items-center justify-center h-screen">
-      <Card className="w-[70%] mx-auto md:w-[70%] lg:w-[30%] ">
+    <section className="flex h-screen items-center justify-center">
+      <Card className="mx-auto w-[70%] md:w-[70%] lg:w-[30%]">
         <CardHeader>
           <CardTitle>Signin to your Account</CardTitle>
         </CardHeader>
@@ -76,12 +73,12 @@ const Signin = () => {
                 }}
               />
               {requiredError.emailReq && (
-                <span className=" text-red-500">Email is required</span>
+                <span className="text-red-500">Email is required</span>
               )}
             </div>
-            <div className="flex flex-col gap-4">
+            <div className="relative flex flex-col gap-4">
               <Label>Password</Label>
-              <div className="flex border rounded-lg">
+              <div className="flex rounded-lg border">
                 <Input
                   className="border-0"
                   name="password"
@@ -103,7 +100,7 @@ const Signin = () => {
                   }}
                 />
                 <button
-                  className="inset-y-0 right-0 flex items-center px-4 text-gray-600"
+                  className="absolute bottom-0 right-0 flex h-10 items-center px-4 text-gray-600"
                   onClick={togglePasswordVisibility}
                 >
                   {isPasswordVisible ? (
@@ -113,7 +110,7 @@ const Signin = () => {
                       viewBox="0 0 24 24"
                       strokeWidth={1.5}
                       stroke="currentColor"
-                      className="w-5 h-5"
+                      className="h-5 w-5"
                     >
                       <path
                         strokeLinecap="round"
@@ -128,7 +125,7 @@ const Signin = () => {
                       viewBox="0 0 24 24"
                       strokeWidth={1.5}
                       stroke="currentColor"
-                      className="w-5 h-5"
+                      className="h-5 w-5"
                     >
                       <path
                         strokeLinecap="round"
@@ -145,16 +142,19 @@ const Signin = () => {
                 </button>
               </div>
               {requiredError.passReq && (
-                <span className=" text-red-500">Password is required</span>
+                <span className="text-red-500">Password is required</span>
               )}
             </div>
           </div>
-          <Button className="my-3 w-full" onClick={handleSubmit}>
+          <Button
+            className="my-3 w-full"
+            disabled={checkingPassword}
+            onClick={handleSubmit}
+          >
             Login
           </Button>
         </CardContent>
       </Card>
-      <Toaster />
     </section>
   );
 };

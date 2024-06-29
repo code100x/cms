@@ -6,15 +6,16 @@ import {
 import { authOptions } from '@/lib/auth';
 import { Course } from '@/store/atoms';
 import { getServerSession } from 'next-auth';
-import { Cache } from '@/db/Cache';
+import { cache } from '@/db/Cache';
 import prisma from '@/db';
 import { checkUserEmailForPurchase } from './appx-check-mail';
 
 const LOCAL_CMS_PROVIDER = process.env.LOCAL_CMS_PROVIDER;
 
-export async function getPurchases(email: string) {
-  const value = Cache.getInstance().get('courses', [email]);
+export async function getPurchases(email: string): Promise<Course[]> {
+  const value = await cache.get('courses', [email]);
   if (value) {
+    console.log(value)
     return value;
   }
   const _courses = await getAllCoursesAndContentHierarchy();
@@ -53,6 +54,7 @@ export async function getPurchases(email: string) {
       appxCourseId: course.appxCourseId,
       openToEveryone: course.openToEveryone,
       slug: course.slug,
+      certIssued: course.certIssued,
       discordRoleId: course.discordRoleId,
       ...(totalVideos > 0 && { totalVideos, totalVideosWatched }),
     };
@@ -80,7 +82,7 @@ export async function getPurchases(email: string) {
       ...coursesFromDb,
       ...courses.filter((x) => x.openToEveryone),
     ];
-    Cache.getInstance().set('courses', [email], allCourses, 60 * 60);
+    cache.set('courses', [email], allCourses, 60 * 60);
     return allCourses;
   }
 
@@ -106,6 +108,6 @@ export async function getPurchases(email: string) {
     }
   }
 
-  Cache.getInstance().set('courses', [email], responses, 60 * 60 * 24);
+  cache.set('courses', [email], responses, 60 * 60 * 24);
   return responses;
 }
