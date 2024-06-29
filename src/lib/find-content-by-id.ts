@@ -1,9 +1,7 @@
-import { Folder, Video } from '@/db/course';
-
-import { Content } from '@prisma/client';
+import { FullCourseContent } from '@/db/course';
 
 export default function findContentById(
-  contents: (Folder | Video | Content)[],
+  contents: FullCourseContent[],
   ids: number[],
 ) {
   if (ids.length === 0) return contents;
@@ -17,13 +15,11 @@ export default function findContentById(
     return null;
   } else if (remainingIds.length === 0) {
     if (foundContent.type === 'folder') {
-      // TODO: Fix these
-      // @ts-ignore
       return foundContent.children;
     }
 
     return [foundContent];
   }
-  // @ts-ignore
-  return findContentById(foundContent.children || [], remainingIds);
+
+  return findContentById(foundContent?.children || [], remainingIds);
 }

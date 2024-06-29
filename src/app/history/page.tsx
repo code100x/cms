@@ -54,6 +54,9 @@ const groupByWatchedDate = (userVideoProgress: TWatchHistory[]) => {
 
 async function getWatchHistory() {
   const session = await getServerSession(authOptions);
+  if (!session?.user) {
+    return [];
+  }
   const userId = session.user.id;
 
   const userVideoProgress: TWatchHistory[] = await db.videoProgress.findMany({
@@ -90,13 +93,13 @@ export default async function CoursesComponent() {
   const watchHistoryGroupedByDate = groupByWatchedDate(watchHistory);
 
   return (
-    <div className="px-4 md:px-20 py-5">
+    <div className="px-4 py-5 md:px-20">
       <h1 className="text-2xl font-bold">Watch history</h1>
-      <div className="flex flex-col gap-4 my-4 sm:my-8 max-w-full">
+      <div className="my-4 flex max-w-full flex-col gap-4 sm:my-8">
         {Object.entries(watchHistoryGroupedByDate).map(([date, history]) => {
           return (
             <Fragment key={date}>
-              <h2 className="text-lg font-semibold mt-4 sm:mt-0">{date}</h2>
+              <h2 className="mt-4 text-lg font-semibold sm:mt-0">{date}</h2>
               <WatchHistoryClient history={history} />
             </Fragment>
           );

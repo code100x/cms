@@ -1,13 +1,13 @@
 'use client';
 import React, { FunctionComponent, useRef } from 'react';
 import { VideoPlayer } from '@/components/VideoPlayer2';
-
 import {
   createSegmentMarkersWithoutDuration,
   getCurrentSegmentName,
 } from '@/lib/utils';
-import { Segment } from '@/lib/utils';
 import Player from 'video.js/dist/types/player';
+
+import { Segment } from '@/lib/utils';
 
 export interface Thumbnail {
   public_id: string;
@@ -89,20 +89,20 @@ export const VideoPlayerSegment: FunctionComponent<VideoProps> = ({
   };
 
   return (
-    <div className="">
-      <div className="flex-1 relative">
+    <div className="mb-6">
+      <div className="relative flex-1">
         <div
           id="thumbnail-preview"
           ref={thumbnailPreviewRef}
-          className="hidden absolute bg-no-repeat bg-cover w-[320px] h-[180px] pointer-events-none z-10"
+          className="pointer-events-none absolute z-10 hidden h-[180px] w-[320px] bg-cover bg-no-repeat"
         />
         <VideoPlayer
           setQuality={setQuality}
           contentId={contentId}
           subtitles={subtitles}
           options={videoJsOptions}
-          onReady={handlePlayerReady}
           onVideoEnd={onVideoEnd}
+          onReady={handlePlayerReady}
         />
       </div>
     </div>

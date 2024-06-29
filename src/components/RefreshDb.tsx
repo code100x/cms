@@ -6,7 +6,6 @@ import { useSession } from 'next-auth/react';
 //@ts-ignore
 export function RefreshDb({ refreshDb }) {
   const session = useSession();
-  console.log(session);
 
   const handleClick = async () => {
     // @ts-ignore
@@ -21,7 +20,7 @@ export function RefreshDb({ refreshDb }) {
   if (session.status === 'loading') return <>Loading...</>;
 
   return (
-    <div className="flex flex-col gap-2 mx-auto">
+    <div className="mx-auto flex flex-col gap-2">
       <h1>Don't see all your courses?</h1>
       <Button className="dark:text-white" onClick={handleClick}>
         Refresh Database

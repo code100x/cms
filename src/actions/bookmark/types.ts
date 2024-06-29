@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { BookmarkCreateSchema, BookmarkDeleteSchema } from './schema';
 import { ActionState } from '@/lib/create-safe-action';
-import { Bookmark, Content } from '@prisma/client';
+import { Bookmark, Content, CourseContent } from '@prisma/client';
 
 export type InputTypeCreateBookmark = z.infer<typeof BookmarkCreateSchema>;
 export type ReturnTypeCreateBookmark = ActionState<
@@ -15,5 +15,7 @@ export type ReturnTypeDeleteBookmark = ActionState<
 >;
 
 export type TBookmarkWithContent = Bookmark & {
-  content: Content & { parent?: Content | null };
+  content: Content & {
+    parent: { id: number; courses: CourseContent[] } | null;
+  };
 };

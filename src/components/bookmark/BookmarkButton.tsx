@@ -32,14 +32,11 @@ const BookmarkButton = ({
   return (
     <TooltipProvider delayDuration={0}>
       <Tooltip>
-        <TooltipTrigger
-          asChild
-          className={addedBookmark ? '' : 'invisible group-hover:visible'}
-        >
+        <TooltipTrigger asChild>
           <Button
             disabled={isDisabled}
             variant="ghost"
-            className="p-0 h-0 text-primary hover:text-primary"
+            className="h-0 p-0 text-primary hover:text-primary"
             onClick={handleBookmark}
           >
             <BookmarkIcon

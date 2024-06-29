@@ -12,6 +12,7 @@ import 'videojs-seek-buttons';
 import { handleMarkAsCompleted } from '@/lib/utils';
 import { useSearchParams } from 'next/navigation';
 import './QualitySelectorControllBar';
+import { YoutubeRenderer } from './YoutubeRenderer';
 
 // todo correct types
 interface VideoPlayerProps {
@@ -38,6 +39,8 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
   const playerRef = useRef<Player | null>(null);
   const [player, setPlayer] = useState<any>(null);
   const searchParams = useSearchParams();
+  const vidUrl = options.sources[0].src;
+
   useEffect(() => {
     const t = searchParams.get('timestamp');
     if (contentId && player && !t) {
@@ -144,6 +147,16 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
             player.currentTime(player.currentTime() - 5);
             event.stopPropagation();
             break;
+          case 'ArrowUp': // Arrow up for increasing volume
+            event.preventDefault();
+            player.volume(player.volume() + 0.1);
+            event.stopPropagation();
+            break;
+          case 'ArrowDown': // Arow dowwn for decreasing volume
+            event.preventDefault();
+            player.volume(player.volume() - 0.1);
+            event.stopPropagation();
+            break;
           case 'KeyF': // F key for fullscreen
             if (player.isFullscreen_) document.exitFullscreen();
             else player.requestFullscreen();
@@ -189,6 +202,46 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
                 player.textTracks()[0].mode = 'showing';
               }
             }
+            break;
+          case 'Digit1':
+            player.currentTime(player.duration() * 0.1);
+            event.stopPropagation();
+            break;
+          case 'Digit2':
+            player.currentTime(player.duration() * 0.2);
+            event.stopPropagation();
+            break;
+          case 'Digit3':
+            player.currentTime(player.duration() * 0.3);
+            event.stopPropagation();
+            break;
+          case 'Digit4':
+            player.currentTime(player.duration() * 0.4);
+            event.stopPropagation();
+            break;
+          case 'Digit5':
+            player.currentTime(player.duration() * 0.5);
+            event.stopPropagation();
+            break;
+          case 'Digit6':
+            player.currentTime(player.duration() * 0.6);
+            event.stopPropagation();
+            break;
+          case 'Digit7':
+            player.currentTime(player.duration() * 0.7);
+            event.stopPropagation();
+            break;
+          case 'Digit8':
+            player.currentTime(player.duration() * 0.8);
+            event.stopPropagation();
+            break;
+          case 'Digit9':
+            player.currentTime(player.duration() * 0.9);
+            event.stopPropagation();
+            break;
+          case 'Digit0':
+            player.currentTime(0);
+            event.stopPropagation();
             break;
         }
       }
@@ -352,6 +405,16 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
       player.currentTime(parseInt(t, 10));
     }
   }, [searchParams, player]);
+
+  const isYoutubeUrl = (url: string) => {
+    const regex = /^https:\/\/www\.youtube\.com\/embed\/[a-zA-Z0-9_-]+/;
+    return regex.test(url);
+  };
+
+  if (isYoutubeUrl(vidUrl)) {
+    return <YoutubeRenderer url={vidUrl} />;
+  }
+
   return (
     <div
       data-vjs-player

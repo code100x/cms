@@ -1,6 +1,6 @@
 'use server';
 import db from '@/db';
-import { Cache } from '@/db/Cache';
+import { cache } from '@/db/Cache';
 import { getAllCourses } from '@/db/course';
 import { authOptions } from '@/lib/auth';
 import { checkUserEmailForPurchase } from '@/utiles/appx-check-mail';
@@ -29,7 +29,7 @@ export const refreshDb: RefreshDbFn = async () => {
   }
 
   // Only allow user to refetch every minute
-  if (Cache.getInstance().get('rate-limit', [email])) {
+  if (cache.get('rate-limit', [email])) {
     return {
       error: true,
       message: 'Wait sometime before refetching',
@@ -69,7 +69,7 @@ export const refreshDb: RefreshDbFn = async () => {
     try {
       await db.userPurchases.create({
         data: {
-          userId,
+          userId: userId!,
           courseId: res.id,
         },
       });
@@ -78,8 +78,8 @@ export const refreshDb: RefreshDbFn = async () => {
     }
   });
 
-  Cache.getInstance().evict('courses', [email]);
-  Cache.getInstance().set('rate-limit', [email], true, 60);
+  cache.evict('courses', [email]);
+  cache.set('rate-limit', [email], true, 60);
 
   return { error: false, message: 'Refetched Courses' };
 };

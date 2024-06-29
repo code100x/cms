@@ -94,3 +94,58 @@
 .vjs-duration {
   display: block !important;
 }
+
+/* Hiding time divider and duration, and decreasing the 
+width of the controls on screens smaller than 512px */
+@media (max-width: 550px) {
+  .vjs-time-divider {
+    display: none !important;
+  }
+
+  .video-js .vjs-current-time {
+    display: block !important;
+  }
+
+  .vjs-duration {
+    display: none !important;
+  }
+
+  .video-js .vjs-control {
+    width: 2rem !important; 
+  }
+}
+
+.vjs-tech:focus-visible{
+  outline: none;
+}
+
+.timeline-segments  {
+  position: relative;
+  left: 0;
+  height: 5px;
+  background-color: #afa4a4;
+  transition: height 150ms ease-in-out;
+}
+.timeline-segments-preview{
+  position: absolute;
+  left: 0;
+  background: #fff;
+  top: 0;
+  bottom: 0;
+  z-index: 1;
+  pointer-events: none;
+
+}
+.timeline-segments-progress {
+  position: absolute;
+  left: 0;
+  background: #f84b4b;
+  top: 0;
+  bottom: 0;
+  z-index: 2;
+  pointer-events: none;
+  
+}
+.timeline-segments:hover{
+  height: 10px;
+}

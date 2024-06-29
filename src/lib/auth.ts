@@ -1,18 +1,43 @@
 import db from '@/db';
 import CredentialsProvider from 'next-auth/providers/credentials';
-import { SignJWT, importJWK } from 'jose';
+import { JWTPayload, SignJWT, importJWK } from 'jose';
 import bcrypt from 'bcrypt';
 import prisma from '@/db';
+import { NextAuthOptions } from 'next-auth';
+import { Session } from 'next-auth';
+import { JWT } from 'next-auth/jwt';
 
 interface AppxSigninResponse {
   data: {
     userid: string;
     name: string;
-    username: string;
+    username?: string;
+  } | null;
+}
+
+export interface session extends Session {
+  user: {
+    id: string;
+    jwtToken: string;
+    role: string;
+    email: string;
+    name: string;
   };
 }
 
-const generateJWT = async (payload: any) => {
+interface token extends JWT {
+  uid: string;
+  jwtToken: string;
+}
+
+interface user {
+  id: string;
+  name: string;
+  email: string;
+  token: string;
+}
+
+const generateJWT = async (payload: JWTPayload) => {
   const secret = process.env.JWT_SECRET || 'secret';
 
   const jwk = await importJWK({ k: secret, alg: 'HS256', kty: 'oct' });
@@ -138,14 +163,13 @@ export const authOptions = {
             };
           }
           console.log('not in db');
-          //@ts-ignore
           const user: AppxSigninResponse = await validateUser(
             credentials.username,
             credentials.password,
           );
 
           const jwt = await generateJWT({
-            id: user.data.userid,
+            id: user.data?.userid,
           });
 
           if (user.data) {
@@ -192,28 +216,30 @@ export const authOptions = {
   ],
   secret: process.env.NEXTAUTH_SECRET || 'secr3t',
   callbacks: {
-    session: async ({ session, token }: any) => {
-      if (session?.user) {
-        session.user.id = token.uid;
-        session.user.jwtToken = token.jwtToken;
-        session.user.role = process.env.ADMINS?.split(',').includes(
-          session.user.email,
+    session: async ({ session, token }) => {
+      const newSession: session = session as session;
+      if (newSession.user && token.uid) {
+        newSession.user.id = token.uid as string;
+        newSession.user.jwtToken = token.jwtToken as string;
+        newSession.user.role = process.env.ADMINS?.split(',').includes(
+          session.user?.email ?? '',
         )
           ? 'admin'
           : 'user';
       }
-
-      return session;
+      return newSession!;
     },
-    jwt: async ({ user, token }: any) => {
+    jwt: async ({ token, user }): Promise<JWT> => {
+      const newToken: token = token as token;
+
       if (user) {
-        token.uid = user.id;
-        token.jwtToken = user.token;
+        newToken.uid = user.id;
+        newToken.jwtToken = (user as user).token;
       }
-      return token;
+      return newToken;
     },
   },
   pages: {
     signIn: '/signin',
   },
-};
+} satisfies NextAuthOptions;

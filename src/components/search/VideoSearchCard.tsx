@@ -16,11 +16,11 @@ const VideoSearchCard = ({
     const videoUrl = `/courses/${courseId}/${parentId}/${videoId}`;
     return (
       <div
-        className="px-3 py-2 hover:bg-gray-200 hover:dark:bg-gray-700 cursor-pointer flex items-center gap-3"
+        className="flex cursor-pointer items-center gap-3 px-3 py-2 hover:bg-gray-200 hover:dark:bg-gray-700"
         onClick={() => onCardClick(videoUrl)}
       >
         <div className="min-w-content">
-          <PlayCircleIcon className="w-4 h-4" />
+          <PlayCircleIcon className="h-4 w-4" />
         </div>
         <span className="w-4/5">{video.title}</span>
       </div>
