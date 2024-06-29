@@ -3,7 +3,6 @@ import {
   getCourseContent,
   getCurrentContentType,
 } from '@/db/course';
-import { AddContent } from '@/components/admin/AddContent';
 import { AdminCourseContent } from '@/components/admin/CourseContent';
 
 export default async function UpdateCourseContent({
@@ -43,12 +42,9 @@ export default async function UpdateCourseContent({
 
   return (
     <div className="mx-auto max-w-screen-xl justify-between p-4 text-black dark:text-white">
-      {course?.title}
-      <div className="font-bold md:text-5xl lg:text-6xl">Content</div>
-      <AddContent
-        courseId={parseInt(courseId, 10)}
-        parentContentId={parseFloat(rest[rest.length - 1])}
-      />
+      <div className="mb-5 text-3xl font-bold md:text-5xl lg:text-6xl">
+        {course?.title}
+      </div>
       <AdminCourseContent
         courseContent={courseContent.map((x: any) => ({
           title: x?.title || '',
@@ -56,6 +52,7 @@ export default async function UpdateCourseContent({
           id: x?.id || 0,
         }))}
         courseId={parseInt(courseId, 10)}
+        rest={rest}
       />
     </div>
   );

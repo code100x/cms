@@ -20,7 +20,7 @@ const LogoutUserComp = () => {
   };
   return (
     <form onSubmit={handlLogout} ref={formRef}>
-      <div className="grid w-full max-w-sm grid-rows-5 rounded-lg border border-gray-200 shadow-sm dark:border-gray-800">
+      <div className="grid w-full grid-rows-5 rounded-lg border border-gray-200 shadow-sm dark:border-gray-800">
         <div className="row-span-3 grid items-center gap-2 p-6">
           <div className="text-3xl font-bold">Logout the user</div>
           <div className="text-sm font-medium leading-none text-gray-500 dark:text-gray-400">

@@ -14,7 +14,7 @@ export const SelectCourse = ({ courses }: { courses: Course[] }) => {
           roundedCardSize="lg"
           course={course}
           onClick={() => {
-            router.push(`/admin/content/${course.id}`);
+            router.push(`/admin/course/${course.id}`);
           }}
           key={course.id}
         />

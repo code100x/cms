@@ -159,13 +159,8 @@ export function Sidebar({
   }
 
   return (
-    <div className="w-84 sticky top-[64px] h-sidebar w-[300px] min-w-[300px] cursor-pointer self-start overflow-y-scroll bg-gray-50 dark:bg-gray-800">
+    <div className="w-84 sticky top-[64px] h-sidebar w-[300px] min-w-[300px] cursor-pointer self-start overflow-y-scroll bg-gray-50 duration-300 dark:bg-gray-800">
       <div className="flex">
-        {/* <ToggleButton
-            onClick={() => {
-              setSidebarOpen((s) => !s);
-            }}
-          /> */}
         <GoBackButton />
       </div>
       <Accordion type="single" collapsible className="w-full">
@@ -176,30 +171,31 @@ export function Sidebar({
   );
 }
 
-export function ToggleButton({
-  onClick,
-  sidebarOpen,
-}: {
-  onClick: () => void;
-  sidebarOpen: boolean;
-}) {
+export function ToggleButton() {
+  const [sidebarOpen, setSidebarOpen] = useRecoilState(sidebarOpenAtom);
+  const currentPath = usePathname();
+
+  const onClick = () => {
+    setSidebarOpen((s) => !s);
+  };
+
+  if (!currentPath.includes('courses')) {
+    return null;
+  }
+
   return (
     <button
       onClick={onClick}
       className="flex flex-col items-center justify-center"
     >
       <span
-        className={`block h-0.5 w-6 rounded-sm bg-black transition-all duration-300 ease-out dark:bg-white ${!sidebarOpen ? 'translate-y-1 rotate-45' : '-translate-y-0.5'}`}
+        className={`block h-0.5 w-6 rounded-sm bg-black transition-all duration-300 ease-out dark:bg-white ${sidebarOpen ? 'translate-y-1 rotate-45' : '-translate-y-0.5'}`}
       ></span>
       <span
-        className={`my-0.5 block h-0.5 w-6 rounded-sm bg-black transition-all duration-300 ease-out dark:bg-white ${
-          !sidebarOpen ? 'opacity-0' : 'opacity-100'
-        }`}
+        className={`my-0.5 block h-0.5 w-6 rounded-sm bg-black transition-all duration-300 ease-out dark:bg-white ${sidebarOpen ? 'opacity-0' : 'opacity-100'}`}
       ></span>
       <span
-        className={`block h-0.5 w-6 rounded-sm bg-black transition-all duration-300 ease-out dark:bg-white ${
-          !sidebarOpen ? '-translate-y-1 -rotate-45' : 'translate-y-0.5'
-        }`}
+        className={`block h-0.5 w-6 rounded-sm bg-black transition-all duration-300 ease-out dark:bg-white ${sidebarOpen ? '-translate-y-1 -rotate-45' : 'translate-y-0.5'}`}
       ></span>
     </button>
   );
