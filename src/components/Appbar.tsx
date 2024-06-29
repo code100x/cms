@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { AppbarAuth } from './AppbarAuth';
 import { useSession } from 'next-auth/react';
 import { useRecoilState } from 'recoil';
@@ -17,6 +18,8 @@ import ProfileDropdown from './profile-menu/ProfileDropdown';
 import { ThemeToggler } from './ThemeToggler';
 
 export const Appbar = () => {
+  const router = useRouter();
+  // const session = useSession();
   const { data: session, status: sessionStatus } = useSession();
   const [sidebarOpen, setSidebarOpen] = useRecoilState(sidebarOpenAtom);
   const currentPath = usePathname();
@@ -43,6 +46,14 @@ export const Appbar = () => {
                   <div className="hidden md:block">
                     <SearchBar />
                   </div>
+                  <Button
+                    size={'sm'}
+                    variant={'link'}
+                    asChild
+                    onClick={() => router.push('/new-courses')}
+                  >
+                    <button>Buy Courses</button>
+                  </Button>
                   <div className="flex items-center space-x-2">
                     {/* Search Bar for smaller devices */}
                     <MobileScreenSearch />
