@@ -2,6 +2,7 @@
 import { Button } from './ui/button';
 import { toast } from 'sonner';
 import { useSession } from 'next-auth/react';
+import { PulseLoader } from 'react-spinners';
 
 //@ts-ignore
 export function RefreshDb({ refreshDb }) {
@@ -17,7 +18,14 @@ export function RefreshDb({ refreshDb }) {
     }
   };
 
-  if (session.status === 'loading') return <>Loading...</>;
+  if (session.status === 'loading')
+    return (
+      <>
+        <div className="flex justify-center items-center">
+          <PulseLoader color="#2563eb" size={12} />
+        </div>
+      </>
+    );
 
   return (
     <div className="mx-auto flex flex-col gap-2">
