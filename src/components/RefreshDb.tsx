@@ -1,23 +1,20 @@
 'use client';
 import { Button } from './ui/button';
 import { toast } from 'sonner';
-import { useSession } from 'next-auth/react';
 
-//@ts-ignore
-export function RefreshDb({ refreshDb }) {
-  const session = useSession();
-
+export function RefreshDb({
+  refreshDb,
+}: {
+  refreshDb: () => Promise<{ error: boolean; message: string }>;
+}) {
   const handleClick = async () => {
-    // @ts-ignore
-    const res = await refreshDb({ userId: session.data.user.id });
+    const res = await refreshDb();
     if (res.error) {
       toast.error(res.message);
     } else {
       toast.info(res.message);
     }
   };
-
-  if (session.status === 'loading') return <>Loading...</>;
 
   return (
     <div className="mx-auto flex flex-col gap-2">

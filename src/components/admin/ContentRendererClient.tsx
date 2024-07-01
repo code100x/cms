@@ -1,6 +1,5 @@
 'use client';
 import { useSearchParams, useRouter } from 'next/navigation';
-// import { QualitySelector } from '../QualitySelector';
 import { VideoPlayerSegment } from '@/components/VideoPlayerSegment';
 import VideoContentChapters from '../VideoContentChapters';
 import { useMemo, useState } from 'react';
@@ -37,7 +36,6 @@ export const ContentRendererClient = ({
 
   const router = useRouter();
 
-  //@ts-ignore
   const [quality, setQuality] = useState<string>(
     searchParams.get('quality') ?? '1080',
   );
@@ -97,7 +95,7 @@ export const ContentRendererClient = ({
           thumbnails={[]}
           segments={metadata?.segments || []}
           videoJsOptions={{
-            playbackrates: [0.5, 1, 1.25, 1.5, 1.75, 2],
+            playbackRates: [0.5, 1, 1.25, 1.5, 1.75, 2],
             controls: true,
             fluid: true,
             html5: {

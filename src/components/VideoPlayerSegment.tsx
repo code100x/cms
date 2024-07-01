@@ -1,5 +1,5 @@
 'use client';
-import React, { FunctionComponent, useRef } from 'react';
+import React, { FunctionComponent } from 'react';
 import { VideoPlayer } from '@/components/VideoPlayer2';
 import {
   createSegmentMarkersWithoutDuration,
@@ -35,10 +35,6 @@ export const VideoPlayerSegment: FunctionComponent<VideoProps> = ({
   videoJsOptions,
   onVideoEnd,
 }) => {
-  const playerRef = useRef<Player | null>(null);
-
-  const thumbnailPreviewRef = useRef<HTMLDivElement>(null);
-
   const overrideUpdateTime = (player: Player) => {
     const seekBar = player
       .getChild('ControlBar')
@@ -57,19 +53,9 @@ export const VideoPlayerSegment: FunctionComponent<VideoProps> = ({
           ) {
             const segmentName = getCurrentSegmentName(time, segments);
             this.write(`${time} - ${segmentName}`);
-
-            // Delay the execution to ensure the tooltip width is calculated after the content update
-            setTimeout(() => {
-              const tooltipWidth = this.el().offsetWidth;
-              // Calculate the offset from the right side
-              const rightOffset = tooltipWidth / 2;
-              this.el().style.right = `-${rightOffset}px`;
-
-              // Adjust the left style to 'auto' to avoid conflict with the right property
-              this.el().style.left = 'auto';
-              this.el().style.width = '200px';
-              this.el().style.fontSize = '14px';
-            }, 0);
+            this.el().style.width = 'max-content';
+            this.el().style.height = 'min-content';
+            this.el().style.fontSize = '14px';
           };
         } else {
           console.error('TimeTooltip component not found.');
@@ -81,9 +67,7 @@ export const VideoPlayerSegment: FunctionComponent<VideoProps> = ({
       console.error('SeekBar component not found.');
     }
   };
-  const handlePlayerReady = async (player: Player) => {
-    playerRef.current = player;
-
+  const handlePlayerReady = (player: Player) => {
     createSegmentMarkersWithoutDuration(player, segments);
     overrideUpdateTime(player);
   };
