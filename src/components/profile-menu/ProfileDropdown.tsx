@@ -7,6 +7,7 @@ import {
   LogOutIcon,
   User2Icon,
   Bird,
+  User,
 } from 'lucide-react';
 import {
   DropdownMenu,
@@ -44,6 +45,7 @@ const ProfileDropdown = () => {
       <DropdownMenuTrigger asChild>
         <div className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-[#475A64] md:h-10 md:w-10">
           <User2Icon color="white" className="h-4 w-4" />
+          {/* <Image src={jiraya} className='' alt="" /> */}
         </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="mr-3 mt-2 w-56 shadow-2xl">
@@ -72,13 +74,21 @@ const ProfileDropdown = () => {
 
         <DropdownMenuSeparator />
 
+        <DropdownMenuItem>
+          <div className="flex items-center">
+            <User className="mr-2 h-4 w-4" />
+            <Link href={'/avatar'} key={'/avatar'}>
+              Change Avatar
+            </Link>
+          </div>
+        </DropdownMenuItem>
         <DropdownMenuItem
           onClick={() => {
             signOut();
           }}
         >
           <LogOutIcon className="mr-2 h-4 w-4" />
-          <span>Logout</span>
+          Logout
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
