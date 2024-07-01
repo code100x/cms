@@ -15,7 +15,7 @@ const LOCAL_CMS_PROVIDER = process.env.LOCAL_CMS_PROVIDER;
 export async function getPurchases(email: string): Promise<Course[]> {
   const value = await cache.get('courses', [email]);
   if (value) {
-    console.log(value)
+    console.log(value);
     return value;
   }
   const _courses = await getAllCoursesAndContentHierarchy();
