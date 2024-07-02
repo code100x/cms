@@ -26,6 +26,8 @@ export const CourseView = ({
   searchParams: QueryParams;
   possiblePath: string;
 }) => {
+  console.log(searchParams);
+
   return (
     <>
       <div className="mb-2 flex max-h-fit min-h-[2.5rem] items-center px-4">

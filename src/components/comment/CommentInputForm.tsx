@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect } from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { Button } from '../ui/button';
 import { useAction } from '@/hooks/useAction';
 import { createMessage } from '@/actions/comment';
@@ -7,13 +7,20 @@ import { toast } from 'sonner';
 import { FormErrors } from '../FormError';
 import { usePathname } from 'next/navigation';
 
-const CommentInputForm = ({
-  contentId,
-  parentId = undefined,
-}: {
+interface CommentInputFormProps {
   contentId: number;
   parentId?: number | undefined;
-}) => {
+  setReplyInputBox?: Dispatch<SetStateAction<boolean>>;
+  replyInputBox?: boolean;
+}
+
+const CommentInputForm = ({
+  contentId,
+  parentId,
+  setReplyInputBox,
+  replyInputBox,
+}: CommentInputFormProps) => {
+  const [unhideButton, setUnhideButton] = useState(false);
   const currentPath = usePathname();
   const formRef = React.useRef<HTMLFormElement>(null);
   const textareaRef = React.useRef<HTMLTextAreaElement>(null);
@@ -21,6 +28,7 @@ const CommentInputForm = ({
     onSuccess: () => {
       toast('Comment added');
       formRef.current?.reset();
+      if (setReplyInputBox) setReplyInputBox(false);
     },
     onError: (error) => {
       toast.error(error);
@@ -51,9 +59,13 @@ const CommentInputForm = ({
       textareaRef.current?.removeEventListener('keydown', handleKeyDown);
     };
   }, []);
+  console.log(unhideButton);
+
   return (
     <form className="grid gap-4" onSubmit={handleFormSubmit} ref={formRef}>
       <textarea
+        onFocus={() => setUnhideButton(true)}
+        autoFocus={replyInputBox}
         ref={textareaRef}
         id="content"
         name="content"
@@ -61,7 +73,18 @@ const CommentInputForm = ({
         placeholder="Add a public comment..."
       />
       <FormErrors id="content" errors={fieldErrors} />
-      <div className="flex justify-end gap-2">
+      <div className={`${!unhideButton && 'hidden'} flex justify-end gap-2`}>
+        <Button
+          type="button"
+          variant={'ghost'}
+          className={`${isLoading && 'hidden'}`}
+          onClick={() => {
+            setUnhideButton(false);
+            if (setReplyInputBox) setReplyInputBox(false);
+          }}
+        >
+          Cancel
+        </Button>
         <Button
           type="submit"
           className={`${isLoading && 'opacity-80'}`}

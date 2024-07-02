@@ -12,10 +12,10 @@ import { getComments } from '../../actions/comment/index';
 import { ExtendedComment } from '@/actions/comment/types';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import CommentVoteForm from './CommentVoteForm';
+
 import Pagination from '../Pagination';
 import Link from 'next/link';
-import { ArrowLeftIcon, ChevronDownIcon, MoreVerticalIcon } from 'lucide-react';
+import { ChevronDownIcon, MoreVerticalIcon } from 'lucide-react';
 import TimeCodeComment from './TimeCodeComment';
 import CopyToClipboard from '../Copy-to-clipbord';
 import {
@@ -32,11 +32,11 @@ import { authOptions } from '@/lib/auth';
 import { getServerSession } from 'next-auth';
 import CommentPinForm from './CommentPinForm';
 import CommentApproveForm from './CommentApproveForm';
+import CommentEngagementBar from './CommentEngagementbar';
+import ParentComment from './parentComment';
 dayjs.extend(relativeTime);
-const Comments = async ({
-  content,
-  searchParams,
-}: {
+
+export interface CommentsProps {
   content: {
     id: number;
     courseId: number;
@@ -44,7 +44,9 @@ const Comments = async ({
     possiblePath: string;
   };
   searchParams: QueryParams;
-}) => {
+}
+
+const Comments = async ({ content, searchParams }: CommentsProps) => {
   const session = await getServerSession(authOptions);
   if (!session?.user) {
     return null;
@@ -64,7 +66,7 @@ const Comments = async ({
   return (
     <Card key="1" className="flex w-full flex-col justify-center border-none">
       <CardHeader className="p-6">
-        {data.parentComment && (
+        {/* {data.parentComment && (
           <Link
             className="p-1"
             href={getUpdatedUrl(
@@ -93,7 +95,7 @@ const Comments = async ({
           <div className="flex items-center gap-2 text-sm">
             <div className="flex items-center gap-0.5">
               {/* <ChevronUpIcon className="w-4 h-4" />
-              <ChevronDownIcon className="w-4 h-4" /> */}
+              <ChevronDownIcon className="w-4 h-4" />
             </div>
             {data.parentComment && (
               <>
@@ -110,11 +112,11 @@ const Comments = async ({
               {!data.parentComment
                 ? `${content.commentCount} comments`
                 : `${data.parentComment.repliesCount} replies`}
-            </div>
-            {/*   <div className="text-gray-500 dark:text-gray-400">•</div>
-            <div className="text-gray-500 dark:text-gray-400">Share</div> */}
+            </div> */}
+        {/*   <div className="text-gray-500 dark:text-gray-400">•</div>
+            <div className="text-gray-500 dark:text-gray-400">Share</div> 
           </div>
-        </div>
+        </div>*/}
       </CardHeader>
       <CardContent className="dark:border-primary-darker rounded-md border p-0 lg:p-8">
         <CommentInputForm
@@ -218,14 +220,22 @@ const Comments = async ({
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
+        {data.parentComment && (
+          <ParentComment
+            comment={data.parentComment}
+            commentsProps={{ content, searchParams }}
+          />
+        )}
         <div className="grid max-h-[400px] gap-6 overflow-y-auto">
           {data.comments.map((c) => (
             <div
-              className="flex w-full items-start gap-4 rounded-md border p-4 text-sm"
+              className={`flex w-full items-start gap-4 rounded-md px-4 py-2 text-sm`}
               key={c.id}
             >
-              <div className="flex w-full items-start gap-4">
-                <Avatar className="h-10 w-10 border">
+              <div
+                className={`flex w-full items-start gap-4 ${data.parentComment && 'pl-5'}`}
+              >
+                <Avatar className="h-8 w-8 border">
                   <AvatarImage alt="@shadcn" src="/placeholder-user.jpg" />
                   <AvatarFallback>{`${(c as ExtendedComment).user?.name?.substring(0, 2)}`}</AvatarFallback>
                 </Avatar>
@@ -290,33 +300,10 @@ const Comments = async ({
                     />
                   </div>
 
-                  <div className="flex items-center gap-4">
-                    <CommentVoteForm
-                      upVotes={c.upvotes}
-                      downVotes={c.downvotes}
-                      commentId={c.id}
-                      voteType={
-                        (c as ExtendedComment)?.votes?.[0]?.voteType ?? null
-                      }
-                    />
-                    {!data.parentComment && (
-                      <Link
-                        href={getUpdatedUrl(
-                          `/courses/${content.courseId}/${content.possiblePath}`,
-                          searchParams,
-                          {
-                            parentId: c.id,
-                          },
-                        )}
-                        scroll={false}
-                        className="flex items-center gap-1 text-gray-500 dark:text-gray-400"
-                      >
-                        <ReplyIcon className="h-4 w-4" />
-                        <span>{c.repliesCount}</span>
-                        <span>Reply</span>
-                      </Link>
-                    )}
-                  </div>
+                  <CommentEngagementBar
+                    commentsProps={{ content, searchParams }}
+                    comment={c}
+                  />
                 </div>
               </div>
             </div>
@@ -368,7 +355,7 @@ const Comments = async ({
 //   );
 // }
 
-function ReplyIcon(props: any) {
+/* function ReplyIcon(props: any) {
   return (
     <svg
       {...props}
@@ -386,6 +373,6 @@ function ReplyIcon(props: any) {
       <path d="M20 18v-2a4 4 0 0 0-4-4H4" />
     </svg>
   );
-}
+} */
 
 export default Comments;

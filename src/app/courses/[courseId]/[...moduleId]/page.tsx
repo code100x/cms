@@ -23,6 +23,7 @@ export default async function Course({
   const contentType =
     courseContent?.length === 1 ? courseContent[0]?.type : 'folder';
   const nextContent = null; //await getNextVideo(Number(rest[rest.length - 1]))
+  //console.log(searchParams);
 
   return (
     <CourseView
