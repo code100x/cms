@@ -8,7 +8,7 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Button } from './ui/button';
-import { FaFileImage, FaLinkedin, FaTwitter } from 'react-icons/fa';
+import { FaDownload, FaFileImage, FaLinkedin, FaTwitter } from 'react-icons/fa';
 import { useGenerateCertificate } from '@/hooks/useCertGen';
 import { OneCertificate } from '@/utiles/certificate';
 import { useMemo } from 'react'; //used to fix maximum update depth exceeded err
@@ -34,15 +34,15 @@ export const CertificateComponent = ({
     userName,
   });
 
-  // const handleDownloadPDF = async () => {
-  //   const downloadUrl = certificatePdfUrl;
-  //   const a = document.createElement('a');
-  //   a.href = downloadUrl!;
-  //   a.download = 'certificate.pdf';
-  //   document.body.appendChild(a);
-  //   a.click();
-  //   document.body.removeChild(a);
-  // };
+  const handleDownloadPDF = async () => {
+    const downloadUrl = certificatePdfUrl;
+    const a = document.createElement('a');
+    a.href = downloadUrl!;
+    a.download = 'certificate.pdf';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  };
 
   const handleDownloadPNG = async () => {
     const downloadUrl = certificateImageUrl;
@@ -87,9 +87,10 @@ export const CertificateComponent = ({
         <CardDescription>{course.description}</CardDescription>
       </CardHeader>
       <CardFooter className="flex justify-end">
-        {/* <Button onClick={() => handleDownloadPDF()} className="mr-2">
+        <Button onClick={() => handleDownloadPDF()} className="mr-2">
           <FaDownload className="mr-1" /> Download PDF
-        </Button> */}
+        </Button>
+
         <Button onClick={() => handleDownloadPNG()} className="mr-2">
           <FaFileImage className="mr-1" /> Download PNG
         </Button>
