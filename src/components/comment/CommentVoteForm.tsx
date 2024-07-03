@@ -46,6 +46,7 @@ const CommentVoteForm = ({
       currentPath,
     });
   };
+  //console.log(voteType);
   return (
     <div className="flex gap-2">
       <form onSubmit={handleUpvote}>

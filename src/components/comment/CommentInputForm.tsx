@@ -12,6 +12,7 @@ interface CommentInputFormProps {
   parentId?: number | undefined;
   setReplyInputBox?: Dispatch<SetStateAction<boolean>>;
   replyInputBox?: boolean;
+  className?: string;
 }
 
 const CommentInputForm = ({
@@ -19,6 +20,7 @@ const CommentInputForm = ({
   parentId,
   setReplyInputBox,
   replyInputBox,
+  className,
 }: CommentInputFormProps) => {
   const [unhideButton, setUnhideButton] = useState(false);
   const currentPath = usePathname();
@@ -59,10 +61,13 @@ const CommentInputForm = ({
       textareaRef.current?.removeEventListener('keydown', handleKeyDown);
     };
   }, []);
-  console.log(unhideButton);
 
   return (
-    <form className="grid gap-4" onSubmit={handleFormSubmit} ref={formRef}>
+    <form
+      className={`grid gap-4 ${className}`}
+      onSubmit={handleFormSubmit}
+      ref={formRef}
+    >
       <textarea
         onFocus={() => setUnhideButton(true)}
         autoFocus={replyInputBox}
@@ -70,7 +75,7 @@ const CommentInputForm = ({
         id="content"
         name="content"
         className="min-h-[50px] rounded-md border-2 p-2 text-muted-foreground dark:bg-gray-800"
-        placeholder="Add a public comment..."
+        placeholder={`Add a public ${parentId ? 'reply' : 'comment'}...`}
       />
       <FormErrors id="content" errors={fieldErrors} />
       <div className={`${!unhideButton && 'hidden'} flex justify-end gap-2`}>

@@ -37,6 +37,7 @@ export const getComments = async (
       where: { id: parseInt(parentId.toString(), 10) },
       include: {
         user: true,
+        votes: true,
       },
     });
   }

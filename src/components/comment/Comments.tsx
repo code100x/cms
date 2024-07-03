@@ -1,7 +1,6 @@
 import React from 'react';
 import { Card, CardContent, CardFooter, CardHeader } from '../ui/card';
-import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
-import { TabType, QueryParams, ROLES } from '@/actions/types';
+import { TabType, QueryParams } from '@/actions/types';
 import {
   constructCommentPrismaQuery,
   getUpdatedUrl,
@@ -9,15 +8,12 @@ import {
 } from '@/lib/utils';
 import CommentInputForm from './CommentInputForm';
 import { getComments } from '../../actions/comment/index';
-import { ExtendedComment } from '@/actions/comment/types';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 
 import Pagination from '../Pagination';
 import Link from 'next/link';
-import { ChevronDownIcon, MoreVerticalIcon } from 'lucide-react';
-import TimeCodeComment from './TimeCodeComment';
-import CopyToClipboard from '../Copy-to-clipbord';
+import { ChevronDownIcon } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -27,13 +23,9 @@ import {
 } from '../ui/dropdown-menu';
 import { Button } from '../ui/button';
 import { CommentType } from '@prisma/client';
-import CommentDeleteForm from './CommentDeleteForm';
 import { authOptions } from '@/lib/auth';
 import { getServerSession } from 'next-auth';
-import CommentPinForm from './CommentPinForm';
-import CommentApproveForm from './CommentApproveForm';
-import CommentEngagementBar from './CommentEngagementbar';
-import ParentComment from './parentComment';
+import Comment from './Comment';
 dayjs.extend(relativeTime);
 
 export interface CommentsProps {
@@ -61,67 +53,22 @@ const Comments = async ({ content, searchParams }: CommentsProps) => {
   const data = await getComments(q, searchParams.parentId);
 
   if (!content.id) return null;
+
   const modifiedSearchParams = { ...searchParams };
   delete modifiedSearchParams.parentId;
   return (
     <Card key="1" className="flex w-full flex-col justify-center border-none">
       <CardHeader className="p-6">
-        {/* {data.parentComment && (
-          <Link
-            className="p-1"
-            href={getUpdatedUrl(
-              `/courses/${content.courseId}/${content.possiblePath}`,
-              modifiedSearchParams,
-              {},
-            )}
-            scroll={false}
-          >
-            <div className="flex gap-2">
-              <ArrowLeftIcon /> Go back
-            </div>
-          </Link>
-        )}
-        <div className="grid gap-2">
-          {data.parentComment && (
-            <h1 className="text-xl font-bold">
-              <TimeCodeComment
-                possiblePath={content.possiblePath}
-                searchParams={searchParams}
-                comment={data.parentComment.content}
-                contentId={content.courseId}
-              />
-            </h1>
-          )}
-          <div className="flex items-center gap-2 text-sm">
-            <div className="flex items-center gap-0.5">
-              {/* <ChevronUpIcon className="w-4 h-4" />
-              <ChevronDownIcon className="w-4 h-4" />
-            </div>
-            {data.parentComment && (
-              <>
-                <div className="text-gray-500 dark:text-gray-400">
-                  {data.parentComment.upvotes} Likes
-                </div>
-                <div className="text-gray-500 dark:text-gray-400">•</div>
-              </>
-            )}
-
-            <div
-              className={`text-gray-500 dark:text-gray-400 ${!data.parentComment ? 'text-xl' : ''}`}
-            >
-              {!data.parentComment
-                ? `${content.commentCount} comments`
-                : `${data.parentComment.repliesCount} replies`}
-            </div> */}
-        {/*   <div className="text-gray-500 dark:text-gray-400">•</div>
-            <div className="text-gray-500 dark:text-gray-400">Share</div> 
-          </div>
-        </div>*/}
+        <div className={`text-xl text-gray-500 dark:text-gray-400`}>
+          {`${content.commentCount} comments`}
+        </div>
       </CardHeader>
-      <CardContent className="dark:border-primary-darker rounded-md border p-0 lg:p-8">
+
+      <CardContent className="p-0 lg:p-8">
         <CommentInputForm
           contentId={content.id}
           parentId={data?.parentComment?.id}
+          className={data?.parentComment?.id ? 'hidden' : ''}
         />
         <div className="mb-5 mt-5 flex">
           <DropdownMenu key="1" modal={false}>
@@ -221,92 +168,18 @@ const Comments = async ({ content, searchParams }: CommentsProps) => {
           </DropdownMenu>
         </div>
         {data.parentComment && (
-          <ParentComment
+          <Comment
             comment={data.parentComment}
             commentsProps={{ content, searchParams }}
           />
         )}
-        <div className="grid max-h-[400px] gap-6 overflow-y-auto">
+        <div className="grid max-h-[400px] overflow-y-auto">
           {data.comments.map((c) => (
-            <div
-              className={`flex w-full items-start gap-4 rounded-md px-4 py-2 text-sm`}
+            <Comment
+              comment={c}
+              commentsProps={{ content, searchParams }}
               key={c.id}
-            >
-              <div
-                className={`flex w-full items-start gap-4 ${data.parentComment && 'pl-5'}`}
-              >
-                <Avatar className="h-8 w-8 border">
-                  <AvatarImage alt="@shadcn" src="/placeholder-user.jpg" />
-                  <AvatarFallback>{`${(c as ExtendedComment).user?.name?.substring(0, 2)}`}</AvatarFallback>
-                </Avatar>
-                <div className="grid w-full gap-1.5">
-                  <div className="flex items-center gap-2">
-                    <div className="font-semibold">
-                      @{(c as ExtendedComment).user?.name ?? ''}
-                    </div>
-                    <div className="text-xs text-gray-500 dark:text-gray-400">
-                      {dayjs(c.createdAt).fromNow()}
-                    </div>
-                    {c.isPinned && (
-                      <div className="text-xs text-gray-500 dark:text-gray-400">
-                        Pinned
-                      </div>
-                    )}
-
-                    <DropdownMenu key="2">
-                      <DropdownMenuTrigger asChild>
-                        <button>
-                          <MoreVerticalIcon className="h-4 w-4" />
-                        </button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent>
-                        <DropdownMenuItem>
-                          <CopyToClipboard
-                            textToCopy={`${c.contentId};${c.id.toString()}`}
-                          />
-                        </DropdownMenuItem>
-                        {(session.user.id.toString() ===
-                          (c as ExtendedComment).userId.toString() ||
-                          session.user.role === ROLES.ADMIN) && (
-                          <DropdownMenuItem>
-                            <CommentDeleteForm commentId={c.id} />
-                          </DropdownMenuItem>
-                        )}
-                        {session.user.role === ROLES.ADMIN && (
-                          <DropdownMenuItem>
-                            <CommentPinForm
-                              commentId={c.id}
-                              contentId={c.contentId}
-                            />
-                          </DropdownMenuItem>
-                        )}
-                        {session.user.role === ROLES.ADMIN && (
-                          <DropdownMenuItem>
-                            <CommentApproveForm
-                              commentId={c.id}
-                              contentId={c.contentId}
-                            />
-                          </DropdownMenuItem>
-                        )}
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  </div>
-                  <div>
-                    <TimeCodeComment
-                      possiblePath={content.possiblePath}
-                      searchParams={searchParams}
-                      comment={c.content}
-                      contentId={content.courseId}
-                    />
-                  </div>
-
-                  <CommentEngagementBar
-                    commentsProps={{ content, searchParams }}
-                    comment={c}
-                  />
-                </div>
-              </div>
-            </div>
+            />
           ))}
         </div>
       </CardContent>
