@@ -3,6 +3,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Certificate, Course, User } from '@prisma/client';
 import { useGenerateCertificate } from '@/hooks/useCertGen';
+import { LazyLoadImage } from './LazyLoadImage';
 
 export const CertificateVerify = ({
   certificate,
@@ -25,10 +26,12 @@ export const CertificateVerify = ({
         <Card className="my-4">
           <CardContent className="w-[90vw] max-w-[800px] flex-none">
             {certificateImageUrl ? (
-              <img
+              <LazyLoadImage
                 src={certificateImageUrl}
                 alt="Generated Certificate"
                 className="h-auto w-full"
+                width={500}
+                height={250}
               />
             ) : (
               <div className="flex min-h-[500px] items-center justify-center">

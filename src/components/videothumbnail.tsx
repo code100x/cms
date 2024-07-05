@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import VideoPreview from '@/actions/videopreview/videoPreview';
 import { useEffect } from 'react';
+import { LazyLoadImage } from './LazyLoadImage';
 import CardComponent from './CardComponent';
 
 const VideoThumbnail = ({
@@ -29,6 +30,7 @@ const VideoThumbnail = ({
   const handleMouseLeave = () => {
     setHover(false);
   };
+
   return (
     <div
       className="m relative max-h-[573px] max-w-[1053px]"
@@ -45,9 +47,11 @@ const VideoThumbnail = ({
         ) : (
           <>
             {imageUrl ? (
-              <img
+              <LazyLoadImage
                 src={imageUrl}
                 alt="Video Thumbnail"
+                width={500}
+                height={250}
                 className="h-full w-full object-cover"
               />
             ) : (
