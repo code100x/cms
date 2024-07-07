@@ -6,6 +6,7 @@ import CommentUpdateForm from './CommentUpdateForm';
 import CommentDeleteForm from './CommentDeleteForm';
 import CopyToClipboard from '../Copy-to-clipbord';
 import { ExtendedComment } from '@/actions/comment/types';
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,10 +15,17 @@ import {
 } from '../ui/dropdown-menu';
 import { MoreVerticalIcon } from 'lucide-react';
 import { ROLES } from '@/actions/types';
+
 const CommentDropdown = ({ session, c }: any) => {
   const [dropOpen, setDropOpen] = useState(false);
+
   return (
-    <DropdownMenu key="2" open={dropOpen} onOpenChange={setDropOpen}>
+    <DropdownMenu
+      key="2"
+      open={dropOpen}
+      onOpenChange={setDropOpen}
+      modal={false}
+    >
       <DropdownMenuTrigger asChild>
         <button
           onClick={(e) => {
@@ -31,7 +39,9 @@ const CommentDropdown = ({ session, c }: any) => {
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuItem>
-          <CopyToClipboard textToCopy={`${c.contentId};${c.id.toString()}`} />
+          <div className="flex items-center justify-center">
+            <CopyToClipboard textToCopy={`${c.contentId};${c.id.toString()}`} />
+          </div>
         </DropdownMenuItem>
         {(session.user.id.toString() ===
           (c as ExtendedComment).userId.toString() ||
@@ -43,7 +53,7 @@ const CommentDropdown = ({ session, c }: any) => {
         {(session.user.id.toString() ===
           (c as ExtendedComment).userId.toString() ||
           session.user.role === ROLES.ADMIN) && (
-          <DropdownMenuItem>
+          <DropdownMenuItem asChild>
             <CommentUpdateForm
               commentId={c.id}
               comment={c.content}

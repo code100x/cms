@@ -27,29 +27,37 @@ const CommentUpdateForm = ({ commentId, comment, setDropOpen }: any) => {
   const { execute } = useAction(updateComment, {
     onSuccess: () => {
       toast('Comment updated successfully');
-      setOpen(false);
       setDropOpen(false);
     },
     onError: (error) => {
       toast.error(error);
     },
   });
+
   const handleUpdate = async () => {
-    const body = {
-      content: text,
-      commentId,
-      currentPath,
-    };
-    if (text === prevText) {
-      return;
+    if (text === prevText || text.length === 0) {
+      setOpen(false);
+    } else {
+      const body = {
+        content: text,
+        commentId,
+        currentPath,
+      };
+      execute(body);
     }
-    execute(body);
+  };
+  const handleKeyPress = (event: any) => {
+    if (event.key === 'Enter') {
+      event.preventDefault(); // Prevent the default form submission
+
+      handleUpdate();
+    }
   };
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <div
-          className="flex items-center gap-x-2"
+          className="mx-[2px] flex cursor-pointer items-center gap-x-2 rounded-sm py-[7px] pl-1.5 text-[13.5px] transition duration-300 hover:bg-white hover:bg-opacity-15 hover:backdrop-blur-lg"
           onClick={(e) => {
             e.preventDefault();
             setOpen(true);
@@ -59,19 +67,25 @@ const CommentUpdateForm = ({ commentId, comment, setDropOpen }: any) => {
           <Pencil className="h-4 w-4" />
         </div>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent
+        onClick={(e) => {
+          e.preventDefault();
+        }}
+      >
         <DialogHeader>
           <DialogTitle>Update Comment</DialogTitle>
         </DialogHeader>
         <DialogDescription>
-          <div className="mx-4 my-2 flex flex-col gap-4">
+          <form className="mx-4 my-2 flex flex-col gap-4">
             <div className="flex flex-col gap-4">
               <label>Comment</label>
               <Input
                 value={text}
-                onChange={(e) => {
+                onChange={(e: any) => {
+                  e.preventDefault();
                   setT(e.target.value);
                 }}
+                onKeyDown={handleKeyPress}
               />
             </div>
             <div className="items-centert flex justify-between gap-3">
@@ -94,7 +108,7 @@ const CommentUpdateForm = ({ commentId, comment, setDropOpen }: any) => {
                 Update
               </Button>
             </div>
-          </div>
+          </form>
         </DialogDescription>
       </DialogContent>
     </Dialog>

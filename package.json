@@ -81,6 +81,7 @@
     "storybook": "^8.0.8",
     "tailwind-merge": "^2.2.1",
     "tailwindcss-animate": "^1.0.7",
+    "tailwindcss-filters": "^3.0.0",
     "typescript": "^5.4.5",
     "vaul": "^0.8.9",
     "video.js": "^8.6.1",

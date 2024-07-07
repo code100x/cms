@@ -430,14 +430,12 @@ export const updateContentHandler = async (data: UpdateCommentType) => {
   const session = await getServerSession(authOptions);
 
   if (!session || !session.user) {
-    console.log(session);
     return {
       error: 'Unauthorized or insufficient permissions',
     };
   }
-  console.log('data', data);
   try {
-    const comment = await prisma.comment.update({
+    await prisma.comment.update({
       where: {
         id: data.commentId,
       },
@@ -445,9 +443,7 @@ export const updateContentHandler = async (data: UpdateCommentType) => {
         content: data.content,
       },
     });
-    console.log(comment);
     if (data.currentPath) {
-      console.log('path', data.currentPath);
       revalidatePath(data.currentPath);
     }
     return { data: { message: 'successfully updated the comment content' } };
