@@ -74,8 +74,11 @@ export const getMetadata = async (contentId: number) => {
   // }
 
   const bunnyUrls = {
+    //@ts-ignore
     1080: bunnyUrl(metadata[`video_1080p_mp4_${userId}`]),
+    //@ts-ignore
     720: bunnyUrl(metadata[`video_720p_mp4_${userId}`]),
+    //@ts-ignore
     360: bunnyUrl(metadata[`video_360p_mp4_${userId}`]),
     subtitles: metadata['subtitles'],
     slides: metadata['slides'],
@@ -83,13 +86,16 @@ export const getMetadata = async (contentId: number) => {
     thumbnails: metadata['thumbnail_mosiac_url'],
   };
 
-  if (user.bunnyProxyEnabled) {
+  if (user?.bunnyProxyEnabled) {
     return bunnyUrls;
   }
 
   const mainUrls = {
+    //@ts-ignore
     1080: metadata[`video_1080p_mp4_${userId}`],
+    //@ts-ignore
     720: metadata[`video_720p_mp4_${userId}`],
+    //@ts-ignore
     360: metadata[`video_360p_mp4_${userId}`],
     subtitles: metadata['subtitles'],
     slides: metadata['slides'],
@@ -105,6 +111,7 @@ export const getMetadata = async (contentId: number) => {
 
   const otherQualities = ['720', '360'];
   for (const quality of otherQualities) {
+    //@ts-ignore
     const isAccessible = await isUrlAccessible(mainUrls[quality]);
     if (isAccessible) {
       return mainUrls;

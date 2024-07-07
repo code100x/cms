@@ -1,60 +1,43 @@
-export class Cache {
-  private inMemoryDb: Map<
-    string,
-    {
-      value: any;
-      expiry: number;
-    }
-  >;
+import { ICache } from '@/lib/cache/cache';
+import { InMemoryCache } from '@/lib/cache/in-memory-cache';
+import { RedisCache } from '@/lib/cache/redis-cache';
+
+const redisUrl = process.env.REDIS_URL;
+
+export class Cache implements ICache {
   private static instance: Cache;
+  private delegate: ICache;
 
   private constructor() {
-    this.inMemoryDb = new Map<
-      string,
-      {
-        value: any;
-        expiry: number;
-      }
-    >();
-  }
-
-  static getInstance() {
-    if (!Cache.instance) {
-      Cache.instance = new Cache();
+    if (redisUrl) {
+      this.delegate = RedisCache.getInstance(redisUrl);
+    } else {
+      this.delegate = InMemoryCache.getInstance();
     }
-
-    return Cache.instance;
   }
 
-  set(
+  static getInstance(): Cache {
+    if (!this.instance) {
+      this.instance = new Cache();
+    }
+    return this.instance;
+  }
+
+  async set(
     type: string,
     args: string[],
     value: any,
     expirySeconds: number = parseInt(process.env.CACHE_EXPIRE_S || '100', 10),
-  ) {
-    this.inMemoryDb.set(`${type} ${JSON.stringify(args)}`, {
-      value,
-      expiry: new Date().getTime() + expirySeconds * 1000,
-    });
+  ): Promise<void> {
+    return this.delegate.set(type, args, value, expirySeconds);
   }
 
-  get(type: string, args: string[]) {
-    const key = `${type} ${JSON.stringify(args)}`;
-    const entry = this.inMemoryDb.get(key);
-    if (!entry) {
-      return null;
-    }
-    if (new Date().getTime() > entry.expiry) {
-      this.inMemoryDb.delete(key);
-      return null;
-    }
-    return entry.value;
+  async get(type: string, args: string[]): Promise<any> {
+    return this.delegate.get(type, args);
   }
 
-  evict(type: string, args: string[]) {
-    const key = `${type} ${JSON.stringify(args)}`;
-    this.inMemoryDb.delete(key);
-    return null;
+  async evict(type: string, args: string[]): Promise<null> {
+    return this.delegate.evict(type, args);
   }
 }
 export const cache = Cache.getInstance();

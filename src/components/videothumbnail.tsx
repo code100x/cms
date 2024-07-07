@@ -23,7 +23,7 @@ const VideoThumbnail = ({
     fetchVideoUrl();
   }, [contentId]);
   const handleMouseEnter = () => {
-    setHover(true);
+    // setHover(true);
   };
 
   const handleMouseLeave = () => {

@@ -88,7 +88,7 @@ export const ContentRendererClient = ({
   };
 
   return (
-    <div className="flex flex-col items-start gap-2 lg:flex-row">
+    <div className="flex flex-col items-start gap-2 semi:flex-row">
       <div className="w-full flex-1">
         <VideoPlayerSegment
           setQuality={setQuality}
