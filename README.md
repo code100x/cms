@@ -5,7 +5,7 @@
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/cms.git
+   git clone https://github.com/code100x/cms.git
    ```
 2. Navigate to the project directory:
    ```bash
@@ -13,6 +13,7 @@
    ```
 3. Run the following command to start the application:
    ```bash
+   docker volume create postgres-data # (optional) run this command if you face any mount volume / volume not exist error
    docker-compose up
    ```
 
@@ -20,7 +21,7 @@
 
 1. clone the repository:
    ```bash
-   git clone https://github.com/your-username/cms.git
+   git clone https://github.com/code100x/cms.git
    ```
 2. Navigate to the project directory:
    ```bash
