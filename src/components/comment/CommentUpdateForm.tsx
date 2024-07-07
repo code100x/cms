@@ -15,7 +15,7 @@ import { Button } from '../ui/button';
 import { toast } from 'sonner';
 import { useAction } from '@/hooks/useAction';
 import { updateComment } from '@/actions/comment';
-const CommentUpdateForm = ({ commentId, comment }: any) => {
+const CommentUpdateForm = ({ commentId, comment, setDropOpen }: any) => {
   const currentPath = usePathname();
   const [open, setOpen] = useState(false);
   const [prevText, setPt] = useState('');
@@ -28,6 +28,7 @@ const CommentUpdateForm = ({ commentId, comment }: any) => {
     onSuccess: () => {
       toast('Comment updated successfully');
       setOpen(false);
+      setDropOpen(false);
     },
     onError: (error) => {
       toast.error(error);

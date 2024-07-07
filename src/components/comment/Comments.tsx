@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, CardContent, CardFooter, CardHeader } from '../ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
-import { TabType, QueryParams, ROLES } from '@/actions/types';
+import { TabType, QueryParams } from '@/actions/types';
 import {
   constructCommentPrismaQuery,
   getUpdatedUrl,
@@ -15,9 +15,9 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import CommentVoteForm from './CommentVoteForm';
 import Pagination from '../Pagination';
 import Link from 'next/link';
-import { ArrowLeftIcon, ChevronDownIcon, MoreVerticalIcon } from 'lucide-react';
+import { ArrowLeftIcon, ChevronDownIcon } from 'lucide-react';
 import TimeCodeComment from './TimeCodeComment';
-import CopyToClipboard from '../Copy-to-clipbord';
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -27,12 +27,11 @@ import {
 } from '../ui/dropdown-menu';
 import { Button } from '../ui/button';
 import { CommentType } from '@prisma/client';
-import CommentDeleteForm from './CommentDeleteForm';
+
 import { authOptions } from '@/lib/auth';
 import { getServerSession } from 'next-auth';
-import CommentPinForm from './CommentPinForm';
-import CommentApproveForm from './CommentApproveForm';
-import CommentUpdateForm from './CommentUpdateForm';
+import CommentDropdown from './CommentDropdown';
+
 dayjs.extend(relativeTime);
 const Comments = async ({
   content,
@@ -242,54 +241,7 @@ const Comments = async ({
                         Pinned
                       </div>
                     )}
-
-                    <DropdownMenu key="2">
-                      <DropdownMenuTrigger asChild>
-                        <button>
-                          <MoreVerticalIcon className="h-4 w-4" />
-                        </button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent>
-                        <DropdownMenuItem>
-                          <CopyToClipboard
-                            textToCopy={`${c.contentId};${c.id.toString()}`}
-                          />
-                        </DropdownMenuItem>
-                        {(session.user.id.toString() ===
-                          (c as ExtendedComment).userId.toString() ||
-                          session.user.role === ROLES.ADMIN) && (
-                          <DropdownMenuItem>
-                            <CommentDeleteForm commentId={c.id} />
-                          </DropdownMenuItem>
-                        )}
-                        {(session.user.id.toString() ===
-                          (c as ExtendedComment).userId.toString() ||
-                          session.user.role === ROLES.ADMIN) && (
-                          <DropdownMenuItem>
-                            <CommentUpdateForm
-                              commentId={c.id}
-                              comment={c.content}
-                            />
-                          </DropdownMenuItem>
-                        )}
-                        {session.user.role === ROLES.ADMIN && (
-                          <DropdownMenuItem>
-                            <CommentPinForm
-                              commentId={c.id}
-                              contentId={c.contentId}
-                            />
-                          </DropdownMenuItem>
-                        )}
-                        {session.user.role === ROLES.ADMIN && (
-                          <DropdownMenuItem>
-                            <CommentApproveForm
-                              commentId={c.id}
-                              contentId={c.contentId}
-                            />
-                          </DropdownMenuItem>
-                        )}
-                      </DropdownMenuContent>
-                    </DropdownMenu>
+                    <CommentDropdown session={session} c={c} />
                   </div>
                   <div>
                     <TimeCodeComment
@@ -298,7 +250,6 @@ const Comments = async ({
                       comment={c.content}
                     />
                   </div>
-
                   <div className="flex items-center gap-4">
                     <CommentVoteForm
                       upVotes={c.upvotes}
