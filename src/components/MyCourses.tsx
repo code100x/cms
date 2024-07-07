@@ -1,19 +1,20 @@
 import { refreshDb } from '@/actions/refresh-db';
 import { Courses } from '@/components/Courses';
-import { authOptions } from '@/lib/auth';
-import { getPurchases } from '@/utiles/appx';
-import { getServerSession } from 'next-auth';
 import { Logout } from './Logout';
 import { RefreshDb } from './RefreshDb';
-const getCourses = async () => {
-  const session = await getServerSession(authOptions);
-  const purchases = await getPurchases(session?.user.email || '');
 
-  return purchases;
+const getCourses = async () => {
+  // TODO: Use auth
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/courses`,
+  );
+  const purchases = await response.json();
+  return purchases.data;
 };
 
 export const MyCourses = async () => {
   const purchases = await getCourses();
+
   if (!purchases.length)
     return (
       <div>
