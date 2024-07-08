@@ -13,14 +13,15 @@
     "@repo/db": "*",
     "bcrypt": "^5.1.1",
     "clsx": "^2.1.1",
+    "ioredis": "^5.4.1",
     "next-auth": "^4.24.7",
     "tailwind-merge": "^2.3.0",
     "video.js": "^8.12.0",
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@repo/typescript-config": "*",
-    "@repo/eslint-config": "*"
+    "@repo/eslint-config": "*",
+    "@repo/typescript-config": "*"
   },
   "author": "",
   "license": "ISC",

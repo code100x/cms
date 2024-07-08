@@ -13,7 +13,7 @@ import { checkUserEmailForPurchase } from './appx-check-mail';
 const LOCAL_CMS_PROVIDER = process.env.LOCAL_CMS_PROVIDER;
 
 export async function getPurchases(email: string): Promise<Course[]> {
-  const value = cache.get('courses', [email]);
+  const value = await cache.get('courses', [email]);
   if (value) {
     return value;
   }

@@ -19,6 +19,7 @@
 
 4. Run the following command to start the application:
    ```bash
+   docker volume create postgres-data # (optional) run this command if you face any mount volume / volume not exist error
    docker-compose up
    ```
 
