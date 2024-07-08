@@ -36,6 +36,7 @@
     "@auth/prisma-adapter": "^1.0.6",
     "@discordjs/core": "^1.1.1",
     "@discordjs/next": "^0.1.1-dev.1673526225-a580768.0",
+    "@hookform/resolvers": "^3.6.0",
     "@icons-pack/react-simple-icons": "^9.4.0",
     "@prisma/client": "^5.6.0",
     "@radix-ui/react-accordion": "^1.1.2",
