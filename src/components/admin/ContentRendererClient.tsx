@@ -167,7 +167,9 @@ export const ContentRendererClient = ({
           <div className="flex flex-row-reverse">
             <button
               className="ml-4 rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
-              onClick={() => {
+              onClick={async () => {
+                setLoadingMarkAs(true);
+                await handleMarkCompleted();
                 const originalPath = window.location.pathname;
                 const parts = originalPath.split('/');
                 parts.pop();
@@ -176,7 +178,7 @@ export const ContentRendererClient = ({
                 router.push(newPath);
               }}
             >
-              {nextContent.title}
+              Up next: {nextContent.title}
             </button>{' '}
           </div>
         ) : null}
