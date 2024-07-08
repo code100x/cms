@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import {
+  DollarSignIcon,
   BookmarkIcon,
   HistoryIcon,
   LogOutIcon,
@@ -36,6 +37,11 @@ const ProfileDropdown = () => {
       href: '/questions',
       icon: <Bird className="mr-2 h-4 w-4" />,
       label: 'Questions',
+    },
+    {
+      href: '/bounty',
+      icon: <DollarSignIcon className="mr-2 h-4 w-4" />,
+      label: 'Bounty',
     },
   ];
 

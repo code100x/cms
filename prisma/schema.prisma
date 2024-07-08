@@ -20,7 +20,7 @@ model Course {
   content        CourseContent[]
   purchasedBy    UserPurchases[]
   certificate    Certificate[]
-  certIssued     Boolean        @default(false)
+  certIssued     Boolean         @default(false)
 }
 
 model UserPurchases {
@@ -64,12 +64,12 @@ model CourseContent {
 }
 
 model Certificate {
-  id                String    @id @default(cuid())
-  slug              String    @default("certId")
-  user              User      @relation(fields: [userId], references: [id])
-  userId            String
-  course            Course    @relation(fields: [courseId], references: [id])
-  courseId          Int
+  id       String @id @default(cuid())
+  slug     String @default("certId")
+  user     User   @relation(fields: [userId], references: [id])
+  userId   String
+  course   Course @relation(fields: [courseId], references: [id])
+  courseId Int
 
   @@unique([userId, courseId])
 }
@@ -84,40 +84,40 @@ model NotionMetadata {
 }
 
 model VideoMetadata {
-  id                   Int     @id @default(autoincrement())
-  contentId            Int
-  video_1080p_mp4_1    String? // Link to 1080p mp4 quality video variant 1
-  video_1080p_mp4_2    String? // Link to 1080p mp4 quality video variant 2
-  video_1080p_mp4_3    String? // Link to 1080p mp4 quality video variant 3
-  video_1080p_mp4_4    String? // Link to 1080p mp4 quality video variant 4
-  video_1080p_1        String? // Link to 1080p quality video variant 1
-  video_1080p_2        String? // Link to 1080p quality video variant 2
-  video_1080p_3        String? // Link to 1080p quality video variant 3
-  video_1080p_4        String? // Link to 1080p quality video variant 4
-  video_720p_mp4_1     String? // Link to 720p mp4 quality video variant 1
-  video_720p_mp4_2     String? // Link to 720p mp4 quality video variant 2
-  video_720p_mp4_3     String? // Link to 720p mp4 quality video variant 3
-  video_720p_mp4_4     String? // Link to 720p mp4 quality video variant 4
-  video_720p_1         String? // Link to 720p quality video variant 1
-  video_720p_2         String? // Link to 720p quality video variant 2
-  video_720p_3         String? // Link to 720p quality video variant 3
-  video_720p_4         String? // Link to 720p quality video variant 4
-  video_360p_mp4_1     String? // Link to 360p mp4 quality video variant 1
-  video_360p_mp4_2     String? // Link to 360p mp4 quality video variant 2
-  video_360p_mp4_3     String? // Link to 360p mp4 quality video variant 3
-  video_360p_mp4_4     String? // Link to 360p mp4 quality video variant 4
-  video_360p_1         String? // Link to 360p quality video variant 1
-  video_360p_2         String? // Link to 360p quality video variant 2
-  video_360p_3         String? // Link to 360p quality video variant 3
-  video_360p_4         String? // Link to 360p quality video variant 4
-  subtitles            String? // Link to subtitles file
-  segments             Json?
-  content              Content @relation(fields: [contentId], references: [id])
-  slides               String? // link to slides
-  thumbnail_mosiac_url String?
-  duration             Int?
-  migration_status MigrationStatus @default(NOT_MIGRATED)
-  migration_pickup_time DateTime?
+  id                         Int             @id @default(autoincrement())
+  contentId                  Int
+  video_1080p_mp4_1          String? // Link to 1080p mp4 quality video variant 1
+  video_1080p_mp4_2          String? // Link to 1080p mp4 quality video variant 2
+  video_1080p_mp4_3          String? // Link to 1080p mp4 quality video variant 3
+  video_1080p_mp4_4          String? // Link to 1080p mp4 quality video variant 4
+  video_1080p_1              String? // Link to 1080p quality video variant 1
+  video_1080p_2              String? // Link to 1080p quality video variant 2
+  video_1080p_3              String? // Link to 1080p quality video variant 3
+  video_1080p_4              String? // Link to 1080p quality video variant 4
+  video_720p_mp4_1           String? // Link to 720p mp4 quality video variant 1
+  video_720p_mp4_2           String? // Link to 720p mp4 quality video variant 2
+  video_720p_mp4_3           String? // Link to 720p mp4 quality video variant 3
+  video_720p_mp4_4           String? // Link to 720p mp4 quality video variant 4
+  video_720p_1               String? // Link to 720p quality video variant 1
+  video_720p_2               String? // Link to 720p quality video variant 2
+  video_720p_3               String? // Link to 720p quality video variant 3
+  video_720p_4               String? // Link to 720p quality video variant 4
+  video_360p_mp4_1           String? // Link to 360p mp4 quality video variant 1
+  video_360p_mp4_2           String? // Link to 360p mp4 quality video variant 2
+  video_360p_mp4_3           String? // Link to 360p mp4 quality video variant 3
+  video_360p_mp4_4           String? // Link to 360p mp4 quality video variant 4
+  video_360p_1               String? // Link to 360p quality video variant 1
+  video_360p_2               String? // Link to 360p quality video variant 2
+  video_360p_3               String? // Link to 360p quality video variant 3
+  video_360p_4               String? // Link to 360p quality video variant 4
+  subtitles                  String? // Link to subtitles file
+  segments                   Json?
+  content                    Content         @relation(fields: [contentId], references: [id])
+  slides                     String? // link to slides
+  thumbnail_mosiac_url       String?
+  duration                   Int?
+  migration_status           MigrationStatus @default(NOT_MIGRATED)
+  migration_pickup_time      DateTime?
   migrated_video_1080p_mp4_1 String?
   migrated_video_360p_mp4_1  String?
   migrated_video_720p_mp4_1  String?
@@ -134,25 +134,26 @@ model Session {
 }
 
 model User {
-  id             String          @id @default(cuid())
-  name           String?
-  email          String?         @unique
-  token          String?
-  sessions       Session[]
-  purchases      UserPurchases[]
-  videoProgress  VideoProgress[]
-  comments       Comment[]
-  votes          Vote[]
-  discordConnect DiscordConnect?
-  disableDrm     Boolean         @default(false)
-  bunnyProxyEnabled Boolean      @default(false)
-  bookmarks      Bookmark[]
-  password       String?
-  appxUserId     String?
-  appxUsername   String?
-  questions      Question[]
-  answers        Answer[]
-  certificate    Certificate[]
+  id                String          @id @default(cuid())
+  name              String?
+  email             String?         @unique
+  token             String?
+  sessions          Session[]
+  purchases         UserPurchases[]
+  videoProgress     VideoProgress[]
+  comments          Comment[]
+  votes             Vote[]
+  discordConnect    DiscordConnect?
+  disableDrm        Boolean         @default(false)
+  bunnyProxyEnabled Boolean         @default(false)
+  bookmarks         Bookmark[]
+  password          String?
+  appxUserId        String?
+  appxUsername      String?
+  questions         Question[]
+  answers           Answer[]
+  certificate       Certificate[]
+  githubUser        GithubUser?
 }
 
 model DiscordConnect {
@@ -212,81 +213,109 @@ model Comment {
   votes        Vote[]
   isPinned     Boolean     @default(false)
 }
+
 model Question {
-  id          Int       @id @default(autoincrement())
-  title       String
-  content     String
-  slug        String    @unique
-  createdAt   DateTime  @default(now())
-  author      User      @relation(fields: [authorId], references: [id])
-  authorId    String
-  upvotes     Int       @default(0)
-  downvotes   Int       @default(0)
+  id           Int      @id @default(autoincrement())
+  title        String
+  content      String
+  slug         String   @unique
+  createdAt    DateTime @default(now())
+  author       User     @relation(fields: [authorId], references: [id])
+  authorId     String
+  upvotes      Int      @default(0)
+  downvotes    Int      @default(0)
   totalanswers Int      @default(0)
-  answers     Answer[]
-  votes       Vote[]
-  tags        String[]
-  updatedAt   DateTime  @updatedAt
+  answers      Answer[]
+  votes        Vote[]
+  tags         String[]
+  updatedAt    DateTime @updatedAt
 
   @@index([authorId])
 }
 
 model Answer {
-  id          Int       @id @default(autoincrement())
-  content     String
-  createdAt   DateTime  @default(now())
-  question    Question  @relation(fields: [questionId], references: [id])
-  questionId  Int
-  author      User      @relation(fields: [authorId], references: [id])
-  authorId    String
-  votes       Vote[]
-  upvotes     Int       @default(0)
-  downvotes   Int       @default(0)
-  totalanswers  Int     @default(0)
-  parentId    Int?      
-  responses   Answer[]  @relation("AnswerToAnswer")
-  parent      Answer?   @relation("AnswerToAnswer", fields: [parentId], references: [id])
-  updatedAt   DateTime  @updatedAt
+  id           Int      @id @default(autoincrement())
+  content      String
+  createdAt    DateTime @default(now())
+  question     Question @relation(fields: [questionId], references: [id])
+  questionId   Int
+  author       User     @relation(fields: [authorId], references: [id])
+  authorId     String
+  votes        Vote[]
+  upvotes      Int      @default(0)
+  downvotes    Int      @default(0)
+  totalanswers Int      @default(0)
+  parentId     Int?
+  responses    Answer[] @relation("AnswerToAnswer")
+  parent       Answer?  @relation("AnswerToAnswer", fields: [parentId], references: [id])
+  updatedAt    DateTime @updatedAt
 
   @@index([questionId])
   @@index([authorId])
   @@index([parentId])
 }
 
-
 model Vote {
-  id        Int      @id @default(autoincrement())
-  questionId Int?    
-  question  Question? @relation(fields: [questionId], references: [id])
-  answerId  Int?     
-  answer    Answer?  @relation(fields: [answerId], references: [id])
-  commentId Int?     
-  comment   Comment? @relation(fields: [commentId], references: [id])
-  userId    String
-  user      User     @relation(fields: [userId], references: [id])
-  voteType  VoteType 
-  createdAt DateTime @default(now())
+  id         Int       @id @default(autoincrement())
+  questionId Int?
+  question   Question? @relation(fields: [questionId], references: [id])
+  answerId   Int?
+  answer     Answer?   @relation(fields: [answerId], references: [id])
+  commentId  Int?
+  comment    Comment?  @relation(fields: [commentId], references: [id])
+  userId     String
+  user       User      @relation(fields: [userId], references: [id])
+  voteType   VoteType
+  createdAt  DateTime  @default(now())
 
-  @@unique([questionId, userId])  
-  @@unique([answerId, userId])    
-  @@unique([commentId, userId])  
+  @@unique([questionId, userId])
+  @@unique([answerId, userId])
+  @@unique([commentId, userId])
 }
 
 enum VoteType {
   UPVOTE
   DOWNVOTE
 }
+
 enum PostType {
   QUESTION
   ANSWER
 }
+
 enum CommentType {
   INTRO
   DEFAULT
 }
+
 enum MigrationStatus {
   NOT_MIGRATED
   IN_PROGRESS
   MIGRATED
   MIGRATION_ERROR
+}
+
+model GithubUser {
+  id         Int          @id @default(autoincrement())
+  userId     String       @unique
+  username   String       @unique
+  email      String?      @unique
+  image      String?
+  publicName String?
+  isLinked   Boolean      @default(false)
+  user       User?        @relation(fields: [userId], references: [id])
+  bountyInfo BountyInfo[]
+}
+
+model BountyInfo {
+  id           Int         @id @default(autoincrement())
+  username     String
+  PR_Link      String      @unique
+  PR_Title     String
+  repoName     String
+  USD_amount   Int
+  INR_amount   Int
+  createdAt    DateTime    @default(now())
+  githubUser   GithubUser? @relation(fields: [githubUserId], references: [userId])
+  githubUserId String?
 }
