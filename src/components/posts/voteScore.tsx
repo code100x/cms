@@ -8,7 +8,7 @@ const VoteScore = forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={`flex  items-center justify-center w-[45px] ${cn(className)}`}
+    className={`flex w-[45px] items-center justify-center ${cn(className)}`}
     {...props}
   />
 ));
@@ -21,7 +21,7 @@ const VoteBlock = forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={`flex items-center justify-center w-full h-[45px] bg-background border ${cn(
+    className={`flex h-[45px] w-full items-center justify-center border bg-background ${cn(
       className,
     )}`}
     {...props}

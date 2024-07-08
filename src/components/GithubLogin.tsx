@@ -23,7 +23,7 @@ export default function GithubLogin({
   const { status } = useSession();
   const [value, setValue] = useState<string>('');
   const [error, setError] = useState<string>('');
-  const [isClicked, setIsClicked] = useState<boolean>(false);
+  const [isLoading, setLoading] = useState<boolean>(false);
   const [isSuccessful, setIsSuccessful] = useState<boolean>(false);
 
   if (!session) {
@@ -54,7 +54,7 @@ export default function GithubLogin({
   }
 
   async function handleOnclick() {
-    setIsClicked(true);
+    setLoading(true);
 
     if (session.user.g_username) {
       signOut();
@@ -73,10 +73,10 @@ export default function GithubLogin({
         setError('Error while linking github account.');
       }
 
-      setIsClicked(false);
+      setLoading(false);
     } catch (e) {
       setError('Error while updating database. Try again');
-      setIsClicked(false);
+      setLoading(false);
     }
   }
 
@@ -98,10 +98,10 @@ export default function GithubLogin({
   }
 
   return (
-    <div className=" flex flex-col justify-center gap-10 items-center h-screen">
+    <div className="flex h-screen flex-col items-center justify-center gap-10">
       {!session.user.g_username && (
         <input
-          className=" w-[20%] h-[10%] text-3xl rounded-lg text-center"
+          className="h-[10%] w-[20%] rounded-lg text-center text-3xl"
           type="text"
           value={value}
           placeholder="Github Username"
@@ -112,20 +112,20 @@ export default function GithubLogin({
         <>
           <button
             onClick={handleOnclick}
-            disabled={isClicked}
-            className=" text-3xl py-3 px-5 bg-blue-400 rounded-lg"
+            disabled={isLoading}
+            className="rounded-lg bg-blue-400 px-5 py-3 text-3xl"
           >
             {session.user.g_username ? 'SignOut' : 'Connect'}
           </button>
 
-          <div className=" text-2xl">
+          <div className="text-2xl">
             {session.user.g_username
               ? 'Username Mismatch. Try again.'
               : 'Link your github to your account'}
           </div>
           <div>
-            {error && isClicked === false && (
-              <div className=" bg-red-500 px-4 py-3 rounded-3xl">{error}</div>
+            {error && isLoading === false && (
+              <div className="rounded-3xl bg-red-500 px-4 py-3">{error}</div>
             )}
           </div>
         </>

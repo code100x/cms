@@ -17,12 +17,12 @@ const BookmarkList = ({
   }
   return (
     <>
-      <div className="max-w-screen-xl mx-auto p-4">
-        <h1 className="text-2xl font-bold mb-8">Bookmarks</h1>
-        <div className="cursor-pointer grid grid-cols-1 gap-5 md:grid-cols-3 lg:grid-cols-4 auto-rows-fr">
+      <div className="mx-auto max-w-screen-xl p-4">
+        <h1 className="mb-8 text-2xl font-bold">Bookmarks</h1>
+        <div className="grid cursor-pointer auto-rows-fr grid-cols-1 gap-5 md:grid-cols-3 lg:grid-cols-4">
           {bookmarkData.map((bookmark) => {
             const {
-              id: contentId,
+              contentId,
               content: { type, parent, title, hidden, thumbnail },
             } = bookmark;
             if (type === 'video' && parent && !hidden) {

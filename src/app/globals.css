@@ -94,7 +94,27 @@
   display: block !important;
 }
 
-.vjs-tech:focus-visible {
+/* Hiding time divider and duration, and decreasing the 
+width of the controls on screens smaller than 512px */
+@media (max-width: 550px) {
+  .vjs-time-divider {
+    display: none !important;
+  }
+
+  .video-js .vjs-current-time {
+    display: block !important;
+  }
+
+  .vjs-duration {
+    display: none !important;
+  }
+
+  .video-js .vjs-control {
+    width: 2rem !important; 
+  }
+}
+
+.vjs-tech:focus-visible{
   outline: none;
 }
 
@@ -125,30 +145,4 @@
 }
 .timeline-segments:hover {
   height: 10px;
-}
-
-.pay {
-  @apply w-24 relative;
-}
-
-.pay:hover span {
-  @apply hidden;
-}
-
-.pay:hover::before {
-  content: 'Pay';
-  @apply absolute inset-0 flex items-center justify-center;
-}
-
-.noInfo {
-  @apply w-24 relative;
-}
-
-.noInfo:hover span {
-  @apply hidden;
-}
-
-.noInfo:hover::before {
-  content: 'No Info';
-  @apply absolute inset-0 flex items-center justify-center;
 }

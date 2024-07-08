@@ -70,7 +70,7 @@ export default function UserPage({ userInfo }: { userInfo: UserInfoType }) {
   }, []);
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-[300px_1fr] gap-8 p-6 md:p-10 dark:bg-gray-950 dark:text-gray-50">
+    <div className="grid grid-cols-1 gap-8 p-6 dark:bg-gray-950 dark:text-gray-50 md:grid-cols-[300px_1fr] md:p-10">
       <SidebarInfo
         userInfo={userInfo}
         totalBounty={totalBounty}
@@ -78,9 +78,9 @@ export default function UserPage({ userInfo }: { userInfo: UserInfoType }) {
         repoName={repoName}
         role={'user'}
       />
-      <div className="dark:bg-slate-900 rounded-lg shadow-md border-4">
+      <div className="rounded-lg border-4 shadow-md dark:bg-slate-900">
         <div className="p-6">
-          <h2 className="text-xl font-semibold mb-4">Bounty Info</h2>
+          <h2 className="mb-4 text-xl font-semibold">Bounty Info</h2>
           <Table>
             <BountyTitle isUSD={isUSD} setIsUSD={setIsUSD} />
             {userInfo.bountyInfo &&

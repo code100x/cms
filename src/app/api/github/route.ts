@@ -4,9 +4,25 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
+import { z } from 'zod';
 import db from '@/db';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
+
+const PostInputZod = z.object({
+  value: z.string(),
+  userId: z.string(),
+});
+
+const PutInputZod = z.object({
+  username: z.string(),
+  email: z.string().optional(),
+  publicName: z.string().optional(),
+  image: z.string().optional(),
+});
+
+type PostInputType = z.infer<typeof PostInputZod>;
+type PutInputType = z.infer<typeof PutInputZod>;
 
 export async function POST(req: NextRequest) {
   const session = await getServerSession(authOptions);
@@ -18,7 +34,7 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const { value: username, userId } = await req.json();
+  const { value: username, userId }: PostInputType = await req.json();
   try {
     await db.githubUser.upsert({
       where: { userId, isLinked: false },
@@ -41,7 +57,7 @@ export async function PUT(req: NextRequest) {
     );
   }
 
-  const { username, email, publicName, image } = await req.json();
+  const { username, email, publicName, image }: PutInputType = await req.json();
   if (!username) {
     return NextResponse.json(
       { message: 'error while fetching username' },

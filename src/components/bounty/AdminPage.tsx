@@ -140,7 +140,7 @@ export default function AdminPage({ allInfo }: { allInfo: UserBountyType }) {
   }, [allInfo]);
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-[300px_1fr] gap-8 p-6 md:p-10 dark:bg-gray-950 dark:text-gray-50">
+    <div className="grid grid-cols-1 gap-8 p-6 dark:bg-gray-950 dark:text-gray-50 md:grid-cols-[300px_1fr] md:p-10">
       <SidebarInfo
         totalBounty={totalBounty}
         totalPr={totalPr}
@@ -148,17 +148,17 @@ export default function AdminPage({ allInfo }: { allInfo: UserBountyType }) {
         role={'admin'}
       />
       <Tabs defaultValue="bounty">
-        <div className=" text-center mb-4">
+        <div className="mb-4 text-center">
           <TabsList>
             <TabsTrigger value="bounty">Bounty</TabsTrigger>
             <TabsTrigger value="user">User</TabsTrigger>
           </TabsList>
         </div>
-        <div className="dark:bg-slate-900 rounded-lg shadow-md border-4">
+        <div className="rounded-lg border-4 shadow-md dark:bg-slate-900">
           <div className="p-6">
             <TabsContent value="bounty">
               {allInfo.bountyInfo.length > 0 && (
-                <h3 className="text-lg font-semibold mb-4">
+                <h3 className="mb-4 text-lg font-semibold">
                   Bounties with Linked Github Account
                 </h3>
               )}
@@ -176,7 +176,7 @@ export default function AdminPage({ allInfo }: { allInfo: UserBountyType }) {
               </Table>
               {allInfo.bountyInfo.length > 0 && (
                 <>
-                  <h3 className="text-lg font-semibold my-4">
+                  <h3 className="my-4 text-lg font-semibold">
                     Bounties without Linked Github Account
                   </h3>
                   <Table>
@@ -207,7 +207,7 @@ export default function AdminPage({ allInfo }: { allInfo: UserBountyType }) {
                       Amount
                       <button
                         onClick={() => setIsUSD((prev) => !prev)}
-                        className=" border rounded-lg m-1 px-2 py-1 border-neutral-500"
+                        className="m-1 rounded-lg border border-neutral-500 px-2 py-1"
                       >
                         {isUSD ? '$' : '₹'}
                       </button>
@@ -233,7 +233,7 @@ export default function AdminPage({ allInfo }: { allInfo: UserBountyType }) {
                       <TableCell>
                         <Link
                           href={`/bounty/${user.userId}`}
-                          className=" bg-blue-400 py-1 px-2 rounded-xl"
+                          className="rounded-xl bg-blue-400 px-2 py-1"
                         >
                           Visit
                         </Link>

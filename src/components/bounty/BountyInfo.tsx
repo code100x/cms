@@ -14,13 +14,13 @@ const BountyInfo = ({
 }) => {
   return (
     <TableBody>
-      <TableRow className=" grid grid-cols-12 w-full">
+      <TableRow className="grid w-full grid-cols-12">
         <TableCell>{index + 1}</TableCell>
-        <TableCell className=" col-span-2">{bountyInfo?.repoName}</TableCell>
-        <TableCell className=" col-span-3 text-nowrap whitespace-nowrap overflow-ellipsis overflow-hidden">
+        <TableCell className="col-span-2">{bountyInfo?.repoName}</TableCell>
+        <TableCell className="col-span-3 overflow-hidden overflow-ellipsis whitespace-nowrap text-nowrap">
           {bountyInfo?.PR_Title}
         </TableCell>
-        <TableCell className="text-blue-400 no-underline col-span-2">
+        <TableCell className="col-span-2 text-blue-400 no-underline">
           <a href={bountyInfo?.PR_Link} target="_blank">
             View PR
           </a>

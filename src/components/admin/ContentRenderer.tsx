@@ -4,6 +4,28 @@ import { authOptions } from '@/lib/auth';
 import { ContentRendererClient } from './ContentRendererClient';
 import { Bookmark } from '@prisma/client';
 
+function bunnyUrl(url: string) {
+  return url
+    .replace('https://appxcontent.kaxa.in', 'https://appxcontent.b-cdn.net')
+    .replace(
+      'https://appx-transcoded-videos.livelearn.in',
+      'https://appx-transcoded-videos.b-cdn.net',
+    )
+    .replace(
+      'https://appx-recordings.livelearn.in',
+      'https://appx-recordings.b-cdn.net',
+    );
+}
+
+async function isUrlAccessible(url: string): Promise<boolean> {
+  try {
+    const response = await fetch(url, { method: 'HEAD' });
+    return response.ok;
+  } catch (error) {
+    return false;
+  }
+}
+
 export const getMetadata = async (contentId: number) => {
   const session = await getServerSession(authOptions);
   if (!session?.user) {
@@ -14,20 +36,61 @@ export const getMetadata = async (contentId: number) => {
       contentId,
     },
   });
-
   if (!metadata) {
     return null;
   }
 
-  //@ts-ignore
   const userId: string = (1).toString();
-  // const user = await db.user.findFirst({
-  //   where: {
-  //     id: session?.user?.id?.toString() || '-1',
-  //   },
-  // });
-  //@ts-ignore
-  return {
+  const user = await db.user.findFirst({
+    where: {
+      id: session?.user?.id?.toString() || '-1',
+    },
+  });
+
+  // //@ts-ignore
+  // if (metadata.migration_status === 'MIGRATED') {
+  //   return {
+  //     //@ts-ignore
+  //     1080: metadata[`migrated_video_1080p_mp4_1`].replace(
+  //       '100x.b-cdn.net',
+  //       'cdn.100xdevs.com',
+  //     ),
+  //     //@ts-ignore
+  //     720: metadata[`migrated_video_720p_mp4_1`].replace(
+  //       '100x.b-cdn.net',
+  //       'cdn.100xdevs.com',
+  //     ),
+  //     //@ts-ignore
+  //     360: metadata[`migrated_video_360p_mp4_1`].replace(
+  //       '100x.b-cdn.net',
+  //       'cdn.100xdevs.com',
+  //     ),
+  //     subtitles: metadata['subtitles'],
+  //     //@ts-ignore
+  //     slides: metadata['slides'],
+  //     //@ts-ignore
+  //     segments: metadata['segments'],
+  //   };
+  // }
+
+  const bunnyUrls = {
+    //@ts-ignore
+    1080: bunnyUrl(metadata[`video_1080p_mp4_${userId}`]),
+    //@ts-ignore
+    720: bunnyUrl(metadata[`video_720p_mp4_${userId}`]),
+    //@ts-ignore
+    360: bunnyUrl(metadata[`video_360p_mp4_${userId}`]),
+    subtitles: metadata['subtitles'],
+    slides: metadata['slides'],
+    segments: metadata['segments'],
+    thumbnails: metadata['thumbnail_mosiac_url'],
+  };
+
+  if (user?.bunnyProxyEnabled) {
+    return bunnyUrls;
+  }
+
+  const mainUrls = {
     //@ts-ignore
     1080: metadata[`video_1080p_mp4_${userId}`],
     //@ts-ignore
@@ -35,27 +98,28 @@ export const getMetadata = async (contentId: number) => {
     //@ts-ignore
     360: metadata[`video_360p_mp4_${userId}`],
     subtitles: metadata['subtitles'],
-    //@ts-ignore
     slides: metadata['slides'],
-    //@ts-ignore
     segments: metadata['segments'],
+    thumbnails: metadata['thumbnail_mosiac_url'],
   };
-  return {
+
+  const isHighestQualityUrlAccessible = await isUrlAccessible(mainUrls['1080']);
+
+  if (isHighestQualityUrlAccessible) {
+    return mainUrls;
+  }
+
+  const otherQualities = ['720', '360'];
+  for (const quality of otherQualities) {
     //@ts-ignore
-    1080: metadata[`video_1080p_${userId}`],
-    //@ts-ignore
-    720: metadata[`video_720p_${userId}`],
-    //@ts-ignore
-    360: metadata[`video_360p_${userId}`],
-    //@ts-ignore
-    subtitles: metadata['subtitles'],
-    //@ts-ignore
-    slides: metadata['slides'],
-    //@ts-ignore
-    segments: metadata['segments'],
-    // @ts-ignore
-    thumnnails: metadata['thumbnail_mosiac_url'],
-  };
+    const isAccessible = await isUrlAccessible(mainUrls[quality]);
+    if (isAccessible) {
+      return mainUrls;
+    }
+  }
+
+  // If none of the main URLs are accessible, return Bunny URLs
+  return bunnyUrls;
 };
 
 export const ContentRenderer = async ({
@@ -79,12 +143,13 @@ export const ContentRenderer = async ({
   };
 }) => {
   const metadata = await getMetadata(content.id);
-
   return (
-    <ContentRendererClient
-      nextContent={nextContent}
-      metadata={metadata}
-      content={content}
-    />
+    <div>
+      <ContentRendererClient
+        nextContent={nextContent}
+        metadata={metadata}
+        content={content}
+      />
+    </div>
   );
 };

@@ -92,22 +92,22 @@ const PostCard: React.FC<IProps> = ({
   const internalDetails = () => {
     return (
       <div className="w-full">
-        <div className="flex items-center justify-between gap-3 my-2">
-          <div className="flex items-center gap-3 w-full">
+        <div className="my-2 flex items-center justify-between gap-3">
+          <div className="flex w-full items-center gap-3">
             <Avatar className="cursor-pointer">
               <AvatarFallback>
                 {post.author.name?.substring(0, 2).toUpperCase()}
               </AvatarFallback>
             </Avatar>
             <div className="flex flex-col">
-              <TextSnippet className="font-medium mb-1">
+              <TextSnippet className="mb-1 font-medium">
                 {post.author.name}
               </TextSnippet>
               <div className="flex items-center">
                 <TextSnippet className="text-xs text-gray-500">
                   {dayjs(post.createdAt).fromNow()}
                 </TextSnippet>
-                <TextSnippet className="text-xs text-gray-500 ml-1">
+                <TextSnippet className="ml-1 text-xs text-gray-500">
                   • Updated {dayjs(post.updatedAt).fromNow()}
                 </TextSnippet>
               </div>
@@ -117,10 +117,10 @@ const PostCard: React.FC<IProps> = ({
             <DropdownMenuTrigger>
               <MoreHorizontal
                 size={35}
-                className="active:outline-none hover:outline-none rounded-full border p-1.5 "
+                className="rounded-full border p-1.5 hover:outline-none active:outline-none"
               />
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="rounded-xl backdrop-blur bg-gray-200/30  dark:bg-gray-700/30 px-2 cursor-pointer py-2">
+            <DropdownMenuContent className="cursor-pointer rounded-xl bg-gray-200/30 px-2 py-2 backdrop-blur dark:bg-gray-700/30">
               {(sessionUser?.role === ROLES.ADMIN ||
                 post?.author?.id === sessionUser?.id) && (
                 <DeleteForm
@@ -143,13 +143,13 @@ const PostCard: React.FC<IProps> = ({
 
         {!isAnswer && enableLink && isExtendedQuestion(post) && (
           <Link href={`/questions/${post?.slug}`}>
-            <TextSnippet className="text-lg  py-2 hover:underline">
+            <TextSnippet className="py-2 text-lg hover:underline">
               {post?.title}
             </TextSnippet>
           </Link>
         )}
         {!isAnswer && !enableLink && isExtendedQuestion(post) && (
-          <TextSnippet className="text-lg  py-2 hover:underline">
+          <TextSnippet className="py-2 text-lg hover:underline">
             {post?.title}
           </TextSnippet>
         )}
@@ -171,7 +171,7 @@ const PostCard: React.FC<IProps> = ({
 
         {enableReply && (
           <div>
-            <hr className="mt-3 mb-3" />
+            <hr className="mb-3 mt-3" />
             <form onSubmit={handleSubmit}>
               <div data-color-mode={theme}>
                 <div className="wmde-markdown-var"> </div>
@@ -192,15 +192,15 @@ const PostCard: React.FC<IProps> = ({
     );
   };
   return (
-    <Card className="w-full bg-background ">
-      <CardBody className="flex gap-5 items-start justify-between h-auto w-full p-2 sm:p-4">
-        <div className="flex flex-1 flex-row items-start justify-between w-full">
+    <Card className="w-full bg-background">
+      <CardBody className="flex h-auto w-full items-start justify-between gap-5 p-2 sm:p-4">
+        <div className="flex w-full flex-1 flex-row items-start justify-between">
           {internalDetails()}
         </div>
       </CardBody>
 
-      <CardFooter className="flex items-center justify-between  border-gray-200 dark:border-gray-700 flex-col p-0 px-1 pb-2 md:px-5">
-        <div className="flex justify-between w-full">
+      <CardFooter className="flex flex-col items-center justify-between border-gray-200 p-0 px-1 pb-2 dark:border-gray-700 md:px-5">
+        <div className="flex w-full justify-between">
           <div className="flex">
             <VoteForm
               upvotes={post.upvotes}
@@ -210,7 +210,7 @@ const PostCard: React.FC<IProps> = ({
               key={post.id}
               votesArr={post.votes || []}
             />
-            <TextSnippet className="flex items-center gap-2 cursor-pointer">
+            <TextSnippet className="flex cursor-pointer items-center gap-2">
               {reply && (
                 <Button
                   className="text-blue-600 dark:text-blue-400"
@@ -224,7 +224,7 @@ const PostCard: React.FC<IProps> = ({
                 size={18}
                 color="#3B81F6"
                 fill="#3B81F6"
-                className="hover:scale-125 duration-300 ease-in-out ml-1"
+                className="ml-1 duration-300 ease-in-out hover:scale-125"
               />
               <p className="text-sm">{post.totalanswers}</p>
             </TextSnippet>
@@ -236,7 +236,7 @@ const PostCard: React.FC<IProps> = ({
           post?.responses.length > 0 &&
           post?.responses.map((post: ExtendedAnswer) => (
             <div key={post.id} className="w-full">
-              <hr className="mt-1 mb-1 w-3 m-auto" />
+              <hr className="m-auto mb-1 mt-1 w-3" />
               <PostCard
                 questionId={post.questionId}
                 post={post}

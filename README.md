@@ -2,28 +2,10 @@
 
 ## Table of contents
 
-- [Prerequisites](#prerequisites)
-- [Setup](#setup)
-  - [Using Docker](#using-docker)
-  - [Without Docker](#without-docker)
-- [Usage](#usage)
-- [Contributing](#contributing)
-
-## Prerequisites
-
-Before you begin, ensure you have met the following requirements
-
-- Node.js and npm installed on your machine.
-- Docker installed (optional, required for Docker setup).
-- Access to a PostgreSQL database (can be local or hosted).
-
-## Setup
-
-### Using Docker
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/cms.git
+   git clone https://github.com/code100x/cms.git
    ```
 2. Navigate to the project directory:
    ```bash
@@ -31,6 +13,7 @@ Before you begin, ensure you have met the following requirements
    ```
 3. Run the following command to start the application:
    ```bash
+   docker volume create postgres-data # (optional) run this command if you face any mount volume / volume not exist error
    docker-compose up
    ```
 
@@ -38,7 +21,7 @@ Before you begin, ensure you have met the following requirements
 
 1. clone the repository:
    ```bash
-   git clone https://github.com/your-username/cms.git
+   git clone https://github.com/code100x/cms.git
    ```
 2. Navigate to the project directory:
    ```bash

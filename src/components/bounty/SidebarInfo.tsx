@@ -27,16 +27,16 @@ const SidebarInfo = ({
 }) => {
   return (
     <>
-      <div className="dark:bg-slate-900 rounded-lg shadow-md border-4">
+      <div className="rounded-lg border-4 shadow-md dark:bg-slate-900">
         {role === 'admin' ? (
-          <div className=" text-center my-4">
-            <span className=" border px-6 py-2 rounded-xl font-bold text-2xl">
+          <div className="my-4 text-center">
+            <span className="rounded-xl border px-6 py-2 text-2xl font-bold">
               Bounty Info
             </span>
           </div>
         ) : (
           <div className="flex flex-col items-center gap-4 p-6">
-            <Avatar className="w-20 h-20">
+            <Avatar className="h-20 w-20">
               <AvatarImage src={userInfo?.image as string} />
               <AvatarFallback>
                 {userInfo?.publicName?.split('')[0]}
@@ -50,7 +50,7 @@ const SidebarInfo = ({
         )}
         <Separator className="dark:bg-gray-800" />
         <div className="p-6">
-          <h3 className="text-lg font-semibold mb-4">PR Details</h3>
+          <h3 className="mb-4 text-lg font-semibold">PR Details</h3>
           <div className="grid gap-2 text-sm">
             {role === 'user' && (
               <div className="flex justify-between">
@@ -78,7 +78,7 @@ const SidebarInfo = ({
         </div>
         <Separator className="dark:bg-gray-800" />
         <div className="p-6">
-          <h3 className="text-lg font-semibold mb-4">Repo Details</h3>
+          <h3 className="mb-4 text-lg font-semibold">Repo Details</h3>
           <div className="grid gap-4">
             <div className="flex justify-between">
               <div>

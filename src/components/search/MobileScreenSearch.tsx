@@ -11,7 +11,7 @@ const MobileScreenSearch = () => {
   return (
     <div className="md:hidden">
       {showSearchBar ? (
-        <div className="absolute top-0 px-3 left-0 h-16 bg-white dark:bg-[#020817] border-b z-[100] w-full flex items-center gap-3">
+        <div className="absolute left-0 top-0 z-[100] flex h-16 w-full items-center gap-3 border-b bg-white px-3 dark:bg-[#020817]">
           <SearchBar onCardClick={toggleSearchBar} />
           <XIcon onClick={toggleSearchBar} />
         </div>

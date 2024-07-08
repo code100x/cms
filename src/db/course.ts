@@ -1,7 +1,9 @@
 import db from '@/db';
-import { Cache } from '@/db/Cache';
+import { cache } from '@/db/Cache';
 import { authOptions } from '@/lib/auth';
 import { getServerSession } from 'next-auth';
+import { Bookmark } from '@prisma/client';
+import { getBookmarkData } from './bookmark';
 
 export interface Content {
   id: number;
@@ -27,7 +29,7 @@ export interface Video extends Content {
 }
 
 export async function getAllCourses() {
-  const value = await Cache.getInstance().get('getAllCourses', []);
+  const value = await cache.get('getAllCourses', []);
   if (value) {
     return value;
   }
@@ -36,7 +38,7 @@ export async function getAllCourses() {
       id: 'desc',
     },
   });
-  Cache.getInstance().set('getAllCourses', [], courses);
+  cache.set('getAllCourses', [], courses);
   return courses;
 }
 
@@ -56,10 +58,7 @@ export async function getAllCoursesAndContentHierarchy(): Promise<
     }[];
   }[]
 > {
-  const value = await Cache.getInstance().get(
-    'getAllCoursesAndContentHierarchy',
-    [],
-  );
+  const value = await cache.get('getAllCoursesAndContentHierarchy', []);
   if (value) {
     return value;
   }
@@ -86,7 +85,7 @@ export async function getAllCoursesAndContentHierarchy(): Promise<
     },
   });
 
-  Cache.getInstance().set('getAllCoursesAndContentHierarchy', [], courses);
+  cache.set('getAllCoursesAndContentHierarchy', [], courses);
   return courses;
 }
 
@@ -103,7 +102,7 @@ export async function getAllVideos(): Promise<
     notionMetadataId: number | null;
   }[]
 > {
-  const value = await Cache.getInstance().get('getAllVideos', []);
+  const value = await cache.get('getAllVideos', []);
   if (value) {
     return value;
   }
@@ -113,14 +112,12 @@ export async function getAllVideos(): Promise<
       hidden: false,
     },
   });
-  Cache.getInstance().set('getAllVideos', [], courses);
+  cache.set('getAllVideos', [], courses);
   return courses;
 }
 
 export async function getCourse(courseId: number) {
-  const value = await Cache.getInstance().get('getCourse', [
-    courseId.toString(),
-  ]);
+  const value = await cache.get('getCourse', [courseId.toString()]);
   if (value) {
     return value;
   }
@@ -130,7 +127,7 @@ export async function getCourse(courseId: number) {
       id: courseId,
     },
   });
-  Cache.getInstance().set('getCourse', [courseId.toString()], courses);
+  cache.set('getCourse', [courseId.toString()], courses);
   return courses;
 }
 
@@ -138,9 +135,7 @@ export const getNextVideo = async (currentVideoId: number) => {
   if (!currentVideoId) {
     return null;
   }
-  const value = await Cache.getInstance().get('getNextVideo', [
-    currentVideoId.toString(),
-  ]);
+  const value = await cache.get('getNextVideo', [currentVideoId.toString()]);
   if (value) {
     return value;
   }
@@ -165,16 +160,25 @@ export const getNextVideo = async (currentVideoId: number) => {
       },
     },
   });
-  Cache.getInstance().set(
-    'getNextVideo',
-    [currentVideoId.toString()],
-    latestContent,
-  );
+  cache.set('getNextVideo', [currentVideoId.toString()], latestContent);
   return latestContent;
 };
 
-async function getAllContent() {
-  const value = Cache.getInstance().get('getAllContent', []);
+async function getAllContent(): Promise<
+  {
+    id: number;
+    type: string;
+    title: string;
+    description: string | null;
+    thumbnail: string | null;
+    parentId: number | null;
+    createdAt: Date;
+    VideoMetadata: {
+      duration: number | null;
+    } | null;
+  }[]
+> {
+  const value = await cache.get('getAllContent', []);
   if (value) {
     return value;
   }
@@ -188,18 +192,32 @@ async function getAllContent() {
           duration: true,
         },
       },
-      bookmark: true,
     },
   });
-  Cache.getInstance().set('getAllContent', [], allContent);
+  cache.set('getAllContent', [], allContent);
 
   return allContent;
 }
 
-async function getRootCourseContent(courseId: number) {
-  const value = Cache.getInstance().get('getRootCourseContent', [
-    courseId.toString(),
-  ]);
+interface ContentWithMetadata {
+  id: number;
+  type: string;
+  title: string;
+  description: string | null;
+  thumbnail: string | null;
+  parentId: number | null;
+  createdAt: Date;
+  VideoMetadata?: {
+    duration: number | null;
+  } | null;
+}
+
+async function getRootCourseContent(courseId: number): Promise<
+  {
+    content: ContentWithMetadata;
+  }[]
+> {
+  const value = await cache.get('getRootCourseContent', [courseId.toString()]);
   if (value) {
     return value;
   }
@@ -214,11 +232,7 @@ async function getRootCourseContent(courseId: number) {
     },
     include: { content: true },
   });
-  Cache.getInstance().set(
-    'getRootCourseContent',
-    [courseId.toString()],
-    courseContent,
-  );
+  cache.set('getRootCourseContent', [courseId.toString()], courseContent);
   return courseContent;
 }
 
@@ -234,8 +248,27 @@ export function getVideoProgressForUser(
   });
 }
 
-export const getFullCourseContent = async (courseId: number) => {
-  // const value = Cache.getInstance().get('getFullCourseContent', [
+interface VideoProgress {
+  duration: number | null;
+  markAsCompleted?: boolean;
+  videoFullDuration: number | null;
+}
+
+export type FullCourseContent = {
+  children?: ({
+    videoProgress: VideoProgress | null;
+    bookmark?: Bookmark;
+  } & ContentWithMetadata)[];
+  videoProgress: VideoProgress | null;
+  bookmark?: Bookmark;
+} & ContentWithMetadata;
+
+//TODO: add a cache here
+
+export const getFullCourseContent = async (
+  courseId: number,
+): Promise<FullCourseContent[]> => {
+  // const value = cache.get('getFullCourseContent', [
   //   courseId.toString(),
   // ]);
   // if (value) {
@@ -248,12 +281,14 @@ export const getFullCourseContent = async (courseId: number) => {
   const contents = await getAllContent();
   const courseContent = await getRootCourseContent(courseId);
   const videoProgress = await getVideoProgressForUser(session?.user?.id);
-  const contentMap = new Map<string, any>(
+  const bookmarkData = await getBookmarkData();
+  const contentMap = new Map<string, FullCourseContent>(
     contents.map((content: any) => [
       content.id,
       {
         ...content,
         children: [],
+        bookmark: bookmarkData.find((x) => x.contentId === content.id),
         videoProgress:
           content.type === 'video'
             ? {
@@ -268,24 +303,22 @@ export const getFullCourseContent = async (courseId: number) => {
       },
     ]),
   );
-  const rootContents: any[] = [];
+
+  const rootContents: FullCourseContent[] = [];
+
   contents
-    .sort((a: any, b: any) => (a.id < b.id ? -1 : 1))
+    .sort((a, b) => (a.id < b.id ? -1 : 1))
     .forEach((content: any) => {
       if (content.parentId) {
         contentMap
           .get(content.parentId)
-          .children.push(contentMap.get(content.id));
+          ?.children?.push(contentMap.get(content.id)!);
       } else if (courseContent.find((x: any) => x.contentId === content.id)) {
-        rootContents.push(contentMap.get(content.id));
+        rootContents.push(contentMap.get(content.id)!);
       }
     });
 
-  Cache.getInstance().set(
-    'getFullCourseContent',
-    [courseId.toString()],
-    rootContents,
-  );
+  await cache.set('getFullCourseContent', [courseId.toString()], rootContents);
   return rootContents;
 };
 
@@ -293,7 +326,7 @@ export const getCourseContent = async (
   courseId: number,
   childrenIds: number[],
 ) => {
-  const value = Cache.getInstance().get('getCourseContent', [
+  const value = await cache.get('getCourseContent', [
     courseId.toString(),
     ...childrenIds.map((x) => x.toString()),
   ]);
@@ -314,7 +347,7 @@ export const getCourseContent = async (
       },
       include: { content: true },
     });
-    Cache.getInstance().set(
+    cache.set(
       'getCourseContent',
       [courseId.toString(), ...childrenIds.map((x) => x.toString())],
       courseContent.map((content) => content.content),
@@ -341,7 +374,7 @@ export const getCourseContent = async (
         },
       },
     });
-    Cache.getInstance().set(
+    cache.set(
       'getCourseContent',
       [courseId.toString(), ...childrenIds.map((x) => x.toString())],
       courseContent,
@@ -349,7 +382,7 @@ export const getCourseContent = async (
 
     return courseContent;
   }
-  Cache.getInstance().set(
+  cache.set(
     'getCourseContent',
     [courseId.toString(), ...childrenIds.map((x) => x.toString())],
     [content],

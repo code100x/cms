@@ -104,19 +104,19 @@ const fetchQuestionsByTabType = async (
   sessionId: string,
 ) => {
   const orderByDefaults = {
-    mu: { upvotes: 'desc' },
-    mr: { createdAt: 'desc' },
-    md: { downvotes: 'asc' },
+    'Most upvotes': { upvotes: 'desc' },
+    'Most Recent': { createdAt: 'desc' },
+    'Most downvotes': { downvotes: 'desc' },
   };
 
   const queryModifiers: any = {
-    default: { orderBy: orderByDefaults.mu },
-    mr: { orderBy: orderByDefaults.mr },
-    md: { orderBy: orderByDefaults.md },
-    mq: { where: { authorId: sessionId } },
+    default: { orderBy: orderByDefaults['Most upvotes'] },
+    'Most Recent': { orderBy: orderByDefaults['Most Recent'] },
+    'Most downvotes': { orderBy: orderByDefaults['Most downvotes'] },
+    'My question': { where: { authorId: sessionId } },
   };
 
-  const tabType = searchParams.tabtype || 'mu';
+  const tabType = searchParams.tabtype || 'Most upvotes';
   const additionalQuery = queryModifiers[tabType] || queryModifiers.default;
 
   return getQuestionsWithQuery(additionalQuery, searchParams, sessionId);
@@ -140,13 +140,13 @@ export default async function Home({
 
   return (
     <>
-      <div className="h-screen md:p-8 transition-colors duration-500">
-        <div className="flex justify-between items-center mb-6 px-8 pt-3">
-          <div className="text-3xl dark:text-white  text-black transition-colors duration-500">
-            <h1 className="text-black  dark:text-white">Questions</h1>
+      <div className="h-max pb-4 transition-colors duration-500 md:p-8">
+        <div className="mb-6 flex items-center justify-between px-8 pt-3">
+          <div className="text-3xl text-black transition-colors duration-500 dark:text-white">
+            <h1 className="text-black dark:text-white">Questions</h1>
           </div>
           <Link
-            className="bg-black text-white dark:bg-white dark:text-black light:text-black transition-colors duration-500 sticky p-3 rounded-md"
+            className="light:text-black sticky rounded-md bg-black p-3 text-white transition-colors duration-500 dark:bg-white dark:text-black"
             href={getUpdatedUrl('/questions', searchParams, {
               newPost:
                 searchParams.newPost === 'close' || !searchParams.newPost
@@ -158,15 +158,15 @@ export default async function Home({
           </Link>
         </div>
         <NewPostDialog />
-        <div className="md:mx-[15%] mx-auto md:p-10 ">
+        <div className="mx-auto md:mx-[15%] md:p-10">
           <div className="flex flex-col items-center p-4 dark:text-white">
-            <div className="flex ">
+            <div className="flex">
               <Search />
               <div className="px-3">
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button className="shrink-0" variant="outline">
-                      <ArrowUpDownIcon className="w-4 h-4 mr-2" />
+                      <ArrowUpDownIcon className="mr-2 h-4 w-4" />
                       Sort by
                     </Button>
                   </DropdownMenuTrigger>
@@ -215,8 +215,8 @@ export default async function Home({
                 </DropdownMenu>
               </div>
             </div>
-            <div className="w-full m-auto">
-              <div className="space-y-4 w-full">
+            <div className="m-auto h-[500px] w-full overflow-y-scroll">
+              <div className="w-full space-y-4">
                 {response?.data?.map((post) => (
                   <PostCard
                     post={post}

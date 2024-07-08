@@ -44,7 +44,7 @@ export async function POST(req: NextRequest) {
 
     if (findBountyInfo) {
       const commentBody = `[Duplicate]\n💰Bounty worth ${formatUSD.format(findBountyInfo.USD_amount).split('.')[0]} (${formatINR.format(findBountyInfo.INR_amount).split('.')[0]}) is already created to @${PR_By} for this PR.\n👉 To claim visit https://app.100xdevs.com/bounty.\n🐥Keep contributing.`;
-      sendBountyComment({ repo_owner, repoName, PR_No, commentBody });
+      await sendBountyComment({ repo_owner, repoName, PR_No, commentBody });
       return NextResponse.json(
         { message: 'duplicate bounty message' },
         { status: 401 },
@@ -68,7 +68,7 @@ export async function POST(req: NextRequest) {
         },
       });
       if (addBountyInfo) {
-        sendBountyComment({ repo_owner, repoName, PR_No, commentBody });
+        await sendBountyComment({ repo_owner, repoName, PR_No, commentBody });
       }
     } else {
       const addBountyInfo = await db.bountyInfo.create({
@@ -82,7 +82,7 @@ export async function POST(req: NextRequest) {
         },
       });
       if (addBountyInfo) {
-        sendBountyComment({ repo_owner, repoName, PR_No, commentBody });
+        await sendBountyComment({ repo_owner, repoName, PR_No, commentBody });
       }
     }
     return NextResponse.json({ message: 'success' }, { status: 200 });

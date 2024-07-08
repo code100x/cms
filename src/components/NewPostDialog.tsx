@@ -93,14 +93,14 @@ export const NewPostDialog = () => {
   return (
     <Modal ref={ref} onClose={handleOnCloseClick}>
       <form ref={formRef} onSubmit={onSubmit}>
-        <div className="fixed inset-0 flex items-center justify-center z-50  p-4 md:p-8">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8">
           <div
             ref={containerRef}
-            className="relative z-10 bg-white dark:bg-gray-800 rounded-lg shadow-lg max-w-3xl md:max-w-4xl pt-8 p-2 space-y-4  w-full h-5/6 "
+            className="relative z-10 h-5/6 w-full max-w-3xl space-y-4 rounded-lg bg-white p-2 pt-8 shadow-lg dark:bg-gray-800 md:max-w-4xl"
           >
             <button
               type="button"
-              className="absolute top-2 right-2 bg-red-500 text-white w-6 h-6 rounded-full flex items-center justify-center"
+              className="absolute right-2 top-2 flex h-6 w-6 items-center justify-center rounded-full bg-red-500 text-white"
               onClick={handleOnCloseClick}
             >
               x

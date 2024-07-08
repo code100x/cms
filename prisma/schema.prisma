@@ -51,7 +51,7 @@ model Content {
   notionMetadataId Int?
   comments         Comment[]
   commentsCount    Int             @default(0)
-  bookmark         Bookmark?
+  bookmark         Bookmark[]
 }
 
 model CourseContent {
@@ -84,38 +84,43 @@ model NotionMetadata {
 }
 
 model VideoMetadata {
-  id                   Int     @id @default(autoincrement())
-  contentId            Int
-  video_1080p_mp4_1    String? // Link to 1080p mp4 quality video variant 1
-  video_1080p_mp4_2    String? // Link to 1080p mp4 quality video variant 2
-  video_1080p_mp4_3    String? // Link to 1080p mp4 quality video variant 3
-  video_1080p_mp4_4    String? // Link to 1080p mp4 quality video variant 4
-  video_1080p_1        String? // Link to 1080p quality video variant 1
-  video_1080p_2        String? // Link to 1080p quality video variant 2
-  video_1080p_3        String? // Link to 1080p quality video variant 3
-  video_1080p_4        String? // Link to 1080p quality video variant 4
-  video_720p_mp4_1     String? // Link to 720p mp4 quality video variant 1
-  video_720p_mp4_2     String? // Link to 720p mp4 quality video variant 2
-  video_720p_mp4_3     String? // Link to 720p mp4 quality video variant 3
-  video_720p_mp4_4     String? // Link to 720p mp4 quality video variant 4
-  video_720p_1         String? // Link to 720p quality video variant 1
-  video_720p_2         String? // Link to 720p quality video variant 2
-  video_720p_3         String? // Link to 720p quality video variant 3
-  video_720p_4         String? // Link to 720p quality video variant 4
-  video_360p_mp4_1     String? // Link to 360p mp4 quality video variant 1
-  video_360p_mp4_2     String? // Link to 360p mp4 quality video variant 2
-  video_360p_mp4_3     String? // Link to 360p mp4 quality video variant 3
-  video_360p_mp4_4     String? // Link to 360p mp4 quality video variant 4
-  video_360p_1         String? // Link to 360p quality video variant 1
-  video_360p_2         String? // Link to 360p quality video variant 2
-  video_360p_3         String? // Link to 360p quality video variant 3
-  video_360p_4         String? // Link to 360p quality video variant 4
-  subtitles            String? // Link to subtitles file
-  segments             Json?
-  content              Content @relation(fields: [contentId], references: [id])
-  slides               String? // link to slides
-  thumbnail_mosiac_url String?
-  duration             Int?
+  id                         Int             @id @default(autoincrement())
+  contentId                  Int
+  video_1080p_mp4_1          String? // Link to 1080p mp4 quality video variant 1
+  video_1080p_mp4_2          String? // Link to 1080p mp4 quality video variant 2
+  video_1080p_mp4_3          String? // Link to 1080p mp4 quality video variant 3
+  video_1080p_mp4_4          String? // Link to 1080p mp4 quality video variant 4
+  video_1080p_1              String? // Link to 1080p quality video variant 1
+  video_1080p_2              String? // Link to 1080p quality video variant 2
+  video_1080p_3              String? // Link to 1080p quality video variant 3
+  video_1080p_4              String? // Link to 1080p quality video variant 4
+  video_720p_mp4_1           String? // Link to 720p mp4 quality video variant 1
+  video_720p_mp4_2           String? // Link to 720p mp4 quality video variant 2
+  video_720p_mp4_3           String? // Link to 720p mp4 quality video variant 3
+  video_720p_mp4_4           String? // Link to 720p mp4 quality video variant 4
+  video_720p_1               String? // Link to 720p quality video variant 1
+  video_720p_2               String? // Link to 720p quality video variant 2
+  video_720p_3               String? // Link to 720p quality video variant 3
+  video_720p_4               String? // Link to 720p quality video variant 4
+  video_360p_mp4_1           String? // Link to 360p mp4 quality video variant 1
+  video_360p_mp4_2           String? // Link to 360p mp4 quality video variant 2
+  video_360p_mp4_3           String? // Link to 360p mp4 quality video variant 3
+  video_360p_mp4_4           String? // Link to 360p mp4 quality video variant 4
+  video_360p_1               String? // Link to 360p quality video variant 1
+  video_360p_2               String? // Link to 360p quality video variant 2
+  video_360p_3               String? // Link to 360p quality video variant 3
+  video_360p_4               String? // Link to 360p quality video variant 4
+  subtitles                  String? // Link to subtitles file
+  segments                   Json?
+  content                    Content         @relation(fields: [contentId], references: [id])
+  slides                     String? // link to slides
+  thumbnail_mosiac_url       String?
+  duration                   Int?
+  migration_status           MigrationStatus @default(NOT_MIGRATED)
+  migration_pickup_time      DateTime?
+  migrated_video_1080p_mp4_1 String?
+  migrated_video_360p_mp4_1  String?
+  migrated_video_720p_mp4_1  String?
 
   @@unique([contentId])
 }
@@ -129,25 +134,26 @@ model Session {
 }
 
 model User {
-  id             String          @id @default(cuid())
-  name           String?
-  email          String?         @unique
-  token          String?
-  sessions       Session[]
-  purchases      UserPurchases[]
-  videoProgress  VideoProgress[]
-  comments       Comment[]
-  votes          Vote[]
-  discordConnect DiscordConnect?
-  disableDrm     Boolean         @default(false)
-  bookmarks      Bookmark[]
-  password       String?
-  appxUserId     String?
-  appxUsername   String?
-  questions      Question[]
-  answers        Answer[]
-  certificate    Certificate[]
-  githubUser     GithubUser?
+  id                String          @id @default(cuid())
+  name              String?
+  email             String?         @unique
+  token             String?
+  sessions          Session[]
+  purchases         UserPurchases[]
+  videoProgress     VideoProgress[]
+  comments          Comment[]
+  votes             Vote[]
+  discordConnect    DiscordConnect?
+  disableDrm        Boolean         @default(false)
+  bunnyProxyEnabled Boolean         @default(false)
+  bookmarks         Bookmark[]
+  password          String?
+  appxUserId        String?
+  appxUsername      String?
+  questions         Question[]
+  answers           Answer[]
+  certificate       Certificate[]
+  githubUser        GithubUser?
 }
 
 model DiscordConnect {
@@ -181,9 +187,9 @@ model VideoProgress {
 model Bookmark {
   id        Int      @id @default(autoincrement())
   userId    String
-  contentId Int      @unique
+  contentId Int
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  content   Content  @relation(fields: [contentId], references: [id], onDelete: Cascade)
+  content   Content  @relation(fields: [contentId], references: [id])
   createdAt DateTime @default(now())
 }
 
@@ -280,6 +286,13 @@ enum PostType {
 enum CommentType {
   INTRO
   DEFAULT
+}
+
+enum MigrationStatus {
+  NOT_MIGRATED
+  IN_PROGRESS
+  MIGRATED
+  MIGRATION_ERROR
 }
 
 model GithubUser {
