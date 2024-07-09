@@ -18,7 +18,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@reop/ui/shad/dropdown-menu';
+} from '@repo/ui/shad/dropdown-menu';
 import {
   segmentsHandler,
   updateTimeline,

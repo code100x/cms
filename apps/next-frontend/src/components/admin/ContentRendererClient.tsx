@@ -5,12 +5,19 @@ import { VideoPlayerSegment } from '@/components/VideoPlayerSegment';
 import VideoContentChapters from '../VideoContentChapters';
 import { useMemo, useState } from 'react';
 import { handleMarkAsCompleted } from '@repo/common/lib/utils';
-
+import {  StepBack, StepForward } from 'lucide-react';
 export const ContentRendererClient = ({
-  metadata,
-  content,
-  nextContent,
-}: {
+                                        prevContent,
+                                        metadata,
+                                        content,
+                                        nextContent,
+                                      }: {
+  prevContent: {
+    id: number;
+    type: string;
+    title: string;
+  } | null;
+
   nextContent: {
     id: number;
     type: string;
@@ -163,23 +170,47 @@ export const ContentRendererClient = ({
             )}
           </div>
         </div>
-        {nextContent ? (
-          <div className="flex flex-row-reverse">
-            <button
-              className="ml-4 rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
-              onClick={() => {
-                const originalPath = window.location.pathname;
-                const parts = originalPath.split('/');
-                parts.pop();
-                parts.push(nextContent.id.toString());
-                const newPath = parts.join('/');
-                router.push(newPath);
-              }}
-            >
-              {nextContent.title}
-            </button>{' '}
-          </div>
-        ) : null}
+        <div className="w-full  flex justify-between items-centerm gap-3">
+          {prevContent ? (
+            <div className="flex flex-row-reverse">
+              <button
+                className=" rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700 flex gap-2 items-center justify-center"
+                onClick={() => {
+                  const originalPath = window.location.pathname;
+                  const parts = originalPath.split('/');
+                  parts.pop();
+                  parts.push(prevContent.id.toString());
+                  const newPath = parts.join('/');
+                  router.push(newPath);
+                }}
+              >
+                <StepBack size="20" />{prevContent.title}
+              </button>
+              {' '}
+            </div>
+          ) : null}
+
+          {nextContent ? (
+            <div className="flex flex-row-reverse">
+              <button
+                className=" rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700 flex gap-2 items-center justify-center"
+                onClick={async () => {
+                  setLoadingMarkAs(true);
+                  await handleMarkCompleted();
+                  const originalPath = window.location.pathname;
+                  const parts = originalPath.split('/');
+                  parts.pop();
+                  parts.push(nextContent.id.toString());
+                  const newPath = parts.join('/');
+                  router.push(newPath);
+                }}
+              >
+                {nextContent.title} <StepForward size={20} />
+              </button>
+              {' '}
+            </div>
+          ) : null}
+        </div>
       </div>
 
       {showChapters && (

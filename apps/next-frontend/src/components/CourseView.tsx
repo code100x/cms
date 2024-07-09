@@ -8,15 +8,16 @@ import { QueryParams } from '@repo/common/types';
 import BreadCrumbComponent from './BreadCrumbComponent';
 
 export const CourseView = ({
-  rest,
-  course,
-  fullCourseContent,
-  courseContent,
-  nextContent,
-  contentType,
-  searchParams,
-  possiblePath,
-}: {
+                             prevContent,
+                             rest,
+                             course,
+                             fullCourseContent,
+                             courseContent,
+                             nextContent,
+                             contentType,
+                             searchParams,
+                             possiblePath,
+                           }: {
   fullCourseContent: FullCourseContent[];
   rest: string[];
   course: any;
@@ -25,6 +26,7 @@ export const CourseView = ({
   contentType: any;
   searchParams: QueryParams;
   possiblePath: string;
+  prevContent: any;
 }) => {
   return (
     <>
@@ -38,11 +40,15 @@ export const CourseView = ({
         />
       </div>
       {contentType === 'notion' ? (
-        <NotionRenderer id={courseContent[0]?.id} />
+        <NotionRenderer
+          prevContent={prevContent}
+          nextContent={nextContent}
+          id={courseContent[0]?.id} />
       ) : null}
 
       {contentType === 'video' ? (
         <ContentRenderer
+          prevContent={prevContent}
           nextContent={nextContent}
           content={{
             thumbnail: courseContent[0]?.thumbnail || '',
@@ -56,6 +62,7 @@ export const CourseView = ({
           }}
         />
       ) : null}
+
       {(contentType === 'video' || contentType === 'notion') && (
         <Comments
           content={{

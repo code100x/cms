@@ -164,6 +164,38 @@ export const getNextVideo = async (currentVideoId: number) => {
   return latestContent;
 };
 
+export const getPreviousVideo = async (currentVideoId: number) => {
+  if (!currentVideoId) {
+    return null;
+  }
+  const value = await cache.get('getPreviousVideo', [currentVideoId.toString()]);
+  if (value) {
+    return value;
+  }
+  const currentContent = await db.content.findFirst({
+    where: {
+      id: currentVideoId,
+    },
+  });
+
+  const latestContent = await db.content.findFirst({
+    orderBy: [
+      {
+        id: 'desc',
+      },
+    ],
+    where: {
+      parentId: {
+        equals: currentContent?.parentId,
+      },
+      id: {
+        lt: currentVideoId,
+      },
+    },
+  });
+  cache.set('getPreviousVideo', [currentVideoId.toString()], latestContent);
+  return latestContent;
+}
 async function getAllContent(): Promise<
   {
     id: number;

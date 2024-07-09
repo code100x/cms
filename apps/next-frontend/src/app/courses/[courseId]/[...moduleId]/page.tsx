@@ -1,6 +1,6 @@
 import { QueryParams } from '@repo/common/types';
 import { CourseView } from '@/components/CourseView';
-import { getCourse, getFullCourseContent } from '@/db/course';
+import { getCourse, getFullCourseContent, getNextVideo, getPreviousVideo } from '@/db/course';
 import findContentById from '@repo/common/lib/find-content-by-id';
 
 export default async function Course({
@@ -22,10 +22,12 @@ export default async function Course({
   );
   const contentType =
     courseContent?.length === 1 ? courseContent[0]?.type : 'folder';
-  const nextContent = null; //await getNextVideo(Number(rest[rest.length - 1]))
+  const nextContent = await getNextVideo(Number(rest[rest.length - 1]))
+  const prevContent = await getPreviousVideo(Number(rest[rest.length - 1]))
 
   return (
     <CourseView
+      prevContent={prevContent}
       rest={rest}
       course={course}
       contentType={contentType}

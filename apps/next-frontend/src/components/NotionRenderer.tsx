@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect,  useState } from 'react';
 import { NotionRenderer as NotionRendererLib } from 'react-notion-x';
 // core styles shared by all of react-notion-x (required)
 import 'react-notion-x/src/styles.css';
@@ -20,11 +20,33 @@ import 'katex/dist/katex.min.css';
 import { Loader } from './Loader';
 import Link from 'next/link';
 import { Button } from '@repo/ui/shad/button';
-import { DownloadIcon } from 'lucide-react';
+import { DownloadIcon, StepBack, StepForward } from 'lucide-react';
+import { handleMarkAsCompleted } from '@repo/common/lib/utils';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { Bookmark } from '@repo/db';
 
 // Week-4-1-647987d9b1894c54ba5c822978377910
-export const NotionRenderer = ({ id }: { id: string }) => {
+export const NotionRenderer = ({
+                                 id, nextContent,
+                                 prevContent,
+                               }: {
+  id: string;
+  prevContent: {
+    id: number;
+    type: string;
+    title: string;
+  } | null;
+  nextContent: {
+    id: number;
+    type: string;
+    title: string;
+  } | null;
+
+}) => {
   const [data, setData] = useState(null);
+
+  const router = useRouter();
+
   async function main() {
     const res = await fetch(`/api/notion?id=${id}`);
     const json = await res.json();
@@ -67,6 +89,45 @@ export const NotionRenderer = ({ id }: { id: string }) => {
             Equation,
           }}
         />
+      </div>
+      <div className="w-full  my-2 flex justify-between items-centerm gap-3">
+        {prevContent ? (
+          <div className="flex flex-row-reverse">
+            <button
+              className=" rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700 flex gap-2 items-center justify-center"
+              onClick={async () => {
+                const originalPath = window.location.pathname;
+                const parts = originalPath.split('/');
+                parts.pop();
+                parts.push(prevContent.id.toString());
+                const newPath = parts.join('/');
+                router.push(newPath);
+              }}
+            >
+              <StepBack size="20" />{prevContent.title}
+            </button>
+            {' '}
+          </div>
+        ) : <div></div>}
+
+        {nextContent ? (
+          <div className="flex flex-row-reverse">
+            <button
+              className=" rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700 flex gap-2 items-center justify-center"
+              onClick={async () => {
+                const originalPath = window.location.pathname;
+                const parts = originalPath.split('/');
+                parts.pop();
+                parts.push(nextContent.id.toString());
+                const newPath = parts.join('/');
+                router.push(newPath);
+              }}
+            >
+              {nextContent.title} <StepForward size={20} />
+            </button>
+            {' '}
+          </div>
+        ) : <div></div>}
       </div>
     </div>
   );
