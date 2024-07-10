@@ -30,9 +30,6 @@ export const ContentCard = ({
   bookmark?: Bookmark | null;
   contentDuration?: number;
 }) => {
-  // let image ;
-  // image = ""
-
   return (
     <div
       onClick={onClick}
@@ -90,7 +87,7 @@ export const ContentCard = ({
         </div>
       )}
       <div className="mt-2 flex justify-between text-gray-900 dark:text-white">
-        <div>{title} </div>
+        <div className="button">{title} </div>
       </div>
     </div>
   );
