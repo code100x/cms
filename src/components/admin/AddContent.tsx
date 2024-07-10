@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { AddNotionMetadata } from './AddNotionMetadata';
 import { Input } from '../ui/input';
+import { toast } from 'sonner';
 
 export const AddContent = ({
   courseId,
@@ -80,8 +81,9 @@ export const AddContent = ({
                 'Content-Type': 'application/json',
               },
             });
+            toast(`${type} successfully added!`);
           }}
-          className="rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
+          className="my-6 rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
         >
           Submit
         </button>
