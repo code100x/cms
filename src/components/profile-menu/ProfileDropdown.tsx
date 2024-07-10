@@ -21,9 +21,8 @@ import { signOut } from 'next-auth/react';
 import { SelectTheme } from './SelectTheme';
 import { useRouter } from 'next/navigation';
 import { FaChessKing } from 'react-icons/fa';
-import { Session } from 'next-auth';
 
-const ProfileDropdown = ({ Isession }: { Isession: Session }) => {
+const ProfileDropdown = ({ Isession }: { Isession: any }) => {
   const menuItemLinks = [
     {
       href: '/history',
@@ -51,19 +50,16 @@ const ProfileDropdown = ({ Isession }: { Isession: Session }) => {
         </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="mr-3 mt-2 w-56 shadow-2xl">
-        {Isession &&
-          process.env.NEXT_PUBLIC_ADMINS?.split(',').includes(
-            Isession?.user?.email ?? '',
-          ) && (
-            <DropdownMenuItem
-              onClick={() => {
-                router.push('/admin');
-              }}
-            >
-              <FaChessKing className="mr-2 h-4 w-4" />
-              <span>Admin</span>
-            </DropdownMenuItem>
-          )}
+        {Isession && Isession?.user?.role === 'admin' && (
+          <DropdownMenuItem
+            onClick={() => {
+              router.push('/admin');
+            }}
+          >
+            <FaChessKing className="mr-2 h-4 w-4" />
+            <span>Admin</span>
+          </DropdownMenuItem>
+        )}
         <DropdownMenuGroup>
           {menuItemLinks.map(({ href, label, icon }) => (
             <Link href={href} key={href}>
