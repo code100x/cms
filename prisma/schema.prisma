@@ -121,8 +121,8 @@ model VideoMetadata {
   migrated_video_1080p_mp4_1 String?
   migrated_video_360p_mp4_1  String?
   migrated_video_720p_mp4_1  String?
-  timestamp Int?
-  date DateTime?
+  timestamp DateTime? @db.Timestamp()
+  date DateTime? @db.Date
 
   @@unique([contentId])
 }

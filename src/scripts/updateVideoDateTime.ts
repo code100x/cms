@@ -11,13 +11,13 @@ async function updateVideoDateTime(jsonPath: string) {
   const data = readJson(jsonPath);
   try {
     await db.$transaction(async (tx) => {
-      for (const { id, date, timestamp } of data) {
+      for (const { id, date, duration } of data) {
         await tx.videoMetadata.update({
           where: {
             contentId: id,
           },
           data: {
-            timestamp: timestamp as number,
+            timestamp: duration,
             // eslint-disable-next-line object-shorthand
             date: new Date(date),
           },
