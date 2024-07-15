@@ -17,10 +17,10 @@ export class Cache implements ICache {
   }
 
   static getInstance(): Cache {
-    if (!this.instance) {
-      this.instance = new Cache();
+    if (!Cache.instance) {
+      Cache.instance = new Cache();
     }
-    return this.instance;
+    return Cache.instance;
   }
 
   async set(
