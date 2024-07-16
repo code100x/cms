@@ -4,17 +4,16 @@ import { durationMetaData, DurationMetaData } from './data';
 async function updateVideoMetaData(data: DurationMetaData[]) {
   try {
     await db.$transaction(async (tx) => {
-      for (const { duration, id } of data) {
-        if (typeof duration === 'number') {
-          await tx.videoMetadata.update({
-            where: {
-              contentId: id,
-            },
-            data: {
-              duration: duration as number,
-            },
-          });
-        }
+      for (const { id, duration, date } of data) {
+        await tx.videoMetadata.update({
+          where: {
+            contentId: id,
+          },
+          data: {
+            duration,
+            date: new Date(date),
+          },
+        });
       }
     });
     await db.$disconnect();

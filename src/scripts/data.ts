@@ -1,6 +1,18 @@
+import { readFileSync } from 'fs';
+
 export interface DurationMetaData {
   id: number;
-  duration: number | string;
+  duration: number;
+  date: string;
 }
 
-export const durationMetaData: DurationMetaData[] = [];
+const getVideoTimeAndData = () => {
+  const data = readFileSync(
+    '../../data/dateAndTimeStamps/cohort2.json',
+    'utf-8',
+  );
+  const json = JSON.parse(data);
+  return json.videos as DurationMetaData[];
+};
+
+export const durationMetaData: DurationMetaData[] = getVideoTimeAndData();
