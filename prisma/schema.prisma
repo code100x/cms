@@ -116,6 +116,7 @@ model VideoMetadata {
   slides               String? // link to slides
   thumbnail_mosiac_url String?
   duration             Int?
+  date                 DateTime @default(now())
   migration_status MigrationStatus @default(NOT_MIGRATED)
   migration_pickup_time DateTime?
   migrated_video_1080p_mp4_1 String?
