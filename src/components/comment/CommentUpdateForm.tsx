@@ -35,16 +35,18 @@ const CommentUpdateForm = ({ commentId, comment, setDropOpen }: any) => {
   });
 
   const handleUpdate = async () => {
-    if (text === prevText || text.length === 0) {
-      setOpen(false);
-    } else {
-      const body = {
-        content: text,
-        commentId,
-        currentPath,
-      };
-      execute(body);
+    const ff = text.trim();
+    if (ff === prevText || ff.length === 0) {
+      //setOpen(false);
+      toast.error('fill the required field :(');
+      return;
     }
+    const body = {
+      content: ff,
+      commentId,
+      currentPath,
+    };
+    execute(body);
   };
   const handleKeyPress = (event: any) => {
     if (event.key === 'Enter') {

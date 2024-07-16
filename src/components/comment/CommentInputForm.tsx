@@ -31,7 +31,11 @@ const CommentInputForm = ({
     const formData = new FormData(e.target as HTMLFormElement);
 
     const content = formData.get('content') as string;
-
+    const cc = content.trim();
+    if (cc.length === 0) {
+      toast.error('fill the required filled :(');
+      return;
+    }
     execute({
       content,
       contentId,
