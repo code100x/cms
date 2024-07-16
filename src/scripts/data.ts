@@ -8,7 +8,7 @@ export interface DurationMetaData {
 
 const getVideoTimeAndData = () => {
   const data = readFileSync(
-    '../../data/dateAndTimeStamps/cohort2.json',
+    './updateVideoDateAndTimeData/cohort2.json',
     'utf-8',
   );
   const json = JSON.parse(data);
