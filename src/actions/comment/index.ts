@@ -37,6 +37,7 @@ export const getComments = async (
       where: { id: parseInt(parentId.toString(), 10) },
       include: {
         user: true,
+        votes: true,
       },
     });
   }
@@ -59,7 +60,6 @@ export const getComments = async (
       },
     };
   }
-
   const comments = await prisma.comment.findMany(q);
   const combinedComments = pinnedComment
     ? [pinnedComment, ...comments]

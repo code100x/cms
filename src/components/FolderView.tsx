@@ -56,7 +56,7 @@ export const FolderView = ({
               title={content.title}
               image={content.image || ''}
               onClick={() => {
-                router.push(`${updatedRoute}/${content.id}`);
+                router.push(`${updatedRoute}/${content.id}`, { scroll: false });
               }}
               markAsCompleted={content.markAsCompleted}
               percentComplete={content.percentComplete}

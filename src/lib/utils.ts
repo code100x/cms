@@ -206,6 +206,12 @@ export const getUpdatedUrl = (
   prevQueryParams: QueryParams,
   newQueryParams: QueryParams,
 ) => {
+  //console.log(prevQueryParams.parentId, newQueryParams.parentId);
+
+  /*  if (prevQueryParams.parentId || newQueryParams.parentId) {
+     delete prevQueryParams.type;
+     delete newQueryParams.type;
+   } */
   const updatedQuery = { ...prevQueryParams, ...newQueryParams };
   const queryString = new URLSearchParams(
     updatedQuery as Record<string, string>,
@@ -309,7 +315,6 @@ export const constructCommentPrismaQuery = (
       },
     },
   };
-
   return query;
 };
 

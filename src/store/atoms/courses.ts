@@ -1,3 +1,5 @@
+import { TabType } from '@/actions/types';
+import { CommentType } from '@prisma/client';
 import axios from 'axios';
 import { atom, selector } from 'recoil';
 
@@ -26,4 +28,14 @@ const coursesSelector = selector({
 export const coursesAtom = atom<Course[]>({
   key: 'coursesAtom',
   default: coursesSelector,
+});
+
+export const lastTabTypeAtom = atom<TabType | null>({
+  key: 'lastTabTypeAtom',
+  default: null,
+});
+
+export const lastCommentTypeAtom = atom<CommentType | null>({
+  key: 'lastCommentType',
+  default: null,
 });
