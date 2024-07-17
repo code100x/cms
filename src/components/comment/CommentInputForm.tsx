@@ -6,10 +6,15 @@ import { createMessage } from '@/actions/comment';
 import { toast } from 'sonner';
 import { FormErrors } from '../FormError';
 import { usePathname } from 'next/navigation';
+import { useRouter } from 'next/navigation';
+import { TabType } from '@/actions/types';
+import { lastTabTypeAtom } from '@/store/atoms';
+import { useSetRecoilState } from 'recoil';
 
 interface CommentInputFormProps {
   contentId: number;
   parentId?: number | undefined;
+  tabType?: TabType;
   setReplyInputBox?: Dispatch<SetStateAction<boolean>>;
   replyInputBox?: boolean;
   className?: string;
@@ -18,19 +23,30 @@ interface CommentInputFormProps {
 const CommentInputForm = ({
   contentId,
   parentId,
+  tabType,
   setReplyInputBox,
   replyInputBox,
   className,
 }: CommentInputFormProps) => {
   const [unhideButton, setUnhideButton] = useState(false);
+  const setLastTabType = useSetRecoilState(lastTabTypeAtom);
   const currentPath = usePathname();
   const formRef = React.useRef<HTMLFormElement>(null);
   const textareaRef = React.useRef<HTMLTextAreaElement>(null);
+  const router = useRouter();
   const { execute, isLoading, fieldErrors } = useAction(createMessage, {
     onSuccess: () => {
       toast('Comment added');
+
       formRef.current?.reset();
       if (setReplyInputBox) setReplyInputBox(false);
+      if (parentId) {
+        setLastTabType(tabType || TabType.mu);
+        router.replace(
+          `${currentPath}?tabtype=${TabType.mr}&parentId=${parentId}`,
+          { scroll: false },
+        );
+      }
     },
     onError: (error) => {
       toast.error(error);
@@ -74,7 +90,7 @@ const CommentInputForm = ({
         ref={textareaRef}
         id="content"
         name="content"
-        className="min-h-[50px] rounded-md border-2 p-2 text-muted-foreground dark:bg-gray-800"
+        className="min-h-[50px] rounded-md border-2 p-2 text-muted-foreground outline-none focus:outline-1 focus:outline-white dark:bg-gray-800"
         placeholder={`Add a public ${parentId ? 'reply' : 'comment'}...`}
       />
       <FormErrors id="content" errors={fieldErrors} />
@@ -86,6 +102,7 @@ const CommentInputForm = ({
           onClick={() => {
             setUnhideButton(false);
             if (setReplyInputBox) setReplyInputBox(false);
+            formRef.current?.reset();
           }}
         >
           Cancel
@@ -95,7 +112,7 @@ const CommentInputForm = ({
           className={`${isLoading && 'opacity-80'}`}
           disabled={isLoading}
         >
-          Comment
+          {parentId ? 'Reply' : 'Comment'}
         </Button>
       </div>
     </form>

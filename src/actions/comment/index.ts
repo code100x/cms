@@ -60,7 +60,6 @@ export const getComments = async (
       },
     };
   }
-
   const comments = await prisma.comment.findMany(q);
   const combinedComments = pinnedComment
     ? [pinnedComment, ...comments]

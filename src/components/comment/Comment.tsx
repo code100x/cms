@@ -34,6 +34,8 @@ const Comment = async ({ comment, commentsProps }: CommentProps) => {
     return null;
   }
   const { content, searchParams } = commentsProps;
+  // console.log(searchParams.tabtype);
+
   return (
     <div
       className={`flex w-full items-start gap-4 pr-4 text-sm ${comment.parentId ? 'py-2 pl-16' : 'px-4 py-2'}`}
@@ -64,7 +66,7 @@ const Comment = async ({ comment, commentsProps }: CommentProps) => {
 
             <DropdownMenu key="2">
               <DropdownMenuTrigger asChild>
-                <button>
+                <button type="button">
                   <MoreVerticalIcon className="h-4 w-4" />
                 </button>
               </DropdownMenuTrigger>

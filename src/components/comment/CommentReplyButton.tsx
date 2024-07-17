@@ -3,12 +3,11 @@ import { ReplyIcon } from 'lucide-react';
 import { Dispatch, SetStateAction } from 'react';
 
 interface ReplyButtonProps {
-  repliesCount: number;
   setReplyInputBox: Dispatch<SetStateAction<boolean>>;
   replyInputBox: boolean;
 }
 
-const ReplyButton = ({ repliesCount, setReplyInputBox }: ReplyButtonProps) => {
+const ReplyButton = ({ setReplyInputBox }: ReplyButtonProps) => {
   return (
     <div>
       <button
@@ -16,7 +15,6 @@ const ReplyButton = ({ repliesCount, setReplyInputBox }: ReplyButtonProps) => {
         onClick={() => setReplyInputBox(true)}
       >
         <ReplyIcon className="h-4 w-4" />
-        <span>{repliesCount}</span>
         <span>Reply</span>
       </button>
     </div>

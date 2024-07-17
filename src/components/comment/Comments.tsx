@@ -51,11 +51,10 @@ const Comments = async ({ content, searchParams }: CommentsProps) => {
     session.user.id,
   );
   const data = await getComments(q, searchParams.parentId);
+  //console.log(searchParams.type);
 
   if (!content.id) return null;
 
-  const modifiedSearchParams = { ...searchParams };
-  delete modifiedSearchParams.parentId;
   return (
     <Card key="1" className="flex w-full flex-col justify-center border-none">
       <CardHeader className="p-6">
@@ -122,55 +121,60 @@ const Comments = async ({ content, searchParams }: CommentsProps) => {
               </DropdownMenuGroup>
             </DropdownMenuContent>
           </DropdownMenu>
-          <DropdownMenu modal={false}>
-            <DropdownMenuTrigger asChild>
-              <Button
-                className="w-[200px] justify-between text-left font-normal"
-                variant="ghost"
-              >
-                <span>
-                  {searchParams.type === CommentType.INTRO
-                    ? CommentType.INTRO
-                    : 'All comments' || 'All comments'}
-                </span>
-                <ChevronDownIcon className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuGroup>
-                <Link
-                  scroll={false}
-                  href={getUpdatedUrl(
-                    `/courses/${content.courseId}/${content.possiblePath}`,
-                    searchParams,
-                    {
-                      type: CommentType.DEFAULT,
-                    },
-                  )}
+          {!searchParams.parentId && (
+            <DropdownMenu modal={false}>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  className="w-[200px] justify-between text-left font-normal"
+                  variant="ghost"
                 >
-                  <DropdownMenuItem>All comments</DropdownMenuItem>
-                </Link>
+                  <span>
+                    {searchParams.type === CommentType.INTRO
+                      ? CommentType.INTRO
+                      : 'All comments' || 'All comments'}
+                  </span>
+                  <ChevronDownIcon className="h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuGroup>
+                  <Link
+                    scroll={false}
+                    href={getUpdatedUrl(
+                      `/courses/${content.courseId}/${content.possiblePath}`,
+                      searchParams,
+                      {
+                        type: CommentType.DEFAULT,
+                      },
+                    )}
+                  >
+                    <DropdownMenuItem>All comments</DropdownMenuItem>
+                  </Link>
 
-                <Link
-                  scroll={false}
-                  href={getUpdatedUrl(
-                    `/courses/${content.courseId}/${content.possiblePath}`,
-                    searchParams,
-                    {
-                      type: CommentType.INTRO,
-                    },
-                  )}
-                >
-                  <DropdownMenuItem>Intro comments</DropdownMenuItem>
-                </Link>
-              </DropdownMenuGroup>
-            </DropdownMenuContent>
-          </DropdownMenu>
+                  <Link
+                    scroll={false}
+                    href={getUpdatedUrl(
+                      `/courses/${content.courseId}/${content.possiblePath}`,
+                      searchParams,
+                      {
+                        type: CommentType.INTRO,
+                      },
+                    )}
+                  >
+                    <DropdownMenuItem>Intro comments</DropdownMenuItem>
+                  </Link>
+                </DropdownMenuGroup>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )}
         </div>
         {data.parentComment && (
           <Comment
             comment={data.parentComment}
-            commentsProps={{ content, searchParams }}
+            commentsProps={{
+              content,
+              searchParams,
+            }}
           />
         )}
         <div className="grid max-h-[400px] overflow-y-auto">
