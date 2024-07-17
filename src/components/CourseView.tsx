@@ -29,7 +29,7 @@ export const CourseView = ({
 }) => {
   return (
     <>
-      <div className=" min-h-[2.5rem] max-h-fit mb-2 flex items-center px-4 relative">
+      <div className="relative mb-2 flex max-h-fit min-h-[2.5rem] items-center px-4">
         <BreadCrumbComponent
           course={course}
           contentType={contentType}
@@ -62,7 +62,7 @@ export const CourseView = ({
         <Comments
           content={{
             id: courseContent[0]?.id || 0,
-            courseId: courseContent[0]?.parentId || 0,
+            courseId: parseInt(course.id, 10) || 0,
             commentCount: courseContent[0]?.commentsCount || 0,
             possiblePath,
           }}

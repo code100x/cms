@@ -24,7 +24,7 @@ export function NavigationMenu() {
       <DrawerTrigger asChild>
         <Button
           variant="outline"
-          className="bg-transparent border-none"
+          className="border-none bg-transparent"
           size={'iconSM'}
         >
           <MenuIcon className="h-5 w-5" />
@@ -33,7 +33,7 @@ export function NavigationMenu() {
 
       <DrawerContent>
         <div className="mx-auto w-full max-w-sm">
-          <DrawerHeader className="w-full flex flex-col items-center text-center">
+          <DrawerHeader className="flex w-full flex-col items-center text-center">
             <DrawerTitle>100xdevs</DrawerTitle>
             <DrawerDescription>Choose an option</DrawerDescription>
           </DrawerHeader>

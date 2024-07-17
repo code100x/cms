@@ -12,7 +12,7 @@ function ContentToggler() {
     <>
       {currentPath.includes('courses') && !sidebarOpen && (
         <div
-          className="z-50 absolute backdrop-blur-md  rounded-md flex justify-center items-center right-0 md:right-5 cursor-pointer "
+          className="absolute right-0 z-50 flex cursor-pointer items-center justify-center rounded-md backdrop-blur-md md:right-5"
           onClick={() => {
             setSidebarOpen((p) => !p);
           }}

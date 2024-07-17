@@ -47,7 +47,7 @@
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
     --ring: 224.3 76.3% 48%;
-    --scrollbar: 217, 19%, 27%;
+    --scrollbar: 215, 28%, 17%;
   }
 }
 
@@ -94,6 +94,26 @@
 
 .vjs-duration {
   display: block !important;
+}
+
+/* Hiding time divider and duration, and decreasing the 
+width of the controls on screens smaller than 512px */
+@media (max-width: 550px) {
+  .vjs-time-divider {
+    display: none !important;
+  }
+
+  .video-js .vjs-current-time {
+    display: block !important;
+  }
+
+  .vjs-duration {
+    display: none !important;
+  }
+
+  .video-js .vjs-control {
+    width: 2rem !important;
+  }
 }
 
 .vjs-tech:focus-visible {

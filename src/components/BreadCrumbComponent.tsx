@@ -91,7 +91,7 @@ export default function BreadCrumbComponent({
             return (
               <div
                 key={`${index}-${breadcrumb.title} `}
-                className="flex justify-between gap-3 items-center"
+                className="flex items-center justify-between gap-3"
               >
                 {index !== array.length - 1 ? (
                   <>

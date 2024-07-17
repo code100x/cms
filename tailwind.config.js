@@ -15,6 +15,9 @@ module.exports = {
       padding: '2rem',
     },
     extend: {
+      screens: {
+        semi: '1140px'
+      },
       colors: {
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',

@@ -103,18 +103,16 @@ export function Sidebar({
           <AccordionItem
             key={content.id}
             value={`item-${content.id}`}
-            className={` ${index === 0 && 'rounded-t-md'}
-             ${
-               content.type === 'folder' && isActiveContent
-                 ? 'dark:bg-gray-700 bg-gray-200 dark:text-white text-black'
-                 : 'dark:bg-gray-800'
-             }
-            `}
+            className={`${index === 0 && 'rounded-t-md'} ${
+              content.type === 'folder' && isActiveContent
+                ? 'bg-gray-200 text-black dark:bg-gray-700 dark:text-white'
+                : 'dark:bg-gray-800'
+            } `}
           >
             <AccordionTrigger className="pl-3 pr-2 text-left">
               {capitalizetitle}
             </AccordionTrigger>
-            <AccordionContent className="p-0 m-0">
+            <AccordionContent className="m-0 p-0">
               {/* Render the children of this folder */}
               {renderContent(content.children ?? [])}
             </AccordionContent>
@@ -126,13 +124,13 @@ export function Sidebar({
         <Link
           key={content.id}
           href={navigateToContent(content.id) || '#'}
-          className={`p-2 flex  hover:bg-gray-200 cursor-pointer  border-b-gray-700 ${
+          className={`flex cursor-pointer border-b p-2 hover:bg-gray-200 dark:border-b-gray-800 ${
             isActiveContent
-              ? 'dark:bg-gray-700 bg-gray-300 dark:text-white text-black'
-              : 'bg-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-white text-black'
+              ? 'bg-gray-200 text-black dark:bg-gray-700 dark:text-white'
+              : 'bg-gray-50 text-black dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700'
           }`}
         >
-          <div className="flex pl-3 py-1 justify-between w-full">
+          <div className="flex w-full justify-between py-1 pl-3">
             <div className="flex items-center">
               <div className="pr-2">
                 {content.type === 'video' ? <VideoIcon /> : null}
@@ -146,7 +144,7 @@ export function Sidebar({
                   bookmark={content.bookmark ?? null}
                   contentId={content.id}
                 />
-                <div className="flex flex-col justify-center ml-2">
+                <div className="ml-2 flex flex-col justify-center">
                   <Check content={content} />
                 </div>
               </div>
@@ -162,12 +160,12 @@ export function Sidebar({
   }
 
   return (
-    <div className="custom-scrollbar mx-2 px-2 overflow-y-auto overflow-x-hidden h-sidebar w-[400px] min-w-[400px] bg-gray-50 dark:bg-background  sticky top-[64px] self-start w-84">
-      <div className="flex w-full justify-between items-center px-4">
+    <div className="custom-scrollbar w-84 sticky top-[64px] mx-2 h-sidebar w-[400px] min-w-[400px] self-start overflow-y-auto overflow-x-hidden bg-gray-50 px-2 dark:bg-background">
+      <div className="z-50 flex w-full items-center justify-between px-4">
         <GoBackButton />
         <div
           onClick={() => {
-            setSidebarOpen((s) => !s);
+            setSidebarOpen((s: boolean) => !s);
           }}
         >
           <ToggleButton sidebarOpen={!sidebarOpen} />
@@ -176,7 +174,7 @@ export function Sidebar({
       <Accordion
         type="single"
         collapsible
-        className="w-full drop-shadow-md rounded-t-md "
+        className="w-full rounded-t-md drop-shadow-md"
       >
         {/* Render course content */}
         {renderContent(fullCourseContent)}
@@ -187,23 +185,19 @@ export function Sidebar({
 
 export function ToggleButton({ sidebarOpen }: { sidebarOpen: boolean }) {
   return (
-    <button className="flex flex-col justify-center items-center">
+    <button className="flex flex-col items-center justify-center py-1">
       <span
-        className={`dark:bg-white bg-black block transition-all duration-300 ease-out  h-0.5 w-6 rounded-sm ${!sidebarOpen ? 'rotate-45 translate-y-1' : '-translate-y-0.5'}`}
+        className={`block h-0.5 w-6 rounded-sm bg-black transition-all duration-300 ease-out dark:bg-white ${!sidebarOpen ? 'translate-y-1 rotate-45' : '-translate-y-0.5'}`}
       ></span>
       <span
-        className={`dark:bg-white bg-black block transition-all duration-300 ease-out 
-                    h-0.5 w-6 rounded-sm my-0.5 ${
-                      !sidebarOpen ? 'opacity-0' : 'opacity-100'
-                    }`}
+        className={`my-0.5 block h-0.5 w-6 rounded-sm bg-black transition-all duration-300 ease-out dark:bg-white ${
+          !sidebarOpen ? 'opacity-0' : 'opacity-100'
+        }`}
       ></span>
       <span
-        className={`dark:bg-white bg-black block transition-all duration-300 ease-out 
-                    h-0.5 w-6 rounded-sm ${
-                      !sidebarOpen
-                        ? '-rotate-45 -translate-y-1'
-                        : 'translate-y-0.5'
-                    }`}
+        className={`block h-0.5 w-6 rounded-sm bg-black transition-all duration-300 ease-out dark:bg-white ${
+          !sidebarOpen ? '-translate-y-1 -rotate-45' : 'translate-y-0.5'
+        }`}
       ></span>
     </button>
   );
@@ -228,14 +222,14 @@ function GoBackButton() {
   };
 
   return (
-    <div className="w-full  my-4  ">
+    <div className="my-4 w-full">
       {/* Your component content */}
       <div
         onClick={goBack}
-        className="group flex w-fit justify-center items-center cursor-pointer"
+        className="group flex w-fit cursor-pointer items-center justify-center"
       >
-        <BackArrow className="group-hover:-translate-x-1 w-5 h-5 rtl:rotate-180 transition-all duration-200 ease-in-out stroke-black dark:stroke-white" />
-        <p className="pl-3 ">Go Back</p>
+        <BackArrow className="h-5 w-5 stroke-black transition-all duration-200 ease-in-out group-hover:-translate-x-1 dark:stroke-white rtl:rotate-180" />
+        <p className="pl-3">Go Back</p>
       </div>
     </div>
   );
@@ -249,7 +243,7 @@ function VideoIcon() {
       viewBox="0 0 24 24"
       stroke-width="1.5"
       stroke="currentColor"
-      className="w-4 h-4"
+      className="h-4 w-4"
     >
       <path
         stroke-linecap="round"
@@ -268,7 +262,7 @@ function NotionIcon() {
       viewBox="0 0 24 24"
       stroke-width="1.5"
       stroke="currentColor"
-      className="w-4 h-4"
+      className="h-4 w-4"
     >
       <path
         stroke-linecap="round"
@@ -294,7 +288,7 @@ function Check({ content }: { content: any }) {
           e.stopPropagation();
         }}
         type="checkbox"
-        className="w-4 h-4 cursor-pointer custom-checkbox"
+        className="custom-checkbox h-4 w-4 cursor-pointer"
       />
     </>
   );

@@ -1,5 +1,5 @@
 import db from '@/db';
-import { Cache } from '@/db/Cache';
+import { cache } from '@/db/Cache';
 import { authOptions } from '@/lib/auth';
 import { getServerSession } from 'next-auth';
 import { Bookmark } from '@prisma/client';
@@ -29,7 +29,7 @@ export interface Video extends Content {
 }
 
 export async function getAllCourses() {
-  const value = await Cache.getInstance().get('getAllCourses', []);
+  const value = await cache.get('getAllCourses', []);
   if (value) {
     return value;
   }
@@ -38,7 +38,7 @@ export async function getAllCourses() {
       id: 'desc',
     },
   });
-  Cache.getInstance().set('getAllCourses', [], courses);
+  cache.set('getAllCourses', [], courses);
   return courses;
 }
 
@@ -58,10 +58,7 @@ export async function getAllCoursesAndContentHierarchy(): Promise<
     }[];
   }[]
 > {
-  const value = await Cache.getInstance().get(
-    'getAllCoursesAndContentHierarchy',
-    [],
-  );
+  const value = await cache.get('getAllCoursesAndContentHierarchy', []);
   if (value) {
     return value;
   }
@@ -88,7 +85,7 @@ export async function getAllCoursesAndContentHierarchy(): Promise<
     },
   });
 
-  Cache.getInstance().set('getAllCoursesAndContentHierarchy', [], courses);
+  cache.set('getAllCoursesAndContentHierarchy', [], courses);
   return courses;
 }
 
@@ -105,7 +102,7 @@ export async function getAllVideos(): Promise<
     notionMetadataId: number | null;
   }[]
 > {
-  const value = await Cache.getInstance().get('getAllVideos', []);
+  const value = await cache.get('getAllVideos', []);
   if (value) {
     return value;
   }
@@ -115,14 +112,12 @@ export async function getAllVideos(): Promise<
       hidden: false,
     },
   });
-  Cache.getInstance().set('getAllVideos', [], courses);
+  cache.set('getAllVideos', [], courses);
   return courses;
 }
 
 export async function getCourse(courseId: number) {
-  const value = await Cache.getInstance().get('getCourse', [
-    courseId.toString(),
-  ]);
+  const value = await cache.get('getCourse', [courseId.toString()]);
   if (value) {
     return value;
   }
@@ -132,7 +127,7 @@ export async function getCourse(courseId: number) {
       id: courseId,
     },
   });
-  Cache.getInstance().set('getCourse', [courseId.toString()], courses);
+  cache.set('getCourse', [courseId.toString()], courses);
   return courses;
 }
 
@@ -140,9 +135,7 @@ export const getNextVideo = async (currentVideoId: number) => {
   if (!currentVideoId) {
     return null;
   }
-  const value = await Cache.getInstance().get('getNextVideo', [
-    currentVideoId.toString(),
-  ]);
+  const value = await cache.get('getNextVideo', [currentVideoId.toString()]);
   if (value) {
     return value;
   }
@@ -167,11 +160,7 @@ export const getNextVideo = async (currentVideoId: number) => {
       },
     },
   });
-  Cache.getInstance().set(
-    'getNextVideo',
-    [currentVideoId.toString()],
-    latestContent,
-  );
+  cache.set('getNextVideo', [currentVideoId.toString()], latestContent);
   return latestContent;
 };
 
@@ -189,7 +178,7 @@ async function getAllContent(): Promise<
     } | null;
   }[]
 > {
-  const value = Cache.getInstance().get('getAllContent', []);
+  const value = await cache.get('getAllContent', []);
   if (value) {
     return value;
   }
@@ -205,7 +194,7 @@ async function getAllContent(): Promise<
       },
     },
   });
-  Cache.getInstance().set('getAllContent', [], allContent);
+  cache.set('getAllContent', [], allContent);
 
   return allContent;
 }
@@ -228,9 +217,7 @@ async function getRootCourseContent(courseId: number): Promise<
     content: ContentWithMetadata;
   }[]
 > {
-  const value = Cache.getInstance().get('getRootCourseContent', [
-    courseId.toString(),
-  ]);
+  const value = await cache.get('getRootCourseContent', [courseId.toString()]);
   if (value) {
     return value;
   }
@@ -245,11 +232,7 @@ async function getRootCourseContent(courseId: number): Promise<
     },
     include: { content: true },
   });
-  Cache.getInstance().set(
-    'getRootCourseContent',
-    [courseId.toString()],
-    courseContent,
-  );
+  cache.set('getRootCourseContent', [courseId.toString()], courseContent);
   return courseContent;
 }
 
@@ -285,7 +268,7 @@ export type FullCourseContent = {
 export const getFullCourseContent = async (
   courseId: number,
 ): Promise<FullCourseContent[]> => {
-  // const value = Cache.getInstance().get('getFullCourseContent', [
+  // const value = cache.get('getFullCourseContent', [
   //   courseId.toString(),
   // ]);
   // if (value) {
@@ -335,11 +318,7 @@ export const getFullCourseContent = async (
       }
     });
 
-  Cache.getInstance().set(
-    'getFullCourseContent',
-    [courseId.toString()],
-    rootContents,
-  );
+  await cache.set('getFullCourseContent', [courseId.toString()], rootContents);
   return rootContents;
 };
 
@@ -347,7 +326,7 @@ export const getCourseContent = async (
   courseId: number,
   childrenIds: number[],
 ) => {
-  const value = Cache.getInstance().get('getCourseContent', [
+  const value = await cache.get('getCourseContent', [
     courseId.toString(),
     ...childrenIds.map((x) => x.toString()),
   ]);
@@ -368,7 +347,7 @@ export const getCourseContent = async (
       },
       include: { content: true },
     });
-    Cache.getInstance().set(
+    cache.set(
       'getCourseContent',
       [courseId.toString(), ...childrenIds.map((x) => x.toString())],
       courseContent.map((content) => content.content),
@@ -395,7 +374,7 @@ export const getCourseContent = async (
         },
       },
     });
-    Cache.getInstance().set(
+    cache.set(
       'getCourseContent',
       [courseId.toString(), ...childrenIds.map((x) => x.toString())],
       courseContent,
@@ -403,7 +382,7 @@ export const getCourseContent = async (
 
     return courseContent;
   }
-  Cache.getInstance().set(
+  cache.set(
     'getCourseContent',
     [courseId.toString(), ...childrenIds.map((x) => x.toString())],
     [content],
