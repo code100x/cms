@@ -158,29 +158,29 @@ const SearchBar = ({ onCardClick }: { onCardClick?: () => void }) => {
       ref={ref}
     >
       {/* Search Input Bar */}
-      <SearchIcon className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-gray-300 z-20" />
+      <SearchIcon className="absolute left-3 top-1/2 z-20 h-4 w-4 -translate-y-1/2 transform text-gray-300" />
       <Input
         placeholder="Search.."
-        className="px-10 border-2 focus-visible:ring-transparent rounded-lg hover:bg-gray-800 cursor-pointer placeholder:font-semibold placeholder:dark:text-gray-200 placeholder:text-gray-600 z-10"
+        className="z-10 cursor-pointer rounded-lg border-2 px-10 placeholder:font-semibold placeholder:text-gray-600 hover:bg-gray-800 focus-visible:ring-transparent placeholder:dark:text-gray-200"
         value={searchTerm}
         onChange={handleInputChange}
         onFocus={() => setIsInputFocused(true)}
         ref={searchInputRef}
       />
-      <div className="absolute inset-0 flex justify-end items-center pr-3 z-1">
+      <div className="z-1 absolute inset-0 flex items-center justify-end pr-3">
         {isInputFocused ? (
-          <kbd className="bg-gray-200 dark:bg-gray-700 px-1.5 rounded-sm text-xs leading-3 md:-translate-x-7 w-10 z-20 h-6 flex items-center justify-center">
+          <kbd className="z-20 flex h-6 w-10 items-center justify-center rounded-sm bg-gray-200 px-1.5 text-xs leading-3 dark:bg-gray-700 md:-translate-x-7">
             Esc
           </kbd>
         ) : (
-          <kbd className="bg-gray-200 dark:bg-gray-700 px-1.5 rounded-sm text-xs leading-3 md:-translate-x-7 w-16 z-20 h-6 flex items-center justify-center">
+          <kbd className="z-20 flex h-6 w-16 items-center justify-center rounded-sm bg-gray-200 px-1.5 text-xs leading-3 dark:bg-gray-700 md:-translate-x-7">
             Ctrl K
           </kbd>
         )}
       </div>
       {searchTerm.length > 0 && (
         <XCircleIcon
-          className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 transform cursor-pointer z-10"
+          className="absolute right-3 top-1/2 z-10 h-4 w-4 -translate-y-1/2 transform cursor-pointer"
           onClick={handleClearInput}
         />
       )}

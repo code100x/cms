@@ -18,12 +18,12 @@ const VideoSearchCard = ({
     const videoUrl = `/courses/${courseId}/${parentId}/${videoId}`;
     return (
       <div
-        className={`px-3 py-2 hover:bg-gray-200 hover:dark:bg-gray-700 cursor-pointer flex items-center gap-3 ${isActive ? 'bg-gray-200 dark:bg-gray-700' : null}`}
+        className={`flex cursor-pointer items-center gap-3 px-3 py-2 hover:bg-gray-200 hover:dark:bg-gray-700 ${isActive ? 'bg-gray-200 dark:bg-gray-700' : null}`}
         onClick={() => onCardClick(videoUrl)}
       >
         <div className="min-w-content">
           {type === 'video' ? (
-            <PlayCircleIcon className="w-4 h-4" />
+            <PlayCircleIcon className="h-4 w-4" />
           ) : (
             <NotionIcon />
           )}
@@ -44,7 +44,7 @@ function NotionIcon() {
       viewBox="0 0 24 24"
       stroke-width="1.5"
       stroke="currentColor"
-      className="w-4 h-4"
+      className="h-4 w-4"
     >
       <path
         stroke-linecap="round"
