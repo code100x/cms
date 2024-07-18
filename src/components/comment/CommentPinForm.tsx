@@ -16,7 +16,7 @@ const CommentPinForm = ({
 }) => {
   const currentPath = usePathname();
 
-  const { execute } = useAction(pinComment, {
+  const { execute, isLoading } = useAction(pinComment, {
     onSuccess: () => {
       toast('Comment Pinned');
     },
@@ -35,9 +35,9 @@ const CommentPinForm = ({
   };
   return (
     <form onSubmit={handleFormSubmit}>
-      <button type="submit">
-        <div className="flex gap-1 items-center">
-          Pin <PinIcon className="w-4 h-4" />
+      <button type="submit" disabled={isLoading}>
+        <div className="flex items-center gap-1">
+          Pin <PinIcon className="h-4 w-4" />
         </div>
       </button>
     </form>

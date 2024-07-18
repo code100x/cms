@@ -3,7 +3,7 @@ import LogoutUserComp from './LogoutUser';
 
 const UserAdminPage = () => {
   return (
-    <div className="flex justify-center h-[100dvh] items-center">
+    <div className="flex h-[100dvh] items-center justify-center">
       <LogoutUserComp />
     </div>
   );

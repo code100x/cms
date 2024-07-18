@@ -42,11 +42,11 @@ const ProfileDropdown = () => {
   return (
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
-        <div className="rounded-full cursor-pointer h-8 w-8 md:h-10 md:w-10 flex items-center justify-center bg-[#475A64]">
-          <User2Icon color="white" className="w-4 h-4" />
+        <div className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-[#475A64] md:h-10 md:w-10">
+          <User2Icon color="white" className="h-4 w-4" />
         </div>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56 mr-3 mt-2 shadow-2xl">
+      <DropdownMenuContent className="mr-3 mt-2 w-56 shadow-2xl">
         <DropdownMenuGroup>
           {menuItemLinks.map(({ href, label, icon }) => (
             <Link href={href} key={href}>

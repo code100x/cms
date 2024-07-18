@@ -49,11 +49,11 @@ const SingleQuestionPage = async ({
   });
 
   return (
-    <div className="md:mx-[15%] mt-5">
-      <Link href="/questions" className="p-4 ">
+    <div className="mt-5 md:mx-[15%]">
+      <Link href="/questions" className="p-4">
         Go Back
       </Link>
-      <div className="flex items-center justify-center  px-3 mt-3">
+      <div className="mt-3 flex items-center justify-center px-3">
         {question && (
           <PostCard
             post={question}

@@ -154,7 +154,7 @@ const SearchBar = ({ onCardClick }: { onCardClick?: () => void }) => {
 
   return (
     <div
-      className="relative flex items-center w-full lg:w-[300px] xl:w-[400px] h-10"
+      className="relative flex h-10 w-full items-center lg:w-[300px] xl:w-[400px]"
       ref={ref}
     >
       {/* Search Input Bar */}
@@ -186,7 +186,7 @@ const SearchBar = ({ onCardClick }: { onCardClick?: () => void }) => {
       )}
       {/* Search Results */}
       {isInputFocused && searchTerm.length > 0 && (
-        <div className="absolute top-12 bg-white dark:bg-[#020817] rounded-lg border-2 shadow-lg w-full py-2 max-h-[40vh] overflow-y-auto">
+        <div className="absolute top-12 max-h-[40vh] w-full overflow-y-auto rounded-lg border-2 bg-white py-2 shadow-lg dark:bg-[#020817]">
           {renderSearchResults()}
         </div>
       )}

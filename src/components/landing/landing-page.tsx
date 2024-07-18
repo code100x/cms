@@ -24,30 +24,30 @@ const textFont = Poppins({
 
 export default function LandingPage() {
   return (
-    <main className="flex items-center justify-center flex-col">
+    <main className="flex flex-col items-center justify-center">
       {/* Tagline */}
       <div
         className={cn(
-          'flex items-center justify-center flex-col',
+          'flex flex-col items-center justify-center',
           headingFont.className,
         )}
       >
-        <div className="mb-4 text-sm md:text-md font-sans font-semibold flex items-center border shadow-md py-2.5 px-4 md:px-5 bg-blue-50 text-blue-700 rounded-full uppercase">
-          <Medal className="h-5 w-5 mr-2" />
+        <div className="md:text-md mb-4 flex items-center rounded-full border bg-blue-50 px-4 py-2.5 font-sans text-sm font-semibold uppercase text-blue-700 shadow-md md:px-5">
+          <Medal className="mr-2 h-5 w-5" />
           #1 learning platform
         </div>
 
-        <h1 className="text-4xl md:text-6xl text-center text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 mb-3 md:mb-4">
+        <h1 className="mb-3 bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-center text-4xl text-transparent md:mb-4 md:text-6xl">
           100xdevs
         </h1>
 
-        <div className="text-3xl md:text-6xl text-center text-neutral-800 dark:text-neutral-200 px-4 pb-4 w-fit">
+        <div className="w-fit px-4 pb-4 text-center text-3xl text-neutral-800 dark:text-neutral-200 md:text-6xl">
           because 10x ain&apos;t enough!
         </div>
 
         <div
           className={cn(
-            'text-sm md:text-xl text-neutral-400 dark:text-neutral-500 mt-4 max-w-sm md:max-w-2xl text-center mx-auto px-2',
+            'mx-auto mt-4 max-w-sm px-2 text-center text-sm text-neutral-400 dark:text-neutral-500 md:max-w-2xl md:text-xl',
             textFont.className,
           )}
         >
@@ -80,7 +80,7 @@ export default function LandingPage() {
         >
           <Link href={'#trustedby'}>
             See more{' '}
-            <ChevronRight className="text-black dark:text-white h-4 w-4 ml-1 hover:translate-x-1 ease-in-out duration-200" />
+            <ChevronRight className="ml-1 h-4 w-4 text-black duration-200 ease-in-out hover:translate-x-1 dark:text-white" />
           </Link>
         </Button>
       </div>

@@ -104,14 +104,14 @@ export function Sidebar({
             value={`item-${content.id}`}
             className={
               content.type === 'folder' && isActiveContent
-                ? 'dark:bg-gray-600  bg-gray-200 dark:text-white text-black dark:hover:bg-gray-500 hover:bg-gray-100'
+                ? 'bg-gray-200 text-black hover:bg-gray-100 dark:bg-gray-600 dark:text-white dark:hover:bg-gray-500'
                 : ''
             }
           >
             <AccordionTrigger className="px-2 text-left">
               {content.title}
             </AccordionTrigger>
-            <AccordionContent className="p-0 m-0">
+            <AccordionContent className="m-0 p-0">
               {/* Render the children of this folder */}
               {renderContent(content.children ?? [])}
             </AccordionContent>
@@ -123,13 +123,13 @@ export function Sidebar({
         <Link
           key={content.id}
           href={navigateToContent(content.id) || '#'}
-          className={`p-2 flex border-b hover:bg-gray-200 cursor-pointer ${
+          className={`flex cursor-pointer border-b p-2 hover:bg-gray-200 ${
             isActiveContent
-              ? 'dark:bg-gray-700 bg-gray-300 dark:text-white text-black dark:hover:bg-gray-500'
-              : 'bg-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-white text-black'
+              ? 'bg-gray-300 text-black dark:bg-gray-700 dark:text-white dark:hover:bg-gray-500'
+              : 'bg-gray-50 text-black dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700'
           }`}
         >
-          <div className="flex justify-between w-full">
+          <div className="flex w-full justify-between">
             <div className="flex">
               <div className="pr-2">
                 {content.type === 'video' ? <VideoIcon /> : null}
@@ -143,7 +143,7 @@ export function Sidebar({
                   bookmark={content.bookmark ?? null}
                   contentId={content.id}
                 />
-                <div className="flex flex-col justify-center ml-2">
+                <div className="ml-2 flex flex-col justify-center">
                   <Check content={content} />
                 </div>
               </div>
@@ -159,7 +159,7 @@ export function Sidebar({
   }
 
   return (
-    <div className="overflow-y-scroll h-sidebar w-[300px] min-w-[300px] bg-gray-50 dark:bg-gray-800 cursor-pointer sticky top-[64px] self-start w-84">
+    <div className="absolute z-20 h-full w-[300px] min-w-[300px] cursor-pointer self-start overflow-y-scroll bg-gray-50 dark:bg-gray-800 sm:sticky sm:top-[64px] sm:h-sidebar">
       <div className="flex">
         {/* <ToggleButton
             onClick={() => {
@@ -186,24 +186,20 @@ export function ToggleButton({
   return (
     <button
       onClick={onClick}
-      className="flex flex-col justify-center items-center"
+      className="flex flex-col items-center justify-center"
     >
       <span
-        className={`dark:bg-white bg-black block transition-all duration-300 ease-out  h-0.5 w-6 rounded-sm ${!sidebarOpen ? 'rotate-45 translate-y-1' : '-translate-y-0.5'}`}
+        className={`block h-0.5 w-6 rounded-sm bg-black transition-all duration-300 ease-out dark:bg-white ${!sidebarOpen ? 'translate-y-1 rotate-45' : '-translate-y-0.5'}`}
       ></span>
       <span
-        className={`dark:bg-white bg-black block transition-all duration-300 ease-out 
-                    h-0.5 w-6 rounded-sm my-0.5 ${
-                      !sidebarOpen ? 'opacity-0' : 'opacity-100'
-                    }`}
+        className={`my-0.5 block h-0.5 w-6 rounded-sm bg-black transition-all duration-300 ease-out dark:bg-white ${
+          !sidebarOpen ? 'opacity-0' : 'opacity-100'
+        }`}
       ></span>
       <span
-        className={`dark:bg-white bg-black block transition-all duration-300 ease-out 
-                    h-0.5 w-6 rounded-sm ${
-                      !sidebarOpen
-                        ? '-rotate-45 -translate-y-1'
-                        : 'translate-y-0.5'
-                    }`}
+        className={`block h-0.5 w-6 rounded-sm bg-black transition-all duration-300 ease-out dark:bg-white ${
+          !sidebarOpen ? '-translate-y-1 -rotate-45' : 'translate-y-0.5'
+        }`}
       ></span>
     </button>
   );
@@ -231,7 +227,7 @@ function GoBackButton() {
     <div className="w-full p-2">
       {/* Your component content */}
       <Button size={'full'} onClick={goBack} className="group rounded-full">
-        <BackArrow className="group-hover:-translate-x-1 w-5 h-5 rtl:rotate-180 transition-all duration-200 ease-in-out" />{' '}
+        <BackArrow className="h-5 w-5 transition-all duration-200 ease-in-out group-hover:-translate-x-1 rtl:rotate-180" />{' '}
         <div className="pl-4">Go Back</div>
       </Button>
     </div>
@@ -246,7 +242,7 @@ function VideoIcon() {
       viewBox="0 0 24 24"
       stroke-width="1.5"
       stroke="currentColor"
-      className="w-6 h-6"
+      className="h-6 w-6"
     >
       <path
         stroke-linecap="round"
@@ -265,7 +261,7 @@ function NotionIcon() {
       viewBox="0 0 24 24"
       stroke-width="1.5"
       stroke="currentColor"
-      className="w-6 h-6"
+      className="h-6 w-6"
     >
       <path
         stroke-linecap="round"
@@ -291,7 +287,7 @@ function Check({ content }: { content: any }) {
           e.stopPropagation();
         }}
         type="checkbox"
-        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+        className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
       />
     </>
   );
