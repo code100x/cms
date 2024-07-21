@@ -37,7 +37,7 @@ async function seedCourses() {
   const courses = [
     {
       id: 1,
-      appxCourseId: 1,
+      appxCourseId: '1',
       discordRoleId: '2',
       title: 'test course 1',
       imageUrl:
@@ -48,7 +48,7 @@ async function seedCourses() {
     },
     {
       id: 2,
-      appxCourseId: 2,
+      appxCourseId: '2',
       discordRoleId: '3',
       title: 'test course 2',
       imageUrl:
@@ -59,7 +59,7 @@ async function seedCourses() {
     },
     {
       id: 3,
-      appxCourseId: 2,
+      appxCourseId: '2',
       discordRoleId: '3',
       title: 'test course 2',
       imageUrl:
@@ -70,7 +70,7 @@ async function seedCourses() {
     },
     {
       id: 4,
-      appxCourseId: 2,
+      appxCourseId: '2',
       discordRoleId: '3',
       title: 'test course 2',
       imageUrl:
@@ -81,7 +81,7 @@ async function seedCourses() {
     },
     {
       id: 5,
-      appxCourseId: 2,
+      appxCourseId: '2',
       discordRoleId: '3',
       title: 'test course 2',
       imageUrl:

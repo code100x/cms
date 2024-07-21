@@ -13,7 +13,7 @@ import {
 import { MenuIcon } from 'lucide-react';
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
-import { JoinDiscord } from '@/components/JoinDiscord';
+// import { JoinDiscord } from '@/components/JoinDiscord';
 import { AppbarAuth } from '@/components/AppbarAuth';
 
 export function NavigationMenu() {
@@ -42,9 +42,9 @@ export function NavigationMenu() {
             <div className="p-4 pb-16">
               <div className="flex flex-col items-center justify-center space-y-2 text-lg">
                 <Button variant={'navLink'} size={'lg'} asChild>
-                  <DrawerClose asChild>
-                    <JoinDiscord isInMenu={true} isNavigated={false} />
-                  </DrawerClose>
+                  {/* <DrawerClose asChild> */}
+                  {/* <JoinDiscord isInMenu={true} isNavigated={false} /> */}
+                  {/* </DrawerClose> */}
                 </Button>
 
                 <Button size={'lg'} variant={'navLink'} asChild>

@@ -12,6 +12,24 @@ import { checkUserEmailForPurchase } from './appx-check-mail';
 
 const LOCAL_CMS_PROVIDER = process.env.LOCAL_CMS_PROVIDER;
 
+function getExtraCourses(currentCourses: Course[], allCourses: Course[]) {
+  const hasCohort2 = currentCourses
+    .map((x) => x.id.toString())
+    .find((x) => ['1', '2', '3'].includes(x.toString()));
+
+  if (hasCohort2) {
+    return allCourses.filter((x) => x.openToEveryone);
+  }
+  const hasCohort3 = currentCourses.find((x) =>
+    ['8', '9', '10', '11', '12'].includes(x.id.toString()),
+  );
+  if (hasCohort3) {
+    // DSA course
+    return allCourses.filter((x) => x.id === 7 || x.id === 4);
+  }
+  return [];
+}
+
 export async function getPurchases(email: string): Promise<Course[]> {
   const value = await cache.get('courses', [email]);
   if (value) {
@@ -55,6 +73,7 @@ export async function getPurchases(email: string): Promise<Course[]> {
       slug: course.slug,
       certIssued: course.certIssued,
       discordRoleId: course.discordRoleId,
+      discordOauthUrl: course.discordOauthUrl,
       ...(totalVideos > 0 && { totalVideos, totalVideosWatched }),
     };
   });
@@ -79,7 +98,7 @@ export async function getPurchases(email: string): Promise<Course[]> {
   if (coursesFromDb && coursesFromDb.length) {
     const allCourses = [
       ...coursesFromDb,
-      ...courses.filter((x) => x.openToEveryone),
+      ...getExtraCourses(coursesFromDb, courses),
     ];
     cache.set('courses', [email], allCourses, 60 * 60);
     return allCourses;
@@ -100,10 +119,9 @@ export async function getPurchases(email: string): Promise<Course[]> {
   await Promise.all(promises);
 
   if (responses.length) {
-    for (const course of courses) {
-      if (course.openToEveryone) {
-        responses.push(course);
-      }
+    const extraCourses = getExtraCourses(responses, courses);
+    for (const course of extraCourses) {
+      responses.push(course);
     }
   }
 

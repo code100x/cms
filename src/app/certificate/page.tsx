@@ -9,6 +9,7 @@ const CertificatePage = async () => {
       {certificates?.map(({ cert, course, user }) => (
         <CertificateComponent
           certificateId={cert.id}
+          //@ts-ignore
           course={course}
           certificateSlug={cert.slug}
           userName={user.name!}

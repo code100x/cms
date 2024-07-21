@@ -47,12 +47,13 @@ export async function getAllCoursesAndContentHierarchy(): Promise<
     id: number;
     title: string;
     description: string;
-    appxCourseId: number;
+    appxCourseId: string;
     discordRoleId: string;
     slug: string;
     imageUrl: string;
     openToEveryone: boolean;
     certIssued: boolean;
+    discordOauthUrl: string;
     content: {
       contentId: number;
     }[];
@@ -75,6 +76,7 @@ export async function getAllCoursesAndContentHierarchy(): Promise<
       appxCourseId: true,
       openToEveryone: true,
       certIssued: true,
+      discordOauthUrl: true,
       slug: true,
       discordRoleId: true,
       content: {

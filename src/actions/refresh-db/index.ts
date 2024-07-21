@@ -29,7 +29,7 @@ export const refreshDb: RefreshDbFn = async () => {
   }
 
   // Only allow user to refetch every minute
-  if (cache.get('rate-limit', [email])) {
+  if (await cache.get('rate-limit', [email])) {
     return {
       error: true,
       message: 'Wait sometime before refetching',

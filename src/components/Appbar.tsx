@@ -37,40 +37,40 @@ export const Appbar = () => {
         <div className="mx-auto flex w-full items-center justify-between md:max-w-screen-2xl">
           <Logo onFooter={false} />
 
-          {session?.user
-            ? !isLoading && (
-                <>
-                  <div className="hidden md:block">
-                    <SearchBar />
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    {/* Search Bar for smaller devices */}
-                    <MobileScreenSearch />
-                    <ProfileDropdown />
-                  </div>
-                </>
-              )
-            : !isLoading && (
-                <div className="flex items-center space-x-2">
-                  <div className="hidden items-center justify-around space-x-3 sm:flex md:block md:w-auto">
-                    <AppbarAuth />
-
-                    <Button size={'sm'} asChild>
-                      <Link
-                        href={'https://harkirat.classx.co.in/new-courses'}
-                        target="_blank"
-                      >
-                        <p className="text-white">Join now</p>{' '}
-                        <Sparkles className="ml-2 h-4 w-4 text-white duration-200 ease-linear hover:translate-x-0.5" />
-                      </Link>
-                    </Button>
-                  </div>
-                  <ThemeToggler />
-                  <div className="block sm:hidden">
-                    <NavigationMenu />
-                  </div>
+          {session?.user ? (
+            !isLoading && (
+              <>
+                <div className="hidden md:block">
+                  <SearchBar />
                 </div>
-              )}
+                <div className="flex items-center space-x-2">
+                  {/* Search Bar for smaller devices */}
+                  <MobileScreenSearch />
+                  <ProfileDropdown />
+                </div>
+              </>
+            )
+          ) : (
+            <div className="flex items-center space-x-2">
+              <div className="hidden items-center justify-around space-x-3 sm:flex md:block md:w-auto">
+                <AppbarAuth />
+
+                <Button size={'sm'} asChild>
+                  <Link
+                    href={'https://harkirat.classx.co.in/new-courses'}
+                    target="_blank"
+                  >
+                    <p className="text-white">Join now</p>{' '}
+                    <Sparkles className="ml-2 h-4 w-4 text-white duration-200 ease-linear hover:translate-x-0.5" />
+                  </Link>
+                </Button>
+              </div>
+              <ThemeToggler />
+              <div className="block">
+                <NavigationMenu />
+              </div>
+            </div>
+          )}
         </div>
       </nav>
       <div className="h-16 w-full print:hidden" />

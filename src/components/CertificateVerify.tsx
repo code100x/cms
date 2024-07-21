@@ -12,6 +12,7 @@ export const CertificateVerify = ({
   const { certificateImageUrl } = useGenerateCertificate({
     certificateDetails: {
       certificateId: certificate.id,
+      //@ts-ignore
       course: certificate.course,
       certificateSlug: certificate.slug,
     },
