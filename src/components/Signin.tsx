@@ -24,6 +24,7 @@ const Signin = () => {
   const password = useRef('');
 
   const handleSubmit = async (e?: React.FormEvent<HTMLButtonElement>) => {
+    const loadId = toast.loading('Loading...');
     if (e) {
       e.preventDefault();
     }
@@ -33,6 +34,7 @@ const Signin = () => {
         emailReq: email.current ? false : true,
         passReq: password.current ? false : true,
       });
+      toast.dismiss(loadId);
       return;
     }
     setCheckingPassword(true);
@@ -42,6 +44,7 @@ const Signin = () => {
       redirect: false,
     });
 
+    toast.dismiss(loadId);
     if (!res?.error) {
       router.push('/');
       toast.success('Signed In');
