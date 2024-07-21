@@ -39,18 +39,6 @@ export async function POST(req: NextRequest) {
       { status: 401 },
     );
   }
-  console.log(
-    data.code,
-    [
-      ...purchases.map((purchase: any) => purchase.discordRoleId),
-      ROLES[Math.floor(Math.random() * ROLES.length)],
-    ],
-    process.env.GUILD_ID ?? '',
-    process.env.BOT_TOKEN ?? '',
-    process.env.DISCORD_ACCESS_KEY ?? '',
-    process.env.DISCORD_ACCESS_SECRET ?? '',
-    process.env.DISCORD_REDIRECT_URI ?? '',
-  );
   //@ts-ignore
   const { discordId, discordUsername } = await giveAccess(
     data.code,
