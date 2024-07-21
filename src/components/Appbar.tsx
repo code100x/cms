@@ -44,7 +44,6 @@ export const Appbar = () => {
                     <SearchBar />
                   </div>
                   <div className="flex items-center space-x-2">
-                    {/* Search Bar for smaller devices */}
                     <MobileScreenSearch />
                     <ProfileDropdown Isession={session} />
                   </div>
