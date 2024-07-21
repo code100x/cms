@@ -153,7 +153,7 @@ const Signin = () => {
             onClick={handleSubmit}
           >
             {checkingPassword ? (
-              <ClipLoader size={25} color="#ffffff" />
+              <ClipLoader size={20} color="#ffffff" />
             ) : (
               'Login'
             )}
