@@ -6,6 +6,7 @@ import { Label } from '@/components/ui/label';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import React, { useRef, useState } from 'react';
+import { ClipLoader } from 'react-spinners';
 
 import { toast } from 'sonner';
 const Signin = () => {
@@ -151,7 +152,11 @@ const Signin = () => {
             disabled={checkingPassword}
             onClick={handleSubmit}
           >
-            Login
+            {checkingPassword ? (
+              <ClipLoader size={20} color="#ffffff" />
+            ) : (
+              'Login'
+            )}
           </Button>
         </CardContent>
       </Card>
