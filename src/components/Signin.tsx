@@ -24,7 +24,7 @@ const Signin = () => {
   const password = useRef('');
 
   const handleSubmit = async (e?: React.FormEvent<HTMLButtonElement>) => {
-    const loadId = toast.loading('Loading...');
+    const loadId = toast.loading('Signing in...');
     if (e) {
       e.preventDefault();
     }
