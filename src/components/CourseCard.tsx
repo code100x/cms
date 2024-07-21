@@ -66,7 +66,7 @@ export const CourseCard = ({
                     router.push('/certificate');
                   }}
                 >
-                  Download Certificate
+                  Certificate
                 </SecondaryButton>
               </div>
             )}
@@ -78,7 +78,7 @@ export const CourseCard = ({
                       e.stopPropagation();
                     }}
                   >
-                    Join Discord
+                    Discord
                   </SecondaryButton>
                 </Link>
               </div>

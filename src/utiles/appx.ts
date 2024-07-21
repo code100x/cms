@@ -18,6 +18,7 @@ function getExtraCourses(currentCourses: Course[], allCourses: Course[]) {
     .find((x) => ['1', '2', '3'].includes(x.toString()));
 
   if (hasCohort2) {
+    console.log('has cohort 2');
     return allCourses.filter((x) => x.openToEveryone);
   }
   const hasCohort3 = currentCourses.find((x) =>
