@@ -19,6 +19,7 @@ export async function checkUserEmailForPurchase(
     itemid: courseId,
   });
   //@ts-ignore
+  console.log(courseId);
   try {
     const response = await fetch(`${baseUrl}?${params.toString()}`, {
       headers,

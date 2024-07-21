@@ -7,12 +7,13 @@ export type Course = {
   title: string;
   description: string;
   imageUrl: string;
-  appxCourseId: number;
+  appxCourseId: string;
   discordRoleId: string;
   openToEveryone: boolean;
   totalVideos?: number;
   totalVideosWatched?: number;
   certIssued: boolean;
+  discordOauthUrl: string;
 };
 
 const coursesSelector = selector({

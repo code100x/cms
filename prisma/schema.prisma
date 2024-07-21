@@ -9,18 +9,19 @@ datasource db {
 }
 
 model Course {
-  id             Int             @id @default(autoincrement())
-  appxCourseId   Int
-  discordRoleId  String
-  title          String
-  imageUrl       String
-  description    String
-  openToEveryone Boolean         @default(false)
-  slug           String
-  content        CourseContent[]
-  purchasedBy    UserPurchases[]
-  certificate    Certificate[]
-  certIssued     Boolean        @default(false)
+  id              Int             @id @default(autoincrement())
+  appxCourseId    String
+  discordRoleId   String
+  title           String
+  imageUrl        String
+  description     String
+  openToEveryone  Boolean         @default(false)
+  slug            String
+  discordOauthUrl String          @default("")
+  content         CourseContent[]
+  purchasedBy     UserPurchases[]
+  certificate     Certificate[]
+  certIssued      Boolean        @default(false)
 }
 
 model UserPurchases {
@@ -168,6 +169,7 @@ model DiscordConnectBulk {
   username  String
   discordId String
   userId    String
+  cohortId  String @default("")
 }
 
 model VideoProgress {

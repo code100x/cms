@@ -12,6 +12,7 @@ export const SelectCourse = ({ courses }: { courses: Course[] }) => {
         <CourseCard
           buttonColor=""
           roundedCardSize="lg"
+          //@ts-ignore
           course={course}
           onClick={() => {
             router.push(`/admin/content/${course.id}`);
