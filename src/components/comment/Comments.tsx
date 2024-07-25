@@ -1,3 +1,4 @@
+'use client';
 import React from 'react';
 import { Card, CardContent, CardFooter, CardHeader } from '../ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
@@ -61,6 +62,7 @@ const Comments = async ({
   if (!content.id) return null;
   const modifiedSearchParams = { ...searchParams };
   delete modifiedSearchParams.parentId;
+
   return (
     <Card key="1" className="w-full border-none  flex justify-center flex-col">
       <CardHeader className="p-6">
@@ -207,7 +209,7 @@ const Comments = async ({
                     `/courses/${content.courseId}/${content.possiblePath}`,
                     searchParams,
                     {
-                      type: CommentType.INTRO,
+                      type: CommentType.DEFAULT,
                     },
                   )}
                 >
@@ -309,7 +311,7 @@ const Comments = async ({
                         scroll={false}
                         className="flex items-center gap-1 text-gray-500 dark:text-gray-400"
                       >
-                        <ReplyIcon className="w-4 h-4 "  />
+                        <ReplyIcon className="w-4 h-4 " />
                         <span>{c.repliesCount}</span>
                         <span>Reply</span>
                       </Link>
@@ -379,12 +381,10 @@ function ReplyIcon(props: any) {
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
-      
     >
       <polyline points="9 17 4 12 9 7" />
       <path d="M20 18v-2a4 4 0 0 0-4-4H4" />
     </svg>
-    
   );
 }
 
