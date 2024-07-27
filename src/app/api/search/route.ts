@@ -14,6 +14,7 @@ export type TSearchedVideos = {
 
 const fuzzySearch = (videos: TSearchedVideos[], searchQuery: string) => {
   const searchedVideos = new Fuse(videos, {
+    minMatchCharLength: 3,
     keys: ['title'],
   }).search(searchQuery);
 

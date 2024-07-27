@@ -12,6 +12,7 @@ import 'videojs-seek-buttons';
 import { handleMarkAsCompleted } from '@/lib/utils';
 import { useSearchParams } from 'next/navigation';
 import './QualitySelectorControllBar';
+import { YoutubeRenderer } from './YoutubeRenderer';
 
 // todo correct types
 interface VideoPlayerProps {
@@ -38,6 +39,8 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
   const playerRef = useRef<Player | null>(null);
   const [player, setPlayer] = useState<any>(null);
   const searchParams = useSearchParams();
+  const vidUrl = options.sources[0].src;
+
   useEffect(() => {
     const t = searchParams.get('timestamp');
     if (contentId && player && !t) {
@@ -77,40 +80,40 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
         const newIndexDown =
           currentIndexDown !== 0 ? currentIndexDown - 1 : currentIndexDown;
         switch (event.code) {
-        case 'Period': // Increase playback speed
-          player.playbackRate(PLAYBACK_RATES[newIndexPeriod]);
-          event.stopPropagation();
-          break;
-        case 'Comma': // Decrease playback speed
-          player.playbackRate(PLAYBACK_RATES[newIndexComma]);
-          event.stopPropagation();
-          break;
-        case 'ArrowUp': // Increase volume
-          videoRef.current?.children[0].children[6].children[3].classList.add(
-            'vjs-hover',
-          );
-          if (volumeSetTimeout !== null) clearTimeout(volumeSetTimeout);
-          volumeSetTimeout = setTimeout(() => {
-            videoRef.current?.children[0].children[6].children[3].classList.remove(
+          case 'Period': // Increase playback speed
+            player.playbackRate(PLAYBACK_RATES[newIndexPeriod]);
+            event.stopPropagation();
+            break;
+          case 'Comma': // Decrease playback speed
+            player.playbackRate(PLAYBACK_RATES[newIndexComma]);
+            event.stopPropagation();
+            break;
+          case 'ArrowUp': // Increase volume
+            videoRef.current?.children[0].children[6].children[3].classList.add(
               'vjs-hover',
             );
-          }, 1000);
-          player.volume(VOLUME_LEVELS[newIndexUp]);
-          event.stopPropagation();
-          break;
-        case 'ArrowDown': // Decrease volume
-          videoRef.current?.children[0].children[6].children[3].classList.add(
-            'vjs-hover',
-          );
-          if (volumeSetTimeout !== null) clearTimeout(volumeSetTimeout);
-          volumeSetTimeout = setTimeout(() => {
-            videoRef.current?.children[0].children[6].children[3].classList.remove(
+            if (volumeSetTimeout !== null) clearTimeout(volumeSetTimeout);
+            volumeSetTimeout = setTimeout(() => {
+              videoRef.current?.children[0].children[6].children[3].classList.remove(
+                'vjs-hover',
+              );
+            }, 1000);
+            player.volume(VOLUME_LEVELS[newIndexUp]);
+            event.stopPropagation();
+            break;
+          case 'ArrowDown': // Decrease volume
+            videoRef.current?.children[0].children[6].children[3].classList.add(
               'vjs-hover',
             );
-          }, 1000);
-          player.volume(VOLUME_LEVELS[newIndexDown]);
-          event.stopPropagation();
-          break;
+            if (volumeSetTimeout !== null) clearTimeout(volumeSetTimeout);
+            volumeSetTimeout = setTimeout(() => {
+              videoRef.current?.children[0].children[6].children[3].classList.remove(
+                'vjs-hover',
+              );
+            }, 1000);
+            player.volume(VOLUME_LEVELS[newIndexDown]);
+            event.stopPropagation();
+            break;
         }
       } else if (event.code === 'KeyT') {
         player.playbackRate(2);
@@ -126,70 +129,120 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
           return; // Do nothing if the active element is an input or textarea
         }
         switch (event.code) {
-        case 'Space': // Space bar for play/pause
-          if (player.paused()) {
-            player.play();
-            event.stopPropagation();
-          } else {
-            player.pause();
-            event.stopPropagation();
-          }
-          event.preventDefault();
-          break;
-        case 'ArrowRight': // Right arrow for seeking forward 5 seconds
-          player.currentTime(player.currentTime() + 5);
-          event.stopPropagation();
-          break;
-        case 'ArrowLeft': // Left arrow for seeking backward 5 seconds
-          player.currentTime(player.currentTime() - 5);
-          event.stopPropagation();
-          break;
-        case 'KeyF': // F key for fullscreen
-          if (player.isFullscreen_) document.exitFullscreen();
-          else player.requestFullscreen();
-          event.stopPropagation();
-          break;
-        case 'KeyR': // 'R' key to restart playback from the beginning
-          player.currentTime(0);
-          event.stopPropagation();
-          break;
-        case 'KeyM': // 'M' key to toggle mute/unmute
-          if (player.volume() === 0) {
-            player.volume(1);
-          } else {
-            player.volume(0);
-          }
-          event.stopPropagation();
-          break;
-        case 'KeyK': // 'K' key for play/pause toggle
-          if (player.paused()) {
-            player.play();
-          } else {
-            player.pause();
-          }
-          event.stopPropagation();
-          break;
-        case 'KeyJ': // 'J' key for seeking backward 10 seconds multiplied by the playback rate
-          player.currentTime(
-            player.currentTime() - 10 * player.playbackRate(),
-          );
-          event.stopPropagation();
-          break;
-        case 'KeyL': // 'L' key for seeking forward 10 seconds multiplied by the playback rate
-          player.currentTime(
-            player.currentTime() + 10 * player.playbackRate(),
-          );
-          event.stopPropagation();
-          break;
-        case 'KeyC':
-          if (subtitles && player.textTracks().length) {
-            if (player.textTracks()[0].mode === 'showing') {
-              player.textTracks()[0].mode = 'hidden';
+          case 'Space': // Space bar for play/pause
+            if (player.paused()) {
+              player.play();
+              event.stopPropagation();
             } else {
-              player.textTracks()[0].mode = 'showing';
+              player.pause();
+              event.stopPropagation();
             }
-          }
-          break;
+            event.preventDefault();
+            break;
+          case 'ArrowRight': // Right arrow for seeking forward 5 seconds
+            player.currentTime(player.currentTime() + 5);
+            event.stopPropagation();
+            break;
+          case 'ArrowLeft': // Left arrow for seeking backward 5 seconds
+            player.currentTime(player.currentTime() - 5);
+            event.stopPropagation();
+            break;
+          case 'ArrowUp': // Arrow up for increasing volume
+            event.preventDefault();
+            player.volume(player.volume() + 0.1);
+            event.stopPropagation();
+            break;
+          case 'ArrowDown': // Arow dowwn for decreasing volume
+            event.preventDefault();
+            player.volume(player.volume() - 0.1);
+            event.stopPropagation();
+            break;
+          case 'KeyF': // F key for fullscreen
+            if (player.isFullscreen_) document.exitFullscreen();
+            else player.requestFullscreen();
+            event.stopPropagation();
+            break;
+          case 'KeyR': // 'R' key to restart playback from the beginning
+            player.currentTime(0);
+            event.stopPropagation();
+            break;
+          case 'KeyM': // 'M' key to toggle mute/unmute
+            if (player.volume() === 0) {
+              player.volume(1);
+            } else {
+              player.volume(0);
+            }
+            event.stopPropagation();
+            break;
+          case 'KeyK': // 'K' key for play/pause toggle
+            if (player.paused()) {
+              player.play();
+            } else {
+              player.pause();
+            }
+            event.stopPropagation();
+            break;
+          case 'KeyJ': // 'J' key for seeking backward 10 seconds multiplied by the playback rate
+            player.currentTime(
+              player.currentTime() - 10 * player.playbackRate(),
+            );
+            event.stopPropagation();
+            break;
+          case 'KeyL': // 'L' key for seeking forward 10 seconds multiplied by the playback rate
+            player.currentTime(
+              player.currentTime() + 10 * player.playbackRate(),
+            );
+            event.stopPropagation();
+            break;
+          case 'KeyC':
+            if (subtitles && player.textTracks().length) {
+              if (player.textTracks()[0].mode === 'showing') {
+                player.textTracks()[0].mode = 'hidden';
+              } else {
+                player.textTracks()[0].mode = 'showing';
+              }
+            }
+            break;
+          case 'Digit1':
+            player.currentTime(player.duration() * 0.1);
+            event.stopPropagation();
+            break;
+          case 'Digit2':
+            player.currentTime(player.duration() * 0.2);
+            event.stopPropagation();
+            break;
+          case 'Digit3':
+            player.currentTime(player.duration() * 0.3);
+            event.stopPropagation();
+            break;
+          case 'Digit4':
+            player.currentTime(player.duration() * 0.4);
+            event.stopPropagation();
+            break;
+          case 'Digit5':
+            player.currentTime(player.duration() * 0.5);
+            event.stopPropagation();
+            break;
+          case 'Digit6':
+            player.currentTime(player.duration() * 0.6);
+            event.stopPropagation();
+            break;
+          case 'Digit7':
+            player.currentTime(player.duration() * 0.7);
+            event.stopPropagation();
+            break;
+          case 'Digit8':
+            player.currentTime(player.duration() * 0.8);
+            event.stopPropagation();
+            break;
+          case 'Digit9':
+            player.currentTime(player.duration() * 0.9);
+            event.stopPropagation();
+            break;
+          case 'Digit0':
+            player.currentTime(0);
+            event.stopPropagation();
+            break;
         }
       }
     };
@@ -352,6 +405,16 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
       player.currentTime(parseInt(t, 10));
     }
   }, [searchParams, player]);
+
+  const isYoutubeUrl = (url: string) => {
+    const regex = /^https:\/\/www\.youtube\.com\/embed\/[a-zA-Z0-9_-]+/;
+    return regex.test(url);
+  };
+
+  if (isYoutubeUrl(vidUrl)) {
+    return <YoutubeRenderer url={vidUrl} />;
+  }
+
   return (
     <div
       data-vjs-player

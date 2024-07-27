@@ -1,19 +1,35 @@
 'use client';
 import { Course } from '@/store/atoms';
 import PercentageComplete from './PercentageComplete';
+import { PrimaryButton } from './buttons/PrimaryButton';
+import { SecondaryButton } from './buttons/SecondaryButton';
+import { useRouter } from 'next/navigation';
 import { Button } from './ui/button';
 import { ChevronRight } from 'lucide-react';
 
 export const CourseCard = ({
   course,
   onClick,
+  buttonColor,
+  roundedCardSize,
 }: {
   course: Course;
   onClick: () => void;
+  buttonColor: string;
+  roundedCardSize: 'lg' | 'xl' | '2xl' | '3xl';
 }) => {
+  const roundedClassNames = {
+    lg: 'rounded-lg',
+    xl: 'rounded-xl',
+    '2xl': 'rounded-2xl',
+    '3xl': 'rounded-3xl',
+  };
+
+  const roundedClassName = roundedClassNames[roundedCardSize] || 'rounded-lg';
+  const router = useRouter();
   return (
     <div
-      className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 mx-auto w-full"
+      className={`max-w-sm bg-white border border-gray-200 ${roundedClassName} shadow dark:bg-gray-800 dark:border-gray-700 mx-auto w-full`}
       onClick={() => {
         onClick();
       }}
@@ -21,12 +37,12 @@ export const CourseCard = ({
       <div className="relative">
         {course.totalVideos !== undefined &&
           course.totalVideosWatched !== undefined && (
-          <PercentageComplete
-            percent={Math.ceil(
-              (course.totalVideosWatched / course.totalVideos) * 100,
-            )}
-          />
-        )}
+            <PercentageComplete
+              percent={Math.ceil(
+                (course.totalVideosWatched / course.totalVideos) * 100,
+              )}
+            />
+          )}
       </div>
       <img src={course.imageUrl} alt={course.title} className="rounded-md" />
       <div className="p-2">
@@ -37,16 +53,29 @@ export const CourseCard = ({
           <button
             type="button"
             className="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 w-full"
+            style={{
+              backgroundColor: buttonColor,
+            }}
           >
             View Content
           </button>
+          {course.certIssued && (
+            <SecondaryButton
+              onClick={(e) => {
+                e.stopPropagation();
+                router.push('/certificate');
+              }}
+            >
+              Download Certificate
+            </SecondaryButton>
+          )}
         </div>
       </div>
     </div>
   );
   return (
     <div
-      className="max-w-full flex flex-col md:flex-row items-center bg-slate-100 md:border rounded-lg shadow-lg dark:bg-gradient-to-t md:dark:bg-gradient-to-l dark:from-slate-900 dark:to-slate-800"
+      className={`max-w-full flex flex-col md:flex-row items-center bg-slate-100 md:border rounded-${roundedCardSize} shadow-lg dark:bg-gradient-to-t md:dark:bg-gradient-to-l dark:from-slate-900 dark:to-slate-800`}
       onClick={() => {
         onClick();
       }}
@@ -79,6 +108,17 @@ export const CourseCard = ({
               <ChevronRight className="h-4 w-4 ml-1 group-hover:translate-x-1 transition" />
             </Button>
           </div>
+          <PrimaryButton>View Content</PrimaryButton>
+          {course.certIssued && (
+            <SecondaryButton
+              onClick={(e) => {
+                e.stopPropagation();
+                router.push('/certificate');
+              }}
+            >
+              Download Certificate
+            </SecondaryButton>
+          )}
         </div>
       </div>
     </div>

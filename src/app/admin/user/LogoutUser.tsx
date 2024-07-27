@@ -16,7 +16,7 @@ const LogoutUserComp = () => {
     const email = formData.get('email') as string;
     const adminPassword = formData.get('adminPassword') as string;
     const res = await logoutUser(email, adminPassword);
-    toast.info(res.message);
+    toast.info(res.message || res.error);
   };
   return (
     <form onSubmit={handlLogout} ref={formRef}>

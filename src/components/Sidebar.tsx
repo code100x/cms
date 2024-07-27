@@ -1,12 +1,12 @@
 'use client';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
-import { Folder } from '@/db/course';
+import { FullCourseContent } from '@/db/course';
 import { Button } from './ui/button';
 import { BackArrow } from '@/icons/BackArrow';
 import { useRecoilState } from 'recoil';
@@ -14,16 +14,43 @@ import { sidebarOpen as sidebarOpenAtom } from '@/store/atoms/sidebar';
 import { useEffect, useState } from 'react';
 import { handleMarkAsCompleted } from '@/lib/utils';
 import BookmarkButton from './bookmark/BookmarkButton';
+import Link from 'next/link';
 
 export function Sidebar({
   courseId,
   fullCourseContent,
 }: {
-  fullCourseContent: Folder[];
+  fullCourseContent: FullCourseContent[];
   courseId: string;
 }) {
-  const router = useRouter();
+  const pathName = usePathname();
+
   const [sidebarOpen, setSidebarOpen] = useRecoilState(sidebarOpenAtom);
+  const [currentActiveContentIds, setCurrentActiveContentIds] = useState<
+    number[]
+  >([]);
+
+  useEffect(() => {
+    const urlRegex = /\/courses\/.*./;
+    const courseUrlRegex = /\/courses\/\d+((?:\/\d+)+)/;
+
+    if (urlRegex.test(pathName)) {
+      const matchArray = pathName.match(courseUrlRegex);
+      let currentUrlContentId;
+      // if matchArray is not null
+      if (matchArray) {
+        const urlPathString = matchArray[1];
+        currentUrlContentId = Number(
+          urlPathString.slice(urlPathString.length - 1),
+        ); // get last content id from pathString e.g '/1/2' => 2 (number)
+      }
+      const pathArray = findPathToContent(
+        fullCourseContent,
+        currentUrlContentId!,
+      );
+      setCurrentActiveContentIds(pathArray);
+    }
+  }, [pathName]);
 
   useEffect(() => {
     if (window.innerWidth < 500) {
@@ -32,9 +59,9 @@ export function Sidebar({
   }, []);
 
   const findPathToContent = (
-    contents: any,
-    targetId: any,
-    currentPath: any[] = [],
+    contents: FullCourseContent[],
+    targetId: number,
+    currentPath: number[] = [],
   ): any => {
     for (const content of contents) {
       const newPath = [...currentPath, content.id];
@@ -59,38 +86,48 @@ export function Sidebar({
     const pathArray = findPathToContent(fullCourseContent, contentId);
     if (pathArray) {
       const path = `/courses/${courseId}/${pathArray.join('/')}`;
-      router.push(path);
+      return path;
     }
+    return null;
   };
 
-  const renderContent = (contents: any) => {
-    return contents.map((content: any) => {
+  const renderContent = (contents: FullCourseContent[]) => {
+    return contents.map((content) => {
+      const isActiveContent = currentActiveContentIds?.some(
+        (id) => content.id === id,
+      );
       if (content.children && content.children.length > 0) {
         // This is a folder with children
         return (
           <AccordionItem
             key={content.id}
             value={`item-${content.id}`}
-            className="text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer"
+            className={
+              content.type === 'folder' && isActiveContent
+                ? 'dark:bg-gray-600  bg-gray-200 dark:text-white text-black dark:hover:bg-gray-500 hover:bg-gray-100'
+                : ''
+            }
           >
             <AccordionTrigger className="px-2 text-left">
               {content.title}
             </AccordionTrigger>
             <AccordionContent className="p-0 m-0">
               {/* Render the children of this folder */}
-              {renderContent(content.children)}
+              {renderContent(content.children ?? [])}
             </AccordionContent>
           </AccordionItem>
         );
       }
       // This is a video or a content item without children
       return (
-        <div
+        <Link
           key={content.id}
-          className="group p-2 flex border-gray-300 border-b hover:bg-gray-100 dark:hover:bg-gray-700 dark:border-gray-700 cursor-pointer bg-gray-50 dark:bg-gray-800"
-          onClick={() => {
-            navigateToContent(content.id);
-          }}
+          href={navigateToContent(content.id) || '#'}
+          className={`p-2 flex border-b hover:bg-gray-200 cursor-pointer ${
+            isActiveContent
+              ? 'dark:bg-gray-700 bg-gray-300 dark:text-white text-black dark:hover:bg-gray-500'
+              : 'bg-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-white text-black'
+          }`}
         >
           <div className="flex justify-between w-full">
             <div className="flex">
@@ -103,7 +140,7 @@ export function Sidebar({
             {content.type === 'video' ? (
               <div className="flex items-center gap-1">
                 <BookmarkButton
-                  bookmark={content.bookmark}
+                  bookmark={content.bookmark ?? null}
                   contentId={content.id}
                 />
                 <div className="flex flex-col justify-center ml-2">
@@ -112,7 +149,7 @@ export function Sidebar({
               </div>
             ) : null}
           </div>
-        </div>
+        </Link>
       );
     });
   };
@@ -122,7 +159,7 @@ export function Sidebar({
   }
 
   return (
-    <div className="overflow-y-scroll h-sidebar w-[300px] min-w-[133px] bg-gray-50 dark:bg-gray-800 cursor-pointer sticky top-[64px] self-start w-84">
+    <div className="overflow-y-scroll h-sidebar w-[300px] min-w-[300px] bg-gray-50 dark:bg-gray-800 cursor-pointer sticky top-[64px] self-start w-84">
       <div className="flex">
         {/* <ToggleButton
             onClick={() => {
@@ -157,16 +194,16 @@ export function ToggleButton({
       <span
         className={`dark:bg-white bg-black block transition-all duration-300 ease-out 
                     h-0.5 w-6 rounded-sm my-0.5 ${
-    !sidebarOpen ? 'opacity-0' : 'opacity-100'
-    }`}
+                      !sidebarOpen ? 'opacity-0' : 'opacity-100'
+                    }`}
       ></span>
       <span
         className={`dark:bg-white bg-black block transition-all duration-300 ease-out 
                     h-0.5 w-6 rounded-sm ${
-    !sidebarOpen
-      ? '-rotate-45 -translate-y-1'
-      : 'translate-y-0.5'
-    }`}
+                      !sidebarOpen
+                        ? '-rotate-45 -translate-y-1'
+                        : 'translate-y-0.5'
+                    }`}
       ></span>
     </button>
   );
@@ -193,8 +230,9 @@ function GoBackButton() {
   return (
     <div className="w-full p-2">
       {/* Your component content */}
-      <Button size={'full'} onClick={goBack}>
-        <BackArrow /> <div className="pl-4">Go Back</div>
+      <Button size={'full'} onClick={goBack} className="group rounded-full">
+        <BackArrow className="group-hover:-translate-x-1 w-5 h-5 rtl:rotate-180 transition-all duration-200 ease-in-out" />{' '}
+        <div className="pl-4">Go Back</div>
       </Button>
     </div>
   );

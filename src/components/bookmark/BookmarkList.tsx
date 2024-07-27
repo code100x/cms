@@ -17,29 +17,35 @@ const BookmarkList = ({
   }
   return (
     <>
-      <div className="max-w-screen-xl justify-between mx-auto p-4 cursor-pointer grid grid-cols-1 gap-5 md:grid-cols-3 lg:grid-cols-4 auto-rows-fr">
-        {bookmarkData.map((bookmark) => {
-          const {
-            id,
-            courseId,
-            content: { type, parent, title, id: videoId, hidden, thumbnail },
-          } = bookmark;
-          if (type === 'video' && parent && !hidden) {
-            return (
-              <ContentCard
-                type={type}
-                key={id}
-                title={title}
-                image={thumbnail || ''}
-                onClick={() => {
-                  router.push(`/courses/${courseId}/${parent.id}/${videoId}`);
-                }}
-                bookmark={bookmark}
-                contentId={id}
-              />
-            );
-          }
-        })}
+      <div className="max-w-screen-xl mx-auto p-4">
+        <h1 className="text-2xl font-bold mb-8">Bookmarks</h1>
+        <div className="cursor-pointer grid grid-cols-1 gap-5 md:grid-cols-3 lg:grid-cols-4 auto-rows-fr">
+          {bookmarkData.map((bookmark) => {
+            const {
+              contentId,
+              content: { type, parent, title, hidden, thumbnail },
+            } = bookmark;
+            if (type === 'video' && parent && !hidden) {
+              const { id: folderId, courses } = parent;
+              const courseId = courses[0].courseId;
+              const videoUrl = `/courses/${courseId}/${folderId}/${contentId}`;
+
+              return (
+                <ContentCard
+                  type={type}
+                  key={contentId}
+                  title={title}
+                  image={thumbnail || ''}
+                  onClick={() => {
+                    router.push(videoUrl);
+                  }}
+                  bookmark={bookmark}
+                  contentId={contentId}
+                />
+              );
+            }
+          })}
+        </div>
       </div>
     </>
   );

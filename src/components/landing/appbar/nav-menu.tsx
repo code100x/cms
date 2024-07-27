@@ -75,6 +75,12 @@ export function NavigationMenu() {
                   </DrawerClose>
                 </Button>
 
+                <Button size={'lg'} variant={'navLink'} asChild>
+                  <DrawerClose asChild>
+                    <Link href={'/questions'}>Q&A</Link>
+                  </DrawerClose>
+                </Button>
+
                 <AppbarAuth isInMenu={true} />
               </div>
             </div>

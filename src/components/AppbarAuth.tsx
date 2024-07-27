@@ -1,6 +1,6 @@
 'use client';
 
-import { signIn, signOut } from 'next-auth/react';
+import { signIn } from 'next-auth/react';
 import { useSession } from 'next-auth/react';
 //import { useRouter } from 'next/navigation';
 import { Button } from './ui/button';
@@ -10,19 +10,17 @@ export const AppbarAuth = ({ isInMenu = false }: { isInMenu?: boolean }) => {
   //const router = useRouter();
 
   return (
-    <Button
-      size={'sm'}
-      variant={isInMenu ? 'navLink' : 'outline'}
-      id="navbar-default"
-      onClick={() => {
-        if (session.data?.user) {
-          signOut();
-        } else {
+    !session?.data?.user && (
+      <Button
+        size={'sm'}
+        variant={isInMenu ? 'navLink' : 'outline'}
+        id="navbar-default"
+        onClick={() => {
           signIn();
-        }
-      }}
-    >
-      {session.data?.user ? 'Logout' : 'Login'}
-    </Button>
+        }}
+      >
+        Login
+      </Button>
+    )
   );
 };

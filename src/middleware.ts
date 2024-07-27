@@ -2,10 +2,12 @@ import { withAuth } from 'next-auth/middleware';
 import { NextResponse } from 'next/server';
 
 export const config = {
-  matcher: ['/courses/:path*'],
+  matcher: ['/courses/:path*', '/questions/:path*', '/bookmarks'],
 };
 
 export default withAuth(async (req) => {
+  if (process.env.LOCAL_CMS_PROVIDER) return;
+
   const token = req.nextauth.token;
   if (!token) {
     return NextResponse.redirect(new URL('/invalidsession', req.url));

@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button';
 import { ChevronRight } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import discord from '../../../../../public/platform/discord.png';
+import discord from '@public/platform/discord.png';
 import { CardContainer, CardItem } from '@/components/3dcard';
 
 const DiscordSection = () => {

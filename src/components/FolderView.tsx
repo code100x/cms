@@ -51,6 +51,7 @@ export const FolderView = ({
           return (
             <ContentCard
               type={content.type}
+              contentId={content.id}
               key={content.id}
               title={content.title}
               image={content.image || ''}
@@ -61,6 +62,7 @@ export const FolderView = ({
               percentComplete={content.percentComplete}
               videoProgressPercent={videoProgressPercent}
               bookmark={content.bookmark}
+              contentDuration={content.videoFullDuration}
             />
           );
         })}

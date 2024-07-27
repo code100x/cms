@@ -8,7 +8,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
-import { Folder } from '@/db/course';
+import { FullCourseContent } from '@/db/course';
 import Link from 'next/link';
 import { useMemo } from 'react';
 
@@ -19,7 +19,7 @@ export default function BreadCrumbComponent({
   courseContent,
   contentType,
 }: {
-  fullCourseContent: Folder[];
+  fullCourseContent: FullCourseContent[];
   rest: string[];
   course: any;
   contentType: any;
@@ -65,16 +65,16 @@ export default function BreadCrumbComponent({
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
-            <Link href={'/'}>
-              <BreadcrumbLink>100xdevs</BreadcrumbLink>
-            </Link>
+            <BreadcrumbLink asChild>
+              <Link href={'/'}>100xdevs</Link>
+            </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
             {generateBreadcrumbs.length > 0 ? (
-              <Link href={`/courses/${course.id}`}>
-                <BreadcrumbLink>{course.title}</BreadcrumbLink>
-              </Link>
+              <BreadcrumbLink asChild>
+                <Link href={`/courses/${course.id}`}>{course.title} </Link>
+              </BreadcrumbLink>
             ) : (
               <BreadcrumbPage>{course.title}</BreadcrumbPage>
             )}
@@ -93,13 +93,13 @@ export default function BreadCrumbComponent({
                 {index !== array.length - 1 ? (
                   <>
                     <BreadcrumbItem>
-                      <Link
-                        href={`/courses/${course.id}/${finalRouteArray.join('/')}`}
-                      >
-                        <BreadcrumbLink className="font-semibold">
+                      <BreadcrumbLink className="font-semibold" asChild>
+                        <Link
+                          href={`/courses/${course.id}/${finalRouteArray.join('/')}`}
+                        >
                           {breadcrumb?.title}
-                        </BreadcrumbLink>
-                      </Link>
+                        </Link>
+                      </BreadcrumbLink>
                     </BreadcrumbItem>
                     {/* <BreadcrumbSeparator /> */}
                     {index + 1 < array.length && <BreadcrumbSeparator />}

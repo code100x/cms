@@ -12,7 +12,7 @@ import { checkUserEmailForPurchase } from './appx-check-mail';
 
 const LOCAL_CMS_PROVIDER = process.env.LOCAL_CMS_PROVIDER;
 
-export async function getPurchases(email: string) {
+export async function getPurchases(email: string): Promise<Course[]> {
   const value = Cache.getInstance().get('courses', [email]);
   if (value) {
     return value;
@@ -53,6 +53,7 @@ export async function getPurchases(email: string) {
       appxCourseId: course.appxCourseId,
       openToEveryone: course.openToEveryone,
       slug: course.slug,
+      certIssued: course.certIssued,
       discordRoleId: course.discordRoleId,
       ...(totalVideos > 0 && { totalVideos, totalVideosWatched }),
     };
