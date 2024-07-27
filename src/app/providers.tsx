@@ -3,6 +3,7 @@ import { ReactNode } from 'react';
 import { ThemeProvider } from '@/components/theme-provider';
 import { SessionProvider } from 'next-auth/react';
 import { RecoilRoot } from 'recoil';
+import VizolvClient from '@/components/VizolvClient';
 
 export const Providers = ({ children }: { children: ReactNode }) => {
   return (
@@ -15,6 +16,7 @@ export const Providers = ({ children }: { children: ReactNode }) => {
       >
         <RecoilRoot>{children}</RecoilRoot>
       </ThemeProvider>
+      <VizolvClient />
     </SessionProvider>
   );
 };
