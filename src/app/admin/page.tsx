@@ -63,6 +63,18 @@ export default function Courses() {
     },
   });
 
+  const resetHandler = async () => {
+    try {
+      await axios.post('/api/admin/discordReset', {
+        email,
+        adminPassword,
+      });
+      toast('Reset Done ✔');
+    } catch (error: any) {
+      toast(error.response.data.msg ?? error.message);
+    }
+  };
+
   const onSubmit = async (data: z.infer<typeof courseSchema>) => {
     setIsLoading(true);
     try {
@@ -79,7 +91,7 @@ export default function Courses() {
 
   return (
     <div>
-      <Card className="mx-auto w-full max-w-6xl overflow-y-auto lg:mt-10">
+      <Card className="mx-auto w-full max-w-6xl overflow-y-auto lg:my-10">
         <CardHeader>
           <CardTitle>Create a new course</CardTitle>
           <CardDescription>Fill in the course details below</CardDescription>
@@ -214,35 +226,27 @@ export default function Courses() {
           </Form>
         </CardContent>
       </Card>
-      <Card className="mx-auto w-full max-w-6xl overflow-y-auto lg:mt-10">
+      <Card className="mx-auto w-full max-w-6xl overflow-y-auto lg:my-10">
         <CardHeader>
           <CardTitle>Allow user another account in cohort 3</CardTitle>
         </CardHeader>
-        <CardContent className="grid gap-4 p-4 pt-0">
-          <input
-            type="text"
+        <CardContent className="flex max-w-xl flex-col items-center justify-center space-y-4 p-4 pt-0">
+          <Input
+            type="email"
             placeholder="Email"
             onChange={(e) => {
               setEmail(e.target.value);
             }}
-          ></input>
-          <input
+          ></Input>
+          <Input
             type="text"
             placeholder="Admin Password"
             onChange={(e) => {
               setAdminPassword(e.target.value);
             }}
-          ></input>
-          <button
-            onClick={() => {
-              axios.post('/api/admin/discordReset', {
-                email,
-                adminPassword,
-              });
-            }}
-          >
-            Reset
-          </button>
+          ></Input>
+
+          <Button onClick={resetHandler}>Reset</Button>
         </CardContent>
       </Card>
     </div>
