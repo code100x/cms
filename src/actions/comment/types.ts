@@ -6,6 +6,7 @@ import {
   CommentDeleteSchema,
   CommentApproveIntroSchema,
   CommentPinSchema,
+  commentUpdateSchema,
 } from './schema';
 import { Delete } from '../types';
 import { User, Comment, Vote } from '@prisma/client';
@@ -41,3 +42,5 @@ export interface ExtendedComment extends Comment {
   user?: User;
   votes?: Vote[];
 }
+
+export type UpdateCommentType = z.infer<typeof commentUpdateSchema>;

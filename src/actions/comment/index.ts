@@ -11,6 +11,7 @@ import {
   ReturnTypeDeleteComment,
   ReturnTypePinComment,
   ReturnTypeUpdateComment,
+  UpdateCommentType,
 } from './types';
 import { authOptions } from '@/lib/auth';
 import { rateLimit } from '@/lib/utils';
@@ -21,6 +22,7 @@ import {
   CommentInsertSchema,
   CommentPinSchema,
   CommentUpdateSchema,
+  commentUpdateSchema,
 } from './schema';
 import { createSafeAction } from '@/lib/create-safe-action';
 import { CommentType, Prisma } from '@prisma/client';
@@ -424,7 +426,31 @@ const deleteCommentHandler = async (
     return { error: 'Failed to delete comment.' };
   }
 };
+export const updateContentHandler = async (data: UpdateCommentType) => {
+  const session = await getServerSession(authOptions);
 
+  if (!session || !session.user) {
+    return {
+      error: 'Unauthorized or insufficient permissions',
+    };
+  }
+  try {
+    await prisma.comment.update({
+      where: {
+        id: data.commentId,
+      },
+      data: {
+        content: data.content,
+      },
+    });
+    if (data.currentPath) {
+      revalidatePath(data.currentPath);
+    }
+    return { data: { message: 'successfully updated the comment content' } };
+  } catch (err) {
+    return { error: 'error in updating the comment content' };
+  }
+};
 const pinCommentHandler = async (
   data: InputTypePinComment,
 ): Promise<ReturnTypePinComment> => {
@@ -474,3 +500,8 @@ export const approveComment = createSafeAction(
   approveIntroCommentHandler,
 );
 export const pinComment = createSafeAction(CommentPinSchema, pinCommentHandler);
+
+export const updateComment = createSafeAction(
+  commentUpdateSchema,
+  updateContentHandler,
+);
