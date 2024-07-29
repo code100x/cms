@@ -88,7 +88,7 @@
     "videojs-mobile-ui": "^1.1.1",
     "videojs-seek-buttons": "^4.0.3",
     "videojs-sprite-thumbnails": "^2.1.1",
-    "vizolv": "^0.1.23",
+    "vizolv": "^0.1.24",
     "zod": "^3.22.4"
   },
   "devDependencies": {
