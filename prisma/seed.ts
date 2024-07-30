@@ -140,6 +140,16 @@ async function seedContent() {
         parentId: folderId,
         commentsCount: 0,
       },
+      // Added the new video here
+      {
+        type: 'video',
+        title: 'test video 2 for week 1',
+        hidden: false,
+        thumbnail:
+          'https://appx-recordings.s3.ap-south-1.amazonaws.com/drm/100x/images/week-1-video-2.jpg', // You may want to update this thumbnail URL
+        parentId: folderId,
+        commentsCount: 0,
+      },
     ];
 
     const createdContent = await db.content.createMany({ data: contentData });
@@ -211,6 +221,38 @@ async function seedVideoMetadata() {
         video_360p_4: 'https://www.w3schools.com/html/mov_bbb.mp4',
         slides:
           'https://appx-recordings.s3.ap-south-1.amazonaws.com/drm/100x/slides/Loops%2C+callbacks.pdf',
+      },
+    });
+    // Added metadata for the new video
+    await db.videoMetadata.create({
+      data: {
+        id: 2,
+        contentId: 4, // Assuming this is the next contentId
+        video_1080p_mp4_1: 'https://www.w3schools.com/html/movie.mp4',
+        video_1080p_mp4_2: 'https://www.w3schools.com/html/movie.mp4',
+        video_1080p_mp4_3: 'https://www.w3schools.com/html/movie.mp4',
+        video_1080p_mp4_4: 'https://www.w3schools.com/html/movie.mp4',
+        video_1080p_1: 'https://www.w3schools.com/html/movie.mp4',
+        video_1080p_2: 'https://www.w3schools.com/html/movie.mp4',
+        video_1080p_3: 'https://www.w3schools.com/html/movie.mp4',
+        video_1080p_4: 'https://www.w3schools.com/html/movie.mp4',
+        video_720p_mp4_1: 'https://www.w3schools.com/html/movie.mp4',
+        video_720p_mp4_2: 'https://www.w3schools.com/html/movie.mp4',
+        video_720p_mp4_3: 'https://www.w3schools.com/html/movie.mp4',
+        video_720p_mp4_4: 'https://www.w3schools.com/html/movie.mp4',
+        video_720p_1: 'https://www.w3schools.com/html/movie.mp4',
+        video_720p_2: 'https://www.w3schools.com/html/movie.mp4',
+        video_720p_3: 'https://www.w3schools.com/html/movie.mp4',
+        video_720p_4: 'https://www.w3schools.com/html/movie.mp4',
+        video_360p_mp4_1: 'https://www.w3schools.com/html/movie.mp4',
+        video_360p_mp4_2: 'https://www.w3schools.com/html/movie.mp4',
+        video_360p_mp4_3: 'https://www.w3schools.com/html/movie.mp4',
+        video_360p_mp4_4: 'https://www.w3schools.com/html/movie.mp4',
+        video_360p_1: 'https://www.w3schools.com/html/movie.mp4',
+        video_360p_2: 'https://www.w3schools.com/html/movie.mp4',
+        video_360p_3: 'https://www.w3schools.com/html/movie.mp4',
+        video_360p_4: 'https://www.w3schools.com/html/movie.mp4',
+        slides: '', // Add slides URL if available
       },
     });
   } catch (error) {
