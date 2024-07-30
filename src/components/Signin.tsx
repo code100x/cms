@@ -19,6 +19,16 @@ const Signin = () => {
   function togglePasswordVisibility() {
     setIsPasswordVisible((prevState: any) => !prevState);
   }
+  function appendGmailIfNoDomain(input: string) {
+    input = input.trim(); // Remove any leading or trailing whitespace
+
+    // Check if the input contains @
+    if (!input.includes('@')) {
+      input += '@gmail.com'; // If not, append @gmail.com
+    }
+
+    return input;
+  }
   const router = useRouter();
   const email = useRef('');
   const password = useRef('');
@@ -39,7 +49,7 @@ const Signin = () => {
     }
     setCheckingPassword(true);
     const res = await signIn('credentials', {
-      username: email.current,
+      username: appendGmailIfNoDomain(email.current),
       password: password.current,
       redirect: false,
     });
