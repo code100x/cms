@@ -7,8 +7,7 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import { FullCourseContent } from '@/db/course';
-import { Button } from './ui/button';
-import { BackArrow } from '@/icons/BackArrow';
+import BackArrow from '@/icons/BackArrow';
 import { useRecoilState } from 'recoil';
 import { sidebarOpen as sidebarOpenAtom } from '@/store/atoms/sidebar';
 import { useEffect, useState } from 'react';
@@ -92,24 +91,26 @@ export function Sidebar({
   };
 
   const renderContent = (contents: FullCourseContent[]) => {
-    return contents.map((content) => {
+    return contents.map((content, index) => {
       const isActiveContent = currentActiveContentIds?.some(
         (id) => content.id === id,
       );
       if (content.children && content.children.length > 0) {
         // This is a folder with children
+        const capitalizetitle =
+          content.title.charAt(0).toUpperCase() + content.title.slice(1);
         return (
           <AccordionItem
             key={content.id}
             value={`item-${content.id}`}
-            className={
+            className={`${index === 0 && 'rounded-t-md'} ${
               content.type === 'folder' && isActiveContent
-                ? 'bg-gray-200 text-black hover:bg-gray-100 dark:bg-gray-600 dark:text-white dark:hover:bg-gray-500'
-                : ''
-            }
+                ? 'bg-gray-200 text-black dark:bg-gray-700 dark:text-white'
+                : 'dark:bg-gray-800'
+            } `}
           >
-            <AccordionTrigger className="px-2 text-left">
-              {content.title}
+            <AccordionTrigger className="pl-3 pr-2 text-left">
+              {capitalizetitle}
             </AccordionTrigger>
             <AccordionContent className="m-0 p-0">
               {/* Render the children of this folder */}
@@ -123,14 +124,14 @@ export function Sidebar({
         <Link
           key={content.id}
           href={navigateToContent(content.id) || '#'}
-          className={`flex cursor-pointer border-b p-2 hover:bg-gray-200 ${
+          className={`flex cursor-pointer border-b p-2 hover:bg-gray-200 dark:border-b-gray-800 ${
             isActiveContent
-              ? 'bg-gray-300 text-black dark:bg-gray-700 dark:text-white dark:hover:bg-gray-500'
+              ? 'bg-gray-200 text-black dark:bg-gray-700 dark:text-white'
               : 'bg-gray-50 text-black dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700'
           }`}
         >
-          <div className="flex w-full justify-between">
-            <div className="flex">
+          <div className="flex w-full justify-between py-1 pl-3">
+            <div className="flex items-center">
               <div className="pr-2">
                 {content.type === 'video' ? <VideoIcon /> : null}
                 {content.type === 'notion' ? <NotionIcon /> : null}
@@ -138,7 +139,7 @@ export function Sidebar({
               <div>{content.title}</div>
             </div>
             {content.type === 'video' ? (
-              <div className="flex items-center gap-1">
+              <div className="flex items-center gap-1 pr-1">
                 <BookmarkButton
                   bookmark={content.bookmark ?? null}
                   contentId={content.id}
@@ -159,16 +160,22 @@ export function Sidebar({
   }
 
   return (
-    <div className="absolute z-20 h-full w-[300px] min-w-[300px] cursor-pointer self-start overflow-y-scroll bg-gray-50 dark:bg-gray-800 sm:sticky sm:top-[64px] sm:h-sidebar">
-      <div className="flex">
-        {/* <ToggleButton
-            onClick={() => {
-              setSidebarOpen((s) => !s);
-            }}
-          /> */}
+    <div className="custom-scrollbar w-84 sticky top-[64px] mx-2 h-sidebar w-[400px] min-w-[400px] self-start overflow-y-auto overflow-x-hidden bg-gray-50 px-2 dark:bg-background">
+      <div className="z-50 flex w-full items-center justify-between px-4">
         <GoBackButton />
+        <div
+          onClick={() => {
+            setSidebarOpen((s: boolean) => !s);
+          }}
+        >
+          <ToggleButton sidebarOpen={!sidebarOpen} />
+        </div>
       </div>
-      <Accordion type="single" collapsible className="w-full">
+      <Accordion
+        type="single"
+        collapsible
+        className="w-full rounded-t-md drop-shadow-md"
+      >
         {/* Render course content */}
         {renderContent(fullCourseContent)}
       </Accordion>
@@ -176,18 +183,9 @@ export function Sidebar({
   );
 }
 
-export function ToggleButton({
-  onClick,
-  sidebarOpen,
-}: {
-  onClick: () => void;
-  sidebarOpen: boolean;
-}) {
+export function ToggleButton({ sidebarOpen }: { sidebarOpen: boolean }) {
   return (
-    <button
-      onClick={onClick}
-      className="flex flex-col items-center justify-center"
-    >
+    <button className="flex flex-col items-center justify-center py-1">
       <span
         className={`block h-0.5 w-6 rounded-sm bg-black transition-all duration-300 ease-out dark:bg-white ${!sidebarOpen ? 'translate-y-1 rotate-45' : '-translate-y-0.5'}`}
       ></span>
@@ -224,12 +222,15 @@ function GoBackButton() {
   };
 
   return (
-    <div className="w-full p-2">
+    <div className="my-4 w-full">
       {/* Your component content */}
-      <Button size={'full'} onClick={goBack} className="group rounded-full">
-        <BackArrow className="h-5 w-5 transition-all duration-200 ease-in-out group-hover:-translate-x-1 rtl:rotate-180" />{' '}
-        <div className="pl-4">Go Back</div>
-      </Button>
+      <div
+        onClick={goBack}
+        className="group flex w-fit cursor-pointer items-center justify-center"
+      >
+        <BackArrow className="h-5 w-5 stroke-black transition-all duration-200 ease-in-out group-hover:-translate-x-1 dark:stroke-white rtl:rotate-180" />
+        <p className="pl-3">Go Back</p>
+      </div>
     </div>
   );
 }
@@ -242,7 +243,7 @@ function VideoIcon() {
       viewBox="0 0 24 24"
       stroke-width="1.5"
       stroke="currentColor"
-      className="h-6 w-6"
+      className="h-4 w-4"
     >
       <path
         stroke-linecap="round"
@@ -261,7 +262,7 @@ function NotionIcon() {
       viewBox="0 0 24 24"
       stroke-width="1.5"
       stroke="currentColor"
-      className="h-6 w-6"
+      className="h-4 w-4"
     >
       <path
         stroke-linecap="round"
@@ -287,7 +288,7 @@ function Check({ content }: { content: any }) {
           e.stopPropagation();
         }}
         type="checkbox"
-        className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
+        className="custom-checkbox h-4 w-4 cursor-pointer"
       />
     </>
   );

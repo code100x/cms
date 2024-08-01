@@ -89,7 +89,10 @@ export default function BreadCrumbComponent({
               finalRouteArray = [...rest];
             }
             return (
-              <>
+              <div
+                key={`${index}-${breadcrumb.title} `}
+                className="flex items-center justify-between gap-3"
+              >
                 {index !== array.length - 1 ? (
                   <>
                     <BreadcrumbItem>
@@ -111,7 +114,7 @@ export default function BreadCrumbComponent({
                     </BreadcrumbPage>
                   </BreadcrumbItem>
                 )}
-              </>
+              </div>
             );
           })}
         </BreadcrumbList>
