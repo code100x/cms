@@ -32,6 +32,7 @@ const Signin = () => {
   const router = useRouter();
   const email = useRef('');
   const password = useRef('');
+  const passwordRef = useRef<HTMLInputElement>(null);
 
   const handleSubmit = async (e?: React.FormEvent<HTMLButtonElement>) => {
     const loadId = toast.loading('Signing in...');
@@ -84,6 +85,12 @@ const Signin = () => {
                   }));
                   email.current = e.target.value;
                 }}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    e.preventDefault();
+                    passwordRef.current?.focus();
+                  }
+                }}
               />
               {requiredError.emailReq && (
                 <span className="text-red-500">Email is required</span>
@@ -98,6 +105,7 @@ const Signin = () => {
                   type={isPasswordVisible ? 'text' : 'password'}
                   id="password"
                   placeholder="••••••••"
+                  ref={passwordRef}
                   onChange={(e) => {
                     setRequiredError((prevState) => ({
                       ...prevState,
