@@ -245,6 +245,39 @@ export default function Courses() {
           </button>
         </CardContent>
       </Card>
+
+      <Card className="mx-auto w-full max-w-6xl overflow-y-auto lg:mt-10">
+        <CardHeader>
+          <CardTitle>Get users discord username in cohort 3</CardTitle>
+        </CardHeader>
+        <CardContent className="grid gap-4 p-4 pt-0">
+          <input
+            type="text"
+            placeholder="Email"
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
+          ></input>
+          <input
+            type="text"
+            placeholder="Admin Password"
+            onChange={(e) => {
+              setAdminPassword(e.target.value);
+            }}
+          ></input>
+          <button
+            onClick={async () => {
+              const res = await axios.post('/api/admin/discordReset/get', {
+                email,
+                adminPassword,
+              });
+              alert(JSON.stringify(res.data));
+            }}
+          >
+            Get
+          </button>
+        </CardContent>
+      </Card>
     </div>
   );
 }
