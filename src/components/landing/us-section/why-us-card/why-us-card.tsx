@@ -1,26 +1,39 @@
+import { icons } from 'lucide-react';
+
 interface IWhyUsCard {
   tagline: string;
   headline: string;
   description: string;
+  icon: any;
 }
 
-const WhyUsCard = ({ tagline, headline, description }: IWhyUsCard) => {
+const WhyUsCard = ({ tagline, headline, description, icon }: IWhyUsCard) => {
   return (
-    <div className="mb-6">
-      <div className="flex w-full flex-col items-start justify-center px-4 md:px-12">
-        <h3 className="text-sm font-medium text-neutral-500">
-          <span className="pr-1 text-lg font-bold text-blue-600">|</span>
+    <div className="flex min-h-[20rem] w-full flex-col items-start justify-between rounded-3xl bg-gradient-to-bl from-blue-600/5 to-neutral-50/10 px-8 py-12 transition-all duration-300 hover:-translate-y-2 md:px-12 md:py-8">
+      <div className="flex flex-col gap-4">
+        <div className="text-blue-600">
+          <PostIcon iconName={icon} />
+        </div>
+        <h2 className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-2xl font-bold text-transparent lg:text-3xl">
           {tagline}
-        </h3>
-
-        <h2 className="mb-2.5 mt-1.5 text-xl font-semibold text-neutral-800 md:mb-4 md:mt-1 md:text-2xl">
-          {headline}
         </h2>
-
-        <p className="text-md font-medium text-neutral-600">{description}</p>
+      </div>
+      <div className="flex flex-col gap-2">
+        <h3 className="font-medium text-foreground md:text-xl">{headline}</h3>
+        <p className="text-foreground/80">{description}</p>
       </div>
     </div>
   );
 };
 
 export default WhyUsCard;
+
+interface PostIcon {
+  iconName: string;
+}
+
+const PostIcon = ({ iconName }: PostIcon) => {
+  //@ts-ignore
+  const Icon = icons[iconName];
+  return <Icon className="size-8" />;
+};

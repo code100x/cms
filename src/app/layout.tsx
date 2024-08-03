@@ -1,6 +1,5 @@
 import { ReactNode } from 'react';
-import { Inter as FontSans } from 'next/font/google';
-import { cn } from '@/lib/utils';
+import { Poppins } from 'next/font/google';
 import type { Metadata } from 'next';
 import './globals.css';
 import { Appbar } from '@/components/Appbar';
@@ -11,9 +10,11 @@ import Footer from '@/components/landing/footer/footer';
 import { Toaster } from 'sonner';
 import NextTopLoader from 'nextjs-toploader';
 
-const fontSans = FontSans({
+const fontSans = Poppins({
   subsets: ['latin'],
-  variable: '--font-sans',
+  display: 'swap',
+  variable: '--font-poppins',
+  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
 });
 
 export const metadata: Metadata = siteConfig;
@@ -22,10 +23,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <body
-        className={cn(
-          'min-h-screen bg-background font-sans antialiased',
-          fontSans.variable,
-        )}
+        className={`${fontSans.className} min-h-screen bg-background antialiased`}
       >
         <GoogleAnalytics />
         <Providers>

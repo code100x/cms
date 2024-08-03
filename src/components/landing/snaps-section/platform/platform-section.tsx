@@ -1,31 +1,40 @@
 'use client';
 import Image from 'next/image';
-import platform from '@public/platform/platform.png';
+import platform from '@public/platform/platform.gif';
 import React from 'react';
-import { CardContainer, CardItem } from '@/components/3dcard';
-import Link from 'next/link';
+import { BorderBeam } from '@/components/magicui/border-beam';
+import { motion } from 'framer-motion';
 
 const PlatformSection = () => {
   return (
-    <CardContainer className="w-full cursor-pointer">
-      <Link href="https://harkirat.classx.co.in/new-courses" target="_blank">
-        {/* // <CardBody className="relative group/card  dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] dark:bg-black dark:border-white/[0.2] border-black/[0.1] w-full sm:w-[30rem] h-auto rounded-xl p-6 border  "> */}
-        <div className="my-20 flex w-full items-center justify-center">
-          <div className="mx-2 rounded-xl border bg-gradient-to-t from-slate-300 to-slate-400 p-3 shadow-xl dark:from-slate-700 dark:to-slate-600 md:rounded-2xl md:p-6">
-            <CardItem translateZ="100" className="mt-4 w-full">
-              <Image
-                src={platform}
-                alt={'platform'}
-                width={1080}
-                height={1920}
-                className="rounded-lg border-2 border-slate-600 md:rounded-xl"
-              />
-            </CardItem>
-          </div>
-        </div>
-        {/* </CardBody> */}
-      </Link>
-    </CardContainer>
+    <motion.div
+      initial={{
+        y: 50,
+        scaleY: 0.5,
+        filter: 'blur(10px) contrast(0.5) brightness(0.5)',
+        opacity: 0,
+      }}
+      animate={{
+        y: 0,
+        scaleY: 1,
+        filter: 'blur(0px) contrast(1) brightness(1)',
+        opacity: 1,
+        transition: {
+          duration: 0.5,
+          ease: 'easeInOut',
+        },
+      }}
+      className="my-20 flex w-full items-center justify-center"
+    >
+      <div className="relative h-fit w-fit rounded-3xl">
+        <Image
+          src={platform}
+          alt={'platform'}
+          className="mx-auto h-full w-full rounded-3xl border-[0.3rem] border-foreground/10 object-cover shadow-xl lg:w-[50vw]"
+        />
+        <BorderBeam size={200} duration={12} delay={9} />
+      </div>
+    </motion.div>
   );
 };
 

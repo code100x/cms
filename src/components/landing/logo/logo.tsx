@@ -20,8 +20,8 @@ const Logo = ({ onFooter = false }: { onFooter: boolean }) => {
         />
         <p
           className={cn(
-            'text-neutral-700 dark:text-neutral-100',
-            onFooter ? 'text-3xl text-neutral-200' : 'text-xl',
+            'text-foreground',
+            onFooter ? 'text-3xl text-foreground' : 'text-xl',
             headingFont.className,
           )}
         >
