@@ -30,7 +30,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <GoogleAnalytics />
         <Providers>
           <Appbar />
-          <NextTopLoader color="#2E78C7" height={2} />
+          <NextTopLoader color="#2E78C7" height={2} showSpinner={false} />
           {/* this is done as to keep footer in the bottom of the page */}
           <div className="min-h-[calc(100vh-64px)]">{children}</div>
           <Footer />
