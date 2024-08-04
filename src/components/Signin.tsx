@@ -5,9 +5,19 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { toast } from 'sonner';
+
+const emailDomains = [
+  'gmail.com',
+  'yahoo.com',
+  'hotmail.com',
+  'outlook.com',
+  'rediffmail.com',
+  'icloud.com',
+];
+
 const Signin = () => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [checkingPassword, setCheckingPassword] = useState(false);
@@ -19,20 +29,65 @@ const Signin = () => {
   function togglePasswordVisibility() {
     setIsPasswordVisible((prevState: any) => !prevState);
   }
-  function appendGmailIfNoDomain(input: string) {
-    input = input.trim(); // Remove any leading or trailing whitespace
 
-    // Check if the input contains @
-    if (!input.includes('@')) {
-      input += '@gmail.com'; // If not, append @gmail.com
-    }
-
-    return input;
+  function getDomainSuggestion(value: string) {
+    if (!value.includes('@')) {
+      return emailDomains.map((item) => `${value}@${item}`);
+    } 
+      const [username, domain] = value.split('@');
+      return emailDomains
+        .filter((item) => item.startsWith(domain))
+        .map((item) => `${username}@${item}`);
   }
+
   const router = useRouter();
   const email = useRef('');
   const password = useRef('');
+
+  // References to password and suggestion elements
   const passwordRef = useRef<HTMLInputElement>(null);
+  const suggestionRefs = useRef<HTMLDivElement[]>([]);
+
+  const [open, setOpen] = useState(false); // State to manage the visibility of domain suggestions dropdown
+  const [focusedIndex, setFocusedIndex] = useState(-1); // State to track the focused index in the suggestions dropdown
+
+  // Scroll to the focused suggestion when the index changes
+  useEffect(() => {
+    if (focusedIndex !== -1 && suggestionRefs.current[focusedIndex]) {
+      suggestionRefs.current[focusedIndex]?.scrollIntoView({
+        block: 'nearest',
+      });
+    }
+  }, [focusedIndex]);
+
+  // Handle keyboard events for navigating and selecting suggestions
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      email.current = getDomainSuggestion(email.current)[focusedIndex];
+      setOpen(false);
+      passwordRef.current?.focus();
+    } else if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      setFocusedIndex((prevIndex) =>
+        Math.min(prevIndex + 1, getDomainSuggestion(email.current).length - 1),
+      );
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      setFocusedIndex((prevIndex) => Math.max(prevIndex - 1, 0));
+    }
+  };
+
+  // Handle changes in the email input
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = e.target.value;
+    email.current = newValue;
+    setRequiredError((prevState) => ({
+      ...prevState,
+      emailReq: false,
+    }));
+    // The dropdown will only be open if the new value is longer than 2 characters
+    setOpen(newValue.length > 2);
+  };
 
   const handleSubmit = async (e?: React.FormEvent<HTMLButtonElement>) => {
     const loadId = toast.loading('Signing in...');
@@ -50,7 +105,7 @@ const Signin = () => {
     }
     setCheckingPassword(true);
     const res = await signIn('credentials', {
-      username: appendGmailIfNoDomain(email.current),
+      username: email.current,
       password: password.current,
       redirect: false,
     });
@@ -72,26 +127,44 @@ const Signin = () => {
         </CardHeader>
         <CardContent>
           <div className="grid w-full items-center gap-4">
-            <div className="flex flex-col gap-4">
+            <div className="relative flex flex-col gap-4">
               <Label htmlFor="email">Email</Label>
               <Input
                 name="email"
                 id="email"
+                value={email.current}
                 placeholder="name@email.com"
-                onChange={(e) => {
-                  setRequiredError((prevState) => ({
-                    ...prevState,
-                    emailReq: false,
-                  }));
-                  email.current = e.target.value;
-                }}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter') {
-                    e.preventDefault();
-                    passwordRef.current?.focus();
-                  }
-                }}
+                onChange={handleChange}
+                onKeyDown={handleKeyDown}
               />
+              {open && (
+                <div className="absolute top-20 z-10 max-h-96 w-full overflow-auto border bg-popover shadow-xl">
+                  {getDomainSuggestion(email.current).map((item, index) => (
+                    <div
+                      ref={(el) => (suggestionRefs.current[index] = el!)}
+                      key={index}
+                      className={`cursor-pointer p-2 ${
+                        focusedIndex === index ? 'bg-blue-800 font-bold' : ''
+                      }`}
+                      role="option"
+                      aria-selected="false"
+                      onClick={() => {
+                        email.current = `${item}`;
+                        setRequiredError((prevState) => ({
+                          ...prevState,
+                          emailReq: false,
+                        }));
+                        setOpen(!open);
+                        passwordRef.current?.focus();
+                      }}
+                    >
+                      <span className="relative flex w-full items-center p-2 text-sm">
+                        <strong>{item}</strong>
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              )}
               {requiredError.emailReq && (
                 <span className="text-red-500">Email is required</span>
               )}
