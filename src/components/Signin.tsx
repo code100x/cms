@@ -86,6 +86,7 @@ const Signin = () => {
       emailReq: false,
     }));
     // The dropdown will only be open if the new value is longer than 2 characters
+    setFocusedIndex(0);
     setOpen(newValue.length > 2);
   };
 
