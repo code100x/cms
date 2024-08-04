@@ -3,11 +3,20 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Separator } from '@/components/ui/separator';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import React, { useRef, useState } from 'react';
-
 import { toast } from 'sonner';
+
+const emailDomains = [
+  'gmail.com',
+  'yahoo.com',
+  'outlook.com',
+  'icloud.com',
+  'hotmail.com',
+];
+
 const Signin = () => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [checkingPassword, setCheckingPassword] = useState(false);
@@ -15,6 +24,8 @@ const Signin = () => {
     emailReq: false,
     passReq: false,
   });
+  const [suggestedDomains, setSuggestedDomains] =
+    useState<string[]>(emailDomains);
 
   function togglePasswordVisibility() {
     setIsPasswordVisible((prevState: any) => !prevState);
@@ -22,6 +33,38 @@ const Signin = () => {
   const router = useRouter();
   const email = useRef('');
   const password = useRef('');
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    email.current = value;
+
+    if (value.includes('@')) {
+      const [, domainPart] = value.split('@');
+      // Check for exact matches and filter for partial matches
+      const exactMatch = emailDomains.find((domain) => domain === domainPart);
+      if (exactMatch) {
+        setSuggestedDomains([]);
+      } else {
+        const matchingDomains = emailDomains.filter((domain) =>
+          domain.startsWith(domainPart),
+        );
+        setSuggestedDomains(matchingDomains);
+      }
+    } else {
+      setSuggestedDomains(emailDomains);
+    }
+    setRequiredError((prevState) => ({
+      ...prevState,
+      emailReq: false,
+    }));
+  };
+
+  const handleSuggestionClick = (domain: string) => {
+    const [userPart] = email.current.split('@');
+    const newEmail = `${userPart}@${domain}`;
+    email.current = newEmail;
+    setSuggestedDomains([]);
+  };
 
   const handleSubmit = async (e?: React.FormEvent<HTMLButtonElement>) => {
     const loadId = toast.loading('Signing in...');
@@ -61,20 +104,40 @@ const Signin = () => {
         </CardHeader>
         <CardContent>
           <div className="grid w-full items-center gap-4">
-            <div className="flex flex-col gap-4">
+            <div className="relative flex flex-col gap-4">
               <Label htmlFor="email">Email</Label>
               <Input
                 name="email"
                 id="email"
                 placeholder="name@email.com"
-                onChange={(e) => {
-                  setRequiredError((prevState) => ({
-                    ...prevState,
-                    emailReq: false,
-                  }));
-                  email.current = e.target.value;
+                value={email.current}
+                onChange={handleEmailChange}
+                onFocus={() => {
+                  if (email.current.includes('@')) {
+                    handleEmailChange({
+                      target: { value: email.current },
+                    } as React.ChangeEvent<HTMLInputElement>);
+                  }
                 }}
               />
+              {email.current && suggestedDomains.length > 0 && (
+                <ul
+                  className={`absolute top-20 z-50 max-h-96 w-full min-w-[8rem] overflow-auto rounded-md border bg-popover text-popover-foreground shadow-md data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2`}
+                >
+                  {suggestedDomains.map((domain: string, index: number) => (
+                    <>
+                      <li
+                        value={domain}
+                        className="relative flex w-full cursor-default select-none items-center rounded-sm p-2 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
+                        onClick={() => handleSuggestionClick(domain)}
+                      >
+                        {email.current.split('@')[0]}@{domain}
+                      </li>
+                      {index < suggestedDomains.length - 1 && <Separator />}
+                    </>
+                  ))}
+                </ul>
+              )}
               {requiredError.emailReq && (
                 <span className="text-red-500">Email is required</span>
               )}
