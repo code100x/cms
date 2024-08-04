@@ -11,21 +11,68 @@ import prisma from '@/db';
 import { checkUserEmailForPurchase } from './appx-check-mail';
 
 const LOCAL_CMS_PROVIDER = process.env.LOCAL_CMS_PROVIDER;
+const COHORT_3_PARENT_COURSES = [8, 9, 10, 11, 12];
 
 function getExtraCourses(currentCourses: Course[], allCourses: Course[]) {
   const hasCohort2 = currentCourses
     .map((x) => x.id.toString())
     .find((x) => ['1', '2', '3'].includes(x.toString()));
 
-  if (hasCohort2) {
-    return allCourses.filter((x) => x.openToEveryone);
-  }
   const hasCohort3 = currentCourses.find((x) =>
-    ['8', '9', '10', '11', '12'].includes(x.id.toString()),
+    COHORT_3_PARENT_COURSES.map((x) => x.toString()).includes(x.id.toString()),
   );
+
+  let initialCourses: Course[] = [];
+
+  if (hasCohort2) {
+    initialCourses = [...allCourses.filter((x) => x.openToEveryone)];
+  } else if (hasCohort3) {
+    initialCourses = [...allCourses.filter((x) => x.id === 7 || x.id === 4)];
+  }
+
+  // We break down parent courses into child courses
+  // for eg, (web dev + devops) breaks down to web dev and devops
   if (hasCohort3) {
-    // DSA course
-    return allCourses.filter((x) => x.id === 7 || x.id === 4);
+    const userCourses = [...initialCourses];
+
+    let hasWebDev = false;
+    let hasDevOps = false;
+    let hasWeb3 = false;
+    if (currentCourses.find((x) => x.id === 8)) {
+      hasWebDev = true;
+      hasDevOps = true;
+      hasWeb3 = true;
+    }
+
+    if (currentCourses.find((x) => x.id === 9)) {
+      hasWebDev = true;
+      hasDevOps = true;
+    }
+
+    if (currentCourses.find((x) => x.id === 10)) {
+      hasWeb3 = true;
+    }
+
+    if (currentCourses.find((x) => x.id === 11)) {
+      hasWebDev = true;
+    }
+
+    if (currentCourses.find((x) => x.id === 12)) {
+      hasDevOps = true;
+    }
+
+    if (hasWebDev) {
+      userCourses.push(allCourses.find((x) => x.id === 14)!);
+    }
+
+    if (hasDevOps) {
+      userCourses.push(allCourses.find((x) => x.id === 15)!);
+    }
+
+    if (hasWeb3) {
+      userCourses.push(allCourses.find((x) => x.id === 13)!);
+    }
+    return userCourses;
   }
   return [];
 }
@@ -99,7 +146,9 @@ export async function getPurchases(email: string): Promise<Course[]> {
     const allCourses = [
       ...coursesFromDb,
       ...getExtraCourses(coursesFromDb, courses),
-    ];
+    ]
+      .filter((x) => x.id)
+      .filter((x) => !COHORT_3_PARENT_COURSES.includes(x.id));
     cache.set('courses', [email], allCourses, 60 * 60);
     return allCourses;
   }
@@ -124,6 +173,8 @@ export async function getPurchases(email: string): Promise<Course[]> {
       responses.push(course);
     }
   }
+  // Remove the parent courses, child courses already added in getExtraCourses
+  responses.filter((x) => !COHORT_3_PARENT_COURSES.includes(x.id));
 
   cache.set('courses', [email], responses, 60 * 60 * 24);
   return responses;
