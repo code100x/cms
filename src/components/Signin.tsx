@@ -33,11 +33,11 @@ const Signin = () => {
   function getDomainSuggestion(value: string) {
     if (!value.includes('@')) {
       return emailDomains.map((item) => `${value}@${item}`);
-    } 
-      const [username, domain] = value.split('@');
-      return emailDomains
-        .filter((item) => item.startsWith(domain))
-        .map((item) => `${username}@${item}`);
+    }
+    const [username, domain] = value.split('@');
+    return emailDomains
+      .filter((item) => item.startsWith(domain))
+      .map((item) => `${username}@${item}`);
   }
 
   const router = useRouter();
