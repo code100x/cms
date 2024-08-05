@@ -77,7 +77,19 @@ function getExtraCourses(currentCourses: Course[], allCourses: Course[]) {
   return [];
 }
 
-export async function getPurchases(email: string): Promise<Course[]> {
+interface CoursesError {
+  type: 'error';
+  message: string;
+}
+
+interface CoursesSuccess {
+  type: 'success';
+  courses: Course[];
+}
+
+type CoursesResponse = CoursesError | CoursesSuccess;
+
+export async function getPurchases(email: string): Promise<CoursesResponse> {
   const value = await cache.get('courses', [email]);
   if (value) {
     return value;
@@ -126,7 +138,7 @@ export async function getPurchases(email: string): Promise<Course[]> {
   });
 
   if (LOCAL_CMS_PROVIDER) {
-    return courses;
+    return { type: 'success', courses };
   }
 
   // Check if the user exists in the db
@@ -150,7 +162,10 @@ export async function getPurchases(email: string): Promise<Course[]> {
       .filter((x) => x.id)
       .filter((x) => !COHORT_3_PARENT_COURSES.includes(x.id));
     cache.set('courses', [email], allCourses, 60 * 60);
-    return allCourses;
+    return {
+      type: 'success',
+      courses: allCourses,
+    };
   }
 
   const responses: Course[] = [];
@@ -165,17 +180,29 @@ export async function getPurchases(email: string): Promise<Course[]> {
       }
     });
 
-  await Promise.all(promises);
+  try {
+    await Promise.all(promises);
 
-  if (responses.length) {
-    const extraCourses = getExtraCourses(responses, courses);
-    for (const course of extraCourses) {
-      responses.push(course);
+    if (responses.length) {
+      const extraCourses = getExtraCourses(responses, courses);
+      for (const course of extraCourses) {
+        responses.push(course);
+      }
     }
-  }
-  // Remove the parent courses, child courses already added in getExtraCourses
-  responses.filter((x) => !COHORT_3_PARENT_COURSES.includes(x.id));
 
-  cache.set('courses', [email], responses, 60 * 60 * 24);
-  return responses;
+    // Remove the parent courses, child courses already added in getExtraCourses
+    responses.filter((x) => !COHORT_3_PARENT_COURSES.includes(x.id));
+
+    cache.set('courses', [email], responses, 60 * 60 * 24);
+    return {
+      type: 'success',
+      courses: responses,
+    };
+  } catch (error) {
+    console.log('here we go');
+    return {
+      type: 'error',
+      message: 'Ratelimited via appx',
+    };
+  }
 }

@@ -31,7 +31,15 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({}, { status: 401 });
   }
 
-  const purchases = await getPurchases(session.user.email || '');
+  const res = await getPurchases(session.user.email || '');
+  if (res.type === 'error') {
+    return NextResponse.json(
+      { msg: 'Ratelimited by appx please try again later' },
+      { status: 401 },
+    );
+  }
+
+  const purchases = res.courses;
 
   if (!purchases.length) {
     return NextResponse.json(
