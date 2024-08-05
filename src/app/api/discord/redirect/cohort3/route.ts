@@ -108,7 +108,7 @@ export async function POST(req: NextRequest) {
     roles.push(WEB3_ROLES[Math.floor(Math.random() * WEB3_ROLES.length)]);
   }
 
-  if (!purchases.length) {
+  if (!purchases?.length) {
     return NextResponse.json(
       { msg: 'You have not bought a course yet' },
       { status: 401 },

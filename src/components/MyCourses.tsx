@@ -21,7 +21,7 @@ export const MyCourses = async () => {
 
   const purchases = res.courses;
 
-  if (!purchases.length)
+  if (!purchases?.length)
     return (
       <div>
         Sorry, no Courses found associated to your account. If you think this is

@@ -26,8 +26,6 @@ export const GET = async (
       },
     );
 
-    console.log(session.user.id);
-
     // Set the correct content type for m3u8 files
     const headers = new Headers();
     headers.set('Content-Type', 'application/vnd.apple.mpegurl');
