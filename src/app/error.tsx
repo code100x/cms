@@ -1,6 +1,8 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
+import { InfoIcon } from 'lucide-react';
+import Link from 'next/link';
 import { useEffect } from 'react';
 
 export default function ErrorPage({
@@ -16,15 +18,31 @@ export default function ErrorPage({
   }, [error]);
 
   return (
-    <div className="flex min-h-[calc(100vh-128px)] flex-col items-center justify-center gap-y-6 px-4">
-      <h2 className="text-3xl font-bold">Something went wrong!</h2>
-      <h4 className="text-center text-xl text-red-500">{error.message}</h4>
-
-      <h4 className="text-center text-xl text-red-500">
-        This is not your problem. We are having some issues please keep patience
-        and check discord
-      </h4>
-      <Button onClick={() => reset()}>Try again</Button>
-    </div>
+    <>
+      <div className="bg-red-50 p-4">
+        <div className="flex">
+          <div className="flex-shrink-0">
+            <InfoIcon aria-hidden="true" className="h-5 w-5 text-red-400" />
+          </div>
+          <div className="ml-3">
+            <h3 className="text-sm font-medium text-red-800">
+              There was a error loading the site
+            </h3>
+          </div>
+        </div>
+      </div>
+      <div className="flex min-h-[calc(100vh-180px)] flex-col items-center justify-center gap-y-6 px-4">
+        <h2 className="text-3xl font-bold">Something went wrong!</h2>
+        <h2 className="text-xl font-bold">
+          Alternatively You can view content on!
+        </h2>
+        <Link
+          href="https://harkirat.classx.co.in/purchases"
+          className="text-white underline underline-offset-2"
+        >
+          https://harkirat.classx.co.in/purchases
+        </Link>
+      </div>
+    </>
   );
 }
