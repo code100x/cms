@@ -14,7 +14,13 @@ const getCourses = async () => {
 };
 
 export const MyCourses = async () => {
-  const purchases = await getCourses();
+  const res = await getCourses();
+  if (res.type === 'error') {
+    throw new Error('Ratelimited by appx please try again later');
+  }
+
+  const purchases = res.courses;
+
   if (!purchases.length)
     return (
       <div>

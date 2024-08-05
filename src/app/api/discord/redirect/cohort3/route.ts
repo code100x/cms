@@ -56,8 +56,15 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const purchases = (await getPurchases(session.user.email || '')).filter(
-    (purchase: any) => COHORT3_APPX_IDS.includes(purchase.appxCourseId),
+  const res = await getPurchases(session.user.email || '');
+  if (res.type === 'error') {
+    return NextResponse.json(
+      { msg: 'Ratelimited by appx please try again later' },
+      { status: 401 },
+    );
+  }
+  const purchases = res.courses.filter((purchase: any) =>
+    COHORT3_APPX_IDS.includes(purchase.appxCourseId),
   );
 
   const purchaseCourseIds = purchases.map(
