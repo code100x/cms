@@ -25,15 +25,17 @@ export default async function Course({
   const nextContent = null; //await getNextVideo(Number(rest[rest.length - 1]))
 
   return (
-    <CourseView
-      rest={rest}
-      course={course}
-      contentType={contentType}
-      nextContent={nextContent}
-      courseContent={courseContent}
-      fullCourseContent={fullCourseContent}
-      searchParams={searchParams}
-      possiblePath={possiblePath}
-    />
+    <div className="wrapper">
+      <CourseView
+        rest={rest}
+        course={course}
+        contentType={contentType}
+        nextContent={nextContent}
+        courseContent={courseContent}
+        fullCourseContent={fullCourseContent}
+        searchParams={searchParams}
+        possiblePath={possiblePath}
+      />
+    </div>
   );
 }

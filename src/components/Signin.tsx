@@ -54,10 +54,10 @@ const Signin = () => {
     }
   };
   return (
-    <section className="flex h-screen items-center justify-center">
-      <Card className="mx-auto w-[70%] md:w-[70%] lg:w-[30%]">
+    <section className="my-32 flex items-center justify-center">
+      <Card className="shadow-3xl mx-auto w-full rounded-3xl md:w-[25vw]">
         <CardHeader>
-          <CardTitle>Signin to your Account</CardTitle>
+          <CardTitle>Sign In</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid w-full items-center gap-4">
@@ -81,9 +81,8 @@ const Signin = () => {
             </div>
             <div className="relative flex flex-col gap-4">
               <Label>Password</Label>
-              <div className="flex rounded-lg border">
+              <div className="flex">
                 <Input
-                  className="border-0"
                   name="password"
                   type={isPasswordVisible ? 'text' : 'password'}
                   id="password"
@@ -103,7 +102,7 @@ const Signin = () => {
                   }}
                 />
                 <button
-                  className="absolute bottom-0 right-0 flex h-10 items-center px-4 text-gray-600"
+                  className="absolute bottom-0 right-0 flex h-10 items-center px-4 text-neutral-500"
                   onClick={togglePasswordVisibility}
                 >
                   {isPasswordVisible ? (
@@ -148,14 +147,14 @@ const Signin = () => {
                 <span className="text-red-500">Password is required</span>
               )}
             </div>
+            <Button
+              className="w-full"
+              disabled={checkingPassword}
+              onClick={handleSubmit}
+            >
+              <span className="text-white">Login</span>
+            </Button>
           </div>
-          <Button
-            className="my-3 w-full"
-            disabled={checkingPassword}
-            onClick={handleSubmit}
-          >
-            Login
-          </Button>
         </CardContent>
       </Card>
     </section>

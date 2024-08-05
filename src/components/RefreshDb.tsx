@@ -2,6 +2,7 @@
 import { Button } from './ui/button';
 import { toast } from 'sonner';
 import { useSession } from 'next-auth/react';
+import { RotateCw } from 'lucide-react';
 
 //@ts-ignore
 export function RefreshDb({ refreshDb }) {
@@ -22,8 +23,9 @@ export function RefreshDb({ refreshDb }) {
   return (
     <div className="mx-auto flex flex-col gap-2">
       <h1>Don't see all your courses?</h1>
-      <Button className="dark:text-white" onClick={handleClick}>
-        Refresh Database
+      <Button className="flex gap-2 dark:text-white" onClick={handleClick}>
+        <span className="text-lg">Refresh</span>
+        <RotateCw className="size-6" />
       </Button>
     </div>
   );

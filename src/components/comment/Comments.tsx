@@ -62,8 +62,11 @@ const Comments = async ({
   const modifiedSearchParams = { ...searchParams };
   delete modifiedSearchParams.parentId;
   return (
-    <Card key="1" className="flex w-full flex-col justify-center border-none">
-      <CardHeader className="p-6">
+    <Card
+      key="1"
+      className="flex w-full flex-col justify-center border-none bg-foreground/5 tracking-tighter"
+    >
+      <CardHeader>
         {data.parentComment && (
           <Link
             className="p-1"
@@ -91,10 +94,6 @@ const Comments = async ({
             </h1>
           )}
           <div className="flex items-center gap-2 text-sm">
-            <div className="flex items-center gap-0.5">
-              {/* <ChevronUpIcon className="w-4 h-4" />
-              <ChevronDownIcon className="w-4 h-4" /> */}
-            </div>
             {data.parentComment && (
               <>
                 <div className="text-gray-500 dark:text-gray-400">
@@ -105,28 +104,26 @@ const Comments = async ({
             )}
 
             <div
-              className={`text-gray-500 dark:text-gray-400 ${!data.parentComment ? 'text-xl' : ''}`}
+              className={`text-foreground ${!data.parentComment ? 'text-xl' : ''}`}
             >
               {!data.parentComment
-                ? `${content.commentCount} comments`
+                ? `${content.commentCount} Comments`
                 : `${data.parentComment.repliesCount} replies`}
             </div>
-            {/*   <div className="text-gray-500 dark:text-gray-400">•</div>
-            <div className="text-gray-500 dark:text-gray-400">Share</div> */}
           </div>
         </div>
       </CardHeader>
-      <CardContent className="dark:border-primary-darker rounded-md border p-0 lg:p-8">
+      <CardContent className="rounded-2xl">
         <CommentInputForm
           contentId={content.id}
           parentId={data?.parentComment?.id}
         />
-        <div className="mb-5 mt-5 flex">
+        <div className="my-4 flex gap-4">
           <DropdownMenu key="1" modal={false}>
             <DropdownMenuTrigger asChild>
               <Button
                 className="w-[200px] justify-between text-left font-normal"
-                variant="ghost"
+                variant="outline"
               >
                 <span>{searchParams.tabtype || TabType.mu}</span>
                 <ChevronDownIcon className="h-4 w-4" />
@@ -177,7 +174,7 @@ const Comments = async ({
             <DropdownMenuTrigger asChild>
               <Button
                 className="w-[200px] justify-between text-left font-normal"
-                variant="ghost"
+                variant="outline"
               >
                 <span>
                   {searchParams.type === CommentType.INTRO
@@ -323,7 +320,7 @@ const Comments = async ({
           ))}
         </div>
       </CardContent>
-      <CardFooter className="mt-2">
+      <CardFooter className="my-4">
         <Pagination dataLength={data.comments.length} />
       </CardFooter>
     </Card>

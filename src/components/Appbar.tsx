@@ -27,53 +27,49 @@ export const Appbar = () => {
     <>
       <nav className="fixed top-0 z-50 flex h-20 w-full items-center gap-2 border-b bg-background/80 px-4 shadow-sm backdrop-blur-md print:hidden">
         {currentPath.includes('courses') && (
-          <ToggleButton
-            onClick={() => {
-              setSidebarOpen((p) => !p);
-            }}
-            sidebarOpen={sidebarOpen ? false : true}
-          />
+          <div className="flex gap-4">
+            <ToggleButton
+              onClick={() => setSidebarOpen((prev) => !prev)}
+              sidebarOpen={!sidebarOpen}
+            />
+          </div>
         )}
         <div className="mx-auto flex w-full items-center justify-between md:max-w-screen-2xl">
           <Logo onFooter={false} />
 
-          {session?.user ? (
-            !isLoading && (
-              <>
-                <div className="hidden md:block">
-                  <SearchBar />
-                </div>
-                <div className="flex items-center space-x-2">
-                  {/* Search Bar for smaller devices */}
-                  <MobileScreenSearch />
-                  <ProfileDropdown />
-                </div>
-              </>
-            )
-          ) : (
+          {session?.user && !isLoading ? (
             <div className="flex items-center space-x-2">
-              <div className="hidden items-center justify-around space-x-3 sm:flex md:block md:w-auto">
+              <div className="hidden md:block">
+                <SearchBar />
+              </div>
+              <div className="flex items-center space-x-2">
+                <MobileScreenSearch />
+                <ProfileDropdown />
+              </div>
+            </div>
+          ) : (
+            <div className="flex items-center gap-2">
+              <div className="hidden gap-2 sm:flex md:flex md:w-auto">
                 <AppbarAuth />
-
-                <Button size={'sm'} asChild>
+                <Button asChild>
                   <Link
-                    href={'https://harkirat.classx.co.in/new-courses'}
+                    href="https://harkirat.classx.co.in/new-courses"
                     target="_blank"
                   >
-                    <p className="text-white">Join now</p>{' '}
+                    <p className="text-white">Join now</p>
                     <Sparkles className="ml-2 h-4 w-4 text-white duration-200 ease-linear hover:translate-x-0.5" />
                   </Link>
                 </Button>
               </div>
               <ThemeToggler />
-              <div className="block">
+              <div className="md:hidden">
                 <NavigationMenu />
               </div>
             </div>
           )}
         </div>
       </nav>
-      <div className="h-16 w-full print:hidden" />
+      <div className="h-20 w-full print:hidden" />
     </>
   );
 };

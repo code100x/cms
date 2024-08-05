@@ -18,6 +18,7 @@ import { redirect } from 'next/navigation';
 //   totalVideos?: number;
 //   totalVideosWatched: number;
 // }
+
 const checkAccess = async (courseId: string) => {
   const session = await getServerSession(authOptions);
 
@@ -49,9 +50,9 @@ const Layout = async ({
   const fullCourseContent = await getFullCourseContent(parseInt(courseId, 10));
 
   return (
-    <div className="relative flex min-h-screen">
+    <div className="flex min-h-screen w-full bg-background">
       <Sidebar fullCourseContent={fullCourseContent} courseId={courseId[0]} />
-      <div className="no-scrollbar grow overflow-y-auto p-2">{children}</div>
+      <div className="min-h-screen grow">{children}</div>
     </div>
   );
 };

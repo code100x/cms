@@ -11,7 +11,7 @@ export const YoutubeRenderer: FunctionComponent<YoutubeRendererProps> = ({
     <div className="mt-2 flex justify-center">
       <iframe
         width="100%"
-        className="h-[80vh]"
+        className="h-[80vh] rounded-2xl"
         height="500px"
         src={url}
         title="YouTube video player"

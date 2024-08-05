@@ -31,7 +31,7 @@ const VideoThumbnail = ({
   };
   return (
     <div
-      className="m relative max-h-[573px] max-w-[1053px]"
+      className="relative max-h-[573px] max-w-sm"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >

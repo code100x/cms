@@ -6,6 +6,7 @@ import { getFolderPercentCompleted } from '@/lib/utils';
 import Comments from './comment/Comments';
 import { QueryParams } from '@/actions/types';
 import BreadCrumbComponent from './BreadCrumbComponent';
+import { GoBackButton } from './Sidebar';
 
 export const CourseView = ({
   rest,
@@ -27,8 +28,8 @@ export const CourseView = ({
   possiblePath: string;
 }) => {
   return (
-    <>
-      <div className="mb-2 flex max-h-fit min-h-[2.5rem] items-center px-4">
+    <div className="wrapper flex flex-col gap-4">
+      <div className="flex max-h-fit min-h-[2.5rem] items-center px-4">
         <BreadCrumbComponent
           course={course}
           contentType={contentType}
@@ -37,6 +38,9 @@ export const CourseView = ({
           rest={rest}
         />
       </div>
+
+      <GoBackButton />
+
       {contentType === 'notion' ? (
         <NotionRenderer id={courseContent[0]?.id} />
       ) : null}
@@ -56,6 +60,7 @@ export const CourseView = ({
           }}
         />
       ) : null}
+
       {(contentType === 'video' || contentType === 'notion') && (
         <Comments
           content={{
@@ -67,6 +72,7 @@ export const CourseView = ({
           searchParams={searchParams}
         />
       )}
+
       {contentType === 'folder' ? (
         <FolderView
           rest={rest}
@@ -83,6 +89,6 @@ export const CourseView = ({
           courseId={parseInt(course.id, 10)}
         />
       ) : null}
-    </>
+    </div>
   );
 };

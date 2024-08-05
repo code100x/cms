@@ -7,7 +7,6 @@ import {
 } from '@/components/ui/tooltip';
 import { useBookmark } from '@/hooks/useBookmark';
 import { Bookmark } from '@prisma/client';
-import { Button } from '../ui/button';
 type Side = 'top' | 'right' | 'bottom' | 'left';
 type Align = 'center' | 'start' | 'end';
 
@@ -33,21 +32,15 @@ const BookmarkButton = ({
     <TooltipProvider delayDuration={0}>
       <Tooltip>
         <TooltipTrigger asChild>
-          <Button
-            disabled={isDisabled}
-            variant="ghost"
-            className="h-0 p-0 text-primary hover:text-primary"
-            onClick={handleBookmark}
-          >
+          <button disabled={isDisabled} onClick={handleBookmark}>
             <BookmarkIcon
               size={size}
               {...(addedBookmark && { fill: '#2563EB' })}
-              className="drop-shadow-2xl"
             />
-          </Button>
+          </button>
         </TooltipTrigger>
         <TooltipContent sideOffset={16} side={side} align={align}>
-          <p>{addedBookmark ? 'Remove bookmark' : 'Bookmark this video'}</p>
+          <p>{addedBookmark ? 'Remove bookmark' : 'Add Bookmark'}</p>
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>

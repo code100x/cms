@@ -8,13 +8,14 @@ import {
 } from '@/components/ui/accordion';
 import { FullCourseContent } from '@/db/course';
 import { Button } from './ui/button';
-import { BackArrow } from '@/icons/BackArrow';
 import { useRecoilState } from 'recoil';
 import { sidebarOpen as sidebarOpenAtom } from '@/store/atoms/sidebar';
 import { useEffect, useState } from 'react';
 import { handleMarkAsCompleted } from '@/lib/utils';
 import BookmarkButton from './bookmark/BookmarkButton';
 import Link from 'next/link';
+import { ArrowLeft, File, Video } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export function Sidebar({
   courseId,
@@ -37,12 +38,11 @@ export function Sidebar({
     if (urlRegex.test(pathName)) {
       const matchArray = pathName.match(courseUrlRegex);
       let currentUrlContentId;
-      // if matchArray is not null
       if (matchArray) {
         const urlPathString = matchArray[1];
         currentUrlContentId = Number(
           urlPathString.slice(urlPathString.length - 1),
-        ); // get last content id from pathString e.g '/1/2' => 2 (number)
+        );
       }
       const pathArray = findPathToContent(
         fullCourseContent,
@@ -97,55 +97,59 @@ export function Sidebar({
         (id) => content.id === id,
       );
       if (content.children && content.children.length > 0) {
-        // This is a folder with children
         return (
-          <AccordionItem
-            key={content.id}
-            value={`item-${content.id}`}
-            className={
-              content.type === 'folder' && isActiveContent
-                ? 'bg-gray-200 text-black hover:bg-gray-100 dark:bg-gray-600 dark:text-white dark:hover:bg-gray-500'
-                : ''
-            }
-          >
-            <AccordionTrigger className="px-2 text-left">
-              {content.title}
+          <AccordionItem key={content.id} value={`item-${content.id}`}>
+            <AccordionTrigger
+              className={`flex w-full cursor-pointer gap-4 rounded-xl bg-foreground/10 p-4 hover:bg-foreground/15 hover:no-underline ${
+                isActiveContent
+                  ? 'text-bold bg-blue-600/80 text-white hover:bg-blue-600'
+                  : ''
+              }`}
+            >
+              <h3
+                className={`line-clamp-1 capitalize tracking-tight text-foreground/80 ${
+                  isActiveContent ? 'text-bold text-white' : ''
+                }`}
+              >
+                {content.title}
+              </h3>
             </AccordionTrigger>
             <AccordionContent className="m-0 p-0">
-              {/* Render the children of this folder */}
               {renderContent(content.children ?? [])}
             </AccordionContent>
           </AccordionItem>
         );
       }
-      // This is a video or a content item without children
       return (
         <Link
           key={content.id}
           href={navigateToContent(content.id) || '#'}
-          className={`flex cursor-pointer border-b p-2 hover:bg-gray-200 ${
+          className={`my-2 ml-auto line-clamp-1 flex max-w-[95%] cursor-pointer items-center rounded-xl bg-foreground/5 p-4 hover:bg-foreground/10 ${
             isActiveContent
-              ? 'bg-gray-300 text-black dark:bg-gray-700 dark:text-white dark:hover:bg-gray-500'
-              : 'bg-gray-50 text-black dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700'
+              ? 'text-bold bg-blue-600/60 text-white hover:bg-blue-600/80'
+              : ''
           }`}
         >
-          <div className="flex w-full justify-between">
-            <div className="flex">
-              <div className="pr-2">
-                {content.type === 'video' ? <VideoIcon /> : null}
-                {content.type === 'notion' ? <NotionIcon /> : null}
-              </div>
-              <div>{content.title}</div>
+          <div className="flex w-full items-center justify-between">
+            <div className="flex gap-4">
+              {content.type === 'video' ? <Video className="size-5" /> : null}
+              {content.type === 'notion' ? <File className="size-5" /> : null}
+
+              <span
+                className={`line-clamp-1 capitalize tracking-tight text-foreground/80 ${
+                  isActiveContent ? 'text-bold text-white' : ''
+                }`}
+              >
+                {content.title}
+              </span>
             </div>
             {content.type === 'video' ? (
-              <div className="flex items-center gap-1">
+              <div className="flex items-center gap-2">
                 <BookmarkButton
                   bookmark={content.bookmark ?? null}
                   contentId={content.id}
                 />
-                <div className="ml-2 flex flex-col justify-center">
-                  <Check content={content} />
-                </div>
+                <Check content={content} />
               </div>
             ) : null}
           </div>
@@ -154,25 +158,30 @@ export function Sidebar({
     });
   };
 
-  if (!sidebarOpen) {
-    return null;
-  }
-
   return (
-    <div className="absolute z-20 h-full w-[300px] min-w-[300px] cursor-pointer self-start overflow-y-scroll bg-gray-50 dark:bg-gray-800 sm:sticky sm:top-[64px] sm:h-sidebar">
-      <div className="flex">
-        {/* <ToggleButton
-            onClick={() => {
-              setSidebarOpen((s) => !s);
-            }}
-          /> */}
-        <GoBackButton />
-      </div>
-      <Accordion type="single" collapsible className="w-full">
-        {/* Render course content */}
-        {renderContent(fullCourseContent)}
-      </Accordion>
-    </div>
+    <AnimatePresence>
+      {sidebarOpen && (
+        <motion.div
+          className="absolute top-16 z-[20] flex min-h-screen w-screen flex-col gap-4 overflow-y-scroll border-b border-r bg-background p-4 lg:sticky lg:w-[20vw]"
+          style={{ height: 'calc(100vh - 64px)' }} // Adjust height to fit the screen excluding the navbar
+          initial={{ x: '-100%' }}
+          animate={{ x: 0 }}
+          exit={{ x: '-100%' }}
+          transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+        >
+          <h2 className="py-2 text-xl font-semibold tracking-tighter md:text-2xl">
+            Course Content
+          </h2>
+          <Accordion
+            type="single"
+            collapsible
+            className="flex w-full flex-col gap-4"
+          >
+            {renderContent(fullCourseContent)}
+          </Accordion>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 }
 
@@ -184,37 +193,36 @@ export function ToggleButton({
   sidebarOpen: boolean;
 }) {
   return (
-    <button
+    <Button
       onClick={onClick}
-      className="flex flex-col items-center justify-center"
+      variant="outline"
+      className="flex size-8 flex-col items-center justify-center"
     >
       <span
-        className={`block h-0.5 w-6 rounded-sm bg-black transition-all duration-300 ease-out dark:bg-white ${!sidebarOpen ? 'translate-y-1 rotate-45' : '-translate-y-0.5'}`}
+        className={`block h-0.5 w-4 rounded-sm bg-foreground transition-all duration-300 ease-out ${!sidebarOpen ? 'translate-y-1 rotate-45' : '-translate-y-0.5'}`}
       ></span>
       <span
-        className={`my-0.5 block h-0.5 w-6 rounded-sm bg-black transition-all duration-300 ease-out dark:bg-white ${
+        className={`my-0.5 block h-0.5 w-4 rounded-sm bg-foreground transition-all duration-300 ease-out ${
           !sidebarOpen ? 'opacity-0' : 'opacity-100'
         }`}
       ></span>
       <span
-        className={`block h-0.5 w-6 rounded-sm bg-black transition-all duration-300 ease-out dark:bg-white ${
+        className={`block h-0.5 w-4 rounded-sm bg-foreground transition-all duration-300 ease-out ${
           !sidebarOpen ? '-translate-y-1 -rotate-45' : 'translate-y-0.5'
         }`}
       ></span>
-    </button>
+    </Button>
   );
 }
 
-function GoBackButton() {
+export function GoBackButton() {
   const router = useRouter();
 
   const goBack = () => {
     const pathSegments = window.location.pathname.split('/');
 
-    // Remove the last segment of the path
     pathSegments.pop();
 
-    // Check if it's the last page in the course, then go to root
     if (pathSegments.length <= 2) {
       router.push('/');
     } else {
@@ -224,55 +232,15 @@ function GoBackButton() {
   };
 
   return (
-    <div className="w-full p-2">
-      {/* Your component content */}
-      <Button size={'full'} onClick={goBack} className="group rounded-full">
-        <BackArrow className="h-5 w-5 transition-all duration-200 ease-in-out group-hover:-translate-x-1 rtl:rotate-180" />{' '}
-        <div className="pl-4">Go Back</div>
+    <div className="text-foreground">
+      <Button onClick={goBack} className="group" variant="default">
+        <ArrowLeft className="size-5 text-white" />{' '}
+        <span className="text-white">Back</span>
       </Button>
     </div>
   );
 }
 
-function VideoIcon() {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
-      viewBox="0 0 24 24"
-      stroke-width="1.5"
-      stroke="currentColor"
-      className="h-6 w-6"
-    >
-      <path
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        d="m15.75 10.5 4.72-4.72a.75.75 0 0 1 1.28.53v11.38a.75.75 0 0 1-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25h-9A2.25 2.25 0 0 0 2.25 7.5v9a2.25 2.25 0 0 0 2.25 2.25Z"
-      />
-    </svg>
-  );
-}
-
-function NotionIcon() {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
-      viewBox="0 0 24 24"
-      stroke-width="1.5"
-      stroke="currentColor"
-      className="h-6 w-6"
-    >
-      <path
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"
-      />
-    </svg>
-  );
-}
-
-// Todo: Fix types here
 function Check({ content }: { content: any }) {
   const [completed, setCompleted] = useState(
     content?.videoProgress?.markAsCompleted || false,

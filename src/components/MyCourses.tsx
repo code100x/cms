@@ -26,9 +26,9 @@ export const MyCourses = async () => {
       </div>
     );
   return (
-    <>
+    <div className="flex flex-col gap-8">
       <Courses courses={purchases} />
       <RefreshDb refreshDb={refreshDb} />
-    </>
+    </div>
   );
 };

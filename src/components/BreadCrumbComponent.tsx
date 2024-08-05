@@ -62,7 +62,7 @@ export default function BreadCrumbComponent({
 
   return (
     <>
-      <Breadcrumb>
+      <Breadcrumb className="capitalize tracking-tight">
         <BreadcrumbList>
           <BreadcrumbItem>
             <BreadcrumbLink asChild>
@@ -93,7 +93,7 @@ export default function BreadCrumbComponent({
                 {index !== array.length - 1 ? (
                   <>
                     <BreadcrumbItem>
-                      <BreadcrumbLink className="font-semibold" asChild>
+                      <BreadcrumbLink asChild>
                         <Link
                           href={`/courses/${course.id}/${finalRouteArray.join('/')}`}
                         >

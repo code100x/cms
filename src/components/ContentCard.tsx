@@ -13,7 +13,7 @@ export const ContentCard = ({
   percentComplete,
   type,
   videoProgressPercent,
-  hoverExpand = true,
+  // hoverExpand = true,
   bookmark,
   contentId,
   contentDuration,
@@ -36,23 +36,10 @@ export const ContentCard = ({
   return (
     <div
       onClick={onClick}
-      className={`relative cursor-pointer duration-200 ease-in group${hoverExpand ? ' ' : ''} `}
+      className={`mx-auto flex min-h-[35vh] w-full flex-col gap-4 rounded-2xl bg-blue-400/40 p-2 shadow-blue-600/50 transition-all duration-300 hover:-translate-y-2 hover:shadow-lg dark:bg-blue-950/80 md:max-w-sm`}
     >
-      {percentComplete !== null && percentComplete !== undefined && (
-        <PercentageComplete percent={percentComplete} />
-      )}
-      {markAsCompleted && (
-        <div className="absolute right-2 top-2 z-10">
-          <CheckCircle2 color="green" size={30} fill="lightgreen" />
-        </div>
-      )}
-      {type === 'video' && (
-        <div className="text-blue-900g absolute bottom-12 right-2 z-10 rounded-md bg-zinc-900 p-1 px-2 font-semibold text-white">
-          {contentDuration && formatTime(contentDuration)}
-        </div>
-      )}
       {type !== 'video' && (
-        <div className="relative overflow-hidden rounded-md">
+        <div className="relative overflow-hidden rounded-xl">
           <CardComponent title={title} type={type} />
           {/* <img src={image} alt={title} className="" /> */}
           {!!videoProgressPercent && (
@@ -66,7 +53,8 @@ export const ContentCard = ({
         </div>
       )}
       {type === 'video' && (
-        <div className="relative overflow-hidden rounded-md">
+        <div className="relative overflow-hidden rounded-xl">
+          {/* <Play className="absolute left-[50%] top-[50%] z-20 translate-y-2 rounded-md bg-blue-600 p-1 text-blue-50 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100" /> */}
           <VideoThumbnail
             title={title}
             contentId={contentId ?? 0}
@@ -77,20 +65,35 @@ export const ContentCard = ({
           />
         </div>
       )}
+      <div className="flex flex-col gap-2 px-2 text-foreground">
+        <div className="flex items-center justify-between gap-2">
+          <h3 className="line-clamp-2 text-wrap text-lg font-bold capitalize tracking-tighter md:text-xl">
+            {title}
+          </h3>
 
-      {bookmark !== undefined && contentId && (
-        <div className="absolute left-2 top-2">
-          <BookmarkButton
-            bookmark={bookmark}
-            contentId={contentId}
-            size={28}
-            align="start"
-            side="bottom"
-          />
+          {bookmark !== undefined && contentId && (
+            <div className="left-2 top-2">
+              <BookmarkButton
+                bookmark={bookmark}
+                contentId={contentId}
+                size={28}
+                align="start"
+                side="bottom"
+              />
+            </div>
+          )}
+          {percentComplete !== null && percentComplete !== undefined && (
+            <PercentageComplete percent={percentComplete} />
+          )}
+          {markAsCompleted && (
+            <CheckCircle2 color="green" size={32} fill="lightgreen" />
+          )}
         </div>
-      )}
-      <div className="mt-2 flex justify-between text-gray-900 dark:text-white">
-        <div>{title} </div>
+        {type === 'video' && (
+          <span className="text-foreground/80">
+            {contentDuration && formatTime(contentDuration)}
+          </span>
+        )}
       </div>
     </div>
   );

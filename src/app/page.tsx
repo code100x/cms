@@ -1,5 +1,6 @@
 import { MyCourses } from '@/components/MyCourses';
 import LandingPage from '@/components/landing/landing-page';
+import { Spotlight } from '@/components/landing/spotlight';
 import { authOptions } from '@/lib/auth';
 import { cn } from '@/lib/utils';
 import { getServerSession } from 'next-auth';
@@ -25,18 +26,24 @@ export default async function Home() {
 
   if (session?.user) {
     return (
-      <main className="no-scrollbar mx-auto flex h-full max-w-screen-xl flex-col overflow-y-auto pb-6 pt-10 text-lg">
-        <div className="max-w-2xl px-6 antialiased">
+      <main className="wrapper my-16 flex h-full min-h-screen flex-col gap-8 text-lg antialiased">
+        <Spotlight
+          className="-top-40 left-0 -z-[99] md:-top-20 md:left-60"
+          fill="blue"
+        />
+        <div className="flex flex-col items-center justify-center gap-2">
           <h1
             className={cn(
-              'mb-2 text-2xl font-semibold text-neutral-800 dark:text-neutral-200 md:text-3xl',
+              'text-4xl font-bold capitalize tracking-tighter text-foreground md:text-5xl',
               rs.className,
             )}
           >
-            Courses
+            Welcome {session.user?.name}!
           </h1>
+          <span className="text-xl tracking-tight text-foreground/80 md:text-2xl">
+            Explore Your Courses
+          </span>
         </div>
-
         <MyCourses />
       </main>
     );

@@ -20,15 +20,17 @@ export default async function Course({
   const nextContent = null;
 
   return (
-    <CourseView
-      rest={[]}
-      course={course}
-      contentType={contentType}
-      nextContent={nextContent}
-      courseContent={courseContent}
-      fullCourseContent={fullCourseContent}
-      searchParams={searchParams}
-      possiblePath=""
-    />
+    <div className="wrapper">
+      <CourseView
+        rest={[]}
+        course={course}
+        contentType={contentType}
+        nextContent={nextContent}
+        courseContent={courseContent}
+        fullCourseContent={fullCourseContent}
+        searchParams={searchParams}
+        possiblePath=""
+      />
+    </div>
   );
 }
