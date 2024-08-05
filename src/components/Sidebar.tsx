@@ -159,7 +159,14 @@ export function Sidebar({
   }
 
   return (
-    <div className="absolute z-20 h-full w-[300px] min-w-[300px] cursor-pointer self-start overflow-y-scroll bg-gray-50 dark:bg-gray-800 sm:sticky sm:top-[64px] sm:h-sidebar">
+    <div
+      className="absolute z-20 h-full w-[300px] min-w-[300px] cursor-pointer self-start overflow-y-scroll bg-gray-50 dark:bg-gray-800 sm:sticky sm:top-[64px] sm:h-sidebar"
+      style={{
+        overflowY: 'scroll',
+        msOverflowStyle: 'none',
+        scrollbarWidth: 'none',
+      }}
+    >
       <div className="flex">
         {/* <ToggleButton
             onClick={() => {
