@@ -25,7 +25,7 @@ export const Appbar = () => {
 
   return (
     <>
-      <nav className="fixed top-0 z-50 flex h-16 w-full items-center gap-2 border-b bg-background/80 px-4 shadow-sm backdrop-blur-md print:hidden">
+      <nav className="fixed top-0 z-50 flex h-20 w-full items-center gap-2 border-b bg-background/80 px-4 shadow-sm backdrop-blur-md print:hidden">
         {currentPath.includes('courses') && (
           <ToggleButton
             onClick={() => {

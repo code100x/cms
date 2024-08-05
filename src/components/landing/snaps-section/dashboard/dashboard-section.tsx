@@ -3,20 +3,25 @@ import dashboard from '@public/platform/dashboard.png';
 import { Button } from '../../../ui/button';
 import Link from 'next/link';
 import { ChevronRight } from 'lucide-react';
-import { CardContainer, CardItem } from '@/components/3dcard';
+import { BorderBeam } from '@/components/magicui/border-beam';
 
 const DashboardSection = () => {
   return (
-    <div className="my-20 flex w-full items-center justify-between">
-      <div className="flex w-full flex-col items-start justify-center px-4 md:px-12">
-        <h3 className="text-sm font-medium text-neutral-500 dark:text-neutral-400">
-          <span className="pr-1 text-lg font-bold text-blue-600">|</span>The
-          best learning platform!
-        </h3>
-        <h2 className="mb-6 mt-2 text-2xl font-semibold text-neutral-800 dark:text-neutral-200 md:text-4xl">
-          What is 100xdevs?
-        </h2>
-        <p className="text-lg font-medium text-neutral-600 dark:text-neutral-400">
+    <div className="wrapper my-20 grid w-full grid-cols-1 items-center justify-between gap-8 lg:grid-cols-2">
+      <div className="flex w-full flex-col items-start gap-8 px-4 md:px-12">
+        <div>
+          <h3 className="font-semibold text-foreground/60 md:text-lg">
+            <span className="pr-1 text-lg font-bold text-blue-600">|</span>The
+            best learning platform!
+          </h3>
+          <h2 className="text-2xl font-bold tracking-tighter text-foreground md:text-4xl">
+            What is{' '}
+            <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+              100xdevs?
+            </span>
+          </h2>
+        </div>
+        <p className="text-lg text-foreground/80">
           100xDevs, a learning platform that offers courses on the latest trends
           in the software engineering industry. Whether you&apos;re a beginner
           or looking to upgrade your skills, 100xDevs provides a user-friendly
@@ -38,21 +43,14 @@ const DashboardSection = () => {
           </Link>
         </Button>
       </div>
-      <CardContainer className="w-full cursor-pointer">
-        <Link href="" target="_blank">
-          <div className="hidden rounded-l-xl bg-slate-200 py-3 pl-3 dark:bg-slate-800 md:block md:rounded-l-2xl md:py-6 md:pl-6">
-            <CardItem>
-              <Image
-                src={dashboard}
-                alt={'platform'}
-                width={1400}
-                height={1260}
-                className="rounded-l-lg md:rounded-l-xl"
-              />
-            </CardItem>
-          </div>
-        </Link>
-      </CardContainer>
+      <div className="relative h-fit w-fit rounded-2xl transition-all duration-300 hover:-translate-y-2">
+        <Image
+          src={dashboard}
+          alt={'dashboard'}
+          className="mx-auto h-full w-full rounded-2xl border-[0.2rem] border-foreground/10 object-cover shadow-xl lg:w-[50vw]"
+        />
+        <BorderBeam size={100} duration={12} delay={9} />
+      </div>
     </div>
   );
 };

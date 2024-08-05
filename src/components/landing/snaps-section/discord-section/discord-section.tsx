@@ -7,20 +7,20 @@ import { CardContainer, CardItem } from '@/components/3dcard';
 
 const DiscordSection = () => {
   return (
-    <div className="my-20 flex w-full items-center justify-between bg-neutral-900 py-32 dark:bg-slate-200">
+    <div className="bg-neutral my-20 flex w-full items-center justify-between">
       <div className="flex w-full flex-col items-start justify-center px-4 md:px-12">
-        <h3 className="text-sm font-medium text-neutral-200 dark:text-neutral-800">
+        <h3 className="text-sm font-medium">
           <span className="pr-1 text-lg font-bold text-blue-600">|</span>Discord
           Support
         </h3>
-        <h2 className="mb-6 mt-2 text-2xl font-semibold text-neutral-100 dark:text-neutral-900 md:text-4xl">
+        <h2 className="mb-6 mt-2 text-2xl font-semibold md:text-4xl">
           Never miss on anything!
         </h2>
-        <p className="mb-4 text-lg font-medium text-neutral-100 dark:text-neutral-800">
+        <p className="mb-4 text-lg font-medium">
           Personal TAs make it easy for you to get your doubts solved within
           minutes. Got any doubt? Ask on the discord community.
         </p>
-        <p className="my-2 text-lg font-medium text-neutral-200 dark:text-neutral-600">
+        <p className="my-2 text-lg font-medium">
           Facing any issues while setting up the environment? Get it fixed, Ask
           on the discord communtiy!
         </p>
