@@ -6,12 +6,13 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
+import React from 'react';
 import { FullCourseContent } from '@/db/course';
 import { Button } from './ui/button';
 import { BackArrow } from '@/icons/BackArrow';
 import { useRecoilState } from 'recoil';
 import { sidebarOpen as sidebarOpenAtom } from '@/store/atoms/sidebar';
-import { useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { handleMarkAsCompleted } from '@/lib/utils';
 import BookmarkButton from './bookmark/BookmarkButton';
 import Link from 'next/link';
@@ -111,46 +112,18 @@ export function Sidebar({
             <AccordionTrigger className="px-2 text-left">
               {content.title}
             </AccordionTrigger>
-            <AccordionContent className="m-0 p-0">
-              {/* Render the children of this folder */}
-              {renderContent(content.children ?? [])}
-            </AccordionContent>
+            {content.children.map((content) => (
+              <div key={content.id}>
+                <RenderChildrenContent
+                  navigateToContent={navigateToContent}
+                  content={content}
+                  currentActiveContentIds={currentActiveContentIds}
+                />
+              </div>
+            ))}
           </AccordionItem>
         );
       }
-      // This is a video or a content item without children
-      return (
-        <Link
-          key={content.id}
-          href={navigateToContent(content.id) || '#'}
-          className={`flex cursor-pointer border-b p-2 hover:bg-gray-200 ${
-            isActiveContent
-              ? 'bg-gray-300 text-black dark:bg-gray-700 dark:text-white dark:hover:bg-gray-500'
-              : 'bg-gray-50 text-black dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700'
-          }`}
-        >
-          <div className="flex w-full justify-between">
-            <div className="flex">
-              <div className="pr-2">
-                {content.type === 'video' ? <VideoIcon /> : null}
-                {content.type === 'notion' ? <NotionIcon /> : null}
-              </div>
-              <div>{content.title}</div>
-            </div>
-            {content.type === 'video' ? (
-              <div className="flex items-center gap-1">
-                <BookmarkButton
-                  bookmark={content.bookmark ?? null}
-                  contentId={content.id}
-                />
-                <div className="ml-2 flex flex-col justify-center">
-                  <Check content={content} />
-                </div>
-              </div>
-            ) : null}
-          </div>
-        </Link>
-      );
     });
   };
 
@@ -175,6 +148,67 @@ export function Sidebar({
     </div>
   );
 }
+
+type NavigateToContentType = (contentId: any) => string | null;
+
+interface RenderChildrenContentProps {
+  navigateToContent: NavigateToContentType;
+  content: FullCourseContent;
+  currentActiveContentIds: number[];
+}
+
+const RenderChildrenContent: React.FC<RenderChildrenContentProps> = ({
+  navigateToContent,
+  content,
+  currentActiveContentIds,
+}) => {
+  const [completed, setCompleted] = useState(
+    content?.videoProgress?.markAsCompleted || false,
+  );
+  const isActiveContent = currentActiveContentIds?.some(
+    (id) => content.id === id,
+  );
+
+  // This is a video or a content item without children
+  return (
+    <AccordionContent className="m-0 p-0">
+      <Link
+        key={content.id}
+        href={navigateToContent(content.id) || '#'}
+        className={`flex cursor-pointer border-b p-2 hover:bg-gray-200 ${
+          isActiveContent
+            ? 'bg-gray-300 text-black dark:bg-gray-700 dark:text-white dark:hover:bg-gray-500'
+            : 'bg-gray-50 text-black dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700'
+        }`}
+      >
+        <div className="flex w-full justify-between">
+          <div className="flex">
+            <div className="pr-2">
+              {content.type === 'video' ? <VideoIcon /> : null}
+              {content.type === 'notion' ? <NotionIcon /> : null}
+            </div>
+            <div>{content.title}</div>
+          </div>
+          {content.type === 'video' ? (
+            <div className="flex items-center gap-1">
+              <BookmarkButton
+                bookmark={content.bookmark ?? null}
+                contentId={content.id}
+              />
+              <div className="ml-2 flex flex-col justify-center">
+                <Check
+                  content={content}
+                  completed={completed}
+                  setCompleted={setCompleted}
+                />
+              </div>
+            </div>
+          ) : null}
+        </div>
+      </Link>
+    </AccordionContent>
+  );
+};
 
 export function ToggleButton({
   onClick,
@@ -272,11 +306,13 @@ function NotionIcon() {
   );
 }
 
-// Todo: Fix types here
-function Check({ content }: { content: any }) {
-  const [completed, setCompleted] = useState(
-    content?.videoProgress?.markAsCompleted || false,
-  );
+interface CheckProps {
+  content: FullCourseContent;
+  completed: boolean;
+  setCompleted: Dispatch<SetStateAction<boolean>>;
+}
+
+const Check: React.FC<CheckProps> = ({ content, completed, setCompleted }) => {
   return (
     <>
       <input
@@ -291,4 +327,4 @@ function Check({ content }: { content: any }) {
       />
     </>
   );
-}
+};
