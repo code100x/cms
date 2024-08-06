@@ -32,14 +32,15 @@ class QualitySelectorControllBar extends videojs.getComponent('Button') {
 
     const dropUpMenuElement = this.el().appendChild(dropUpMenu) as HTMLElement;
 
-    this.on('click', () => {
+    const toggleMenuVisiblity = () => {
       const isVisible = dropUpMenuElement.style.display === 'block';
       dropUpMenuElement.style.display = isVisible ? 'none' : 'block';
-    });
+    };
+
+    this.on('click', toggleMenuVisiblity);
     this.on('touchend', (e: any) => {
       e.preventDefault();
-      const isVisible = dropUpMenuElement.style.display === 'block';
-      dropUpMenuElement.style.display = isVisible ? 'none' : 'block';
+      toggleMenuVisiblity();
     });
     dropUpMenuElement.querySelectorAll('li').forEach((item) => {
       item.addEventListener('click', (e: any) => {
@@ -48,15 +49,13 @@ class QualitySelectorControllBar extends videojs.getComponent('Button') {
         if (quality !== urlParams.get('quality')) {
           changeVideoQuality(quality, player);
         }
-        dropUpMenuElement.style.display = 'none';
       });
       item.addEventListener('touchend', (e: any) => {
         const quality = e.target.getAttribute('data-quality');
+        toggleMenuVisiblity();
         if (quality) {
           changeVideoQuality(quality, player);
         }
-        dropUpMenuElement.style.display = 'none';
-        dropUpMenuElement.style.display = 'none';
       });
     });
   }
