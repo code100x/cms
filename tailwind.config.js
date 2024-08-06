@@ -6,6 +6,7 @@ module.exports = {
     './components/**/*.{ts,tsx}',
     './app/**/*.{ts,tsx}',
     './src/**/*.{ts,tsx}',
+    './node_modules/vizolv/{react,dist}/**/*.{js,ts,jsx,tsx}',
     './src/stories/**/*.{ts,tsx}',
   ],
   prefix: '',
@@ -16,7 +17,7 @@ module.exports = {
     },
     extend: {
       screens: {
-        semi: '1140px'
+        semi: '1140px',
       },
       colors: {
         border: 'hsl(var(--border))',
