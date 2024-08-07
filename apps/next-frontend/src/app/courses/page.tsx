@@ -8,5 +8,6 @@ async function getCourses() {
 
 export default async function CoursesComponent() {
   const courses = await getCourses();
+  //@ts-ignore
   return <Courses courses={courses} />;
 }

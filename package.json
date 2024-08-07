@@ -4,15 +4,15 @@
   "scripts": {
     "build": "turbo build",
     "dev": "turbo dev",
+    "dev:docker": "yarn run prisma:docker && yarn run dev",
     "lint": "turbo lint",
     "lint:fix": "eslint --max-warnings 0 --config .eslintrc.js --fix",
     "format:fix": "prettier --write \"**/*.{ts,tsx,json}\" --ignore-path ./postgres-data/",
     "format:check": "prettier --check \"**/*.{ts,tsx,json}\"",
-    "dev:docker": "yarn run prisma:docker && yarn run dev",
     "prepare": "husky",
     "prisma:docker": "cd ./packages/database/ && yarn run prisma:migrate && yarn run db:seed && yarn run studio",
-    "env:local": "cd apps/next-frontend/ && cp .env.example .env && cd ../../packages/database && echo 'DATABASE_URL=postgresql://myuser:mypassword@localhost:5432/mydatabase?schema=public' > .env && cd ../../",
-    "env:docker": "cd apps/next-frontend/ && cp .env.example .env && cd ../../packages/database && echo 'DATABASE_URL=postgresql://myuser:mypassword@db:5432/mydatabase?schema=public' > .env && cd ../../"
+    "env:local": "cd apps/next-frontend/ && cp .env.example .env && cd ../../packages/common && cp .env.example .env && cd ../database && echo 'DATABASE_URL=postgresql://myuser:mypassword@localhost:5432/mydatabase?schema=public' > .env && cd ../../",
+    "env:docker": "cd apps/next-frontend/ && cp .env.example .env && cd ../../packages/common && cp .env.example .env && cd ../database && echo 'DATABASE_URL=postgresql://myuser:mypassword@db:5432/mydatabase?schema=public' > .env && cd ../../"
   },
   "devDependencies": {
     "@repo/eslint-config": "*",

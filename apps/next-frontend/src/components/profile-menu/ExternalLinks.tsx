@@ -1,5 +1,4 @@
-import { getOauthUrl } from '@/utiles/discord';
-import { SiDiscord, SiGithub, SiNotion } from '@icons-pack/react-simple-icons';
+import { SiGithub, SiNotion } from '@icons-pack/react-simple-icons';
 import Link from 'next/link';
 import React from 'react';
 import { DropdownMenuItem } from '@repo/ui/shad/dropdown-menu';
@@ -11,11 +10,6 @@ const ExternalLinks = () => {
       href: 'https://github.com/100xdevs-cohort-2/assignments',
       label: 'Assignments',
       icon: <SiGithub className="h-4 w-4" />,
-    },
-    {
-      href: getOauthUrl(),
-      label: 'Join Discord',
-      icon: <SiDiscord className="h-4 w-4" />,
     },
     {
       href: 'https://projects.100xdevs.com/',

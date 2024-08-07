@@ -12,6 +12,7 @@
     "./shad/carousel": "./src/shad/ui/carousel.tsx",
     "./shad/drawer": "./src/shad/ui/drawer.tsx",
     "./shad/dropdown-menu": "./src/shad/ui/dropdown-menu.tsx",
+    "./shad/form": "./src/shad/ui/form.tsx",
     "./shad/input": "./src/shad/ui/input.tsx",
     "./shad/label": "./src/shad/ui/label.tsx",
     "./shad/navigation-menu": "./src/shad/ui/navigation-menu.tsx",

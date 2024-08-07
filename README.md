@@ -51,7 +51,7 @@
    ```bash
    yarn install
    ```
-6. Run database migrations:
+6. Run database migrations and start the application for development:
     ```bash
    yarn run dev:docker
    ```

@@ -18,8 +18,9 @@ export const ButtonColor: Story = {
     course: {
       id: 1,
       slug: 'course-slug',
-      appxCourseId: 1,
+      appxCourseId: '1',
       certIssued: false,
+      discordOauthUrl: '',
       discordRoleId: 'discord-role-id',
       title: 'Course Title',
       description: 'Course Description',
@@ -39,7 +40,8 @@ export const SmallRoundedCard: Story = {
     course: {
       id: 1,
       slug: 'course-slug',
-      appxCourseId: 1,
+      appxCourseId: '1',
+      discordOauthUrl: '',
       certIssued: false,
       discordRoleId: 'discord-role-id',
       title: 'Course Title',
@@ -60,8 +62,9 @@ export const MediumRoundedCard: Story = {
     course: {
       id: 1,
       slug: 'course-slug',
-      appxCourseId: 1,
+      appxCourseId: '1',
       certIssued: false,
+      discordOauthUrl: '',
       discordRoleId: 'discord-role-id',
       title: 'Course Title',
       description: 'Course Description',
@@ -81,7 +84,8 @@ export const LargeRoundedCard: Story = {
     course: {
       id: 1,
       slug: 'course-slug',
-      appxCourseId: 1,
+      appxCourseId: '1',
+      discordOauthUrl: '',
       discordRoleId: 'discord-role-id',
       certIssued: false,
       title: 'Course Title',

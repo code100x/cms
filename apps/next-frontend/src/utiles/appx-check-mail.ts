@@ -19,12 +19,15 @@ export async function checkUserEmailForPurchase(
     itemid: courseId,
   });
   //@ts-ignore
+  console.log(courseId);
   try {
     const response = await fetch(`${baseUrl}?${params.toString()}`, {
       headers,
     });
     return await response.json();
-  } catch (error) {
-    console.log(error);
+  } catch (error: any) {
+    if (error instanceof Error) {
+      console.log(error.message);
+    }
   }
 }

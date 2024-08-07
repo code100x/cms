@@ -48,7 +48,7 @@ export async function POST(req: NextRequest) {
       slug,
       description,
       id: parseInt(id, 10),
-      appxCourseId: parseInt(appxCourseId, 10),
+      appxCourseId: parseInt(appxCourseId, 10).toString(),
       discordRoleId,
     },
   });

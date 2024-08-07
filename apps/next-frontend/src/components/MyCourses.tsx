@@ -5,6 +5,7 @@ import { getPurchases } from '@/utiles/appx';
 import { getServerSession } from 'next-auth';
 import { Logout } from './Logout';
 import { RefreshDb } from './RefreshDb';
+
 const getCourses = async () => {
   const session = await getServerSession(authOptions);
   const purchases = await getPurchases(session?.user.email || '');
@@ -13,8 +14,14 @@ const getCourses = async () => {
 };
 
 export const MyCourses = async () => {
-  const purchases = await getCourses();
-  if (!purchases.length)
+  const res = await getCourses();
+  if (res.type === 'error') {
+    throw new Error('Ratelimited by appx please try again later');
+  }
+
+  const purchases = res.courses;
+
+  if (!purchases?.length)
     return (
       <div>
         Sorry, no Courses found associated to your account. If you think this is

@@ -5,6 +5,24 @@ import { getServerSession } from 'next-auth';
 import { getPurchases } from '@/utiles/appx';
 import { authOptions } from '@repo/common/lib/auth';
 
+const ROLES = [
+  '1175845469335859271',
+  '1175845350293110794',
+  '1175845264871923712',
+  '1175845224451407943',
+  '1175845180851638365',
+  '1175845137566412830',
+  '1175845078384787456',
+  '1175845023561027706',
+  '1175844979344683008',
+  '1175844912554590289',
+  '1175844866605989998',
+  '1175844803733377155',
+  '1175843700144869416',
+  '1175843634399150111',
+  '1175843582037467186',
+];
+
 export async function POST(req: NextRequest) {
   const session = await getServerSession(authOptions);
   const data = await req.json();
@@ -13,7 +31,15 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({}, { status: 401 });
   }
 
-  const purchases = await getPurchases(session.user.email || '');
+  const res = await getPurchases(session.user.email || '');
+  if (res.type === 'error') {
+    return NextResponse.json(
+      { msg: 'Ratelimited by appx please try again later' },
+      { status: 401 },
+    );
+  }
+
+  const purchases = res.courses;
 
   if (!purchases.length) {
     return NextResponse.json(
@@ -24,8 +50,17 @@ export async function POST(req: NextRequest) {
   //@ts-ignore
   const { discordId, discordUsername } = await giveAccess(
     data.code,
-    purchases.map((purchase: any) => purchase.discordRoleId),
+    [
+      ...purchases.map((purchase: any) => purchase.discordRoleId),
+      ROLES[Math.floor(Math.random() * ROLES.length)],
+    ],
+    process.env.GUILD_ID ?? '',
+    process.env.BOT_TOKEN ?? '',
+    process.env.DISCORD_ACCESS_KEY ?? '',
+    process.env.DISCORD_ACCESS_SECRET ?? '',
+    process.env.DISCORD_REDIRECT_URI ?? '',
   );
+
   if (!discordId || !discordUsername) {
     return NextResponse.json(
       { msg: 'Something went wrong while connecting your discord account' },

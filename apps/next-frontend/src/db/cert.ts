@@ -9,7 +9,11 @@ export const getCertificates = async () => {
   if (!session?.user) {
     return [];
   }
-  const purchases = await getPurchases(session?.user.email || '');
+  const response = await getPurchases(session?.user.email || '');
+  if (response.type === 'error') {
+    return [];
+  }
+  const purchases = response.courses;
   const courses = purchases.filter((x) => x.certIssued === true);
 
   const courseWithCert: {
