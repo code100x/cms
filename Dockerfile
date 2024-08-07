@@ -8,6 +8,9 @@ RUN npm install
 RUN DATABASE_URL=$DATABASE_URL npx prisma generate
 RUN DATABASE_URL=$DATABASE_URL npm run build
 
-EXPOSE 3000
+RUN yarn install
 
-CMD ["npm", "run", "start"]
+EXPOSE 3000
+EXPOSE 5555
+
+CMD [ "yarn", "run", "dev:docker" ]
