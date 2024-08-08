@@ -215,23 +215,33 @@ export default async function Home({
                 </DropdownMenu>
               </div>
             </div>
-            <div className="m-auto h-[500px] w-full overflow-y-scroll">
-              <div className="w-full space-y-4">
-                {response?.data?.map((post) => (
-                  <PostCard
-                    post={post}
-                    sessionUser={session?.user}
-                    key={post.id}
-                    isAnswer={false}
-                    questionId={post.id}
-                    enableLink={true}
-                    reply={false}
-                  />
-                ))}
-              </div>
-            </div>
+            {
+              response?.data?.length !== 0 ?
+                <div className="m-auto h-[500px] w-full overflow-y-scroll">
+                  <div className="w-full space-y-4">
+                    {response?.data?.map((post: any) => (
+                      <PostCard
+                        post={post}
+                        sessionUser={session?.user}
+                        key={post.id}
+                        isAnswer={false}
+                        questionId={post.id}
+                        enableLink={true}
+                        reply={false}
+                      />
+                    ))}
+                  </div>
+                </div>
+                :
+                <div className='m-auto h-[400px] w-full flex justify-center items-center'>
+                  <p>No questions availabe!</p>
+                </div>
+            }
           </div>
-          <Pagination dataLength={response?.data?.length || 0} />
+          {
+            response?.data?.length !== 0 &&
+            <Pagination dataLength={response?.data?.length || 0} />
+          }
         </div>
       </div>
     </>
