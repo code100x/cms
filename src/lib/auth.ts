@@ -214,7 +214,7 @@ export const authOptions = {
       },
     }),
   ],
-  secret: process.env.NEXTAUTH_SECRET || 'secr3t',
+  secret: process.env.NEXTAUTH_SECRET || 'secret',
   callbacks: {
     session: async ({ session, token }) => {
       const newSession: session = session as session;
