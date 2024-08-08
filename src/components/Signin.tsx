@@ -24,7 +24,7 @@ const Signin = () => {
   const password = useRef('');
 
   const handleSubmit = async (e?: React.FormEvent<HTMLButtonElement>) => {
-    const loadId = toast.loading('Signing in...');
+    
     if (e) {
       e.preventDefault();
     }
@@ -34,9 +34,12 @@ const Signin = () => {
         emailReq: email.current ? false : true,
         passReq: password.current ? false : true,
       });
-      toast.dismiss(loadId);
+      
       return;
     }
+
+    const loadId = toast.loading('Signing in...');
+    
     setCheckingPassword(true);
     const res = await signIn('credentials', {
       username: email.current,
