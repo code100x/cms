@@ -26,7 +26,6 @@ export const NewPostDialog = ({ videos }: { videos: any }) => {
   const path = usePathname();
   const router = useRouter();
   const [value, setValue] = useState<string>('**Hello world!!!**');
-  const [editorHeight, setEditorHeight] = useState<number>(200);
   const [videoId, setVideoId] = useState<number | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const { ref, onOpen, onClose } = useModal();
@@ -43,7 +42,6 @@ export const NewPostDialog = ({ videos }: { videos: any }) => {
       timeoutId = setTimeout(() => {
         if (containerRef.current) {
           const rect = containerRef.current.getBoundingClientRect();
-          setEditorHeight(rect.height);
         }
       }, 0); // Adjust the delay time if needed
 

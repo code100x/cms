@@ -114,7 +114,7 @@ const getQuestionsWithQuery = async (
   if (videoId) {
     additionalQuery.where = {
       ...additionalQuery.where,
-      videoId: videoId,
+      videoId,
     };
   }
 
@@ -207,7 +207,7 @@ export default async function Home({
   const sessionId = session?.user?.id;
 
   const tabType = searchParams.tabtype || TabType.mu;
-  const videoId = searchParams.videoId ? parseInt(searchParams.videoId as unknown as string) : undefined;
+  const videoId = searchParams.videoId ? parseInt(searchParams.videoId as unknown as string, 10) : undefined;
   const response = await fetchQuestionsByTabType(searchParams, sessionId!, videoId);
   console.log(response);
 
