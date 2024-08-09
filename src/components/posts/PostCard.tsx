@@ -44,7 +44,6 @@ interface IProps {
   reply?: boolean;
   enableLink?: boolean;
   isAnswer?: boolean;
-  videoId?: number | null;
   questionId: number;
 }
 const isExtendedQuestion = (
@@ -124,12 +123,12 @@ const PostCard: React.FC<IProps> = ({
             <DropdownMenuContent className="cursor-pointer rounded-xl bg-gray-200/30 px-2 py-2 backdrop-blur dark:bg-gray-700/30">
               {(sessionUser?.role === ROLES.ADMIN ||
                 post?.author?.id === sessionUser?.id) && (
-                <DeleteForm
-                  key={post.id}
-                  questionId={!isAnswer ? post.id : undefined}
-                  answerId={isAnswer ? post.id : undefined}
-                />
-              )}
+                  <DeleteForm
+                    key={post.id}
+                    questionId={!isAnswer ? post.id : undefined}
+                    answerId={isAnswer ? post.id : undefined}
+                  />
+                )}
               <hr />
               {/* <DropdownMenuItem className="text-sm px-1 py-2 hover:border-none hover:outline-none">
                             Report spam
@@ -199,7 +198,18 @@ const PostCard: React.FC<IProps> = ({
           {internalDetails()}
         </div>
       </CardBody>
-
+      {isExtendedQuestion(post) && post.video && (
+        <div className="flex flex-col gap-y-2 p-4">
+          <img
+            src={post.video.thumbnail}
+            alt={post.video.title}
+            width={100}
+            height={56}
+            className="rounded-md mr-2"
+          />
+          <p className="text-sm font-medium">{post.video.title}</p>
+        </div>
+      )}
       <CardFooter className="flex flex-col items-center justify-between border-gray-200 p-0 px-1 pb-2 dark:border-gray-700 md:px-5">
         <div className="flex w-full justify-between">
           <div className="flex">

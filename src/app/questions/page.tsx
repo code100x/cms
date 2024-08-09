@@ -69,6 +69,12 @@ const getQuestionsWithQuery = async (
       createdAt: true,
       updatedAt: true,
       videoId: true,
+      video: {
+        select: {
+          title: true,
+          thumbnail: true,
+        },
+      },
       votes: {
         where: { userId: sessionId },
         select: { userId: true, voteType: true },
@@ -79,14 +85,14 @@ const getQuestionsWithQuery = async (
 
   const searchQuery = searchParams.search
     ? {
-        where: {
-          ...additionalQuery.where,
-          title: {
-            contains: searchParams.search,
-            mode: 'insensitive',
-          },
+      where: {
+        ...additionalQuery.where,
+        title: {
+          contains: searchParams.search,
+          mode: 'insensitive',
         },
-      }
+      },
+    }
     : {};
 
   const dateFilter = searchParams.date;
@@ -281,7 +287,6 @@ export default async function Home({
                     questionId={post.id}
                     enableLink={true}
                     reply={false}
-                    videoId={post.videoId}
                   />
                 ))}
               </div>

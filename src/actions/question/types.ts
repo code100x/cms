@@ -76,7 +76,14 @@ export interface Author {
   email?: string | null;
 }
 
-export interface ExtendedQuestion extends Question {
+export interface QuestionWithVideo extends Question {
+  video?: {
+    title: string;
+    thumbnail: string;
+  };
+}
+
+export interface ExtendedQuestion extends QuestionWithVideo {
   author: Author;
   votes: any[];
 }
