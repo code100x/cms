@@ -103,7 +103,7 @@ export const NewPostDialog = ({ videos }: { videos: any }) => {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8">
           <div
             ref={containerRef}
-            className="relative z-10 h-5/6 w-full max-w-3xl space-y-4 rounded-lg bg-white p-2 pt-8 shadow-lg dark:bg-gray-800 md:max-w-4xl"
+            className="relative z-10 h-fit w-full max-w-3xl space-y-4 rounded-lg bg-white p-2 pt-8 shadow-lg dark:bg-gray-800 md:max-w-4xl"
           >
             <button
               type="button"
@@ -141,8 +141,8 @@ export const NewPostDialog = ({ videos }: { videos: any }) => {
                   id="content"
                   value={value}
                   onChange={handleMarkdownChange}
-                  style={{ height: '100%' }}
-                  height={editorHeight - 200}
+                  height={'fit-content'}
+                  minHeight={400}
                   visibleDragbar={false}
                 />
                 <FormPostErrors id="content" errors={fieldErrors} />
