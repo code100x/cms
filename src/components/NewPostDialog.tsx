@@ -17,6 +17,7 @@ import { useTheme } from 'next-themes';
 import { getUpdatedUrl, searchParamsToObject } from '@/lib/utils';
 import { FormPostInput } from './posts/form/form-input';
 import { FormPostErrors } from './posts/form/form-errors';
+import SearchBar from './search/SearchBar';
 
 export const NewPostDialog = () => {
   const { theme } = useTheme();
@@ -26,7 +27,8 @@ export const NewPostDialog = () => {
   const path = usePathname();
   const router = useRouter();
   const [value, setValue] = useState<string>('**Hello world!!!**');
-  const [editorHeight, setEditorHeight] = useState<number>(200);
+  const [videoId, setVideoId] = useState<number | null>(null);
+  const [videoTitle, setVideoTitle] = useState<string | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const { ref, onOpen, onClose } = useModal();
   const handleMarkdownChange = (newValue?: string) => {
@@ -38,14 +40,6 @@ export const NewPostDialog = () => {
     let timeoutId: any;
     if (paramsObject.newPost === 'open') {
       onOpen();
-
-      timeoutId = setTimeout(() => {
-        if (containerRef.current) {
-          const rect = containerRef.current.getBoundingClientRect();
-          setEditorHeight(rect.height);
-        }
-      }, 0); // Adjust the delay time if needed
-
       // Cleanup function to clear the timeout
     } else {
       onClose();
@@ -80,23 +74,51 @@ export const NewPostDialog = () => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const title = formData.get('title');
-
     const tags = formData.get('tags');
-
-    execute({
+    const data: {
+      title: string;
+      content: string;
+      tags: string[];
+      videoId?: number | undefined;
+    } = {
       title: title?.toString() || '',
       content: value,
       tags: (tags?.toString() || '').split(','),
-    });
+    };
+    if (videoId && videoId !== null && videoId !== undefined) {
+      data.videoId = Number(videoId);
+    } else {
+      data.videoId = undefined;
+    }
+
+    execute(data);
+    setVideoId(null);
+    setVideoTitle(null);
+  };
+
+  const handleSearchClick = (videoId?: number, videoTitle?: string) => {
+    console.log(videoId, videoTitle);
+    if (videoId && videoTitle) {
+      setVideoId(videoId);
+      setVideoTitle(videoTitle);
+    } else {
+      toast.error('There was some problem while selecting the video');
+    }
   };
 
   return (
     <Modal ref={ref} onClose={handleOnCloseClick}>
-      <form ref={formRef} onSubmit={onSubmit}>
+      <form
+        ref={formRef}
+        onSubmit={onSubmit}
+        style={{
+          overflow: 'scroll',
+        }}
+      >
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8">
           <div
             ref={containerRef}
-            className="relative z-10 h-5/6 w-full max-w-3xl space-y-4 rounded-lg bg-white p-2 pt-8 shadow-lg dark:bg-gray-800 md:max-w-4xl"
+            className="relative z-10 h-fit w-full max-w-3xl space-y-4 rounded-lg bg-white p-2 pt-8 shadow-lg dark:bg-gray-800 md:max-w-4xl"
           >
             <button
               type="button"
@@ -110,6 +132,12 @@ export const NewPostDialog = () => {
               placeholder="Enter question title..."
               errors={fieldErrors}
             />
+            <SearchBar onCardClick={handleSearchClick} shouldRedirect={false} />
+            {videoTitle && (
+              <div className="mt-2 inline-block rounded-full bg-background px-3 py-1 text-sm font-semibold text-inherit">
+                Selected Video: {videoTitle}
+              </div>
+            )}
             <div className="flex-grow">
               <div data-color-mode={theme}>
                 <div className="wmde-markdown-var"> </div>
@@ -117,8 +145,8 @@ export const NewPostDialog = () => {
                   id="content"
                   value={value}
                   onChange={handleMarkdownChange}
-                  style={{ height: '100%' }}
-                  height={editorHeight - 200}
+                  height={'fit-content'}
+                  minHeight={400}
                   visibleDragbar={false}
                 />
                 <FormPostErrors id="content" errors={fieldErrors} />
@@ -126,7 +154,7 @@ export const NewPostDialog = () => {
             </div>
             <FormPostInput
               id="tags"
-              placeholder="Enter tags seperated by comma : hello,world"
+              placeholder="Enter tags separated by comma: hello,world"
               errors={fieldErrors}
             />
             <Button type="submit">Post-it</Button>

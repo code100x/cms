@@ -198,7 +198,18 @@ const PostCard: React.FC<IProps> = ({
           {internalDetails()}
         </div>
       </CardBody>
-
+      {isExtendedQuestion(post) && post.video && (
+        <div className="flex flex-col gap-y-2 p-4">
+          <img
+            src={post.video.thumbnail}
+            alt={post.video.title}
+            width={100}
+            height={56}
+            className="mr-2 rounded-md"
+          />
+          <p className="text-sm font-medium">{post.video.title}</p>
+        </div>
+      )}
       <CardFooter className="flex flex-col items-center justify-between border-gray-200 p-0 px-1 pb-2 dark:border-gray-700 md:px-5">
         <div className="flex w-full justify-between">
           <div className="flex">

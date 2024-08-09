@@ -11,7 +11,16 @@ const Modal = forwardRef<HTMLDialogElement, ModalProps>(
     { children, onClose },
     ref,
   ) => {
-    return <dialog ref={ref}>{children}</dialog>;
+    return (
+      <dialog
+        style={{
+          overflow: 'scroll',
+        }}
+        ref={ref}
+      >
+        {children}
+      </dialog>
+    );
   },
 );
 

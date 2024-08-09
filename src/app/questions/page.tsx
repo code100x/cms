@@ -34,6 +34,7 @@ const getQuestionsWithQuery = async (
   additionalQuery: Partial<QuestionQuery>,
   searchParams: QueryParams,
   sessionId: string,
+  videoId?: number,
 ): Promise<QuestionsResponse> => {
   const paginationQuery = {
     take: paginationData(searchParams).pageSize,
@@ -52,6 +53,13 @@ const getQuestionsWithQuery = async (
       slug: true,
       createdAt: true,
       updatedAt: true,
+      videoId: true,
+      video: {
+        select: {
+          title: true,
+          thumbnail: true,
+        },
+      },
       votes: {
         where: { userId: sessionId },
         select: { userId: true, voteType: true },
@@ -86,6 +94,14 @@ const getQuestionsWithQuery = async (
     };
   }
 
+  // Add videoId filter if provided
+  if (videoId) {
+    additionalQuery.where = {
+      ...additionalQuery.where,
+      videoId,
+    };
+  }
+
   try {
     const data: any = await db.question.findMany({
       ...baseQuery,
@@ -99,9 +115,11 @@ const getQuestionsWithQuery = async (
     return { data: null, error: errorMessage };
   }
 };
+
 const fetchQuestionsByTabType = async (
   searchParams: QueryParams,
   sessionId: string,
+  videoId?: number,
 ) => {
   const orderByDefaults = {
     'Most upvotes': { upvotes: 'desc' },
@@ -119,7 +137,12 @@ const fetchQuestionsByTabType = async (
   const tabType = searchParams.tabtype || 'Most upvotes';
   const additionalQuery = queryModifiers[tabType] || queryModifiers.default;
 
-  return getQuestionsWithQuery(additionalQuery, searchParams, sessionId);
+  return getQuestionsWithQuery(
+    additionalQuery,
+    searchParams,
+    sessionId,
+    videoId,
+  );
 };
 
 export default async function Home({
@@ -136,7 +159,15 @@ export default async function Home({
   const sessionId = session?.user?.id;
 
   const tabType = searchParams.tabtype || TabType.mu;
-  const response = await fetchQuestionsByTabType(searchParams, sessionId!);
+  const videoId = searchParams.videoId
+    ? parseInt(searchParams.videoId as unknown as string, 10)
+    : undefined;
+  const response = await fetchQuestionsByTabType(
+    searchParams,
+    sessionId!,
+    videoId,
+  );
+  console.log(response);
 
   return (
     <>
