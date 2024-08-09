@@ -123,7 +123,7 @@ export const ContentRendererClient = ({
             <div className="text-2xl font-bold text-gray-900 dark:text-white">
               {content.title}
             </div>
-            <div className='flex flex-col'>
+            <div className="flex flex-col">
               <button
                 className="my-4 rounded bg-blue-500 p-2 font-bold text-white hover:bg-blue-700"
                 disabled={loadingMarkAs}
@@ -131,7 +131,10 @@ export const ContentRendererClient = ({
               >
                 {contentCompleted ? 'Mark as Incomplete' : 'Mark as completed'}
               </button>
-              <button className="rounded bg-blue-500 p-2 font-bold text-white hover:bg-blue-700" onClick={() => router.push(`/questions?videoId=${content.id}`)}>
+              <button
+                className="rounded bg-blue-500 p-2 font-bold text-white hover:bg-blue-700"
+                onClick={() => router.push(`/questions?videoId=${content.id}`)}
+              >
                 Go to Questions
               </button>
             </div>

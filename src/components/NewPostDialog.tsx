@@ -17,8 +17,9 @@ import { useTheme } from 'next-themes';
 import { getUpdatedUrl, searchParamsToObject } from '@/lib/utils';
 import { FormPostInput } from './posts/form/form-input';
 import { FormPostErrors } from './posts/form/form-errors';
+import SearchBar from './search/SearchBar';
 
-export const NewPostDialog = ({ videos }: { videos: any }) => {
+export const NewPostDialog = () => {
   const { theme } = useTheme();
   const formRef = useRef<ElementRef<'form'>>(null);
   const searchParam = useSearchParams();
@@ -27,6 +28,7 @@ export const NewPostDialog = ({ videos }: { videos: any }) => {
   const router = useRouter();
   const [value, setValue] = useState<string>('**Hello world!!!**');
   const [videoId, setVideoId] = useState<number | null>(null);
+  const [videoTitle, setVideoTitle] = useState<string | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const { ref, onOpen, onClose } = useModal();
   const handleMarkdownChange = (newValue?: string) => {
@@ -91,6 +93,17 @@ export const NewPostDialog = ({ videos }: { videos: any }) => {
 
     execute(data);
     setVideoId(null);
+    setVideoTitle(null);
+  };
+
+  const handleSearchClick = (videoId?: number, videoTitle?: string) => {
+    console.log(videoId, videoTitle);
+    if (videoId && videoTitle) {
+      setVideoId(videoId);
+      setVideoTitle(videoTitle);
+    } else {
+      toast.error('There was some problem while selecting the video');
+    }
   };
 
   return (
@@ -119,25 +132,12 @@ export const NewPostDialog = ({ videos }: { videos: any }) => {
               placeholder="Enter question title..."
               errors={fieldErrors}
             />
-            <select
-              value={videoId || ''}
-              onChange={(e) => {
-                if (e.target.value === 'none') {
-                  setVideoId(null);
-                }
-                setVideoId(Number(e.target.value));
-              }}
-              className="h-7 w-full rounded-md border border-input bg-background p-2 px-2 py-1 text-sm"
-            >
-              <option value={'none'}>Select A Video</option>
-              {videos.map((video: any) => {
-                return (
-                  <option key={video.id} value={video.id}>
-                    {video.title}
-                  </option>
-                );
-              })}
-            </select>
+            <SearchBar onCardClick={handleSearchClick} shouldRedirect={false} />
+            {videoTitle && (
+              <div className="mt-2 inline-block rounded-full bg-background px-3 py-1 text-sm font-semibold text-inherit">
+                Selected Video: {videoTitle}
+              </div>
+            )}
             <div className="flex-grow">
               <div data-color-mode={theme}>
                 <div className="wmde-markdown-var"> </div>

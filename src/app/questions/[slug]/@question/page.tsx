@@ -40,8 +40,8 @@ const SingleQuestionPage = async ({
       video: {
         select: {
           title: true,
-          thumbnail: true
-        }
+          thumbnail: true,
+        },
       },
       votes: {
         where: {

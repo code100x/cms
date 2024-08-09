@@ -123,12 +123,12 @@ const PostCard: React.FC<IProps> = ({
             <DropdownMenuContent className="cursor-pointer rounded-xl bg-gray-200/30 px-2 py-2 backdrop-blur dark:bg-gray-700/30">
               {(sessionUser?.role === ROLES.ADMIN ||
                 post?.author?.id === sessionUser?.id) && (
-                  <DeleteForm
-                    key={post.id}
-                    questionId={!isAnswer ? post.id : undefined}
-                    answerId={isAnswer ? post.id : undefined}
-                  />
-                )}
+                <DeleteForm
+                  key={post.id}
+                  questionId={!isAnswer ? post.id : undefined}
+                  answerId={isAnswer ? post.id : undefined}
+                />
+              )}
               <hr />
               {/* <DropdownMenuItem className="text-sm px-1 py-2 hover:border-none hover:outline-none">
                             Report spam
@@ -205,7 +205,7 @@ const PostCard: React.FC<IProps> = ({
             alt={post.video.title}
             width={100}
             height={56}
-            className="rounded-md mr-2"
+            className="mr-2 rounded-md"
           />
           <p className="text-sm font-medium">{post.video.title}</p>
         </div>

@@ -9,7 +9,13 @@ import VideoSearchInfo from './VideoSearchInfo';
 import { toast } from 'sonner';
 import VideoSearchLoading from './VideoSearchLoading';
 
-const SearchBar = ({ onCardClick }: { onCardClick?: () => void }) => {
+const SearchBar = ({
+  onCardClick,
+  shouldRedirect = true,
+}: {
+  onCardClick?: (videoId?: number, videoTitle?: string) => void;
+  shouldRedirect?: boolean;
+}) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchedVideos, setSearchedVideos] = useState<
     TSearchedVideos[] | null
@@ -58,12 +64,18 @@ const SearchBar = ({ onCardClick }: { onCardClick?: () => void }) => {
     setSearchTerm('');
   };
 
-  const handleCardClick = (videoUrl: string) => {
+  const handleCardClick = (
+    videoUrl: string,
+    videoId: number,
+    videoTitle: string,
+  ) => {
     if (onCardClick !== undefined) {
-      onCardClick();
+      onCardClick(videoId, videoTitle);
     }
     clearSearchTerm();
-    router.push(videoUrl);
+    if (shouldRedirect) {
+      router.push(videoUrl);
+    }
   };
 
   const handleClearInput = () => {
@@ -94,7 +106,7 @@ const SearchBar = ({ onCardClick }: { onCardClick?: () => void }) => {
 
   return (
     <div
-      className="relative flex h-10 w-full items-center lg:w-[300px] xl:w-[400px]"
+      className="z relative z-[100] flex h-10 w-full items-center lg:w-[300px] xl:w-[400px]"
       ref={ref}
     >
       {/* Search Input Bar */}

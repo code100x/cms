@@ -7,7 +7,7 @@ const VideoSearchCard = ({
   onCardClick,
 }: {
   video: TSearchedVideos;
-  onCardClick: (videoUrl: string) => void;
+  onCardClick: (videoUrl: string, videoId: number, videoTitle: string) => void;
 }) => {
   const { id: videoId, parentId, parent } = video;
 
@@ -17,7 +17,7 @@ const VideoSearchCard = ({
     return (
       <div
         className="flex cursor-pointer items-center gap-3 px-3 py-2 hover:bg-gray-200 hover:dark:bg-gray-700"
-        onClick={() => onCardClick(videoUrl)}
+        onClick={() => onCardClick(videoUrl, videoId, video.title)}
       >
         <div className="min-w-content">
           <PlayCircleIcon className="h-4 w-4" />
