@@ -214,7 +214,7 @@ const Signin = () => {
           </div>
           <Button
             className="my-3 w-full"
-            disabled={checkingPassword}
+            disabled={!email.current || !password.current || checkingPassword}
             onClick={handleSubmit}
           >
             Login

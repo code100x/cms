@@ -25,7 +25,9 @@ export async function checkUserEmailForPurchase(
       headers,
     });
     return await response.json();
-  } catch (error) {
-    console.log(error);
+  } catch (error: any) {
+    if (error instanceof Error) {
+      console.log(error.message);
+    }
   }
 }

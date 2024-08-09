@@ -9,9 +9,12 @@ import { getServerSession } from 'next-auth';
 import { cache } from '@/db/Cache';
 import prisma from '@/db';
 import { checkUserEmailForPurchase } from './appx-check-mail';
+import { refreshDbInternal } from '@/actions/refresh-db';
 
 const LOCAL_CMS_PROVIDER = process.env.LOCAL_CMS_PROVIDER;
 const COHORT_3_PARENT_COURSES = [8, 9, 10, 11, 12];
+
+export const APPX_COURSE_IDS = [1, 2, 3, 8, 9, 10, 11, 12];
 
 function getExtraCourses(currentCourses: Course[], allCourses: Course[]) {
   const hasCohort2 = currentCourses
@@ -77,10 +80,22 @@ function getExtraCourses(currentCourses: Course[], allCourses: Course[]) {
   return [];
 }
 
-export async function getPurchases(email: string): Promise<Course[]> {
+interface CoursesError {
+  type: 'error';
+  message: string;
+}
+
+interface CoursesSuccess {
+  type: 'success';
+  courses: Course[];
+}
+
+type CoursesResponse = CoursesError | CoursesSuccess;
+
+export async function getPurchases(email: string): Promise<CoursesResponse> {
   const value = await cache.get('courses', [email]);
   if (value) {
-    return value;
+    return { courses: value, type: 'success' };
   }
   const _courses = await getAllCoursesAndContentHierarchy();
   const session = await getServerSession(authOptions);
@@ -126,7 +141,7 @@ export async function getPurchases(email: string): Promise<Course[]> {
   });
 
   if (LOCAL_CMS_PROVIDER) {
-    return courses;
+    return { type: 'success', courses };
   }
 
   // Check if the user exists in the db
@@ -150,32 +165,49 @@ export async function getPurchases(email: string): Promise<Course[]> {
       .filter((x) => x.id)
       .filter((x) => !COHORT_3_PARENT_COURSES.includes(x.id));
     cache.set('courses', [email], allCourses, 60 * 60);
-    return allCourses;
+    return {
+      type: 'success',
+      courses: allCourses,
+    };
   }
+
+  console.log(`Purchase not found in DB ${email}`);
 
   const responses: Course[] = [];
 
-  const promises = courses
-    .filter((x) => !x.openToEveryone)
-    .map(async (course) => {
-      const courseId = course.appxCourseId.toString();
-      const data = await checkUserEmailForPurchase(email, courseId);
-      if (data.data === '1') {
+  try {
+    const promises = courses
+      .filter((x) => APPX_COURSE_IDS.includes(x.id))
+      .map(async (course) => {
+        const courseId = course.appxCourseId.toString();
+        const data = await checkUserEmailForPurchase(email, courseId);
+        if (data.data === '1') {
+          responses.push(course);
+        }
+      });
+    await Promise.all(promises);
+
+    if (responses.length) {
+      const extraCourses = getExtraCourses(responses, courses);
+      for (const course of extraCourses) {
         responses.push(course);
       }
-    });
-
-  await Promise.all(promises);
-
-  if (responses.length) {
-    const extraCourses = getExtraCourses(responses, courses);
-    for (const course of extraCourses) {
-      responses.push(course);
     }
-  }
-  // Remove the parent courses, child courses already added in getExtraCourses
-  responses.filter((x) => !COHORT_3_PARENT_COURSES.includes(x.id));
 
-  cache.set('courses', [email], responses, 60 * 60 * 24);
-  return responses;
+    // Remove the parent courses, child courses already added in getExtraCourses
+    responses.filter((x) => !COHORT_3_PARENT_COURSES.includes(x.id));
+
+    cache.set('courses', [email], responses, 60 * 60 * 24);
+    refreshDbInternal(session?.user.id, session?.user.email);
+    return {
+      type: 'success',
+      courses: responses,
+    };
+  } catch (error) {
+    console.log(`Rate limitted for user ${email}`);
+    return {
+      type: 'error',
+      message: 'Ratelimited via appx',
+    };
+  }
 }
