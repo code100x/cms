@@ -15,6 +15,7 @@ const emailDomains = [
   'outlook.com',
   'icloud.com',
   'hotmail.com',
+  'rediffmail.com',
 ];
 
 const Signin = () => {
@@ -26,6 +27,9 @@ const Signin = () => {
   });
   const [suggestedDomains, setSuggestedDomains] =
     useState<string[]>(emailDomains);
+  const [focusedIndex, setFocusedIndex] = useState(-1);
+  const passwordRef = useRef<HTMLInputElement>(null);
+  const suggestionRefs = useRef<HTMLLIElement[]>([]);
 
   function togglePasswordVisibility() {
     setIsPasswordVisible((prevState: any) => !prevState);
@@ -38,32 +42,52 @@ const Signin = () => {
     const value = e.target.value;
     email.current = value;
 
-    if (value.includes('@')) {
-      const [, domainPart] = value.split('@');
-      // Check for exact matches and filter for partial matches
-      const exactMatch = emailDomains.find((domain) => domain === domainPart);
-      if (exactMatch) {
-        setSuggestedDomains([]);
-      } else {
-        const matchingDomains = emailDomains.filter((domain) =>
-          domain.startsWith(domainPart),
-        );
-        setSuggestedDomains(matchingDomains);
-      }
-    } else {
-      setSuggestedDomains(emailDomains);
-    }
+    setFocusedIndex(0);
     setRequiredError((prevState) => ({
       ...prevState,
       emailReq: false,
     }));
+
+    if (!value.includes('@')) {
+      setSuggestedDomains(emailDomains);
+      return;
+    }
+
+    const [, currentDomain] = value.split('@');
+    // Check for exact matches and filter for partial matches
+    const exactMatch = emailDomains.find((domain) => domain === currentDomain);
+    if (exactMatch) {
+      setSuggestedDomains([]);
+      return;
+    }
+
+    const matchingDomains = emailDomains.filter((domain) =>
+      domain.startsWith(currentDomain),
+    );
+    setSuggestedDomains(matchingDomains);
   };
 
   const handleSuggestionClick = (domain: string) => {
-    const [userPart] = email.current.split('@');
-    const newEmail = `${userPart}@${domain}`;
+    const [username] = email.current.split('@');
+    const newEmail = `${username}@${domain}`;
     email.current = newEmail;
+    passwordRef.current?.focus();
     setSuggestedDomains([]);
+  };
+
+  // Handle keyboard events for navigating and selecting suggestions
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && focusedIndex >= 0 && suggestedDomains.length > 0) {
+      handleSuggestionClick(suggestedDomains[focusedIndex]);
+    } else if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      setFocusedIndex((prevIndex) =>
+        Math.min(prevIndex + 1, suggestedDomains.length - 1),
+      );
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      setFocusedIndex((prevIndex) => Math.max(prevIndex - 1, 0));
+    }
   };
 
   const handleSubmit = async (e?: React.FormEvent<HTMLButtonElement>) => {
@@ -112,13 +136,7 @@ const Signin = () => {
                 placeholder="name@email.com"
                 value={email.current}
                 onChange={handleEmailChange}
-                onFocus={() => {
-                  if (email.current.includes('@')) {
-                    handleEmailChange({
-                      target: { value: email.current },
-                    } as React.ChangeEvent<HTMLInputElement>);
-                  }
-                }}
+                onKeyDown={handleKeyDown}
               />
               {email.current && suggestedDomains.length > 0 && (
                 <ul
@@ -127,9 +145,17 @@ const Signin = () => {
                   {suggestedDomains.map((domain: string, index: number) => (
                     <>
                       <li
+                        key={domain}
                         value={domain}
-                        className="relative flex w-full cursor-default select-none items-center rounded-sm p-2 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
+                        ref={(listItem) =>
+                          (suggestionRefs.current[index] = listItem!)
+                        }
                         onClick={() => handleSuggestionClick(domain)}
+                        className={`relative flex w-full cursor-default select-none items-center rounded-sm p-2 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 ${
+                          focusedIndex === index
+                            ? 'bg-primary-foreground font-medium'
+                            : ''
+                        }`}
                       >
                         {email.current.split('@')[0]}@{domain}
                       </li>
@@ -151,6 +177,7 @@ const Signin = () => {
                   type={isPasswordVisible ? 'text' : 'password'}
                   id="password"
                   placeholder="••••••••"
+                  ref={passwordRef}
                   onChange={(e) => {
                     setRequiredError((prevState) => ({
                       ...prevState,
