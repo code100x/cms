@@ -53,6 +53,7 @@ model Content {
   comments         Comment[]
   commentsCount    Int             @default(0)
   bookmark         Bookmark[]
+  questions        Question[]
 }
 
 model CourseContent {
@@ -216,7 +217,7 @@ model Comment {
 }
 model Question {
   id          Int       @id @default(autoincrement())
-  title       String
+  title       String   
   content     String
   slug        String    @unique
   createdAt   DateTime  @default(now())
@@ -229,9 +230,11 @@ model Question {
   votes       Vote[]
   tags        String[]
   updatedAt   DateTime  @updatedAt
-  videoId     String? 
+  video       Content? @relation(fields: [videoId], references: [id])
+  videoId     Int?
 
   @@index([authorId])
+  @@index([videoId])
 }
 
 model Answer {
