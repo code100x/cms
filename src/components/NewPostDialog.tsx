@@ -38,13 +38,6 @@ export const NewPostDialog = ({ videos }: { videos: any }) => {
     let timeoutId: any;
     if (paramsObject.newPost === 'open') {
       onOpen();
-
-      timeoutId = setTimeout(() => {
-        if (containerRef.current) {
-          const rect = containerRef.current.getBoundingClientRect();
-        }
-      }, 0); // Adjust the delay time if needed
-
       // Cleanup function to clear the timeout
     } else {
       onClose();
