@@ -57,7 +57,7 @@ export interface QuestionQuery {
   };
   where?: {
     authorId?: string;
-
+    videoId?: number; // Add this line
     title?: {
       contains: string;
     };
