@@ -15,6 +15,10 @@ const Signin = () => {
     emailReq: false,
     passReq: false,
   });
+  const [isButtonDisabled, setisButtonDisabled] = useState({
+    isEmail: true,
+    isPassword: true,
+  });
 
   function togglePasswordVisibility() {
     setIsPasswordVisible((prevState: any) => !prevState);
@@ -72,6 +76,10 @@ const Signin = () => {
                     ...prevState,
                     emailReq: false,
                   }));
+                  setisButtonDisabled((prevState) => ({
+                    ...prevState,
+                    isEmail: e.target.value.trim() === '' ? true : false,
+                  }));
                   email.current = e.target.value;
                 }}
               />
@@ -92,6 +100,10 @@ const Signin = () => {
                     setRequiredError((prevState) => ({
                       ...prevState,
                       passReq: false,
+                    }));
+                    setisButtonDisabled((prevState) => ({
+                      ...prevState,
+                      isPassword: e.target.value.trim() === '' ? true : false,
                     }));
                     password.current = e.target.value;
                   }}
@@ -151,7 +163,7 @@ const Signin = () => {
           </div>
           <Button
             className="my-3 w-full"
-            disabled={!email.current || !password.current || checkingPassword}
+            disabled={isButtonDisabled.isEmail || isButtonDisabled.isPassword}
             onClick={handleSubmit}
           >
             Login
