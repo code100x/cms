@@ -33,7 +33,7 @@ const createQuestionHandler = async (
     };
   }
 
-  const { title, content, tags } = data;
+  const { title, content, tags, videoId } = data;
 
   // Create initial slug
   let slug = generateHandle(title);
@@ -64,6 +64,7 @@ const createQuestionHandler = async (
         tags,
         authorId: session.user.id,
         slug, // Include the slug
+        videoId: videoId,
       },
     });
     revalidatePath(`/questions/${question.id}`);

@@ -82,13 +82,24 @@ export const NewPostDialog = ({ videos }: { videos: any }) => {
     const formData = new FormData(event.currentTarget);
     const title = formData.get('title');
     const tags = formData.get('tags');
-
-    execute({
+    const data: {
+      title: string;
+      content: string;
+      tags: string[];
+      videoId?: string | null;
+    } = {
       title: title?.toString() || '',
       content: value,
       tags: (tags?.toString() || '').split(','),
-      // videoId: videoId || '',
-    });
+    };
+    if (videoId && videoId !== 'none' && videoId !== null && videoId !== undefined) {
+      data.videoId = videoId;
+    } else {
+      data.videoId = null;
+    }
+
+    execute(data);
+    setVideoId(null);
   };
 
   return (
