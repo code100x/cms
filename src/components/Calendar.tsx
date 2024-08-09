@@ -40,6 +40,15 @@ const MyCalendar = ({
     [setDate],
   );
 
+  const calendarStyle = () => {
+    return {
+      style: {
+        backgroundColor: 'white',
+        color: 'black',
+      },
+    };
+  };
+
   const handleOnChangeView = (selectedView: View) => {
     setView(selectedView);
   };
@@ -53,10 +62,11 @@ const MyCalendar = ({
         events={events}
         view={view}
         defaultView={Views.MONTH}
-        views={['month', 'week', 'day', 'agenda']}
+        views={['month', 'week', 'day']}
         showMultiDayTimes
         style={{ height: 500 }}
         onView={handleOnChangeView}
+        dayPropGetter={calendarStyle}
       />
     </div>
   );

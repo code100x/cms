@@ -166,9 +166,20 @@ width of the controls on screens smaller than 512px */
   z-index: 1;
 }
 
-.rbc-event,
-.rbc-background-event {
-  z-index: 2;
-  padding: 0px !important;
-  border: none !important;
+.rbc-event {
+  min-width: auto;
+}
+
+.rbc-month-content {
+  border-radius: 20px;
+}
+
+.rbc-event-label {
+  display: none;
+}
+
+.rbc-event-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
