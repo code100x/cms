@@ -24,6 +24,22 @@ import { authOptions } from '@/lib/auth';
 import PostCard from '@/components/posts/PostCard';
 import Pagination from '@/components/Pagination';
 import { redirect } from 'next/navigation';
+import { getPurchases } from '@/utiles/appx';
+import { Course } from '@/store/atoms';
+import { getFullCourseContent } from '@/db/course';
+import findContentById from '@/lib/find-content-by-id';
+
+interface CoursesError {
+  type: 'error';
+  message: string;
+}
+
+interface CoursesSuccess {
+  type: 'success';
+  courses: Course[];
+}
+
+type CoursesResponse = CoursesError | CoursesSuccess;
 
 type QuestionsResponse = {
   data: ExtendedQuestion[] | null;
@@ -122,12 +138,49 @@ const fetchQuestionsByTabType = async (
   return getQuestionsWithQuery(additionalQuery, searchParams, sessionId);
 };
 
+const getCourses = async (): Promise<CoursesResponse> => {
+  const session = await getServerSession(authOptions);
+  const purchases = await getPurchases(session?.user.email || '');
+
+  return purchases;
+};
+
+const getAllVideos = async (): Promise<any> => {
+  const res = await getCourses();
+  if (res.type === 'error') {
+    throw new Error('Ratelimited by appx please try again later');
+  }
+
+  const allCoursesId = res.courses.map((course) => course.id);
+  const allVideos: any[] = [];
+
+  await Promise.all(
+    allCoursesId.map(async (courseId: number) => {
+      const fullCourseContent = await getFullCourseContent(courseId);
+      const courseContent = findContentById(fullCourseContent, []);
+
+      courseContent?.forEach(async (content: any) => {
+        const courseContent = findContentById(fullCourseContent, [content.id]);
+
+        courseContent?.forEach((content: any) => {
+          if (content.type === 'video') {
+            allVideos.push(content);
+          }
+        });
+      });
+    }),
+  );
+
+  return allVideos;
+};
+
 export default async function Home({
   searchParams,
 }: {
   params: { slug: string };
   searchParams: QueryParams;
 }) {
+  const allVideos = await getAllVideos();
   const disabled = getDisabledFeature('qa');
   if (disabled) {
     redirect('/');
@@ -157,7 +210,7 @@ export default async function Home({
             New Question
           </Link>
         </div>
-        <NewPostDialog />
+        <NewPostDialog videos={allVideos} />
         <div className="mx-auto md:mx-[15%] md:p-10">
           <div className="flex flex-col items-center p-4 dark:text-white">
             <div className="flex">

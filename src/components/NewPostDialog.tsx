@@ -18,7 +18,7 @@ import { getUpdatedUrl, searchParamsToObject } from '@/lib/utils';
 import { FormPostInput } from './posts/form/form-input';
 import { FormPostErrors } from './posts/form/form-errors';
 
-export const NewPostDialog = () => {
+export const NewPostDialog = ({ videos }: { videos: any }) => {
   const { theme } = useTheme();
   const formRef = useRef<ElementRef<'form'>>(null);
   const searchParam = useSearchParams();
@@ -27,6 +27,7 @@ export const NewPostDialog = () => {
   const router = useRouter();
   const [value, setValue] = useState<string>('**Hello world!!!**');
   const [editorHeight, setEditorHeight] = useState<number>(200);
+  const [videoId, setVideoId] = useState<string | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const { ref, onOpen, onClose } = useModal();
   const handleMarkdownChange = (newValue?: string) => {
@@ -80,19 +81,25 @@ export const NewPostDialog = () => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const title = formData.get('title');
-
     const tags = formData.get('tags');
 
     execute({
       title: title?.toString() || '',
       content: value,
       tags: (tags?.toString() || '').split(','),
+      // videoId: videoId || '',
     });
   };
 
   return (
     <Modal ref={ref} onClose={handleOnCloseClick}>
-      <form ref={formRef} onSubmit={onSubmit}>
+      <form
+        ref={formRef}
+        onSubmit={onSubmit}
+        style={{
+          overflow: 'scroll',
+        }}
+      >
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8">
           <div
             ref={containerRef}
@@ -110,6 +117,23 @@ export const NewPostDialog = () => {
               placeholder="Enter question title..."
               errors={fieldErrors}
             />
+            <select
+              value={videoId || ''}
+              onChange={(e) => {
+                if (e.target.value === 'none') {
+                  setVideoId(null);
+                }
+                setVideoId(e.target.value);
+              }}
+              className="h-7 w-full rounded-md border border-input bg-background p-2 px-2 py-1 text-sm"
+            >
+              <option value={'none'}>Select A Video</option>
+              {videos.map((video: any) => (
+                <option key={video.id} value={video.id}>
+                  {video.title}
+                </option>
+              ))}
+            </select>
             <div className="flex-grow">
               <div data-color-mode={theme}>
                 <div className="wmde-markdown-var"> </div>
@@ -126,7 +150,7 @@ export const NewPostDialog = () => {
             </div>
             <FormPostInput
               id="tags"
-              placeholder="Enter tags seperated by comma : hello,world"
+              placeholder="Enter tags separated by comma: hello,world"
               errors={fieldErrors}
             />
             <Button type="submit">Post-it</Button>
