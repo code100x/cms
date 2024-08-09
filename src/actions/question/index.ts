@@ -57,16 +57,29 @@ const createQuestionHandler = async (
       slug += `-${Math.random().toString(36).substring(2, 5)}`;
     }
 
+    const data: {
+      title: string;
+      content: string;
+      tags?: string[];
+      authorId: string;
+      slug: string;
+      videoId?: number;
+    } = {
+      title,
+      content,
+      tags,
+      authorId: session.user.id,
+      slug, // Include the slug
+    };
+
+    if (videoId) {
+      data.videoId = videoId;
+    }
+
     const question = await db.question.create({
-      data: {
-        title,
-        content,
-        tags,
-        authorId: session.user.id,
-        slug, // Include the slug
-        videoId: videoId,
-      },
+      data,
     });
+
     revalidatePath(`/questions/${question.id}`);
     revalidatePath(`/questions`);
 

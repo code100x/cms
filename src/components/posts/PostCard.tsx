@@ -44,6 +44,7 @@ interface IProps {
   reply?: boolean;
   enableLink?: boolean;
   isAnswer?: boolean;
+  videoId?: number | null;
   questionId: number;
 }
 const isExtendedQuestion = (

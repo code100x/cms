@@ -27,7 +27,7 @@ export const NewPostDialog = ({ videos }: { videos: any }) => {
   const router = useRouter();
   const [value, setValue] = useState<string>('**Hello world!!!**');
   const [editorHeight, setEditorHeight] = useState<number>(200);
-  const [videoId, setVideoId] = useState<string | null>(null);
+  const [videoId, setVideoId] = useState<number | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const { ref, onOpen, onClose } = useModal();
   const handleMarkdownChange = (newValue?: string) => {
@@ -86,16 +86,16 @@ export const NewPostDialog = ({ videos }: { videos: any }) => {
       title: string;
       content: string;
       tags: string[];
-      videoId?: string | null;
+      videoId?: number | undefined;
     } = {
       title: title?.toString() || '',
       content: value,
       tags: (tags?.toString() || '').split(','),
     };
-    if (videoId && videoId !== 'none' && videoId !== null && videoId !== undefined) {
-      data.videoId = videoId;
+    if (videoId && videoId !== null && videoId !== undefined) {
+      data.videoId = Number(videoId);
     } else {
-      data.videoId = null;
+      data.videoId = undefined;
     }
 
     execute(data);
@@ -134,16 +134,18 @@ export const NewPostDialog = ({ videos }: { videos: any }) => {
                 if (e.target.value === 'none') {
                   setVideoId(null);
                 }
-                setVideoId(e.target.value);
+                setVideoId(Number(e.target.value));
               }}
               className="h-7 w-full rounded-md border border-input bg-background p-2 px-2 py-1 text-sm"
             >
               <option value={'none'}>Select A Video</option>
-              {videos.map((video: any) => (
-                <option key={video.id} value={video.id}>
-                  {video.title}
-                </option>
-              ))}
+              {videos.map((video: any) => {
+                return (
+                  <option key={video.id} value={video.id}>
+                    {video.title}
+                  </option>
+                );
+              })}
             </select>
             <div className="flex-grow">
               <div data-color-mode={theme}>

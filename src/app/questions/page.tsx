@@ -68,6 +68,7 @@ const getQuestionsWithQuery = async (
       slug: true,
       createdAt: true,
       updatedAt: true,
+      videoId: true,
       votes: {
         where: { userId: sessionId },
         select: { userId: true, voteType: true },
@@ -190,6 +191,7 @@ export default async function Home({
 
   const tabType = searchParams.tabtype || TabType.mu;
   const response = await fetchQuestionsByTabType(searchParams, sessionId!);
+  console.log(response);
 
   return (
     <>
@@ -279,6 +281,7 @@ export default async function Home({
                     questionId={post.id}
                     enableLink={true}
                     reply={false}
+                    videoId={post.videoId}
                   />
                 ))}
               </div>
