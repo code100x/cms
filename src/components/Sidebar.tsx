@@ -40,9 +40,7 @@ export function Sidebar({
       // if matchArray is not null
       if (matchArray) {
         const urlPathString = matchArray[1];
-        currentUrlContentId = Number(
-          urlPathString.slice(urlPathString.length - 1),
-        ); // get last content id from pathString e.g '/1/2' => 2 (number)
+        currentUrlContentId = Number(urlPathString.split('/')[1]); // get the content id, e.g '/1/2' => 1 (number)
       }
       const pathArray = findPathToContent(
         fullCourseContent,
@@ -123,11 +121,10 @@ export function Sidebar({
         <Link
           key={content.id}
           href={navigateToContent(content.id) || '#'}
-          className={`flex cursor-pointer border-b p-2 hover:bg-gray-200 ${
-            isActiveContent
-              ? 'bg-gray-300 text-black dark:bg-gray-700 dark:text-white dark:hover:bg-gray-500'
-              : 'bg-gray-50 text-black dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700'
-          }`}
+          className={`flex cursor-pointer border-b p-2 hover:bg-gray-200 ${isActiveContent
+            ? 'bg-gray-300 text-black dark:bg-gray-700 dark:text-white dark:hover:bg-gray-500'
+            : 'bg-gray-50 text-black dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700'
+            }`}
         >
           <div className="flex w-full justify-between">
             <div className="flex">
@@ -192,14 +189,12 @@ export function ToggleButton({
         className={`block h-0.5 w-6 rounded-sm bg-black transition-all duration-300 ease-out dark:bg-white ${!sidebarOpen ? 'translate-y-1 rotate-45' : '-translate-y-0.5'}`}
       ></span>
       <span
-        className={`my-0.5 block h-0.5 w-6 rounded-sm bg-black transition-all duration-300 ease-out dark:bg-white ${
-          !sidebarOpen ? 'opacity-0' : 'opacity-100'
-        }`}
+        className={`my-0.5 block h-0.5 w-6 rounded-sm bg-black transition-all duration-300 ease-out dark:bg-white ${!sidebarOpen ? 'opacity-0' : 'opacity-100'
+          }`}
       ></span>
       <span
-        className={`block h-0.5 w-6 rounded-sm bg-black transition-all duration-300 ease-out dark:bg-white ${
-          !sidebarOpen ? '-translate-y-1 -rotate-45' : 'translate-y-0.5'
-        }`}
+        className={`block h-0.5 w-6 rounded-sm bg-black transition-all duration-300 ease-out dark:bg-white ${!sidebarOpen ? '-translate-y-1 -rotate-45' : 'translate-y-0.5'
+          }`}
       ></span>
     </button>
   );
