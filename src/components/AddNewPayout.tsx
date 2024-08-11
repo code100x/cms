@@ -48,23 +48,26 @@ export const AddPayout = () => {
           id="address"
         ></Input>
       </div>
-      <Button
-        onClick={async () => {
-          try {
-            await axios.post('/api/addpayout', {
-              payoutType,
-              address,
-            });
-            toast.success(
-              `Added ${payoutType === 'upi' ? payoutType.toUpperCase() : payoutType} successfully!`,
-            );
-          } catch {
-            toast.error('Error adding address!');
-          }
-        }}
-      >
-        Add {payoutType === 'upi' ? 'UPI' : 'Solana'}
-      </Button>
+      <div className="flex justify-center">
+        <Button
+          className="min-w-52"
+          onClick={async () => {
+            try {
+              await axios.post('/api/addpayout', {
+                payoutType,
+                address,
+              });
+              toast.success(
+                `Added ${payoutType === 'upi' ? payoutType.toUpperCase() : payoutType} successfully!`,
+              );
+            } catch {
+              toast.error('Error adding address!');
+            }
+          }}
+        >
+          Add {payoutType === 'upi' ? 'UPI' : 'Solana'}
+        </Button>
+      </div>
     </diV>
   );
 };
