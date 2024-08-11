@@ -154,6 +154,8 @@ model User {
   questions      Question[]
   answers        Answer[]
   certificate    Certificate[]
+  upis           UPIWallet[]
+  solanaAddresses SolanaWallet[]
 }
 
 model DiscordConnect {
@@ -272,6 +274,22 @@ model Vote {
   @@unique([questionId, userId])  
   @@unique([answerId, userId])    
   @@unique([commentId, userId])  
+}
+
+model UPIWallet {
+  id       Int      @id @default(autoincrement())
+  parentId String
+  parent   User     @relation(fields: [parentId], references: [id])
+  address  String
+  addedAt  DateTime @default(now())
+}
+
+model SolanaWallet {
+  id       Int      @id @default(autoincrement())
+  parentId String
+  parent   User     @relation(fields: [parentId], references: [id])
+  address  String
+  addedAt  DateTime @default(now())
 }
 
 enum VoteType {

@@ -7,6 +7,7 @@ import {
   LogOutIcon,
   User2Icon,
   Bird,
+  Wallet,
 } from 'lucide-react';
 import {
   DropdownMenu,
@@ -36,6 +37,11 @@ const ProfileDropdown = () => {
       href: '/questions',
       icon: <Bird className="mr-2 h-4 w-4" />,
       label: 'Questions',
+    },
+    {
+      href: 'payout-methods',
+      icon: <Wallet className="mr-2 h-4 w-4" />,
+      label: 'Payout methods',
     },
   ];
 
