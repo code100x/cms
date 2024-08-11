@@ -280,7 +280,7 @@ model UPIWallet {
   id       Int      @id @default(autoincrement())
   parentId String
   parent   User     @relation(fields: [parentId], references: [id])
-  address  String
+  address  String   @unique
   addedAt  DateTime @default(now())
 }
 
@@ -288,7 +288,7 @@ model SolanaWallet {
   id       Int      @id @default(autoincrement())
   parentId String
   parent   User     @relation(fields: [parentId], references: [id])
-  address  String
+  address  String   @unique
   addedAt  DateTime @default(now())
 }
 
