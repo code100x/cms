@@ -39,9 +39,9 @@ const ProfileDropdown = () => {
       label: 'Questions',
     },
     {
-      href: 'payout-methods',
+      href: 'payouts',
       icon: <Wallet className="mr-2 h-4 w-4" />,
-      label: 'Payout methods',
+      label: 'Payouts',
     },
   ];
 

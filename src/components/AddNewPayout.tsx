@@ -24,9 +24,9 @@ export const AddPayout = () => {
   };
 
   return (
-    <diV className="mx-auto my-10 max-w-[450px] space-y-5 rounded-md border-2 p-10">
+    <diV className="mx-auto my-10 space-y-5 rounded-md border-2 p-10 sm:max-w-[300px] md:max-w-[450px]">
       <Label htmlFor="address" className="text-xl">
-        Enter details
+        Enter details of wallet to add
       </Label>
       <div className="space-y-5">
         <div>
