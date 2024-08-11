@@ -12,6 +12,7 @@ import {
 import { Label } from '@/components/ui/label';
 import { Button } from './ui/button';
 import axios from 'axios';
+import { toast } from 'sonner';
 
 export const AddPayout = () => {
   type payoutType = 'upi' | 'solana';
@@ -23,7 +24,7 @@ export const AddPayout = () => {
   };
 
   return (
-    <diV className="mx-auto max-w-[500px] space-y-5">
+    <diV className="mx-auto my-10 max-w-[450px] space-y-5 rounded-md border-2 p-10">
       <Label htmlFor="address" className="text-xl">
         Enter details
       </Label>
@@ -49,10 +50,17 @@ export const AddPayout = () => {
       </div>
       <Button
         onClick={async () => {
-          await axios.post('/api/addpayout', {
-            payoutType,
-            address,
-          });
+          try {
+            await axios.post('/api/addpayout', {
+              payoutType,
+              address,
+            });
+            toast.success(
+              `Added ${payoutType === 'upi' ? payoutType.toUpperCase() : payoutType} successfully!`,
+            );
+          } catch {
+            toast.error('Error adding address!');
+          }
         }}
       >
         Add {payoutType === 'upi' ? 'UPI' : 'Solana'}
