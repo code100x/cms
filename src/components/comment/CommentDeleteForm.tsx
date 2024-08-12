@@ -27,8 +27,8 @@ const CommentDeleteForm = ({ commentId }: { commentId: number }) => {
     });
   };
   return (
-    <form onSubmit={handleFormSubmit}>
-      <button type="submit" disabled={isLoading}>
+    <form className='w-full' onSubmit={handleFormSubmit}>
+      <button className='w-full px-2 py-1' type="submit" disabled={isLoading}>
         <div className="flex items-center gap-x-2">
           Delete <Trash2Icon className="h-4 w-4" />
         </div>

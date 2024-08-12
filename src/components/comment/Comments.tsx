@@ -250,7 +250,7 @@ const Comments = async ({
                         </button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent>
-                        <DropdownMenuItem>
+                        <DropdownMenuItem className='p-0 m-0 h-fit'>
                           <CopyToClipboard
                             textToCopy={`${c.contentId};${c.id.toString()}`}
                           />
@@ -258,12 +258,12 @@ const Comments = async ({
                         {(session.user.id.toString() ===
                           (c as ExtendedComment).userId.toString() ||
                           session.user.role === ROLES.ADMIN) && (
-                          <DropdownMenuItem>
-                            <CommentDeleteForm commentId={c.id} />
-                          </DropdownMenuItem>
-                        )}
+                            <DropdownMenuItem className='p-0 m-0 h-fit'>
+                              <CommentDeleteForm commentId={c.id} />
+                            </DropdownMenuItem>
+                          )}
                         {session.user.role === ROLES.ADMIN && (
-                          <DropdownMenuItem>
+                          <DropdownMenuItem className='p-0 m-0 h-fit'>
                             <CommentPinForm
                               commentId={c.id}
                               contentId={c.contentId}
@@ -271,7 +271,7 @@ const Comments = async ({
                           </DropdownMenuItem>
                         )}
                         {session.user.role === ROLES.ADMIN && (
-                          <DropdownMenuItem>
+                          <DropdownMenuItem className='p-0 m-0 h-fit'>
                             <CommentApproveForm
                               commentId={c.id}
                               contentId={c.contentId}

@@ -19,8 +19,8 @@ const CopyToClipboard = ({
   };
 
   return (
-    <div>
-      <button onClick={handleCopyClick}>
+    <div className='w-full'>
+      <button className='w-full px-2 py-1' onClick={handleCopyClick}>
         <div className="flex items-center gap-x-2">
           Copy <CopyIcon size={15} />
         </div>
