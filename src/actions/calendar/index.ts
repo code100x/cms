@@ -1,25 +1,25 @@
 'use server';
 
 import db from '@/db';
-import { ContentType } from './types';
-import { cache } from '@/db/Cache';
+import { ContentType, InputTypeGetEvents, ReturnTypeGetEvents } from './types';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/lib/auth';
 import { getEventsSchema } from './schema';
+import { createSafeAction } from '@/lib/create-safe-action';
 
-export const getEvents = async (courseId: number): Promise<ContentType[]> => {
+export const getEventsHandler = async (
+  data: InputTypeGetEvents,
+): Promise<ReturnTypeGetEvents> => {
   try {
-    const { success } = getEventsSchema.safeParse({ courseId });
+    const session = await getServerSession(authOptions);
 
-    if (!success) {
-      console.log('Parsing failed');
-      return [];
+    if (!session || !session.user) {
+      return { error: 'Unauthorized or insufficient permissions' };
     }
-    const value = await cache.get('getEvents', [courseId.toString()]);
-    if (value) {
-      return value;
-    }
+
     const folders = await db.courseContent.findMany({
       where: {
-        courseId,
+        courseId: data.courseId,
       },
       include: {
         content: {
@@ -31,6 +31,7 @@ export const getEvents = async (courseId: number): Promise<ContentType[]> => {
     });
 
     const content: ContentType[] = [];
+
     folders.forEach((folder) => {
       folder.content.children.forEach((el) => {
         if (el.type === 'video') {
@@ -43,10 +44,11 @@ export const getEvents = async (courseId: number): Promise<ContentType[]> => {
         }
       });
     });
-    cache.set('getEvents', [courseId.toString()], content);
-    return content;
-  } catch (err) {
-    console.error(err);
-    return [];
+
+    return { data: content };
+  } catch (err: any) {
+    return { error: err.message || 'Failed to fetch events' };
   }
 };
+
+export const getEvents = createSafeAction(getEventsSchema, getEventsHandler);

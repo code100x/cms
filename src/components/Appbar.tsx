@@ -16,25 +16,14 @@ import MobileScreenSearch from './search/MobileScreenSearch';
 import ProfileDropdown from './profile-menu/ProfileDropdown';
 import { ThemeToggler } from './ThemeToggler';
 import { CalendarDialog } from './Calendar';
-import { useEffect, useState } from 'react';
-import { getEvents } from '@/actions/calendar';
-import { ContentType } from '@/actions/calendar/types';
+import { useEvents } from '@/hooks/useEvents';
 
 export const Appbar = () => {
   const { data: session, status: sessionStatus } = useSession();
   const [sidebarOpen, setSidebarOpen] = useRecoilState(sidebarOpenAtom);
   const currentPath = usePathname();
   const courseId = currentPath.split('/')[2];
-  const [events, setEvents] = useState<ContentType[]>();
-
-  useEffect(() => {
-    async function fetchEvents() {
-      const fetchedEvents = (await getEvents(Number(courseId))) ?? [];
-      setEvents(fetchedEvents);
-    }
-
-    fetchEvents();
-  }, [courseId]);
+  const { events } = useEvents(courseId);
 
   const isLoading = sessionStatus === 'loading';
 
