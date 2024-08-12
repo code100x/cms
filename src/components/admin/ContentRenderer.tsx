@@ -17,7 +17,7 @@ function bunnyUrl(url: string) {
     );
 }
 
-async function isUrlAccessible(url: string): Promise<boolean> {
+export async function isUrlAccessible(url: string): Promise<boolean> {
   try {
     const response = await fetch(url, { method: 'HEAD' });
     return response.ok;
