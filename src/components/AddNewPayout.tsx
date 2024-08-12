@@ -23,6 +23,20 @@ export const AddPayout = () => {
     setPayoutType(value);
   };
 
+  const handleWalletAdd = async () => {
+    try {
+      await axios.post('/api/addpayout', {
+        payoutType,
+        address,
+      });
+      toast.success(
+        `Added ${payoutType === 'upi' ? payoutType.toUpperCase() : payoutType} successfully!`,
+      );
+    } catch {
+      toast.error('Error adding address!');
+    }
+  };
+
   return (
     <diV className="mx-auto my-10 space-y-5 rounded-md border-2 p-10 sm:max-w-[300px] md:max-w-[450px]">
       <Label htmlFor="address" className="text-xl">
@@ -49,22 +63,7 @@ export const AddPayout = () => {
         ></Input>
       </div>
       <div className="flex justify-center">
-        <Button
-          className="min-w-52"
-          onClick={async () => {
-            try {
-              await axios.post('/api/addpayout', {
-                payoutType,
-                address,
-              });
-              toast.success(
-                `Added ${payoutType === 'upi' ? payoutType.toUpperCase() : payoutType} successfully!`,
-              );
-            } catch {
-              toast.error('Error adding address!');
-            }
-          }}
-        >
+        <Button className="min-w-52" onClick={handleWalletAdd}>
           Add {payoutType === 'upi' ? 'UPI' : 'Solana'}
         </Button>
       </div>
