@@ -51,7 +51,6 @@ export const Wallets = () => {
           </DialogHeader>
         </DialogContent>
       </Dialog>
-      {JSON.stringify(upiWallets)}
     </>
   );
 };

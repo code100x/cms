@@ -12,11 +12,10 @@ export function WalletAddress({
   typeOfWallet: 'upi' | 'solana';
   id: number;
 }) {
-  const { deleteWallet, setRefreshTrigger } = useWallets();
+  const { deleteWallet } = useWallets();
 
   const handleDelete = async () => {
     await deleteWallet(typeOfWallet, id);
-    setRefreshTrigger((c) => c + 1);
   };
   return (
     <Card className="w-full max-w-md">
