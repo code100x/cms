@@ -4,41 +4,52 @@ import { getServerSession } from 'next-auth';
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 
-const requestBodySchema = z.object({
+const deleteWalletSchema = z.object({
   payoutType: z.enum(['upi', 'solana']),
-  address: z.string(),
+  id: z.number(),
 });
 
-async function handleCreateUpiAddress(userId: string, address: string) {
+export const handleDeleteUpiAddress = async (userId: string, id: number) => {
   return db.user.update({
-    where: { id: userId },
+    where: {
+      id: userId,
+    },
     data: {
       upis: {
-        create: { address },
+        delete: {
+          id,
+        },
       },
     },
   });
-}
+};
 
-async function handleCreateSolanaAddress(userId: string, address: string) {
+export const handleDeleteSolanaAddress = async (userId: string, id: number) => {
   return db.user.update({
-    where: { id: userId },
+    where: {
+      id: userId,
+    },
     data: {
       solanaAddresses: {
-        create: { address },
+        delete: {
+          id,
+        },
       },
     },
   });
-}
+};
 
 export async function POST(req: NextRequest) {
   try {
-    const parsedBody = requestBodySchema.safeParse(await req.json());
     const session = await getServerSession(authOptions);
 
-    if (!session?.user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    if (!session || !session.user) {
+      return NextResponse.json({
+        error: 'Unauthorized!',
+      });
     }
+
+    const parsedBody = deleteWalletSchema.safeParse(await req.json());
 
     if (!parsedBody.success) {
       return NextResponse.json(
@@ -47,14 +58,14 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const { payoutType, address } = parsedBody.data;
+    const { payoutType, id } = parsedBody.data;
     const userId = session.user.id;
 
     if (payoutType === 'upi') {
-      await handleCreateUpiAddress(userId, address);
+      await handleDeleteUpiAddress(userId, id);
       return NextResponse.json({ message: 'UPI added successfully!' });
     } else if (payoutType === 'solana') {
-      await handleCreateSolanaAddress(userId, address);
+      await handleDeleteSolanaAddress(userId, id);
       return NextResponse.json({
         message: 'Solana address added successfully!',
       });

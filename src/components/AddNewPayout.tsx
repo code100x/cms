@@ -11,30 +11,20 @@ import {
 } from '@/components/ui/select';
 import { Label } from '@/components/ui/label';
 import { Button } from './ui/button';
-import axios from 'axios';
-import { toast } from 'sonner';
+import { useWallets } from '@/hooks/useWallets';
 
 export const AddPayout = () => {
   type payoutType = 'upi' | 'solana';
-  const [payoutType, setPayoutType] = useState<payoutType>();
+  const [payoutMethod, setPayoutMethod] = useState<payoutType>();
   const [address, setAddress] = useState('');
+  const { addWallet } = useWallets();
 
   const handleValueChange = (value: payoutType) => {
-    setPayoutType(value);
+    setPayoutMethod(value);
   };
 
   const handleWalletAdd = async () => {
-    try {
-      await axios.post('/api/addpayout', {
-        payoutType,
-        address,
-      });
-      toast.success(
-        `Added ${payoutType === 'upi' ? payoutType.toUpperCase() : payoutType} successfully!`,
-      );
-    } catch {
-      toast.error('Error adding address!');
-    }
+    await addWallet(payoutMethod!, address);
   };
 
   return (
@@ -64,7 +54,7 @@ export const AddPayout = () => {
       </div>
       <div className="flex justify-center">
         <Button className="min-w-52" onClick={handleWalletAdd}>
-          Add {payoutType === 'upi' ? 'UPI' : 'Solana'}
+          Add {payoutMethod === 'upi' ? 'UPI' : 'Solana'}
         </Button>
       </div>
     </diV>
