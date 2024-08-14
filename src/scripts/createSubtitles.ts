@@ -12,7 +12,7 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-export const downloadVideo = (url: string, fileName: string) => {
+const downloadVideo = (url: string, fileName: string) => {
   const temp = `${RootDir}/temp`;
   const createDirIfNotExists = (temp: string) =>
     !existsSync(temp) ? mkdirSync(temp) : undefined;
@@ -24,10 +24,13 @@ export const downloadVideo = (url: string, fileName: string) => {
   return destination;
 };
 
-export const getVideoUrl = async (contentId: number): Promise<any> => {
+const getVideoUrl = async (contentId: number): Promise<any> => {
   const metadata = await getMetadata(contentId);
 
-  if (!metadata) {
+  if (!metadata || metadata.subtitles) {
+    console.log(
+      "Video doesn't exist or subtitles are already present for this video",
+    );
     return null;
   }
 
@@ -40,7 +43,7 @@ export const getVideoUrl = async (contentId: number): Promise<any> => {
   return metadata?.[1080];
 };
 
-async function convertToSRT(destination: string) {
+async function getSubtitles(destination: string) {
   const transcription = await openai.audio.transcriptions.create({
     file: fs.createReadStream(destination),
     model: 'whisper-1',
@@ -49,7 +52,47 @@ async function convertToSRT(destination: string) {
   return transcription.text;
 }
 
-export const convertVideoToMP3 = async (contentId: number) => {
+const uploadToBunny = async (filePath: string, fileName: string) => {
+  const REGION = process.env.BUNNY_REGION;
+  const BASE_HOSTNAME = 'storage.bunnycdn.com';
+  const HOSTNAME = REGION ? `${REGION}.${BASE_HOSTNAME}` : BASE_HOSTNAME;
+  const STORAGE_ZONE_NAME = process.env.STORAGE_ZONE_NAME;
+  const ACCESS_KEY = process.env.BUNNY_STORAGE_API_KEY;
+
+  const uploadFile = async () => {
+    const readStream = fs.createReadStream(filePath);
+
+    const options = {
+      method: 'PUT',
+      host: HOSTNAME,
+      path: `/${STORAGE_ZONE_NAME}/newSubtitles/${fileName}`,
+      headers: {
+        AccessKey: ACCESS_KEY,
+        'Content-Type': 'application/octet-stream',
+      },
+    };
+
+    const req = https.request(options, (res) => {
+      res.on('data', (chunk) => {
+        console.log(chunk.toString('utf8'));
+      });
+    });
+
+    req.on('error', (error) => {
+      console.error(error);
+    });
+
+    readStream.pipe(req);
+  };
+
+  const main = async () => {
+    await uploadFile();
+  };
+
+  main();
+};
+
+export const createSubtitle = async (contentId: number) => {
   const url = await getVideoUrl(contentId);
 
   if (!url) {
@@ -58,12 +101,32 @@ export const convertVideoToMP3 = async (contentId: number) => {
 
   const downloadedVideo = downloadVideo(url, `example.mp4`);
 
-  ffmpeg(downloadedVideo)
-    .output(`${RootDir}/temp/audio.mp3`)
-    .on('end', async () => {
-      console.log('Conversion finished');
-      await convertToSRT(`${RootDir}/temp/audio.mp3`);
-    })
-    .on('error', (err) => console.error('Error:', err))
-    .run();
+  await new Promise<void>((resolve, reject) => {
+    ffmpeg(downloadedVideo)
+      .output(`${RootDir}/temp/audio.mp3`)
+      .on('end', () => {
+        console.log('Conversion finished');
+        resolve();
+      })
+      .on('error', (err) => reject(err))
+      .run();
+  });
+
+  const subtitles = await getSubtitles(`${RootDir}/temp/audio.mp3`);
+
+  const json = {
+    subtitles,
+  };
+
+  fs.writeFileSync(
+    `${RootDir}/temp/subtitles_${contentId}.json`,
+    JSON.stringify(json),
+  );
+
+  await uploadToBunny(
+    `${RootDir}/temp/subtitles_${contentId}.json`,
+    `${contentId}.json`,
+  );
+
+  fs.rmSync(`${RootDir}/temp`, { recursive: true });
 };
