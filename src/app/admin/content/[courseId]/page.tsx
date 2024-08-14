@@ -45,6 +45,7 @@ export default async function UpdateCourseContent({
       />
       <AdminCourseContent
         rest={rest}
+        // @ts-ignore
         courseContent={courseContent?.map((x: any) => ({
           title: x?.title || '',
           image: x?.thumbnail || '',

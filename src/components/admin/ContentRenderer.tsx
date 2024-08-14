@@ -4,7 +4,8 @@ import { authOptions } from '@/lib/auth';
 import { ContentRendererClient } from './ContentRendererClient';
 import { Bookmark } from '@prisma/client';
 
-function bunnyUrl(url: string) {
+function bunnyUrl(url?: string) {
+  if (!url) return '';
   return url
     .replace('https://appxcontent.kaxa.in', 'https://appxcontent.b-cdn.net')
     .replace(
