@@ -154,6 +154,26 @@ model User {
   questions      Question[]
   answers        Answer[]
   certificate    Certificate[]
+  upiIds         UpiId[]           @relation("UserUpiIds")
+  solanaAddresses SolanaAddress[]  @relation("UserSolanaAddresses")
+}
+
+model UpiId {
+  id             Int       @id @default(autoincrement())
+  value          String    @db.VarChar(256)
+  userId         String
+  user           User      @relation("UserUpiIds", fields: [userId], references: [id])
+
+  @@unique([userId, value])
+}
+
+model SolanaAddress {
+  id             Int       @id @default(autoincrement())
+  value          String    @db.Char(44)
+  userId         String
+  user           User      @relation("UserSolanaAddresses", fields: [userId], references: [id])
+
+  @@unique([userId, value])
 }
 
 model DiscordConnect {

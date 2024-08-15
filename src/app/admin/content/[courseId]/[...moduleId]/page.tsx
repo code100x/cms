@@ -1,33 +1,29 @@
-import {
-  getCourse,
-  getCourseContent,
-  getCurrentContentType,
-} from '@/db/course';
+import { getCourse, getFullCourseContent } from '@/db/course';
 import { AddContent } from '@/components/admin/AddContent';
 import { AdminCourseContent } from '@/components/admin/CourseContent';
+import findContentById from '@/lib/find-content-by-id';
+import { UpdateVideoClient } from '@/components/admin/UpdateVideoClient';
 
 export default async function UpdateCourseContent({
   params,
 }: {
-  params: { courseId: string[] };
+  params: { moduleId: string[]; courseId: string };
 }) {
-  const courseId = params.courseId[0];
-  const rest = params.courseId.slice(1);
+  const courseId = params.courseId;
+  const rest = params.moduleId;
   const course = await getCourse(parseInt(courseId, 10));
-  const courseContent = await getCourseContent(
-    parseInt(courseId, 10),
-    rest.map((x: string) => parseInt(x, 10)),
+  const fullCourseContent = await getFullCourseContent(parseInt(courseId, 10));
+  const courseContent = findContentById(
+    fullCourseContent,
+    rest.map((x) => parseInt(x, 10)),
   );
-  const contentType = await getCurrentContentType(
-    parseInt(courseId, 10),
-    rest.map((x: string) => parseInt(x, 10)),
-  );
+  const contentType =
+    courseContent?.length === 1 ? courseContent[0]?.type : 'folder';
 
   if (contentType === 'video') {
     return (
       <div className="mx-auto max-w-screen-xl justify-between p-4 text-white">
-        {/* <ContentRenderer nextContent={null} content={{ id: courseContent[0]?.id || 0, title: courseContent[0]?.title || "", type: contentType || "video", thumbnail: courseContent[0]?.thumbnail || "", description: courseContent[0]?.description ?? "" }} /> */}
-        Video
+        <UpdateVideoClient content={courseContent[0]} />
       </div>
     );
   }
@@ -50,7 +46,8 @@ export default async function UpdateCourseContent({
         parentContentId={parseFloat(rest[rest.length - 1])}
       />
       <AdminCourseContent
-        courseContent={courseContent.map((x: any) => ({
+        rest={rest}
+        courseContent={courseContent?.map((x: any) => ({
           title: x?.title || '',
           image: x?.thumbnail || '',
           id: x?.id || 0,
