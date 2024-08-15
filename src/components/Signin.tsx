@@ -81,9 +81,9 @@ const Signin = () => {
             </div>
             <div className="relative flex flex-col gap-4">
               <Label>Password</Label>
-              <div className="flex rounded-lg border">
+              <div className="relative flex items-center rounded-lg border">
                 <Input
-                  className="border-0"
+                  className="flex-1 border-0"
                   name="password"
                   type={isPasswordVisible ? 'text' : 'password'}
                   id="password"
@@ -103,7 +103,7 @@ const Signin = () => {
                   }}
                 />
                 <button
-                  className="absolute bottom-0 right-0 flex h-10 items-center px-4 text-gray-600"
+                  className="absolute right-2 top-1/2 -translate-y-1/2 transform text-gray-600"
                   onClick={togglePasswordVisibility}
                 >
                   {isPasswordVisible ? (
