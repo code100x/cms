@@ -218,8 +218,6 @@ const deleteSolanaHandler = async (
   };
 };
 
-
-
 export const addUpi = createSafeAction(upiIdInsertSchema, addUpiHandler);
 
 export const addSolanaAddress = createSafeAction(

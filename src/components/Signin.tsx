@@ -1,31 +1,27 @@
 'use client';
+
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import React, { useRef, useState } from 'react';
-
+import React, { useState } from 'react';
 import { toast } from 'sonner';
+
 const Signin = () => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-  const [checkingPassword, setCheckingPassword] = useState(false);
   const [requiredError, setRequiredError] = useState({
     emailReq: false,
     passReq: false,
   });
-  const [isButtonDisabled, setisButtonDisabled] = useState({
-    isEmail: true,
-    isPassword: true,
-  });
+  const router = useRouter();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   function togglePasswordVisibility() {
     setIsPasswordVisible((prevState: any) => !prevState);
   }
-  const router = useRouter();
-  const email = useRef('');
-  const password = useRef('');
 
   const handleSubmit = async (e?: React.FormEvent<HTMLButtonElement>) => {
     const loadId = toast.loading('Signing in...');
@@ -33,18 +29,19 @@ const Signin = () => {
       e.preventDefault();
     }
 
-    if (!email.current || !password.current) {
+    if (!email.trim() || !password.trim()) {
       setRequiredError({
-        emailReq: email.current ? false : true,
-        passReq: password.current ? false : true,
+        emailReq: email.trim() ? false : true,
+        passReq: password.trim() ? false : true,
       });
-      toast.dismiss(loadId);
+      setTimeout(() => {
+        toast.dismiss(loadId);
+      }, 0);
       return;
     }
-    setCheckingPassword(true);
     const res = await signIn('credentials', {
-      username: email.current,
-      password: password.current,
+      username: email,
+      password,
       redirect: false,
     });
 
@@ -53,8 +50,7 @@ const Signin = () => {
       router.push('/');
       toast.success('Signed In');
     } else {
-      toast.error('oops something went wrong..!');
-      setCheckingPassword(false);
+      toast.error('Invalid credentials');
     }
   };
   return (
@@ -72,15 +68,11 @@ const Signin = () => {
                 id="email"
                 placeholder="name@email.com"
                 onChange={(e) => {
+                  setEmail(e.target.value);
                   setRequiredError((prevState) => ({
                     ...prevState,
                     emailReq: false,
                   }));
-                  setisButtonDisabled((prevState) => ({
-                    ...prevState,
-                    isEmail: e.target.value.trim() === '' ? true : false,
-                  }));
-                  email.current = e.target.value;
                 }}
               />
               {requiredError.emailReq && (
@@ -97,15 +89,11 @@ const Signin = () => {
                   id="password"
                   placeholder="••••••••"
                   onChange={(e) => {
+                    setPassword(e.target.value);
                     setRequiredError((prevState) => ({
                       ...prevState,
                       passReq: false,
                     }));
-                    setisButtonDisabled((prevState) => ({
-                      ...prevState,
-                      isPassword: e.target.value.trim() === '' ? true : false,
-                    }));
-                    password.current = e.target.value;
                   }}
                   onKeyDown={async (e) => {
                     if (e.key === 'Enter') {
@@ -163,7 +151,7 @@ const Signin = () => {
           </div>
           <Button
             className="my-3 w-full"
-            disabled={isButtonDisabled.isEmail || isButtonDisabled.isPassword}
+            disabled={!email.trim() || !password.trim()}
             onClick={handleSubmit}
           >
             Login
