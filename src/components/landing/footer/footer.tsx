@@ -3,6 +3,7 @@ import { SiInstagram, SiYoutube, SiX } from '@icons-pack/react-simple-icons';
 import Image from 'next/image';
 import playstore from '/public/platform/playstore.png';
 import Logo from '../logo/logo';
+import QR from '/public/platform/download-qr.png';
 
 const Footer = () => {
   return (
@@ -35,38 +36,55 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="flex flex-col justify-center">
-          <Link
-            href={
-              'https://play.google.com/store/apps/details?id=com.hundredx.devs'
-            }
-            target="_blank"
-            className="mb-4 font-semibold text-neutral-200 hover:text-blue-500"
-          >
-            Download App
-            <Image
-              className="mt-2 shadow-md"
-              src={playstore}
-              alt={'playstore'}
-              height={50}
-              width={150}
-            />
-          </Link>
+        <div className="flex justify-center gap-3">
+          <div className="flex flex-col justify-center">
+            <Link
+              href={
+                'https://play.google.com/store/apps/details?id=com.hundredx.devs'
+              }
+              target="_blank"
+              className="mb-4 font-semibold text-neutral-200 hover:text-blue-500"
+            >
+              Download App
+              <Image src={QR} alt={'QR'} width={100} />
+            </Link>
+          </div>
           <div>
             <h4 className="mb-2 font-semibold text-neutral-200">Follow us</h4>
-            <div className="flex gap-x-2">
-              <Link target="_blank" href={'https://twitter.com/kirat_tw'}>
-                <SiX className="text-white hover:text-blue-500" />
-              </Link>
-              <Link
-                target="_blank"
-                href={'https://www.instagram.com/kirat_ins/'}
-              >
-                <SiInstagram className="text-white hover:text-blue-500" />
-              </Link>
-              <Link target="_blank" href={'https://www.youtube.com/@harkirat1'}>
-                <SiYoutube className="text-white hover:text-blue-500" />
-              </Link>
+            <div className="flex flex-col gap-1">
+              <div className="flex gap-x-2">
+                <Link target="_blank" href={'https://twitter.com/kirat_tw'}>
+                  <SiX className="text-white hover:text-blue-500" />
+                </Link>
+                <Link
+                  target="_blank"
+                  href={'https://www.instagram.com/kirat_ins/'}
+                >
+                  <SiInstagram className="text-white hover:text-blue-500" />
+                </Link>
+                <Link
+                  target="_blank"
+                  href={'https://www.youtube.com/@harkirat1'}
+                >
+                  <SiYoutube className="text-white hover:text-blue-500" />
+                </Link>
+              </div>
+              <div>
+                <Link
+                  href={
+                    'https://play.google.com/store/apps/details?id=com.hundredx.devs'
+                  }
+                  target="_blank"
+                >
+                  <Image
+                    className="mt-2 shadow-md"
+                    src={playstore}
+                    alt={'playstore'}
+                    height={50}
+                    width={150}
+                  />
+                </Link>
+              </div>
             </div>
           </div>
         </div>
