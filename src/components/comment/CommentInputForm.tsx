@@ -57,17 +57,18 @@ const CommentInputForm = ({
         ref={textareaRef}
         id="content"
         name="content"
-        className="min-h-[50px] rounded-md border-2 p-2 text-muted-foreground dark:bg-gray-800"
+        className="min-h-[100px] rounded-md border-2 p-2 text-muted-foreground dark:bg-transparent"
         placeholder="Add a public comment..."
       />
       <FormErrors id="content" errors={fieldErrors} />
-      <div className="flex justify-end gap-2">
+      <div className="my-4 flex justify-end gap-2 text-white">
         <Button
           type="submit"
-          className={`${isLoading && 'opacity-80'}`}
+          className={`text-white ${isLoading ? 'opacity-80' : ''}`}
           disabled={isLoading}
+          style={{ color: 'white' }}
         >
-          Comment
+          Post Comment
         </Button>
       </div>
     </form>

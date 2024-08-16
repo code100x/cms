@@ -319,7 +319,11 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
   useEffect(() => {
     if (!playerRef.current && videoRef.current) {
       const videoElement = document.createElement('video-js');
-      videoElement.classList.add('vjs-big-play-centered');
+      videoElement.classList.add(
+        'vjs-big-play-centered',
+        'rounded-lg',
+        'overflow-hidden',
+      );
       if (subtitles) {
         const subtitlesEl = document.createElement('track');
         subtitlesEl.setAttribute('kind', 'subtitles');
@@ -421,11 +425,13 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
   }
 
   return (
-    <div
-      data-vjs-player
-      className="mx-auto md:max-w-[calc(100vw-3rem)] 2xl:max-w-[calc(100vw-17rem)]"
-    >
-      <div ref={videoRef} />
+    <div className="overflow-hidden rounded-lg">
+      <div
+        data-vjs-player
+        className="mx-auto md:max-w-[calc(100vw-3rem)] 2xl:max-w-[calc(100vw-17rem)]"
+      >
+        <div ref={videoRef} />
+      </div>
     </div>
   );
 };

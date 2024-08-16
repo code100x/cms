@@ -150,6 +150,7 @@ export const ContentRenderer = async ({
         metadata={metadata}
         content={content}
       />
+      <div className="border-#020817 mx-3 mt-1 flex-1 border-t"></div>
     </div>
   );
 };
