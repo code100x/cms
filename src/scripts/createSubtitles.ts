@@ -1,5 +1,5 @@
 import https from 'https';
-import fs, { existsSync, mkdirSync } from 'fs';
+import fs, { existsSync, mkdirSync, writeFileSync } from 'fs';
 import { RootDir } from '../../root-dir.mjs';
 import {
   getMetadata,
@@ -11,18 +11,6 @@ import OpenAI from 'openai';
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
-
-const downloadVideo = (url: string, fileName: string) => {
-  const temp = `${RootDir}/temp`;
-  const createDirIfNotExists = (temp: string) =>
-    !existsSync(temp) ? mkdirSync(temp) : undefined;
-  createDirIfNotExists(temp);
-
-  const destination = `${temp}/${fileName}`;
-  https.get(url, (resp) => resp.pipe(fs.createWriteStream(destination)));
-
-  return destination;
-};
 
 const getVideoUrl = async (contentId: number): Promise<any> => {
   const metadata = await getMetadata(contentId);
@@ -99,33 +87,37 @@ export const createSubtitle = async (contentId: number) => {
     return;
   }
 
-  const downloadedVideo = downloadVideo(url, `example.mp4`);
-
   await new Promise<void>((resolve, reject) => {
-    ffmpeg(downloadedVideo)
-      .output(`${RootDir}/temp/audio.mp3`)
+    const createDirIfNotExists = (temp: string) =>
+      !existsSync(temp) ? mkdirSync(temp) : undefined;
+    createDirIfNotExists(`${RootDir}/temp`);
+
+    ffmpeg()
+      .input(url)
+      .outputOptions('-ab', '192k')
+      .saveToFile('temp/audio.mp3')
+      .on('progress', (progress) => {
+        if (progress.percent) {
+          console.log(`Processing: ${Math.floor(progress.percent)}% done`);
+        }
+      })
       .on('end', () => {
-        console.log('Conversion finished');
+        console.log('FFmpeg has finished.');
         resolve();
       })
-      .on('error', (err) => reject(err))
-      .run();
+      .on('error', (error) => {
+        console.error(error);
+        reject();
+      });
   });
 
   const subtitles = await getSubtitles(`${RootDir}/temp/audio.mp3`);
 
-  const json = {
-    subtitles,
-  };
-
-  fs.writeFileSync(
-    `${RootDir}/temp/subtitles_${contentId}.json`,
-    JSON.stringify(json),
-  );
+  writeFileSync(`${RootDir}/temp/subtitles_${contentId}.srt`, subtitles);
 
   await uploadToBunny(
-    `${RootDir}/temp/subtitles_${contentId}.json`,
-    `${contentId}.json`,
+    `${RootDir}/temp/subtitles_${contentId}.srt`,
+    `${contentId}.srt`,
   );
 
   fs.rmSync(`${RootDir}/temp`, { recursive: true });
