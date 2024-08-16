@@ -31,7 +31,12 @@ class QualitySelectorControllBar extends videojs.getComponent('Button') {
     `;
 
     const dropUpMenuElement = this.el().appendChild(dropUpMenu) as HTMLElement;
-
+    this.on('mouseenter', () => {
+      dropUpMenuElement.style.display = 'block';
+    });
+    this.on('mouseleave', () => {
+      dropUpMenuElement.style.display = 'none';
+    });
     this.on('click', () => {
       const isVisible = dropUpMenuElement.style.display === 'block';
       dropUpMenuElement.style.display = isVisible ? 'none' : 'block';
@@ -48,15 +53,12 @@ class QualitySelectorControllBar extends videojs.getComponent('Button') {
         if (quality !== urlParams.get('quality')) {
           changeVideoQuality(quality, player);
         }
-        dropUpMenuElement.style.display = 'none';
       });
       item.addEventListener('touchend', (e: any) => {
         const quality = e.target.getAttribute('data-quality');
         if (quality) {
           changeVideoQuality(quality, player);
         }
-        dropUpMenuElement.style.display = 'none';
-        dropUpMenuElement.style.display = 'none';
       });
     });
   }
