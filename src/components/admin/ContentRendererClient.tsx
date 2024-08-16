@@ -5,6 +5,8 @@ import { VideoPlayerSegment } from '@/components/VideoPlayerSegment';
 import VideoContentChapters from '../VideoContentChapters';
 import { useMemo, useState } from 'react';
 import { handleMarkAsCompleted } from '@/lib/utils';
+import { Button } from '../ui/button';
+import { Tv } from 'lucide-react';
 
 export const ContentRendererClient = ({
   metadata,
@@ -89,7 +91,7 @@ export const ContentRendererClient = ({
 
   return (
     <div className="flex flex-col items-start gap-2 semi:flex-row">
-      <div className="w-full flex-1">
+      <div className="w-full flex-1 p-2 md:p-6">
         <VideoPlayerSegment
           setQuality={setQuality}
           contentId={content.id}
@@ -118,22 +120,20 @@ export const ContentRendererClient = ({
             setContentCompleted(true);
           }}
         />
-        <div className="mb-2 flex justify-between">
+        <div className="mb-2 flex flex-col items-start justify-between gap-2 md:flex-row md:items-center">
           <div>
-            <div className="text-2xl font-bold text-gray-900 dark:text-white">
+            <div className="text-xl font-bold capitalize text-gray-900 dark:text-white">
               {content.title}
             </div>
-
-            <button
-              className="my-4 rounded bg-blue-500 p-2 font-bold text-white hover:bg-blue-700"
-              disabled={loadingMarkAs}
-              onClick={handleMarkCompleted}
-            >
-              {contentCompleted ? 'Mark as Incomplete' : 'Mark as completed'}
-            </button>
+            <div className="text-slate-400 dark:text-slate-500">
+              {content.description}
+            </div>
           </div>
 
-          <div>
+          <div className="flex gap-2">
+            <Button disabled={loadingMarkAs} onClick={handleMarkCompleted}>
+              {contentCompleted ? 'Mark as Incomplete' : 'Mark as Completed'}
+            </Button>
             {/* <QualitySelector /> */}
             {metadata.slides ? (
               <div
@@ -144,22 +144,21 @@ export const ContentRendererClient = ({
                 }}
               >
                 <a href={metadata.slides} target="_blank">
-                  <button className="rounded bg-blue-500 p-2 font-bold text-white hover:bg-blue-700">
-                    Slides
-                  </button>
+                  <Button className="flex gap-2">
+                    <Tv className="w-5 rotate-180" /> Lecture Slides
+                  </Button>
                 </a>
               </div>
             ) : null}
             {!showChapters && metadata.segments?.length > 0 && (
-              <button
-                className="my-4 rounded bg-blue-500 p-2 font-bold text-white hover:bg-blue-700"
+              <Button
                 onClick={() => {
                   scrollTo({ top: 0, behavior: 'smooth' });
                   toggleShowChapters();
                 }}
               >
                 View All Chapters
-              </button>
+              </Button>
             )}
           </div>
         </div>

@@ -20,13 +20,13 @@ const Pagination: React.FC<IPagination> = ({ dataLength = 1 }) => {
     <div className="flex items-center justify-center space-x-4">
       {paginationQ.pageNumber > 1 && (
         <Link
-          className="flex items-center justify-center space-x-2 rounded-md border border-gray-300 px-4 py-2 dark:border-gray-600 dark:text-gray-300"
+          className="flex items-center justify-center space-x-2 rounded-md border border-border px-3 py-3 text-slate-400 hover:bg-slate-200 dark:text-slate-500 dark:hover:bg-slate-800"
           href={getUpdatedUrl(`${path}/`, paramsObj, {
             page: paginationQ.pageNumber - 1,
             limit: paginationQ.pageSize,
           })}
         >
-          <span className="material-icons flex h-4 w-4 items-center justify-center text-gray-500 dark:text-gray-400">
+          <span className="material-icons flex h-4 w-4 items-center justify-center">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -46,18 +46,18 @@ const Pagination: React.FC<IPagination> = ({ dataLength = 1 }) => {
         </Link>
       )}
 
-      <span className="rounded-md bg-gray-200 px-4 py-2 text-gray-700 dark:bg-gray-700 dark:text-gray-300">
+      <span className="rounded-md border border-border px-4 py-2 text-slate-400 hover:bg-slate-200 dark:text-slate-500 dark:hover:bg-slate-800">
         {paginationQ.pageNumber}
       </span>
       {dataLength >= paginationQ.pageSize && (
         <Link
-          className="flex items-center justify-center space-x-2 rounded-md border border-gray-300 px-4 py-2 dark:border-gray-600 dark:text-gray-300"
+          className="flex items-center justify-center space-x-2 rounded-md border border-border px-3 py-3 text-slate-400 hover:bg-slate-200 dark:text-slate-500 dark:hover:bg-slate-800"
           href={getUpdatedUrl(`${path}/`, paramsObj, {
             page: paginationQ.pageNumber + 1,
             limit: paginationQ.pageSize,
           })}
         >
-          <span className="material-icons flex h-4 w-4 items-center justify-center text-gray-500 dark:text-gray-400">
+          <span className="material-icons flex h-4 w-4 items-center justify-center">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"

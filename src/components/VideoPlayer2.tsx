@@ -423,7 +423,7 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
   return (
     <div
       data-vjs-player
-      className="mx-auto md:max-w-[calc(100vw-3rem)] 2xl:max-w-[calc(100vw-17rem)]"
+      className="mx-auto overflow-hidden rounded-lg md:max-w-[calc(100vw-3rem)] 2xl:max-w-[calc(100vw-17rem)]"
     >
       <div ref={videoRef} />
     </div>

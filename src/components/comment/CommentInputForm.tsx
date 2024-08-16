@@ -57,7 +57,7 @@ const CommentInputForm = ({
         ref={textareaRef}
         id="content"
         name="content"
-        className="min-h-[50px] rounded-md border-2 p-2 text-muted-foreground dark:bg-gray-800"
+        className="min-h-[100px] rounded-md border-2 border-border bg-transparent p-2 text-slate-400 outline-none placeholder:text-slate-400 dark:text-slate-500 placeholder:dark:text-slate-500"
         placeholder="Add a public comment..."
       />
       <FormErrors id="content" errors={fieldErrors} />
@@ -67,7 +67,7 @@ const CommentInputForm = ({
           className={`${isLoading && 'opacity-80'}`}
           disabled={isLoading}
         >
-          Comment
+          Post Comment
         </Button>
       </div>
     </form>
