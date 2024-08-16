@@ -1,6 +1,7 @@
 import { TabType, QueryParams } from '@/actions/types';
 import { CommentType, Prisma } from '@prisma/client';
 import { type ClassValue, clsx } from 'clsx';
+import React from 'react';
 import { twMerge } from 'tailwind-merge';
 import Player from 'video.js/dist/types/player';
 
@@ -365,4 +366,14 @@ export const getDisabledFeature = (feature: string): boolean => {
     .toLowerCase()
     .split(',')
     .includes(feature);
+};
+
+export const onEnterOrSpaceKeyDown = (
+  e: React.KeyboardEvent,
+  cb: () => void,
+) => {
+  if (e.key === 'Enter' || e.key === ' ') {
+    e.preventDefault();
+    cb();
+  }
 };
