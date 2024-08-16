@@ -32,6 +32,12 @@ class QualitySelectorControllBar extends videojs.getComponent('Button') {
 
     const dropUpMenuElement = this.el().appendChild(dropUpMenu) as HTMLElement;
 
+    this.on('mouseenter', () => {
+      dropUpMenuElement.style.display = 'block';
+    });
+    this.on('mouseleave', () => {
+      dropUpMenuElement.style.display = 'none';
+    });
     this.on('click', () => {
       const isVisible = dropUpMenuElement.style.display === 'block';
       dropUpMenuElement.style.display = isVisible ? 'none' : 'block';
