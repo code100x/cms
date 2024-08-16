@@ -1,4 +1,6 @@
 import { MyCourses } from '@/components/MyCourses';
+import { RefreshDb } from '@/components/RefreshDb';
+import { refreshDb } from '@/actions/refresh-db';
 import LandingPage from '@/components/landing/landing-page';
 import { authOptions } from '@/lib/auth';
 import { cn } from '@/lib/utils';
@@ -26,7 +28,7 @@ export default async function Home() {
   if (session?.user) {
     return (
       <main className="no-scrollbar mx-auto flex h-full max-w-screen-xl flex-col overflow-y-auto pb-6 pt-10 text-lg">
-        <div className="max-w-2xl px-6 antialiased">
+        <div className="flex w-full justify-between px-6 antialiased">
           <h1
             className={cn(
               'mb-2 text-2xl font-semibold text-neutral-800 dark:text-neutral-200 md:text-3xl',
@@ -35,6 +37,8 @@ export default async function Home() {
           >
             Courses
           </h1>
+
+          <RefreshDb refreshDb={refreshDb} />
         </div>
 
         <MyCourses />

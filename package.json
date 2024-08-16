@@ -71,6 +71,7 @@
     "notion-client": "^6.16.0",
     "pdf-lib": "^1.17.1",
     "react": "^18",
+    "react-circular-progressbar": "^2.1.0",
     "react-dom": "^18",
     "react-hook-form": "^7.50.1",
     "react-icons": "^5.1.0",

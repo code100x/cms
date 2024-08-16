@@ -1,99 +1,79 @@
 'use client';
-import { Course } from '@/store/atoms';
-import PercentageComplete from './PercentageComplete';
-import { SecondaryButton } from './buttons/SecondaryButton';
-import { useRouter } from 'next/navigation';
-import Link from 'next/link';
 
-export const CourseCard = ({
-  course,
-  onClick,
-  buttonColor,
-  roundedCardSize,
-}: {
+import { Course } from '@/store/atoms';
+import { FC } from 'react';
+import { HiUsers } from 'react-icons/hi';
+
+interface CourseCardProps {
   course: Course;
   onClick: () => void;
-  buttonColor: string;
-  roundedCardSize: 'lg' | 'xl' | '2xl' | '3xl';
-}) => {
-  const roundedClassNames = {
-    lg: 'rounded-lg',
-    xl: 'rounded-xl',
-    '2xl': 'rounded-2xl',
-    '3xl': 'rounded-3xl',
-  };
+}
 
-  const roundedClassName = roundedClassNames[roundedCardSize] || 'rounded-lg';
-  const router = useRouter();
+export const CourseCard: FC<CourseCardProps> = ({ course, onClick }) => {
+  const percentComplete = Math.ceil(
+    (course.totalVideosWatched / course.totalVideos) * 100,
+    // (course.totalVideosWatched / course.totalVideos) * 100,
+  );
+
   return (
     <div
-      className={`max-w-sm border border-gray-200 bg-white ${roundedClassName} mx-auto w-full shadow dark:border-gray-700 dark:bg-gray-800`}
-      onClick={() => {
-        onClick();
-      }}
+      className="w-full max-w-sm cursor-pointer overflow-hidden rounded-2xl border border-border bg-background shadow-lg hover:bg-gray-900"
+      onClick={onClick}
     >
       <div className="relative">
-        {course.totalVideos !== undefined &&
-          course.totalVideosWatched !== undefined && (
-            <PercentageComplete
-              percent={Math.ceil(
-                (course.totalVideosWatched / course.totalVideos) * 100,
-              )}
-            />
-          )}
+        <img
+          src={course.imageUrl}
+          alt={course.title}
+          className="h-48 w-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
       </div>
-      <img src={course.imageUrl} alt={course.title} className="rounded-md" />
-      <div className="p-2">
-        <div className="flex justify-between">
-          <div className="mb-2 mt-4">{course.title} Cohort</div>
+
+      <div className="space-y-4 p-4">
+        <div className="flex items-center justify-between text-sm">
+          <span className="rounded-full bg-[#3662E3] px-3 py-1 text-white">
+            Cohort 3.0
+          </span>
         </div>
+
+        <h2 className="text-2xl font-bold capitalize">{course.title}</h2>
+
         <div>
-          <button
-            type="button"
-            className="mb-2 me-2 w-full rounded-full bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300"
-            style={{
-              backgroundColor: buttonColor,
-            }}
-          >
-            View Content
-          </button>
-          <div className="flex">
-            {course.certIssued && (
-              <div className="flex-1 pr-2">
-                <SecondaryButton
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    router.push('/certificate');
-                  }}
-                >
-                  Certificate
-                </SecondaryButton>
-              </div>
-            )}
-            {course.discordOauthUrl && (
-              <div className="flex-1">
-                <Link target={'blank'} href={course.discordOauthUrl}>
-                  <SecondaryButton
-                    onClick={(e) => {
-                      e.stopPropagation();
-                    }}
-                  >
-                    Discord
-                  </SecondaryButton>
-                </Link>
-              </div>
-            )}
+          <span className="text-sm text-green-400">
+            {percentComplete ?? 0}% Completed
+          </span>
+
+          <div className="mt-2 h-2 overflow-hidden rounded-full bg-[#393939]">
+            <div
+              className="h-full bg-green-400"
+              style={{ width: `${percentComplete ?? 0}%` }}
+            ></div>
           </div>
         </div>
+
+        <button className="w-full rounded-3xl bg-[#3662E3] py-2 text-white transition duration-300 hover:bg-[#2D52C3]">
+          View Content
+        </button>
+
+        <button
+          className="flex w-full items-center justify-center rounded-md py-2 text-gray-400 transition duration-300"
+          onClick={(e) => {
+            e.stopPropagation();
+            // Handle Discord join logic
+          }}
+        >
+          <HiUsers className="mr-2" />
+          Join Discord Community
+        </button>
       </div>
     </div>
   );
 };
 
-export const CourseSkeleton = () => {
+export const CourseSkeleton: FC = () => {
   return (
     <div className="animate-pulse">
-      <div className="h-64 rounded-md bg-slate-50 dark:bg-slate-900"></div>
+      <div className="h-64 rounded-2xl bg-gray-700"></div>
     </div>
   );
 };

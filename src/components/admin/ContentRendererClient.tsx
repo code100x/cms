@@ -1,10 +1,12 @@
 'use client';
-import { useSearchParams, useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 // import { QualitySelector } from '../QualitySelector';
 import { VideoPlayerSegment } from '@/components/VideoPlayerSegment';
-import VideoContentChapters from '../VideoContentChapters';
-import { useMemo, useState } from 'react';
 import { handleMarkAsCompleted } from '@/lib/utils';
+import { Presentation } from 'lucide-react';
+import { useMemo, useState } from 'react';
+import { Button } from '../ui/button';
+import VideoContentChapters from '../VideoContentChapters';
 
 export const ContentRendererClient = ({
   metadata,
@@ -120,17 +122,18 @@ export const ContentRendererClient = ({
         />
         <div className="mb-2 flex justify-between">
           <div>
-            <div className="text-2xl font-bold text-gray-900 dark:text-white">
+            <div className="text-2xl font-bold capitalize text-gray-900 dark:text-white">
               {content.title}
             </div>
 
-            <button
-              className="my-4 rounded bg-blue-500 p-2 font-bold text-white hover:bg-blue-700"
+            <Button
+              className="my-4"
+              variant={'secondary'}
               disabled={loadingMarkAs}
               onClick={handleMarkCompleted}
             >
               {contentCompleted ? 'Mark as Incomplete' : 'Mark as completed'}
-            </button>
+            </Button>
           </div>
 
           <div>
@@ -144,9 +147,10 @@ export const ContentRendererClient = ({
                 }}
               >
                 <a href={metadata.slides} target="_blank">
-                  <button className="rounded bg-blue-500 p-2 font-bold text-white hover:bg-blue-700">
-                    Slides
-                  </button>
+                  <Button className="text-white" variant={'outline'}>
+                    <Presentation className="mr-2 h-5" />
+                    Lecture Slides
+                  </Button>
                 </a>
               </div>
             ) : null}

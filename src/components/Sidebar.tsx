@@ -1,20 +1,19 @@
 'use client';
-import { usePathname, useRouter } from 'next/navigation';
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
+import { useSidebar } from '@/contexts/sidebarContext';
 import { FullCourseContent } from '@/db/course';
-import { Button } from './ui/button';
-import { BackArrow } from '@/icons/BackArrow';
-import { useRecoilState } from 'recoil';
-import { sidebarOpen as sidebarOpenAtom } from '@/store/atoms/sidebar';
-import { useEffect, useState } from 'react';
 import { handleMarkAsCompleted } from '@/lib/utils';
-import BookmarkButton from './bookmark/BookmarkButton';
+import { sidebarOpen as sidebarOpenAtom } from '@/store/atoms/sidebar';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { useRecoilState } from 'recoil';
+import BookmarkButton from './bookmark/BookmarkButton';
 
 export function Sidebar({
   courseId,
@@ -29,7 +28,8 @@ export function Sidebar({
   const [currentActiveContentIds, setCurrentActiveContentIds] = useState<
     number[]
   >([]);
-
+  const { expanded, toggleExpanded } = useSidebar();
+  console.log(expanded);
   useEffect(() => {
     const urlRegex = /\/courses\/.*./;
     const courseUrlRegex = /\/courses\/\d+((?:\/\d+)+)/;
@@ -51,10 +51,13 @@ export function Sidebar({
   }, [pathName]);
 
   useEffect(() => {
+    if (expanded) {
+      toggleExpanded();
+    }
     if (window.innerWidth < 500) {
       setSidebarOpen(false);
     }
-  }, []);
+  }, [expanded, toggleExpanded, setSidebarOpen]);
 
   const findPathToContent = (
     contents: FullCourseContent[],
@@ -102,7 +105,7 @@ export function Sidebar({
             value={`item-${content.id}`}
             className={
               content.type === 'folder' && isActiveContent
-                ? 'bg-gray-200 text-black hover:bg-gray-100 dark:bg-gray-600 dark:text-white dark:hover:bg-gray-500'
+                ? 'bg-background bg-gray-900 text-black hover:bg-gray-900 dark:text-white dark:hover:bg-gray-700'
                 : ''
             }
           >
@@ -123,8 +126,8 @@ export function Sidebar({
           href={navigateToContent(content.id) || '#'}
           className={`flex cursor-pointer border-b p-2 hover:bg-gray-200 ${
             isActiveContent
-              ? 'bg-gray-300 text-black dark:bg-gray-700 dark:text-white dark:hover:bg-gray-500'
-              : 'bg-gray-50 text-black dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700'
+              ? 'bg-gray-300 text-black dark:bg-gray-900 dark:text-white dark:hover:bg-gray-500'
+              : 'bg-gray-50 text-black dark:bg-gray-900 dark:text-white dark:hover:bg-gray-700'
           }`}
         >
           <div className="flex w-full justify-between">
@@ -157,14 +160,17 @@ export function Sidebar({
   }
 
   return (
-    <div className="absolute z-20 h-full w-[300px] min-w-[300px] cursor-pointer self-start overflow-y-scroll bg-gray-50 dark:bg-gray-800 sm:sticky sm:top-[64px] sm:h-sidebar">
+    <div className="absolute z-20 h-full w-[300px] min-w-[300px] self-start overflow-y-scroll rounded-xl border border-border bg-gray-50 scrollbar-hide dark:bg-background sm:sticky sm:top-[64px] sm:h-sidebar">
       <div className="flex">
         {/* <ToggleButton
             onClick={() => {
               setSidebarOpen((s) => !s);
             }}
           /> */}
-        <GoBackButton />
+        <p className="w-full border-b border-border p-3 text-center text-lg font-semibold">
+          Course Content
+        </p>
+        {/* <GoBackButton /> */}
       </div>
       <Accordion type="single" collapsible className="w-full">
         {/* Render course content */}
@@ -203,34 +209,34 @@ export function ToggleButton({
   );
 }
 
-function GoBackButton() {
-  const router = useRouter();
+// function GoBackButton() {
+//   const router = useRouter();
 
-  const goBack = () => {
-    const pathSegments = window.location.pathname.split('/');
+//   const goBack = () => {
+//     const pathSegments = window.location.pathname.split('/');
 
-    // Remove the last segment of the path
-    pathSegments.pop();
+//     // Remove the last segment of the path
+//     pathSegments.pop();
 
-    // Check if it's the last page in the course, then go to root
-    if (pathSegments.length <= 2) {
-      router.push('/');
-    } else {
-      const newPath = pathSegments.join('/');
-      router.push(newPath);
-    }
-  };
+//     // Check if it's the last page in the course, then go to root
+//     if (pathSegments.length <= 2) {
+//       router.push('/');
+//     } else {
+//       const newPath = pathSegments.join('/');
+//       router.push(newPath);
+//     }
+//   };
 
-  return (
-    <div className="w-full p-2">
-      {/* Your component content */}
-      <Button size={'full'} onClick={goBack} className="group rounded-full">
-        <BackArrow className="h-5 w-5 transition-all duration-200 ease-in-out group-hover:-translate-x-1 rtl:rotate-180" />{' '}
-        <div className="pl-4">Go Back</div>
-      </Button>
-    </div>
-  );
-}
+//   return (
+//     <div className="w-full p-2">
+//       {/* Your component content */}
+//       <Button size={'full'} onClick={goBack} className="group rounded-full">
+//         <BackArrow className="h-5 w-5 transition-all duration-200 ease-in-out group-hover:-translate-x-1 rtl:rotate-180" />{' '}
+//         <div className="pl-4">Go Back</div>
+//       </Button>
+//     </div>
+//   );
+// }
 
 function VideoIcon() {
   return (

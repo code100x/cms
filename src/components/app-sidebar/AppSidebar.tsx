@@ -19,7 +19,7 @@ const sidebarItems = [
   { id: 'bookmarks', icon: BookmarkIcon, text: 'Bookmarks', alert: false },
   { id: 'questions', icon: MessageSquare, text: 'Questions', alert: false },
   {
-    id: 'watch-history',
+    id: 'history',
     icon: History,
     text: 'Watch History',
     alert: false,
@@ -72,9 +72,7 @@ const AppSidebar = () => {
               >
                 <HelpCircle className="h-5 w-5 text-gray-500" />
                 {expanded && (
-                  <span className="ml-3 text-sm text-gray-500">
-                    Help & Support
-                  </span>
+                  <span className="ml-3 text-gray-500">Help & Support</span>
                 )}
               </Link>
             </li>

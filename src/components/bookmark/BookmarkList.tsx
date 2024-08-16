@@ -19,7 +19,7 @@ const BookmarkList = ({
     <>
       <div className="mx-auto max-w-screen-xl p-4">
         <h1 className="mb-8 text-2xl font-bold">Bookmarks</h1>
-        <div className="grid cursor-pointer auto-rows-fr grid-cols-1 gap-5 md:grid-cols-3 lg:grid-cols-4">
+        <div className="grid auto-rows-fr grid-cols-1 gap-5 md:grid-cols-3 lg:grid-cols-4">
           {bookmarkData.map((bookmark) => {
             const {
               contentId,

@@ -28,3 +28,13 @@ export enum ROLES {
   ADMIN = 'admin',
   USER = 'user',
 }
+
+export interface CommentsProps {
+  content: {
+    id: number;
+    courseId: number;
+    commentCount: number;
+    possiblePath: string;
+  };
+  searchParams: QueryParams;
+}

@@ -9483,6 +9483,11 @@
     "iconv-lite" "0.4.24"
     "unpipe" "1.0.0"
 
+"react-circular-progressbar@^2.1.0":
+  "integrity" "sha512-xp4THTrod4aLpGy68FX/k1Q3nzrfHUjUe5v6FsdwXBl3YVMwgeXYQKDrku7n/D6qsJA9CuunarAboC2xCiKs1g=="
+  "resolved" "https://registry.npmjs.org/react-circular-progressbar/-/react-circular-progressbar-2.1.0.tgz"
+  "version" "2.1.0"
+
 "react-colorful@^5.1.2":
   "integrity" "sha512-1exovf0uGTGyq5mXQT0zgQ80uvj2PCwvF8zY1RN9/vbJVSjSo3fsB/4L3ObbF7u70NduSiK4xu4Y6q1MHoUGEw=="
   "resolved" "https://registry.npmjs.org/react-colorful/-/react-colorful-5.6.1.tgz"

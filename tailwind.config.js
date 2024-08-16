@@ -1,3 +1,5 @@
+import plugin from 'tailwindcss/plugin';
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: ['class'],
@@ -16,7 +18,7 @@ module.exports = {
     },
     extend: {
       screens: {
-        semi: '1140px'
+        semi: '1140px',
       },
       colors: {
         border: 'hsl(var(--border))',
@@ -77,5 +79,44 @@ module.exports = {
       },
     },
   },
-  plugins: [require('tailwindcss-animate')],
+
+  plugins: [
+    require('tailwindcss-animate'),
+    plugin(({ addUtilities }) => {
+      addUtilities(
+        {
+          '.scrollbar-hide': {
+            '-ms-overflow-style': 'none',
+            'scrollbar-width': 'none',
+            '&::-webkit-scrollbar': {
+              display: 'none',
+            },
+          },
+          '.scrollbar-default': {
+            '-ms-overflow-style': 'auto',
+            'scrollbar-width': 'auto',
+            '&::-webkit-scrollbar': {
+              display: 'block',
+            },
+          },
+          // Custom scrollbar with no track and custom thumb
+          '.scrollbar-custom': {
+            '&::-webkit-scrollbar': {
+              width: '12px',
+            },
+            '&::-webkit-scrollbar-thumb': {
+              backgroundColor: '#4A5568', // Customize thumb color
+              borderRadius: '6px',
+              border: '3px solid transparent', // Add space around thumb
+              backgroundClip: 'content-box', // Adjust thumb size
+            },
+            '&::-webkit-scrollbar-track': {
+              background: 'transparent', // Hide track
+            },
+          },
+        },
+        ['responsive'],
+      );
+    }),
+  ],
 };
