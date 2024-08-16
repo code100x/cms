@@ -31,7 +31,7 @@ const PrintNotes = ({ recordMap }: { recordMap: any }) => {
       <NotionRendererLib
         recordMap={recordMap}
         fullPage={true}
-        darkMode={false}
+        darkMode={true}
         className="z-10"
         components={{
           Code,
