@@ -3,13 +3,13 @@ import { Inter as FontSans } from 'next/font/google';
 import { cn } from '@/lib/utils';
 import type { Metadata } from 'next';
 import './globals.css';
-import { Appbar } from '@/components/Appbar';
 import { Providers } from './providers';
 import { GoogleAnalytics } from '@/components/analytics/GoogleAnalytics';
 import { siteConfig } from '@/config/site-config';
-import Footer from '@/components/landing/footer/footer';
 import { Toaster } from 'sonner';
 import NextTopLoader from 'nextjs-toploader';
+import Appbar from '@/components/Appbar';
+import Footer from '@/components/landing/footer/footer';
 
 const fontSans = FontSans({
   subsets: ['latin'],
@@ -29,10 +29,12 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       >
         <GoogleAnalytics />
         <Providers>
-          <Appbar />
           <NextTopLoader color="#2E78C7" height={2} />
           {/* this is done as to keep footer in the bottom of the page */}
-          <div className="min-h-[calc(100vh-64px)]">{children}</div>
+          {/* <div className="min-h-[calc(100vh-64px)]">{children}</div> */}
+          <Appbar>
+            <div className="min-h-[calc(100vh-64px)]">{children}</div>
+          </Appbar>
           <Footer />
           <Toaster richColors />
         </Providers>
