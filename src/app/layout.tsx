@@ -7,9 +7,9 @@ import { Appbar } from '@/components/Appbar';
 import { Providers } from './providers';
 import { GoogleAnalytics } from '@/components/analytics/GoogleAnalytics';
 import { siteConfig } from '@/config/site-config';
-import Footer from '@/components/landing/footer/footer';
 import { Toaster } from 'sonner';
 import NextTopLoader from 'nextjs-toploader';
+import HomeSidebar from '@/components/HomeSidebar';
 
 const fontSans = FontSans({
   subsets: ['latin'],
@@ -29,11 +29,15 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       >
         <GoogleAnalytics />
         <Providers>
-          <Appbar />
           <NextTopLoader color="#2E78C7" height={2} />
+          <div className="flex h-full">
+            <HomeSidebar />
+            <div className="relative min-h-[calc(100vh-64px)] w-full">
+              <Appbar />
+              {children}
+            </div>
+          </div>
           {/* this is done as to keep footer in the bottom of the page */}
-          <div className="min-h-[calc(100vh-64px)]">{children}</div>
-          <Footer />
           <Toaster richColors />
         </Providers>
       </body>

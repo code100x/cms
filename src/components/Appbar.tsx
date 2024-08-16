@@ -15,6 +15,7 @@ import SearchBar from './search/SearchBar';
 import MobileScreenSearch from './search/MobileScreenSearch';
 import ProfileDropdown from './profile-menu/ProfileDropdown';
 import { ThemeToggler } from './ThemeToggler';
+import { MobileSidebar } from './HomeSidebar';
 
 export const Appbar = () => {
   const { data: session, status: sessionStatus } = useSession();
@@ -25,7 +26,7 @@ export const Appbar = () => {
 
   return (
     <>
-      <nav className="fixed top-0 z-50 flex h-16 w-full items-center gap-2 border-b bg-background/80 px-4 shadow-sm backdrop-blur-md print:hidden">
+      <nav className="sticky top-0 z-50 flex h-16 items-center gap-2 border-b bg-background/80 px-4 shadow-sm backdrop-blur-md print:hidden">
         {currentPath.includes('courses') && (
           <ToggleButton
             onClick={() => {
@@ -34,9 +35,11 @@ export const Appbar = () => {
             sidebarOpen={sidebarOpen ? false : true}
           />
         )}
-        <div className="mx-auto flex w-full items-center justify-between md:max-w-screen-2xl">
-          <Logo onFooter={false} />
-
+        <div className="md:max-w-screen mx-auto flex w-full items-center justify-between">
+          <div className="flex items-center justify-between gap-2 md:hidden">
+            <MobileSidebar />
+            <Logo onFooter={false} />
+          </div>
           {session?.user ? (
             !isLoading && (
               <>

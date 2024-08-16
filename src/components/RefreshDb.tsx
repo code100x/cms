@@ -2,6 +2,7 @@
 import { Button } from './ui/button';
 import { toast } from 'sonner';
 import { useSession } from 'next-auth/react';
+import { FaSync } from 'react-icons/fa';
 
 //@ts-ignore
 export function RefreshDb({ refreshDb }) {
@@ -20,10 +21,13 @@ export function RefreshDb({ refreshDb }) {
   if (session.status === 'loading') return <>Loading...</>;
 
   return (
-    <div className="mx-auto flex flex-col gap-2">
-      <h1>Don't see all your courses?</h1>
-      <Button className="dark:text-white" onClick={handleClick}>
-        Refresh Database
+    <div className="flex flex-col gap-2">
+      <Button
+        variant="outline"
+        className="gap-2 dark:text-white"
+        onClick={handleClick}
+      >
+        <FaSync /> Sync Courses
       </Button>
     </div>
   );

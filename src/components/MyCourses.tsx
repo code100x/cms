@@ -5,6 +5,8 @@ import { getPurchases } from '@/utiles/appx';
 import { getServerSession } from 'next-auth';
 import { Logout } from './Logout';
 import { RefreshDb } from './RefreshDb';
+import { Poppins } from 'next/font/google';
+import { cn } from '@/lib/utils';
 
 const getCourses = async () => {
   const session = await getServerSession(authOptions);
@@ -12,6 +14,11 @@ const getCourses = async () => {
 
   return purchases;
 };
+
+const rs = Poppins({
+  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
+  subsets: ['latin'],
+});
 
 export const MyCourses = async () => {
   const res = await getCourses();
@@ -32,9 +39,19 @@ export const MyCourses = async () => {
       </div>
     );
   return (
-    <>
+    <div className="w-full">
+      <div className="flex w-full justify-between antialiased">
+        <h1
+          className={cn(
+            'mb-2 text-2xl font-semibold text-neutral-800 dark:text-neutral-200 md:text-3xl',
+            rs.className,
+          )}
+        >
+          Courses
+        </h1>
+        <RefreshDb refreshDb={refreshDb} />
+      </div>
       <Courses courses={purchases} />
-      <RefreshDb refreshDb={refreshDb} />
-    </>
+    </div>
   );
 };

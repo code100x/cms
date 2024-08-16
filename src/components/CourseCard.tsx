@@ -27,12 +27,16 @@ export const CourseCard = ({
   const router = useRouter();
   return (
     <div
-      className={`max-w-sm border border-gray-200 bg-white ${roundedClassName} mx-auto w-full shadow dark:border-gray-700 dark:bg-gray-800`}
+      className={`max-w-lg border border-gray-200 bg-white ${roundedClassName} mx-auto w-full shadow dark:border-gray-700 dark:bg-gray-800`}
       onClick={() => {
         onClick();
       }}
     >
-      <div className="relative">
+      <img src={course.imageUrl} alt={course.title} className="rounded-md" />
+      <div className="p-2">
+        <div className="flex justify-between">
+          <div className="mb-2 mt-4">{course.title} Cohort</div>
+        </div>
         {course.totalVideos !== undefined &&
           course.totalVideosWatched !== undefined && (
             <PercentageComplete
@@ -41,12 +45,6 @@ export const CourseCard = ({
               )}
             />
           )}
-      </div>
-      <img src={course.imageUrl} alt={course.title} className="rounded-md" />
-      <div className="p-2">
-        <div className="flex justify-between">
-          <div className="mb-2 mt-4">{course.title} Cohort</div>
-        </div>
         <div>
           <button
             type="button"
