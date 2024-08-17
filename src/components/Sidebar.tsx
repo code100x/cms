@@ -1,5 +1,5 @@
 'use client';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import {
   Accordion,
   AccordionContent,
@@ -7,8 +7,6 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import { FullCourseContent } from '@/db/course';
-import { Button } from './ui/button';
-import { BackArrow } from '@/icons/BackArrow';
 import { useRecoilState } from 'recoil';
 import { sidebarOpen as sidebarOpenAtom } from '@/store/atoms/sidebar';
 import { useEffect, useState } from 'react';
@@ -121,10 +119,11 @@ export function Sidebar({
         <Link
           key={content.id}
           href={navigateToContent(content.id) || '#'}
-          className={`flex cursor-pointer border-b p-2 hover:bg-gray-200 ${isActiveContent
-            ? 'bg-gray-300 text-black dark:bg-gray-700 dark:text-white dark:hover:bg-gray-500'
-            : 'bg-gray-50 text-black dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700'
-            }`}
+          className={`flex cursor-pointer border-b p-2 hover:bg-gray-200 ${
+            isActiveContent
+              ? 'bg-gray-300 text-black dark:bg-gray-700 dark:text-white dark:hover:bg-gray-500'
+              : 'bg-gray-50 text-black dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700'
+          }`}
         >
           <div className="flex w-full justify-between">
             <div className="flex">
@@ -163,68 +162,11 @@ export function Sidebar({
               setSidebarOpen((s) => !s);
             }}
           /> */}
-        <GoBackButton />
       </div>
       <Accordion type="single" collapsible className="w-full">
         {/* Render course content */}
         {renderContent(fullCourseContent)}
       </Accordion>
-    </div>
-  );
-}
-
-export function ToggleButton({
-  onClick,
-  sidebarOpen,
-}: {
-  onClick: () => void;
-  sidebarOpen: boolean;
-}) {
-  return (
-    <button
-      onClick={onClick}
-      className="flex flex-col items-center justify-center"
-    >
-      <span
-        className={`block h-0.5 w-6 rounded-sm bg-black transition-all duration-300 ease-out dark:bg-white ${!sidebarOpen ? 'translate-y-1 rotate-45' : '-translate-y-0.5'}`}
-      ></span>
-      <span
-        className={`my-0.5 block h-0.5 w-6 rounded-sm bg-black transition-all duration-300 ease-out dark:bg-white ${!sidebarOpen ? 'opacity-0' : 'opacity-100'
-          }`}
-      ></span>
-      <span
-        className={`block h-0.5 w-6 rounded-sm bg-black transition-all duration-300 ease-out dark:bg-white ${!sidebarOpen ? '-translate-y-1 -rotate-45' : 'translate-y-0.5'
-          }`}
-      ></span>
-    </button>
-  );
-}
-
-function GoBackButton() {
-  const router = useRouter();
-
-  const goBack = () => {
-    const pathSegments = window.location.pathname.split('/');
-
-    // Remove the last segment of the path
-    pathSegments.pop();
-
-    // Check if it's the last page in the course, then go to root
-    if (pathSegments.length <= 2) {
-      router.push('/');
-    } else {
-      const newPath = pathSegments.join('/');
-      router.push(newPath);
-    }
-  };
-
-  return (
-    <div className="w-full p-2">
-      {/* Your component content */}
-      <Button size={'full'} onClick={goBack} className="group rounded-full">
-        <BackArrow className="h-5 w-5 transition-all duration-200 ease-in-out group-hover:-translate-x-1 rtl:rotate-180" />{' '}
-        <div className="pl-4">Go Back</div>
-      </Button>
     </div>
   );
 }

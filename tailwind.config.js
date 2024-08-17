@@ -15,6 +15,9 @@ module.exports = {
       padding: '2rem',
     },
     extend: {
+      fontFamily: {
+        sans: ['Satoshi', 'sans-serif'], 
+      },
       screens: {
         semi: '1140px'
       },
