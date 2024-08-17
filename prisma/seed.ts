@@ -251,6 +251,37 @@ async function seedPurchases() {
   }
 }
 
+export async function addClassesFromAugustToMay() {
+  const startDate = new Date('2024-08-01T00:00:00+05:30');
+  const endDate = new Date('2025-05-31T23:59:59+05:30');
+
+  for (
+    let date = new Date(startDate);
+    date <= endDate;
+    date.setDate(date.getDate() + 1)
+  ) {
+    if (date.getDay() === 5) {
+      // Friday
+      await db.event.create({
+        data: {
+          title: 'Web 3 Class',
+          start: new Date(date.setHours(19, 30, 0, 0)),
+          end: new Date(date.setHours(21, 30, 0, 0)),
+        },
+      });
+    } else if (date.getDay() === 6 || date.getDay() === 0) {
+      // Saturday or Sunday
+      await db.event.create({
+        data: {
+          title: 'WebDevs/Devops Class',
+          start: new Date(date.setHours(19, 30, 0, 0)),
+          end: new Date(date.setHours(21, 30, 0, 0)),
+        },
+      });
+    }
+  }
+}
+
 async function seedDatabase() {
   try {
     await seedUsers();
@@ -260,6 +291,7 @@ async function seedDatabase() {
     await seedNotionMetadata();
     await seedVideoMetadata();
     await seedPurchases();
+    await addClassesFromAugustToMay();
   } catch (error) {
     console.error('Error seeding database:', error);
     throw error;
