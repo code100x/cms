@@ -149,3 +149,11 @@ width of the controls on screens smaller than 512px */
 .timeline-segments:hover{
   height: 10px;
 }
+
+.notion-header {
+  background: #001C40 !important;
+}
+
+.notion-code {
+  background: #001C40 !important;
+}

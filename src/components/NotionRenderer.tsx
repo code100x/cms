@@ -44,7 +44,7 @@ export const NotionRenderer = ({ id }: { id: string }) => {
       <Link
         href={`/pdf/${id}`}
         target="_blank"
-        className="absolute right-4 top-4 z-20"
+        className="absolute right-1.5 top-1.5 z-20"
       >
         <Button
           variant="outline"
@@ -61,7 +61,7 @@ export const NotionRenderer = ({ id }: { id: string }) => {
           recordMap={data}
           fullPage={true}
           darkMode={true}
-          className="z-10"
+          className="z-10 !bg-background dark:!bg-background !text-slate-600 dark:!text-slate-500"
           components={{
             Code,
             Equation,
