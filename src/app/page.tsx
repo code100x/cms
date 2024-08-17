@@ -1,9 +1,9 @@
-import { MyCourses } from '@/components/MyCourses';
 import LandingPage from '@/components/landing/landing-page';
+import { MyCourses } from '@/components/MyCourses';
+import { Poppins } from 'next/font/google';
 import { authOptions } from '@/lib/auth';
 import { cn } from '@/lib/utils';
 import { getServerSession } from 'next-auth';
-import { Poppins } from 'next/font/google';
 
 const rs = Poppins({
   weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
@@ -43,7 +43,7 @@ export default async function Home() {
   }
 
   return (
-    <main className="pb-20 pt-36">
+    <main className="pb-20">
       <LandingPage />
     </main>
   );

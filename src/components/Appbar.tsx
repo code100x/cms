@@ -1,20 +1,20 @@
 'use client';
 
-import Link from 'next/link';
 import { AppbarAuth } from './AppbarAuth';
-import { useSession } from 'next-auth/react';
-import { useRecoilState } from 'recoil';
-import { sidebarOpen as sidebarOpenAtom } from '../store/atoms/sidebar';
-import { ToggleButton } from './Sidebar';
-import { usePathname } from 'next/navigation';
-import Logo from './landing/logo/logo';
 import { Button } from './ui/button';
-import { Sparkles } from 'lucide-react';
-import { NavigationMenu } from './landing/appbar/nav-menu';
-import SearchBar from './search/SearchBar';
+import Link from 'next/link';
+import Logo from './landing/logo/logo';
 import MobileScreenSearch from './search/MobileScreenSearch';
+import { NavigationMenu } from './landing/appbar/nav-menu';
 import ProfileDropdown from './profile-menu/ProfileDropdown';
+import SearchBar from './search/SearchBar';
+import { Sparkles } from 'lucide-react';
 import { ThemeToggler } from './ThemeToggler';
+import { ToggleButton } from './Sidebar';
+import { sidebarOpen as sidebarOpenAtom } from '../store/atoms/sidebar';
+import { usePathname } from 'next/navigation';
+import { useRecoilState } from 'recoil';
+import { useSession } from 'next-auth/react';
 
 export const Appbar = () => {
   const { data: session, status: sessionStatus } = useSession();
@@ -25,7 +25,7 @@ export const Appbar = () => {
 
   return (
     <>
-      <nav className="fixed top-0 z-50 flex h-16 w-full items-center gap-2 border-b bg-background/80 px-4 shadow-sm backdrop-blur-md print:hidden">
+      <nav className="flex h-16 w-full grow items-center gap-2 border-b bg-background/80 px-4 shadow-sm backdrop-blur-md print:hidden">
         {currentPath.includes('courses') && (
           <ToggleButton
             onClick={() => {
@@ -34,23 +34,24 @@ export const Appbar = () => {
             sidebarOpen={sidebarOpen ? false : true}
           />
         )}
-        <div className="mx-auto flex w-full items-center justify-between md:max-w-screen-2xl">
-          <Logo onFooter={false} />
 
-          {session?.user ? (
-            !isLoading && (
-              <>
-                <div className="hidden md:block">
-                  <SearchBar />
-                </div>
-                <div className="flex items-center space-x-2">
-                  {/* Search Bar for smaller devices */}
-                  <MobileScreenSearch />
-                  <ProfileDropdown />
-                </div>
-              </>
-            )
-          ) : (
+        {session?.user ? (
+          !isLoading && (
+            <div className="ml-auto flex w-full items-center justify-between">
+              <div className="hidden md:block">
+                <SearchBar />
+              </div>
+              <div className="flex items-center space-x-2">
+                {/* Search Bar for smaller devices */}
+                <MobileScreenSearch />
+                <ProfileDropdown />
+              </div>
+            </div>
+          )
+        ) : (
+          <div className="mx-auto flex w-full items-center justify-between md:max-w-screen-2xl">
+            {' '}
+            <Logo onFooter={false} />
             <div className="flex items-center space-x-2">
               <div className="hidden items-center justify-around space-x-3 sm:flex md:block md:w-auto">
                 <AppbarAuth />
@@ -70,10 +71,9 @@ export const Appbar = () => {
                 <NavigationMenu />
               </div>
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </nav>
-      <div className="h-16 w-full print:hidden" />
     </>
   );
 };
