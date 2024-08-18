@@ -1,9 +1,9 @@
 'use client';
 import { Course } from '@/store/atoms';
-import PercentageComplete from './PercentageComplete';
-import { SecondaryButton } from './buttons/SecondaryButton';
-import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { Progress } from '@/components/ui/progress';
+import { useEffect, useState } from 'react';
+import { UsersRound } from 'lucide-react';
 
 export const CourseCard = ({
   course,
@@ -24,7 +24,24 @@ export const CourseCard = ({
   };
 
   const roundedClassName = roundedClassNames[roundedCardSize] || 'rounded-lg';
-  const router = useRouter();
+  const [progress, setProgress] = useState(0);
+  function UpdateProgress() {
+    if (
+      course.totalVideos !== undefined &&
+      course.totalVideosWatched !== undefined
+    ) {
+      const value = Math.ceil(
+        (course.totalVideosWatched / course.totalVideos) * 100,
+      );
+
+      setProgress(value);
+    }
+  }
+
+  useEffect(() => {
+    UpdateProgress();
+  }, []);
+  console.log(course);
   return (
     <div
       className={`max-w-sm border border-gray-200 bg-white ${roundedClassName} mx-auto w-full shadow dark:border-gray-700 dark:bg-gray-800`}
@@ -32,20 +49,27 @@ export const CourseCard = ({
         onClick();
       }}
     >
-      <div className="relative">
-        {course.totalVideos !== undefined &&
-          course.totalVideosWatched !== undefined && (
-            <PercentageComplete
-              percent={Math.ceil(
-                (course.totalVideosWatched / course.totalVideos) * 100,
-              )}
-            />
-          )}
-      </div>
-      <img src={course.imageUrl} alt={course.title} className="rounded-md" />
+      <img
+        src={
+          'https://res.cloudinary.com/shobhit2205/image/upload/v1723808127/FIxed_Aspect_Ratio_qfglzl.png'
+        }
+        alt={course.title}
+        className="w-full rounded-t-md"
+      />
+
       <div className="p-2">
+        <div className="w-fit rounded-full bg-blue-600 px-2 text-sm font-medium text-white">
+          Cohort 3.0
+        </div>
         <div className="flex justify-between">
-          <div className="mb-2 mt-4">{course.title} Cohort</div>
+          <div className="mt-2 font-bold">{course.title} Cohort</div>
+        </div>
+
+        <div className="mb-4 flex flex-col gap-2 rounded-full">
+          <div className="flex justify-end font-sans font-medium text-gray-500">
+            {progress}%
+          </div>
+          <Progress value={progress} className="h-2 bg-green-100" />
         </div>
         <div>
           <button
@@ -57,33 +81,18 @@ export const CourseCard = ({
           >
             View Content
           </button>
-          <div className="flex">
-            {course.certIssued && (
-              <div className="flex-1 pr-2">
-                <SecondaryButton
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    router.push('/certificate');
-                  }}
-                >
-                  Certificate
-                </SecondaryButton>
-              </div>
-            )}
-            {course.discordOauthUrl && (
-              <div className="flex-1">
-                <Link target={'blank'} href={course.discordOauthUrl}>
-                  <SecondaryButton
-                    onClick={(e) => {
-                      e.stopPropagation();
-                    }}
-                  >
-                    Discord
-                  </SecondaryButton>
-                </Link>
-              </div>
-            )}
-          </div>
+          {course.discordOauthUrl && (
+            <div className="flex">
+              <Link
+                target={'blank'}
+                href={course.discordOauthUrl}
+                className="flex h-12 w-full items-center justify-center gap-2 text-center font-sans text-base font-medium text-gray-500"
+              >
+                <UsersRound size={20} />
+                Join Discord Community
+              </Link>
+            </div>
+          )}
         </div>
       </div>
     </div>

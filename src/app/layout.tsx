@@ -10,6 +10,7 @@ import { siteConfig } from '@/config/site-config';
 import Footer from '@/components/landing/footer/footer';
 import { Toaster } from 'sonner';
 import NextTopLoader from 'nextjs-toploader';
+import { HomePageSidebar } from '@/components/HomePageSidebar';
 
 const fontSans = FontSans({
   subsets: ['latin'],
@@ -31,9 +32,13 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <Providers>
           <Appbar />
           <NextTopLoader color="#2E78C7" height={2} />
-          {/* this is done as to keep footer in the bottom of the page */}
-          <div className="min-h-[calc(100vh-64px)]">{children}</div>
-          <Footer />
+          <div className="flex h-[calc(100vh-64px)]">
+            <HomePageSidebar />
+            <div className="flex flex-1 flex-col overflow-scroll">
+              <main className="flex-1">{children}</main>
+              <Footer />
+            </div>
+          </div>
           <Toaster richColors />
         </Providers>
       </body>

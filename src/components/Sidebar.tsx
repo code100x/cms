@@ -15,6 +15,8 @@ import { useEffect, useState } from 'react';
 import { handleMarkAsCompleted } from '@/lib/utils';
 import BookmarkButton from './bookmark/BookmarkButton';
 import Link from 'next/link';
+import { X } from 'lucide-react';
+import { ListVideo } from 'lucide-react';
 
 export function Sidebar({
   courseId,
@@ -121,10 +123,11 @@ export function Sidebar({
         <Link
           key={content.id}
           href={navigateToContent(content.id) || '#'}
-          className={`flex cursor-pointer border-b p-2 hover:bg-gray-200 ${isActiveContent
-            ? 'bg-gray-300 text-black dark:bg-gray-700 dark:text-white dark:hover:bg-gray-500'
-            : 'bg-gray-50 text-black dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700'
-            }`}
+          className={`flex cursor-pointer border-b p-2 hover:bg-gray-200 ${
+            isActiveContent
+              ? 'bg-gray-300 text-black dark:bg-gray-700 dark:text-white dark:hover:bg-gray-500'
+              : 'bg-gray-50 text-black dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700'
+          }`}
         >
           <div className="flex w-full justify-between">
             <div className="flex">
@@ -156,20 +159,43 @@ export function Sidebar({
   }
 
   return (
-    <div className="absolute z-20 h-full w-[300px] min-w-[300px] cursor-pointer self-start overflow-y-scroll bg-gray-50 dark:bg-gray-800 sm:sticky sm:top-[64px] sm:h-sidebar">
+    <div className="absolute top-0 z-20 m-4 h-full w-[300px] min-w-[300px] cursor-pointer self-start overflow-y-scroll rounded-lg border bg-gray-50 dark:border-gray-600 dark:bg-gray-800 sm:sticky sm:h-sidebar">
       <div className="flex">
         {/* <ToggleButton
             onClick={() => {
               setSidebarOpen((s) => !s);
             }}
           /> */}
-        <GoBackButton />
+        <div className="flex w-full items-center justify-between border-b p-4 dark:border-gray-600">
+          <span>Course Content</span>
+          <button onClick={() => setSidebarOpen(false)}>
+            <X />
+          </button>
+        </div>
       </div>
       <Accordion type="single" collapsible className="w-full">
         {/* Render course content */}
         {renderContent(fullCourseContent)}
       </Accordion>
     </div>
+  );
+}
+
+export function ToggleSidebar() {
+  const [sidebarOpen, setSidebarOpen] = useRecoilState(sidebarOpenAtom);
+
+  const toggleSidebar = () => {
+    setSidebarOpen((prev) => !prev);
+  };
+
+  return (
+    <button
+      onClick={toggleSidebar}
+      className="flex items-center gap-2 rounded-lg border border-gray-400 px-4 py-2 text-gray-600"
+    >
+      <ListVideo />
+      <span>{sidebarOpen ? 'Hide List' : 'Show List'}</span>
+    </button>
   );
 }
 
@@ -189,18 +215,20 @@ export function ToggleButton({
         className={`block h-0.5 w-6 rounded-sm bg-black transition-all duration-300 ease-out dark:bg-white ${!sidebarOpen ? 'translate-y-1 rotate-45' : '-translate-y-0.5'}`}
       ></span>
       <span
-        className={`my-0.5 block h-0.5 w-6 rounded-sm bg-black transition-all duration-300 ease-out dark:bg-white ${!sidebarOpen ? 'opacity-0' : 'opacity-100'
-          }`}
+        className={`my-0.5 block h-0.5 w-6 rounded-sm bg-black transition-all duration-300 ease-out dark:bg-white ${
+          !sidebarOpen ? 'opacity-0' : 'opacity-100'
+        }`}
       ></span>
       <span
-        className={`block h-0.5 w-6 rounded-sm bg-black transition-all duration-300 ease-out dark:bg-white ${!sidebarOpen ? '-translate-y-1 -rotate-45' : 'translate-y-0.5'
-          }`}
+        className={`block h-0.5 w-6 rounded-sm bg-black transition-all duration-300 ease-out dark:bg-white ${
+          !sidebarOpen ? '-translate-y-1 -rotate-45' : 'translate-y-0.5'
+        }`}
       ></span>
     </button>
   );
 }
 
-function GoBackButton() {
+export function GoBackButton() {
   const router = useRouter();
 
   const goBack = () => {

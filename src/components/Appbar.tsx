@@ -4,9 +4,6 @@ import Link from 'next/link';
 import { AppbarAuth } from './AppbarAuth';
 import { useSession } from 'next-auth/react';
 import { useRecoilState } from 'recoil';
-import { sidebarOpen as sidebarOpenAtom } from '../store/atoms/sidebar';
-import { ToggleButton } from './Sidebar';
-import { usePathname } from 'next/navigation';
 import Logo from './landing/logo/logo';
 import { Button } from './ui/button';
 import { Sparkles } from 'lucide-react';
@@ -15,27 +12,36 @@ import SearchBar from './search/SearchBar';
 import MobileScreenSearch from './search/MobileScreenSearch';
 import ProfileDropdown from './profile-menu/ProfileDropdown';
 import { ThemeToggler } from './ThemeToggler';
+import { homeSidebarOpen as homeSidebarOpenAtom } from '../store/atoms/homeSidebar';
+import { PanelLeftOpen, PanelRightOpen } from 'lucide-react';
 
 export const Appbar = () => {
   const { data: session, status: sessionStatus } = useSession();
-  const [sidebarOpen, setSidebarOpen] = useRecoilState(sidebarOpenAtom);
-  const currentPath = usePathname();
+  const [homeSidebarOpen, setHomeSidebarOpen] =
+    useRecoilState(homeSidebarOpenAtom);
+  const toggleSidebar = () => {
+    setHomeSidebarOpen((prev: boolean) => !prev);
+  };
 
   const isLoading = sessionStatus === 'loading';
 
   return (
     <>
-      <nav className="fixed top-0 z-50 flex h-16 w-full items-center gap-2 border-b bg-background/80 px-4 shadow-sm backdrop-blur-md print:hidden">
-        {currentPath.includes('courses') && (
-          <ToggleButton
-            onClick={() => {
-              setSidebarOpen((p) => !p);
-            }}
-            sidebarOpen={sidebarOpen ? false : true}
-          />
+      <nav
+        className={`fixed top-0 z-50 flex h-16 w-[-webkit-fill-available] items-center gap-2 border-b bg-background/80 ${session?.user && !isLoading ? 'pr-4' : 'px-4'} shadow-sm backdrop-blur-md print:hidden`}
+      >
+        {session?.user && !isLoading && (
+          <div
+            className={`flex h-16 items-center gap-2 ${homeSidebarOpen ? 'min-w-20 justify-center' : 'min-w-[250px] justify-between'} border-r px-2`}
+          >
+            {!homeSidebarOpen && <Logo onFooter={false} />}
+            <button onClick={toggleSidebar} className="px-0.5">
+              {homeSidebarOpen ? <PanelLeftOpen /> : <PanelRightOpen />}
+            </button>
+          </div>
         )}
         <div className="mx-auto flex w-full items-center justify-between md:max-w-screen-2xl">
-          <Logo onFooter={false} />
+          {!session?.user && <Logo onFooter={false} />}
 
           {session?.user ? (
             !isLoading && (
@@ -46,6 +52,7 @@ export const Appbar = () => {
                 <div className="flex items-center space-x-2">
                   {/* Search Bar for smaller devices */}
                   <MobileScreenSearch />
+                  <ThemeToggler />
                   <ProfileDropdown />
                 </div>
               </>
