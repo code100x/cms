@@ -49,7 +49,7 @@ export const Appbar = () => {
                 <div className="hidden md:block">
                   <SearchBar />
                 </div>
-                <div className="flex items-center space-x-2">
+                <div className="flex w-full items-center justify-end space-x-2">
                   {/* Search Bar for smaller devices */}
                   <MobileScreenSearch />
                   <ThemeToggler />
