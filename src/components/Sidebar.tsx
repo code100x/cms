@@ -39,9 +39,7 @@ export function Sidebar({
       // if matchArray is not null
       if (matchArray) {
         const urlPathString = matchArray[1];
-        currentUrlContentId = Number(
-          urlPathString.slice(urlPathString.length - 1),
-        ); // get last content id from pathString e.g '/1/2' => 2 (number)
+        currentUrlContentId = Number(urlPathString.split('/')[1]); // get the content id, e.g '/1/2' => 1 (number)
       }
       const pathArray = findPathToContent(
         fullCourseContent,
