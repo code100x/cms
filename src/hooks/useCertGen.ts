@@ -26,6 +26,7 @@ export function useGenerateCertificate({
   const [downloadDate, setDownloadDate] = useState<Date | null>(null);
 
   useEffect(() => {
+    if (!certificateDetails) return;
     async function generateCertificateAndImage() {
       setGenerating(true);
 
@@ -41,7 +42,7 @@ export function useGenerateCertificate({
     }
 
     generateCertificateAndImage();
-  }, [certificateDetails]);
+  }, []);
 
   async function generateCertificate() {
     try {
