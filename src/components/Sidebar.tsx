@@ -29,7 +29,6 @@ export function Sidebar({
     number[]
   >([]);
   const { expanded, toggleExpanded } = useSidebar();
-  console.log(expanded);
   useEffect(() => {
     const urlRegex = /\/courses\/.*./;
     const courseUrlRegex = /\/courses\/\d+((?:\/\d+)+)/;
@@ -51,9 +50,9 @@ export function Sidebar({
   }, [pathName]);
 
   useEffect(() => {
-    if (expanded) {
-      toggleExpanded();
-    }
+    // if (expanded) {
+    //   toggleExpanded();
+    // }
     if (window.innerWidth < 500) {
       setSidebarOpen(false);
     }
@@ -105,7 +104,7 @@ export function Sidebar({
             value={`item-${content.id}`}
             className={
               content.type === 'folder' && isActiveContent
-                ? 'bg-background bg-gray-900 text-black hover:bg-gray-900 dark:text-white dark:hover:bg-gray-700'
+                ? 'bg-background text-black hover:bg-slate-200 dark:bg-gray-900 dark:text-white dark:hover:bg-gray-900'
                 : ''
             }
           >

@@ -18,6 +18,7 @@ export const FolderView = ({
     markAsCompleted: boolean;
     percentComplete: number | null;
     videoFullDuration?: number;
+    createdAt: string;
     duration?: number;
     bookmark: Bookmark | null;
   }[];
@@ -36,7 +37,7 @@ export const FolderView = ({
     updatedRoute += `/${rest[i]}`;
   }
   // why? because we have to reset the segments or they will be visible always after a video
-
+  console.log(courseContent);
   return (
     <div>
       <div></div>
@@ -58,6 +59,7 @@ export const FolderView = ({
               onClick={() => {
                 router.push(`${updatedRoute}/${content.id}`);
               }}
+              postedDate={content.createdAt}
               markAsCompleted={content.markAsCompleted}
               percentComplete={content.percentComplete}
               videoProgressPercent={videoProgressPercent}

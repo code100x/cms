@@ -17,7 +17,7 @@ export const CourseCard: FC<CourseCardProps> = ({ course, onClick }) => {
 
   return (
     <div
-      className="w-full max-w-sm cursor-pointer overflow-hidden rounded-2xl border border-border bg-background shadow-lg hover:bg-gray-900"
+      className="w-full max-w-sm cursor-pointer overflow-hidden rounded-2xl border border-border bg-background shadow-lg transition hover:bg-slate-200 dark:hover:bg-gray-900"
       onClick={onClick}
     >
       <div className="relative">
@@ -40,13 +40,13 @@ export const CourseCard: FC<CourseCardProps> = ({ course, onClick }) => {
 
         <div>
           <span className="text-sm text-green-400">
-            {percentComplete ?? 0}% Completed
+            {percentComplete || 0}% Completed
           </span>
 
           <div className="mt-2 h-2 overflow-hidden rounded-full bg-[#393939]">
             <div
               className="h-full bg-green-400"
-              style={{ width: `${percentComplete ?? 0}%` }}
+              style={{ width: `${percentComplete || 0}%` }}
             ></div>
           </div>
         </div>

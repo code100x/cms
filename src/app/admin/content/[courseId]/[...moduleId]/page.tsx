@@ -36,7 +36,6 @@ export default async function UpdateCourseContent({
       </div>
     );
   }
-
   return (
     <div className="mx-auto max-w-screen-xl justify-between p-4 text-black dark:text-white">
       {course?.title}

@@ -79,6 +79,7 @@ export const CourseView = ({
             percentComplete: getFolderPercentCompleted(x?.children),
             videoFullDuration: x?.videoProgress?.videoFullDuration || 0,
             duration: x?.videoProgress?.duration || 0,
+            createdAt: formatDate(x?.createdAt),
           }))}
           courseId={parseInt(course.id, 10)}
         />
@@ -86,3 +87,9 @@ export const CourseView = ({
     </>
   );
 };
+
+function formatDate(dateString: string) {
+  if (!dateString) return '';
+  const options = { year: 'numeric', month: 'short', day: 'numeric' };
+  return new Date(dateString).toLocaleDateString(undefined, options);
+}

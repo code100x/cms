@@ -1,7 +1,5 @@
 'use client';
 
-import { useEffect } from 'react';
-import { useSidebar } from '@/contexts/sidebarContext';
 import { CourseView } from '@/components/CourseView';
 
 export default function CourseViewClient({
@@ -13,12 +11,6 @@ export default function CourseViewClient({
     searchParams,
     possiblePath
 }) {
-    const { toggleExpanded } = useSidebar();
-
-    useEffect(() => {
-        toggleExpanded();
-    }, []);
-
     return (
         <CourseView
             rest={[]}

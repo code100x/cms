@@ -2,7 +2,7 @@
 import { useRouter, useSearchParams } from 'next/navigation';
 // import { QualitySelector } from '../QualitySelector';
 import { VideoPlayerSegment } from '@/components/VideoPlayerSegment';
-import { handleMarkAsCompleted } from '@/lib/utils';
+// import { handleMarkAsCompleted } from '@/lib/utils';
 import { Presentation } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import { Button } from '../ui/button';
@@ -31,7 +31,8 @@ export const ContentRendererClient = ({
   const [contentCompleted, setContentCompleted] = useState(
     content.markAsCompleted,
   );
-  const [loadingMarkAs, setLoadingMarkAs] = useState(false);
+  console.log(contentCompleted);
+  // const [loadingMarkAs, setLoadingMarkAs] = useState(false);
   const [showChapters, setShowChapters] = useState(
     metadata?.segments?.length > 0,
   );
@@ -76,18 +77,18 @@ export const ContentRendererClient = ({
     setShowChapters((prev) => !prev);
   };
 
-  const handleMarkCompleted = async () => {
-    setLoadingMarkAs(true);
-    const data: any = await handleMarkAsCompleted(
-      !contentCompleted,
-      content.id,
-    );
+  // const handleMarkCompleted = async () => {
+  //   setLoadingMarkAs(true);
+  //   const data: any = await handleMarkAsCompleted(
+  //     !contentCompleted,
+  //     content.id,
+  //   );
 
-    if (data.contentId) {
-      setContentCompleted((prev) => !prev);
-    }
-    setLoadingMarkAs(false);
-  };
+  //   if (data.contentId) {
+  //     setContentCompleted((prev) => !prev);
+  //   }
+  //   setLoadingMarkAs(false);
+  // };
 
   return (
     <div className="flex flex-col items-start gap-2 semi:flex-row">
@@ -126,14 +127,14 @@ export const ContentRendererClient = ({
               {content.title}
             </div>
 
-            <Button
+            {/* <Button
               className="my-4"
               variant={'secondary'}
               disabled={loadingMarkAs}
               onClick={handleMarkCompleted}
             >
               {contentCompleted ? 'Mark as Incomplete' : 'Mark as completed'}
-            </Button>
+            </Button> */}
           </div>
 
           <div>
