@@ -68,9 +68,9 @@ export const ContentCard = ({
             title={title}
             contentId={contentId ?? 0}
             imageUrl=""
-          // imageUrl={
-          //   'https://d2szwvl7yo497w.cloudfront.net/courseThumbnails/video.png'
-          // }
+            // imageUrl={
+            //   'https://d2szwvl7yo497w.cloudfront.net/courseThumbnails/video.png'
+            // }
           />
         </div>
       )}

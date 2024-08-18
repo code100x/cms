@@ -91,15 +91,16 @@ const PostCard: React.FC<IProps> = ({
 
   const internalDetails = () => {
     return (
-      <div className="w-full">
-        <div className="my-2 flex items-center justify-between gap-3">
-          <div className="flex w-full items-center gap-3">
-            <Avatar className="cursor-pointer">
-              <AvatarFallback>
-                {post.author.name?.substring(0, 2).toUpperCase()}
-              </AvatarFallback>
-            </Avatar>
-            <div className="flex flex-col">
+      <div className="flex w-full items-start gap-2.5">
+        <Avatar className="cursor-pointer">
+          <AvatarFallback>
+            {post.author.name?.substring(0, 2).toUpperCase()}
+          </AvatarFallback>
+        </Avatar>
+        {/*         <div className="my-2 flex border items-center justify-between gap-3"> */}
+        <div className="leading-1.5 flex w-full flex-col rounded-e-xl rounded-es-xl border">
+          <div className="flex w-full items-center justify-between gap-3 rounded-tr-lg border-b bg-gray-500/10 p-2 dark:bg-gray-800/20">
+            <div className="flex items-center gap-2">
               <TextSnippet className="mb-1 font-medium">
                 {post.author.name}
               </TextSnippet>
@@ -112,42 +113,98 @@ const PostCard: React.FC<IProps> = ({
                 </TextSnippet>
               </div>
             </div>
-          </div>
-          <DropdownMenu>
-            <DropdownMenuTrigger>
-              <MoreHorizontal
-                size={35}
-                className="rounded-full border p-1.5 hover:outline-none active:outline-none"
-              />
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="cursor-pointer rounded-xl bg-gray-200/30 px-2 py-2 backdrop-blur dark:bg-gray-700/30">
-              {(sessionUser?.role === ROLES.ADMIN ||
-                post?.author?.id === sessionUser?.id) && (
-                <DeleteForm
-                  key={post.id}
-                  questionId={!isAnswer ? post.id : undefined}
-                  answerId={isAnswer ? post.id : undefined}
+            <DropdownMenu>
+              <DropdownMenuTrigger>
+                <MoreHorizontal
+                  size={35}
+                  className="p-1.5 hover:outline-none active:outline-none"
                 />
-              )}
-              <hr />
-              {/* <DropdownMenuItem className="text-sm px-1 py-2 hover:border-none hover:outline-none">
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="cursor-pointer rounded-xl bg-gray-200/30 px-2 py-2 backdrop-blur dark:bg-gray-700/30">
+                {(sessionUser?.role === ROLES.ADMIN ||
+                  post?.author?.id === sessionUser?.id) && (
+                  <DeleteForm
+                    key={post.id}
+                    questionId={!isAnswer ? post.id : undefined}
+                    answerId={isAnswer ? post.id : undefined}
+                  />
+                )}
+                <hr />
+                {/* <DropdownMenuItem className="text-sm px-1 py-2 hover:border-none hover:outline-none">
                             Report spam
-                          </DropdownMenuItem> */}
-            </DropdownMenuContent>
-          </DropdownMenu>
+                </DropdownMenuItem> */}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+
+          {!isAnswer && enableLink && isExtendedQuestion(post) && (
+            <Link href={`/questions/${post?.slug}`}>
+              <TextSnippet className="p-2 text-lg hover:underline">
+                {post?.title}
+              </TextSnippet>
+            </Link>
+          )}
+
+          <CardFooter className="flex flex-col items-center justify-between border-gray-200 p-2 dark:border-gray-700">
+            <div className="flex w-full items-center justify-between">
+              <div className="flex">
+                <VoteForm
+                  upvotes={post.upvotes}
+                  downvotes={post.downvotes}
+                  questionId={isAnswer ? undefined : post.id}
+                  answerId={isAnswer ? post.id : undefined}
+                  key={post.id}
+                  votesArr={post.votes || []}
+                />
+                <TextSnippet className="flex cursor-pointer items-center gap-2">
+                  {reply && (
+                    <Button
+                      className="text-blue-600 dark:text-blue-400"
+                      variant="ghost"
+                      onClick={() => setEnableReply((prev) => !prev)}
+                    >
+                      {reply && enableReply ? 'close' : 'reply'}
+                    </Button>
+                  )}
+                  <MessageSquareReply
+                    size={18}
+                    color="#3B81F6"
+                    fill="#3B81F6"
+                    className="ml-1 duration-300 ease-in-out hover:scale-125"
+                  />
+                  <p className="text-sm">{post.totalanswers}</p>
+                </TextSnippet>
+              </div>
+            </div>
+            {isAnswer &&
+              !isExtendedQuestion(post) &&
+              post.responses &&
+              post?.responses.length > 0 &&
+              post?.responses.map((post: ExtendedAnswer) => (
+                <div key={post.id} className="w-full">
+                  <hr className="m-auto mb-1 mt-1 w-3" />
+                  <PostCard
+                    questionId={post.questionId}
+                    post={post}
+                    sessionUser={sessionUser}
+                    reply={true}
+                  />
+                </div>
+              ))}
+          </CardFooter>
         </div>
         {isExtendedQuestion(post) &&
           post.tags
             .filter((v) => v !== '')
             .map((v, index) => <Tag name={v} key={index + v} />)}
 
-        {!isAnswer && enableLink && isExtendedQuestion(post) && (
+        {/* {!isAnswer && enableLink && isExtendedQuestion(post) && (
           <Link href={`/questions/${post?.slug}`}>
             <TextSnippet className="py-2 text-lg hover:underline">
               {post?.title}
             </TextSnippet>
           </Link>
-        )}
+        )} */}
         {!isAnswer && !enableLink && isExtendedQuestion(post) && (
           <TextSnippet className="py-2 text-lg hover:underline">
             {post?.title}
@@ -192,60 +249,12 @@ const PostCard: React.FC<IProps> = ({
     );
   };
   return (
-    <Card className="w-full bg-background">
+    <Card className="w-full">
       <CardBody className="flex h-auto w-full items-start justify-between gap-5 p-2 sm:p-4">
         <div className="flex w-full flex-1 flex-row items-start justify-between">
           {internalDetails()}
         </div>
       </CardBody>
-
-      <CardFooter className="flex flex-col items-center justify-between border-gray-200 p-0 px-1 pb-2 dark:border-gray-700 md:px-5">
-        <div className="flex w-full justify-between">
-          <div className="flex">
-            <VoteForm
-              upvotes={post.upvotes}
-              downvotes={post.downvotes}
-              questionId={isAnswer ? undefined : post.id}
-              answerId={isAnswer ? post.id : undefined}
-              key={post.id}
-              votesArr={post.votes || []}
-            />
-            <TextSnippet className="flex cursor-pointer items-center gap-2">
-              {reply && (
-                <Button
-                  className="text-blue-600 dark:text-blue-400"
-                  variant="ghost"
-                  onClick={() => setEnableReply((prev) => !prev)}
-                >
-                  {reply && enableReply ? 'close' : 'reply'}
-                </Button>
-              )}
-              <MessageSquareReply
-                size={18}
-                color="#3B81F6"
-                fill="#3B81F6"
-                className="ml-1 duration-300 ease-in-out hover:scale-125"
-              />
-              <p className="text-sm">{post.totalanswers}</p>
-            </TextSnippet>
-          </div>
-        </div>
-        {isAnswer &&
-          !isExtendedQuestion(post) &&
-          post.responses &&
-          post?.responses.length > 0 &&
-          post?.responses.map((post: ExtendedAnswer) => (
-            <div key={post.id} className="w-full">
-              <hr className="m-auto mb-1 mt-1 w-3" />
-              <PostCard
-                questionId={post.questionId}
-                post={post}
-                sessionUser={sessionUser}
-                reply={true}
-              />
-            </div>
-          ))}
-      </CardFooter>
     </Card>
   );
 };
