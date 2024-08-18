@@ -3,6 +3,7 @@ import { useSearchParams, useRouter } from 'next/navigation';
 // import { QualitySelector } from '../QualitySelector';
 import { VideoPlayerSegment } from '@/components/VideoPlayerSegment';
 import VideoContentChapters from '../VideoContentChapters';
+import { Presentation } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import { handleMarkAsCompleted } from '@/lib/utils';
 
@@ -86,9 +87,8 @@ export const ContentRendererClient = ({
     }
     setLoadingMarkAs(false);
   };
-
   return (
-    <div className="flex flex-col items-start gap-2 semi:flex-row">
+    <div className="flex flex-col gap-2">
       <div className="w-full flex-1">
         <VideoPlayerSegment
           setQuality={setQuality}
@@ -118,22 +118,20 @@ export const ContentRendererClient = ({
             setContentCompleted(true);
           }}
         />
-        <div className="mb-2 flex justify-between">
+        <div className="flex justify-between">
           <div>
-            <div className="text-2xl font-bold text-gray-900 dark:text-white">
+            <div className="text-bold text-2xl tracking-normal text-gray-900 dark:text-white">
               {content.title}
             </div>
-
-            <button
+            {/* <button
               className="my-4 rounded bg-blue-500 p-2 font-bold text-white hover:bg-blue-700"
               disabled={loadingMarkAs}
               onClick={handleMarkCompleted}
             >
               {contentCompleted ? 'Mark as Incomplete' : 'Mark as completed'}
-            </button>
+            </button> */}
           </div>
-
-          <div>
+          <div className="">
             {/* <QualitySelector /> */}
             {metadata.slides ? (
               <div
@@ -144,8 +142,9 @@ export const ContentRendererClient = ({
                 }}
               >
                 <a href={metadata.slides} target="_blank">
-                  <button className="rounded bg-blue-500 p-2 font-bold text-white hover:bg-blue-700">
-                    Slides
+                  <button className="mb-2 me-2 flex items-center gap-2 rounded-lg bg-blue-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700">
+                    <Presentation size={18} />
+                    Lecture Slides
                   </button>
                 </a>
               </div>

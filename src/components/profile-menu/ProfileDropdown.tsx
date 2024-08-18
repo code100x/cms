@@ -18,7 +18,6 @@ import {
 } from '@/components/ui/dropdown-menu';
 import ExternalLinks from './ExternalLinks';
 import { signOut } from 'next-auth/react';
-import { SelectTheme } from './SelectTheme';
 
 const ProfileDropdown = () => {
   const menuItemLinks = [
@@ -59,10 +58,6 @@ const ProfileDropdown = () => {
         </DropdownMenuGroup>
 
         <DropdownMenuSeparator />
-
-        <DropdownMenuGroup>
-          <SelectTheme />
-        </DropdownMenuGroup>
 
         <DropdownMenuSeparator />
 

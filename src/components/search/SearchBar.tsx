@@ -101,7 +101,7 @@ const SearchBar = ({ onCardClick }: { onCardClick?: () => void }) => {
       <SearchIcon className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-gray-500" />
       <Input
         placeholder="Search for videos..."
-        className="rounded-full border-2 px-10 focus-visible:ring-transparent"
+        className="rounded-lg border-gray-300 bg-gray-50 px-10 text-base focus:outline-none dark:border-gray-700/50 dark:bg-transparent dark:text-white dark:placeholder-gray-400"
         value={searchTerm}
         onChange={handleInputChange}
         onFocus={() => setIsInputFocused(true)}
@@ -116,7 +116,7 @@ const SearchBar = ({ onCardClick }: { onCardClick?: () => void }) => {
 
       {/* Search Results */}
       {isInputFocused && searchTerm.length > 0 && (
-        <div className="absolute top-12 max-h-[40vh] w-full overflow-y-auto rounded-lg border-2 bg-white py-2 shadow-lg dark:bg-[#020817]">
+        <div className="absolute top-14 z-10 max-h-[40vh] w-full overflow-y-auto rounded-lg border-2 bg-white py-2 shadow-lg dark:bg-[#020817]">
           {renderSearchResults()}
         </div>
       )}

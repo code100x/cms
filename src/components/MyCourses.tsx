@@ -1,10 +1,8 @@
-import { refreshDb } from '@/actions/refresh-db';
 import { Courses } from '@/components/Courses';
 import { authOptions } from '@/lib/auth';
 import { getPurchases } from '@/utiles/appx';
 import { getServerSession } from 'next-auth';
 import { Logout } from './Logout';
-import { RefreshDb } from './RefreshDb';
 
 const getCourses = async () => {
   const session = await getServerSession(authOptions);
@@ -34,7 +32,7 @@ export const MyCourses = async () => {
   return (
     <>
       <Courses courses={purchases} />
-      <RefreshDb refreshDb={refreshDb} />
+      {/*       <RefreshDb refreshDb={refreshDb} /> */}
     </>
   );
 };
