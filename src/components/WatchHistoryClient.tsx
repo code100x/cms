@@ -16,7 +16,7 @@ const WatchHistoryClient = ({ history }: { history: TWatchHistory[] }) => (
     <CarouselContent>
       {history.map((progress) => (
         <CarouselItem
-          className="basis-1/2 md:basis-1/3 lg:basis-1/3"
+          className="grid auto-rows-fr grid-cols-1 gap-5 md:grid-cols-3 lg:grid-cols-4"
           key={progress.id}
         >
           <HistoryCard {...progress} />
@@ -38,6 +38,7 @@ const HistoryCard = ({
 
   if (parent && !hidden && type === 'video' && VideoMetadata) {
     const { duration: videoDuration } = VideoMetadata;
+
     const { id: folderId, courses } = parent;
     const courseId = courses[0].courseId;
     const videoUrl = `/courses/${courseId}/${folderId}/${contentId}`;
@@ -53,6 +54,7 @@ const HistoryCard = ({
         onClick={() => {
           router.push(videoUrl);
         }}
+        contentDuration={parseInt(videoDuration, 10)}
         videoProgressPercent={videoProgressPercent}
         hoverExpand={false}
       />

@@ -13,7 +13,7 @@ const AppLayout = ({ children }: AppLayoutProps) => {
     <SidebarProvider>
       <div className="flex">
         <AppSidebar />
-        <main className="h-[calc(100vh-64px)] w-full overflow-y-auto p-4 scrollbar-hide">
+        <main className="h-[calc(100vh-64px)] w-full overflow-y-auto scrollbar-hide md:p-4">
           {children}
         </main>
       </div>

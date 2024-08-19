@@ -48,7 +48,7 @@ const AppSidebarItem = ({
         )}
         {!expanded && (
           <div
-            className={`invisible absolute left-full z-30 ml-6 -translate-x-3 rounded-md border border-gray-200 bg-white px-2 py-1 text-sm capitalize text-gray-700 opacity-20 shadow-lg transition-all group-hover:visible group-hover:translate-x-0 group-hover:opacity-100`}
+            className={`invisible absolute left-full z-30 ml-6 -translate-x-3 text-nowrap rounded-md border border-gray-200 bg-white px-2 py-1 text-sm capitalize text-gray-700 opacity-20 shadow-lg transition-all group-hover:visible group-hover:translate-x-0 group-hover:opacity-100`}
           >
             {text}
           </div>

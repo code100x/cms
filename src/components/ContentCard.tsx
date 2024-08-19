@@ -158,7 +158,7 @@ export const ContentCard = ({
   title: string;
   onClick: () => void;
   percentComplete?: number;
-  contentDuration?: string;
+  contentDuration?: number;
   postedDate?: string;
 }) => {
   const { theme } = useTheme();
@@ -230,6 +230,7 @@ export const ContentCard = ({
 };
 
 function formatDuration(minutes: number) {
+  if (!minutes) return '00:00:00';
   const hours = Math.floor(minutes / 60); // Get the whole hours
   const remainingMinutes = minutes % 60; // Get the remainder of the minutes after converting to hours
   const seconds = Math.floor((minutes - Math.floor(minutes)) * 60); // Convert fractional minutes to seconds
