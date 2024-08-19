@@ -19,7 +19,7 @@ import { Button } from '@/components/ui/button';
 import { QueryParams, TabType } from '@/actions/types';
 import { getDisabledFeature, getUpdatedUrl, paginationData } from '@/lib/utils';
 import db from '@/db';
-import { getServerSession } from 'next-auth';
+import { auth } from '@/auth';
 import { authOptions } from '@/lib/auth';
 import PostCard from '@/components/posts/PostCard';
 import Pagination from '@/components/Pagination';
@@ -62,14 +62,14 @@ const getQuestionsWithQuery = async (
 
   const searchQuery = searchParams.search
     ? {
-        where: {
-          ...additionalQuery.where,
-          title: {
-            contains: searchParams.search,
-            mode: 'insensitive',
-          },
+      where: {
+        ...additionalQuery.where,
+        title: {
+          contains: searchParams.search,
+          mode: 'insensitive',
         },
-      }
+      },
+    }
     : {};
 
   const dateFilter = searchParams.date;
@@ -132,7 +132,7 @@ export default async function QuestionsPage({
   if (disabled) {
     redirect('/');
   }
-  const session = await getServerSession(authOptions);
+  const session = await auth();
   const sessionId = session?.user?.id;
 
   const tabType = searchParams.tabtype || TabType.mu;

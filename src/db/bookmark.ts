@@ -1,12 +1,12 @@
 import db from '@/db';
 import { TBookmarkWithContent } from '@/actions/bookmark/types';
-import { getServerSession } from 'next-auth';
+import { auth } from '@/auth';
 import { authOptions } from '@/lib/auth';
 
 export const getBookmarkDataWithContent = async (): Promise<
   TBookmarkWithContent[] | { error: string }
 > => {
-  const session = await getServerSession(authOptions);
+  const session = await auth();
   const userId = session?.user.id;
 
   return await db.bookmark.findMany({
@@ -32,7 +32,7 @@ export const getBookmarkDataWithContent = async (): Promise<
 };
 
 export const getBookmarkData = async () => {
-  const session = await getServerSession(authOptions);
+  const session = await auth();
   const userId = session?.user.id;
 
   return await db.bookmark.findMany({

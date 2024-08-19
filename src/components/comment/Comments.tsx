@@ -28,8 +28,7 @@ import {
 import { Button } from '../ui/button';
 import { CommentType } from '@prisma/client';
 import CommentDeleteForm from './CommentDeleteForm';
-import { authOptions } from '@/lib/auth';
-import { getServerSession } from 'next-auth';
+import { auth } from '@/auth';
 import CommentPinForm from './CommentPinForm';
 import CommentApproveForm from './CommentApproveForm';
 dayjs.extend(relativeTime);
@@ -45,7 +44,7 @@ const Comments = async ({
   };
   searchParams: QueryParams;
 }) => {
-  const session = await getServerSession(authOptions);
+  const session = await auth();
   if (!session?.user) {
     return null;
   }
@@ -258,10 +257,10 @@ const Comments = async ({
                         {(session.user.id.toString() ===
                           (c as ExtendedComment).userId.toString() ||
                           session.user.role === ROLES.ADMIN) && (
-                          <DropdownMenuItem>
-                            <CommentDeleteForm commentId={c.id} />
-                          </DropdownMenuItem>
-                        )}
+                            <DropdownMenuItem>
+                              <CommentDeleteForm commentId={c.id} />
+                            </DropdownMenuItem>
+                          )}
                         {session.user.role === ROLES.ADMIN && (
                           <DropdownMenuItem>
                             <CommentPinForm

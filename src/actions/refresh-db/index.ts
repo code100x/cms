@@ -2,11 +2,10 @@
 import db from '@/db';
 import { cache } from '@/db/Cache';
 import { getAllCourses } from '@/db/course';
-import { authOptions } from '@/lib/auth';
 import { APPX_COURSE_IDS } from '@/utiles/appx';
 import { checkUserEmailForPurchase } from '@/utiles/appx-check-mail';
 import { Course } from '@prisma/client';
-import { getServerSession } from 'next-auth';
+import { auth } from '@/auth';
 
 type RefreshDbFn = (args: { userId: string; email: string }) => Promise<{
   error: boolean;
@@ -14,7 +13,7 @@ type RefreshDbFn = (args: { userId: string; email: string }) => Promise<{
 }>;
 
 export const refreshDb: RefreshDbFn = async () => {
-  const session = await getServerSession(authOptions);
+  const session = await auth();
   const email = session?.user.email || '';
   const userId = session?.user.id;
   return await refreshDbInternal(userId, email);

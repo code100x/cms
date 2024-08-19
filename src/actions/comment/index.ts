@@ -1,5 +1,5 @@
 'use server';
-import { getServerSession } from 'next-auth';
+import { auth } from '@/auth';
 import {
   InputTypeApproveIntroComment,
   InputTypeCreateComment,
@@ -133,7 +133,7 @@ const parseIntroComment = (comment: string) => {
 const createCommentHandler = async (
   data: InputTypeCreateComment,
 ): Promise<ReturnTypeCreateComment> => {
-  const session = await getServerSession(authOptions);
+  const session = await auth();
 
   if (!session || !session.user) {
     return { error: 'Unauthorized or insufficient permissions' };
@@ -245,7 +245,7 @@ const createCommentHandler = async (
 const updateCommentHandler = async (
   data: InputTypeUpdateComment,
 ): Promise<ReturnTypeUpdateComment> => {
-  const session = await getServerSession(authOptions);
+  const session = await auth();
 
   if (!session || !session.user) {
     return { error: 'Unauthorized or insufficient permissions' };
@@ -291,7 +291,7 @@ const updateCommentHandler = async (
 const approveIntroCommentHandler = async (
   data: InputTypeApproveIntroComment,
 ): Promise<ReturnTypeApproveIntroComment> => {
-  const session = await getServerSession(authOptions);
+  const session = await auth();
   const { content_comment_ids, approved, adminPassword, currentPath } = data;
 
   if (adminPassword) {
@@ -355,7 +355,7 @@ const approveIntroCommentHandler = async (
 const deleteCommentHandler = async (
   data: InputTypeDeleteComment,
 ): Promise<ReturnTypeDeleteComment> => {
-  const session = await getServerSession(authOptions);
+  const session = await auth();
 
   if (!session || !session.user) {
     return { error: 'Unauthorized or insufficient permissions' };
@@ -429,7 +429,7 @@ const pinCommentHandler = async (
   data: InputTypePinComment,
 ): Promise<ReturnTypePinComment> => {
   const { commentId, contentId, currentPath } = data;
-  const session = await getServerSession(authOptions);
+  const session = await auth();
 
   if (!session || !session.user || session.user.role !== ROLES.ADMIN) {
     return { error: 'Unauthorized or insufficient permissions' };

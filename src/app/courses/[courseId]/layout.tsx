@@ -1,9 +1,8 @@
 import { QueryParams } from '@/actions/types';
 import { Sidebar } from '@/components/Sidebar';
 import { getFullCourseContent } from '@/db/course';
-import { authOptions } from '@/lib/auth';
 import { getPurchases } from '@/utiles/appx';
-import { getServerSession } from 'next-auth';
+import { auth } from '@/auth';
 import { redirect } from 'next/navigation';
 import { toast } from 'sonner';
 
@@ -22,7 +21,7 @@ import { toast } from 'sonner';
 type CheckAccessReturn = 'yes' | 'no' | 'error';
 
 const checkAccess = async (courseId: string): Promise<CheckAccessReturn> => {
-  const session = await getServerSession(authOptions);
+  const session = await auth();
 
   if (!session?.user) {
     return 'no';

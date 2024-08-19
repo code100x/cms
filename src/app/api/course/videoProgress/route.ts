@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import db from '@/db';
-import { getServerSession } from 'next-auth';
+import { auth } from '@/auth';
 import { authOptions } from '@/lib/auth';
 import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
@@ -9,7 +9,7 @@ export async function GET(req: NextRequest) {
   const url = new URL(req.url);
   const searchParams = new URLSearchParams(url.search);
   const contentId = searchParams.get('contentId');
-  const session = await getServerSession(authOptions);
+  const session = await auth();
 
   if (!session || !session?.user || !contentId) {
     return NextResponse.json({}, { status: 401 });

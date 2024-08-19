@@ -3,9 +3,8 @@ import {
   getAllVideos,
   getVideoProgressForUser,
 } from '@/db/course';
-import { authOptions } from '@/lib/auth';
 import { Course } from '@/store/atoms';
-import { getServerSession } from 'next-auth';
+import { auth } from '@/auth';
 import { cache } from '@/db/Cache';
 import prisma from '@/db';
 import { checkUserEmailForPurchase } from './appx-check-mail';
@@ -99,7 +98,7 @@ export async function getPurchases(email: string): Promise<CoursesResponse> {
     return { courses: value, type: 'success' };
   }
   const _courses = await getAllCoursesAndContentHierarchy();
-  const session = await getServerSession(authOptions);
+  const session = await auth();
   const userVideoProgress = await getVideoProgressForUser(
     session?.user?.id || '',
     true,

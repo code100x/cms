@@ -1,9 +1,9 @@
+import type { NextAuthConfig } from "next-auth"
+import Credential from "next-auth/providers/credentials"
 import db from '@/db';
-import CredentialsProvider from 'next-auth/providers/credentials';
 import { JWTPayload, SignJWT, importJWK } from 'jose';
 import bcrypt from 'bcryptjs';
 import prisma from '@/db';
-import { NextAuthOptions } from 'next-auth';
 import { Session } from 'next-auth';
 import { JWT } from 'next-auth/jwt';
 
@@ -106,14 +106,9 @@ async function validateUser(
   };
 }
 
-export const authOptions = {
+export default {
   providers: [
-    CredentialsProvider({
-      name: 'Credentials',
-      credentials: {
-        username: { label: 'email', type: 'text', placeholder: '' },
-        password: { label: 'password', type: 'password', placeholder: '' },
-      },
+    Credential({
       async authorize(credentials: any) {
         try {
           if (process.env.LOCAL_CMS_PROVIDER) {
@@ -154,7 +149,6 @@ export const authOptions = {
                 token: jwt,
               },
             });
-
             return {
               id: userDb.id,
               name: userDb.name,
@@ -167,7 +161,6 @@ export const authOptions = {
             credentials.username,
             credentials.password,
           );
-
           const jwt = await generateJWT({
             id: user.data?.userid,
           });
@@ -204,7 +197,6 @@ export const authOptions = {
               token: jwt,
             };
           }
-
           // Return null if user data could not be retrieved
           return null;
         } catch (e) {
@@ -212,7 +204,7 @@ export const authOptions = {
         }
         return null;
       },
-    }),
+    })
   ],
   secret: process.env.NEXTAUTH_SECRET || 'secr3t',
   callbacks: {
@@ -240,6 +232,6 @@ export const authOptions = {
     },
   },
   pages: {
-    signIn: '/signin',
-  },
-} satisfies NextAuthOptions;
+    signIn: "/signin"
+  }
+} satisfies NextAuthConfig

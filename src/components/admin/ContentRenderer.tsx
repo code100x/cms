@@ -1,5 +1,5 @@
 import db from '@/db';
-import { getServerSession } from 'next-auth';
+import { auth } from '@/auth';
 import { authOptions } from '@/lib/auth';
 import { ContentRendererClient } from './ContentRendererClient';
 import { Bookmark } from '@prisma/client';
@@ -27,7 +27,7 @@ async function isUrlAccessible(url: string): Promise<boolean> {
 }
 
 export const getMetadata = async (contentId: number) => {
-  const session = await getServerSession(authOptions);
+  const session = await auth();
   if (!session?.user) {
     return null;
   }

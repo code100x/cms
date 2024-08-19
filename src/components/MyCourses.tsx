@@ -1,11 +1,11 @@
 import { Courses } from '@/components/Courses';
-import { authOptions } from '@/lib/auth';
 import { getPurchases } from '@/utiles/appx';
-import { getServerSession } from 'next-auth';
+import { auth } from '@/auth';
 import { Logout } from './Logout';
 
 const getCourses = async () => {
-  const session = await getServerSession(authOptions);
+  const session = await auth();
+  //@ts-ignore
   const purchases = await getPurchases(session?.user.email || '');
 
   return purchases;

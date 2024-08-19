@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import db from '@/db';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth';
+import { auth } from '@/auth';
 import { z } from 'zod';
 
 const requestBodySchema = z.object({
@@ -18,7 +17,7 @@ export async function POST(req: NextRequest) {
     );
   }
   const { contentId, markAsCompleted } = parseResult.data;
-  const session = await getServerSession(authOptions);
+  const session = await auth();
   if (!session || !session?.user) {
     return NextResponse.json({}, { status: 401 });
   }

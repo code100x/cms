@@ -1,7 +1,7 @@
 import db from '@/db';
 import { cache } from '@/db/Cache';
 import { authOptions } from '@/lib/auth';
-import { getServerSession } from 'next-auth';
+import { auth } from '@/auth';
 import { Bookmark } from '@prisma/client';
 import { getBookmarkData } from './bookmark';
 
@@ -276,7 +276,7 @@ export const getFullCourseContent = async (
   // if (value) {
   //   return value;
   // }
-  const session = await getServerSession(authOptions);
+  const session = await auth();
   if (!session?.user) {
     return [];
   }
@@ -294,13 +294,13 @@ export const getFullCourseContent = async (
         videoProgress:
           content.type === 'video'
             ? {
-                duration: videoProgress.find((x) => x.contentId === content.id)
-                  ?.currentTimestamp,
-                markAsCompleted: videoProgress.find(
-                  (x) => x.contentId === content.id,
-                )?.markAsCompleted,
-                videoFullDuration: content.VideoMetadata?.duration,
-              }
+              duration: videoProgress.find((x) => x.contentId === content.id)
+                ?.currentTimestamp,
+              markAsCompleted: videoProgress.find(
+                (x) => x.contentId === content.id,
+              )?.markAsCompleted,
+              videoFullDuration: content.VideoMetadata?.duration,
+            }
             : null,
       },
     ]),

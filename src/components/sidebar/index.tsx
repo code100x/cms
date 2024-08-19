@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { AnimatedTooltip } from '@/components/ui/animated-tooltip';
-import { signOut } from 'next-auth/react';
+import { signOut } from 'next-auth/react'
 
 import Logo from '../landing/logo/logo';
 import {
@@ -53,12 +53,9 @@ export const MenuOptions = () => {
           <div className="flex rounded-md p-2">
             <LogOut size={24} color="#DD503F" />
             <button
-              onClick={() => {
-                signOut();
-              }}
-              className={`flex items-center justify-between overflow-hidden transition-all ${
-                expanded ? 'ml-3 w-52' : 'w-0'
-              }`}
+              onClick={() => signOut()}
+              className={`flex items-center justify-between overflow-hidden transition-all ${expanded ? 'ml-3 w-52' : 'w-0'
+                }`}
             >
               <h4 className="font-semibold text-[#DD503F]">Logout</h4>
             </button>

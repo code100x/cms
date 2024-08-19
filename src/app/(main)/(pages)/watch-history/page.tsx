@@ -1,6 +1,5 @@
 import db from '@/db';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth';
+import { auth } from '@/auth';
 import { Content, CourseContent, VideoProgress } from '@prisma/client';
 import WatchHistoryClient from '@/components/WatchHistoryClient';
 import { Fragment } from 'react';
@@ -53,11 +52,11 @@ const groupByWatchedDate = (userVideoProgress: TWatchHistory[]) => {
 };
 
 async function getWatchHistory() {
-  const session = await getServerSession(authOptions);
+  const session = await auth();
   if (!session?.user) {
     return [];
   }
-  const userId = session.user.id;
+  const userId = session?.user.id;
 
   const userVideoProgress: TWatchHistory[] = await db.videoProgress.findMany({
     where: {
