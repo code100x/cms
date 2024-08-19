@@ -3,6 +3,8 @@ import { authOptions } from '@/lib/auth';
 import { getPurchases } from '@/utiles/appx';
 import { getServerSession } from 'next-auth';
 import { Logout } from './Logout';
+import { RefreshDb } from '@/components/RefreshDb';
+import { refreshDb } from '@/actions/refresh-db';
 
 const getCourses = async () => {
   const session = await getServerSession(authOptions);
@@ -30,8 +32,14 @@ export const MyCourses = async () => {
       </div>
     );
   return (
-    <>
+    <div className="space-y-6 p-3">
+      <div className="flex flex-wrap items-center justify-between">
+        <h1 className="text-xl font-bold md:text-[32px]">My Courses</h1>
+        <div>
+          <RefreshDb refreshDb={refreshDb} />
+        </div>
+      </div>
       <Courses courses={purchases} />
-    </>
+    </div>
   );
 };

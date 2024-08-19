@@ -11,6 +11,7 @@ import { siteConfig } from '@/config/site-config';
 import { Toaster } from 'sonner';
 import NextTopLoader from 'nextjs-toploader';
 import { DashboardLayout } from '@/components/DashboardLayout';
+import Footer from '@/components/landing/footer/footer';
 /* import Footer from '@/components/landing/footer/footer'; */
 
 const fontSans = FontSans({
@@ -38,9 +39,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             <div className="min-h-[calc(100vh-64px)] bg-background">
               {children}
             </div>
-            {/*  <Footer /> */}
-            <Toaster richColors />
           </DashboardLayout>
+          <Footer />
+          <Toaster richColors />
         </Providers>
       </body>
     </html>

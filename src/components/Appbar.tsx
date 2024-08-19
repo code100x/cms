@@ -11,27 +11,31 @@ import SearchBar from './search/SearchBar';
 import MobileScreenSearch from './search/MobileScreenSearch';
 import ProfileDropdown from './profile-menu/ProfileDropdown';
 import { ThemeToggler } from './ThemeToggler';
+import { cn } from '@/lib/utils';
 
 export const Appbar = () => {
   const { data: session, status: sessionStatus } = useSession();
-
   const isLoading = sessionStatus === 'loading';
 
   return (
-    <>
-      <nav className="fixed top-0 z-50 flex h-16 w-full items-center gap-2 border-b bg-background/80 px-4 shadow-sm backdrop-blur-md print:hidden">
-        <div className="mx-auto flex w-full items-center justify-between md:max-w-screen-2xl">
+    <div>
+      <nav
+        className={cn(
+          'fixed top-0 z-50 flex h-18 w-full items-center gap-2 border-b bg-background px-4',
+        )}
+      >
+        <div className="flex w-full items-center justify-between md:max-w-screen-2xl">
           {!session?.user && <Logo onFooter={false} />}
           {session?.user ? (
             !isLoading && (
               <>
-                <div className="flex justify-between">
-                  <ThemeToggler />
-                  <div>
-                    <ProfileDropdown />
-                  </div>
-                  <div>
+                <div className="flex w-full items-center justify-between">
+                  <div className="hidden md:block">
                     <SearchBar />
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <ThemeToggler />
+                    <ProfileDropdown />
                   </div>
                 </div>
                 <div className="flex items-center space-x-2">
@@ -63,7 +67,7 @@ export const Appbar = () => {
           )}
         </div>
       </nav>
-      <div className="h-16 w-full print:hidden" />
-    </>
+      <div className="h-18 w-full bg-background print:hidden" />
+    </div>
   );
 };

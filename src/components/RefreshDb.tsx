@@ -20,10 +20,10 @@ export function RefreshDb({ refreshDb }) {
 
   return (
     <button
-      className="flex rounded-md border-2 p-2"
+      className="flex h-10 items-center gap-2 rounded-lg border p-2 text-base text-slate-500 hover:bg-slate-200 dark:text-slate-400 dark:hover:bg-slate-900"
       onClick={() => handleClick()}
     >
-      <RefreshCw className="mr-2" />
+      <RefreshCw />
       Sync Courses
     </button>
   );

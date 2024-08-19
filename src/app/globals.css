@@ -55,6 +55,7 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-family: var(--font-sans);
   }
 }
 .video-js .vjs-progress-control:hover .vjs-play-progress:after {

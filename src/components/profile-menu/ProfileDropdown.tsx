@@ -48,7 +48,7 @@ const ProfileDropdown = () => {
   return (
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
-        <div className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-[#475A64] md:h-10 md:w-10">
+        <div className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-[#475A64] md:h-10 md:w-10">
           <User2Icon color="white" className="h-4 w-4" />
         </div>
       </DropdownMenuTrigger>

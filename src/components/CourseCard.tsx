@@ -1,14 +1,16 @@
 'use client';
 import { Course } from '@/store/atoms';
 import PercentageComplete from './PercentageComplete';
-import { SecondaryButton } from './buttons/SecondaryButton';
-import { useRouter } from 'next/navigation';
+/* import { useRouter } from 'next/navigation'; */
 import Link from 'next/link';
+import { Users } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+import { Button } from './ui/button';
+/* import { SecondaryButton } from './buttons/SecondaryButton'; */
 
 export const CourseCard = ({
   course,
   onClick,
-  buttonColor,
   roundedCardSize,
 }: {
   course: Course;
@@ -23,41 +25,44 @@ export const CourseCard = ({
     '3xl': 'rounded-3xl',
   };
 
-  const roundedClassName = roundedClassNames[roundedCardSize] || 'rounded-lg';
-  const router = useRouter();
+  const roundedClassName = roundedClassNames[roundedCardSize] || 'rounded-2xl';
+  /*  const router = useRouter(); */
+  const percent = course.totalVideos
+    ? Math.ceil((course.totalVideosWatched || 0 / course.totalVideos) * 100)
+    : 100;
   return (
     <div
-      className={`max-w-sm border border-gray-200 bg-white ${roundedClassName} mx-auto w-full shadow dark:border-gray-700 dark:bg-gray-800`}
+      className={`max-w-sm border shadow ${roundedClassName} w-full hover:bg-slate-200 dark:hover:bg-slate-900`}
       onClick={() => {
         onClick();
       }}
     >
-      <div className="relative">
-        {course.totalVideos !== undefined &&
-          course.totalVideosWatched !== undefined && (
-            <PercentageComplete
-              percent={Math.ceil(
-                (course.totalVideosWatched / course.totalVideos) * 100,
-              )}
-            />
-          )}
-      </div>
-      <img src={course.imageUrl} alt={course.title} className="rounded-md" />
-      <div className="p-2">
-        <div className="flex justify-between">
-          <div className="mb-2 mt-4">{course.title} Cohort</div>
+      <img
+        src={course.imageUrl}
+        alt={course.title}
+        className={`${roundedClassName}`}
+      />
+      <div className="relative space-y-2 p-4">
+        <div className="space-y-2">
+          {/*todo add course.title */}
+          {/* <Badge>{course.title}</Badge> */}
+          <Badge className="text-xs">Cohort 3.0</Badge>
+          <h1 className="text-xl font-bold">{course.description} </h1>
         </div>
         <div>
-          <button
-            type="button"
-            className="mb-2 me-2 w-full rounded-full bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300"
-            style={{
-              backgroundColor: buttonColor,
-            }}
-          >
+          <div className="flex w-full flex-col">
+            <span className="self-end text-sm font-medium text-slate-500">
+              {percent}%
+            </span>
+            <PercentageComplete percent={percent} />
+          </div>
+        </div>
+        <div className="flex justify-between"></div>
+        <div>
+          <Button type="button" className="mb-6 w-full rounded-full">
             View Content
-          </button>
-          <div className="flex">
+          </Button>
+          {/* <div className="flex">
             {course.certIssued && (
               <div className="flex-1 pr-2">
                 <SecondaryButton
@@ -83,7 +88,19 @@ export const CourseCard = ({
                 </Link>
               </div>
             )}
-          </div>
+          </div> */}
+
+          {course.discordOauthUrl && (
+            <Link target={'blank'} href={course.discordOauthUrl}>
+              <button
+                onClick={(e) => e.stopPropagation()}
+                className="flex w-full items-center justify-center gap-2 rounded-xl text-base text-slate-500"
+              >
+                <Users className="h-4 w-4" />
+                Join Discord Community
+              </button>
+            </Link>
+          )}
         </div>
       </div>
     </div>
