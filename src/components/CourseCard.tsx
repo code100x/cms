@@ -50,9 +50,7 @@ export const CourseCard = ({
       }}
     >
       <img
-        src={
-          'https://res.cloudinary.com/shobhit2205/image/upload/v1723808127/FIxed_Aspect_Ratio_qfglzl.png'
-        }
+        src={course.imageUrl}
         alt={course.title}
         className="w-full rounded-t-md"
       />
