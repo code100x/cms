@@ -28,58 +28,72 @@ const CommentVoteForm = ({
       toast.error(error);
     },
   });
+
   const handleUpvote = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     execute({
       commentId,
       voteType: VoteType.UPVOTE,
       currentPath,
     });
   };
+
   const handleDownVote = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     execute({
       commentId,
       voteType: VoteType.DOWNVOTE,
       currentPath,
     });
   };
+
   return (
     <div className="flex gap-2">
       <form onSubmit={handleUpvote}>
         <button
-          className={`flex items-center gap-1 text-gray-500 dark:text-gray-400 ${isLoading && 'opacity-80'}`}
+          className={`flex items-center gap-1 ${
+            voteType === VoteType.UPVOTE
+              ? 'text-blue-500'
+              : 'text-gray-500 dark:text-gray-400'
+          } ${isLoading && 'opacity-80'}`}
           type="submit"
           disabled={isLoading}
         >
           <ThumbsUpIcon
-            className="h-4 w-4"
-            type="submit"
-            fill={
-              voteType && voteType === VoteType.UPVOTE ? 'currentColor' : 'none'
+            className={`h-4 w-4 ${
+              voteType === VoteType.UPVOTE
+                ? 'text-blue-500'
+                : 'text-gray-500 dark:text-gray-400'
+            }`}
+            fill={voteType === VoteType.UPVOTE ? 'none' : 'none'}
+            stroke={
+              voteType === VoteType.UPVOTE ? 'currentColor' : 'currentColor'
             }
           />
-
           <span>{upVotes}</span>
         </button>
       </form>
       <form onSubmit={handleDownVote}>
         <button
-          className={`flex items-center gap-1 text-gray-500 dark:text-gray-400 ${isLoading && 'opacity-80'}`}
+          className={`flex items-center gap-1 ${
+            voteType === VoteType.DOWNVOTE
+              ? 'text-red-500'
+              : 'text-gray-500 dark:text-gray-400'
+          } ${isLoading && 'opacity-80'}`}
           type="submit"
           disabled={isLoading}
         >
           <ThumbsDownIcon
-            className="h-4 w-4"
-            fill={
-              voteType && voteType === VoteType.DOWNVOTE
-                ? 'currentColor'
-                : 'none'
+            className={`h-4 w-4 ${
+              voteType === VoteType.DOWNVOTE
+                ? 'text-red-500'
+                : 'text-gray-500 dark:text-gray-400'
+            }`}
+            fill={voteType === VoteType.DOWNVOTE ? 'none' : 'none'}
+            stroke={
+              voteType === VoteType.DOWNVOTE ? 'currentColor' : 'currentColor'
             }
           />
-
           <span>{downVotes}</span>
         </button>
       </form>
