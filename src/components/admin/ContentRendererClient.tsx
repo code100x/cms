@@ -37,6 +37,13 @@ export const ContentRendererClient = ({
 
   const router = useRouter();
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [isTheaterMode, setIsTheaterMode] = useState(false);
+
+  const toggleTheaterMode = () => {
+    setIsTheaterMode((prev) => !prev);
+  };
+
   //@ts-ignore
   const [quality, setQuality] = useState<string>(
     searchParams.get('quality') ?? '1080',
@@ -88,9 +95,12 @@ export const ContentRendererClient = ({
   };
 
   return (
-    <div className="flex flex-col items-start gap-2 semi:flex-row">
+    <div
+      className={`flex flex-col items-start gap-2 ${isTheaterMode ? 'semi:flex-col' : 'semi:flex-row'}`}
+    >
       <div className="w-full flex-1">
         <VideoPlayerSegment
+          toggleTheaterMode={toggleTheaterMode}
           setQuality={setQuality}
           contentId={content.id}
           subtitles={metadata.subtitles}

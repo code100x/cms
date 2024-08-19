@@ -25,6 +25,7 @@ interface VideoProps {
   videoJsOptions: any;
   contentId: number;
   onVideoEnd: () => void;
+  toggleTheaterMode: () => void;
 }
 
 export const VideoPlayerSegment: FunctionComponent<VideoProps> = ({
@@ -34,6 +35,7 @@ export const VideoPlayerSegment: FunctionComponent<VideoProps> = ({
   segments,
   videoJsOptions,
   onVideoEnd,
+  toggleTheaterMode,
 }) => {
   const playerRef = useRef<Player | null>(null);
 
@@ -103,6 +105,7 @@ export const VideoPlayerSegment: FunctionComponent<VideoProps> = ({
           options={videoJsOptions}
           onVideoEnd={onVideoEnd}
           onReady={handlePlayerReady}
+          toggleTheaterMode={toggleTheaterMode}
         />
       </div>
     </div>

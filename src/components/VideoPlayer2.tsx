@@ -13,6 +13,8 @@ import { handleMarkAsCompleted } from '@/lib/utils';
 import { useSearchParams } from 'next/navigation';
 import './QualitySelectorControllBar';
 import { YoutubeRenderer } from './YoutubeRenderer';
+import { TheatreMode } from '@/icons/TheatreMode';
+import ReactDOM from 'react-dom';
 
 // todo correct types
 interface VideoPlayerProps {
@@ -22,6 +24,7 @@ interface VideoPlayerProps {
   subtitles?: string;
   contentId: number;
   onVideoEnd: () => void;
+  toggleTheaterMode: () => void;
 }
 
 const PLAYBACK_RATES: number[] = [0.5, 1, 1.25, 1.5, 1.75, 2];
@@ -34,6 +37,7 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
   onReady,
   subtitles,
   onVideoEnd,
+  toggleTheaterMode,
 }) => {
   const videoRef = useRef<HTMLDivElement>(null);
   const playerRef = useRef<Player | null>(null);
@@ -351,6 +355,7 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
           );
           const controlBar = player.getChild('controlBar');
           const fullscreenToggle = controlBar.getChild('fullscreenToggle');
+          player.theaterModeButton();
 
           controlBar
             .el()
@@ -372,6 +377,9 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
           // Focus the video player when toggling fullscreen
           player.on('fullscreenchange', () => {
             videoElement.focus();
+          });
+          player.on('theaterModeChange', () => {
+            toggleTheaterMode();
           });
         },
       ));
@@ -415,6 +423,53 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
     const regex = /^https:\/\/www\.youtube\.com\/embed\/[a-zA-Z0-9_-]+/;
     return regex.test(url);
   };
+
+  videojs.registerPlugin('theaterModeButton', function (this: Player) {
+    const player = this;
+
+    const createButton = () => {
+      const button = videojs.dom.createEl('button', {
+        className: 'vjs-control vjs-button vjs-theater-mode-button',
+        innerHTML:
+          '<div aria-hidden="true" class="vjs-icon-placeholder w-full h-full"></div><div class="vjs-control-text" aria-live="polite">Theater Mode</div>',
+        title: 'Theater Mode',
+        type: 'button',
+      });
+
+      const iconPlaceholder = button.querySelector('.vjs-icon-placeholder');
+      if (iconPlaceholder) {
+        const iconContainer = document.createElement('div');
+        iconContainer.className = 'w-full h-full';
+        ReactDOM.render(<TheatreMode />, iconContainer);
+        iconPlaceholder.innerHTML = '';
+        iconPlaceholder.appendChild(iconContainer);
+      }
+
+      return button;
+    };
+
+    const toggleTheaterMode: any = () => {
+      const playerWrapper = player.el();
+      playerWrapper.classList.toggle('vjs-theater-mode');
+
+      // You may want to dispatch a custom event here
+      player.trigger('theaterModeChange');
+    };
+
+    const geneareteTheaterModeButton = createButton();
+    const insertButtonAfter = (button: any, target: any) => {
+      if (target) {
+        target.parentNode.insertBefore(button, target.nextSibling);
+      }
+    };
+    const pictInPict = document.querySelector(
+      '.vjs-picture-in-picture-control',
+    );
+    insertButtonAfter(geneareteTheaterModeButton, pictInPict);
+    geneareteTheaterModeButton.addEventListener('click', () => {
+      toggleTheaterMode();
+    });
+  });
 
   if (isYoutubeUrl(vidUrl)) {
     return <YoutubeRenderer url={vidUrl} />;
