@@ -44,7 +44,6 @@ export const FolderView = ({
   const sidebarOpen = useRecoilValue(sidebarOpenAtom);
   const isMainSideBarCompressed = useRecoilValue(mainSideBarToggle);
 
-
   return (
     <div>
       <div></div>

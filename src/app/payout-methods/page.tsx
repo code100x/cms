@@ -20,51 +20,51 @@ export default function Page() {
 
     const closeDialog = () => setIsDialogBoxOpen(false);
 
-    const [upiAddresses, setUpiAddresses] = useState<UpiId[] | undefined>([])
-    const [solanaAddresses, setSolanaAddresses] = useState<SolanaAddress[] | undefined>([])
+    const [upiAddresses, setUpiAddresses] = useState<UpiId[] | undefined>([]);
+    const [solanaAddresses, setSolanaAddresses] = useState<SolanaAddress[] | undefined>([]);
 
     const fetchPayoutMethods = async () => {
-        const result = await getPayoutMethods()
+        const result = await getPayoutMethods();
         if (result) {
-            setUpiAddresses(result.upiIds)
-            setSolanaAddresses(result.solanaAddresses)
+            setUpiAddresses(result.upiIds);
+            setSolanaAddresses(result.solanaAddresses);
         }
     }
 
     const { execute: executeDeleteUPI } = useAction(deleteUpiId, {
         onSuccess: () => {
-            toast.success("UPI Address deleted successfully")
+            toast.success("UPI Address deleted successfully");
         },
         onError: () => {
-            toast.error("Failed to delete UPI id")
+            toast.error("Failed to delete UPI id");
         }
     })
 
     const { execute: executeDeleteSolana } = useAction(deleteSolanaAddress, {
         onSuccess: () => {
-            toast.success("Solana Address deleted successfully")
+            toast.success("Solana Address deleted successfully");
         },
         onError: () => {
-            toast.error("Failed to delete Solana address")
+            toast.error("Failed to delete Solana address");
         }
     })
 
     const handleUpiDelete = (id: number) => {
-        executeDeleteUPI({ id: id })
-        fetchPayoutMethods()
+        executeDeleteUPI({ id: id });
+        fetchPayoutMethods();
     }
 
     const handleSolanaDelete = (id: number) => {
-        executeDeleteSolana({ id: id })
-        fetchPayoutMethods()
+        executeDeleteSolana({ id: id });
+        fetchPayoutMethods();
     }
 
     useEffect(() => {
-        fetchPayoutMethods()
+        fetchPayoutMethods();
     }, [])
 
     useEffect(() => {
-        fetchPayoutMethods()
+        fetchPayoutMethods();
     }, [isDialogBoxOpen])
 
     return (

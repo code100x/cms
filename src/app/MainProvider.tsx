@@ -3,10 +3,9 @@ import React, { ReactNode } from 'react';
 import { Appbar } from '@/components/Appbar';
 import MainSidebar from '@/components/MainSidebar';
 import { mainSideBarToggle } from '@/store/atoms/mainSidebar';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { useSession } from 'next-auth/react';
 // import Topbar from '@/components/Topbar'
-
 
 export default function MainProvider({ children }: { children: ReactNode }) {
     const { data: session, status: sessionStatus } = useSession();
@@ -17,7 +16,6 @@ export default function MainProvider({ children }: { children: ReactNode }) {
         <div>
             <div className='border-red-500 h-screen'>
                 {/* <div className="min-h-[calc(100vh-64px)]">{children}</div> */}
-
 
                 <div className='flex w-full h-full'>
                     {!isMainSideBarCompressed && (
@@ -36,9 +34,7 @@ export default function MainProvider({ children }: { children: ReactNode }) {
                         </div>
                     </div>
                 </div>
-
-
             </div>
         </div>
-    )
+    );
 }

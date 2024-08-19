@@ -19,12 +19,12 @@ const chartConfig = {
 
 export function CircularProgressBar({ percentage = 91 }) {
   // Ensure percentage is between 0 and 100
-  const safePercentage = Math.min(Math.max(percentage, 0), 100)
-  const endAngle = (safePercentage / 100) * 450
+  const safePercentage = Math.min(Math.max(percentage, 0), 100);
+  const endAngle = (safePercentage / 100) * 450;
 
   const chartData = [
     { percentage: safePercentage, fill: "#fff" },
-  ]
+  ];
 
   return (
     <div className="flex flex-col items-center">
@@ -79,7 +79,7 @@ export function CircularProgressBar({ percentage = 91 }) {
                         {`${safePercentage}%`}
                       </tspan>
                     </text>
-                  )
+                  );
                 }
               }}
             />
@@ -87,5 +87,5 @@ export function CircularProgressBar({ percentage = 91 }) {
         </RadialBarChart>
       </ChartContainer>
     </div>
-  )
+  );
 }

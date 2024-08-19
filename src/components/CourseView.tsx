@@ -6,7 +6,7 @@ import { getFolderPercentCompleted } from '@/lib/utils';
 import Comments from './comment/Comments';
 import { QueryParams } from '@/actions/types';
 import BreadCrumbComponent from './BreadCrumbComponent';
-import { usePathname } from 'next/navigation';
+// import { usePathname } from 'next/navigation';
 import SidebarToggle from './SidebarToggle';
 
 export const CourseView = ({

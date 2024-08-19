@@ -5,7 +5,7 @@ import { AppbarAuth } from './AppbarAuth';
 import { useSession } from 'next-auth/react';
 import { useRecoilState } from 'recoil';
 import { sidebarOpen as sidebarOpenAtom } from '../store/atoms/sidebar';
-import { ToggleButton } from './Sidebar';
+// import { ToggleButton } from './Sidebar';
 import { usePathname } from 'next/navigation';
 import Logo from './landing/logo/logo';
 import { Button } from './ui/button';
@@ -19,8 +19,8 @@ import { mainSideBarToggle } from '@/store/atoms/mainSidebar';
 
 export const Appbar = () => {
   const { data: session, status: sessionStatus } = useSession();
-  const [sidebarOpen, setSidebarOpen] = useRecoilState(sidebarOpenAtom);
-  const currentPath = usePathname();
+  // const [sidebarOpen, setSidebarOpen] = useRecoilState(sidebarOpenAtom);
+  // const currentPath = usePathname();
 
   const [isMainSideBarCompressed, setIsMainSideBarCompressed] = useRecoilState(mainSideBarToggle);
 

@@ -1,6 +1,6 @@
 'use client';
 import { Course } from '@/store/atoms';
-import PercentageComplete from './PercentageComplete';
+// import PercentageComplete from './PercentageComplete';
 import { SecondaryButton } from './buttons/SecondaryButton';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
@@ -34,7 +34,7 @@ export const CourseCard = ({
       return 0;
     }
     return Math.ceil((course.totalVideosWatched / course.totalVideos) * 100);
-  }
+  };
 
   return (
     <div
@@ -62,7 +62,6 @@ export const CourseCard = ({
         <div className="flex justify-between my-2">
           <div className="font-semibold flex-1 text-xl">{course.title} Cohort</div>
         </div>
-
 
         <div className='mb-4 flex flex-col gap-2'>
           <p className='text-[#94A3B8] text-sm flex items-center justify-end'>{generateProgressPercentage()}%</p>

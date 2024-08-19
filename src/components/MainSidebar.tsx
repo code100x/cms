@@ -21,9 +21,9 @@ export default function MainSidebar() {
         general: null,
         others: null
     });
-    const router = useRouter();
+    // const router = useRouter();
     const session = useSession();
-    const user = session?.data?.user;
+    // const user = session?.data?.user;
 
     const [isMainSideBarCompressed, setIsMainSideBarCompressed] = useRecoilState(mainSideBarToggle);
 
@@ -88,7 +88,7 @@ export default function MainSidebar() {
                 href: "/logout",
             },
         ]
-    }
+    };
 
     const ToggleIcon = isMainSideBarCompressed ? PanelLeftOpen : PanelRightOpen;
 
@@ -122,7 +122,7 @@ export default function MainSidebar() {
                                             </TooltipContent>
                                         </Tooltip>
                                     </TooltipProvider>
-                                )
+                                );
                             }
                             )
                         }
@@ -148,7 +148,7 @@ ${isMainSideBarCompressed ? 'w-0 opacity-0' : 'w-auto opacity-100'}`}>{x.name}</
                                                 </TooltipContent>
                                             </Tooltip>
                                         </TooltipProvider>
-                                    )
+                                    );
                                 }
                                 return (
                                     <>
@@ -169,14 +169,12 @@ ${isMainSideBarCompressed ? 'w-0 opacity-0' : 'w-auto opacity-100'}`}>{x.name}</
                                             </Tooltip>
                                         </TooltipProvider>
                                     </>
-                                )
+                                );
                             })}
                         </div>
                     </div>
-
-
                 </div>
             </div>
         </div>
-    )
+    );
 }

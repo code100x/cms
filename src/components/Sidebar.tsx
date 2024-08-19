@@ -1,5 +1,5 @@
 'use client';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import {
   Accordion,
   AccordionContent,
@@ -7,8 +7,8 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import { FullCourseContent } from '@/db/course';
-import { Button } from './ui/button';
-import { BackArrow } from '@/icons/BackArrow';
+// import { Button } from './ui/button';
+// import { BackArrow } from '@/icons/BackArrow';
 import { useRecoilState } from 'recoil';
 import { sidebarOpen as sidebarOpenAtom } from '@/store/atoms/sidebar';
 import { useEffect, useState } from 'react';
@@ -26,7 +26,7 @@ export function Sidebar({
 }) {
   const pathName = usePathname();
 
-  const [isSmallerScreen, setIsSmallerScreen] = useState<boolean>(false)
+  const [isSmallerScreen, setIsSmallerScreen] = useState<boolean>(false);
 
   const [sidebarOpen, setSidebarOpen] = useRecoilState(sidebarOpenAtom);
   const [currentActiveContentIds, setCurrentActiveContentIds] = useState<

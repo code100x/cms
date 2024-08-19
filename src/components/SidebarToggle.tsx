@@ -34,5 +34,5 @@ export default function SidebarToggle() {
                 </Button>
             )}
         </div>
-    )
+    );
 }

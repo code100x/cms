@@ -2,11 +2,11 @@
 
 import Link from 'next/link';
 import {
-  BookmarkIcon,
-  HistoryIcon,
-  LogOutIcon,
+  // BookmarkIcon,
+  // HistoryIcon,
+  // LogOutIcon,
   User2Icon,
-  Bird,
+  // Bird,
   CreditCard
 } from 'lucide-react';
 import {
@@ -18,8 +18,8 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import ExternalLinks from './ExternalLinks';
-import { signOut } from 'next-auth/react';
-import { SelectTheme } from './SelectTheme';
+// import { signOut } from 'next-auth/react';
+// import { SelectTheme } from './SelectTheme';
 
 const ProfileDropdown = () => {
   const menuItemLinks = [
