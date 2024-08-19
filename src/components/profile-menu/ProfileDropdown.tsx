@@ -53,7 +53,7 @@ const ProfileDropdown = () => {
         </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="mr-3 mt-2 w-56 shadow-2xl">
-        <DropdownMenuGroup>
+        {/* <DropdownMenuGroup>
           {menuItemLinks.map(({ href, label, icon }) => (
             <Link href={href} key={href}>
               <DropdownMenuItem>
@@ -64,28 +64,28 @@ const ProfileDropdown = () => {
           ))}
         </DropdownMenuGroup>
 
-        <DropdownMenuSeparator />
+        <DropdownMenuSeparator /> */}
 
-        <DropdownMenuGroup>
+        {/* <DropdownMenuGroup>
           <SelectTheme />
-        </DropdownMenuGroup>
+        </DropdownMenuGroup> */}
 
-        <DropdownMenuSeparator />
+        {/* <DropdownMenuSeparator /> */}
 
         <DropdownMenuGroup>
           <ExternalLinks />
         </DropdownMenuGroup>
 
-        <DropdownMenuSeparator />
+        {/* <DropdownMenuSeparator /> */}
 
-        <DropdownMenuItem
+        {/* <DropdownMenuItem
           onClick={() => {
             signOut();
           }}
         >
           <LogOutIcon className="mr-2 h-4 w-4" />
           <span>Logout</span>
-        </DropdownMenuItem>
+        </DropdownMenuItem> */}
       </DropdownMenuContent>
     </DropdownMenu>
   );

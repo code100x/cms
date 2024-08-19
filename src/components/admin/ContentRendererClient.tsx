@@ -5,6 +5,7 @@ import { VideoPlayerSegment } from '@/components/VideoPlayerSegment';
 import VideoContentChapters from '../VideoContentChapters';
 import { useMemo, useState } from 'react';
 import { handleMarkAsCompleted } from '@/lib/utils';
+import { Check, ChevronLast, Milestone, Presentation, X } from "lucide-react"
 
 export const ContentRendererClient = ({
   metadata,
@@ -24,6 +25,7 @@ export const ContentRendererClient = ({
     thumbnail: string;
     description: string;
     markAsCompleted: boolean;
+    createdAt?: Date | null;
   };
 }) => {
   const [contentCompleted, setContentCompleted] = useState(
@@ -87,6 +89,8 @@ export const ContentRendererClient = ({
     setLoadingMarkAs(false);
   };
 
+  const neitherChapterNorNext = !(metadata.segments?.length > 0) && !nextContent
+
   return (
     <div className="flex flex-col items-start gap-2 semi:flex-row">
       <div className="w-full flex-1">
@@ -118,68 +122,86 @@ export const ContentRendererClient = ({
             setContentCompleted(true);
           }}
         />
-        <div className="mb-2 flex justify-between">
-          <div>
-            <div className="text-2xl font-bold text-gray-900 dark:text-white">
-              {content.title}
+        <div className="mb-2 border-yellow-500 flex flex-col justify-between">
+          <div className=' flex items-center pb-4 mx-2 border-b justify-between'>
+            <div className="w-[70%] text-gray-900  dark:text-white">
+              <p className='text-2xl font-semibold'>{content.title}</p>
+              <p className='text-sm text-gray-500'>Posted at : {content?.createdAt?.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+              })}</p>
             </div>
 
-            <button
-              className="my-4 rounded bg-blue-500 p-2 font-bold text-white hover:bg-blue-700"
-              disabled={loadingMarkAs}
-              onClick={handleMarkCompleted}
-            >
-              {contentCompleted ? 'Mark as Incomplete' : 'Mark as completed'}
-            </button>
+            <div className='flex w-[30%] items-center justify-end gap-4'>
+              <button
+                className={`my-4 rounded flex items-center gap-2 ${contentCompleted ? 'border-dashed border-[#3259E8] text-[#4E7AFF] bg-[#4e7aff12]' : 'bg-[#3259E8]'} border p-2 text-sm font-semibold text-white`}
+                disabled={loadingMarkAs}
+                onClick={handleMarkCompleted}
+              >
+                {contentCompleted ? <X size={18} /> : <Check size={18} />}
+                <p className='hidden md:block'>
+                  {contentCompleted ? 'Mark as Incomplete' : 'Mark as completed'}
+                </p>
+              </button>
+
+              {metadata.slides ? (
+                <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'row-reverse',
+                    gap: '10px',
+                  }}
+                >
+                  <a href={metadata.slides} target="_blank">
+                    <button className="rounded text-sm font-semibold flex items-center gap-2 bg-[#3259E8] p-2 text-white hover:bg-blue-700">
+                      <Presentation size={18} />
+                      <p className='hidden md:block'>Lecture Slides</p>
+                    </button>
+                  </a>
+                </div>
+              ) : null}
+
+            </div>
           </div>
 
-          <div>
+          <div className={`flex py-4 mx-2 ${neitherChapterNorNext ? 'border-none' : 'border-b'} justify-between`}>
             {/* <QualitySelector /> */}
-            {metadata.slides ? (
-              <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'row-reverse',
-                  gap: '10px',
-                }}
-              >
-                <a href={metadata.slides} target="_blank">
-                  <button className="rounded bg-blue-500 p-2 font-bold text-white hover:bg-blue-700">
-                    Slides
-                  </button>
-                </a>
-              </div>
-            ) : null}
+
             {!showChapters && metadata.segments?.length > 0 && (
               <button
-                className="my-4 rounded bg-blue-500 p-2 font-bold text-white hover:bg-blue-700"
+                className="rounded flex items-center gap-2 text-sm mx-2 hover:underline font-semibold dark:text-white"
                 onClick={() => {
                   scrollTo({ top: 0, behavior: 'smooth' });
                   toggleShowChapters();
                 }}
               >
-                View All Chapters
+                <Milestone size={18} />
+                <p>View All Chapters</p>
               </button>
             )}
+
+            {nextContent ? (
+              <div className="flex flex-row-reverse">
+                <button
+                  className="ml-4 flex items-center text-sm gap-2 rounded bg-[#3259E8] px-4 py-2 font-semibold text-white hover:bg-blue-700"
+                onClick={() => {
+                  const originalPath = window.location.pathname;
+                  const parts = originalPath.split('/');
+                  parts.pop();
+                  parts.push(nextContent.id.toString());
+                  const newPath = parts.join('/');
+                  router.push(newPath);
+                }}
+                >
+                  <p>{nextContent.title}</p>
+                  <ChevronLast size={18} />
+                </button>{' '}
+              </div>
+            ) : null}
           </div>
         </div>
-        {nextContent ? (
-          <div className="flex flex-row-reverse">
-            <button
-              className="ml-4 rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
-              onClick={() => {
-                const originalPath = window.location.pathname;
-                const parts = originalPath.split('/');
-                parts.pop();
-                parts.push(nextContent.id.toString());
-                const newPath = parts.join('/');
-                router.push(newPath);
-              }}
-            >
-              {nextContent.title}
-            </button>{' '}
-          </div>
-        ) : null}
+
       </div>
 
       {showChapters && (

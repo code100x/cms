@@ -54,6 +54,7 @@ const CommentVoteForm = ({
           type="submit"
           disabled={isLoading}
         >
+          <span>{upVotes}</span>
           <ThumbsUpIcon
             className="h-4 w-4"
             type="submit"
@@ -62,7 +63,6 @@ const CommentVoteForm = ({
             }
           />
 
-          <span>{upVotes}</span>
         </button>
       </form>
       <form onSubmit={handleDownVote}>
@@ -71,6 +71,7 @@ const CommentVoteForm = ({
           type="submit"
           disabled={isLoading}
         >
+          <span>{downVotes}</span>
           <ThumbsDownIcon
             className="h-4 w-4"
             fill={
@@ -80,7 +81,6 @@ const CommentVoteForm = ({
             }
           />
 
-          <span>{downVotes}</span>
         </button>
       </form>
     </div>

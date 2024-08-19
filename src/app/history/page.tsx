@@ -93,7 +93,7 @@ export default async function CoursesComponent() {
   const watchHistoryGroupedByDate = groupByWatchedDate(watchHistory);
 
   return (
-    <div className="px-4 py-5 md:px-20">
+    <div className="px-4 py-5 md:pr-20">
       <h1 className="text-2xl font-bold">Watch history</h1>
       <div className="my-4 flex max-w-full flex-col gap-4 sm:my-8">
         {Object.entries(watchHistoryGroupedByDate).map(([date, history]) => {

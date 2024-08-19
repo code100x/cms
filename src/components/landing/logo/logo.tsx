@@ -6,7 +6,7 @@ const headingFont = localFont({
   src: '../../../../public/fonts/font.woff2',
 });
 
-const Logo = ({ onFooter = false }: { onFooter: boolean }) => {
+const Logo = ({ onFooter = false, textVisibilty}: { onFooter: boolean, textVisibilty: boolean }) => {
   return (
     <Link href={'/'}>
       <div className="flex items-center gap-x-2 transition hover:opacity-90">
@@ -22,6 +22,7 @@ const Logo = ({ onFooter = false }: { onFooter: boolean }) => {
           className={cn(
             'text-neutral-700 dark:text-neutral-100',
             onFooter ? 'text-3xl text-neutral-200' : 'text-xl',
+            textVisibilty ? 'text-xl' : 'hidden',
             headingFont.className,
           )}
         >

@@ -15,7 +15,7 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import CommentVoteForm from './CommentVoteForm';
 import Pagination from '../Pagination';
 import Link from 'next/link';
-import { ArrowLeftIcon, ChevronDownIcon, MoreVerticalIcon } from 'lucide-react';
+import { ArrowLeftIcon, ChevronDownIcon, MoreVerticalIcon, Pin } from 'lucide-react';
 import TimeCodeComment from './TimeCodeComment';
 import CopyToClipboard from '../Copy-to-clipbord';
 import {
@@ -62,8 +62,8 @@ const Comments = async ({
   const modifiedSearchParams = { ...searchParams };
   delete modifiedSearchParams.parentId;
   return (
-    <Card key="1" className="flex w-full flex-col justify-center border-none">
-      <CardHeader className="p-6">
+    <Card key="1" className="flex w-full mt-6 flex-col border-none">
+      <CardHeader className="p-0 mx-2 h-fit">
         {data.parentComment && (
           <Link
             className="p-1"
@@ -90,7 +90,7 @@ const Comments = async ({
               />
             </h1>
           )}
-          <div className="flex items-center gap-2 text-sm">
+          <div className="flex items-center gap-2 text-sm h-fit">
             <div className="flex items-center gap-0.5">
               {/* <ChevronUpIcon className="w-4 h-4" />
               <ChevronDownIcon className="w-4 h-4" /> */}
@@ -103,125 +103,129 @@ const Comments = async ({
                 <div className="text-gray-500 dark:text-gray-400">•</div>
               </>
             )}
+            <div className='flex gap-2 mb-6 w-full items-start md:items-center justify-between md:flex-row flex-col h-[4rem]'>
 
-            <div
-              className={`text-gray-500 dark:text-gray-400 ${!data.parentComment ? 'text-xl' : ''}`}
-            >
-              {!data.parentComment
-                ? `${content.commentCount} comments`
-                : `${data.parentComment.repliesCount} replies`}
+              <div
+                className={`text-gray-500 dark:text-gray-400 ${!data.parentComment ? 'text-base' : ''}`}
+              >
+                {!data.parentComment
+                  ? `Comments (${content.commentCount})`
+                  : `${data.parentComment.repliesCount} replies`}
+              </div>
+
+              <div className="flex gap-2">
+                <DropdownMenu key="1" modal={false}>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      className="w-[150px] md:w-[200px] justify-between text-left font-normal"
+                      variant="outline"
+                    >
+                      <span>{searchParams.tabtype || TabType.mu}</span>
+                      <ChevronDownIcon className="h-4 w-4" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    <DropdownMenuGroup>
+                      <Link
+                        scroll={false}
+                        href={getUpdatedUrl(
+                          `/courses/${content.courseId}/${content.possiblePath}`,
+                          searchParams,
+                          {
+                            tabtype: TabType.mu,
+                          },
+                        )}
+                      >
+                        <DropdownMenuItem>Most Upvoted</DropdownMenuItem>
+                      </Link>
+                      <Link
+                        scroll={false}
+                        href={getUpdatedUrl(
+                          `/courses/${content.courseId}/${content.possiblePath}`,
+                          searchParams,
+                          {
+                            tabtype: TabType.mr,
+                          },
+                        )}
+                      >
+                        <DropdownMenuItem>Most Recent</DropdownMenuItem>{' '}
+                      </Link>
+                      <Link
+                        scroll={false}
+                        href={getUpdatedUrl(
+                          `/courses/${content.courseId}/${content.possiblePath}`,
+                          searchParams,
+                          {
+                            tabtype: TabType.md,
+                          },
+                        )}
+                      >
+                        <DropdownMenuItem>Most downvoted</DropdownMenuItem>
+                      </Link>
+                    </DropdownMenuGroup>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+                <DropdownMenu modal={false}>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      className="w-[150px] md:w-[200px] justify-between text-left font-normal"
+                      variant="outline"
+                    >
+                      <span>
+                        {searchParams.type === CommentType.INTRO
+                          ? CommentType.INTRO
+                          : 'All comments' || 'All comments'}
+                      </span>
+                      <ChevronDownIcon className="h-4 w-4" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    <DropdownMenuGroup>
+                      <Link
+                        scroll={false}
+                        href={getUpdatedUrl(
+                          `/courses/${content.courseId}/${content.possiblePath}`,
+                          searchParams,
+                          {
+                            type: CommentType.DEFAULT,
+                          },
+                        )}
+                      >
+                        <DropdownMenuItem>All comments</DropdownMenuItem>
+                      </Link>
+
+                      <Link
+                        scroll={false}
+                        href={getUpdatedUrl(
+                          `/courses/${content.courseId}/${content.possiblePath}`,
+                          searchParams,
+                          {
+                            type: CommentType.INTRO,
+                          },
+                        )}
+                      >
+                        <DropdownMenuItem>Intro comments</DropdownMenuItem>
+                      </Link>
+                    </DropdownMenuGroup>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
             </div>
             {/*   <div className="text-gray-500 dark:text-gray-400">•</div>
             <div className="text-gray-500 dark:text-gray-400">Share</div> */}
           </div>
         </div>
       </CardHeader>
-      <CardContent className="dark:border-primary-darker rounded-md border p-0 lg:p-8">
+      <CardContent className="dark:border-primary-darker rounded-md p-0 mx-2">
         <CommentInputForm
           contentId={content.id}
           parentId={data?.parentComment?.id}
         />
-        <div className="mb-5 mt-5 flex">
-          <DropdownMenu key="1" modal={false}>
-            <DropdownMenuTrigger asChild>
-              <Button
-                className="w-[200px] justify-between text-left font-normal"
-                variant="ghost"
-              >
-                <span>{searchParams.tabtype || TabType.mu}</span>
-                <ChevronDownIcon className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuGroup>
-                <Link
-                  scroll={false}
-                  href={getUpdatedUrl(
-                    `/courses/${content.courseId}/${content.possiblePath}`,
-                    searchParams,
-                    {
-                      tabtype: TabType.mu,
-                    },
-                  )}
-                >
-                  <DropdownMenuItem>Most Upvoted</DropdownMenuItem>
-                </Link>
-                <Link
-                  scroll={false}
-                  href={getUpdatedUrl(
-                    `/courses/${content.courseId}/${content.possiblePath}`,
-                    searchParams,
-                    {
-                      tabtype: TabType.mr,
-                    },
-                  )}
-                >
-                  <DropdownMenuItem>Most Recent</DropdownMenuItem>{' '}
-                </Link>
-                <Link
-                  scroll={false}
-                  href={getUpdatedUrl(
-                    `/courses/${content.courseId}/${content.possiblePath}`,
-                    searchParams,
-                    {
-                      tabtype: TabType.md,
-                    },
-                  )}
-                >
-                  <DropdownMenuItem>Most downvoted</DropdownMenuItem>
-                </Link>
-              </DropdownMenuGroup>
-            </DropdownMenuContent>
-          </DropdownMenu>
-          <DropdownMenu modal={false}>
-            <DropdownMenuTrigger asChild>
-              <Button
-                className="w-[200px] justify-between text-left font-normal"
-                variant="ghost"
-              >
-                <span>
-                  {searchParams.type === CommentType.INTRO
-                    ? CommentType.INTRO
-                    : 'All comments' || 'All comments'}
-                </span>
-                <ChevronDownIcon className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuGroup>
-                <Link
-                  scroll={false}
-                  href={getUpdatedUrl(
-                    `/courses/${content.courseId}/${content.possiblePath}`,
-                    searchParams,
-                    {
-                      type: CommentType.DEFAULT,
-                    },
-                  )}
-                >
-                  <DropdownMenuItem>All comments</DropdownMenuItem>
-                </Link>
 
-                <Link
-                  scroll={false}
-                  href={getUpdatedUrl(
-                    `/courses/${content.courseId}/${content.possiblePath}`,
-                    searchParams,
-                    {
-                      type: CommentType.INTRO,
-                    },
-                  )}
-                >
-                  <DropdownMenuItem>Intro comments</DropdownMenuItem>
-                </Link>
-              </DropdownMenuGroup>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
-        <div className="grid max-h-[400px] gap-6 overflow-y-auto">
+        <div className="grid mt-4 max-h-[400px] gap-6 overflow-y-auto">
           {data.comments.map((c) => (
             <div
-              className="flex w-full items-start gap-4 rounded-md border p-4 text-sm"
+              className={`flex w-full h-[110px] ${c.isPinned ? 'bg-[#4e7aff12]' : 'dark:bg-[#0c1323]'}  items-start gap-4 rounded-xl border p-4 text-sm`}
               key={c.id}
             >
               <div className="flex w-full items-start gap-4">
@@ -230,56 +234,60 @@ const Comments = async ({
                   <AvatarFallback>{`${(c as ExtendedComment).user?.name?.substring(0, 2)}`}</AvatarFallback>
                 </Avatar>
                 <div className="grid w-full gap-1.5">
-                  <div className="flex items-center gap-2">
-                    <div className="font-semibold">
-                      @{(c as ExtendedComment).user?.name ?? ''}
-                    </div>
-                    <div className="text-xs text-gray-500 dark:text-gray-400">
-                      {dayjs(c.createdAt).fromNow()}
-                    </div>
-                    {c.isPinned && (
-                      <div className="text-xs text-gray-500 dark:text-gray-400">
-                        Pinned
-                      </div>
-                    )}
+                  <div className='flex items-start justify-between'>
 
-                    <DropdownMenu key="2">
-                      <DropdownMenuTrigger asChild>
-                        <button>
-                          <MoreVerticalIcon className="h-4 w-4" />
-                        </button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent>
-                        <DropdownMenuItem>
-                          <CopyToClipboard
-                            textToCopy={`${c.contentId};${c.id.toString()}`}
-                          />
-                        </DropdownMenuItem>
-                        {(session.user.id.toString() ===
-                          (c as ExtendedComment).userId.toString() ||
-                          session.user.role === ROLES.ADMIN) && (
+                    <div className="flex items-center gap-2">
+                      <div className="text-sm text-gray-400">
+                        @{(c as ExtendedComment).user?.name ?? ''}
+                      </div>
+                      <div className="text-xs text-gray-500 dark:text-gray-400">
+                        {dayjs(c.createdAt).fromNow()}
+                      </div>
+                      <DropdownMenu key="2">
+                        <DropdownMenuTrigger asChild>
+                          <button>
+                            <MoreVerticalIcon className="h-4 w-4" />
+                          </button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent>
                           <DropdownMenuItem>
-                            <CommentDeleteForm commentId={c.id} />
-                          </DropdownMenuItem>
-                        )}
-                        {session.user.role === ROLES.ADMIN && (
-                          <DropdownMenuItem>
-                            <CommentPinForm
-                              commentId={c.id}
-                              contentId={c.contentId}
+                            <CopyToClipboard
+                              textToCopy={`${c.contentId};${c.id.toString()}`}
                             />
                           </DropdownMenuItem>
-                        )}
-                        {session.user.role === ROLES.ADMIN && (
-                          <DropdownMenuItem>
-                            <CommentApproveForm
-                              commentId={c.id}
-                              contentId={c.contentId}
-                            />
-                          </DropdownMenuItem>
-                        )}
-                      </DropdownMenuContent>
-                    </DropdownMenu>
+                          {(session.user.id.toString() ===
+                            (c as ExtendedComment).userId.toString() ||
+                            session.user.role === ROLES.ADMIN) && (
+                              <DropdownMenuItem>
+                                <CommentDeleteForm commentId={c.id} />
+                              </DropdownMenuItem>
+                            )}
+                          {session.user.role === ROLES.ADMIN && (
+                            <DropdownMenuItem>
+                              <CommentPinForm
+                                commentId={c.id}
+                                contentId={c.contentId}
+                              />
+                            </DropdownMenuItem>
+                          )}
+                          {session.user.role === ROLES.ADMIN && (
+                            <DropdownMenuItem>
+                              <CommentApproveForm
+                                commentId={c.id}
+                                contentId={c.contentId}
+                              />
+                            </DropdownMenuItem>
+                          )}
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </div>
+
+                    {c.isPinned && (
+                      <Pin size={25} className='rotate-[45deg]' color='#4E7AFF' />
+                      // <div className="text-xs text-gray-500 dark:text-gray-400">
+                      //   Pinned
+                      // </div>
+                    )}
                   </div>
                   <div>
                     <TimeCodeComment

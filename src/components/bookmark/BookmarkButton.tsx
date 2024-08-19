@@ -36,12 +36,12 @@ const BookmarkButton = ({
           <Button
             disabled={isDisabled}
             variant="ghost"
-            className="h-0 p-0 text-primary hover:text-primary"
+            className="h-0 p-0 text-[#94A3B8] hover:text-[#94A3B8]"
             onClick={handleBookmark}
           >
             <BookmarkIcon
               size={size}
-              {...(addedBookmark && { fill: '#2563EB' })}
+              {...(addedBookmark && { fill: '#2563EB', color: '#2563EB' })}
               className="drop-shadow-2xl"
             />
           </Button>

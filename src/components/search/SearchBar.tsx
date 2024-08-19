@@ -98,25 +98,29 @@ const SearchBar = ({ onCardClick }: { onCardClick?: () => void }) => {
       ref={ref}
     >
       {/* Search Input Bar */}
-      <SearchIcon className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-gray-500" />
       <Input
         placeholder="Search for videos..."
-        className="rounded-full border-2 px-10 focus-visible:ring-transparent"
+        className="border-b pr-10 focus-visible:ring-transparent"
         value={searchTerm}
         onChange={handleInputChange}
         onFocus={() => setIsInputFocused(true)}
         ref={searchInputRef}
       />
-      {searchTerm.length > 0 && (
+      {searchTerm.length > 0 ? (
         <XCircleIcon
           className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 transform cursor-pointer"
           onClick={handleClearInput}
         />
-      )}
+      )
+        :
+        (
+          <SearchIcon className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-gray-500" />
+        )
+      }
 
       {/* Search Results */}
       {isInputFocused && searchTerm.length > 0 && (
-        <div className="absolute top-12 max-h-[40vh] w-full overflow-y-auto rounded-lg border-2 bg-white py-2 shadow-lg dark:bg-[#020817]">
+        <div className="absolute top-12 max-h-[40vh] w-full overflow-y-auto rounded-lg border bg-white py-2 shadow-lg dark:bg-[#020817]">
           {renderSearchResults()}
         </div>
       )}

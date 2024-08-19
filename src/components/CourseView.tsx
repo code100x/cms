@@ -6,6 +6,8 @@ import { getFolderPercentCompleted } from '@/lib/utils';
 import Comments from './comment/Comments';
 import { QueryParams } from '@/actions/types';
 import BreadCrumbComponent from './BreadCrumbComponent';
+import { usePathname } from 'next/navigation';
+import SidebarToggle from './SidebarToggle';
 
 export const CourseView = ({
   rest,
@@ -28,7 +30,7 @@ export const CourseView = ({
 }) => {
   return (
     <>
-      <div className="mb-2 flex max-h-fit min-h-[2.5rem] items-center px-4">
+      <div className="my-3 flex justify-between max-h-fit min-h-[2.5rem] items-center px-4">
         <BreadCrumbComponent
           course={course}
           contentType={contentType}
@@ -36,6 +38,8 @@ export const CourseView = ({
           fullCourseContent={fullCourseContent}
           rest={rest}
         />
+
+        <SidebarToggle />
       </div>
       {contentType === 'notion' ? (
         <NotionRenderer id={courseContent[0]?.id} />
@@ -53,6 +57,7 @@ export const CourseView = ({
             markAsCompleted:
               courseContent[0]?.videoProgress?.markAsCompleted || false,
             bookmark: courseContent[0].bookmark,
+            createdAt: courseContent[0]?.createdAt,
           }}
         />
       ) : null}
@@ -79,6 +84,7 @@ export const CourseView = ({
             percentComplete: getFolderPercentCompleted(x?.children),
             videoFullDuration: x?.videoProgress?.videoFullDuration || 0,
             duration: x?.videoProgress?.duration || 0,
+            createdAt: x?.createdAt,
           }))}
           courseId={parseInt(course.id, 10)}
         />

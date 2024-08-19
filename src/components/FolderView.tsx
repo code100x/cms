@@ -2,6 +2,9 @@
 import { useRouter } from 'next/navigation';
 import { ContentCard } from './ContentCard';
 import { Bookmark } from '@prisma/client';
+import { useRecoilState } from 'recoil';
+import { sidebarOpen as sidebarOpenAtom } from '@/store/atoms/sidebar';
+import { mainSideBarToggle } from '@/store/atoms/mainSidebar';
 
 export const FolderView = ({
   courseContent,
@@ -20,6 +23,7 @@ export const FolderView = ({
     videoFullDuration?: number;
     duration?: number;
     bookmark: Bookmark | null;
+    createdAt: Date | null;
   }[];
 }) => {
   const router = useRouter();
@@ -37,15 +41,19 @@ export const FolderView = ({
   }
   // why? because we have to reset the segments or they will be visible always after a video
 
+  const [sidebarOpen, setSidebarOpen] = useRecoilState(sidebarOpenAtom);
+  const [isMainSideBarCompressed, setIsMainSideBarCompressed] = useRecoilState(mainSideBarToggle);
+
+
   return (
     <div>
       <div></div>
-      <div className="mx-auto grid max-w-screen-xl cursor-pointer grid-cols-1 justify-between gap-5 p-4 md:grid-cols-3">
+      <div className={`mx-auto grid max-w-screen-xl cursor-pointer grid-cols-1 justify-between gap-5 p-4 ${(sidebarOpen && !isMainSideBarCompressed) ? 'md:grid-cols-1 lg:grid-cols-2' : 'lg:grid-cols-3'}  ${(sidebarOpen && isMainSideBarCompressed) ? 'sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3' : 'grid-cols-1 md:grid-cols-2'} `}>
         {courseContent.map((content) => {
           const videoProgressPercent =
             content.type === 'video' &&
-            content.videoFullDuration &&
-            content.duration
+              content.videoFullDuration &&
+              content.duration
               ? (content.duration / content.videoFullDuration) * 100
               : 0;
           return (
@@ -62,6 +70,7 @@ export const FolderView = ({
               percentComplete={content.percentComplete}
               videoProgressPercent={videoProgressPercent}
               bookmark={content.bookmark}
+              createdAt={content.createdAt}
               contentDuration={content.videoFullDuration}
             />
           );

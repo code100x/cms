@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import VideoPreview from '@/actions/videopreview/videoPreview';
 import { useEffect } from 'react';
 import CardComponent from './CardComponent';
+import CardThumbnail from './CardThumbnail';
 
 const VideoThumbnail = ({
   imageUrl,
@@ -51,7 +52,8 @@ const VideoThumbnail = ({
                 className="h-full w-full object-cover"
               />
             ) : (
-              <CardComponent type="video" title={title} />
+              // <CardComponent type="video" title={title} />
+              <CardThumbnail type="video" title={title} />
             )}
           </>
         )}
