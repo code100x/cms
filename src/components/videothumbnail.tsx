@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import VideoPreview from '@/actions/videopreview/videoPreview';
 import { useEffect } from 'react';
-import CardComponent from './CardComponent';
+// import CardComponent from './CardComponent';
 import CardThumbnail from './CardThumbnail';
 
 const VideoThumbnail = ({

@@ -1,10 +1,10 @@
-'use client'
-import React, { ReactNode } from 'react'
-import { Appbar } from '@/components/Appbar'
-import MainSidebar from '@/components/MainSidebar'
-import { mainSideBarToggle } from '@/store/atoms/mainSidebar'
-import { useRecoilState, useRecoilValue } from 'recoil'
-import { useSession } from 'next-auth/react'
+'use client';
+import React, { ReactNode } from 'react';
+import { Appbar } from '@/components/Appbar';
+import MainSidebar from '@/components/MainSidebar';
+import { mainSideBarToggle } from '@/store/atoms/mainSidebar';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { useSession } from 'next-auth/react';
 // import Topbar from '@/components/Topbar'
 
 
@@ -28,7 +28,7 @@ export default function MainProvider({ children }: { children: ReactNode }) {
                     )}
                     {(session && session?.user && !isLoading) && <MainSidebar />}
 
-                    <div className={`flex flex-col w-full ${isMainSideBarCompressed ? ` ${(session && session?.user && !isLoading) ? 'md:w-[calc(100vw-4rem)]':'w-full'}` : 'md:w-[calc(100vw-15rem)]'} `}>
+                    <div className={`flex flex-col w-full ${isMainSideBarCompressed ? ` ${(session && session?.user && !isLoading) ? 'md:w-[calc(100vw-4rem)]' : 'w-full'}` : 'md:w-[calc(100vw-15rem)]'} `}>
                         {/* <Topbar /> */}
                         <Appbar />
                         <div className='!h-[calc(100vh-4rem)] w-full overflow-y-auto'>

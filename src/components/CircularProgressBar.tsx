@@ -35,7 +35,7 @@ export function CircularProgressBar({ percentage = 91 }) {
         <RadialBarChart
           data={chartData}
           startAngle={90}
-          endAngle={endAngle == 0 ? 450 : endAngle}
+          endAngle={endAngle === 0 ? 450 : endAngle}
           innerRadius={28}
           outerRadius={40}
         >

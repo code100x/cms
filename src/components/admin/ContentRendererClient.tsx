@@ -5,7 +5,7 @@ import { VideoPlayerSegment } from '@/components/VideoPlayerSegment';
 import VideoContentChapters from '../VideoContentChapters';
 import { useMemo, useState } from 'react';
 import { handleMarkAsCompleted } from '@/lib/utils';
-import { Check, ChevronLast, Milestone, Presentation, X } from "lucide-react"
+import { Check, ChevronLast, Milestone, Presentation, X } from "lucide-react";
 
 export const ContentRendererClient = ({
   metadata,
@@ -89,7 +89,7 @@ export const ContentRendererClient = ({
     setLoadingMarkAs(false);
   };
 
-  const neitherChapterNorNext = !(metadata.segments?.length > 0) && !nextContent
+  const neitherChapterNorNext = !(metadata.segments?.length > 0) && !nextContent;
 
   return (
     <div className="flex flex-col items-start gap-2 semi:flex-row">

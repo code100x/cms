@@ -246,34 +246,34 @@ export function ToggleButton({
   );
 }
 
-function GoBackButton() {
-  const router = useRouter();
+// function GoBackButton() {
+//   const router = useRouter();
 
-  const goBack = () => {
-    const pathSegments = window.location.pathname.split('/');
+//   const goBack = () => {
+//     const pathSegments = window.location.pathname.split('/');
 
-    // Remove the last segment of the path
-    pathSegments.pop();
+//     // Remove the last segment of the path
+//     pathSegments.pop();
 
-    // Check if it's the last page in the course, then go to root
-    if (pathSegments.length <= 2) {
-      router.push('/');
-    } else {
-      const newPath = pathSegments.join('/');
-      router.push(newPath);
-    }
-  };
+//     // Check if it's the last page in the course, then go to root
+//     if (pathSegments.length <= 2) {
+//       router.push('/');
+//     } else {
+//       const newPath = pathSegments.join('/');
+//       router.push(newPath);
+//     }
+//   };
 
-  return (
-    <div className="w-full p-2">
-      {/* Your component content */}
-      <Button size={'full'} onClick={goBack} className="group rounded-full">
-        <BackArrow className="h-5 w-5 transition-all duration-200 ease-in-out group-hover:-translate-x-1 rtl:rotate-180" />{' '}
-        <div className="pl-4">Go Back</div>
-      </Button>
-    </div>
-  );
-}
+//   return (
+//     <div className="w-full p-2">
+//       {/* Your component content */}
+//       <Button size={'full'} onClick={goBack} className="group rounded-full">
+//         <BackArrow className="h-5 w-5 transition-all duration-200 ease-in-out group-hover:-translate-x-1 rtl:rotate-180" />{' '}
+//         <div className="pl-4">Go Back</div>
+//       </Button>
+//     </div>
+//   );
+// }
 
 function VideoIcon() {
   return (

@@ -1,14 +1,14 @@
-'use client'
-import React, { useEffect, useState } from 'react'
-import Logo from './landing/logo/logo'
-import { Bookmark, Files, FileStack, HelpCircle, History, LogOut, MessageSquare, PanelLeftOpen, PanelRightOpen } from 'lucide-react'
-import Link from 'next/link'
-import Image from 'next/image'
-import { usePathname, useRouter } from 'next/navigation'
-import { signOut, useSession } from 'next-auth/react'
-import { useRecoilState } from 'recoil'
-import { mainSideBarToggle } from '@/store/atoms/mainSidebar'
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/tooltip'
+'use client';
+import React, { useEffect, useState } from 'react';
+import Logo from './landing/logo/logo';
+import { Bookmark, Files, FileStack, HelpCircle, History, LogOut, MessageSquare, PanelLeftOpen, PanelRightOpen } from 'lucide-react';
+import Link from 'next/link';
+// import Image from 'next/image';
+import { usePathname, useRouter } from 'next/navigation';
+import { signOut, useSession } from 'next-auth/react';
+import { useRecoilState } from 'recoil';
+import { mainSideBarToggle } from '@/store/atoms/mainSidebar';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/tooltip';
 
 interface ActiveItem {
     general: number | null;
@@ -16,7 +16,6 @@ interface ActiveItem {
 }
 
 export default function MainSidebar() {
-
     const pathName = usePathname();
     const [activeItems, setActiveItems] = useState<ActiveItem>({
         general: null,

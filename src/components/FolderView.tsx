@@ -2,7 +2,7 @@
 import { useRouter } from 'next/navigation';
 import { ContentCard } from './ContentCard';
 import { Bookmark } from '@prisma/client';
-import { useRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import { sidebarOpen as sidebarOpenAtom } from '@/store/atoms/sidebar';
 import { mainSideBarToggle } from '@/store/atoms/mainSidebar';
 
@@ -41,8 +41,8 @@ export const FolderView = ({
   }
   // why? because we have to reset the segments or they will be visible always after a video
 
-  const [sidebarOpen, setSidebarOpen] = useRecoilState(sidebarOpenAtom);
-  const [isMainSideBarCompressed, setIsMainSideBarCompressed] = useRecoilState(mainSideBarToggle);
+  const sidebarOpen = useRecoilValue(sidebarOpenAtom);
+  const isMainSideBarCompressed = useRecoilValue(mainSideBarToggle);
 
 
   return (

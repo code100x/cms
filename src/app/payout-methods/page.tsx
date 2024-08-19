@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import NewPayoutDialog from "@/components/NewPayoutDialog";
-import { Trash } from "lucide-react"
+import { Trash } from "lucide-react";
 import { deleteSolanaAddress, deleteUpiId, getPayoutMethods } from "@/actions/payoutMethods";
 import { SolanaAddress, UpiId } from "@prisma/client";
 import { useAction } from "@/hooks/useAction";
@@ -10,15 +10,15 @@ import { toast } from "sonner";
 
 export default function Page() {
 
-    const [isDialogBoxOpen, setIsDialogBoxOpen] = useState<boolean>(false)
-    const [btnClicked, setBtnClicked] = useState<string>("")
+    const [isDialogBoxOpen, setIsDialogBoxOpen] = useState<boolean>(false);
+    const [btnClicked, setBtnClicked] = useState<string>("");
 
     const openDialog = (e: any) => {
-        setIsDialogBoxOpen(true)
-        setBtnClicked(e.target.id)
+        setIsDialogBoxOpen(true);
+        setBtnClicked(e.target.id);
     }
 
-    const closeDialog = () => setIsDialogBoxOpen(false)
+    const closeDialog = () => setIsDialogBoxOpen(false);
 
     const [upiAddresses, setUpiAddresses] = useState<UpiId[] | undefined>([])
     const [solanaAddresses, setSolanaAddresses] = useState<SolanaAddress[] | undefined>([])

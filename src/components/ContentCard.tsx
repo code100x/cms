@@ -1,10 +1,10 @@
-import { CheckCircle2 } from 'lucide-react';
-import PercentageComplete from './PercentageComplete';
+// import { CheckCircle2 } from 'lucide-react';
+// import PercentageComplete from './PercentageComplete';
 import { Bookmark } from '@prisma/client';
 import BookmarkButton from './bookmark/BookmarkButton';
 import { formatTime } from '@/lib/utils';
 import VideoThumbnail from './videothumbnail';
-import CardComponent from './CardComponent';
+// import CardComponent from './CardComponent';
 import CardThumbnail from './CardThumbnail';
 import { CircularProgressBar } from './CircularProgressBar';
 

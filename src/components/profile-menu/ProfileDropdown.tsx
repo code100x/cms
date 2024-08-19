@@ -23,21 +23,21 @@ import { SelectTheme } from './SelectTheme';
 
 const ProfileDropdown = () => {
   const menuItemLinks = [
-    {
-      href: '/history',
-      icon: <HistoryIcon className="mr-2 h-4 w-4" />,
-      label: 'Watch History',
-    },
-    {
-      href: '/bookmarks',
-      icon: <BookmarkIcon className="mr-2 h-4 w-4" />,
-      label: 'Bookmarks',
-    },
-    {
-      href: '/questions',
-      icon: <Bird className="mr-2 h-4 w-4" />,
-      label: 'Questions',
-    },
+    // {
+    //   href: '/history',
+    //   icon: <HistoryIcon className="mr-2 h-4 w-4" />,
+    //   label: 'Watch History',
+    // },
+    // {
+    //   href: '/bookmarks',
+    //   icon: <BookmarkIcon className="mr-2 h-4 w-4" />,
+    //   label: 'Bookmarks',
+    // },
+    // {
+    //   href: '/questions',
+    //   icon: <Bird className="mr-2 h-4 w-4" />,
+    //   label: 'Questions',
+    // },
     {
       href: '/payout-methods',
       icon: <CreditCard className="mr-2 h-4 w-4" />,
@@ -53,7 +53,7 @@ const ProfileDropdown = () => {
         </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="mr-3 mt-2 w-56 shadow-2xl">
-        {/* <DropdownMenuGroup>
+        <DropdownMenuGroup>
           {menuItemLinks.map(({ href, label, icon }) => (
             <Link href={href} key={href}>
               <DropdownMenuItem>
@@ -64,7 +64,7 @@ const ProfileDropdown = () => {
           ))}
         </DropdownMenuGroup>
 
-        <DropdownMenuSeparator /> */}
+        <DropdownMenuSeparator />
 
         {/* <DropdownMenuGroup>
           <SelectTheme />
