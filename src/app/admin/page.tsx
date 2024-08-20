@@ -247,6 +247,7 @@ export default function Courses() {
                     });
                     toast(JSON.stringify(res.data.data));
                   } catch (error) {
+                    //@ts-ignore
                     toast.error(error.response.data.message);
                   }
                 }}
