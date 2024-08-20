@@ -3,7 +3,7 @@
 import { sidebarOpen } from '@/store/atoms/sidebar';
 import React from 'react';
 import { useRecoilValue } from 'recoil';
-import { Sidebar } from './sidebar/NewSidebar';
+import { Sidebar } from './sidebar/Sidebar';
 import { cn } from '@/lib/utils';
 import { useSession } from 'next-auth/react';
 import Footer from './landing/footer/footer';
