@@ -40,11 +40,6 @@ export const ContentCard = ({
           <CheckCircle2 color="green" size={30} fill="lightgreen" />
         </div>
       )}
-      {type === 'video' && (
-        <div className="text-blue-900g absolute bottom-12 right-2 z-10 rounded-md bg-zinc-900 p-1 px-2 font-semibold text-white">
-          {contentDuration && formatTime(contentDuration)}
-        </div>
-      )}
       {type !== 'video' && (
         <div className="relative overflow-hidden rounded-md">
           <CardComponent
@@ -72,6 +67,9 @@ export const ContentCard = ({
             //   'https://d2szwvl7yo497w.cloudfront.net/courseThumbnails/video.png'
             // }
           />
+          <div className="text-blue-900g absolute bottom-4 right-4 z-10 rounded-md bg-zinc-900 p-1 px-2 font-semibold text-white">
+            {contentDuration && formatTime(contentDuration)}
+          </div>
         </div>
       )}
 
