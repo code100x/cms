@@ -17,7 +17,7 @@ export const menuOptions = [
   { id: 1, name: 'My Courses', Component: Library, href: '/my-courses' },
   { id: 3, name: 'Bookmarks', Component: Bookmark, href: '/bookmark' },
   { id: 4, name: 'Questions', Component: MessageSquare, href: '/question' },
-  { id: 5, name: 'Watch Hostory', Component: History, href: '/watch-history' },
+  { id: 5, name: 'Watch History', Component: History, href: '/watch-history' },
 ];
 
 export const MenuOptions = () => {
@@ -47,9 +47,9 @@ export const MenuOptions = () => {
           <AnimatedTooltip expanded={expanded} items={menuOptions} />
         </div>
 
-        <div className="border-t p-4">
+        {/* <div className="border-t p-4">
           <div className="flex rounded-md p-2">
-            <LogOut size={24} color="#DD503F" />
+          <LogOut size={24} color="#DD503F" />
             <button
               onClick={() => {
                 signOut();
@@ -58,7 +58,24 @@ export const MenuOptions = () => {
                 expanded ? 'ml-3 w-52' : 'w-0'
               }`}
             >
+               
               <h4 className="font-semibold text-[#DD503F]">Logout</h4>
+            </button>
+          </div>
+        </div> */}
+
+        <div className="border-t p-4">
+          <div className="flex rounded-md p-2">
+            <button
+              onClick={() => {
+                signOut();
+              }}
+              className={`flex items-center transition-all ${expanded ? 'ml-3 w-52' : 'w-auto'}`}
+            >
+              <LogOut size={24} color="#DD503F" />
+              {expanded && (
+                <h4 className="ml-3 font-semibold text-[#DD503F]">Logout</h4>
+              )}
             </button>
           </div>
         </div>
