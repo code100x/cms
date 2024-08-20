@@ -17,7 +17,7 @@ export const menuOptions = [
   { id: 1, name: 'My Courses', Component: Library, href: '/my-courses' },
   { id: 3, name: 'Bookmarks', Component: Bookmark, href: '/bookmark' },
   { id: 4, name: 'Questions', Component: MessageSquare, href: '/question' },
-  { id: 5, name: 'Watch Hostory', Component: History, href: '/watch-history' },
+  { id: 5, name: 'Watch History', Component: History, href: '/watch-history' },
 ];
 
 export const MenuOptions = () => {
