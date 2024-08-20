@@ -1,27 +1,22 @@
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from '@/components/ui/sheet';
-import { CourseList } from '@/store/atoms/CourseListAtom';
+import { Sheet, SheetContent, SheetTitle } from '@/components/ui/sheet';
+import { CourseSheet } from '@/store/atoms/CourseListAtom';
+import { Accordion } from '@radix-ui/react-accordion';
+import React from 'react';
 import { useRecoilState } from 'recoil';
 
-export function CourseListSheet() {
-  const [isListOpen, setIsListOpen] = useRecoilState(CourseList);
+export function CourseListSheet({
+  children,
+}: {
+  children: React.JSX.Element[];
+}) {
+  const [isListOpen, setIsListOpen] = useRecoilState(CourseSheet);
   return (
     <Sheet open={isListOpen} onOpenChange={setIsListOpen}>
-      <SheetTrigger></SheetTrigger>
       <SheetContent>
-        <SheetHeader>
-          <SheetTitle>Are you absolutely sure?</SheetTitle>
-          <SheetDescription>
-            This action cannot be undone. This will permanently delete your
-            account and remove your data from our servers.
-          </SheetDescription>
-        </SheetHeader>
+        <SheetTitle className="m-4">Course Content</SheetTitle>
+        <Accordion type="single" collapsible className="w-full">
+          {children}
+        </Accordion>
       </SheetContent>
     </Sheet>
   );
