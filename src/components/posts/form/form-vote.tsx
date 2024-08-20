@@ -65,16 +65,17 @@ const VoteForm: React.FC<IVoteFormProps> = ({
           className="flex items-center gap-1 text-gray-500 dark:text-gray-400"
           type="submit"
         >
-          <ThumbsUpIcon
-            className="h-4 w-4"
-            type="submit"
-            fill={
-              userVoted && userVoteVal.voteType === VoteType.UPVOTE
-                ? 'currentColor'
-                : 'none'
-            }
-          />
-
+          <div className="rounded-full border bg-gray-400/20 p-2 hover:bg-gray-600/50 dark:bg-gray-700/50">
+            <ThumbsUpIcon
+              className="h-4 w-4"
+              type="submit"
+              fill={
+                userVoted && userVoteVal.voteType === VoteType.UPVOTE
+                  ? 'currentColor'
+                  : 'none'
+              }
+            />
+          </div>
           <span>{upvotes}</span>
         </button>
       </form>
@@ -89,14 +90,16 @@ const VoteForm: React.FC<IVoteFormProps> = ({
           className="flex items-center gap-1 text-gray-500 dark:text-gray-400"
           type="submit"
         >
-          <ThumbsDownIcon
-            className="h-4 w-4"
-            fill={
-              userVoted && userVoteVal.voteType === VoteType.DOWNVOTE
-                ? 'currentColor'
-                : 'none'
-            }
-          />
+          <div className="rounded-full border bg-gray-400/20 p-2 hover:bg-gray-600/50 dark:bg-gray-700/50">
+            <ThumbsDownIcon
+              className="h-4 w-4"
+              fill={
+                userVoted && userVoteVal.voteType === VoteType.DOWNVOTE
+                  ? 'currentColor'
+                  : 'none'
+              }
+            />
+          </div>
 
           <span>{downvotes}</span>
         </button>

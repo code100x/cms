@@ -56,7 +56,7 @@ export const NotionRenderer = ({ id }: { id: string }) => {
           </div>
         </Button>
       </Link>
-      <div style={{}}>
+      <div>
         <NotionRendererLib
           recordMap={data}
           fullPage={true}

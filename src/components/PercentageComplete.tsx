@@ -2,10 +2,22 @@ import React from 'react';
 
 const PercentageComplete = ({ percent }: { percent: number }) => {
   return (
-    <div
-      className={`m-1 ${percent === 100 ? 'bg-green-400' : 'bg-white'} absolute right-2 top-2 z-10 rounded-full border-2 border-[#1D4ED8] px-2 py-1 text-xs font-bold text-[#1D4ED8]`}
-    >
-      <div>{`${percent}% completed`}</div>
+    <div>
+      <h4 className="mb-1 text-green-700">{percent}% Completed</h4>
+      <div className="h-[10px] w-auto rounded-full bg-green-400/20">
+        <div
+          style={{
+            width: `${percent}%`,
+            height: '100%',
+            borderRadius: '10px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: 'rgb(21 182 61 / 0.6)',
+            fontWeight: 'bold',
+          }}
+        />
+      </div>
     </div>
   );
 };
