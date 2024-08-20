@@ -1,12 +1,18 @@
-import Link from 'next/link';
-import localFont from 'next/font/local';
 import { cn } from '@/lib/utils';
+import localFont from 'next/font/local';
+import Link from 'next/link';
 
 const headingFont = localFont({
   src: '../../../../public/fonts/font.woff2',
 });
 
-const Logo = ({ onFooter = false }: { onFooter: boolean }) => {
+const Logo = ({
+  onFooter = false,
+  label = '100xdevs',
+}: {
+  onFooter: boolean;
+  label?: string;
+}) => {
   return (
     <Link href={'/'}>
       <div className="flex items-center gap-x-2 transition hover:opacity-90">
@@ -18,15 +24,17 @@ const Logo = ({ onFooter = false }: { onFooter: boolean }) => {
           height={30}
           width={30}
         />
-        <p
-          className={cn(
-            'text-neutral-700 dark:text-neutral-100',
-            onFooter ? 'text-3xl text-neutral-200' : 'text-xl',
-            headingFont.className,
-          )}
-        >
-          100xdevs
-        </p>
+        {label && (
+          <p
+            className={cn(
+              'text-neutral-700 dark:text-neutral-100',
+              onFooter ? 'text-3xl text-neutral-200' : 'text-xl',
+              headingFont.className,
+            )}
+          >
+            {label}
+          </p>
+        )}
       </div>
     </Link>
   );

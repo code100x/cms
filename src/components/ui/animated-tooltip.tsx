@@ -1,13 +1,14 @@
 'use client';
-import React, { useState } from 'react';
-import Link from 'next/link';
 import {
-  motion,
-  useTransform,
   AnimatePresence,
+  motion,
   useMotionValue,
   useSpring,
+  useTransform,
 } from 'framer-motion';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import React, { useState } from 'react';
 
 export const AnimatedTooltip = ({
   items,
@@ -21,6 +22,7 @@ export const AnimatedTooltip = ({
   }[];
   expanded: any;
 }) => {
+  const pathName = usePathname();
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const springConfig = { stiffness: 100, damping: 5 };
   const x = useMotionValue(0); // going to set this value on mouse move
@@ -34,6 +36,7 @@ export const AnimatedTooltip = ({
     useTransform(x, [-100, 100], [-50, 50]),
     springConfig,
   );
+
   return (
     <>
       {items.map((item) => (
@@ -77,7 +80,7 @@ export const AnimatedTooltip = ({
           )}
           <Link
             href={item.href}
-            className={`flex flex-row ${hoveredIndex === item.id && 'rounded-md bg-gray-700/50'} items-center space-x-6 p-2`}
+            className={`flex flex-row ${(hoveredIndex === item.id || pathName === item.href) && 'rounded-md bg-[#F1F5F9] dark:bg-[#1E293B]'} items-center space-x-6 p-2`}
           >
             <item.Component selected={hoveredIndex === item.id} size={25} />
             {expanded && <h4 className="font-semibold">{item.name}</h4>}

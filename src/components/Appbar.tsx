@@ -1,21 +1,22 @@
 'use client';
 
+import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { AppbarAuth } from './AppbarAuth';
-import { useSession } from 'next-auth/react';
 /* import { useRecoilState } from 'recoil'; */
 /* import { sidebarOpen as sidebarOpenAtom } from '../store/atoms/sidebar'; */
 /* import { usePathname } from 'next/navigation'; */
 import clsx from 'clsx';
-import Logo from './landing/logo/logo';
-import { Button } from './ui/button';
 import { Sparkles } from 'lucide-react';
 import { NavigationMenu } from './landing/appbar/nav-menu';
-import SearchBar from './search/SearchBar';
-import MobileScreenSearch from './search/MobileScreenSearch';
+import Logo from './landing/logo/logo';
 import ProfileDropdown from './profile-menu/ProfileDropdown';
-import { ThemeToggler } from './ThemeToggler';
 import { SelectTheme } from './profile-menu/SelectTheme';
+import MobileScreenSearch from './search/MobileScreenSearch';
+import SearchBar from './search/SearchBar';
+import { ThemeToggler } from './ThemeToggler';
+import { Button } from './ui/button';
+import MobileNav from './sidebar/MobileNav';
 
 export const Appbar = ({
   className,
@@ -38,6 +39,11 @@ export const Appbar = ({
           {session?.user ? (
             !isLoading && (
               <>
+                <div className="flex items-center gap-2 md:hidden">
+                  <MobileNav />
+                  <Logo onFooter={false} label="" />
+                </div>
+
                 <div className="hidden md:block">
                   <SearchBar />
                 </div>

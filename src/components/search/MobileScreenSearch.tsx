@@ -1,6 +1,7 @@
 import { SearchIcon, XIcon } from 'lucide-react';
 import { useState } from 'react';
 import SearchBar from './SearchBar';
+import { Button } from '../ui/button';
 
 const MobileScreenSearch = () => {
   const [showSearchBar, setShowSearchBar] = useState(false);
@@ -16,7 +17,9 @@ const MobileScreenSearch = () => {
           <XIcon onClick={toggleSearchBar} />
         </div>
       ) : (
-        <SearchIcon onClick={toggleSearchBar} size={20} className="mx-2" />
+        <Button variant={'outline'} size={'icon'}>
+          <SearchIcon onClick={toggleSearchBar} size={20} className="mx-2" />
+        </Button>
       )}
     </div>
   );

@@ -24,7 +24,7 @@ export const MenuOptions = () => {
   const [expanded, setExpanded] = useState(true);
 
   return (
-    <aside className="h-screen">
+    <aside className="h-screen max-md:hidden">
       <nav className="flex h-full flex-col border-r bg-white shadow-sm dark:bg-[#020817]">
         {/* Header with logo and expand/collapse button */}
         <div className="flex items-center justify-between border-b p-4 pb-2">
@@ -48,7 +48,7 @@ export const MenuOptions = () => {
         </div>
 
         <div className="border-t p-4">
-          <div className="flex rounded-md p-2">
+          <div className="flex rounded-md bg-[#DC26261A] p-2 dark:bg-[#DC26261A]">
             <LogOut size={24} color="#DD503F" />
             <button
               onClick={() => {
