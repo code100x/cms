@@ -7,7 +7,6 @@ import { Logout } from './Logout';
 const getCourses = async () => {
   const session = await getServerSession(authOptions);
   const purchases = await getPurchases(session?.user.email || '');
-
   return purchases;
 };
 

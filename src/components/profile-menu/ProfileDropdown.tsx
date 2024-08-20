@@ -7,7 +7,7 @@ import {
   LogOutIcon,
   User2Icon,
   Bird,
-  CreditCard
+  CreditCard,
 } from 'lucide-react';
 import {
   DropdownMenu,

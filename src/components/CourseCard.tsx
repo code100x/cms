@@ -33,34 +33,21 @@ export const CourseCard = ({
         onClick();
       }}
     >
-      <img
-        src={
-          'https://appxcontent.kaxa.in/paid_course3/2024-07-07-0.8201249093606604.png'
-        }
-        alt={course.title}
-        className="rounded-md"
-      />
+      <img src={course.imageUrl} alt={course.title} className="rounded-md" />
 
       <div className="space-y-4 p-2">
-        <div>
-          <p className="inline-block rounded-full border bg-[#3259E8] px-4 py-1 text-xs text-white">
-            Cohort 3.O
-          </p>
-        </div>
-
         <div className="flex justify-between">
           <div className="text-xl font-semibold">{course.title}</div>
         </div>
 
         <div>
-          {course.totalVideos !== undefined &&
-            course.totalVideosWatched !== undefined && (
-              <PercentageComplete
-                percent={Math.ceil(
-                  (course.totalVideosWatched / course.totalVideos) * 100,
-                )}
-              />
-            )}
+          {course.totalVideos !== undefined && (
+            <PercentageComplete
+              percent={Math.ceil(
+                ((course.totalVideosWatched ?? 0) / course.totalVideos) * 100,
+              )}
+            />
+          )}
         </div>
 
         <div>

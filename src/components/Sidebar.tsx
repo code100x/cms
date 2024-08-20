@@ -120,10 +120,11 @@ export function Sidebar({
         <Link
           key={content.id}
           href={navigateToContent(content.id) || '#'}
-          className={`flex cursor-pointer p-2 hover:bg-gray-950/5 ${isActiveContent
-            ? 'border-b bg-gray-300 text-black dark:bg-blue-950/20 dark:text-white'
-            : 'border-b bg-gray-50 text-black dark:bg-blue-950/5 dark:text-white'
-            } `}
+          className={`flex cursor-pointer p-2 hover:bg-gray-950/5 ${
+            isActiveContent
+              ? 'border-b bg-gray-300 text-black dark:bg-blue-950/20 dark:text-white'
+              : 'border-b bg-gray-50 text-black dark:bg-blue-950/5 dark:text-white'
+          } `}
         >
           <div className="flex w-full items-center justify-between">
             <div className="flex">
@@ -200,12 +201,14 @@ export function ToggleButton({
         className={`h - 0.5 w - 6 - sm bg - black - all duration - 300 ease - out dark: bg - white block rounded transition ${!sidebarOpen ? 'translate-y-1 rotate-45' : '-translate-y-0.5'} `}
       ></span>
       <span
-        className={`my - 0.5 h - 0.5 w - 6 - sm bg - black - all duration - 300 ease - out dark: bg - white block rounded transition ${!sidebarOpen ? 'opacity-0' : 'opacity-100'
-          } `}
+        className={`my - 0.5 h - 0.5 w - 6 - sm bg - black - all duration - 300 ease - out dark: bg - white block rounded transition ${
+          !sidebarOpen ? 'opacity-0' : 'opacity-100'
+        } `}
       ></span>
       <span
-        className={`h - 0.5 w - 6 - sm bg - black - all duration - 300 ease - out dark: bg - white block rounded transition ${!sidebarOpen ? '-translate-y-1 -rotate-45' : 'translate-y-0.5'
-          } `}
+        className={`h - 0.5 w - 6 - sm bg - black - all duration - 300 ease - out dark: bg - white block rounded transition ${
+          !sidebarOpen ? '-translate-y-1 -rotate-45' : 'translate-y-0.5'
+        } `}
       ></span>
     </button>
   );

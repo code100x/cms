@@ -6,7 +6,6 @@ import { signOut } from 'next-auth/react';
 import Logo from '../landing/logo/logo';
 import {
   Library,
-  FileStack,
   Bookmark,
   MessageSquare,
   History,
@@ -16,8 +15,7 @@ import {
 
 export const menuOptions = [
   { id: 1, name: 'My Courses', Component: Library, href: '/my-courses' },
-  { id: 2, name: 'Resources', Component: FileStack, href: '/resources' },
-  { id: 3, name: 'Booksmarks', Component: Bookmark, href: '/bookmark' },
+  { id: 3, name: 'Bookmarks', Component: Bookmark, href: '/bookmark' },
   { id: 4, name: 'Questions', Component: MessageSquare, href: '/question' },
   { id: 5, name: 'Watch Hostory', Component: History, href: '/watch-history' },
 ];
