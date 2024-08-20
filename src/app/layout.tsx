@@ -11,7 +11,6 @@ import { siteConfig } from '@/config/site-config';
 import { Toaster } from 'sonner';
 import NextTopLoader from 'nextjs-toploader';
 import { DashboardLayout } from '@/components/DashboardLayout';
-import Footer from '@/components/landing/footer/footer';
 /* import Footer from '@/components/landing/footer/footer'; */
 
 const fontSans = FontSans({
@@ -36,11 +35,12 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             <Appbar />
             <NextTopLoader color="#2E78C7" height={2} />
             {/* this is done as to keep footer in the bottom of the page */}
-            <div className="min-h-[calc(100vh-64px)] bg-background">
+            <div className="min-h-[calc(100vh-64px)] space-y-6 bg-background p-3">
               {children}
             </div>
+            {/* <Footer /> */}
           </DashboardLayout>
-          <Footer />
+
           <Toaster richColors />
         </Providers>
       </body>

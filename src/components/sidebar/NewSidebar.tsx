@@ -1,10 +1,10 @@
 'use client';
-import { SidebarToggle } from './sidebar/SidebarToggle';
+import { SidebarToggle } from './SidebarToggle';
 import { useRecoilState } from 'recoil';
-import { sidebarOpen as sidebarOpenAtom } from '../store/atoms/sidebar';
+import { sidebarOpen as sidebarOpenAtom } from '../../store/atoms/sidebar';
 import { cn } from '@/lib/utils';
-import Logo from './landing/logo/logo';
-import { SidebarMenu } from './sidebar/SidebarMenu';
+import { Logo } from '../landing/logo/logo';
+import { SidebarMenu } from './SidebarMenu';
 
 export function Sidebar() {
   const [sidebarOpen, setSidebarOpen] = useRecoilState(sidebarOpenAtom);

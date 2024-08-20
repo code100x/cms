@@ -6,7 +6,7 @@ const headingFont = localFont({
   src: '../../../../public/fonts/font.woff2',
 });
 
-const Logo = ({ onFooter = false }: { onFooter: boolean }) => {
+export const Logo = ({ onFooter = false }: { onFooter: boolean }) => {
   return (
     <Link href={'/'}>
       <div className="flex items-center gap-x-2 transition hover:opacity-90">
@@ -32,4 +32,19 @@ const Logo = ({ onFooter = false }: { onFooter: boolean }) => {
   );
 };
 
-export default Logo;
+export const SmallLogo = () => {
+  return (
+    <Link href={'/'}>
+      <div className="flex items-center gap-x-2 transition hover:opacity-90">
+        <img
+          src={
+            'https://d2szwvl7yo497w.cloudfront.net/courseThumbnails/main.png'
+          }
+          className="h-10 w-10 rounded-full"
+          height={30}
+          width={30}
+        />
+      </div>
+    </Link>
+  );
+};

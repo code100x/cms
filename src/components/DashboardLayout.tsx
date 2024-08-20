@@ -3,7 +3,7 @@
 import { sidebarOpen } from '@/store/atoms/sidebar';
 import React from 'react';
 import { useRecoilValue } from 'recoil';
-import { Sidebar } from './NewSidebar';
+import { Sidebar } from './sidebar/NewSidebar';
 import { cn } from '@/lib/utils';
 import { useSession } from 'next-auth/react';
 
@@ -12,14 +12,14 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
   const isSidebarOpen = useRecoilValue(sidebarOpen);
   if (Session?.user)
     return (
-      <div>
+      <div className="flex">
         <div className={Session?.user ? '' : 'hidden'}>
           <Sidebar />
         </div>
         <main
           className={cn(
-            'min-h-[calc(100vh_-_56px)] bg-zinc-50 transition-[margin-left] duration-300 ease-in-out dark:bg-zinc-900',
-            isSidebarOpen === false ? 'lg:ml-[62px]' : 'lg:ml-60',
+            'w-full transition-[margin-left] duration-300 ease-in-out',
+            isSidebarOpen === false ? 'lg:ml-[60px]' : 'lg:ml-60',
           )}
         >
           {children}

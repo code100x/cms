@@ -32,7 +32,7 @@ export const MyCourses = async () => {
       </div>
     );
   return (
-    <div className="space-y-6 p-3">
+    <div className="">
       <div className="flex flex-wrap items-center justify-between">
         <h1 className="text-xl font-bold md:text-[32px]">My Courses</h1>
         <div>

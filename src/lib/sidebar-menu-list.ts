@@ -3,7 +3,8 @@ import {
   History,
   LucideIcon,
   MessageSquare,
-  StickyNote,
+  FileStack,
+  Files,
 } from 'lucide-react';
 
 type menu = {
@@ -18,14 +19,14 @@ export function getMenuList(pathname: string): menu[] {
     {
       href: '/',
       label: 'My Courses',
-      active: pathname.includes('/' || '/courses'),
-      icon: StickyNote,
+      active: pathname === '/' || pathname.includes('/courses'),
+      icon: Files,
     },
     {
       href: '/resources',
       label: 'Resources',
       active: pathname.includes('/resources'),
-      icon: StickyNote,
+      icon: FileStack,
     },
     {
       href: '/bookmarks',

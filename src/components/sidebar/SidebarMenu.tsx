@@ -11,6 +11,7 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { signOut } from 'next-auth/react';
+import { cn } from '@/lib/utils';
 
 export function SidebarMenu() {
   const isOpen = useRecoilValue(sidebarOpen);
@@ -20,11 +21,17 @@ export function SidebarMenu() {
     <TooltipProvider>
       <nav className="h-full">
         <ul className="flex h-full flex-col justify-between">
-          <div className="space-y-4 p-4">
+          <div className="flex w-full flex-col space-y-4 p-4">
             {menuList.map((p, index) => (
-              <Link href={p.href} className="flex">
-                <li className="flex" key={index}>
-                  <div className="h-10 w-10">
+              <Link href={p.href}>
+                <li
+                  className={cn(
+                    'flex rounded-lg p-2',
+                    p.active && 'bg-slate-100 dark:bg-slate-800',
+                  )}
+                  key={index}
+                >
+                  <div className="w-6">
                     <Tooltip delayDuration={100}>
                       <TooltipTrigger>
                         <p.icon className="h-4 w-4" />
@@ -42,25 +49,27 @@ export function SidebarMenu() {
               </Link>
             ))}
           </div>
-          <div className="space-y-4 border p-4">
-            <Link href={'/'} className="flex gap-6">
-              <Tooltip delayDuration={100}>
-                <TooltipTrigger>
-                  <MessageCircleQuestion className="h-4 w-4" />
-                  <TooltipContent
-                    side="right"
-                    className={isOpen ? 'hidden' : ' '}
-                  >
-                    Help & Support
-                  </TooltipContent>
-                </TooltipTrigger>
-              </Tooltip>
+          <div className="flex w-full flex-col space-y-4 border-t p-4">
+            <Link href={'/'} className="flex items-center space-x-2 p-2">
+              <div>
+                <Tooltip delayDuration={100}>
+                  <TooltipTrigger>
+                    <MessageCircleQuestion className="h-4 w-4" />
+                    <TooltipContent
+                      side="right"
+                      className={isOpen ? 'hidden' : ' '}
+                    >
+                      Help & Support
+                    </TooltipContent>
+                  </TooltipTrigger>
+                </Tooltip>
+              </div>
               <div className="whitespace-nowrap">
                 {isOpen && 'Help & Support'}
               </div>
             </Link>
             <button
-              className="flex gap-6"
+              className="flex items-center space-x-2 rounded-lg bg-red-300 bg-opacity-20 p-2 text-red-700 dark:bg-red-900 dark:bg-opacity-20 dark:text-red-600"
               onClick={() => {
                 signOut();
               }}

@@ -9,14 +9,16 @@ const MobileScreenSearch = () => {
     setShowSearchBar((prev) => !prev);
   };
   return (
-    <div className="md:hidden">
+    <div className="lg:hidden">
       {showSearchBar ? (
         <div className="absolute left-0 top-0 z-[100] flex h-16 w-full items-center gap-3 border-b bg-white px-3 dark:bg-[#020817]">
           <SearchBar onCardClick={toggleSearchBar} />
           <XIcon onClick={toggleSearchBar} />
         </div>
       ) : (
-        <SearchIcon onClick={toggleSearchBar} size={20} className="mx-2" />
+        <div className="flex h-10 w-10 items-center rounded-lg border">
+          <SearchIcon onClick={toggleSearchBar} size={20} className="mx-2" />
+        </div>
       )}
     </div>
   );
