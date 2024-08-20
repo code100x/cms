@@ -1,11 +1,5 @@
 import { ChildCourseContent, FullCourseContent } from '@/db/course';
 
-// findContentById
-// This is incorrect.
-// If the place you are in is a folder
-// It returns all the children
-// If the place you are in is a video
-// It returns an array with that video as the first element.
 export default function findContentById(
   contents: FullCourseContent[],
   ids: number[],
