@@ -89,9 +89,11 @@ export const ContentCard = ({
       <div className="flex items-center justify-between p-4">
         <div className="space-y-2">
           <h3 className="text-bold text-lg tracking-normal">{title}</h3>
-          <h4 className="text-bold text-sm tracking-normal text-[#64748B]">
-            Posted on: 10 Aug 2024
-          </h4>
+          {type !== 'folder' && (
+            <h4 className="text-bold text-sm tracking-normal text-[#64748B]">
+              Posted on: 10 Aug 2024
+            </h4>
+          )}
         </div>
         <div className="hidden rounded-full border border-gray-700/60 p-4 lg:block">
           <div className="rounded-full border border-[#64748b] p-2">

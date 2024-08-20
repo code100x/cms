@@ -1,8 +1,17 @@
 'use client';
 import { useState } from 'react';
 import { AnimatedTooltip } from '@/components/ui/animated-tooltip';
-import { signOut } from 'next-auth/react';
-
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 import Logo from '../landing/logo/logo';
 import {
   Library,
@@ -11,8 +20,9 @@ import {
   History,
   PanelRightOpen,
   LogOut,
+  AlertTriangleIcon,
 } from 'lucide-react';
-
+import { signOut } from 'next-auth/react';
 export const menuOptions = [
   { id: 1, name: 'My Courses', Component: Library, href: '/my-courses' },
   { id: 3, name: 'Bookmarks', Component: Bookmark, href: '/bookmark' },
@@ -47,20 +57,43 @@ export const MenuOptions = () => {
           <AnimatedTooltip expanded={expanded} items={menuOptions} />
         </div>
 
-        <div className="border-t p-4">
-          <div className="flex rounded-md p-2">
-            <LogOut size={24} color="#DD503F" />
-            <button
-              onClick={() => {
-                signOut();
-              }}
-              className={`flex items-center justify-between overflow-hidden transition-all ${
-                expanded ? 'ml-3 w-52' : 'w-0'
-              }`}
-            >
-              <h4 className="font-semibold text-[#DD503F]">Logout</h4>
-            </button>
-          </div>
+        <div className="border-t">
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <div className="flex cursor-pointer items-center justify-center rounded-md px-4 py-2 text-red-600 transition-colors hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-500 dark:hover:text-white">
+                Logout <LogOut className="ml-2 h-5 w-5" />
+              </div>
+            </AlertDialogTrigger>
+            <AlertDialogContent className="mx-auto max-w-lg transform rounded-lg border border-gray-200 bg-white p-8 text-gray-900 shadow-2xl transition-all duration-300 ease-in-out dark:border-gray-700 dark:bg-background dark:text-gray-100">
+              <AlertDialogHeader className="mb-6">
+                <div className="flex items-center space-x-6">
+                  <div className="text-red-400">
+                    <AlertTriangleIcon size={40} />
+                  </div>
+                  <div>
+                    <AlertDialogTitle className="text-xl font-semibold tracking-tight">
+                      Confirm Logout
+                    </AlertDialogTitle>
+                    <AlertDialogDescription className="mt-2 text-sm text-gray-600 dark:text-gray-400">
+                      Are you sure you want to log out? You will need to sign in
+                      again to access your account.
+                    </AlertDialogDescription>
+                  </div>
+                </div>
+              </AlertDialogHeader>
+              <AlertDialogFooter className="flex justify-end gap-4">
+                <AlertDialogCancel className="transform rounded-md bg-gray-100 px-4 py-2 font-medium text-gray-800 shadow-md transition-all duration-200 ease-in-out hover:scale-105 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600">
+                  Cancel
+                </AlertDialogCancel>
+                <AlertDialogAction
+                  className="transform rounded-md bg-gradient-to-r from-red-500 to-red-600 px-4 py-2 font-medium shadow-md transition-all duration-200 ease-in-out hover:scale-105 hover:from-red-600 hover:to-red-700 dark:from-red-600 dark:to-red-700 dark:text-white dark:hover:from-red-700 dark:hover:to-red-800"
+                  onClick={async () => await signOut()}
+                >
+                  Logout
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
         </div>
       </nav>
     </aside>

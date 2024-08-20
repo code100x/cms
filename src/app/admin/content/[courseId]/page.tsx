@@ -37,8 +37,12 @@ export default async function UpdateCourseContent({
 
   return (
     <div className="mx-auto max-w-screen-xl justify-between p-4 text-black dark:text-white">
-      {course?.title}
-      <div className="font-bold md:text-5xl lg:text-6xl">Content</div>
+      <div className="text-xl font-semibold">
+        Course: <span className="font-bold">{course.title}</span>
+      </div>
+      <div className="my-1.5 font-bold md:text-4xl lg:text-5xl">
+        Add Content
+      </div>
       <AddContent
         courseId={parseInt(courseId, 10)}
         parentContentId={parseFloat(rest[rest.length - 1])}
