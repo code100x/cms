@@ -2,7 +2,6 @@ import { CheckCircle2, Play } from 'lucide-react';
 import { Bookmark } from '@prisma/client';
 import BookmarkButton from './bookmark/BookmarkButton';
 import { formatTime } from '@/lib/utils';
-import VideoThumbnail from './videothumbnail';
 import CardComponent from './CardComponent';
 
 export const ContentCard = ({
@@ -40,12 +39,7 @@ export const ContentCard = ({
           <CheckCircle2 color="green" size={30} fill="lightgreen" />
         </div>
       )}
-      {type === 'video' && (
-        <div className="text-blue-900g absolute bottom-12 right-2 z-10 rounded-md bg-zinc-900 p-1 px-2 font-semibold text-white">
-          {contentDuration && formatTime(contentDuration)}
-        </div>
-      )}
-      {type !== 'video' && (
+      {
         <div className="relative overflow-hidden rounded-md">
           <CardComponent
             title={title}
@@ -61,19 +55,7 @@ export const ContentCard = ({
             </div>
           )}
         </div>
-      )}
-      {type === 'video' && (
-        <div className="relative overflow-hidden rounded-md">
-          <VideoThumbnail
-            title={title}
-            contentId={contentId ?? 0}
-            imageUrl=""
-            // imageUrl={
-            //   'https://d2szwvl7yo497w.cloudfront.net/courseThumbnails/video.png'
-            // }
-          />
-        </div>
-      )}
+      }
 
       {bookmark !== undefined && contentId && (
         <div className="absolute left-1 top-4">
@@ -93,10 +75,8 @@ export const ContentCard = ({
             Posted on: 10 Aug 2024
           </h4>
         </div>
-        <div className="hidden rounded-full border border-gray-700/60 p-4 lg:block">
-          <div className="rounded-full border border-[#64748b] p-2">
-            <Play size={15} color="#64748b" />
-          </div>
+        <div className="rounded-full border border-[#64748b] p-2">
+          <Play size={20} color="#64748b" />
         </div>
       </div>
     </div>

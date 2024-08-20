@@ -193,10 +193,12 @@ const PostCard: React.FC<IProps> = ({
               ))}
           </CardFooter>
         </div>
-        {isExtendedQuestion(post) &&
-          post.tags
-            .filter((v) => v !== '')
-            .map((v, index) => <Tag name={v} key={index + v} />)}
+        <div className="flex max-w-[40%] flex-wrap gap-2">
+          {isExtendedQuestion(post) &&
+            post.tags
+              .filter((v) => v !== '')
+              .map((v, index) => <Tag name={v} key={index + v} />)}
+        </div>
 
         {/* {!isAnswer && enableLink && isExtendedQuestion(post) && (
           <Link href={`/questions/${post?.slug}`}>
