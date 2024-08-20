@@ -23,6 +23,7 @@ export default async function UpdateCourseContent({
   if (contentType === 'video') {
     return (
       <div className="mx-auto max-w-screen-xl justify-between p-4 text-white">
+        {/* @ts-ignore */}
         <UpdateVideoClient content={courseContent[0]} />
       </div>
     );
@@ -47,6 +48,7 @@ export default async function UpdateCourseContent({
       />
       <AdminCourseContent
         rest={rest}
+        //@ts-ignore
         courseContent={courseContent?.map((x: any) => ({
           title: x?.title || '',
           image: x?.thumbnail || '',

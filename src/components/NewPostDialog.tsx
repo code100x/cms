@@ -92,24 +92,28 @@ export const NewPostDialog = () => {
 
   return (
     <Modal ref={ref} onClose={handleOnCloseClick}>
+      <div className="fixed inset-0 z-40 bg-black/30 backdrop-blur-sm" />
       <form ref={formRef} onSubmit={onSubmit}>
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8">
+        <div className="fixed inset-0 z-50 flex items-center justify-center md:p-8">
           <div
             ref={containerRef}
-            className="relative z-10 h-5/6 w-full max-w-3xl space-y-4 rounded-lg bg-white p-2 pt-8 shadow-lg dark:bg-gray-800 md:max-w-4xl"
+            className="relative z-50 h-5/6 w-full max-w-3xl space-y-4 rounded-lg border-2 bg-white p-2 pt-8 shadow-lg dark:bg-[#020817] md:max-w-4xl"
           >
-            <button
-              type="button"
-              className="absolute right-2 top-2 flex h-6 w-6 items-center justify-center rounded-full bg-red-500 text-white"
-              onClick={handleOnCloseClick}
-            >
-              x
-            </button>
-            <FormPostInput
-              id="title"
-              placeholder="Enter question title..."
-              errors={fieldErrors}
-            />
+            <div className="flex items-center justify-between">
+              <FormPostInput
+                id="title"
+                placeholder="Enter question title..."
+                errors={fieldErrors}
+                className="flex-grow"
+              />
+              <button
+                type="button"
+                className="ml-4 flex h-6 w-6 items-center justify-center rounded-full bg-red-500 text-white"
+                onClick={handleOnCloseClick}
+              >
+                x
+              </button>
+            </div>
             <div className="flex-grow">
               <div data-color-mode={theme}>
                 <div className="wmde-markdown-var"> </div>
@@ -126,10 +130,15 @@ export const NewPostDialog = () => {
             </div>
             <FormPostInput
               id="tags"
-              placeholder="Enter tags seperated by comma : hello,world"
+              placeholder="Enter tags separated by comma: hello,world"
               errors={fieldErrors}
             />
-            <Button type="submit">Post-it</Button>
+            <Button
+              type="submit"
+              className="mb-2 me-2 rounded-lg bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 text-center text-sm font-medium hover:bg-gradient-to-br dark:text-white"
+            >
+              Post-it
+            </Button>
           </div>
         </div>
       </form>

@@ -116,7 +116,7 @@ const Comments = async ({
           </div>
         </div>
       </CardHeader>
-      <CardContent className="dark:border-primary-darker rounded-md border p-0 lg:p-8">
+      <CardContent className="rounded-md p-0 lg:p-8">
         <CommentInputForm
           contentId={content.id}
           parentId={data?.parentComment?.id}
@@ -218,10 +218,10 @@ const Comments = async ({
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
-        <div className="grid max-h-[400px] gap-6 overflow-y-auto">
+        <div className="no-scrollbar grid max-h-[400px] cursor-pointer gap-6 overflow-y-auto">
           {data.comments.map((c) => (
             <div
-              className="flex w-full items-start gap-4 rounded-md border p-4 text-sm"
+              className="flex w-full items-start gap-4 rounded-lg p-4 text-sm dark:bg-blue-950/20"
               key={c.id}
             >
               <div className="flex w-full items-start gap-4">
