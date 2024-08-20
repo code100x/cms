@@ -1,5 +1,3 @@
-'use client';
-import { useState } from 'react';
 import { AnimatedTooltip } from '@/components/ui/animated-tooltip';
 import { signOut } from 'next-auth/react';
 
@@ -9,22 +7,29 @@ import {
   Bookmark,
   MessageSquare,
   History,
-  PanelRightOpen,
   LogOut,
+  PanelRightCloseIcon,
+  PanelRightOpenIcon,
 } from 'lucide-react';
 
 export const menuOptions = [
   { id: 1, name: 'My Courses', Component: Library, href: '/my-courses' },
   { id: 3, name: 'Bookmarks', Component: Bookmark, href: '/bookmark' },
   { id: 4, name: 'Questions', Component: MessageSquare, href: '/question' },
-  { id: 5, name: 'Watch Hostory', Component: History, href: '/watch-history' },
+  { id: 5, name: 'Watch History', Component: History, href: '/watch-history' },
 ];
 
-export const MenuOptions = () => {
-  const [expanded, setExpanded] = useState(true);
-
+export const MenuOptions = ({
+  expanded,
+  toggleSideMenuBar,
+}: {
+  expanded: Boolean;
+  toggleSideMenuBar: () => void;
+}) => {
   return (
-    <aside className="h-screen">
+    <aside
+      className={`fixed z-[10] h-screen md:relative ${!expanded && 'hidden md:block'}`}
+    >
       <nav className="flex h-full flex-col border-r bg-white shadow-sm dark:bg-[#020817]">
         {/* Header with logo and expand/collapse button */}
         <div className="flex items-center justify-between border-b p-4 pb-2">
@@ -33,12 +38,13 @@ export const MenuOptions = () => {
               <Logo onFooter={false} />
             </div>
           )}
-          <div
-            className="cursor-pointer"
-            onClick={() => setExpanded((curr) => !curr)}
-          >
+          <div className="cursor-pointer" onClick={toggleSideMenuBar}>
             <div className="p-2">
-              <PanelRightOpen size={24} />
+              {expanded ? (
+                <PanelRightOpenIcon size={24} />
+              ) : (
+                <PanelRightCloseIcon size={24} />
+              )}
             </div>
           </div>
         </div>

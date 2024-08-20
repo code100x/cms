@@ -1,5 +1,3 @@
-'use client';
-
 import Link from 'next/link';
 import { AppbarAuth } from './AppbarAuth';
 import { useSession } from 'next-auth/react';
@@ -9,7 +7,7 @@ import { useSession } from 'next-auth/react';
 import clsx from 'clsx';
 import Logo from './landing/logo/logo';
 import { Button } from './ui/button';
-import { Sparkles } from 'lucide-react';
+import { PanelLeftOpenIcon, Sparkles } from 'lucide-react';
 import { NavigationMenu } from './landing/appbar/nav-menu';
 import SearchBar from './search/SearchBar';
 import MobileScreenSearch from './search/MobileScreenSearch';
@@ -21,9 +19,11 @@ import Image from 'next/image';
 export const Appbar = ({
   className,
   showLogoforLanding,
+  toggleSideMenuBar,
 }: {
   className: string;
   showLogoforLanding?: boolean;
+  toggleSideMenuBar: () => void;
 }) => {
   const { data: session, status: sessionStatus } = useSession();
   /*   const [sidebarOpen, setSidebarOpen] = useRecoilState(sidebarOpenAtom); */
@@ -39,7 +39,12 @@ export const Appbar = ({
           {session?.user ? (
             !isLoading && (
               <div className="flex w-full items-center justify-between md:justify-normal">
-                <div className="md:hidden">
+                <div className="flex items-center gap-4 md:hidden">
+                  <PanelLeftOpenIcon
+                    size={28}
+                    className="md:hidden"
+                    onClick={toggleSideMenuBar}
+                  />
                   <Image
                     src="/harkirat.png"
                     alt="harkirat"
