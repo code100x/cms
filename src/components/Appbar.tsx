@@ -55,7 +55,7 @@ export const Appbar = ({
                     {/* Search Bar for smaller devices */}
                     <MobileScreenSearch />
                     <SelectTheme />
-                    <ProfileDropdown />
+                    <ProfileDropdown session={session} />
                   </div>
                 </div>
               </div>
