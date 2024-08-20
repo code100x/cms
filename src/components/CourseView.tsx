@@ -81,6 +81,7 @@ export const CourseView = ({
             percentComplete: getFolderPercentCompleted(x?.children),
             videoFullDuration: x?.videoProgress?.videoFullDuration || 0,
             duration: x?.videoProgress?.duration || 0,
+            key: x.id,
           }))}
           courseId={parseInt(course.id, 10)}
         />

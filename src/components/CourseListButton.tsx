@@ -2,7 +2,7 @@
 
 import { useRecoilState } from 'recoil';
 import { Button } from './ui/button';
-import { CourseList } from '@/store/atoms/CourseList';
+import { CourseList } from '@/store/atoms/CourseListAtom';
 
 export function CourseListButton() {
   const [listOpen, setListOpen] = useRecoilState(CourseList);
