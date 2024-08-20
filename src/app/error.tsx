@@ -8,7 +8,6 @@ export default function ErrorPage({
   error,
 }: {
   error: Error & { digest?: string };
-  reset: () => void;
 }) {
   useEffect(() => {
     // Log the error to an error reporting service

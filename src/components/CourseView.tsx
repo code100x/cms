@@ -37,7 +37,7 @@ export const CourseView = ({
     ? 'folder'
     : courseContent?.value.type;
   return (
-    <>
+    <div className="no-scrollbar flex h-screen flex-col overflow-y-auto pb-20">
       <div className="mb-2 flex max-h-fit min-h-[2.5rem] items-center px-4">
         <BreadCrumbComponent
           course={course}
@@ -48,7 +48,9 @@ export const CourseView = ({
         />
       </div>
       {!courseContent?.folder && courseContent?.value.type === 'notion' ? (
-        <NotionRenderer id={courseContent?.value?.id?.toString()} />
+        <div className="m-4">
+          <NotionRenderer id={courseContent?.value?.id?.toString()} />
+        </div>
       ) : null}
 
       {!courseContent?.folder && contentType === 'video' ? (
@@ -96,6 +98,6 @@ export const CourseView = ({
           courseId={parseInt(course.id, 10)}
         />
       ) : null}
-    </>
+    </div>
   );
 };

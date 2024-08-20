@@ -1,5 +1,4 @@
-import { CheckCircle2 } from 'lucide-react';
-import PercentageComplete from './PercentageComplete';
+import { CheckCircle2, Play } from 'lucide-react';
 import { Bookmark } from '@prisma/client';
 import BookmarkButton from './bookmark/BookmarkButton';
 import { formatTime } from '@/lib/utils';
@@ -10,7 +9,6 @@ export const ContentCard = ({
   title,
   onClick,
   markAsCompleted,
-  percentComplete,
   type,
   videoProgressPercent,
   hoverExpand = true,
@@ -32,15 +30,11 @@ export const ContentCard = ({
 }) => {
   // let image ;
   // image = ""
-
   return (
     <div
       onClick={onClick}
-      className={`relative cursor-pointer duration-200 ease-in group${hoverExpand ? ' ' : ''} `}
+      className={`relative cursor-pointer rounded-2xl border border-gray-700/50 duration-200 ease-in group${hoverExpand ? ' ' : ''} `}
     >
-      {percentComplete !== null && percentComplete !== undefined && (
-        <PercentageComplete percent={percentComplete} />
-      )}
       {markAsCompleted && (
         <div className="absolute right-2 top-2 z-10">
           <CheckCircle2 color="green" size={30} fill="lightgreen" />
@@ -53,8 +47,11 @@ export const ContentCard = ({
       )}
       {type !== 'video' && (
         <div className="relative overflow-hidden rounded-md">
-          <CardComponent title={title} type={type} />
-          {/* <img src={image} alt={title} className="" /> */}
+          <CardComponent
+            title={title}
+            contentDuration={contentDuration && formatTime(contentDuration)}
+            type={type}
+          />
           {!!videoProgressPercent && (
             <div className="absolute bottom-0 h-1 w-full bg-[#707071]">
               <div
@@ -79,7 +76,7 @@ export const ContentCard = ({
       )}
 
       {bookmark !== undefined && contentId && (
-        <div className="absolute left-2 top-2">
+        <div className="absolute left-1 top-4">
           <BookmarkButton
             bookmark={bookmark}
             contentId={contentId}
@@ -89,8 +86,18 @@ export const ContentCard = ({
           />
         </div>
       )}
-      <div className="mt-2 flex justify-between text-gray-900 dark:text-white">
-        <div>{title} </div>
+      <div className="flex items-center justify-between p-4">
+        <div className="space-y-2">
+          <h3 className="text-bold text-lg tracking-normal">{title}</h3>
+          <h4 className="text-bold text-sm tracking-normal text-[#64748B]">
+            Posted on: 10 Aug 2024
+          </h4>
+        </div>
+        <div className="hidden rounded-full border border-gray-700/60 p-4 lg:block">
+          <div className="rounded-full border border-[#64748b] p-2">
+            <Play size={15} color="#64748b" />
+          </div>
+        </div>
       </div>
     </div>
   );
