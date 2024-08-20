@@ -99,7 +99,9 @@ export default async function CoursesComponent() {
         {Object.entries(watchHistoryGroupedByDate).map(([date, history]) => {
           return (
             <Fragment key={date}>
-              <h2 className="mt-4 text-lg font-semibold sm:mt-0">{date}</h2>
+              <h2 className="mt-4 text-lg font-semibold text-slate-500 dark:text-slate-400 sm:mt-0">
+                {date}
+              </h2>
               <WatchHistoryClient history={history} />
             </Fragment>
           );

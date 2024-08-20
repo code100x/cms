@@ -6,6 +6,7 @@ import { getFolderPercentCompleted } from '@/lib/utils';
 import Comments from './comment/Comments';
 import { QueryParams } from '@/actions/types';
 import BreadCrumbComponent from './BreadCrumbComponent';
+import { CourseListButton } from './CourseListButton';
 
 export const CourseView = ({
   rest,
@@ -28,7 +29,7 @@ export const CourseView = ({
 }) => {
   return (
     <>
-      <div className="mb-2 flex max-h-fit min-h-[2.5rem] items-center px-4">
+      <div className="mb-2 flex max-h-fit min-h-[2.5rem] items-center justify-between px-4">
         <BreadCrumbComponent
           course={course}
           contentType={contentType}
@@ -36,6 +37,7 @@ export const CourseView = ({
           fullCourseContent={fullCourseContent}
           rest={rest}
         />
+        <CourseListButton />
       </div>
       {contentType === 'notion' ? (
         <NotionRenderer id={courseContent[0]?.id} />

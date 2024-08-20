@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { Users } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from './ui/button';
+import Router from 'next/router';
 /* import { SecondaryButton } from './buttons/SecondaryButton'; */
 
 export const CourseCard = ({
@@ -62,34 +63,20 @@ export const CourseCard = ({
           <Button type="button" className="mb-6 w-full rounded-full">
             View Content
           </Button>
-          {/* <div className="flex">
-            {course.certIssued && (
-              <div className="flex-1 pr-2">
-                <SecondaryButton
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    router.push('/certificate');
-                  }}
-                >
-                  Certificate
-                </SecondaryButton>
-              </div>
-            )}
-            {course.discordOauthUrl && (
-              <div className="flex-1">
-                <Link target={'blank'} href={course.discordOauthUrl}>
-                  <SecondaryButton
-                    onClick={(e) => {
-                      e.stopPropagation();
-                    }}
-                  >
-                    Discord
-                  </SecondaryButton>
-                </Link>
-              </div>
-            )}
-          </div> */}
-
+          {course.certIssued && (
+            <div className="flex-1 pr-2">
+              <Button
+                variant={'outline'}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  Router.push('/certificate');
+                }}
+                className="mb-3 w-full"
+              >
+                Certificate
+              </Button>
+            </div>
+          )}
           {course.discordOauthUrl && (
             <Link target={'blank'} href={course.discordOauthUrl}>
               <button

@@ -1,4 +1,5 @@
 import { QueryParams } from '@/actions/types';
+import { CoursesLayout } from '@/components/Courses-Layout';
 /* import { getFullCourseContent } from '@/db/course'; */
 import { authOptions } from '@/lib/auth';
 import { getPurchases } from '@/utiles/appx';
@@ -59,10 +60,11 @@ const Layout = async ({
   /*  const fullCourseContent = await getFullCourseContent(parseInt(courseId, 10)); */
 
   return (
-    <div className="relative flex min-h-screen">
-      {/*       <Sidebar fullCourseContent={fullCourseContent} courseId={courseId} /> */}
-      <div className="no-scrollbar grow overflow-y-auto p-2">{children}</div>
-    </div>
+    <CoursesLayout>
+      <div className="relative flex min-h-screen">
+        <div className="no-scrollbar grow overflow-y-auto p-2">{children}</div>
+      </div>
+    </CoursesLayout>
   );
 };
 

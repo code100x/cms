@@ -6,6 +6,7 @@ import { useRecoilValue } from 'recoil';
 import { Sidebar } from './sidebar/NewSidebar';
 import { cn } from '@/lib/utils';
 import { useSession } from 'next-auth/react';
+import Footer from './landing/footer/footer';
 
 export function DashboardLayout({ children }: { children: React.ReactNode }) {
   const { data: Session } = useSession();
@@ -26,5 +27,10 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
         </main>
       </div>
     );
-  return <>{children}</>;
+  return (
+    <>
+      {children}
+      <Footer />
+    </>
+  );
 }

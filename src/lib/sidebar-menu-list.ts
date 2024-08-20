@@ -23,7 +23,7 @@ export function getMenuList(pathname: string): menu[] {
       icon: Files,
     },
     {
-      href: '/resources',
+      href: '/',
       label: 'Resources',
       active: pathname.includes('/resources'),
       icon: FileStack,
