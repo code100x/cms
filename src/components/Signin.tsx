@@ -67,6 +67,7 @@ const Signin = () => {
                 name="email"
                 id="email"
                 placeholder="name@email.com"
+                className="p-2 outline-none"
                 onChange={(e) => {
                   setRequiredError((prevState) => ({
                     ...prevState,
@@ -83,7 +84,7 @@ const Signin = () => {
               <Label>Password</Label>
               <div className="flex rounded-lg border">
                 <Input
-                  className="border-0"
+                  className="border-0 p-2 outline-none"
                   name="password"
                   type={isPasswordVisible ? 'text' : 'password'}
                   id="password"
