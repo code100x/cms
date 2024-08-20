@@ -16,6 +16,7 @@ import MobileScreenSearch from './search/MobileScreenSearch';
 import ProfileDropdown from './profile-menu/ProfileDropdown';
 import { ThemeToggler } from './ThemeToggler';
 import { SelectTheme } from './profile-menu/SelectTheme';
+import Image from 'next/image';
 
 export const Appbar = ({
   className,
@@ -33,21 +34,31 @@ export const Appbar = ({
   return (
     <>
       <nav className={clsx(className)}>
-        <div className="flex w-full items-center justify-between md:max-w-screen-2xl">
+        <div className="flex w-full items-center justify-between">
           {showLogoforLanding && <Logo onFooter={false} />}
           {session?.user ? (
             !isLoading && (
-              <>
-                <div className="hidden md:block">
-                  <SearchBar />
+              <div className="flex w-full items-center justify-between md:justify-normal">
+                <div className="md:hidden">
+                  <Image
+                    src="/harkirat.png"
+                    alt="harkirat"
+                    width={26}
+                    height={26}
+                  />
                 </div>
-                <div className="flex items-center space-x-2">
-                  {/* Search Bar for smaller devices */}
-                  <MobileScreenSearch />
-                  <SelectTheme />
-                  <ProfileDropdown />
+                <div className="flex w-full justify-end md:justify-between">
+                  <div className="hidden md:block">
+                    <SearchBar />
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    {/* Search Bar for smaller devices */}
+                    <MobileScreenSearch />
+                    <SelectTheme />
+                    <ProfileDropdown />
+                  </div>
                 </div>
-              </>
+              </div>
             )
           ) : (
             <div className="flex items-center space-x-2">
