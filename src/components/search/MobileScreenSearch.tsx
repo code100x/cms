@@ -9,7 +9,7 @@ const MobileScreenSearch = () => {
     setShowSearchBar((prev) => !prev);
   };
   return (
-    <div className="md:hidden">
+    <div className="lg:hidden">
       {showSearchBar ? (
         <div className="absolute left-0 top-0 z-[100] flex h-16 w-full items-center gap-3 border-b bg-white px-3 dark:bg-[#020817]">
           <SearchBar onCardClick={toggleSearchBar} />

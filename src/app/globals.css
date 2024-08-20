@@ -149,3 +149,20 @@ width of the controls on screens smaller than 512px */
 .timeline-segments:hover{
   height: 10px;
 }
+
+.sidebar::-webkit-scrollbar {
+  width: 0rem;
+  height: 0.25rem;
+}
+.sidebar::-webkit-scrollbar-thumb {
+  --bg-opacity: 0.5;
+  background-color: #001479b3;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  border-radius: 7px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+  --bg-opacity: 0.5;
+}

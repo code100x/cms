@@ -16,6 +16,7 @@ import MobileScreenSearch from './search/MobileScreenSearch';
 import ProfileDropdown from './profile-menu/ProfileDropdown';
 import { ThemeToggler } from './ThemeToggler';
 import { SelectTheme } from './profile-menu/SelectTheme';
+import { SheetMenu } from './sidebar/mobile-dropdown';
 
 export const Appbar = ({
   className,
@@ -25,20 +26,21 @@ export const Appbar = ({
   showLogoforLanding?: boolean;
 }) => {
   const { data: session, status: sessionStatus } = useSession();
-  /*   const [sidebarOpen, setSidebarOpen] = useRecoilState(sidebarOpenAtom); */
-  /*   const currentPath = usePathname(); */
 
   const isLoading = sessionStatus === 'loading';
 
   return (
     <>
       <nav className={clsx(className)}>
+        {!showLogoforLanding && <SheetMenu />}
+
         <div className="flex w-full items-center justify-between md:max-w-screen-2xl">
           {showLogoforLanding && <Logo onFooter={false} />}
           {session?.user ? (
             !isLoading && (
               <>
-                <div className="hidden md:block">
+                {!showLogoforLanding && <aside className="block lg:hidden" />}
+                <div className="hidden lg:block">
                   <SearchBar />
                 </div>
                 <div className="flex items-center space-x-2">
