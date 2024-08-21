@@ -10,6 +10,7 @@ import {
   MessageSquare,
   History,
   PanelRightOpen,
+  PanelLeftOpen,
   LogOut,
 } from 'lucide-react';
 
@@ -17,11 +18,11 @@ export const menuOptions = [
   { id: 1, name: 'My Courses', Component: Library, href: '/my-courses' },
   { id: 3, name: 'Bookmarks', Component: Bookmark, href: '/bookmark' },
   { id: 4, name: 'Questions', Component: MessageSquare, href: '/question' },
-  { id: 5, name: 'Watch Hostory', Component: History, href: '/watch-history' },
+  { id: 5, name: 'Watch History', Component: History, href: '/watch-history' },
 ];
 
 export const MenuOptions = () => {
-  const [expanded, setExpanded] = useState(true);
+  const [expanded, setExpanded] = useState(false);
 
   return (
     <aside className="h-screen">
@@ -38,7 +39,11 @@ export const MenuOptions = () => {
             onClick={() => setExpanded((curr) => !curr)}
           >
             <div className="p-2">
-              <PanelRightOpen size={24} />
+              {expanded ? (
+                <PanelRightOpen size={24} />
+              ) : (
+                <PanelLeftOpen size={24} />
+              )}
             </div>
           </div>
         </div>
@@ -48,8 +53,8 @@ export const MenuOptions = () => {
         </div>
 
         <div className="border-t p-4">
-          <div className="flex rounded-md p-2">
-            <LogOut size={24} color="#DD503F" />
+          <div className="flex rounded-md bg-red-200 p-2">
+            <LogOut size={24} color="#C32518" />
             <button
               onClick={() => {
                 signOut();
