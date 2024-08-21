@@ -1,21 +1,19 @@
 'use client';
-import { usePathname } from 'next/navigation';
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
-import { ChevronRight } from 'lucide-react';
 import { FullCourseContent } from '@/db/course';
-import { useRecoilState } from 'recoil';
-import { sidebarOpen as sidebarOpenAtom } from '@/store/atoms/sidebar';
+import { File, VideoIcon } from 'lucide-react';
+import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { handleMarkAsCompleted } from '@/lib/utils';
 import BookmarkButton from './bookmark/BookmarkButton';
+import { cn, handleMarkAsCompleted } from '@/lib/utils';
 import Link from 'next/link';
-
-export function Sidebar({
+import { CourseListSheet } from './CourseListSheet';
+export function ContentList({
   courseId,
   fullCourseContent,
 }: {
@@ -24,11 +22,9 @@ export function Sidebar({
 }) {
   const pathName = usePathname();
 
-  const [sidebarOpen, setSidebarOpen] = useRecoilState(sidebarOpenAtom);
   const [currentActiveContentIds, setCurrentActiveContentIds] = useState<
     number[]
   >([]);
-
   useEffect(() => {
     const urlRegex = /\/courses\/.*./;
     const courseUrlRegex = /\/courses\/\d+((?:\/\d+)+)/;
@@ -48,12 +44,6 @@ export function Sidebar({
       setCurrentActiveContentIds(pathArray);
     }
   }, [pathName]);
-
-  useEffect(() => {
-    if (window.innerWidth < 500) {
-      setSidebarOpen(false);
-    }
-  }, []);
 
   const findPathToContent = (
     contents: FullCourseContent[],
@@ -78,7 +68,6 @@ export function Sidebar({
     }
     return null;
   };
-
   const navigateToContent = (contentId: any) => {
     const pathArray = findPathToContent(fullCourseContent, contentId);
     if (pathArray) {
@@ -87,7 +76,6 @@ export function Sidebar({
     }
     return null;
   };
-
   const renderContent = (contents: FullCourseContent[]) => {
     return contents.map((content) => {
       const isActiveContent = currentActiveContentIds?.some(
@@ -99,13 +87,14 @@ export function Sidebar({
           <AccordionItem
             key={content.id}
             value={`item-${content.id}`}
-            className={
+            className={cn(
+              '',
               content.type === 'folder' && isActiveContent
-                ? 'bg-gray-200 text-black dark:bg-blue-950/10 dark:text-white'
-                : ''
-            }
+                ? 'bg-gray-100 text-black dark:bg-slate-900 dark:text-white'
+                : '',
+            )}
           >
-            <AccordionTrigger className="px-4 text-lg tracking-wide">
+            <AccordionTrigger className="ml-2 text-lg tracking-wide">
               {content.title}
             </AccordionTrigger>
             <AccordionContent className="m-0 p-0">
@@ -120,17 +109,17 @@ export function Sidebar({
         <Link
           key={content.id}
           href={navigateToContent(content.id) || '#'}
-          className={`flex cursor-pointer border-b p-2 hover:bg-gray-200 ${
+          className={`flex cursor-pointer p-2 hover:bg-gray-950/5 ${
             isActiveContent
-              ? 'bg-gray-300 text-black dark:bg-gray-700 dark:text-white dark:hover:bg-gray-500'
-              : 'bg-gray-50 text-black dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700'
-          }`}
+              ? 'border-b bg-gray-300 text-black dark:bg-blue-950/20 dark:text-white'
+              : 'border-b bg-gray-50 text-black dark:bg-blue-950/5 dark:text-white'
+          } `}
         >
           <div className="flex w-full items-center justify-between">
             <div className="flex">
               <div className="pr-2">
                 {content.type === 'video' ? <VideoIcon /> : null}
-                {content.type === 'notion' ? <NotionIcon /> : null}
+                {content.type === 'notion' ? <File /> : null}
               </div>
               <div className="text-sm tracking-wider">{content.title}</div>
             </div>
@@ -150,77 +139,20 @@ export function Sidebar({
       );
     });
   };
-
-  if (!sidebarOpen) {
-    return (
-      <div
-        onClick={() => setSidebarOpen((s) => !s)}
-        className="mt-2 cursor-pointer"
-      >
-        <ChevronRight
-          size={28}
-          className="rounded-br rounded-tr border-b border-r border-t"
-        />
-      </div>
-    );
-  }
-
   return (
-    <div className="sm:h-sidebar absolute z-20 h-full w-[300px] min-w-[300px] cursor-pointer self-start overflow-y-scroll bg-gray-50 dark:bg-gray-800 sm:sticky sm:top-[64px]">
-      <div className="flex">
-        {/* <ToggleButton
-            onClick={() => {
-              setSidebarOpen((s) => !s);
-            }}
-          /> */}
+    <div>
+      <div className="mt-2 hidden h-full w-[282px] min-w-56 border lg:inline-block">
+        <h1 className="flex h-14 items-center justify-center border-b text-lg">
+          Course Content
+        </h1>
+        <Accordion type="single" collapsible className="w-full">
+          {renderContent(fullCourseContent)}
+        </Accordion>
       </div>
-      <Accordion type="single" collapsible className="w-full">
-        {/* Render course content */}
-        {renderContent(fullCourseContent)}
-      </Accordion>
+      <CourseListSheet>{renderContent(fullCourseContent)}</CourseListSheet>
     </div>
   );
 }
-
-function VideoIcon() {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
-      viewBox="0 0 24 24"
-      stroke-width="1.5"
-      stroke="currentColor"
-      className="h-5 w-5"
-    >
-      <path
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        d="m15.75 10.5 4.72-4.72a.75.75 0 0 1 1.28.53v11.38a.75.75 0 0 1-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25h-9A2.25 2.25 0 0 0 2.25 7.5v9a2.25 2.25 0 0 0 2.25 2.25Z"
-      />
-    </svg>
-  );
-}
-
-function NotionIcon() {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
-      viewBox="0 0 24 24"
-      stroke-width="1.5"
-      stroke="currentColor"
-      className="h-5 w-5"
-    >
-      <path
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"
-      />
-    </svg>
-  );
-}
-
-// Todo: Fix types here
 function Check({ content }: { content: any }) {
   const [completed, setCompleted] = useState(
     content?.videoProgress?.markAsCompleted || false,

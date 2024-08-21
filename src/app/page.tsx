@@ -21,7 +21,7 @@ export default async function Home() {
   }
 
   return (
-    <main className="pb-20 pt-36">
+    <main className="">
       <LandingPage />
     </main>
   );

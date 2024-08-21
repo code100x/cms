@@ -18,7 +18,6 @@ import { useRecoilValue } from 'recoil';
 
 export const Appbar = () => {
   const { data: session, status: sessionStatus } = useSession();
-
   const isLoading = sessionStatus === 'loading';
   const sidebarOpen = useRecoilValue(sidebarOpenAtom);
 

@@ -12,7 +12,7 @@ const PercentageComplete = ({ percent }: { percent: number }) => {
         {/* Progress indicator without opacity */}
         <div
           className="absolute h-full rounded-lg bg-green-700"
-          style={{ width: `50%` }}
+          style={{ width: `${percent}%` }}
         />
       </Progress>
     </div>

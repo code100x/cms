@@ -51,6 +51,12 @@ export default function BreadCrumbComponent({
         breadcrumbs.push(childContent);
       }
     }
+
+    // if (courseContent.length > 0 && contentType !== 'folder') {
+    //     // breadcrumbs.push(courseContent[0]);
+    //     // console.log("courseContent[0] : ", courseContent[0]);
+    // }
+
     return breadcrumbs;
   }, [rest, fullCourseContent, courseContent, contentType]);
 
@@ -59,15 +65,15 @@ export default function BreadCrumbComponent({
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
-            <BreadcrumbLink className="text-[#4E7AFF]" asChild>
+            <BreadcrumbLink asChild>
               <Link href={'/'}>100xdevs</Link>
             </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
             {generateBreadcrumbs.length > 0 ? (
-              <BreadcrumbLink className="text-[#4E7AFF]" asChild>
-                <Link href={`/courses/${course.id}`}>{course.title}</Link>
+              <BreadcrumbLink asChild>
+                <Link href={`/courses/${course.id}`}>{course.title} </Link>
               </BreadcrumbLink>
             ) : (
               <BreadcrumbPage>{course.title}</BreadcrumbPage>
@@ -100,7 +106,7 @@ export default function BreadCrumbComponent({
                   </>
                 ) : (
                   <BreadcrumbItem>
-                    <BreadcrumbPage className="font-semibold text-gray-500">
+                    <BreadcrumbPage className="font-semibold">
                       {breadcrumb.title}
                     </BreadcrumbPage>
                   </BreadcrumbItem>

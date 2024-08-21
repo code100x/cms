@@ -32,10 +32,11 @@ export const ContentCard = ({
 }) => {
   // let image ;
   // image = ""
+
   return (
     <div
       onClick={onClick}
-      className={`relative cursor-pointer rounded-2xl border border-gray-700/50 duration-200 ease-in group${hoverExpand ? ' ' : ''} `}
+      className={`relative cursor-pointer duration-200 ease-in group${hoverExpand ? ' ' : ''} `}
     >
       {/* {markAsCompleted && (
         <div className="absolute right-2 top-2 z-10">
