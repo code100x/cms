@@ -6,7 +6,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
-import { X, ChevronRight } from 'lucide-react';
+import { ChevronRight } from 'lucide-react';
 import { FullCourseContent } from '@/db/course';
 import { useRecoilState } from 'recoil';
 import { sidebarOpen as sidebarOpenAtom } from '@/store/atoms/sidebar';
@@ -120,11 +120,11 @@ export function Sidebar({
         <Link
           key={content.id}
           href={navigateToContent(content.id) || '#'}
-          className={`flex cursor-pointer p-2 hover:bg-gray-950/5 ${
+          className={`flex cursor-pointer border-b p-2 hover:bg-gray-200 ${
             isActiveContent
-              ? 'border-b bg-gray-300 text-black dark:bg-blue-950/20 dark:text-white'
-              : 'border-b bg-gray-50 text-black dark:bg-blue-950/5 dark:text-white'
-          } `}
+              ? 'bg-gray-300 text-black dark:bg-gray-700 dark:text-white dark:hover:bg-gray-500'
+              : 'bg-gray-50 text-black dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700'
+          }`}
         >
           <div className="flex w-full items-center justify-between">
             <div className="flex">
@@ -166,16 +166,13 @@ export function Sidebar({
   }
 
   return (
-    <div className="no-scrollbar absolute z-20 m-4 h-full w-[300px] min-w-[300px] cursor-pointer self-start overflow-y-scroll scroll-smooth rounded-lg border bg-gray-50 dark:bg-[#020817] sm:sticky sm:top-[64px] sm:h-sidebar">
-      <div className="flex items-center justify-between border-b p-4">
-        <h4 className="text-lg dark:text-[#F8FAFC]">Course Content</h4>
-        <div
-          onClick={() => {
-            setSidebarOpen((s) => !s);
-          }}
-        >
-          <X size={20} />
-        </div>
+    <div className="sm:h-sidebar absolute z-20 h-full w-[300px] min-w-[300px] cursor-pointer self-start overflow-y-scroll bg-gray-50 dark:bg-gray-800 sm:sticky sm:top-[64px]">
+      <div className="flex">
+        {/* <ToggleButton
+            onClick={() => {
+              setSidebarOpen((s) => !s);
+            }}
+          /> */}
       </div>
       <Accordion type="single" collapsible className="w-full">
         {/* Render course content */}
@@ -184,63 +181,6 @@ export function Sidebar({
     </div>
   );
 }
-
-export function ToggleButton({
-  onClick,
-  sidebarOpen,
-}: {
-  onClick: () => void;
-  sidebarOpen: boolean;
-}) {
-  return (
-    <button
-      onClick={onClick}
-      className="flex flex-col items-center justify-center"
-    >
-      <span
-        className={`h - 0.5 w - 6 - sm bg - black - all duration - 300 ease - out dark: bg - white block rounded transition ${!sidebarOpen ? 'translate-y-1 rotate-45' : '-translate-y-0.5'} `}
-      ></span>
-      <span
-        className={`my - 0.5 h - 0.5 w - 6 - sm bg - black - all duration - 300 ease - out dark: bg - white block rounded transition ${
-          !sidebarOpen ? 'opacity-0' : 'opacity-100'
-        } `}
-      ></span>
-      <span
-        className={`h - 0.5 w - 6 - sm bg - black - all duration - 300 ease - out dark: bg - white block rounded transition ${
-          !sidebarOpen ? '-translate-y-1 -rotate-45' : 'translate-y-0.5'
-        } `}
-      ></span>
-    </button>
-  );
-}
-
-/* function GoBackButton() {
-  const router = useRouter();
-
-  const goBack = () => {
-    const pathSegments = window.location.pathname.split('/');
-
-    // Remove the last segment of the path
-    pathSegments.pop();
-
-    // Check if it's the last page in the course, then go to root
-    if (pathSegments.length <= 2) {
-      router.push('/');
-    } else {
-      const newPath = pathSegments.join('/');
-      router.push(newPath);
-    }
-  };
-
-  return (
-    <div className="w-full p-2">
-      <Button size={'full'} onClick={goBack} className="group rounded-full">
-        <BackArrow className="h-5 w-5 transition-all duration-200 ease-in-out group-hover:-translate-x-1 rtl:rotate-180" />{' '}
-        <div className="pl-4">Go Back</div>
-      </Button>
-    </div>
-  );
-} */
 
 function VideoIcon() {
   return (

@@ -100,8 +100,8 @@ const SearchBar = ({ onCardClick }: { onCardClick?: () => void }) => {
       {/* Search Input Bar */}
       <SearchIcon className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-gray-500" />
       <Input
-        placeholder="Search for videos..."
-        className="rounded-lg border-gray-300 bg-gray-50 px-10 text-base focus:outline-none dark:border-gray-700/50 dark:bg-transparent dark:text-white dark:placeholder-gray-400"
+        placeholder="Search.."
+        className="rounded-lg border px-10 focus-visible:ring-transparent"
         value={searchTerm}
         onChange={handleInputChange}
         onFocus={() => setIsInputFocused(true)}

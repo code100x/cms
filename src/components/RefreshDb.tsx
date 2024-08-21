@@ -1,8 +1,8 @@
 'use client';
-import { Button } from './ui/button';
 import { toast } from 'sonner';
 import { useSession } from 'next-auth/react';
-
+import { RefreshCw } from 'lucide-react';
+import { Button } from './ui/button';
 //@ts-ignore
 export function RefreshDb({ refreshDb }) {
   const session = useSession();
@@ -20,11 +20,13 @@ export function RefreshDb({ refreshDb }) {
   if (session.status === 'loading') return <>Loading...</>;
 
   return (
-    <div className="mx-auto flex flex-col gap-2">
-      <h1>Don't see all your courses?</h1>
-      <Button className="dark:text-white" onClick={handleClick}>
-        Refresh Database
-      </Button>
-    </div>
+    <Button
+      variant={'outline'}
+      className="flex h-10 items-center gap-2 rounded-lg border p-2 text-base text-slate-500 dark:text-slate-400"
+      onClick={() => handleClick()}
+    >
+      <RefreshCw />
+      Sync Courses
+    </Button>
   );
 }

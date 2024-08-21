@@ -1,6 +1,5 @@
 import { QueryParams } from '@/actions/types';
-import { Sidebar } from '@/components/Sidebar';
-import { getFullCourseContent } from '@/db/course';
+/* import { getFullCourseContent } from '@/db/course'; */
 import { authOptions } from '@/lib/auth';
 import { getPurchases } from '@/utiles/appx';
 import { getServerSession } from 'next-auth';
@@ -57,11 +56,11 @@ const Layout = async ({
     toast.error('Ratelimited by appx please try again later');
   }
 
-  const fullCourseContent = await getFullCourseContent(parseInt(courseId, 10));
+  /*  const fullCourseContent = await getFullCourseContent(parseInt(courseId, 10)); */
 
   return (
     <div className="relative flex min-h-screen">
-      <Sidebar fullCourseContent={fullCourseContent} courseId={courseId} />
+      {/*       <Sidebar fullCourseContent={fullCourseContent} courseId={courseId} /> */}
       <div className="no-scrollbar grow overflow-y-auto p-2">{children}</div>
     </div>
   );
