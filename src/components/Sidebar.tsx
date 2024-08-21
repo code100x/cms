@@ -14,6 +14,7 @@ import { useEffect, useState } from 'react';
 import { handleMarkAsCompleted } from '@/lib/utils';
 import BookmarkButton from './bookmark/BookmarkButton';
 import Link from 'next/link';
+import { useMediaQuery } from '@/hooks/useMediaQuery';
 
 export function Sidebar({
   courseId,
@@ -23,6 +24,7 @@ export function Sidebar({
   courseId: string;
 }) {
   const pathName = usePathname();
+  const isMobile = useMediaQuery("(max-width: 850px)");
 
   const [sidebarOpen, setSidebarOpen] = useRecoilState(sidebarOpenAtom);
   const [currentActiveContentIds, setCurrentActiveContentIds] = useState<
@@ -50,10 +52,13 @@ export function Sidebar({
   }, [pathName]);
 
   useEffect(() => {
-    if (window.innerWidth < 500) {
+    // this will toggel sidebar if isMobile true otherwise false
+    if (isMobile) {
       setSidebarOpen(false);
+    } else {
+      setSidebarOpen(true);
     }
-  }, []);
+  }, [isMobile]);
 
   const findPathToContent = (
     contents: FullCourseContent[],

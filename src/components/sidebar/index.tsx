@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AnimatedTooltip } from '@/components/ui/animated-tooltip';
 import { signOut } from 'next-auth/react';
 
@@ -12,6 +12,7 @@ import {
   PanelRightOpen,
   LogOut,
 } from 'lucide-react';
+import { useMediaQuery } from '@/hooks/useMediaQuery';
 
 export const menuOptions = [
   { id: 1, name: 'My Courses', Component: Library, href: '/my-courses' },
@@ -22,6 +23,15 @@ export const menuOptions = [
 
 export const MenuOptions = () => {
   const [expanded, setExpanded] = useState(true);
+  const isMobile = useMediaQuery("(max-width: 850px)");
+
+  useEffect(() => {
+    if (isMobile) {
+      setExpanded(false);
+    } else {
+      setExpanded(true);
+    }
+  }, [isMobile]);
 
   return (
     <aside className="h-screen">

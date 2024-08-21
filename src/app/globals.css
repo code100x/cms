@@ -149,3 +149,23 @@ width of the controls on screens smaller than 512px */
 .timeline-segments:hover{
   height: 10px;
 }
+
+/* overriding react-notion-x library for responsive in Medium to large screens */
+@media (min-width: 768px) and (max-width: 1200px) {
+  .notion-full-width {
+    box-sizing: border-box;
+    --notion-max-width: calc(min(508px, 90vw)) !important;
+    padding-left: calc(min(16px, 5vw)) !important;
+    padding-right: calc(min(16px, 5vw)) !important;
+  }
+}
+
+/* overriding react-notion-x library for responsive in large screens */
+@media (min-width: 1201px) {
+  .notion-full-width {
+    box-sizing: border-box;
+    --notion-max-width: calc(min(779px, 85vw)) !important;
+    padding-left: calc(min(24px, 4vw)) !important;
+    padding-right: calc(min(24px, 4vw)) !important;
+  }
+}
