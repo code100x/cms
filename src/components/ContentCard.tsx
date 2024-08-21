@@ -15,6 +15,7 @@ export const ContentCard = ({
   bookmark,
   contentId,
   contentDuration,
+  postedDate,
 }: {
   type: 'folder' | 'video' | 'notion';
   contentId?: number;
@@ -27,6 +28,7 @@ export const ContentCard = ({
   hoverExpand?: boolean;
   bookmark?: Bookmark | null;
   contentDuration?: number;
+  postedDate: Date;
 }) => {
   // let image ;
   // image = ""
@@ -90,7 +92,14 @@ export const ContentCard = ({
         <div className="space-y-2">
           <h3 className="text-bold text-lg tracking-normal">{title}</h3>
           <h4 className="text-bold text-sm tracking-normal text-[#64748B]">
-            Posted on: 10 Aug 2024
+            Posted on:{' '}
+            {postedDate
+              ? new Date(postedDate).toLocaleDateString('en-US', {
+                  day: '2-digit',
+                  month: 'short',
+                  year: 'numeric',
+                })
+              : 'Unknown'}
           </h4>
         </div>
         <div className="hidden rounded-full border border-gray-700/60 p-4 lg:block">

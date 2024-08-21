@@ -20,6 +20,7 @@ export const FolderView = ({
     videoFullDuration?: number;
     duration?: number;
     bookmark: Bookmark | null;
+    postedDate: Date;
   }[];
 }) => {
   const router = useRouter();
@@ -49,6 +50,7 @@ export const FolderView = ({
               : 0;
           return (
             <ContentCard
+              postedDate={content.postedDate}
               type={content.type}
               contentId={content.id}
               key={content.id}
