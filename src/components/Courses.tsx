@@ -3,8 +3,11 @@
 import { Course } from '@/store/atoms';
 import { CourseCard } from './CourseCard';
 import { useRouter } from 'next/navigation';
+import { useRecoilState } from 'recoil';
+import { MenuOptionOpen as MenuOptionOpenAtom } from '@/store/atoms/MenuOption';
 
 export const Courses = ({ courses }: { courses: Course[] }) => {
+  const [setMenuOptionOpen] = useRecoilState(MenuOptionOpenAtom);
   const router = useRouter();
   return (
     <section className="flex flex-col pb-20">
@@ -16,6 +19,7 @@ export const Courses = ({ courses }: { courses: Course[] }) => {
             buttonColor=""
             roundedCardSize="2xl"
             onClick={() => {
+              setMenuOptionOpen(false);
               if (
                 course.title.includes('Machine Learning') ||
                 course.title.includes('Harnoor')

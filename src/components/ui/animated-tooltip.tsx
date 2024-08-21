@@ -11,7 +11,7 @@ import {
 
 export const AnimatedTooltip = ({
   items,
-  expanded,
+  menuOptionOpen,
 }: {
   items: {
     id: number;
@@ -19,7 +19,7 @@ export const AnimatedTooltip = ({
     Component: any;
     href: string;
   }[];
-  expanded: any;
+  menuOptionOpen: boolean;
 }) => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const springConfig = { stiffness: 100, damping: 5 };
@@ -43,7 +43,7 @@ export const AnimatedTooltip = ({
           onMouseEnter={() => setHoveredIndex(item.id)}
           onMouseLeave={() => setHoveredIndex(null)}
         >
-          {!expanded && (
+          {!menuOptionOpen && (
             <AnimatePresence>
               {hoveredIndex === item.id && (
                 <motion.div
@@ -80,7 +80,7 @@ export const AnimatedTooltip = ({
             className={`flex flex-row ${hoveredIndex === item.id && 'rounded-md bg-gray-700/50'} items-center space-x-6 p-2`}
           >
             <item.Component selected={hoveredIndex === item.id} size={25} />
-            {expanded && <h4 className="font-semibold">{item.name}</h4>}
+            {menuOptionOpen && <h4 className="font-semibold">{item.name}</h4>}
           </Link>
         </div>
       ))}
