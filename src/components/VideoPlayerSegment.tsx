@@ -29,6 +29,7 @@ interface VideoProps {
 
 export const VideoPlayerSegment: FunctionComponent<VideoProps> = ({
   setQuality,
+  thumbnails, // Receiving thumbnails array
   contentId,
   subtitles,
   segments,
@@ -36,7 +37,6 @@ export const VideoPlayerSegment: FunctionComponent<VideoProps> = ({
   onVideoEnd,
 }) => {
   const playerRef = useRef<Player | null>(null);
-
   const thumbnailPreviewRef = useRef<HTMLDivElement>(null);
 
   const overrideUpdateTime = (player: Player) => {
@@ -81,6 +81,38 @@ export const VideoPlayerSegment: FunctionComponent<VideoProps> = ({
       console.error('SeekBar component not found.');
     }
   };
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    const seekBar = playerRef.current
+      ?.getChild('ControlBar')
+      ?.getChild('ProgressControl')
+      ?.getChild('SeekBar');
+
+    if (seekBar && playerRef.current) {
+      const rect = seekBar.el().getBoundingClientRect();
+      const seekBarPoint = (e.clientX - rect.left) / rect.width;
+      const time = seekBarPoint * playerRef.current.duration();
+
+      // Find the corresponding thumbnail
+      const correspondingThumbnail = thumbnails.find(
+        (thumbnail) =>
+          thumbnail.timestamp <= time && time < thumbnail.timestamp + 5,
+      );
+
+      if (correspondingThumbnail && thumbnailPreviewRef.current) {
+        thumbnailPreviewRef.current.style.backgroundImage = `url('${correspondingThumbnail.secure_url}')`;
+        thumbnailPreviewRef.current.style.left = `${e.clientX - rect.left - 160}px`; // Center the thumbnail preview
+        thumbnailPreviewRef.current.style.display = 'block';
+      }
+    }
+  };
+
+  const handleMouseLeave = () => {
+    if (thumbnailPreviewRef.current) {
+      thumbnailPreviewRef.current.style.display = 'none';
+    }
+  };
+
   const handlePlayerReady = async (player: Player) => {
     playerRef.current = player;
 
@@ -96,14 +128,16 @@ export const VideoPlayerSegment: FunctionComponent<VideoProps> = ({
           ref={thumbnailPreviewRef}
           className="pointer-events-none absolute z-10 hidden h-[180px] w-[320px] bg-cover bg-no-repeat"
         />
-        <VideoPlayer
-          setQuality={setQuality}
-          contentId={contentId}
-          subtitles={subtitles}
-          options={videoJsOptions}
-          onVideoEnd={onVideoEnd}
-          onReady={handlePlayerReady}
-        />
+        <div onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave}>
+          <VideoPlayer
+            setQuality={setQuality}
+            contentId={contentId}
+            subtitles={subtitles}
+            options={videoJsOptions}
+            onVideoEnd={onVideoEnd}
+            onReady={handlePlayerReady}
+          />
+        </div>
       </div>
     </div>
   );
