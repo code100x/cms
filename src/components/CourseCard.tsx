@@ -2,7 +2,6 @@
 import { Course } from '@/store/atoms';
 import { UsersRound } from 'lucide-react';
 import PercentageComplete from './PercentageComplete';
-import { SecondaryButton } from './buttons/SecondaryButton';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
@@ -28,77 +27,57 @@ export const CourseCard = ({
   const router = useRouter();
   return (
     <div
-      className={`max-w-sm border border-gray-200 bg-white ${roundedClassName} w-full shadow dark:border dark:border-gray-700/50 dark:bg-[#0F172A]`}
-      onClick={() => {
-        onClick();
-      }}
+      className={`flex max-w-sm flex-col border border-gray-200 bg-white ${roundedClassName} w-full shadow transition-colors duration-300 ease-in-out hover:bg-[#E2E8F0] dark:border dark:border-gray-700/50 dark:bg-[#020817] hover:dark:bg-[#1E293B]`}
+      onClick={onClick}
     >
-      <img src={course.imageUrl} alt={course.title} className="rounded-md" />
-
-      <div className="space-y-4 p-2">
-        <div className="flex justify-between">
-          <div className="text-xl font-semibold">{course.title}</div>
-        </div>
-
-        <div>
-          {course.totalVideos !== undefined && (
-            <PercentageComplete
-              percent={Math.ceil(
-                ((course.totalVideosWatched ?? 0) / course.totalVideos) * 100,
-              )}
-            />
-          )}
-        </div>
-
-        <div>
+      <img
+        alt={course.title}
+        className="rounded-t-2xl bg-cover"
+        src={course.imageUrl}
+      />
+      {/* add tag here */}
+      {/* <div>Cohort 3.0</div> */}
+      <div className="flex flex-1 flex-col justify-between gap-4 p-4">
+        <div className="text-xl font-semibold capitalize">{course.title}</div>
+        {course.totalVideos !== undefined && (
+          <PercentageComplete
+            percent={Math.ceil(
+              ((course.totalVideosWatched ?? 0) / course.totalVideos) * 100,
+            )}
+          />
+        )}
+        <div className="flex flex-col gap-4">
           <button
+            className="w-full rounded-full bg-blue-700 px-5 py-2 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300"
+            style={{ backgroundColor: buttonColor }}
             type="button"
-            className="mb-2 me-2 w-full rounded-full bg-blue-700 px-5 py-2 text-center text-sm text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300"
-            style={{
-              backgroundColor: buttonColor,
-            }}
           >
             View Content
           </button>
-          <div className="flex">
-            {course.certIssued && (
-              <div className="flex-1 pr-2">
-                <SecondaryButton
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    router.push('/certificate');
-                  }}
-                >
-                  Certificate
-                </SecondaryButton>
+          {course.certIssued ? (
+            <div className="flex-1 pr-2">
+              <div
+                className="text-center text-base font-medium text-[#64748B] dark:text-[#94A3B8]"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  router.push('/certificate');
+                }}
+              >
+                Claim Certificate
               </div>
-            )}
-            {/* {course.discordOauthUrl && (
-              <div className="flex-1">
-                <Link target={'blank'} href={course.discordOauthUrl}>
-                  <SecondaryButton
-                    onClick={(e) => {
-                      e.stopPropagation();
-                    }}
-                  >
-                    Discord
-                  </SecondaryButton>
-                </Link>
+            </div>
+          ) : (
+            <Link
+              className="flex w-full flex-row items-center justify-center gap-2"
+              href={course.discordOauthUrl}
+              target={'blank'}
+            >
+              <UsersRound size={16} color="#94A3B8" />
+              <div className="text-base font-medium text-[#64748B] dark:text-[#94A3B8]">
+                Join Discord Community
               </div>
-            )} */}
-            {true && (
-              <div className="mt-2 flex-1">
-                <Link target={'blank'} href={course.discordOauthUrl}>
-                  <div className="flex w-full flex-row justify-center gap-2">
-                    <UsersRound size={18} color="#94A3B8" />
-                    <div className="text-sm text-[#94A3B8]">
-                      Join Discord Community
-                    </div>
-                  </div>
-                </Link>
-              </div>
-            )}
-          </div>
+            </Link>
+          )}
         </div>
       </div>
     </div>

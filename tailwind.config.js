@@ -75,6 +75,9 @@ module.exports = {
       height: {
         sidebar: 'calc(100vh - 64px)',
       },
+      fontFamily: {
+        satoshi: ['var(--font-satoshi)'],
+      },
     },
   },
   plugins: [require('tailwindcss-animate')],
