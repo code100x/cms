@@ -64,6 +64,7 @@ const Signin = () => {
             <div className="flex flex-col gap-4">
               <Label htmlFor="email">Email</Label>
               <Input
+                className="px-2"
                 name="email"
                 id="email"
                 placeholder="name@email.com"
@@ -83,7 +84,7 @@ const Signin = () => {
               <Label>Password</Label>
               <div className="flex rounded-lg border">
                 <Input
-                  className="border-0"
+                  className="border-0 px-2"
                   name="password"
                   type={isPasswordVisible ? 'text' : 'password'}
                   id="password"
