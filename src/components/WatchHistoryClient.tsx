@@ -55,6 +55,7 @@ const HistoryCard = ({
         }}
         videoProgressPercent={videoProgressPercent}
         hoverExpand={false}
+        contentDuration={videoDuration || 0}
       />
     );
   }
