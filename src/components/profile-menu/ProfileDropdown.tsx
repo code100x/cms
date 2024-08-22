@@ -5,7 +5,6 @@ import {
   BookmarkIcon,
   HistoryIcon,
   LogOutIcon,
-  User2Icon,
   Bird,
   CreditCard,
 } from 'lucide-react';
@@ -19,8 +18,9 @@ import {
 } from '@/components/ui/dropdown-menu';
 import ExternalLinks from './ExternalLinks';
 import { signOut } from 'next-auth/react';
+import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 
-const ProfileDropdown = () => {
+const ProfileDropdown = ({ name, image }: { name: string; image: string }) => {
   const menuItemLinks = [
     {
       href: '/history',
@@ -48,7 +48,10 @@ const ProfileDropdown = () => {
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
         <div className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-[#475A64] md:h-10 md:w-10">
-          <User2Icon color="white" className="h-4 w-4" />
+          <Avatar>
+            <AvatarImage src={image} alt="user Image" />
+            <AvatarFallback>{name[0].toUpperCase()}</AvatarFallback>
+          </Avatar>
         </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="mr-3 mt-2 w-56 shadow-2xl">

@@ -45,7 +45,10 @@ export const Appbar = ({
                   {/* Search Bar for smaller devices */}
                   <MobileScreenSearch />
                   <SelectTheme />
-                  <ProfileDropdown />
+                  <ProfileDropdown
+                    name={session?.user.name ?? ''}
+                    image={session?.user.image ?? ''}
+                  />
                 </div>
               </>
             )

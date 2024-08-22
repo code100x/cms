@@ -182,7 +182,7 @@ const Comments = async ({
                 <span>
                   {searchParams.type === CommentType.INTRO
                     ? CommentType.INTRO
-                    : 'All comments' || 'All comments'}
+                    : 'All comments'}
                 </span>
                 <ChevronDownIcon className="h-4 w-4" />
               </Button>
