@@ -41,7 +41,7 @@ export const ContentCard = ({
         </div>
       )}
       {type === 'video' && (
-        <div className="text-blue-900g absolute bottom-12 right-2 z-10 rounded-md bg-zinc-900 p-1 px-2 font-semibold text-white">
+        <div className="text-blue-900g absolute bottom-[7rem] right-2 z-10 rounded-md bg-zinc-900 p-1 px-2 font-semibold text-white">
           {contentDuration && formatTime(contentDuration)}
         </div>
       )}
