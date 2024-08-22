@@ -32,7 +32,7 @@ const HistoryCard = ({
   id,
   contentId,
   currentTimestamp,
-  content: { type, title, thumbnail, hidden, parent, VideoMetadata },
+  content: { type, title, thumbnail, hidden, parent, VideoMetadata, createdAt },
 }: TWatchHistory) => {
   const router = useRouter();
 
@@ -46,6 +46,7 @@ const HistoryCard = ({
       : 0;
     return (
       <ContentCard
+        postedDate={createdAt}
         type={type}
         key={id}
         title={title}

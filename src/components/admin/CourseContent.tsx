@@ -6,7 +6,9 @@ export const AdminCourseContent = ({
   courseContent,
   courseId,
   rest,
+  postedAt,
 }: {
+  postedAt: Date;
   courseId: number;
   courseContent: {
     title: string;
@@ -28,6 +30,7 @@ export const AdminCourseContent = ({
         {courseContent?.map(
           (content: { image: string; id: number; title: string }) => (
             <ContentCard
+              postedDate={postedAt}
               type={'folder'}
               title={content.title}
               image={content.image || ''}

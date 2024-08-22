@@ -31,6 +31,7 @@ const BookmarkList = ({
 
               return (
                 <ContentCard
+                  postedDate={bookmark.createdAt}
                   type={type}
                   key={contentId}
                   title={title}

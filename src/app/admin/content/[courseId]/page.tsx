@@ -51,6 +51,7 @@ export default async function UpdateCourseContent({
           image: x?.thumbnail || '',
           id: x?.id || 0,
         }))}
+        postedDate={courseContent?.[0]?.createdAt ?? ''}
         courseId={parseInt(courseId, 10)}
       />
     </div>
