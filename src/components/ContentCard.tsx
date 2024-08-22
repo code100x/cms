@@ -4,6 +4,7 @@ import BookmarkButton from './bookmark/BookmarkButton';
 import { formatTime } from '@/lib/utils';
 import VideoThumbnail from './videothumbnail';
 import CardComponent from './CardComponent';
+import dayjs from 'dayjs';
 
 export const ContentCard = ({
   title,
@@ -94,11 +95,7 @@ export const ContentCard = ({
           <h4 className="text-bold text-sm tracking-normal text-[#64748B]">
             Posted on:{' '}
             {postedDate
-              ? new Date(postedDate).toLocaleDateString('en-US', {
-                  day: '2-digit',
-                  month: 'short',
-                  year: 'numeric',
-                })
+              ? dayjs(postedDate).format('D MMM YYYY') // Use Day.js for formatting
               : 'Unknown'}
           </h4>
         </div>
