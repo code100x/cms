@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { Inter as FontSans } from 'next/font/google';
+import localFont from 'next/font/local';
 import { cn } from '@/lib/utils';
 import type { Metadata } from 'next';
 import './globals.css';
@@ -13,9 +13,13 @@ import NextTopLoader from 'nextjs-toploader';
 import { DashboardLayout } from '@/components/DashboardLayout';
 /* import Footer from '@/components/landing/footer/footer'; */
 
-const fontSans = FontSans({
-  subsets: ['latin'],
-  variable: '--font-sans',
+const satoshi = localFont({
+  src: [
+    {
+      path: '../../public/fonts/satoshi.ttf',
+    },
+  ],
+  variable: '--font-satoshi',
 });
 
 export const metadata: Metadata = siteConfig;
@@ -25,8 +29,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <html lang="en">
       <body
         className={cn(
-          'min-h-screen bg-background font-sans antialiased',
-          fontSans.variable,
+          'min-h-screen bg-background font-satoshi antialiased',
+          satoshi.variable,
         )}
       >
         <GoogleAnalytics />

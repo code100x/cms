@@ -1,14 +1,17 @@
 'use client';
 import { Course } from '@/store/atoms';
-import { UsersRound } from 'lucide-react';
 import PercentageComplete from './PercentageComplete';
-import { useRouter } from 'next/navigation';
+/* import { useRouter } from 'next/navigation'; */
 import Link from 'next/link';
+import { Users } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+import { Button } from './ui/button';
+import Router from 'next/router';
+/* import { SecondaryButton } from './buttons/SecondaryButton'; */
 
 export const CourseCard = ({
   course,
   onClick,
-  buttonColor,
   roundedCardSize,
 }: {
   course: Course;
@@ -23,59 +26,66 @@ export const CourseCard = ({
     '3xl': 'rounded-3xl',
   };
 
-  const roundedClassName = roundedClassNames[roundedCardSize] || 'rounded-lg';
-  const router = useRouter();
+  const roundedClassName = roundedClassNames[roundedCardSize] || 'rounded-2xl';
+  /*  const router = useRouter(); */
+  const percent = course.totalVideos
+    ? Math.ceil((course.totalVideosWatched || 0 / course.totalVideos) * 100)
+    : 100;
   return (
     <div
-      className={`flex max-w-sm flex-col border border-gray-200 bg-white ${roundedClassName} w-full shadow transition-colors duration-300 ease-in-out hover:bg-[#E2E8F0] dark:border dark:border-gray-700/50 dark:bg-[#020817] hover:dark:bg-[#1E293B]`}
-      onClick={onClick}
+      className={`max-w-sm border shadow ${roundedClassName} w-full hover:bg-slate-200 dark:hover:bg-slate-900`}
+      onClick={() => {
+        onClick();
+      }}
     >
       <img
-        alt={course.title}
-        className="rounded-t-2xl bg-cover"
         src={course.imageUrl}
+        alt={course.title}
+        className={`${roundedClassName}`}
       />
-      {/* add tag here */}
-      {/* <div>Cohort 3.0</div> */}
-      <div className="flex flex-1 flex-col justify-between gap-4 p-4">
-        <div className="text-xl font-semibold capitalize">{course.title}</div>
-        {course.totalVideos !== undefined && (
-          <PercentageComplete
-            percent={Math.ceil(
-              ((course.totalVideosWatched ?? 0) / course.totalVideos) * 100,
-            )}
-          />
-        )}
-        <div className="flex flex-col gap-4">
-          <button
-            className="w-full rounded-full bg-blue-700 px-5 py-2 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300"
-            style={{ backgroundColor: buttonColor }}
-            type="button"
-          >
+      <div className="relative space-y-2 p-4">
+        <div className="space-y-2">
+          {/*todo add course.title */}
+          {/* <Badge>{course.title}</Badge> */}
+          <Badge className="text-xs">Cohort 3.0</Badge>
+          <h1 className="text-xl font-bold">{course.description} </h1>
+        </div>
+        <div>
+          <div className="flex w-full flex-col">
+            <span className="self-end text-sm font-medium text-slate-500">
+              {percent}%
+            </span>
+            <PercentageComplete percent={percent} />
+          </div>
+        </div>
+        <div className="flex justify-between"></div>
+        <div>
+          <Button type="button" className="mb-6 w-full rounded-full">
             View Content
-          </button>
-          {course.certIssued ? (
+          </Button>
+          {course.certIssued && (
             <div className="flex-1 pr-2">
-              <div
-                className="text-center text-base font-medium text-[#64748B] dark:text-[#94A3B8]"
+              <Button
+                variant={'outline'}
                 onClick={(e) => {
                   e.stopPropagation();
-                  router.push('/certificate');
+                  Router.push('/certificate');
                 }}
+                className="mb-3 w-full"
               >
-                Claim Certificate
-              </div>
+                Certificate
+              </Button>
             </div>
-          ) : (
-            <Link
-              className="flex w-full flex-row items-center justify-center gap-2"
-              href={course.discordOauthUrl}
-              target={'blank'}
-            >
-              <UsersRound size={16} color="#94A3B8" />
-              <div className="text-base font-medium text-[#64748B] dark:text-[#94A3B8]">
+          )}
+          {course.discordOauthUrl && (
+            <Link target={'blank'} href={course.discordOauthUrl}>
+              <button
+                onClick={(e) => e.stopPropagation()}
+                className="flex w-full items-center justify-center gap-2 rounded-xl text-base text-slate-500"
+              >
+                <Users className="h-4 w-4" />
                 Join Discord Community
-              </div>
+              </button>
             </Link>
           )}
         </div>

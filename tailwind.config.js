@@ -18,12 +18,6 @@ module.exports = {
       width: {
         sidebarWidth: "72px"
       },
-      height: {
-        18: '72px',
-      },
-      fontFamily: {
-        sans: ['var(--font-sans)', 'sans-serif'],
-      },
       screens: {
         semi: '1140px'
       },
@@ -80,6 +74,13 @@ module.exports = {
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
+      },
+      height: {
+        sidebar: 'calc(100vh - 64px)',
+        18: '72px',
+      },
+      fontFamily: {
+        satoshi: ['var(--font-satoshi)'],
       },
     },
   },
