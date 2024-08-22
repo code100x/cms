@@ -63,7 +63,7 @@ export const MenuOptions = () => {
                 expanded ? 'ml-3 w-52' : 'w-0'
               }`}
             >
-              <h4 className="font-semibold text-[#DD503F]">Logout</h4>
+              <h4 className="font-semibold text-[#C32518]">Logout</h4>
             </button>
           </div>
         </div>
