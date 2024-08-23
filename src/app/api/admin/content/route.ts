@@ -1,6 +1,5 @@
 import db from '@/db';
 import { NextRequest, NextResponse } from 'next/server';
-// import { vizolvVideo } from '@/lib/zod/vizolv-schema';
 
 export const POST = async (req: NextRequest) => {
   const {
@@ -105,21 +104,6 @@ export const POST = async (req: NextRequest) => {
         },
       });
     }
-    // const vizolvInsertUrl = process.env.VIZOLV_INSERT_URL;
-    // // send the video to the vizolv server
-    // const video = vizolvVideo.parse({
-    //   title: title,
-    //   description: description,
-    //   duration: metadata.duration,
-    //   courseId: courseId,
-    //   folderId: content.id,
-    //   videoId: metadata.id,
-    //   captions: metadata.subtitles,
-    // });
-    // await fetch(vizolvInsertUrl, {
-    //   method: 'POST',
-    //   body: JSON.stringify(video),
-    // });
   }
   return NextResponse.json({}, { status: 200 });
 };
