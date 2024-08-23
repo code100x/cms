@@ -1,166 +1,198 @@
 'use client';
+
+import { useState, useRef } from 'react';
+import { useRouter } from 'next/navigation';
+import { signIn } from 'next-auth/react';
+import { toast } from 'sonner';
+import { EyeIcon, EyeOffIcon } from 'lucide-react';
+
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { signIn } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
-import React, { useRef, useState } from 'react';
 
-import { toast } from 'sonner';
-const Signin = () => {
+const WaveBackground = () => (
+  <div className="absolute inset-0 overflow-hidden bg-gray-900">
+    <svg
+      className="waves"
+      xmlns="http://www.w3.org/2000/svg"
+      xmlnsXlink="http://www.w3.org/1999/xlink"
+      viewBox="0 24 150 28"
+      preserveAspectRatio="none"
+      shapeRendering="auto"
+    >
+      <defs>
+        <path
+          id="gentle-wave"
+          d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"
+        />
+      </defs>
+      <g className="parallax">
+        <use xlinkHref="#gentle-wave" x="48" y="-1" fill="rgba(0,87,175,0.7)" />
+        <use xlinkHref="#gentle-wave" x="48" y="3" fill="rgba(0,87,175,0.5)" />
+        <use xlinkHref="#gentle-wave" x="48" y="5" fill="rgba(0,87,175,0.3)" />
+        <use xlinkHref="#gentle-wave" x="48" y="7" fill="rgba(0,87,175,0.1)" />
+      </g>
+    </svg>
+    <style jsx>{`
+      .waves {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        height: 60vh;
+        min-height: 100px;
+        max-height: 150px;
+      }
+      .parallax > use {
+        animation: move-forever 25s cubic-bezier(0.55, 0.5, 0.45, 0.5) infinite;
+      }
+      .parallax > use:nth-child(1) {
+        animation-delay: -2s;
+        animation-duration: 7s;
+      }
+      .parallax > use:nth-child(2) {
+        animation-delay: -3s;
+        animation-duration: 10s;
+      }
+      .parallax > use:nth-child(3) {
+        animation-delay: -4s;
+        animation-duration: 13s;
+      }
+      .parallax > use:nth-child(4) {
+        animation-delay: -5s;
+        animation-duration: 20s;
+      }
+      @keyframes move-forever {
+        0% {
+          transform: translate3d(-90px, 0, 0);
+        }
+        100% {
+          transform: translate3d(85px, 0, 0);
+        }
+      }
+    `}</style>
+  </div>
+);
+
+export default function Component() {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-  const [checkingPassword, setCheckingPassword] = useState(false);
-  const [requiredError, setRequiredError] = useState({
-    emailReq: false,
-    passReq: false,
-  });
+  const [isLoading, setIsLoading] = useState(false);
+  const [errors, setErrors] = useState({ email: false, password: false });
 
-  function togglePasswordVisibility() {
-    setIsPasswordVisible((prevState: any) => !prevState);
-  }
   const router = useRouter();
-  const email = useRef('');
-  const password = useRef('');
+  const emailRef = useRef('');
+  const passwordRef = useRef('');
 
-  const handleSubmit = async (e?: React.FormEvent<HTMLButtonElement>) => {
-    const loadId = toast.loading('Signing in...');
-    if (e) {
-      e.preventDefault();
-    }
+  const togglePasswordVisibility = () => setIsPasswordVisible((prev) => !prev);
 
-    if (!email.current || !password.current) {
-      setRequiredError({
-        emailReq: email.current ? false : true,
-        passReq: password.current ? false : true,
+  // eslint-disable-next-line no-undef
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setErrors({ email: !emailRef.current, password: !passwordRef.current });
+
+    if (!emailRef.current || !passwordRef.current) return;
+
+    setIsLoading(true);
+    const loadingToast = toast.loading('Signing in...');
+
+    try {
+      const res = await signIn('credentials', {
+        username: emailRef.current,
+        password: passwordRef.current,
+        redirect: false,
       });
-      toast.dismiss(loadId);
-      return;
-    }
-    setCheckingPassword(true);
-    const res = await signIn('credentials', {
-      username: email.current,
-      password: password.current,
-      redirect: false,
-    });
 
-    toast.dismiss(loadId);
-    if (!res?.error) {
+      if (res?.error) throw new Error(res.error);
+
+      toast.success('Signed in successfully');
       router.push('/');
-      toast.success('Signed In');
-    } else {
-      toast.error('oops something went wrong..!');
-      setCheckingPassword(false);
+    } catch (error) {
+      toast.error('Oops! Something went wrong.');
+    } finally {
+      toast.dismiss(loadingToast);
+      setIsLoading(false);
     }
   };
-  return (
-    <section className="flex h-screen items-center justify-center">
-      <Card className="mx-auto w-[70%] md:w-[70%] lg:w-[30%]">
-        <CardHeader>
-          <CardTitle>Signin to your Account</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid w-full items-center gap-4">
-            <div className="flex flex-col gap-4">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                className="px-2"
-                name="email"
-                id="email"
-                placeholder="name@email.com"
-                onChange={(e) => {
-                  setRequiredError((prevState) => ({
-                    ...prevState,
-                    emailReq: false,
-                  }));
-                  email.current = e.target.value;
-                }}
-              />
-              {requiredError.emailReq && (
-                <span className="text-red-500">Email is required</span>
-              )}
-            </div>
-            <div className="relative flex flex-col gap-4">
-              <Label>Password</Label>
-              <div className="flex rounded-lg border">
-                <Input
-                  className="border-0 px-2"
-                  name="password"
-                  type={isPasswordVisible ? 'text' : 'password'}
-                  id="password"
-                  placeholder="••••••••"
-                  onChange={(e) => {
-                    setRequiredError((prevState) => ({
-                      ...prevState,
-                      passReq: false,
-                    }));
-                    password.current = e.target.value;
-                  }}
-                  onKeyDown={async (e) => {
-                    if (e.key === 'Enter') {
-                      setIsPasswordVisible(false);
-                      handleSubmit();
-                    }
-                  }}
-                />
-                <button
-                  className="absolute bottom-0 right-0 flex h-10 items-center px-4 text-gray-600"
-                  onClick={togglePasswordVisibility}
-                >
-                  {isPasswordVisible ? (
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth={1.5}
-                      stroke="currentColor"
-                      className="h-5 w-5"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L9.88 9.88"
-                      />
-                    </svg>
-                  ) : (
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth={1.5}
-                      stroke="currentColor"
-                      className="h-5 w-5"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"
-                      />
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                      />
-                    </svg>
-                  )}
-                </button>
-              </div>
-              {requiredError.passReq && (
-                <span className="text-red-500">Password is required</span>
-              )}
-            </div>
-          </div>
-          <Button
-            className="my-3 w-full"
-            disabled={!email.current || !password.current || checkingPassword}
-            onClick={handleSubmit}
-          >
-            Login
-          </Button>
-        </CardContent>
-      </Card>
-    </section>
-  );
-};
 
-export default Signin;
+  return (
+    <div>
+      <section className="relative flex h-screen items-center justify-center overflow-hidden bg-gray-900">
+        <WaveBackground />
+        <Card className="z-10 w-[90%] max-w-md bg-gray-800/80 text-white backdrop-blur-sm">
+          <CardHeader>
+            <CardTitle className="text-center text-2xl font-bold">
+              Sign in to your Account
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="email" className="text-gray-300">
+                  Email
+                </Label>
+                <Input
+                  className="border-gray-600 bg-gray-700 pl-4 text-white"
+                  name="email"
+                  id="email"
+                  type="email"
+                  placeholder="name@example.com"
+                  onChange={(e) => {
+                    emailRef.current = e.target.value;
+                    setErrors((prev) => ({ ...prev, email: false }));
+                  }}
+                  required
+                />
+                {errors.email && (
+                  <p className="text-sm text-red-500">Email is required</p>
+                )}
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="password" className="text-gray-300">
+                  Password
+                </Label>
+                <div className="relative">
+                  <Input
+                    className="border-gray-600 bg-gray-700 pl-4 pr-10 text-white"
+                    name="password"
+                    id="password"
+                    type={isPasswordVisible ? 'text' : 'password'}
+                    placeholder="••••••••"
+                    onChange={(e) => {
+                      passwordRef.current = e.target.value;
+                      setErrors((prev) => ({ ...prev, password: false }));
+                    }}
+                    required
+                  />
+                  <button
+                    type="button"
+                    className="absolute inset-y-0 right-0 flex items-center px-3 text-gray-400"
+                    onClick={togglePasswordVisibility}
+                  >
+                    {isPasswordVisible ? (
+                      <EyeOffIcon className="h-5 w-5" aria-hidden="true" />
+                    ) : (
+                      <EyeIcon className="h-5 w-5" aria-hidden="true" />
+                    )}
+                    <span className="sr-only">
+                      {isPasswordVisible ? 'Hide password' : 'Show password'}
+                    </span>
+                  </button>
+                </div>
+                {errors.password && (
+                  <p className="text-sm text-red-500">Password is required</p>
+                )}
+              </div>
+              <Button
+                className="w-full bg-blue-600 text-white hover:bg-blue-700"
+                type="submit"
+                disabled={isLoading}
+              >
+                {isLoading ? 'Signing in...' : 'Sign in'}
+              </Button>
+            </form>
+          </CardContent>
+        </Card>
+      </section>
+    </div>
+  );
+}
