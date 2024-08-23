@@ -160,7 +160,7 @@ export async function getPurchases(email: string): Promise<CoursesResponse> {
 
   if (coursesFromDb && coursesFromDb.length) {
     const allCourses = [
-      ...coursesFromDb,
+      ...courses.filter((x) => coursesFromDb.map((x) => x.id).includes(x.id)),
       ...getExtraCourses(coursesFromDb, courses),
     ]
       .filter((x) => x.id)

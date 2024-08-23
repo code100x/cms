@@ -108,6 +108,7 @@ export const NewPostDialog = () => {
 
   return (
     <Modal ref={ref} onClose={handleOnCloseClick}>
+      <div className="fixed inset-0 z-40 bg-black/30 backdrop-blur-sm" />
       <form
         ref={formRef}
         onSubmit={onSubmit}
@@ -157,7 +158,12 @@ export const NewPostDialog = () => {
               placeholder="Enter tags separated by comma: hello,world"
               errors={fieldErrors}
             />
-            <Button type="submit">Post-it</Button>
+            <Button
+              type="submit"
+              className="mb-2 me-2 rounded-lg bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 text-center text-sm font-medium hover:bg-gradient-to-br dark:text-white"
+            >
+              Post-it
+            </Button>
           </div>
         </div>
       </form>
