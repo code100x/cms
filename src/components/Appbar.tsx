@@ -33,21 +33,25 @@ export const Appbar = ({
   return (
     <>
       <nav className={clsx(className)}>
-        <div className="flex w-full items-center justify-between md:max-w-screen-2xl">
+        <div className="flex w-full items-center justify-between">
           {showLogoforLanding && <Logo onFooter={false} />}
           {session?.user ? (
             !isLoading && (
-              <>
+              <div className="flex w-full flex-row justify-between">
                 <div className="hidden md:block">
                   <SearchBar />
                 </div>
-                <div className="flex items-center space-x-2">
+                <div className="flex w-full items-center justify-between space-x-2 md:w-auto">
                   {/* Search Bar for smaller devices */}
-                  <MobileScreenSearch />
-                  <SelectTheme />
-                  <ProfileDropdown />
+                  <div>
+                    <MobileScreenSearch />
+                  </div>
+                  <div className="flex flex-row items-center space-x-2">
+                    <SelectTheme />
+                    <ProfileDropdown />
+                  </div>
                 </div>
-              </>
+              </div>
             )
           ) : (
             <div className="flex items-center space-x-2">
