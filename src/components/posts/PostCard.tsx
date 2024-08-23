@@ -1,7 +1,7 @@
 'use client';
 import '@uiw/react-md-editor/markdown-editor.css';
 import '@uiw/react-markdown-preview/markdown.css';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import VoteForm from './form/form-vote';
 import TextSnippet from './textSnippet';
 import dayjs from 'dayjs';
@@ -62,6 +62,8 @@ const PostCard: React.FC<IProps> = ({
   const { theme } = useTheme();
   const [markDownValue, setMarkDownValue] = useState('');
   const [enableReply, setEnableReply] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
   const handleMarkdownChange = (newValue?: string) => {
     if (typeof newValue === 'string') {
       setMarkDownValue(newValue);
@@ -89,9 +91,19 @@ const PostCard: React.FC<IProps> = ({
     });
   };
 
+  const handleReplyBtn = () => {
+    setEnableReply((prev) => !prev);
+    setTimeout(() => {
+      ref.current?.scrollIntoView({
+        behavior: 'instant',
+        block: 'nearest',
+      });
+    }, 200);
+  };
+
   const internalDetails = () => {
     return (
-      <div className="flex w-full items-start gap-2.5">
+      <div className="flex w-full flex-col items-start gap-2.5">
         <Avatar className="cursor-pointer">
           <AvatarFallback>
             {post.author.name?.substring(0, 2).toUpperCase()}
@@ -105,10 +117,10 @@ const PostCard: React.FC<IProps> = ({
                 {post.author.name}
               </TextSnippet>
               <div className="flex items-center">
-                <TextSnippet className="text-xs text-gray-500">
+                <TextSnippet className="text-[10px] text-gray-500 sm:text-xs">
                   {dayjs(post.createdAt).fromNow()}
                 </TextSnippet>
-                <TextSnippet className="ml-1 text-xs text-gray-500">
+                <TextSnippet className="ml-2 text-[10px] text-gray-500 sm:text-xs">
                   • Updated {dayjs(post.updatedAt).fromNow()}
                 </TextSnippet>
               </div>
@@ -136,6 +148,12 @@ const PostCard: React.FC<IProps> = ({
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
+          <div className="my-2 grid w-full grid-cols-2 gap-2 px-3 sm:grid-cols-5">
+            {isExtendedQuestion(post) &&
+              post.tags
+                .filter((v) => v !== '')
+                .map((v, index) => <Tag name={v} key={index + v} />)}
+          </div>
 
           {!isAnswer && enableLink && isExtendedQuestion(post) && (
             <Link href={`/questions/${post?.slug}`}>
@@ -143,6 +161,26 @@ const PostCard: React.FC<IProps> = ({
                 {post?.title}
               </TextSnippet>
             </Link>
+          )}
+          {!isAnswer && !enableLink && isExtendedQuestion(post) && (
+            <TextSnippet className="px-2 py-2 text-lg font-bold hover:underline">
+              {post?.title}
+            </TextSnippet>
+          )}
+          {post.content && (
+            <div data-color-mode={theme} className="my-2 w-full px-2">
+              <div className="wmde-markdown-var"> </div>
+              <MDEditor.Markdown
+                className="text-black dark:text-white"
+                source={post.content}
+                style={{
+                  whiteSpace: 'pre-wrap',
+                  wordBreak: 'break-word',
+                  overflowWrap: 'break-word',
+                  backgroundColor: 'transparent',
+                }}
+              />
+            </div>
           )}
 
           <CardFooter className="flex flex-col items-center justify-between border-gray-200 p-2 dark:border-gray-700">
@@ -159,9 +197,9 @@ const PostCard: React.FC<IProps> = ({
                 <TextSnippet className="flex cursor-pointer items-center gap-2">
                   {reply && (
                     <Button
-                      className="text-blue-600 dark:text-blue-400"
+                      className="mx-1 text-blue-600 dark:text-blue-400"
                       variant="ghost"
-                      onClick={() => setEnableReply((prev) => !prev)}
+                      onClick={handleReplyBtn}
                     >
                       {reply && enableReply ? 'close' : 'reply'}
                     </Button>
@@ -193,44 +231,12 @@ const PostCard: React.FC<IProps> = ({
               ))}
           </CardFooter>
         </div>
-        {isExtendedQuestion(post) &&
-          post.tags
-            .filter((v) => v !== '')
-            .map((v, index) => <Tag name={v} key={index + v} />)}
-
-        {/* {!isAnswer && enableLink && isExtendedQuestion(post) && (
-          <Link href={`/questions/${post?.slug}`}>
-            <TextSnippet className="py-2 text-lg hover:underline">
-              {post?.title}
-            </TextSnippet>
-          </Link>
-        )} */}
-        {!isAnswer && !enableLink && isExtendedQuestion(post) && (
-          <TextSnippet className="py-2 text-lg hover:underline">
-            {post?.title}
-          </TextSnippet>
-        )}
-        {post.content && (
-          <div data-color-mode={theme}>
-            <div className="wmde-markdown-var"> </div>
-            <MDEditor.Markdown
-              className="text-black dark:text-white"
-              source={post.content}
-              style={{
-                whiteSpace: 'pre-wrap',
-                wordBreak: 'break-word',
-                overflowWrap: 'break-word',
-                backgroundColor: 'transparent',
-              }}
-            />
-          </div>
-        )}
 
         {enableReply && (
           <div>
             <hr className="mb-3 mt-3" />
             <form onSubmit={handleSubmit}>
-              <div data-color-mode={theme}>
+              <div data-color-mode={theme} ref={ref}>
                 <div className="wmde-markdown-var"> </div>
                 <MDEditor
                   id={post.id.toString()}

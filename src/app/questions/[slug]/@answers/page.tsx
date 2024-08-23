@@ -102,6 +102,8 @@ const SingleAnswerPage = async ({
     searchParams,
   );
 
+  if (answers.length === 0) return null;
+
   return (
     <div className="pb-14 pt-14 md:mx-[15%]">
       <div className="px-3">

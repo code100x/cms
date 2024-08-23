@@ -216,7 +216,7 @@ export default async function Home({
               </div>
             </div>
             <div className="m-auto h-[500px] w-full overflow-y-scroll">
-              <div className="w-full space-y-4">
+              <div className="my-4 w-full">
                 {response?.data?.map((post) => (
                   <PostCard
                     post={post}
