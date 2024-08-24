@@ -16,7 +16,8 @@ module.exports = {
     },
     extend: {
       screens: {
-        semi: '1140px'
+        semi: '1140px',
+        xl: '1360px',
       },
       colors: {
         border: 'hsl(var(--border))',
@@ -35,6 +36,26 @@ module.exports = {
         destructive: {
           DEFAULT: 'hsl(var(--destructive))',
           foreground: 'hsl(var(--destructive-foreground))',
+        },
+        blue: {
+          DEFAULT: "hsl(var(--blue))",
+          background: "hsl(var(--blue-background))",
+        },
+        red: {
+          DEFAULT: "hsl(var(--red))",
+          background: "hsl(var(--red-background))",
+        },
+        green: {
+          DEFAULT: "hsl(var(--green))",
+          background: "hsl(var(--green-background))",
+        },
+        purple: {
+          DEFAULT: "hsl(var(--purple))",
+          background: "hsl(var(--purple-background))",
+        },
+        orange: {
+          DEFAULT: "hsl(var(--orange))",
+          background: "hsl(var(--orange-background))",
         },
         muted: {
           DEFAULT: 'hsl(var(--muted))',

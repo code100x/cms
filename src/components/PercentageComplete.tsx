@@ -1,13 +1,20 @@
 import React from 'react';
+import { Badge } from './ui/badge';
+import clsx from 'clsx';
 
 const PercentageComplete = ({ percent }: { percent: number }) => {
   return (
-    <div className="flex flex-col">
-      <h4 className="self-end text-sm font-medium text-[#94A3B8]">
-        {percent}%
-      </h4>
-      <div className="mt-2 h-[8px] w-auto rounded-full bg-[#22C55E1A]">
+    <div className="space-y-2">
+      <div
+        className={clsx('h-[8px] w-auto rounded-full', {
+          'bg-green-background': percent === 100,
+          'bg-blue-background': percent < 100,
+        })}
+      >
         <div
+          className={clsx('bg-green', {
+            'bg-blue': percent < 100,
+          })}
           style={{
             width: `${percent}%`,
             height: '100%',
@@ -15,11 +22,13 @@ const PercentageComplete = ({ percent }: { percent: number }) => {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            backgroundColor: '#3D9C5C',
             fontWeight: 'bold',
           }}
         />
       </div>
+      <Badge variant={percent < 100 ? 'blue' : 'green'}>
+        {percent}% Completed
+      </Badge>
     </div>
   );
 };

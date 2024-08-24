@@ -142,7 +142,7 @@ export default async function QuestionsPage({
       <div className="flex h-screen flex-col">
         {/* Header */}
         <div className="flex items-center justify-between p-5">
-          <h1 className="bg-background/6 top-0 flex items-center text-3xl backdrop-blur-lg">
+          <h1 className="bg-background/6 top-0 flex items-center text-xl backdrop-blur-lg">
             Questions
           </h1>
 

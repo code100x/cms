@@ -1,5 +1,5 @@
 import { QueryParams } from '@/actions/types';
-import { Sidebar } from '@/components/Sidebar';
+import { CourseSidebar } from '@/components/CourseSidebar';
 import { getFullCourseContent } from '@/db/course';
 import { authOptions } from '@/lib/auth';
 import { getPurchases } from '@/utiles/appx';
@@ -61,7 +61,10 @@ const Layout = async ({
 
   return (
     <div className="relative flex min-h-screen">
-      <Sidebar fullCourseContent={fullCourseContent} courseId={courseId} />
+      <CourseSidebar
+        fullCourseContent={fullCourseContent}
+        courseId={courseId}
+      />
       <div className="no-scrollbar grow overflow-y-auto p-2">{children}</div>
     </div>
   );

@@ -3,51 +3,41 @@
 import Link from 'next/link';
 import { AppbarAuth } from './AppbarAuth';
 import { useSession } from 'next-auth/react';
-/* import { useRecoilState } from 'recoil'; */
-/* import { sidebarOpen as sidebarOpenAtom } from '../store/atoms/sidebar'; */
-/* import { usePathname } from 'next/navigation'; */
-import clsx from 'clsx';
-import Logo from './landing/logo/logo';
 import { Button } from './ui/button';
-import { Sparkles } from 'lucide-react';
 import { NavigationMenu } from './landing/appbar/nav-menu';
 import SearchBar from './search/SearchBar';
 import MobileScreenSearch from './search/MobileScreenSearch';
 import ProfileDropdown from './profile-menu/ProfileDropdown';
 import { ThemeToggler } from './ThemeToggler';
-import { SelectTheme } from './profile-menu/SelectTheme';
+import { Sparkles } from 'lucide-react';
+import Logo from './landing/logo/logo';
+import clsx from 'clsx';
 
 export const Appbar = ({
-  className,
   showLogoforLanding,
 }: {
-  className: string;
   showLogoforLanding?: boolean;
 }) => {
   const { data: session, status: sessionStatus } = useSession();
-  /*   const [sidebarOpen, setSidebarOpen] = useRecoilState(sidebarOpenAtom); */
-  /*   const currentPath = usePathname(); */
-
   const isLoading = sessionStatus === 'loading';
 
   return (
     <>
-      <nav className={clsx(className)}>
-        <div className="flex w-full items-center justify-between md:max-w-screen-2xl">
+      <nav className="flex h-16 w-full items-center gap-2 gap-4 border-b bg-background/80 p-4 px-4 shadow-sm backdrop-blur-md print:hidden">
+        <div className="m-0 flex w-full items-center justify-between">
           {showLogoforLanding && <Logo onFooter={false} />}
+
           {session?.user ? (
             !isLoading && (
-              <>
+              <div className={clsx('flex w-full items-center justify-between')}>
                 <div className="hidden md:block">
                   <SearchBar />
                 </div>
-                <div className="flex items-center space-x-2">
-                  {/* Search Bar for smaller devices */}
+                <div className="flex w-full items-center justify-between md:w-fit">
                   <MobileScreenSearch />
-                  <SelectTheme />
                   <ProfileDropdown />
                 </div>
-              </>
+              </div>
             )
           ) : (
             <div className="flex items-center space-x-2">

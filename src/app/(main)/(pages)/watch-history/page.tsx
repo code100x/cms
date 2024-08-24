@@ -94,7 +94,7 @@ export default async function WatchHistoryPage() {
 
   return (
     <div className="flex h-screen flex-col">
-      <h1 className="bg-background/6 top-0 flex items-center p-5 text-3xl backdrop-blur-lg">
+      <h1 className="bg-background/6 top-0 flex items-center p-5 text-xl backdrop-blur-lg">
         Watch History
       </h1>
 

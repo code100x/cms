@@ -8,14 +8,15 @@ import {
 } from '@/components/ui/accordion';
 import { X, ChevronRight } from 'lucide-react';
 import { FullCourseContent } from '@/db/course';
-import { useRecoilState } from 'recoil';
-import { sidebarOpen as sidebarOpenAtom } from '@/store/atoms/sidebar';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { handleMarkAsCompleted } from '@/lib/utils';
 import BookmarkButton from './bookmark/BookmarkButton';
 import Link from 'next/link';
+import { courseSidebarOpen as courseSidebarOpenAtom } from '@/store/atoms/course-side-bar';
+import { useSidebarMediaQuery } from '@/hooks/useSidebarMediaQuery';
+import { useHandleClickOutside } from '@/hooks/useHandleClickOutside';
 
-export function Sidebar({
+export function CourseSidebar({
   courseId,
   fullCourseContent,
 }: {
@@ -24,7 +25,14 @@ export function Sidebar({
 }) {
   const pathName = usePathname();
 
-  const [sidebarOpen, setSidebarOpen] = useRecoilState(sidebarOpenAtom);
+  const { isSmallScreen, sidebarOpen, setSidebarOpen } = useSidebarMediaQuery(
+    '(min-width: 1100px)',
+    courseSidebarOpenAtom,
+  );
+  const sideNavRef = useRef<HTMLDivElement | null>(null);
+
+  useHandleClickOutside(sideNavRef, isSmallScreen, () => setSidebarOpen(false));
+
   const [currentActiveContentIds, setCurrentActiveContentIds] = useState<
     number[]
   >([]);
@@ -48,12 +56,6 @@ export function Sidebar({
       setCurrentActiveContentIds(pathArray);
     }
   }, [pathName]);
-
-  useEffect(() => {
-    if (window.innerWidth < 500) {
-      setSidebarOpen(false);
-    }
-  }, []);
 
   const findPathToContent = (
     contents: FullCourseContent[],
@@ -155,10 +157,10 @@ export function Sidebar({
     return (
       <div
         onClick={() => setSidebarOpen((s) => !s)}
-        className="mt-2 cursor-pointer"
+        className="mt-4 h-fit cursor-pointer"
       >
         <ChevronRight
-          size={28}
+          size={24}
           className="rounded-br rounded-tr border-b border-r border-t"
         />
       </div>
@@ -166,10 +168,14 @@ export function Sidebar({
   }
 
   return (
-    <div className="no-scrollbar absolute z-20 m-4 h-full w-[300px] min-w-[300px] cursor-pointer self-start overflow-y-scroll scroll-smooth rounded-lg border bg-gray-50 dark:bg-[#020817] sm:sticky sm:top-[64px] sm:h-sidebar">
+    <div
+      ref={sideNavRef}
+      className="no-scrollbar absolute z-20 m-4 h-full w-[300px] min-w-[300px] self-start overflow-y-scroll scroll-smooth rounded-lg border bg-gray-50 dark:bg-[#020817] sm:sticky sm:top-[64px] sm:h-sidebar"
+    >
       <div className="flex items-center justify-between border-b p-4">
         <h4 className="text-lg dark:text-[#F8FAFC]">Course Content</h4>
         <div
+          className="cursor-pointer"
           onClick={() => {
             setSidebarOpen((s) => !s);
           }}
@@ -185,63 +191,6 @@ export function Sidebar({
   );
 }
 
-export function ToggleButton({
-  onClick,
-  sidebarOpen,
-}: {
-  onClick: () => void;
-  sidebarOpen: boolean;
-}) {
-  return (
-    <button
-      onClick={onClick}
-      className="flex flex-col items-center justify-center"
-    >
-      <span
-        className={`h - 0.5 w - 6 - sm bg - black - all duration - 300 ease - out dark: bg - white block rounded transition ${!sidebarOpen ? 'translate-y-1 rotate-45' : '-translate-y-0.5'} `}
-      ></span>
-      <span
-        className={`my - 0.5 h - 0.5 w - 6 - sm bg - black - all duration - 300 ease - out dark: bg - white block rounded transition ${
-          !sidebarOpen ? 'opacity-0' : 'opacity-100'
-        } `}
-      ></span>
-      <span
-        className={`h - 0.5 w - 6 - sm bg - black - all duration - 300 ease - out dark: bg - white block rounded transition ${
-          !sidebarOpen ? '-translate-y-1 -rotate-45' : 'translate-y-0.5'
-        } `}
-      ></span>
-    </button>
-  );
-}
-
-/* function GoBackButton() {
-  const router = useRouter();
-
-  const goBack = () => {
-    const pathSegments = window.location.pathname.split('/');
-
-    // Remove the last segment of the path
-    pathSegments.pop();
-
-    // Check if it's the last page in the course, then go to root
-    if (pathSegments.length <= 2) {
-      router.push('/');
-    } else {
-      const newPath = pathSegments.join('/');
-      router.push(newPath);
-    }
-  };
-
-  return (
-    <div className="w-full p-2">
-      <Button size={'full'} onClick={goBack} className="group rounded-full">
-        <BackArrow className="h-5 w-5 transition-all duration-200 ease-in-out group-hover:-translate-x-1 rtl:rotate-180" />{' '}
-        <div className="pl-4">Go Back</div>
-      </Button>
-    </div>
-  );
-} */
-
 function VideoIcon() {
   return (
     <svg
@@ -253,8 +202,8 @@ function VideoIcon() {
       className="h-5 w-5"
     >
       <path
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
         d="m15.75 10.5 4.72-4.72a.75.75 0 0 1 1.28.53v11.38a.75.75 0 0 1-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25h-9A2.25 2.25 0 0 0 2.25 7.5v9a2.25 2.25 0 0 0 2.25 2.25Z"
       />
     </svg>
@@ -272,8 +221,8 @@ function NotionIcon() {
       className="h-5 w-5"
     >
       <path
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
         d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"
       />
     </svg>
