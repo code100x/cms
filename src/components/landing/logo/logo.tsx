@@ -11,9 +11,7 @@ const Logo = ({ onFooter = false }: { onFooter: boolean }) => {
     <Link href={'/'}>
       <div className="flex items-center gap-x-2 transition hover:opacity-90">
         <img
-          src={
-            'https://d2szwvl7yo497w.cloudfront.net/courseThumbnails/main.png'
-          }
+          src={'harkirat.png'}
           className="rounded-full"
           height={30}
           width={30}
