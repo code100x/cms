@@ -36,11 +36,11 @@ interface CalendarEvent extends Omit<PrismaEvent, 'createdAt' | 'updatedAt'> {
 const DnDCalendar = withDragAndDrop<CalendarEvent>(ShadcnBigCalendar);
 const localizer = momentLocalizer(moment);
 
-interface LandingPageProps {
+interface CalendarPageProps {
   isAdmin: boolean;
 }
 
-const LandingPage: React.FC<LandingPageProps> = ({ isAdmin }) => {
+const CalendarPageComponent: React.FC<CalendarPageProps> = ({ isAdmin }) => {
   const [view, setView] = useState<(typeof Views)[keyof typeof Views]>(
     Views.WEEK,
   );
@@ -306,4 +306,4 @@ const LandingPage: React.FC<LandingPageProps> = ({ isAdmin }) => {
   );
 };
 
-export default LandingPage;
+export default CalendarPageComponent;
