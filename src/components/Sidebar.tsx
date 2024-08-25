@@ -39,7 +39,7 @@ export function Sidebar({
       // if matchArray is not null
       if (matchArray) {
         const urlPathString = matchArray[1];
-        currentUrlContentId = Number(urlPathString.split('/')[1]); // get the content id, e.g '/1/2' => 1 (number)
+        currentUrlContentId = Number(urlPathString.split('/')[1]);
       }
       const pathArray = findPathToContent(
         fullCourseContent,
@@ -169,16 +169,13 @@ export function Sidebar({
     <div className="no-scrollbar absolute z-20 m-4 h-full w-[300px] min-w-[300px] cursor-pointer self-start overflow-y-scroll scroll-smooth rounded-lg border bg-gray-50 dark:bg-[#020817] sm:sticky sm:top-[64px] sm:h-sidebar">
       <div className="flex items-center justify-between border-b p-4">
         <h4 className="text-lg dark:text-[#F8FAFC]">Course Content</h4>
-        <div
-          onClick={() => {
-            setSidebarOpen((s) => !s);
-          }}
-        >
+        <div onClick={() => setSidebarOpen((s) => !s)}>
           <X size={20} />
         </div>
       </div>
-      <Accordion type="single" collapsible className="w-full">
-        {/* Render course content */}
+      <Accordion type="single" collapsible className="w-full pb-4">
+        {' '}
+        {/* Added pb-4 for padding */}
         {renderContent(fullCourseContent)}
       </Accordion>
     </div>
@@ -198,15 +195,15 @@ export function ToggleButton({
       className="flex flex-col items-center justify-center"
     >
       <span
-        className={`h - 0.5 w 6 sm bg black all duration 300 ease out dark: white block rounded transition ${!sidebarOpen ? 'translate-y-1 rotate-45' : '-translate-y-0.5'} `}
+        className={`block h-0.5 w-6 rounded bg-black transition-all duration-300 ease-out dark:bg-white ${!sidebarOpen ? 'translate-y-1 rotate-45' : '-translate-y-0.5'} `}
       ></span>
       <span
-        className={`my - 0.5 h w 6 sm bg black all duration 300 ease out dark: white block rounded transition ${
+        className={`my-0.5 block h-0.5 w-6 rounded bg-black transition-all duration-300 ease-out dark:bg-white ${
           !sidebarOpen ? 'opacity-0' : 'opacity-100'
         } `}
       ></span>
       <span
-        className={`h - 0.5 w 6 sm bg black all duration 300 ease out dark: white block rounded transition ${
+        className={`block h-0.5 w-6 rounded bg-black transition-all duration-300 ease-out dark:bg-white ${
           !sidebarOpen ? '-translate-y-1 -rotate-45' : 'translate-y-0.5'
         } `}
       ></span>
