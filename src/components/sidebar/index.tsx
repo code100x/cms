@@ -11,7 +11,10 @@ import {
   History,
   PanelRightOpen,
   LogOut,
+  RefreshCcw,
 } from 'lucide-react';
+import { toast } from 'sonner';
+import { refreshDb } from '@/actions/refresh-db';
 
 export const menuOptions = [
   { id: 1, name: 'My Courses', Component: Library, href: '/my-courses' },
@@ -22,6 +25,15 @@ export const menuOptions = [
 
 export const MenuOptions = () => {
   const [expanded, setExpanded] = useState(true);
+
+  const handleRefresh = async () => {
+    const res = await refreshDb();
+    if (res.error) {
+      toast.error(res.message);
+    } else {
+      toast.info(res.message);
+    }
+  };
 
   return (
     <aside className="h-screen">
@@ -47,7 +59,18 @@ export const MenuOptions = () => {
           <AnimatedTooltip expanded={expanded} items={menuOptions} />
         </div>
 
-        <div className="border-t p-4">
+        <div className="flex flex-col gap-2 border-t p-4">
+          <div className="flex p-2">
+            <RefreshCcw size={24} />
+            <button
+              onClick={handleRefresh}
+              className={`flex items-center justify-between overflow-hidden transition-all ${
+                expanded ? 'ml-3 w-52' : 'w-0'
+              }`}
+            >
+              <h4 className="font-semibold">Refresh DB</h4>
+            </button>
+          </div>
           <div className="flex rounded-md p-2">
             <LogOut size={24} color="#DD503F" />
             <button
