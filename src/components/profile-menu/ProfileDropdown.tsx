@@ -84,7 +84,7 @@ const ProfileDropdown = () => {
             signOut();
           }}
         >
-          <LogOutIcon className="mr-2 h-4 w-4" />
+          <LogOutIcon className="mr-2 h-4 w-4 cursor-pointer" />
           <span>Logout</span>
         </DropdownMenuItem>
       </DropdownMenuContent>
