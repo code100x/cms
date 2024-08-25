@@ -12,6 +12,7 @@ import {
   PanelRightOpen,
   LogOut,
 } from 'lucide-react';
+import { RefreshDb } from '../RefreshDb';
 
 export const menuOptions = [
   { id: 1, name: 'My Courses', Component: Library, href: '/my-courses' },
@@ -46,7 +47,11 @@ export const MenuOptions = () => {
         <div className="boarder border-gray flex flex-1 flex-col gap-6 p-4">
           <AnimatedTooltip expanded={expanded} items={menuOptions} />
         </div>
-
+        <div className="border-t p-4">
+          <div className="flex rounded-md p-2">
+            <RefreshDb />
+          </div>
+        </div>
         <div className="border-t p-4">
           <div className="flex rounded-md p-2">
             <LogOut size={24} color="#DD503F" />

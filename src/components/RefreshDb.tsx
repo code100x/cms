@@ -4,7 +4,7 @@ import { toast } from 'sonner';
 import { useSession } from 'next-auth/react';
 
 //@ts-ignore
-export function RefreshDb({ refreshDb }) {
+export function RefreshDb({ refreshDb }: any) {
   const session = useSession();
 
   const handleClick = async () => {
