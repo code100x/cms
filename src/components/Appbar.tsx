@@ -35,7 +35,10 @@ export const Appbar = ({
                 </div>
                 <div className="flex w-full items-center justify-between md:w-fit">
                   <MobileScreenSearch />
-                  <ProfileDropdown />
+                  <div className="flex items-center gap-2">
+                    <ThemeToggler />
+                    <ProfileDropdown />
+                  </div>
                 </div>
               </div>
             )

@@ -17,7 +17,7 @@ const Pagination: React.FC<IPagination> = ({ dataLength = 1 }) => {
   const paramsObj = searchParamsToObject(searchParams);
   const paginationQ = paginationData(paramsObj);
   return (
-    <div className="flex items-center justify-center space-x-4">
+    <div className="flex items-center justify-center">
       {paginationQ.pageNumber > 1 && (
         <Link
           className="flex items-center justify-center space-x-2 rounded-md border border-gray-300 px-4 py-2 dark:border-gray-600 dark:text-gray-300"

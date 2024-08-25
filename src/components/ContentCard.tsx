@@ -74,12 +74,12 @@ export const ContentCard = ({
           />
         </div>
       )}
-      <div className="flex items-center justify-between p-4">
+      <div className="flex items-center justify-between gap-2 p-4">
         <div>
-          <h3 className="text-bold text-md capitalize tracking-normal">
+          <h3 className="text-bold text-md whitespace-nowrap capitalize tracking-normal">
             {title}
           </h3>
-          <h4 className="text-bold text-sm tracking-normal text-muted-foreground">
+          <h4 className="text-bold whitespace-nowrap text-sm tracking-normal text-muted-foreground">
             Posted on: 10 Aug 2024
           </h4>
         </div>

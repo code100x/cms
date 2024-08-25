@@ -116,7 +116,7 @@ const Comments = async ({
           </div>
         </div>
       </CardHeader>
-      <CardContent className="rounded-md p-0 lg:p-8">
+      <CardContent className="rounded-md p-0">
         <CommentInputForm
           contentId={content.id}
           parentId={data?.parentComment?.id}
@@ -221,13 +221,13 @@ const Comments = async ({
         <div className="no-scrollbar grid max-h-[400px] cursor-pointer gap-6 overflow-y-auto">
           {data.comments.map((c) => (
             <div
-              className="flex w-full items-start gap-4 rounded-lg p-4 text-sm dark:bg-blue-950/20"
+              className="flex w-full items-start gap-4 rounded-lg bg-secondary p-4 text-sm"
               key={c.id}
             >
               <div className="flex w-full items-start gap-4">
                 <Avatar className="h-10 w-10 border">
                   <AvatarImage alt="@shadcn" src="/placeholder-user.jpg" />
-                  <AvatarFallback>{`${(c as ExtendedComment).user?.name?.substring(0, 2)}`}</AvatarFallback>
+                  <AvatarFallback className="bg-white dark:bg-slate-600">{`${(c as ExtendedComment).user?.name?.substring(0, 2)}`}</AvatarFallback>
                 </Avatar>
                 <div className="grid w-full gap-1.5">
                   <div className="flex items-center gap-2">

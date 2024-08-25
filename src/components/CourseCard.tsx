@@ -45,7 +45,7 @@ export const CourseCard = ({
         </div>
 
         <div className="flex flex-col items-start gap-2">
-          <div className="">{course.title} Cohort</div>
+          <div className="capitalize">{course.title} Cohort</div>
           <div className="flex w-full items-center justify-between text-sm text-foreground/60">
             {true && (
               <Link

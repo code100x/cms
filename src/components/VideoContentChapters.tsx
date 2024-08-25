@@ -34,17 +34,17 @@ const VideoContentChapters = ({
   }, [player]);
 
   return (
-    <div className="w-full rounded-md border text-sm shadow-md semi:w-1/4">
-      <div className="flex items-center justify-between bg-[#F5F5F5] p-2 py-3 dark:bg-[#212020]">
-        <span>Chapters</span>
-        <X onClick={onCancel} className="cursor-pointer" />
+    <div className="w-full overflow-hidden rounded-md border text-sm shadow-md xl:block xl:w-1/4">
+      <div className="border-muted-background flex w-full items-center justify-between border-b bg-background px-4 py-3">
+        <span>Chapter</span>
+        <X onClick={onCancel} className="h-5 w-5 cursor-pointer" />
       </div>
       <div className="max-h-[70vh] overflow-auto">
         {(segments as Segment[])?.map(({ start, end, title }, index) => {
           return (
             <div key={`${index}-${start}${end}${title}`}>
               <div
-                className={`flex cursor-pointer items-center justify-between gap-3 p-2 py-3 text-black dark:text-white ${currentTime >= start && currentTime < end ? 'bg-zinc-200 dark:bg-[#27272A]' : ''}`}
+                className={`flex cursor-pointer items-center justify-between gap-3 p-2 py-3 text-black hover:bg-secondary dark:text-white ${currentTime >= start && currentTime < end ? 'bg-secondary' : ''}`}
                 onClick={() => {
                   player.currentTime(start);
                   player.play();
