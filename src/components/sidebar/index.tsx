@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { AnimatedTooltip } from '@/components/ui/animated-tooltip';
 import { signOut } from 'next-auth/react';
+import { RefreshDb } from '../RefreshDb';
 
 import Logo from '../landing/logo/logo';
 import {
@@ -12,6 +13,7 @@ import {
   PanelRightOpen,
   LogOut,
 } from 'lucide-react';
+import { refreshDb } from '@/actions/refresh-db';
 
 export const menuOptions = [
   { id: 1, name: 'My Courses', Component: Library, href: '/my-courses' },
@@ -46,7 +48,9 @@ export const MenuOptions = () => {
         <div className="boarder border-gray flex flex-1 flex-col gap-6 p-4">
           <AnimatedTooltip expanded={expanded} items={menuOptions} />
         </div>
-
+        <div className="border-t p-4">
+          <RefreshDb refreshDb={refreshDb} />
+        </div>
         <div className="border-t p-4">
           <div className="flex rounded-md p-2">
             <LogOut size={24} color="#DD503F" />
