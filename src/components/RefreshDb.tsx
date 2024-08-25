@@ -2,9 +2,10 @@
 import { Button } from './ui/button';
 import { toast } from 'sonner';
 import { useSession } from 'next-auth/react';
+import { refreshDb } from '@/actions/refresh-db';
 
 //@ts-ignore
-export function RefreshDb({ refreshDb }: any) {
+export function RefreshDb() {
   const session = useSession();
 
   const handleClick = async () => {
