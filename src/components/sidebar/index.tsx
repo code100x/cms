@@ -46,7 +46,9 @@ export const MenuOptions = () => {
         <div className="boarder border-gray flex flex-1 flex-col gap-6 p-4">
           <AnimatedTooltip expanded={expanded} items={menuOptions} />
         </div>
-
+        <button className="mx-auto mb-2 w-[70%] rounded-[10px] bg-red-500 px-4 py-2 text-white">
+          Refresh db
+        </button>
         <div className="border-t p-4">
           <div className="flex rounded-md p-2">
             <LogOut size={24} color="#DD503F" />
