@@ -21,9 +21,9 @@ import { getDisabledFeature, getUpdatedUrl, paginationData } from '@/lib/utils';
 import db from '@/db';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
-import PostCard from '@/components/posts/PostCard';
 import Pagination from '@/components/Pagination';
 import { redirect } from 'next/navigation';
+import QuestionPost from '@/components/questions/QuestionPost';
 
 type QuestionsResponse = {
   data: ExtendedQuestion[] | null;
@@ -47,6 +47,7 @@ const getQuestionsWithQuery = async (
       title: true,
       upvotes: true,
       downvotes: true,
+      content: true,
       totalanswers: true,
       tags: true,
       slug: true,
@@ -218,7 +219,7 @@ export default async function Home({
             <div className="m-auto h-[500px] w-full overflow-y-scroll">
               <div className="w-full space-y-4">
                 {response?.data?.map((post) => (
-                  <PostCard
+                  <QuestionPost
                     post={post}
                     sessionUser={session?.user}
                     key={post.id}

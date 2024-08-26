@@ -3,8 +3,8 @@ import React from 'react';
 import db from '@/db';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
-import PostCard from '@/components/posts/PostCard';
 import Link from 'next/link';
+import QuestionPost from '@/components/questions/QuestionPost';
 
 const SingleQuestionPage = async ({
   params,
@@ -50,18 +50,19 @@ const SingleQuestionPage = async ({
 
   return (
     <div className="mt-5 md:mx-[15%]">
-      <Link href="/questions" className="p-4">
+      <Link href="/question" className="p-4">
         Go Back
       </Link>
-      <div className="mt-3 flex items-center justify-center px-3">
+      <div className="mt-3">
         {question && (
-          <PostCard
+          <QuestionPost
             post={question}
             sessionUser={session?.user}
-            reply={true}
-            questionId={question.id}
+            key={question.id}
             isAnswer={false}
-            enableLink={false}
+            questionId={question.id}
+            enableLink={true}
+            reply={true}
           />
         )}
       </div>
