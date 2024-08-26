@@ -17,7 +17,7 @@ export function RefreshDb({ refreshDb }) {
     }
   };
 
-  if (session.status === 'loading') return <>Loading...</>;
+  // if (session.status === 'loading') return <>Loading...</>;
 
   return (
     <div className="mx-auto flex flex-col gap-2">
