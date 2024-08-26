@@ -9,7 +9,7 @@ import {
 import { X, ChevronRight } from 'lucide-react';
 import { FullCourseContent } from '@/db/course';
 import { useRecoilState } from 'recoil';
-import { sidebarOpen as sidebarOpenAtom } from '@/store/atoms/sidebar';
+import { contentSidebarOpen } from '@/store/atoms/sidebar';
 import { useEffect, useState } from 'react';
 import { handleMarkAsCompleted } from '@/lib/utils';
 import BookmarkButton from './bookmark/BookmarkButton';
@@ -24,7 +24,7 @@ export function Sidebar({
 }) {
   const pathName = usePathname();
 
-  const [sidebarOpen, setSidebarOpen] = useRecoilState(sidebarOpenAtom);
+  const [sidebarOpen, setSidebarOpen] = useRecoilState(contentSidebarOpen);
   const [currentActiveContentIds, setCurrentActiveContentIds] = useState<
     number[]
   >([]);

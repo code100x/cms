@@ -1,5 +1,4 @@
 'use client';
-import { useState } from 'react';
 import { AnimatedTooltip } from '@/components/ui/animated-tooltip';
 import { signOut } from 'next-auth/react';
 import { refreshDb } from '@/actions/refresh-db';
@@ -14,6 +13,8 @@ import {
   LogOut,
 } from 'lucide-react';
 import { RefreshDb } from '../RefreshDb';
+import { sidebarOpen } from '@/store/atoms/sidebar';
+import { useRecoilState } from 'recoil';
 
 export const menuOptions = [
   { id: 1, name: 'My Courses', Component: Library, href: '/my-courses' },
@@ -23,7 +24,7 @@ export const menuOptions = [
 ];
 
 export const MenuOptions = () => {
-  const [expanded, setExpanded] = useState(true);
+  const [expanded, setExpanded] = useRecoilState(sidebarOpen);
 
   return (
     <aside className="h-screen">
@@ -37,7 +38,7 @@ export const MenuOptions = () => {
           )}
           <div
             className="cursor-pointer"
-            onClick={() => setExpanded((curr) => !curr)}
+            onClick={() => setExpanded((prev) => !prev)}
           >
             <div className="p-2">
               <PanelRightOpen size={24} />
