@@ -7,6 +7,8 @@ import {
   LogOutIcon,
   User2Icon,
   Bird,
+  CreditCard,
+  Calendar,
 } from 'lucide-react';
 import {
   DropdownMenu,
@@ -18,7 +20,6 @@ import {
 } from '@/components/ui/dropdown-menu';
 import ExternalLinks from './ExternalLinks';
 import { signOut } from 'next-auth/react';
-import { SelectTheme } from './SelectTheme';
 
 const ProfileDropdown = () => {
   const menuItemLinks = [
@@ -36,6 +37,16 @@ const ProfileDropdown = () => {
       href: '/questions',
       icon: <Bird className="mr-2 h-4 w-4" />,
       label: 'Questions',
+    },
+    {
+      href: '/payout-methods',
+      icon: <CreditCard className="mr-2 h-4 w-4" />,
+      label: 'Payout Methods',
+    },
+    {
+      href: '/calendar',
+      icon: <Calendar className="mr-2 h-4 w-4" />,
+      label: 'Calendar',
     },
   ];
 
@@ -59,10 +70,6 @@ const ProfileDropdown = () => {
         </DropdownMenuGroup>
 
         <DropdownMenuSeparator />
-
-        <DropdownMenuGroup>
-          <SelectTheme />
-        </DropdownMenuGroup>
 
         <DropdownMenuSeparator />
 

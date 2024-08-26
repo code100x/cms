@@ -30,7 +30,7 @@ const WEB3_ROLES: string[] = [
   '1264392616171016334',
 ];
 
-const COHORT3_APPX_IDS = ['12', '13', '14', '15', '16'];
+const COHORT3_IDS = [13, 14, 15];
 
 export async function POST(req: NextRequest) {
   const session = await getServerSession(authOptions);
@@ -64,35 +64,25 @@ export async function POST(req: NextRequest) {
     );
   }
   const purchases = res.courses.filter((purchase: any) =>
-    COHORT3_APPX_IDS.includes(purchase.appxCourseId),
+    COHORT3_IDS.includes(purchase.id),
   );
 
-  const purchaseCourseIds = purchases.map(
-    (purchase: any) => purchase.appxCourseId,
-  );
+  const purchaseCourseIds = purchases.map((purchase: any) => purchase.id);
   const roles: string[] = [];
 
   let hasWebDev = false;
   let hasDevOps = false;
   let hasWeb3 = false;
 
-  if (
-    purchaseCourseIds.includes('12') ||
-    purchaseCourseIds.includes('14') ||
-    purchaseCourseIds.includes('15')
-  ) {
+  if (purchaseCourseIds.includes(14)) {
     hasWebDev = true;
   }
 
-  if (
-    purchaseCourseIds.includes('12') ||
-    purchaseCourseIds.includes('14') ||
-    purchaseCourseIds.includes('16')
-  ) {
+  if (purchaseCourseIds.includes(15)) {
     hasDevOps = true;
   }
 
-  if (purchaseCourseIds.includes('13') || purchaseCourseIds.includes('14')) {
+  if (purchaseCourseIds.includes(13)) {
     hasWeb3 = true;
   }
 

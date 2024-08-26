@@ -75,9 +75,10 @@ function getExtraCourses(currentCourses: Course[], allCourses: Course[]) {
     if (hasWeb3) {
       userCourses.push(allCourses.find((x) => x.id === 13)!);
     }
+
     return userCourses;
   }
-  return [];
+  return initialCourses;
 }
 
 interface CoursesError {
@@ -159,7 +160,7 @@ export async function getPurchases(email: string): Promise<CoursesResponse> {
 
   if (coursesFromDb && coursesFromDb.length) {
     const allCourses = [
-      ...coursesFromDb,
+      ...courses.filter((x) => coursesFromDb.map((x) => x.id).includes(x.id)),
       ...getExtraCourses(coursesFromDb, courses),
     ]
       .filter((x) => x.id)

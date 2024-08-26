@@ -1,41 +1,22 @@
 'use client';
-
-import { CheckIcon, MoonIcon } from 'lucide-react';
+import * as React from 'react';
+import { Moon, Sun } from 'lucide-react';
 import { useTheme } from 'next-themes';
-import {
-  DropdownMenuItem,
-  DropdownMenuPortal,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
-} from '@/components/ui/dropdown-menu';
+
+import { Button } from '@/components/ui/button';
 
 export function SelectTheme() {
   const { setTheme, theme } = useTheme();
-  if (theme)
-    return (
-      <DropdownMenuSub>
-        <DropdownMenuSubTrigger>
-          <MoonIcon className="mr-2 h-4 w-4" />
-          <span>
-            Appearance: <span className="ml-1 capitalize">{theme}</span>
-          </span>
-        </DropdownMenuSubTrigger>
-        <DropdownMenuPortal>
-          <DropdownMenuSubContent>
-            {['light', 'dark', 'system'].map((_theme) => {
-              return (
-                <DropdownMenuItem
-                  onClick={() => setTheme(_theme)}
-                  className="flex items-center justify-between"
-                >
-                  <span className="capitalize">{_theme}</span>
-                  {theme === _theme && <CheckIcon className="h-4 w-4" />}
-                </DropdownMenuItem>
-              );
-            })}
-          </DropdownMenuSubContent>
-        </DropdownMenuPortal>
-      </DropdownMenuSub>
-    );
+
+  const toggleTheme = () => {
+    setTheme(theme === 'dark' ? 'light' : 'dark');
+  };
+
+  return (
+    <Button variant="outline" size="icon" onClick={toggleTheme}>
+      <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+      <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+      <span className="sr-only">Toggle theme</span>
+    </Button>
+  );
 }
