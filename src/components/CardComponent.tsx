@@ -33,7 +33,7 @@ const CardComponent = ({
         )}
         <Badge
           variant={'ghost'}
-          className="absolute left-3 top-3 rounded-md px-1 py-0 text-xs"
+          className="absolute bottom-3 right-3 rounded-md px-1 py-0 text-xs"
         >
           100xdevs
         </Badge>
