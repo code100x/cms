@@ -146,10 +146,19 @@ export const getCurrentSegmentName = (
   return currentSegment ? currentSegment.title : '';
 };
 
+interface MarkAsCompleteResponse {
+  id: number;
+  userId: string;
+  contentId: number;
+  currentTimestamp: number;
+  markAsCompleted: boolean;
+  updatedAt: string;
+}
+
 export const handleMarkAsCompleted = async (
   markAsCompleted: boolean,
   contentId: number,
-) => {
+): Promise<MarkAsCompleteResponse> => {
   const response = await fetch('/api/course/videoProgress/markAsCompleted', {
     body: JSON.stringify({
       markAsCompleted,

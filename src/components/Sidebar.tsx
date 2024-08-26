@@ -280,15 +280,23 @@ function NotionIcon() {
   );
 }
 
-// Todo: Fix types here
-function Check({ content }: { content: any }) {
-  const [completed, setCompleted] = useState(
-    content?.videoProgress?.markAsCompleted || false,
-  );
+function Check({ content }: { content: FullCourseContent }) {
+  const [completed, setCompleted] = useState<boolean>(false);
+
+  useEffect(() => {
+    fetch(`/api/course/videoProgress?contentId=${content.id}`).then(
+      async (res) => {
+        const json = await res.json();
+        setCompleted(json.markAsCompleted);
+      },
+    );
+  }, []);
+
   return (
     <>
       <input
         defaultChecked={completed}
+        checked={completed}
         onClick={async (e) => {
           setCompleted(!completed);
           handleMarkAsCompleted(!completed, content.id);
