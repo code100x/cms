@@ -1,4 +1,4 @@
-import { CheckCircle2, Play } from 'lucide-react';
+import { CheckCircle2, FileText, Play } from 'lucide-react';
 import { Bookmark } from '@prisma/client';
 import BookmarkButton from './bookmark/BookmarkButton';
 import { formatTime } from '@/lib/utils';
@@ -93,11 +93,16 @@ export const ContentCard = ({
             Posted on: 10 Aug 2024
           </h4>
         </div>
-        <div className="hidden rounded-full border border-gray-700/60 p-4 lg:block">
-          <div className="rounded-full border border-[#64748b] p-2">
-            <Play size={15} color="#64748b" />
+        {type === 'notion' && contentDuration !== undefined && (
+          <FileText size={30} color="#64748b" />
+        )}
+        {type === 'video' && contentDuration !== undefined && (
+          <div className="hidden rounded-full border border-gray-700/60 p-4 lg:block">
+            <div className="rounded-full border border-[#64748b] p-2">
+              <Play size={15} color="#64748b" />
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );
