@@ -50,17 +50,17 @@ export const MenuOptions = () => {
         </div>
         <RefreshDb refreshDb={refreshDb} expanded={expanded} />
 
-        <div className="mt-4 border-t p-4">
+        <div className="border-t p-4">
           <div className="flex rounded-md p-2">
-            <LogOut size={24} color="#DD503F" />
             <button
               onClick={() => {
                 signOut();
               }}
-              className={`flex items-center justify-between overflow-hidden transition-all ${
+              className={`justify-left flex items-center gap-x-2 overflow-hidden transition-all ${
                 expanded ? 'ml-3 w-52' : 'w-0'
               }`}
             >
+              <LogOut size={24} color="#DD503F" />
               <h4 className="font-semibold text-[#DD503F]">Logout</h4>
             </button>
           </div>
