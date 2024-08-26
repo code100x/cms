@@ -60,7 +60,7 @@ const SingleQuestionPage = async ({
       <Link href="/questions" className="p-4">
         Go Back
       </Link>
-      <div className="mt-3 flex items-center justify-center px-3">
+      <div className="mt-3 items-center justify-center px-3">
         {question && (
           <PostCard
             post={question}
