@@ -4,6 +4,7 @@ import BookmarkButton from './bookmark/BookmarkButton';
 import { formatTime } from '@/lib/utils';
 import VideoThumbnail from './videothumbnail';
 import CardComponent from './CardComponent';
+import CircularProgress from './CircularProgress';
 
 export const ContentCard = ({
   title,
@@ -28,8 +29,6 @@ export const ContentCard = ({
   bookmark?: Bookmark | null;
   contentDuration?: number;
 }) => {
-  // let image ;
-  // image = ""
   return (
     <div
       onClick={onClick}
@@ -68,9 +67,6 @@ export const ContentCard = ({
             title={title}
             contentId={contentId ?? 0}
             imageUrl=""
-            // imageUrl={
-            //   'https://d2szwvl7yo497w.cloudfront.net/courseThumbnails/video.png'
-            // }
           />
         </div>
       )}
@@ -93,11 +89,17 @@ export const ContentCard = ({
             Posted on: 10 Aug 2024
           </h4>
         </div>
-        <div className="hidden rounded-full border border-gray-700/60 p-4 lg:block">
-          <div className="rounded-full border border-[#64748b] p-2">
-            <Play size={15} color="#64748b" />
+        {type === 'folder' && (
+          <div className="hidden rounded-full border border-gray-700/60 p-4 lg:block">
+            <div className="rounded-full border border-[#64748b] p-2">
+              <Play size={15} color="#64748b" />
+            </div>
           </div>
-        </div>
+        )}
+
+        {type === 'video' && contentDuration !== undefined && (
+          <CircularProgress percent={contentDuration} />
+        )}
       </div>
     </div>
   );
