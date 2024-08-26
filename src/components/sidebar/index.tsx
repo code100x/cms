@@ -48,9 +48,9 @@ export const MenuOptions = () => {
         <div className="boarder border-gray flex flex-1 flex-col gap-6 p-4">
           <AnimatedTooltip expanded={expanded} items={menuOptions} />
         </div>
-        <RefreshDb refreshDb={refreshDb} />
+        <RefreshDb refreshDb={refreshDb} expanded={expanded} />
 
-        <div className="border-t p-4">
+        <div className="mt-4 border-t p-4">
           <div className="flex rounded-md p-2">
             <LogOut size={24} color="#DD503F" />
             <button
