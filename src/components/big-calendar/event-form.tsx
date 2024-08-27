@@ -60,7 +60,7 @@ const EventForm: React.FC<EventFormProps> = ({
         render={({ field }) => (
           <FormItem className="flex-1">
             <FormLabel>{label} Date</FormLabel>
-            <Popover>
+            <Popover modal={true}>
               <PopoverTrigger asChild>
                 <FormControl>
                   <Button

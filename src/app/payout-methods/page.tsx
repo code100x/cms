@@ -4,9 +4,12 @@ import { Button } from '@/components/ui/button';
 import NewPayoutDialog from '@/components/NewPayoutDialog';
 import { Trash } from 'lucide-react';
 import {
+  deleteGithubAddress,
   deleteSolanaAddress,
   deleteUpiId,
+  getGithubAddress,
   getPayoutMethods,
+  githubRedirectAddress,
 } from '@/actions/payoutMethods';
 import { SolanaAddress, UpiId } from '@prisma/client';
 import { useAction } from '@/hooks/useAction';
@@ -15,6 +18,7 @@ import { toast } from 'sonner';
 export default function Page() {
   const [isDialogBoxOpen, setIsDialogBoxOpen] = useState<boolean>(false);
   const [btnClicked, setBtnClicked] = useState<string>('');
+  const [github, setGithub] = useState<string | null | undefined>('');
 
   const openDialog = (e: any) => {
     setIsDialogBoxOpen(true);
@@ -64,6 +68,15 @@ export default function Page() {
     fetchPayoutMethods();
   };
 
+  const handleGithubSubmit = async () => {
+    githubRedirectAddress();
+  };
+
+  const handleGithubDelete = async () => {
+    await deleteGithubAddress();
+    setGithub(null);
+  };
+
   useEffect(() => {
     fetchPayoutMethods();
   }, []);
@@ -71,7 +84,13 @@ export default function Page() {
   useEffect(() => {
     fetchPayoutMethods();
   }, [isDialogBoxOpen]);
-
+  useEffect(() => {
+    async function github() {
+      const data = await getGithubAddress();
+      setGithub(data);
+    }
+    github();
+  }, []);
   return (
     <div className="h-max pb-4 transition-colors duration-500 md:p-8">
       <div className="mb-6 flex flex-col items-start justify-center px-4 pt-3 sm:px-8">
@@ -158,6 +177,39 @@ export default function Page() {
                   <p className="py-3">No addresses added yet!</p>
                 </div>
               )}
+            </div>
+          </div>
+        </div>
+        <div className="px-2 py-4 sm:px-0">
+          <div>
+            <div className="flex w-[90vw] justify-between">
+              <p className="py-2 font-semibold">Github Address</p>
+              {github ? (
+                <Button
+                  className="mx-3"
+                  size="iconSM"
+                  variant={'destructive'}
+                  onClick={() => handleGithubDelete()}
+                >
+                  <Trash className="h-4 w-4" />
+                </Button>
+              ) : (
+                <Button
+                  id="github"
+                  size="sm"
+                  onClick={() => handleGithubSubmit()}
+                  className="light:text-black sticky rounded-md bg-black p-3 text-white transition-colors duration-500 hover:bg-[#242424] dark:bg-white dark:text-black hover:dark:bg-white"
+                >
+                  Add Your Github
+                </Button>
+              )}
+            </div>
+            <div className="flex w-[90vw] flex-col sm:w-3/6">
+              <div className="flex w-full items-center justify-between py-2">
+                <p className="w-1/2 overflow-hidden text-ellipsis whitespace-nowrap sm:w-full">
+                  {github || 'Github not added yet!'}
+                </p>
+              </div>
             </div>
           </div>
         </div>

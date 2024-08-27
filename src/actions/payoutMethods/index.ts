@@ -17,6 +17,7 @@ import {
   ReturnTypePayoutMethodDelete,
 } from './types';
 import { createSafeAction } from '@/lib/create-safe-action';
+import { redirect } from 'next/navigation';
 
 const addUpiHandler = async (
   data: InputTypeCreateUpi,
@@ -233,3 +234,36 @@ export const deleteSolanaAddress = createSafeAction(
   payoutMethodDeleteSchema,
   deleteSolanaHandler,
 );
+export const githubRedirectAddress = () => {
+  const url = `https://github.com/login/oauth/authorize?client_id=${process.env.GITHUB_ID}`;
+  redirect(url);
+};
+export const getGithubAddress = async () => {
+  const session = await getServerSession(authOptions);
+
+  if (!session || !session.user.id) {
+    throw new Error('Unauthorized');
+  }
+
+  const user = await db.user.findFirst({
+    where: {
+      id: session.user.id,
+    },
+  });
+  return user?.github;
+};
+export const deleteGithubAddress = async () => {
+  const session = await getServerSession(authOptions);
+
+  if (!session || !session.user.id) {
+    throw new Error('Unauthorized');
+  }
+
+  const user = await db.user.update({
+    where: {
+      id: session.user.id,
+    },
+    data: { github: null },
+  });
+  return user?.github;
+};
