@@ -256,11 +256,13 @@ interface VideoProgress {
   videoFullDuration: number | null;
 }
 
+export type ChildCourseContent = {
+  videoProgress: VideoProgress | null;
+  bookmark?: Bookmark;
+} & ContentWithMetadata;
+
 export type FullCourseContent = {
-  children?: ({
-    videoProgress: VideoProgress | null;
-    bookmark?: Bookmark;
-  } & ContentWithMetadata)[];
+  children?: ChildCourseContent[];
   videoProgress: VideoProgress | null;
   bookmark?: Bookmark;
 } & ContentWithMetadata;
