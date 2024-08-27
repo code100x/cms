@@ -5,7 +5,7 @@ import { useSession } from 'next-auth/react';
 import { RefreshCw } from 'lucide-react';
 
 //@ts-ignore
-export function RefreshDb({ refreshDb, expanded }) {
+export function RefreshDb({ refreshDb, sidebarOpen }) {
   const session = useSession();
 
   const handleClick = async () => {
@@ -21,10 +21,10 @@ export function RefreshDb({ refreshDb, expanded }) {
   // if (session.status === 'loading') return <>Loading...</>;
 
   return (
-    <div className="mx-auto flex flex-col gap-2">
-      {expanded && <h1>Don't see all your courses?</h1>}
+    <div className="mx-auto mt-1 flex flex-col gap-2">
+      {sidebarOpen && <h1>Don't see all your courses?</h1>}
       <Button className="dark:text-white" onClick={handleClick}>
-        {expanded ? 'Refresh Database' : <RefreshCw />}
+        {sidebarOpen ? 'Refresh Database' : <RefreshCw className="h-5 w-5" />}
       </Button>
     </div>
   );

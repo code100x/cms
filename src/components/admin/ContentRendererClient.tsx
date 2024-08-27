@@ -152,7 +152,7 @@ export const ContentRendererClient = ({
         ) : null}
       </div>
 
-      {showChapters && (
+      {true && (
         <VideoContentChapters
           segments={metadata?.segments}
           onCancel={toggleShowChapters}

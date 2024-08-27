@@ -19,6 +19,9 @@ import { useHandleClickOutside } from '@/hooks/useHandleClickOutside';
 import { sidebarOpen as sidebarOpenAtom } from '@/store/atoms/sidebar';
 import { Button } from './ui/button';
 import { signOut } from 'next-auth/react';
+import { RefreshDb } from './RefreshDb';
+import { refreshDb } from '@/actions/refresh-db';
+import { Separator } from './ui/separator';
 
 const SideBar = () => {
   const { isSmallScreen, sidebarOpen, setSidebarOpen } = useSidebarMediaQuery(
@@ -87,14 +90,30 @@ const SideBar = () => {
               })}
             </div>
           </div>
-          <Button
-            variant={'destructive'}
-            className="m-4 flex items-center justify-start gap-2 bg-red-background/40 text-red hover:bg-red-background/70"
-            onClick={() => signOut()}
+          <div
+            className={clsx('mb-4 flex flex-col items-center justify-center', {
+              'gap-2': sidebarOpen,
+            })}
           >
-            <LogOut size={18} />
-            {sidebarOpen && 'Logout'}
-          </Button>
+            <div className="w-full p-2 px-4">
+              <Button
+                variant={'destructive'}
+                className={clsx(
+                  'flex w-full items-center gap-2 bg-red-background/40 text-red hover:bg-red-background/70',
+                  {
+                    'justify-start': sidebarOpen,
+                    'justify-center': !sidebarOpen,
+                  },
+                )}
+                onClick={() => signOut()}
+              >
+                <LogOut size={18} />
+                {sidebarOpen && 'Logout'}
+              </Button>
+            </div>
+            {sidebarOpen && <Separator className="text-foreground" />}
+            <RefreshDb refreshDb={refreshDb} sidebarOpen={sidebarOpen} />
+          </div>
         </div>
       </div>
     </>

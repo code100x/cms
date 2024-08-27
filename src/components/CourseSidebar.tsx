@@ -127,7 +127,7 @@ export function CourseSidebar({
               ? 'border-b bg-gray-300 text-black dark:bg-blue-950/20 dark:text-white'
               : 'border-b bg-gray-50 text-black dark:bg-blue-950/5 dark:text-white'
           } `}
-          onClick={() => setSidebarOpen(false)}
+          // onClick={() => setSidebarOpen(false)}
         >
           <div className="flex w-full items-center justify-between">
             <div className="flex">

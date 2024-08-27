@@ -83,6 +83,7 @@ const ProfileDropdown = () => {
           onClick={() => {
             signOut();
           }}
+          className="bg-red-background/40 text-red hover:bg-red-background/70 hover:dark:bg-red-background/70"
         >
           <LogOutIcon className="mr-2 h-4 w-4" />
           <span>Logout</span>
