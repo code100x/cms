@@ -14,7 +14,7 @@ import {
 } from 'lucide-react';
 import { useRecoilState } from 'recoil';
 import { sidebarMain } from '@/store/atoms/sidebar';
-import { RefreshDb } from '../RefreshDb'
+import { RefreshDb } from '../RefreshDb';
 
 export const menuOptions = [
   { id: 1, name: 'My Courses', Component: Library, href: '/my-courses' },
@@ -49,7 +49,7 @@ export const MenuOptions = () => {
         <div className="boarder border-gray flex flex-1 flex-col gap-6 p-4">
           <AnimatedTooltip expanded={sidebarMainOpen} items={menuOptions} />
         </div>
-        <RefreshDb refreshDb={refreshDb} expanded={expanded} />
+        <RefreshDb refreshDb={refreshDb} expanded={sidebarMainOpen} />
 
         <div className="mt-4 border-t p-4">
           <div className="flex rounded-md p-2">
