@@ -160,7 +160,7 @@ export default async function Home({
         <NewPostDialog />
         <div className="mx-auto md:mx-[15%] md:p-10">
           <div className="flex flex-col items-center p-4 dark:text-white">
-            <div className="flex">
+            <div className="mb-5 flex">
               <Search />
               <div className="px-3">
                 <DropdownMenu>

@@ -137,15 +137,44 @@ const PostCard: React.FC<IProps> = ({
             </DropdownMenu>
           </div>
 
+          {!isAnswer && !enableLink && isExtendedQuestion(post) && (
+            <>
+              <TextSnippet className="mx-2 py-2 text-lg hover:underline">
+                {post?.title}
+              </TextSnippet>
+            </>
+          )}
+
           {!isAnswer && enableLink && isExtendedQuestion(post) && (
             <Link href={`/questions/${post?.slug}`}>
-              <TextSnippet className="p-2 text-lg hover:underline">
+              <TextSnippet className="mx-2 py-2 text-lg hover:underline">
                 {post?.title}
               </TextSnippet>
             </Link>
           )}
 
-          <CardFooter className="flex flex-col items-center justify-between border-gray-200 p-2 dark:border-gray-700">
+          <CardFooter className="flex flex-col items-start justify-between border-gray-200 p-2 dark:border-gray-700">
+            {post.content && (
+              <div data-color-mode={theme} className="max-w-3xl">
+                <div className="wmde-markdown-var"> </div>
+                <MDEditor.Markdown
+                  className="text-black dark:text-white"
+                  source={post.content}
+                  style={{
+                    whiteSpace: 'pre-wrap',
+                    wordBreak: 'break-word',
+                    overflowWrap: 'break-word',
+                    backgroundColor: 'transparent',
+                  }}
+                />
+              </div>
+            )}
+            <div className="my-2 mb-2 flex">
+              {isExtendedQuestion(post) &&
+                post.tags
+                  .filter((v) => v !== '')
+                  .map((v, index) => <Tag name={v} key={index + v} />)}
+            </div>
             <div className="flex w-full items-center justify-between">
               <div className="flex">
                 <VoteForm
@@ -193,10 +222,6 @@ const PostCard: React.FC<IProps> = ({
               ))}
           </CardFooter>
         </div>
-        {isExtendedQuestion(post) &&
-          post.tags
-            .filter((v) => v !== '')
-            .map((v, index) => <Tag name={v} key={index + v} />)}
 
         {/* {!isAnswer && enableLink && isExtendedQuestion(post) && (
           <Link href={`/questions/${post?.slug}`}>
@@ -205,46 +230,6 @@ const PostCard: React.FC<IProps> = ({
             </TextSnippet>
           </Link>
         )} */}
-        {!isAnswer && !enableLink && isExtendedQuestion(post) && (
-          <TextSnippet className="py-2 text-lg hover:underline">
-            {post?.title}
-          </TextSnippet>
-        )}
-        {post.content && (
-          <div data-color-mode={theme}>
-            <div className="wmde-markdown-var"> </div>
-            <MDEditor.Markdown
-              className="text-black dark:text-white"
-              source={post.content}
-              style={{
-                whiteSpace: 'pre-wrap',
-                wordBreak: 'break-word',
-                overflowWrap: 'break-word',
-                backgroundColor: 'transparent',
-              }}
-            />
-          </div>
-        )}
-
-        {enableReply && (
-          <div>
-            <hr className="mb-3 mt-3" />
-            <form onSubmit={handleSubmit}>
-              <div data-color-mode={theme}>
-                <div className="wmde-markdown-var"> </div>
-                <MDEditor
-                  id={post.id.toString()}
-                  value={markDownValue}
-                  onChange={handleMarkdownChange}
-                />
-                <FormPostErrors id="content" errors={fieldErrors} />
-                <Button type="submit" className="m-3">
-                  Reply
-                </Button>
-              </div>
-            </form>
-          </div>
-        )}
       </div>
     );
   };
@@ -255,6 +240,24 @@ const PostCard: React.FC<IProps> = ({
           {internalDetails()}
         </div>
       </CardBody>
+      {enableReply && (
+        <div className="m-4">
+          <form onSubmit={handleSubmit}>
+            <div data-color-mode={theme}>
+              <div className="wmde-markdown-var"> </div>
+              <MDEditor
+                id={post.id.toString()}
+                value={markDownValue}
+                onChange={handleMarkdownChange}
+              />
+              <FormPostErrors id="content" errors={fieldErrors} />
+              <Button type="submit" className="m-3">
+                Reply
+              </Button>
+            </div>
+          </form>
+        </div>
+      )}
     </Card>
   );
 };
