@@ -25,6 +25,14 @@ export const ContentRendererClient = ({
     markAsCompleted: boolean;
   };
 }) => {
+  metadata.segments = [
+    {
+      start: 0,
+      end: 2,
+      title: 'First Chapter',
+    },
+  ];
+
   const [showChapters, setShowChapters] = useState(
     metadata?.segments?.length > 0,
   );
@@ -147,7 +155,7 @@ export const ContentRendererClient = ({
             </div>
           ) : null}
         </div>
-        <div className="w-full xl:max-w-[500px]">
+        <div className="w-full xl:w-auto">
           {showChapters && (
             <VideoContentChapters
               segments={metadata?.segments}
