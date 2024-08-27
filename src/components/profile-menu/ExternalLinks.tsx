@@ -7,7 +7,7 @@ import { ArrowUpRightFromSquare } from 'lucide-react';
 const ExternalLinks = () => {
   const externalLinks = [
     {
-      href: 'https://github.com/100xdevs-cohort-2/assignments',
+      href: 'https://github.com/100xdevs-cohort-3/assignments',
       label: 'Assignments',
       icon: <SiGithub className="h-4 w-4" />,
     },
