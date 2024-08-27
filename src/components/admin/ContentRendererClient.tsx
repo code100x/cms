@@ -25,14 +25,6 @@ export const ContentRendererClient = ({
     markAsCompleted: boolean;
   };
 }) => {
-  metadata.segments = [
-    {
-      start: 0,
-      end: 2,
-      title: 'First Chapter',
-    },
-  ];
-
   const [showChapters, setShowChapters] = useState(
     metadata?.segments?.length > 0,
   );
