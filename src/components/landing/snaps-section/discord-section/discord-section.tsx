@@ -2,7 +2,6 @@ import { Button } from '@/components/ui/button';
 import { ChevronRight } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import discord from '@public/platform/discord.png';
 import { CardContainer, CardItem } from '@/components/3dcard';
 
 const DiscordSection = () => {
@@ -44,7 +43,7 @@ const DiscordSection = () => {
           <div className="hidden rounded-l-xl bg-neutral-800 py-3 pl-3 shadow-2xl md:block md:rounded-l-2xl md:py-6 md:pl-6">
             <CardItem>
               <Image
-                src={discord}
+                src={'/platform/discord.png'}
                 alt={'platform'}
                 width={1400}
                 height={1260}
