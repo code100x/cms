@@ -1,7 +1,10 @@
 import { z } from 'zod';
 
 export const CommentInsertSchema = z.object({
-  content: z.string().min(1, 'Comment content is required'),
+  content: z
+    .string()
+    .min(1, 'Comment content is required')
+    .refine((val) => val.trim().length > 0, 'Comment content is required'),
   contentId: z.number(),
   parentId: z.number().optional(),
   currentPath: z.string().optional(),

@@ -6,6 +6,11 @@ import { createMessage } from '@/actions/comment';
 import { toast } from 'sonner';
 import { FormErrors } from '../FormError';
 import { usePathname } from 'next/navigation';
+import { useForm } from 'react-hook-form';
+import { CommentInsertSchema } from '@/actions/comment/schema';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Form } from '@/components/ui/form';
 
 const CommentInputForm = ({
   contentId,
@@ -26,18 +31,37 @@ const CommentInputForm = ({
       toast.error(error);
     },
   });
-  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const formData = new FormData(e.target as HTMLFormElement);
 
-    const content = formData.get('content') as string;
+  const form = useForm<z.infer<typeof CommentInsertSchema>>({
+    resolver: zodResolver(CommentInsertSchema),
+    defaultValues: {
+      contentId,
+      parentId,
+      currentPath,
+    },
+  });
+  const {
+    handleSubmit,
+    setValue,
+    register,
+    reset,
+    formState: { isValid },
+  } = form;
 
+  useEffect(() => {
+    setValue('contentId', contentId);
+    setValue('currentPath', currentPath);
+    setValue('parentId', parentId);
+  }, []);
+
+  const handleFormSubmit = (data: z.infer<typeof CommentInsertSchema>) => {
     execute({
-      content,
+      content: data.content,
       contentId,
       parentId,
       currentPath,
     });
+    reset();
   };
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -52,25 +76,30 @@ const CommentInputForm = ({
     };
   }, []);
   return (
-    <form className="grid gap-4" onSubmit={handleFormSubmit} ref={formRef}>
-      <textarea
-        ref={textareaRef}
-        id="content"
-        name="content"
-        className="min-h-[50px] rounded-md border-2 bg-transparent p-4 text-muted-foreground"
-        placeholder="Add a public comment..."
-      />
-      <FormErrors id="content" errors={fieldErrors} />
-      <div className="flex justify-end gap-2">
-        <Button
-          type="submit"
-          className={`mb-2 me-2 rounded-lg bg-blue-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-800 dark:bg-blue-600 dark:text-white dark:hover:bg-blue-700`}
-          disabled={isLoading}
-        >
-          Post Comment
-        </Button>
-      </div>
-    </form>
+    <Form {...form}>
+      <form
+        className="grid gap-4"
+        onSubmit={handleSubmit(handleFormSubmit)}
+        ref={formRef}
+      >
+        <textarea
+          id="content"
+          {...register('content')}
+          className="min-h-[50px] rounded-md border-2 bg-transparent p-4 text-muted-foreground"
+          placeholder="Add a public comment..."
+        />
+        <FormErrors id="content" errors={fieldErrors} />
+        <div className="flex justify-end gap-2">
+          <Button
+            type="submit"
+            className={`mb-2 me-2 rounded-lg bg-blue-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-800 dark:bg-blue-600 dark:text-white dark:hover:bg-blue-700`}
+            disabled={isLoading || !isValid}
+          >
+            Post Comment
+          </Button>
+        </div>
+      </form>
+    </Form>
   );
 };
 
