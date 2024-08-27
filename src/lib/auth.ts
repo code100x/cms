@@ -229,13 +229,14 @@ export const authOptions = {
           username: profile?.login || '',
           email: profile?.email || '',
         };
-
         try {
-          addGitHubHandler(data);
+          const response = await addGitHubHandler(data);
+          if (response.error) {
+            console.error(response.error);
+          }
         } catch (error) {
           console.error(error);
         }
-
         return '/payout-methods';
       }
       return true;
