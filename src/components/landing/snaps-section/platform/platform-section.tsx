@@ -1,6 +1,5 @@
 'use client';
 import Image from 'next/image';
-import platform from '@public/platform/platform.png';
 import React from 'react';
 import { CardContainer, CardItem } from '@/components/3dcard';
 import Link from 'next/link';
@@ -14,7 +13,7 @@ const PlatformSection = () => {
           <div className="mx-2 rounded-xl border bg-gradient-to-t from-slate-300 to-slate-400 p-3 shadow-xl dark:from-slate-700 dark:to-slate-600 md:rounded-2xl md:p-6">
             <CardItem translateZ="100" className="mt-4 w-full">
               <Image
-                src={platform}
+                src={'/platform/platform.png'}
                 alt={'platform'}
                 width={1080}
                 height={1920}

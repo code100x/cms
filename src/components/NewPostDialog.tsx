@@ -137,7 +137,7 @@ export const NewPostDialog = () => {
               type="submit"
               className="mb-2 me-2 rounded-lg bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 text-center text-sm font-medium hover:bg-gradient-to-br dark:text-white"
             >
-              Post-it
+              Post
             </Button>
           </div>
         </div>

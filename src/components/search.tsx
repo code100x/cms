@@ -34,7 +34,8 @@ const Search = () => {
         type="submit"
         onClick={handleSearch}
       >
-        Search
+        <p className="hidden md:block">Search</p>
+        <SearchIcon className="block h-4 w-4 md:hidden" />
       </Button>
     </div>
   );
