@@ -4,6 +4,7 @@ import db from '@/db';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import {
+  gitHubLinkSchema,
   payoutMethodDeleteSchema,
   solanaAddressInsertSchema,
   upiIdInsertSchema,
@@ -12,8 +13,11 @@ import {
   DeleteTypePayoutMethod,
   InputTypeCreateSolana,
   InputTypeCreateUpi,
+  InputTypeLinkGithub,
   ReturnTypeCreateSolana,
   ReturnTypeCreateUpi,
+  ReturnTypeDeleteGithub,
+  ReturnTypeLinkGithub,
   ReturnTypePayoutMethodDelete,
 } from './types';
 import { createSafeAction } from '@/lib/create-safe-action';
@@ -218,6 +222,96 @@ const deleteSolanaHandler = async (
   };
 };
 
+export const addGitHubHandler = async (
+  data: InputTypeLinkGithub,
+): Promise<ReturnTypeLinkGithub> => {
+  const session = await getServerSession(authOptions);
+
+  if (!session || !session.user.id) {
+    throw new Error('Unauthorized');
+  }
+
+  const parsed = gitHubLinkSchema.safeParse(data);
+
+  if (!parsed.success) {
+    throw new Error('Invalid Github Account');
+  }
+  try {
+    const existingAccount = await db.gitHubAccount.findUnique({
+      where: {
+        userId: session.user.id,
+      },
+    });
+
+    if (existingAccount) {
+      return { error: 'Github Account is Already Linked.' };
+    }
+
+    const gitHubAccount = await db.gitHubAccount.create({
+      data: {
+        username: parsed.data.username,
+        email: parsed.data.email,
+        userId: session.user.id,
+      },
+    });
+
+    return { data: gitHubAccount };
+  } catch (error) {
+    console.error(error);
+    return { error: 'Failed to link Github Account' };
+  }
+};
+
+export const deleteGitHubHandler =
+  async (): Promise<ReturnTypeDeleteGithub> => {
+    const session = await getServerSession(authOptions);
+
+    if (!session || !session.user.id) {
+      throw new Error('Unauthorized');
+    }
+
+    const result = await db.gitHubAccount.delete({
+      where: {
+        userId: session.user.id,
+      },
+    });
+
+    if (!result) {
+      return { error: 'Failed to delete Github.' };
+    }
+
+    return {
+      data: {
+        message: 'Github successfully deleted.',
+      },
+    };
+  };
+
+export const getGitHubAccount = async () => {
+  const session = await getServerSession(authOptions);
+
+  if (!session || !session.user.id) {
+    throw new Error('Unauthorized');
+  }
+
+  try {
+    const gitHubAccount = await db.gitHubAccount.findUnique({
+      where: {
+        userId: session.user.id,
+      },
+    });
+
+    if (!gitHubAccount) {
+      return { error: 'Failed to fetch Github Account' };
+    }
+
+    return { gitHubAccount };
+  } catch (error) {
+    console.error(error);
+    return { error: 'Failed to fetch Github Account' };
+  }
+};
+
 export const addUpi = createSafeAction(upiIdInsertSchema, addUpiHandler);
 
 export const addSolanaAddress = createSafeAction(
@@ -233,3 +327,5 @@ export const deleteSolanaAddress = createSafeAction(
   payoutMethodDeleteSchema,
   deleteSolanaHandler,
 );
+
+export const linkGitHub = createSafeAction(gitHubLinkSchema, addGitHubHandler);

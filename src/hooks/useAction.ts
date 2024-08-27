@@ -1,4 +1,5 @@
 // You can use this hook to execute an action and handle its state in a client component.
+'use client';
 
 import { useState, useCallback } from 'react';
 

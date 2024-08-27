@@ -4,13 +4,16 @@ import { Button } from '@/components/ui/button';
 import NewPayoutDialog from '@/components/NewPayoutDialog';
 import { Trash } from 'lucide-react';
 import {
+  deleteGitHubHandler,
   deleteSolanaAddress,
   deleteUpiId,
+  getGitHubAccount,
   getPayoutMethods,
 } from '@/actions/payoutMethods';
-import { SolanaAddress, UpiId } from '@prisma/client';
+import { GitHubAccount, SolanaAddress, UpiId } from '@prisma/client';
 import { useAction } from '@/hooks/useAction';
 import { toast } from 'sonner';
+import { signIn } from 'next-auth/react';
 
 export default function Page() {
   const [isDialogBoxOpen, setIsDialogBoxOpen] = useState<boolean>(false);
@@ -27,12 +30,20 @@ export default function Page() {
   const [solanaAddresses, setSolanaAddresses] = useState<
     SolanaAddress[] | undefined
   >([]);
+  const [gitHub, setGitHub] = useState<GitHubAccount | undefined | null>();
 
   const fetchPayoutMethods = async () => {
     const result = await getPayoutMethods();
     if (result) {
       setUpiAddresses(result.upiIds);
       setSolanaAddresses(result.solanaAddresses);
+    }
+  };
+
+  const fetchGithubAccount = async () => {
+    const result = await getGitHubAccount();
+    if (result) {
+      setGitHub(result.gitHubAccount);
     }
   };
 
@@ -64,8 +75,24 @@ export default function Page() {
     fetchPayoutMethods();
   };
 
+  const handleGitHubDisconnect = async () => {
+    try {
+      const response = await deleteGitHubHandler();
+      if (response.error) {
+        toast.error(response.error);
+      } else {
+        toast.message(response.data?.message);
+      }
+      setGitHub(null);
+    } catch (error) {
+      toast.error('There is some Error.');
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     fetchPayoutMethods();
+    fetchGithubAccount();
   }, []);
 
   useEffect(() => {
@@ -156,6 +183,47 @@ export default function Page() {
               ) : (
                 <div className="flex flex-col items-start">
                   <p className="py-3">No addresses added yet!</p>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+        <div className="px-2 py-4 sm:px-0">
+          <div>
+            <div className="flex w-[90vw] justify-between">
+              <p className="py-2 font-semibold">Linked Github</p>
+              {!gitHub ? (
+                <Button
+                  id="LinkGitHub"
+                  size="sm"
+                  className="sticky rounded-md p-3 text-white"
+                  onClick={() => {
+                    signIn('github');
+                  }}
+                >
+                  Link Github
+                </Button>
+              ) : (
+                <Button
+                  id="DisconnectGitHub"
+                  size="sm"
+                  className="sticky rounded-md bg-red-600 p-3 text-white hover:bg-red-700 dark:bg-red-600 dark:text-white hover:dark:bg-red-700"
+                  onClick={() => handleGitHubDisconnect()}
+                >
+                  Disconnect
+                </Button>
+              )}
+            </div>
+            <div className="flex w-[90vw] flex-col sm:w-3/6">
+              {gitHub ? (
+                <div className="flex items-center justify-between py-2">
+                  <p className="w-1/2 overflow-hidden text-ellipsis whitespace-nowrap sm:w-full">
+                    GitHub Username: {gitHub?.username}
+                  </p>
+                </div>
+              ) : (
+                <div className="flex flex-col items-start">
+                  <p className="py-3">No Github Account Linked.</p>
                 </div>
               )}
             </div>

@@ -1,11 +1,13 @@
 import db from '@/db';
 import CredentialsProvider from 'next-auth/providers/credentials';
+import GithubProvider from 'next-auth/providers/github';
 import { JWTPayload, SignJWT, importJWK } from 'jose';
 import bcrypt from 'bcrypt';
 import prisma from '@/db';
 import { NextAuthOptions } from 'next-auth';
 import { Session } from 'next-auth';
 import { JWT } from 'next-auth/jwt';
+import { addGitHubHandler } from '@/actions/payoutMethods';
 
 interface AppxSigninResponse {
   data: {
@@ -213,9 +215,31 @@ export const authOptions = {
         return null;
       },
     }),
+
+    GithubProvider({
+      clientId: process.env.GITHUB_ID || '',
+      clientSecret: process.env.GITHUB_SECRET || '',
+    }),
   ],
   secret: process.env.NEXTAUTH_SECRET || 'secr3t',
   callbacks: {
+    signIn: async ({ account, profile }) => {
+      if (account?.provider === 'github') {
+        const data = {
+          username: profile?.login || '',
+          email: profile?.email || '',
+        };
+
+        try {
+          addGitHubHandler(data);
+        } catch (error) {
+          console.error(error);
+        }
+
+        return '/payout-methods';
+      }
+      return true;
+    },
     session: async ({ session, token }) => {
       const newSession: session = session as session;
       if (newSession.user && token.uid) {

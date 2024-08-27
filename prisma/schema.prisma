@@ -135,7 +135,7 @@ model Session {
 }
 
 model User {
-  id             String          @id @default(cuid())
+  id             String          @id @default(cuid()) 
   name           String?
   email          String?         @unique
   token          String?
@@ -156,6 +156,15 @@ model User {
   certificate    Certificate[]
   upiIds         UpiId[]           @relation("UserUpiIds")
   solanaAddresses SolanaAddress[]  @relation("UserSolanaAddresses")
+  githubAccount  GitHubAccount?
+}
+
+model GitHubAccount {
+  id              Int @id         @default(autoincrement())
+  username        String          @db.VarChar(256)
+  email           String      
+  userId          String           @unique
+  user            User             @relation(fields: [userId], references: [id])
 }
 
 model UpiId {
