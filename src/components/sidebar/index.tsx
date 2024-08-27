@@ -1,5 +1,4 @@
 'use client';
-import { useState } from 'react';
 import { AnimatedTooltip } from '@/components/ui/animated-tooltip';
 import { signOut } from 'next-auth/react';
 import { refreshDb } from '@/actions/refresh-db';
@@ -14,6 +13,8 @@ import {
   LogOut,
 } from 'lucide-react';
 import { RefreshDb } from '../RefreshDb';
+import { useRecoilState } from 'recoil';
+import { sidebarOpen } from '@/store/atoms/sidebar';
 
 export const menuOptions = [
   { id: 1, name: 'My Courses', Component: Library, href: '/my-courses' },
@@ -23,7 +24,7 @@ export const menuOptions = [
 ];
 
 export const MenuOptions = () => {
-  const [expanded, setExpanded] = useState(true);
+  const [expanded, setExpanded] = useRecoilState(sidebarOpen);
 
   return (
     <aside className="h-screen">
@@ -46,9 +47,9 @@ export const MenuOptions = () => {
         </div>
 
         <div className="boarder border-gray flex flex-1 flex-col gap-6 p-4">
-          <AnimatedTooltip expanded={expanded} items={menuOptions} />
+          <AnimatedTooltip items={menuOptions} />
         </div>
-        <RefreshDb refreshDb={refreshDb} expanded={expanded} />
+        <RefreshDb refreshDb={refreshDb} />
 
         <div className="mt-4 border-t p-4">
           <div className="flex rounded-md p-2">

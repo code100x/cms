@@ -8,10 +8,11 @@ import {
   useMotionValue,
   useSpring,
 } from 'framer-motion';
+import { useRecoilValue } from 'recoil';
+import { sidebarOpen } from '@/store/atoms/sidebar';
 
 export const AnimatedTooltip = ({
   items,
-  expanded,
 }: {
   items: {
     id: number;
@@ -19,8 +20,8 @@ export const AnimatedTooltip = ({
     Component: any;
     href: string;
   }[];
-  expanded: any;
 }) => {
+  const expanded = useRecoilValue(sidebarOpen);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const springConfig = { stiffness: 100, damping: 5 };
   const x = useMotionValue(0); // going to set this value on mouse move

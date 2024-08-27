@@ -3,9 +3,12 @@ import { Button } from './ui/button';
 import { toast } from 'sonner';
 import { useSession } from 'next-auth/react';
 import { RefreshCw } from 'lucide-react';
+import { useRecoilValue } from 'recoil';
+import { sidebarOpen } from '@/store/atoms/sidebar';
 
 //@ts-ignore
-export function RefreshDb({ refreshDb, expanded }) {
+export function RefreshDb({ refreshDb }) {
+  const expanded = useRecoilValue(sidebarOpen);
   const session = useSession();
 
   const handleClick = async () => {
