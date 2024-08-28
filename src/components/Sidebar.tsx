@@ -166,7 +166,7 @@ export function Sidebar({
   }
 
   return (
-    <div className="no-scrollbar absolute z-20 m-4 h-full w-[300px] min-w-[300px] cursor-pointer self-start overflow-y-scroll scroll-smooth rounded-lg border bg-gray-50 dark:bg-[#020817] sm:sticky sm:top-[64px] sm:h-sidebar">
+    <div className="absolute z-20 h-full w-[300px] min-w-[300px] cursor-pointer self-start overflow-y-scroll scroll-smooth border bg-gray-50 dark:bg-[#020817] sm:sticky sm:top-[64px] sm:h-sidebar">
       <div className="flex items-center justify-between border-b p-4">
         <h4 className="text-lg dark:text-[#F8FAFC]">Course Content</h4>
         <div
@@ -234,8 +234,8 @@ export function ToggleButton({
 
   return (
     <div className="w-full p-2">
-      <Button size={'full'} onClick={goBack} className="group rounded-full">
-        <BackArrow className="h-5 w-5 transition-all duration-200 ease-in-out group-hover:-translate-x-1 rtl:rotate-180" />{' '}
+      <Button size={'full'} onClick={goBack} className="rounded-full group">
+        <BackArrow className="w-5 h-5 transition-all duration-200 ease-in-out group-hover:-translate-x-1 rtl:rotate-180" />{' '}
         <div className="pl-4">Go Back</div>
       </Button>
     </div>
