@@ -2,10 +2,10 @@
 import { Button } from './ui/button';
 import { toast } from 'sonner';
 import { useSession } from 'next-auth/react';
-import { RefreshCw } from 'lucide-react';
+import { RefreshCcw } from 'lucide-react';
 
 //@ts-ignore
-export function RefreshDb({ refreshDb, expanded }) {
+export function RefreshDb({ refreshDb }) {
   const session = useSession();
 
   const handleClick = async () => {
@@ -21,11 +21,8 @@ export function RefreshDb({ refreshDb, expanded }) {
   // if (session.status === 'loading') return <>Loading...</>;
 
   return (
-    <div className="mx-auto flex flex-col gap-2">
-      {expanded && <h1>Don't see all your courses?</h1>}
-      <Button className="dark:text-white" onClick={handleClick}>
-        {expanded ? 'Refresh Database' : <RefreshCw />}
-      </Button>
-    </div>
+    <Button className="gap-2 text-lg dark:text-white" onClick={handleClick}>
+      <RefreshCcw /> Sync Courses
+    </Button>
   );
 }
