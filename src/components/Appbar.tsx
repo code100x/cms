@@ -15,15 +15,19 @@ import clsx from 'clsx';
 
 export const Appbar = ({
   showLogoforLanding,
+  className,
 }: {
   showLogoforLanding?: boolean;
+  className?: string;
 }) => {
   const { data: session, status: sessionStatus } = useSession();
   const isLoading = sessionStatus === 'loading';
 
   return (
     <>
-      <nav className="flex h-16 w-full items-center gap-2 gap-4 border-b bg-background/80 p-4 px-4 shadow-sm backdrop-blur-md print:hidden">
+      <nav
+        className={`${className} flex h-16 w-full items-center gap-2 gap-4 border-b bg-background/80 p-4 px-4 shadow-sm backdrop-blur-md print:hidden`}
+      >
         <div className="m-0 flex w-full items-center justify-between">
           {showLogoforLanding && <Logo onFooter={false} />}
 
@@ -44,7 +48,7 @@ export const Appbar = ({
             )
           ) : (
             <div className="flex items-center space-x-2">
-              <div className="hidden items-center justify-around space-x-3 sm:flex md:block md:w-auto">
+              <div className="hidden items-center justify-around space-x-3 md:block md:w-auto">
                 <AppbarAuth />
 
                 <Button size={'sm'} asChild>
@@ -58,7 +62,7 @@ export const Appbar = ({
                 </Button>
               </div>
               <ThemeToggler />
-              <div className="block">
+              <div className="block md:hidden">
                 <NavigationMenu />
               </div>
             </div>

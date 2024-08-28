@@ -26,9 +26,9 @@ const textFont = Poppins({
 export default function LandingPage() {
   return (
     <div className="flex min-h-screen flex-col">
-      <Appbar showLogoforLanding={true} />
+      <Appbar className="fixed z-50" showLogoforLanding={true} />
 
-      <main className="flex flex-col items-center justify-center">
+      <main className="mt-24 flex flex-col items-center justify-center">
         {/* Tagline */}
         <div
           className={cn(
