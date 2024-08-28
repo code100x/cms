@@ -47,7 +47,7 @@ export const PayoutMethodCard: React.FC<PayoutMethodCardProps> = ({
                                 View All
                             </Button>
                         </DialogTrigger>
-                        <ViewAllDialog title={`Your ${title} Addresses`} addresses={addresses} onDelete={onDelete} />
+                        <ViewAllDialog title={`Your ${title}`} addresses={addresses} onDelete={onDelete} />
                     </Dialog>
                 )}
             </div>

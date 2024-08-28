@@ -1,10 +1,9 @@
 import prisma from "@/db";
 import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
-
-export async function GET(req: NextRequest) {
+export async function GET() {
     const session = await getServerSession(authOptions);
 
     if (!session) {
@@ -20,7 +19,7 @@ export async function GET(req: NextRequest) {
             username: true,
             profileUrl: true,
         }
-    })
+    });
 
     if (!githubData) {
         return NextResponse.json({ message: "Couldn't find any Linked github", success: 'false' });
@@ -29,7 +28,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ message: "found data successsfully", data: githubData, success: 'true' });
 }
 
-export async function DELETE(req: NextRequest) {
+export async function DELETE() {
     const session = await getServerSession(authOptions);
 
     if (!session) {
@@ -37,14 +36,12 @@ export async function DELETE(req: NextRequest) {
     }
 
     try {
-
         await prisma.gitHubLink.delete({
             where: {
                 userId: session?.user?.id
             },
-        })
+        });
         return NextResponse.json({ message: "Github unlinked succeessfully", success: 'true' });
-
     } catch (error) {
         return NextResponse.json({ message: "Something went wrong", error: error, success: 'false' });
     }

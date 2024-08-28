@@ -5,10 +5,8 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
     const code = req.nextUrl.searchParams.get('code');
-    console.log('Received code:', code);
 
     const session = await getServerSession(authOptions);
-    console.log('Session:', session);
 
     if (!session?.user?.id || !code) {
         return NextResponse.redirect(new URL('/payout-methods?error=invalid_session', req.url));
@@ -50,9 +48,7 @@ export async function GET(req: NextRequest) {
             where: { userId: session.user.id },
         });
 
-        if (existingLink) {
-            return NextResponse.redirect(new URL('/payout-methods?github_linked=true', req.url));
-        } else {
+        if (!existingLink) {
             await prisma.gitHubLink.create({
                 data: {
                     userId: session.user.id,
@@ -63,6 +59,8 @@ export async function GET(req: NextRequest) {
                     profileUrl: userData.html_url,
                 },
             });
+        } else {
+            return NextResponse.redirect(new URL('/payout-methods?github_linked=true', req.url));
         }
 
         return NextResponse.redirect(new URL('/payout-methods?github_linked=true', req.url));
