@@ -4,7 +4,7 @@ services:
     build: .
     container_name: cms-docker
     environment:
-      - DATABASE_URL=postgresql://postgres:postgres@db:5432/cms?schema=public
+      - DATABASE_URL=postgresql://neondb_owner:y4sFwGKqeR3A@ep-white-wildflower-a53dtrhs.us-east-2.aws.neon.tech/neondb?sslmode=require
       - NEXT_WEBPACK_USEPOLLING=1
     ports:
       - '3000:3000'
