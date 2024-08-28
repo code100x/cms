@@ -3,7 +3,6 @@ import { Button } from '@/components/ui/button';
 import { ChevronRight } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import dailycode from '@public/platform/dailycode.png';
 
 const DailyCodeSection = () => {
   return (
@@ -43,7 +42,7 @@ const DailyCodeSection = () => {
           <div className="hidden rounded-r-xl bg-neutral-800 py-3 pr-3 shadow-2xl md:block md:rounded-r-2xl md:py-6 md:pr-6">
             <CardItem>
               <Image
-                src={dailycode}
+                src={`/platform/dailycode.png`}
                 alt={'dailycode'}
                 width={1400}
                 height={1260}
