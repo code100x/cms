@@ -1,9 +1,10 @@
-import { CheckCircle2, Play } from 'lucide-react';
+import { CheckCircle2 } from 'lucide-react';
 import { Bookmark } from '@prisma/client';
 import BookmarkButton from './bookmark/BookmarkButton';
 import { formatTime } from '@/lib/utils';
 import VideoThumbnail from './videothumbnail';
 import CardComponent from './CardComponent';
+import DonutChart from './DonutChart';
 
 export const ContentCard = ({
   title,
@@ -15,6 +16,7 @@ export const ContentCard = ({
   bookmark,
   contentId,
   contentDuration,
+  createdAt,
 }: {
   type: 'folder' | 'video' | 'notion';
   contentId?: number;
@@ -27,26 +29,26 @@ export const ContentCard = ({
   hoverExpand?: boolean;
   bookmark?: Bookmark | null;
   contentDuration?: number;
+  createdAt: Date;
 }) => {
-  // let image ;
-  // image = ""
+  const formattedDate = createdAt?.toLocaleDateString('en-GB', {
+    day: '2-digit',
+    month: 'long',
+    year: 'numeric',
+  });
+
   return (
     <div
       onClick={onClick}
-      className={`relative cursor-pointer rounded-2xl border border-gray-700/50 duration-200 ease-in group${hoverExpand ? ' ' : ''} `}
+      className={`relative min-h-fit cursor-pointer rounded-2xl border border-gray-700/50 duration-200 ease-in group${hoverExpand ? ' ' : ''} `}
     >
       {markAsCompleted && (
         <div className="absolute right-2 top-2 z-10">
           <CheckCircle2 color="green" size={30} fill="lightgreen" />
         </div>
       )}
-      {type === 'video' && (
-        <div className="text-blue-900g absolute bottom-12 right-2 z-10 rounded-md bg-zinc-900 p-1 px-2 font-semibold text-white">
-          {contentDuration && formatTime(contentDuration)}
-        </div>
-      )}
       {type !== 'video' && (
-        <div className="relative overflow-hidden rounded-md">
+        <div className="relative overflow-hidden">
           <CardComponent
             title={title}
             contentDuration={contentDuration && formatTime(contentDuration)}
@@ -63,14 +65,12 @@ export const ContentCard = ({
         </div>
       )}
       {type === 'video' && (
-        <div className="relative overflow-hidden rounded-md">
+        <div className="relative overflow-hidden">
           <VideoThumbnail
             title={title}
             contentId={contentId ?? 0}
+            contentDuration={contentDuration && formatTime(contentDuration)}
             imageUrl=""
-            // imageUrl={
-            //   'https://d2szwvl7yo497w.cloudfront.net/courseThumbnails/video.png'
-            // }
           />
         </div>
       )}
@@ -89,15 +89,17 @@ export const ContentCard = ({
       <div className="flex items-center justify-between p-4">
         <div className="space-y-2">
           <h3 className="text-bold text-lg tracking-normal">{title}</h3>
-          <h4 className="text-bold text-sm tracking-normal text-[#64748B]">
-            Posted on: 10 Aug 2024
+          <h4 className="text-bold text-xs tracking-normal text-[#64748B]">
+            Posted on: {formattedDate}
           </h4>
         </div>
-        <div className="hidden rounded-full border border-gray-700/60 p-4 lg:block">
-          <div className="rounded-full border border-[#64748b] p-2">
-            <Play size={15} color="#64748b" />
+        {type === 'video' && videoProgressPercent && (
+          <div className="flex items-center justify-center">
+            <DonutChart
+              percentage={parseInt(videoProgressPercent.toFixed(0), 10)}
+            />
           </div>
-        </div>
+        )}
       </div>
     </div>
   );
