@@ -15,6 +15,30 @@ import { handleMarkAsCompleted } from '@/lib/utils';
 import BookmarkButton from './bookmark/BookmarkButton';
 import Link from 'next/link';
 import { Button } from './ui/button';
+import { AnimatePresence, motion } from 'framer-motion';
+
+const sidebarVariants = {
+  open: {
+    width: '100%',
+    opacity: 1,
+    x: 0,
+    transition: {
+      type: 'spring',
+      stiffness: 300,
+      damping: 30,
+    },
+  },
+  closed: {
+    width: 0,
+    opacity: 0,
+    x: '-100%',
+    transition: {
+      type: 'spring',
+      stiffness: 300,
+      damping: 30,
+    },
+  },
+};
 
 export function Sidebar({
   courseId,
@@ -144,38 +168,55 @@ export function Sidebar({
     });
   };
 
-  if (!sidebarOpen) {
-    return (
+  return (
+    <>
       <Button
         className="fixed left-0 top-[50vh] z-[999] mx-4 cursor-pointer"
+        size={'icon'}
         onClick={() => setSidebarOpen((s) => !s)}
       >
-        Course Content <ChevronsRight className="size-6" />
-      </Button>
-    );
-  }
-
-  return (
-    <div className="fixed z-[99999] h-screen w-full overflow-y-scroll rounded-r-lg border border-primary/10 bg-background md:max-w-[300px]">
-      <div className="flex items-center justify-between p-4">
-        <h4 className="text-xl font-bold tracking-tighter text-primary md:text-2xl">
-          Course Content
-        </h4>
-        <Button
-          variant={'ghost'}
-          size={'icon'}
-          onClick={() => {
-            setSidebarOpen((s) => !s);
-          }}
-        >
+        {sidebarOpen ? (
           <ChevronsLeft className="size-6" />
-        </Button>
-      </div>
-      <Accordion type="single" collapsible className="w-full px-2 capitalize">
-        {/* Render course content */}
-        {renderContent(fullCourseContent)}
-      </Accordion>
-    </div>
+        ) : (
+          <ChevronsRight className="size-6" />
+        )}
+      </Button>
+      <AnimatePresence>
+        {sidebarOpen && (
+          <motion.div
+            key="sidebar" // Add key to help React track the component
+            initial="closed"
+            animate="open"
+            exit="closed"
+            variants={sidebarVariants}
+            className="fixed left-0 top-0 z-[99999] h-screen w-full overflow-y-scroll rounded-r-lg border border-primary/10 bg-background md:max-w-[20vw]"
+          >
+            <div className="flex items-center justify-between p-4">
+              <h4 className="text-xl font-bold tracking-tighter text-primary md:text-2xl">
+                Course Content
+              </h4>
+              <Button
+                variant={'ghost'}
+                size={'icon'}
+                onClick={() => {
+                  setSidebarOpen((s) => !s);
+                }}
+              >
+                <ChevronsLeft className="size-6" />
+              </Button>
+            </div>
+            <Accordion
+              type="single"
+              collapsible
+              className="w-full px-2 capitalize"
+            >
+              {/* Render course content */}
+              {renderContent(fullCourseContent)}
+            </Accordion>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 }
 

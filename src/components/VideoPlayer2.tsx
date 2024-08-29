@@ -135,7 +135,7 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
 
       switch (event.code) {
         case 'Space': // Space bar for play/pause
-          if (player.paused()) {
+          if (player?.paused()) {
             player.play();
             event.stopPropagation();
           } else {
@@ -279,12 +279,6 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
       }
       interval = window.setInterval(
         async () => {
-          if (!player) {
-            return;
-          }
-          if (player?.paused()) {
-            return;
-          }
           const currentTime = player.currentTime();
           if (currentTime <= 20) {
             return;
@@ -425,7 +419,7 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
       data-vjs-player
       className="mx-auto md:max-w-[calc(100vw-3rem)] 2xl:max-w-[calc(100vw-17rem)]"
     >
-      <div ref={videoRef} />
+      <div ref={videoRef} className="w-full rounded-2xl" />
     </div>
   );
 };

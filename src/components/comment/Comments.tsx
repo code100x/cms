@@ -15,7 +15,12 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import CommentVoteForm from './CommentVoteForm';
 import Pagination from '../Pagination';
 import Link from 'next/link';
-import { ArrowLeftIcon, ChevronDownIcon, MoreVerticalIcon } from 'lucide-react';
+import {
+  ArrowLeft,
+  ChevronDownIcon,
+  MoreVerticalIcon,
+  Reply,
+} from 'lucide-react';
 import TimeCodeComment from './TimeCodeComment';
 import CopyToClipboard from '../Copy-to-clipbord';
 import {
@@ -33,6 +38,7 @@ import { getServerSession } from 'next-auth';
 import CommentPinForm from './CommentPinForm';
 import CommentApproveForm from './CommentApproveForm';
 dayjs.extend(relativeTime);
+
 const Comments = async ({
   content,
   searchParams,
@@ -62,11 +68,13 @@ const Comments = async ({
   const modifiedSearchParams = { ...searchParams };
   delete modifiedSearchParams.parentId;
   return (
-    <Card key="1" className="flex w-full flex-col justify-center border-none">
-      <CardHeader className="p-6">
+    <Card
+      key="1"
+      className="flex w-full flex-col justify-center gap-2 border-none bg-neutral-100 shadow-none outline-none dark:bg-neutral-950"
+    >
+      <CardHeader className="px-6 py-2">
         {data.parentComment && (
           <Link
-            className="p-1"
             href={getUpdatedUrl(
               `/courses/${content.courseId}/${content.possiblePath}`,
               modifiedSearchParams,
@@ -74,9 +82,9 @@ const Comments = async ({
             )}
             scroll={false}
           >
-            <div className="flex gap-2">
-              <ArrowLeftIcon /> Go back
-            </div>
+            <Button className="flex gap-2">
+              <ArrowLeft className="size-4" /> Go back
+            </Button>
           </Link>
         )}
         <div className="grid gap-2">
@@ -90,46 +98,40 @@ const Comments = async ({
               />
             </h1>
           )}
-          <div className="flex items-center gap-2 text-sm">
-            <div className="flex items-center gap-0.5">
-              {/* <ChevronUpIcon className="w-4 h-4" />
-              <ChevronDownIcon className="w-4 h-4" /> */}
-            </div>
+          <div className="flex items-center gap-2">
             {data.parentComment && (
               <>
-                <div className="text-gray-500 dark:text-gray-400">
-                  {data.parentComment.upvotes} Likes
+                <div className="text-primary/80">
+                  {data.parentComment.upvotes}{' '}
+                  {data.parentComment.upvotes === 1 ? 'Like' : 'Likes'}
                 </div>
-                <div className="text-gray-500 dark:text-gray-400">•</div>
+                <div className="text-primary/80">•</div>
               </>
             )}
 
-            <div
-              className={`text-gray-500 dark:text-gray-400 ${!data.parentComment ? 'text-xl' : ''}`}
+            <h2
+              className={`text-xl font-bold tracking-tighter text-primary md:text-2xl`}
             >
               {!data.parentComment
-                ? `${content.commentCount} comments`
-                : `${data.parentComment.repliesCount} replies`}
-            </div>
+                ? `${content.commentCount} ${content.commentCount === 1 ? 'Comment' : 'Comments'}`
+                : `${data.parentComment.repliesCount} ${data.parentComment.repliesCount === 1 ? 'Reply' : 'Replies'}`}
+            </h2>
             {/*   <div className="text-gray-500 dark:text-gray-400">•</div>
             <div className="text-gray-500 dark:text-gray-400">Share</div> */}
           </div>
         </div>
       </CardHeader>
-      <CardContent className="rounded-md p-0 lg:p-8">
+      <CardContent className="gap-2 rounded-lg">
         <CommentInputForm
           contentId={content.id}
           parentId={data?.parentComment?.id}
         />
-        <div className="mb-5 mt-5 flex">
+        <div className="mt-2 flex gap-2">
           <DropdownMenu key="1" modal={false}>
             <DropdownMenuTrigger asChild>
-              <Button
-                className="w-[200px] justify-between text-left font-normal"
-                variant="ghost"
-              >
-                <span>{searchParams.tabtype || TabType.mu}</span>
-                <ChevronDownIcon className="h-4 w-4" />
+              <Button variant={'outline'}>
+                {searchParams.tabtype || TabType.mu}
+                <ChevronDownIcon className="size-4" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
@@ -175,10 +177,7 @@ const Comments = async ({
           </DropdownMenu>
           <DropdownMenu modal={false}>
             <DropdownMenuTrigger asChild>
-              <Button
-                className="w-[200px] justify-between text-left font-normal"
-                variant="ghost"
-              >
+              <Button variant="outline">
                 <span>
                   {searchParams.type === CommentType.INTRO
                     ? CommentType.INTRO
@@ -225,22 +224,20 @@ const Comments = async ({
               key={c.id}
             >
               <div className="flex w-full items-start gap-4">
-                <Avatar className="h-10 w-10 border">
+                <Avatar className="size-8">
                   <AvatarImage alt="@shadcn" src="/placeholder-user.jpg" />
-                  <AvatarFallback>{`${(c as ExtendedComment).user?.name?.substring(0, 2)}`}</AvatarFallback>
+                  <AvatarFallback>{`${(c as ExtendedComment).user?.name?.substring(0, 1)}`}</AvatarFallback>
                 </Avatar>
-                <div className="grid w-full gap-1.5">
+                <div className="grid w-full gap-2">
                   <div className="flex items-center gap-2">
-                    <div className="font-semibold">
-                      @{(c as ExtendedComment).user?.name ?? ''}
-                    </div>
-                    <div className="text-xs text-gray-500 dark:text-gray-400">
+                    <h3 className="text-lg font-semibold tracking-tight">
+                      {(c as ExtendedComment).user?.name ?? ''}
+                    </h3>
+                    <span className="text-sm text-primary/80">
                       {dayjs(c.createdAt).fromNow()}
-                    </div>
+                    </span>
                     {c.isPinned && (
-                      <div className="text-xs text-gray-500 dark:text-gray-400">
-                        Pinned
-                      </div>
+                      <span className="text-sm text-primary/80">Pinned</span>
                     )}
 
                     <DropdownMenu key="2">
@@ -311,9 +308,9 @@ const Comments = async ({
                         scroll={false}
                         className="flex items-center gap-1 text-gray-500 dark:text-gray-400"
                       >
-                        <ReplyIcon className="h-4 w-4" />
-                        <span>{c.repliesCount}</span>
-                        <span>Reply</span>
+                        <Reply className="size-4" />
+                        {c.repliesCount}
+                        Reply
                       </Link>
                     )}
                   </div>
@@ -323,69 +320,11 @@ const Comments = async ({
           ))}
         </div>
       </CardContent>
-      <CardFooter className="mt-2">
+      <CardFooter>
         <Pagination dataLength={data.comments.length} />
       </CardFooter>
     </Card>
   );
 };
-
-// function ChevronDownIcon(props: any) {
-//   return (
-//     <svg
-//       {...props}
-//       xmlns="http://www.w3.org/2000/svg"
-//       width="24"
-//       height="24"
-//       viewBox="0 0 24 24"
-//       fill="none"
-//       stroke="currentColor"
-//       strokeWidth="2"
-//       strokeLinecap="round"
-//       strokeLinejoin="round"
-//     >
-//       <path d="m6 9 6 6 6-6" />
-//     </svg>
-//   );
-// }
-
-// function ChevronUpIcon(props: any) {
-//   return (
-//     <svg
-//       {...props}
-//       xmlns="http://www.w3.org/2000/svg"
-//       width="24"
-//       height="24"
-//       viewBox="0 0 24 24"
-//       fill="none"
-//       stroke="currentColor"
-//       strokeWidth="2"
-//       strokeLinecap="round"
-//       strokeLinejoin="round"
-//     >
-//       <path d="m18 15-6-6-6 6" />
-//     </svg>
-//   );
-// }
-
-function ReplyIcon(props: any) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <polyline points="9 17 4 12 9 7" />
-      <path d="M20 18v-2a4 4 0 0 0-4-4H4" />
-    </svg>
-  );
-}
 
 export default Comments;

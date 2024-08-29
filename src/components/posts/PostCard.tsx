@@ -74,6 +74,7 @@ const PostCard: React.FC<IProps> = ({
       toast.error(error);
     },
   });
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     execute({

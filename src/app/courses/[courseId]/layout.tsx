@@ -7,18 +7,6 @@ import { getServerSession } from 'next-auth';
 import { redirect } from 'next/navigation';
 import { toast } from 'sonner';
 
-// interface PurchaseType {
-//   id: number;
-//   title: string;
-//   imageUrl: string;
-//   description: string;
-//   appxCourseId: number;
-//   openToEveryone: boolean;
-//   slug: string;
-//   discordRoleId: string;
-//   totalVideos?: number;
-//   totalVideosWatched: number;
-// }
 type CheckAccessReturn = 'yes' | 'no' | 'error';
 
 const checkAccess = async (courseId: string): Promise<CheckAccessReturn> => {
@@ -47,6 +35,7 @@ const Layout = async ({
   children: any;
 }) => {
   const courseId = params.courseId;
+  const fullCourseContent = await getFullCourseContent(parseInt(courseId, 10));
   const hasAccess = await checkAccess(courseId);
 
   if (hasAccess === 'no') {
@@ -57,12 +46,10 @@ const Layout = async ({
     toast.error('Ratelimited by appx please try again later');
   }
 
-  const fullCourseContent = await getFullCourseContent(parseInt(courseId, 10));
-
   return (
     <>
       <Sidebar fullCourseContent={fullCourseContent} courseId={courseId} />
-      <div className="mx-auto my-24 w-full max-w-7xl px-4">{children}</div>
+      <div className="mx-auto my-32 w-full max-w-7xl px-4">{children}</div>
     </>
   );
 };

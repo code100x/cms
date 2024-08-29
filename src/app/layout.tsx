@@ -9,6 +9,7 @@ import { siteConfig } from '@/config/site-config';
 import { Toaster } from 'sonner';
 
 const satoshi = localFont({
+  display: 'swap',
   src: [
     {
       path: '../../public/fonts/satoshi.ttf',

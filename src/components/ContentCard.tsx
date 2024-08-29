@@ -4,6 +4,7 @@ import BookmarkButton from './bookmark/BookmarkButton';
 import { formatTime } from '@/lib/utils';
 import VideoThumbnail from './videothumbnail';
 import CardComponent from './CardComponent';
+import { motion } from 'framer-motion';
 
 export const ContentCard = ({
   title,
@@ -11,7 +12,6 @@ export const ContentCard = ({
   markAsCompleted,
   type,
   videoProgressPercent,
-  hoverExpand = true,
   bookmark,
   contentId,
   contentDuration,
@@ -24,18 +24,14 @@ export const ContentCard = ({
   markAsCompleted?: boolean;
   percentComplete?: number | null;
   videoProgressPercent?: number;
-  hoverExpand?: boolean;
   bookmark?: Bookmark | null;
   contentDuration?: number;
   uploadDate?: string;
 }) => {
-  // let image ;
-  // image = ""
   return (
-    <div
+    <motion.div
       onClick={onClick}
-      // className={`relative cursor-pointer rounded-2xl border border-gray-700/50 duration-200 ease-in group${hoverExpand ? ' ' : ''} `}
-      className={`relative flex w-full max-w-md cursor-pointer flex-col gap-3 rounded-2xl transition-all duration-300 hover:-translate-y-2 group${hoverExpand ? ' ' : ''} `}
+      className={`group relative flex w-full max-w-md cursor-pointer flex-col gap-3 rounded-2xl transition-all duration-300 hover:-translate-y-2`}
     >
       {markAsCompleted && (
         <div className="absolute right-2 top-2 z-10">
@@ -90,6 +86,6 @@ export const ContentCard = ({
           />
         )}
       </div>
-    </div>
+    </motion.div>
   );
 };

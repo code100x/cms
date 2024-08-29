@@ -5,9 +5,9 @@ import { NotionRenderer as NotionRendererLib } from 'react-notion-x';
 import 'react-notion-x/src/styles.css';
 import dynamic from 'next/dynamic';
 
-const Code = dynamic(() =>
-  import('react-notion-x/build/third-party/code').then((m) => m.Code),
-);
+// const Code = dynamic(() =>
+//   import('react-notion-x/build/third-party/code').then((m) => m.Code),
+// );
 const Equation = dynamic(() =>
   import('react-notion-x/build/third-party/equation').then((m) => m.Equation),
 );
@@ -20,10 +20,14 @@ import 'katex/dist/katex.min.css';
 import { Loader } from './Loader';
 import Link from 'next/link';
 import { Button } from './ui/button';
-import { DownloadIcon } from 'lucide-react';
+import { Download } from 'lucide-react';
+import { useTheme } from 'next-themes';
+import CodeBlock from './CodeBlock';
 
 // Week-4-1-647987d9b1894c54ba5c822978377910
 export const NotionRenderer = ({ id }: { id: string }) => {
+  const { resolvedTheme } = useTheme();
+
   const [data, setData] = useState(null);
   async function main() {
     const res = await fetch(`/api/notion?id=${id}`);
@@ -40,32 +44,36 @@ export const NotionRenderer = ({ id }: { id: string }) => {
   }
 
   return (
-    <div className="relative">
-      <Link
-        href={`/pdf/${id}`}
-        target="_blank"
-        className="absolute right-4 top-4 z-20"
-      >
-        <Button
-          variant="outline"
-          className="bg-white text-black dark:bg-[#020917] dark:text-white"
-        >
+    <div>
+      <Link href={`/pdf/${id}`} target="_blank">
+        <Button size={'lg'} className="gap-2">
           Download
-          <div className="pl-2">
-            <DownloadIcon />
-          </div>
+          <Download className="size-4" />
         </Button>
       </Link>
       <div>
+        <style>
+          {`
+          :root {
+            --notion-font-family: "Poppins", sans-serif; !important;
+            --bg-color: #F5F5F5;
+            --fg-color: #0a0a0a;
+          }
+          .dark-mode {
+            --bg-color: #0A0A0A;
+            --fg-color: #F5F5F5;
+          }
+          
+        `}
+        </style>
         <NotionRendererLib
-          recordMap={data}
-          fullPage={true}
-          darkMode={true}
-          className="z-10"
           components={{
-            Code,
+            Code: CodeBlock,
             Equation,
           }}
+          recordMap={data}
+          fullPage={true}
+          darkMode={resolvedTheme === 'dark'}
         />
       </div>
     </div>

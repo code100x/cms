@@ -139,7 +139,7 @@ export default async function QuestionsPage({
   const response = await fetchQuestionsByTabType(searchParams, sessionId!);
   return (
     <>
-      <div className="wrapper flex min-h-screen flex-col gap-4">
+      <div className="mx-auto flex min-h-screen w-full flex-col gap-4">
         {' '}
         {/* Header */}
         <div className="flex w-full flex-col justify-between gap-2">
@@ -155,7 +155,7 @@ export default async function QuestionsPage({
         <div className="flex w-full flex-col gap-4">
           <div className="flex flex-col items-end justify-between gap-4 md:flex-row">
             <Search />
-            <div className="flex items-center gap-2">
+            <div className="flex items-center justify-between gap-2">
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button size={'lg'}>

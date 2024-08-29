@@ -34,7 +34,7 @@ export const SidebarItems = ({
                 >
                   <item.Component className="size-6" />
                   {isActive && (
-                    <h4 className="hidden w-full font-medium tracking-tight md:flex md:text-lg">
+                    <h4 className="hidden w-full font-medium tracking-tight md:flex md:text-xl">
                       {item.name}
                     </h4>
                   )}

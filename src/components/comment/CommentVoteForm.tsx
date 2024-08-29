@@ -50,7 +50,7 @@ const CommentVoteForm = ({
     <div className="flex gap-2">
       <form onSubmit={handleUpvote}>
         <button
-          className={`flex items-center gap-1 text-gray-500 dark:text-gray-400 ${isLoading && 'opacity-80'}`}
+          className={`flex items-center gap-1 text-primary/80 ${isLoading && 'opacity-80'}`}
           type="submit"
           disabled={isLoading}
         >
@@ -67,7 +67,7 @@ const CommentVoteForm = ({
       </form>
       <form onSubmit={handleDownVote}>
         <button
-          className={`flex items-center gap-1 text-gray-500 dark:text-gray-400 ${isLoading && 'opacity-80'}`}
+          className={`flex items-center gap-1 text-primary/80 ${isLoading && 'opacity-80'}`}
           type="submit"
           disabled={isLoading}
         >

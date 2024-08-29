@@ -60,9 +60,9 @@ export default function BreadCrumbComponent({
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
-            <BreadcrumbLink className="text-lg text-blue-600" asChild>
+            <BreadcrumbLink className="text-sm text-blue-600" asChild>
               <Link href={'/'}>
-                <Home />
+                <Home className="size-4" />
               </Link>
             </BreadcrumbLink>
           </BreadcrumbItem>
@@ -72,13 +72,13 @@ export default function BreadCrumbComponent({
               <BreadcrumbLink className="text-blue-600" asChild>
                 <Link
                   href={`/courses/${course.id}`}
-                  className="text-lg font-semibold capitalize text-primary/60"
+                  className="text-sm font-semibold capitalize text-primary/60"
                 >
                   {course.title}
                 </Link>
               </BreadcrumbLink>
             ) : (
-              <BreadcrumbPage className="text-lg font-semibold capitalize text-primary">
+              <BreadcrumbPage className="text-sm font-semibold capitalize text-primary">
                 {course.title}
               </BreadcrumbPage>
             )}
@@ -100,7 +100,7 @@ export default function BreadCrumbComponent({
                       <BreadcrumbLink asChild>
                         <Link
                           href={`/courses/${course.id}/${finalRouteArray.join('/')}`}
-                          className="text-lg font-semibold capitalize text-primary/60"
+                          className="text-sm font-semibold capitalize text-primary/60"
                         >
                           {breadcrumb?.title}
                         </Link>
@@ -111,7 +111,7 @@ export default function BreadCrumbComponent({
                   </>
                 ) : (
                   <BreadcrumbItem>
-                    <BreadcrumbPage className="text-lg font-semibold capitalize text-primary">
+                    <BreadcrumbPage className="text-sm font-semibold capitalize text-primary">
                       {breadcrumb.title}
                     </BreadcrumbPage>
                   </BreadcrumbItem>

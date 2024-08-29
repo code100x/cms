@@ -1,6 +1,6 @@
 import React from 'react';
-import { SideNav } from '@/components/sidebar/sideNav';
 import { Appbar } from '@/components/Appbar';
+import { Navbar } from '@/components/sidebar/navbar';
 
 interface Props {
   children: React.ReactNode;
@@ -9,7 +9,7 @@ interface Props {
 const CourseLayout = (props: Props) => {
   return (
     <div className="flex min-h-screen flex-col">
-      <SideNav />
+      <Navbar />
       <Appbar />
       {props.children}
     </div>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Appbar } from '@/components/Appbar';
-import { SideNav } from '@/components/sidebar/sideNav';
+import { Navbar } from '@/components/sidebar/navbar';
 
 interface Props {
   children: React.ReactNode;
@@ -8,11 +8,11 @@ interface Props {
 
 export default (props: Props) => {
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="flex min-h-screen w-full flex-col">
       {/* <Sidebar /> */}
-      <SideNav />
+      <Navbar />
       <Appbar />
-      <div className="mx-auto my-24 max-w-7xl px-4">{props.children}</div>
+      <div className="wrapper my-24 w-full">{props.children}</div>
     </div>
   );
 };

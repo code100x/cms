@@ -16,7 +16,7 @@ const WatchHistoryClient = ({ history }: { history: TWatchHistory[] }) => (
     <CarouselContent>
       {history.map((progress) => (
         <CarouselItem
-          className="basis-1/2 md:basis-1/3 lg:basis-1/5"
+          className="grid w-full grid-cols-1 gap-4 py-4 md:grid-cols-2 lg:grid-cols-3"
           key={progress.id}
         >
           <HistoryCard {...progress} />

@@ -17,9 +17,9 @@ export const menuOptions = [
   { id: 4, name: 'History', Component: History, href: '/watch-history' },
 ];
 
-export const SideNav = () => {
+export const Navbar = () => {
   return (
-    <div className="fixed bottom-0 left-0 z-[9999] w-full p-4">
+    <div className="fixed bottom-0 z-[9999] w-full p-4">
       <motion.nav
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -35,14 +35,6 @@ export const SideNav = () => {
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger>
-              {/* <div
-                onClick={() => {
-                  signOut();
-                }}
-                className={`flex cursor-pointer flex-row items-center gap-2 rounded-xl p-4 text-red-600 transition-all duration-300 hover:bg-red-600/10`}
-              >
-                <LogOut />
-              </div> */}
               <ProfileDropdown />
             </TooltipTrigger>
             <TooltipContent side="top" sideOffset={2}>

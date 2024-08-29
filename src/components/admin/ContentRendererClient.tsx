@@ -4,6 +4,8 @@ import { VideoPlayerSegment } from '@/components/VideoPlayerSegment';
 import VideoContentChapters from '../VideoContentChapters';
 import { Presentation } from 'lucide-react';
 import { useMemo, useState } from 'react';
+import { Button } from '../ui/button';
+import Link from 'next/link';
 
 export const ContentRendererClient = ({
   metadata,
@@ -70,9 +72,9 @@ export const ContentRendererClient = ({
   };
 
   return (
-    <div className="flex flex-col gap-2">
-      <div className="flex flex-wrap justify-between gap-4 xl:flex-nowrap">
-        <div className="w-full">
+    <div className="flex w-full flex-col gap-2">
+      <div className="flex w-full justify-between gap-4">
+        <div className="flex w-full flex-col gap-4">
           <VideoPlayerSegment
             setQuality={setQuality}
             contentId={content.id}
@@ -91,7 +93,7 @@ export const ContentRendererClient = ({
               thumbnail: metadata.thumbnail || false, // data.isComposite ? data.thumbnails[0] : null,
               isComposite: true,
               height: 720,
-              width: 1080,
+              width: 1280,
               delta: 30,
               autoplay: true,
               responsive: true,
@@ -100,38 +102,38 @@ export const ContentRendererClient = ({
             onVideoEnd={() => {}}
           />
           <div className="flex justify-between">
-            <h2 className="text-bold text-2xl capitalize tracking-normal text-primary">
+            <h2 className="text-xl font-bold capitalize tracking-tighter text-primary md:text-3xl">
               {content.title}
             </h2>
 
             <div className="">
               {metadata.slides ? (
-                <div className="flex flex-row-reverse gap-2">
-                  <a href={metadata.slides} target="_blank">
-                    <button className="mb-2 me-2 flex items-center gap-2 rounded-lg bg-blue-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700">
+                <div className="flex flex-row gap-2 md:flex-row">
+                  <Link href={metadata.slides} target="_blank">
+                    <Button size={'lg'} className="gap-2">
                       <Presentation size={18} />
                       Lecture Slides
-                    </button>
-                  </a>
+                    </Button>
+                  </Link>
                 </div>
               ) : null}
               {!showChapters && metadata.segments?.length > 0 && (
-                <button
-                  className="my-4 rounded bg-blue-500 p-2 font-bold text-white hover:bg-blue-700"
+                <Button
+                  size={'lg'}
                   onClick={() => {
                     scrollTo({ top: 0, behavior: 'smooth' });
                     toggleShowChapters();
                   }}
                 >
                   View All Chapters
-                </button>
+                </Button>
               )}
             </div>
           </div>
           {nextContent ? (
             <div className="flex flex-row-reverse">
-              <button
-                className="ml-4 rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
+              <Button
+                size={'lg'}
                 onClick={() => {
                   const originalPath = window.location.pathname;
                   const parts = originalPath.split('/');
@@ -142,18 +144,18 @@ export const ContentRendererClient = ({
                 }}
               >
                 {nextContent.title}
-              </button>{' '}
+              </Button>{' '}
             </div>
           ) : null}
         </div>
-        <div className="w-full xl:max-w-[500px]">
-          {showChapters && (
+        {showChapters && (
+          <div className="">
             <VideoContentChapters
               segments={metadata?.segments}
               onCancel={toggleShowChapters}
             />
-          )}
-        </div>
+          </div>
+        )}
       </div>
     </div>
   );

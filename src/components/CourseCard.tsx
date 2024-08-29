@@ -14,10 +14,10 @@ export const CourseCard = ({
   buttonColor: string;
 }) => {
   const router = useRouter();
-  // const imageUrl =
-  //   course.imageUrl && course.imageUrl !== ''
-  //     ? course.imageUrl
-  //     : 'placeholder.png';
+  const imageUrl =
+    course.imageUrl && course.imageUrl !== ''
+      ? course.imageUrl
+      : 'placeholder.png';
   return (
     <div
       className={`flex w-full cursor-pointer flex-col rounded-2xl bg-primary/5 shadow-md transition-all duration-300 hover:-translate-y-2 hover:border-primary/20`}
@@ -27,8 +27,7 @@ export const CourseCard = ({
         <img
           alt={course.title}
           className="size-full rounded-t-xl bg-cover"
-          // src={imageUrl}
-          src="placeholder.png"
+          src={imageUrl || 'placeholder.png'}
         />
 
         {course.totalVideos !== undefined && (
