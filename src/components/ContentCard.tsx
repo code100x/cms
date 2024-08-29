@@ -4,7 +4,7 @@ import BookmarkButton from './bookmark/BookmarkButton';
 import { formatTime } from '@/lib/utils';
 import VideoThumbnail from './videothumbnail';
 import CardComponent from './CardComponent';
-import { VideoProgressChart } from './VideoProgressChart';
+import DonutChart from './DonutChart';
 
 export const ContentCard = ({
   title,
@@ -95,8 +95,8 @@ export const ContentCard = ({
         </div>
         {type === 'video' && videoProgressPercent && (
           <div className="flex items-center justify-center">
-            <VideoProgressChart
-              videoProgressPercent={videoProgressPercent.toFixed(0)}
+            <DonutChart
+              percentage={parseInt(videoProgressPercent.toFixed(0), 10)}
             />
           </div>
         )}
