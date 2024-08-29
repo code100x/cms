@@ -5,7 +5,7 @@ import { NotionRenderer } from './NotionRenderer';
 import { getFolderPercentCompleted } from '@/lib/utils';
 import Comments from './comment/Comments';
 import { QueryParams } from '@/actions/types';
-import BreadCrumbComponent from './BreadCrumbComponent';
+import { CourseViewToolbar } from './CourseViewToolbar';
 
 export const CourseView = ({
   rest,
@@ -28,13 +28,15 @@ export const CourseView = ({
 }) => {
   return (
     <div className="no-scrollbar flex h-screen flex-col overflow-y-auto pb-20">
-      <div className="mb-2 flex max-h-fit min-h-[2.5rem] items-center px-4">
-        <BreadCrumbComponent
-          course={course}
-          contentType={contentType}
-          courseContent={courseContent}
-          fullCourseContent={fullCourseContent}
-          rest={rest}
+      <div className="mb-2 flex max-h-fit min-h-[2.5rem] items-center px-2">
+        <CourseViewToolbar
+          courseData={{
+            course,
+            contentType,
+            courseContent,
+            fullCourseContent,
+            rest,
+          }}
         />
       </div>
       {contentType === 'notion' ? (
@@ -81,6 +83,7 @@ export const CourseView = ({
             percentComplete: getFolderPercentCompleted(x?.children),
             videoFullDuration: x?.videoProgress?.videoFullDuration || 0,
             duration: x?.videoProgress?.duration || 0,
+            createdAt: x?.createdAt,
           }))}
           courseId={parseInt(course.id, 10)}
         />

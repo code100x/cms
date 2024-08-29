@@ -50,6 +50,7 @@ export default async function UpdateCourseContent({
           title: x?.title || '',
           image: x?.thumbnail || '',
           id: x?.id || 0,
+          createdAt: x?.createdAt,
         }))}
         courseId={parseInt(courseId, 10)}
       />

@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AnimatedTooltip } from '@/components/ui/animated-tooltip';
 import { signOut } from 'next-auth/react';
 
@@ -10,6 +10,7 @@ import {
   MessageSquare,
   History,
   PanelRightOpen,
+  PanelLeftOpen,
   LogOut,
 } from 'lucide-react';
 
@@ -22,6 +23,12 @@ export const menuOptions = [
 
 export const MenuOptions = () => {
   const [expanded, setExpanded] = useState(true);
+
+  useEffect(() => {
+    if (window.innerWidth < 500) {
+      setExpanded(false);
+    }
+  }, []);
 
   return (
     <aside className="h-screen">
@@ -38,7 +45,11 @@ export const MenuOptions = () => {
             onClick={() => setExpanded((curr) => !curr)}
           >
             <div className="p-2">
-              <PanelRightOpen size={24} />
+              {expanded ? (
+                <PanelRightOpen size={24} />
+              ) : (
+                <PanelLeftOpen size={24} />
+              )}
             </div>
           </div>
         </div>

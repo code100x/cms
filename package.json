@@ -82,6 +82,7 @@
     "react-icons": "^5.1.0",
     "react-notion-x": "^6.16.0",
     "react-resizable-panels": "^1.0.7",
+    "recharts": "^2.12.7",
     "recoil": "^0.7.7",
     "sonner": "^1.4.0",
     "storybook": "^8.0.8",
