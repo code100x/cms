@@ -39,3 +39,7 @@ yarn-error.log*
 next-env.d.ts
 
 *storybook.log
+
+# ignore yarn.lock & package-lock
+yarn.lock
+package-lock.json

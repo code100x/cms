@@ -27,7 +27,7 @@ export const CourseCard = ({
   const router = useRouter();
   return (
     <div
-      className={`flex max-w-sm flex-col border border-gray-200 bg-white ${roundedClassName} w-full shadow transition-colors duration-300 ease-in-out hover:bg-[#E2E8F0] dark:border dark:border-gray-700/50 dark:bg-[#020817] hover:dark:bg-[#1E293B]`}
+      className={`flex max-w-sm cursor-pointer flex-col border border-gray-200 bg-white ${roundedClassName} w-full shadow transition-colors duration-300 ease-in-out hover:bg-[#E2E8F0] dark:border dark:border-gray-700/50 dark:bg-[#020817] hover:dark:bg-[#1E293B]`}
       onClick={onClick}
     >
       <img
