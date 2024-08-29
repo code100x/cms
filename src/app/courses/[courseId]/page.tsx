@@ -15,15 +15,13 @@ export default async function Course({
   const fullCourseContent = await getFullCourseContent(parseInt(courseId, 10));
 
   const courseContent = findContentById(fullCourseContent, []);
-  const contentType =
-    courseContent?.length === 1 ? courseContent[0]?.type : 'folder';
+
   const nextContent = null;
 
   return (
     <CourseView
       rest={[]}
       course={course}
-      contentType={contentType}
       nextContent={nextContent}
       courseContent={courseContent}
       fullCourseContent={fullCourseContent}

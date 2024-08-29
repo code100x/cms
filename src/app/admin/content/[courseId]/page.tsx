@@ -16,8 +16,9 @@ export default async function UpdateCourseContent({
     fullCourseContent,
     rest.map((x) => parseInt(x, 10)),
   );
-  const contentType =
-    courseContent?.length === 1 ? courseContent[0]?.type : 'folder';
+  const contentType = courseContent?.folder
+    ? 'folder'
+    : courseContent?.value.type;
 
   if (contentType === 'video') {
     return (
@@ -45,8 +46,8 @@ export default async function UpdateCourseContent({
       />
       <AdminCourseContent
         rest={rest}
-        //@ts-ignore
-        courseContent={courseContent?.map((x: any) => ({
+        // @ts-ignore
+        courseContent={courseContent?.value.map((x: any) => ({
           title: x?.title || '',
           image: x?.thumbnail || '',
           id: x?.id || 0,
