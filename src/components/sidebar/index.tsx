@@ -63,7 +63,12 @@ export const MenuOptions = () => {
 
         <div className="mt-4 border-t p-4">
           <div className="flex rounded-md p-2">
-            <LogOut size={24} color="#DD503F" />
+            <LogOut
+              size={24}
+              color="#DD503F"
+              className="cursor-pointer"
+              onClick={() => signOut()}
+            />
             <button
               onClick={() => {
                 signOut();

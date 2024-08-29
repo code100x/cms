@@ -1,3 +1,5 @@
+import React, { useState } from 'react';
+import { handleMarkAsCompleted } from '@/lib/utils';
 import { CheckCircle2 } from 'lucide-react';
 import { Bookmark } from '@prisma/client';
 import BookmarkButton from './bookmark/BookmarkButton';
@@ -17,6 +19,7 @@ export const ContentCard = ({
   contentId,
   contentDuration,
   createdAt,
+  percentComplete,
 }: {
   type: 'folder' | 'video' | 'notion';
   contentId?: number;
@@ -37,14 +40,32 @@ export const ContentCard = ({
     year: 'numeric',
   });
 
+  const [completed, setCompleted] = useState(markAsCompleted);
+
+  const handleMarkAsCompletedClick = (event: React.MouseEvent) => {
+    event.stopPropagation();
+    if (contentId) {
+      handleMarkAsCompleted(!completed, contentId);
+      setCompleted(!completed);
+    }
+  };
+
   return (
     <div
       onClick={onClick}
-      className={`relative min-h-fit cursor-pointer rounded-2xl border border-gray-700/50 duration-200 ease-in group${hoverExpand ? ' ' : ''} `}
+      className={`relative min-h-fit cursor-pointer rounded-lg border border-gray-700/50 duration-200 ease-in group${hoverExpand ? ' ' : ''} `}
     >
-      {markAsCompleted && (
+      {completed && (
         <div className="absolute right-2 top-2 z-10">
           <CheckCircle2 color="green" size={30} fill="lightgreen" />
+        </div>
+      )}
+      {type === 'video' && contentId && (
+        <div
+          className="absolute bottom-[90px] left-[5px] z-10 rounded-md bg-white p-1 px-2 text-sm font-semibold text-black transition-all duration-300 dark:bg-zinc-800 dark:text-white hover:dark:bg-zinc-950"
+          onClick={handleMarkAsCompletedClick}
+        >
+          {completed ? 'Mark as incomplete' : 'Mark as complete'}
         </div>
       )}
       {type !== 'video' && (
@@ -93,6 +114,11 @@ export const ContentCard = ({
             Posted on: {formattedDate}
           </h4>
         </div>
+        {type === 'folder' && percentComplete && (
+          <div className="flex items-center justify-center">
+            <DonutChart percentage={parseInt(percentComplete.toFixed(0), 10)} />
+          </div>
+        )}
         {type === 'video' && videoProgressPercent && (
           <div className="flex items-center justify-center">
             <DonutChart
