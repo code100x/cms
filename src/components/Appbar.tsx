@@ -33,7 +33,7 @@ export const Appbar = ({
   return (
     <>
       <nav className={clsx(className)}>
-        <div className="flex w-full items-center justify-between md:max-w-screen-2xl">
+        <div className="mx-auto flex w-full items-center justify-between md:max-w-screen-2xl">
           {showLogoforLanding && <Logo onFooter={false} />}
           {session?.user ? (
             !isLoading && (
@@ -41,7 +41,7 @@ export const Appbar = ({
                 <div className="hidden md:block">
                   <SearchBar />
                 </div>
-                <div className="flex items-center space-x-2">
+                <div className="ml-auto flex items-center space-x-2">
                   {/* Search Bar for smaller devices */}
                   <MobileScreenSearch />
                   <SelectTheme />
@@ -50,7 +50,7 @@ export const Appbar = ({
               </>
             )
           ) : (
-            <div className="flex items-center space-x-2">
+            <div className="ml-auto flex items-center space-x-2">
               <div className="hidden items-center justify-around space-x-3 sm:flex md:block md:w-auto">
                 <AppbarAuth />
 
@@ -65,7 +65,7 @@ export const Appbar = ({
                 </Button>
               </div>
               <ThemeToggler />
-              <div className="block">
+              <div className="block sm:hidden">
                 <NavigationMenu />
               </div>
             </div>

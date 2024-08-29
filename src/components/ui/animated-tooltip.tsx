@@ -77,7 +77,7 @@ export const AnimatedTooltip = ({
           )}
           <Link
             href={item.href}
-            className={`flex flex-row ${hoveredIndex === item.id && 'rounded-md bg-gray-700/50'} items-center space-x-6 p-2`}
+            className={`flex flex-row whitespace-nowrap ${hoveredIndex === item.id && 'rounded-md bg-gray-700/50'} items-center space-x-6 p-2`}
           >
             <item.Component selected={hoveredIndex === item.id} size={25} />
             {expanded && <h4 className="font-semibold">{item.name}</h4>}

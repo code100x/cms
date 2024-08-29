@@ -71,8 +71,6 @@ const ProfileDropdown = () => {
 
         <DropdownMenuSeparator />
 
-        <DropdownMenuSeparator />
-
         <DropdownMenuGroup>
           <ExternalLinks />
         </DropdownMenuGroup>

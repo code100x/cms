@@ -39,7 +39,7 @@ export const FolderView = ({
 
   return (
     <div>
-      <div className="grid max-w-screen-xl cursor-pointer grid-cols-1 justify-between gap-5 p-4 md:grid-cols-3">
+      <div className="grid max-w-screen-xl grid-cols-1 justify-between gap-5 p-4 md:grid-cols-3">
         {courseContent.map((content) => {
           const videoProgressPercent =
             content.type === 'video' &&

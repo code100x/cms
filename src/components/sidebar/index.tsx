@@ -10,7 +10,6 @@ import {
   Bookmark,
   MessageSquare,
   History,
-  PanelRightOpen,
   LogOut,
 } from 'lucide-react';
 import { RefreshDb } from '../RefreshDb';
@@ -23,26 +22,39 @@ export const menuOptions = [
 ];
 
 export const MenuOptions = () => {
-  const [expanded, setExpanded] = useState(true);
+  const [expanded, setExpanded] = useState(false);
 
   return (
-    <aside className="h-screen">
+    <aside
+      className={`h-screen transition-all duration-300 ease-in-out ${expanded ? 'w-64' : 'w-20'}`}
+      onMouseEnter={() => setExpanded(true)}
+      onMouseLeave={() => setExpanded(false)}
+    >
       <nav className="flex h-full flex-col border-r bg-white shadow-sm dark:bg-[#020817]">
         {/* Header with logo and expand/collapse button */}
-        <div className="flex items-center justify-between border-b p-4 pb-2">
-          {expanded && (
+        <div className="flex items-center justify-between border-b px-4 py-[17px]">
+          {expanded ? (
             <div className="h-30 w-30">
               <Logo onFooter={false} />
             </div>
+          ) : (
+            <img
+              src={
+                'https://appx-wsb-gcp.akamai.net.in/subject/2023-01-17-0.17044360120951185.jpg'
+              }
+              className="rounded-full"
+              height={30}
+              width={30}
+            />
           )}
-          <div
+          {/* <div
             className="cursor-pointer"
             onClick={() => setExpanded((curr) => !curr)}
           >
             <div className="p-2">
               <PanelRightOpen size={24} />
             </div>
-          </div>
+          </div> */}
         </div>
 
         <div className="boarder border-gray flex flex-1 flex-col gap-6 p-4">
@@ -52,7 +64,12 @@ export const MenuOptions = () => {
 
         <div className="mt-4 border-t p-4">
           <div className="flex rounded-md p-2">
-            <LogOut size={24} color="#DD503F" />
+            <LogOut
+              onClick={() => signOut()}
+              size={24}
+              color="#DD503F"
+              className="cursor-pointer"
+            />
             <button
               onClick={() => {
                 signOut();
