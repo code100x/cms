@@ -27,9 +27,8 @@ export const ContentCard = ({
   hoverExpand?: boolean;
   bookmark?: Bookmark | null;
   contentDuration?: number;
+  createdAt: Date;
 }) => {
-  // let image ;
-  // image = ""
   return (
     <div
       onClick={onClick}
@@ -40,7 +39,6 @@ export const ContentCard = ({
           <CheckCircle2 color="green" size={30} fill="lightgreen" />
         </div>
       )}
-
       {type !== 'video' && (
         <div className="relative overflow-hidden">
           <CardComponent
@@ -55,10 +53,8 @@ export const ContentCard = ({
           <VideoThumbnail
             title={title}
             contentId={contentId ?? 0}
+            contentDuration={contentDuration && formatTime(contentDuration)}
             imageUrl=""
-            // imageUrl={
-            //   'https://d2szwvl7yo497w.cloudfront.net/courseThumbnails/video.png'
-            // }
           />
         </div>
       )}

@@ -5,12 +5,10 @@ import { NotionRenderer } from './NotionRenderer';
 import { getFolderPercentCompleted } from '@/lib/utils';
 import Comments from './comment/Comments';
 import { QueryParams } from '@/actions/types';
-import BreadCrumbComponent from './BreadCrumbComponent';
 
 export const CourseView = ({
   rest,
   course,
-  fullCourseContent,
   courseContent,
   nextContent,
   searchParams,
@@ -38,15 +36,6 @@ export const CourseView = ({
     : courseContent?.value.type;
   return (
     <div className="no-scrollbar flex h-screen flex-col overflow-y-auto pb-20">
-      <div className="mb-2 flex max-h-fit min-h-[2.5rem] items-center px-4">
-        <BreadCrumbComponent
-          course={course}
-          contentType={contentType}
-          courseContent={courseContent}
-          fullCourseContent={fullCourseContent}
-          rest={rest}
-        />
-      </div>
       {!courseContent?.folder && courseContent?.value.type === 'notion' ? (
         <div className="m-4">
           <NotionRenderer id={courseContent?.value?.id?.toString()} />
@@ -94,6 +83,7 @@ export const CourseView = ({
             videoFullDuration: x?.videoProgress?.videoFullDuration || 0,
             duration: x?.videoProgress?.duration || 0,
             bookmark: null,
+            createdAt: x?.createdAt,
           }))}
           courseId={parseInt(course.id, 10)}
         />
