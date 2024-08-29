@@ -15,12 +15,12 @@ const CardComponent = ({
 
   return (
     <div
-      className="h-[224px] bg-cover bg-center bg-no-repeat px-4 py-4 sm:h-[224px] sm:px-5 sm:py-4 md:h-[180px] lg:h-[224px]"
+      className="h-[224px] w-full rounded-2xl bg-cover bg-center bg-no-repeat px-4 py-4 sm:h-[224px] sm:px-5 sm:py-4 md:h-[180px] lg:h-[224px]"
       style={{ backgroundImage: "url('/Content-Cover.png')" }}
     >
       <div className="flex h-full flex-col items-center justify-center">
         <p className="sm:text-md flex-wrap whitespace-normal text-wrap rounded-full border-black bg-gray-400/20 px-3 py-1 text-center text-xs capitalize text-white sm:text-lg">
-          100xdevs
+          100xDevs
         </p>
         <p className="sm:text-md flex-wrap whitespace-normal text-wrap border-black text-center text-xs capitalize text-white sm:text-lg">
           {secondPart} {/* Displaying the second part of the title */}

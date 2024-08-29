@@ -1,12 +1,19 @@
 import React from 'react';
-import MainLayout from '@/app/(main)/layout';
+import { SideNav } from '@/components/sidebar/sideNav';
+import { Appbar } from '@/components/Appbar';
 
 interface Props {
   children: React.ReactNode;
 }
 
 const CourseLayout = (props: Props) => {
-  return <MainLayout>{props.children}</MainLayout>;
+  return (
+    <div className="flex min-h-screen flex-col">
+      <SideNav />
+      <Appbar />
+      {props.children}
+    </div>
+  );
 };
 
 export default CourseLayout;

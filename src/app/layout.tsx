@@ -24,7 +24,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <html lang="en">
       <body
         className={cn(
-          'min-h-screen bg-background font-satoshi antialiased',
+          'min-h-screen bg-neutral-100 font-satoshi antialiased dark:bg-neutral-950',
           satoshi.variable,
         )}
       >
@@ -32,7 +32,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <Providers>
           {/* <NextTopLoader color="#2E78C7" height={2} />
           {/* this is done as to keep footer in the bottom of the page */}
-          <div className="min-h-[calc(100vh-64px)]">{children}</div>
+          {children}
           {/* <Footer /> */}
           <Toaster richColors />
         </Providers>

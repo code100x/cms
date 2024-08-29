@@ -1,82 +1,84 @@
 'use client';
 import { Course } from '@/store/atoms';
-import { UsersRound } from 'lucide-react';
 import PercentageComplete from './PercentageComplete';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { Button } from './ui/button';
 
 export const CourseCard = ({
   course,
   onClick,
-  buttonColor,
-  roundedCardSize,
 }: {
   course: Course;
   onClick: () => void;
   buttonColor: string;
-  roundedCardSize: 'lg' | 'xl' | '2xl' | '3xl';
 }) => {
-  const roundedClassNames = {
-    lg: 'rounded-lg',
-    xl: 'rounded-xl',
-    '2xl': 'rounded-2xl',
-    '3xl': 'rounded-3xl',
-  };
-
-  const roundedClassName = roundedClassNames[roundedCardSize] || 'rounded-lg';
   const router = useRouter();
+  // const imageUrl =
+  //   course.imageUrl && course.imageUrl !== ''
+  //     ? course.imageUrl
+  //     : 'placeholder.png';
   return (
     <div
-      className={`flex max-w-sm flex-col border border-gray-200 bg-white ${roundedClassName} w-full shadow transition-colors duration-300 ease-in-out hover:bg-[#E2E8F0] dark:border dark:border-gray-700/50 dark:bg-[#020817] hover:dark:bg-[#1E293B]`}
+      className={`flex w-full cursor-pointer flex-col rounded-2xl bg-primary/5 shadow-md transition-all duration-300 hover:-translate-y-2 hover:border-primary/20`}
       onClick={onClick}
     >
-      <img
-        alt={course.title}
-        className="rounded-t-2xl bg-cover"
-        src={course.imageUrl}
-      />
-      {/* add tag here */}
-      {/* <div>Cohort 3.0</div> */}
-      <div className="flex flex-1 flex-col justify-between gap-4 p-4">
-        <div className="text-xl font-semibold capitalize">{course.title}</div>
+      <div className="flex flex-col">
+        <img
+          alt={course.title}
+          className="size-full rounded-t-xl bg-cover"
+          // src={imageUrl}
+          src="placeholder.png"
+        />
+
         {course.totalVideos !== undefined && (
-          <PercentageComplete
-            percent={Math.ceil(
-              ((course.totalVideosWatched ?? 0) / course.totalVideos) * 100,
-            )}
-          />
+          <>
+            <PercentageComplete
+              percent={Math.ceil(
+                ((course.totalVideosWatched ?? 0) / course.totalVideos) * 100,
+              )}
+            />
+          </>
         )}
-        <div className="flex flex-col gap-4">
-          <button
-            className="w-full rounded-full bg-blue-700 px-5 py-2 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300"
-            style={{ backgroundColor: buttonColor }}
-            type="button"
-          >
-            View Content
-          </button>
-          {course.certIssued ? (
-            <div className="flex-1 pr-2">
-              <div
-                className="text-center text-base font-medium text-[#64748B] dark:text-[#94A3B8]"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  router.push('/certificate');
-                }}
+      </div>
+      <div className="flex flex-1 flex-col justify-between gap-4 p-4">
+        <div className="flex w-full justify-between gap-2">
+          <h3 className="w-full truncate text-xl font-bold capitalize tracking-tighter md:text-2xl">
+            {course.title}
+          </h3>
+          {course.totalVideos !== undefined && (
+            <>
+              <span
+                className={`text-lg font-bold tracking-tight text-primary/80`}
               >
-                Claim Certificate
-              </div>
-            </div>
-          ) : (
-            <Link
-              className="flex w-full flex-row items-center justify-center gap-2"
-              href={course.discordOauthUrl}
-              target={'blank'}
+                {Math.ceil(
+                  ((course.totalVideosWatched ?? 0) / course.totalVideos) * 100,
+                )}
+                %
+              </span>
+            </>
+          )}
+        </div>
+        <div className="flex flex-col gap-2">
+          <Button size={'lg'}>View Content</Button>
+
+          {course.certIssued ? (
+            <Button
+              variant="link"
+              size={'lg'}
+              onClick={(e) => {
+                e.stopPropagation();
+                router.push('/certificate');
+              }}
             >
-              <UsersRound size={16} color="#94A3B8" />
-              <div className="text-base font-medium text-[#64748B] dark:text-[#94A3B8]">
-                Join Discord Community
-              </div>
-            </Link>
+              Claim Certificate
+            </Button>
+          ) : (
+            <Button variant="link" size={'lg'}>
+              <Link href={course.discordOauthUrl} target={'blank'}>
+                Join Discord
+              </Link>
+            </Button>
           )}
         </div>
       </div>
@@ -87,7 +89,7 @@ export const CourseCard = ({
 export const CourseSkeleton = () => {
   return (
     <div className="animate-pulse">
-      <div className="h-64 rounded-md bg-slate-50 dark:bg-slate-900"></div>
+      <div className="h-64 rounded-md bg-primary/10"></div>
     </div>
   );
 };

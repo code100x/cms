@@ -15,7 +15,7 @@ const BookmarkButton = ({
   bookmark,
   contentId,
   size = 20,
-  side = 'top',
+  side = 'bottom',
   align = 'center',
 }: {
   bookmark: Bookmark | null;
@@ -47,7 +47,7 @@ const BookmarkButton = ({
           </Button>
         </TooltipTrigger>
         <TooltipContent sideOffset={16} side={side} align={align}>
-          <p>{addedBookmark ? 'Remove bookmark' : 'Bookmark this video'}</p>
+          <p>{addedBookmark ? 'Remove bookmark' : 'Add bookmark'}</p>
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>

@@ -29,11 +29,7 @@ const Search = () => {
         onChange={(e) => setSearch(e.target.value)}
       />
       <input type="submit" hidden />
-      <Button
-        className="me-2 rounded-lg bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 px-5 py-2 text-center text-sm font-medium hover:bg-gradient-to-br dark:text-white"
-        type="submit"
-        onClick={handleSearch}
-      >
+      <Button size={'sm'} type="submit" onClick={handleSearch}>
         <p className="hidden md:block">Search</p>
         <SearchIcon className="block h-4 w-4 md:hidden" />
       </Button>

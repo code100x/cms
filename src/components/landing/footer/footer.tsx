@@ -10,7 +10,7 @@ const Footer = () => {
       <div className="mx-auto mt-4 flex w-full flex-row items-start justify-between md:max-w-screen-2xl">
         <div className="flex w-3/5 flex-col md:flex-row md:justify-between">
           <div className="flex">
-            <Logo onFooter={true} />
+            <Logo />
           </div>
           <div className="my-8 flex flex-col justify-center md:my-0">
             <h3 className="mb-4 font-semibold text-neutral-100">Quick Links</h3>

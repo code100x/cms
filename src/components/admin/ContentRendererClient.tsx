@@ -100,11 +100,10 @@ export const ContentRendererClient = ({
             onVideoEnd={() => {}}
           />
           <div className="flex justify-between">
-            <div>
-              <div className="text-bold text-2xl tracking-normal text-gray-900 dark:text-white">
-                {content.title}
-              </div>
-            </div>
+            <h2 className="text-bold text-2xl capitalize tracking-normal text-primary">
+              {content.title}
+            </h2>
+
             <div className="">
               {metadata.slides ? (
                 <div className="flex flex-row-reverse gap-2">

@@ -60,10 +60,10 @@ const Layout = async ({
   const fullCourseContent = await getFullCourseContent(parseInt(courseId, 10));
 
   return (
-    <div className="relative flex min-h-screen">
+    <>
       <Sidebar fullCourseContent={fullCourseContent} courseId={courseId} />
-      <div className="no-scrollbar grow overflow-y-auto p-2">{children}</div>
-    </div>
+      <div className="mx-auto my-24 w-full max-w-7xl px-4">{children}</div>
+    </>
   );
 };
 

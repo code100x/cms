@@ -1,5 +1,4 @@
 'use client';
-import useColorGenerator from '@/hooks/useColorGenerator';
 import { cn } from '@/lib/utils';
 import React, { forwardRef, Ref } from 'react';
 
@@ -12,20 +11,13 @@ const Tag = forwardRef(
     { className, name = 'M1000:)', ...props }: TagProps,
     ref: Ref<HTMLSpanElement>,
   ) => {
-    const [backgroundColor, textColor] = useColorGenerator(name);
-
     const tagClassName = cn(
-      'px-4  rounded-xl py-1 text-[12px] cursor-pointer mr-1',
+      'px-3 text-sm rounded-full py-1 font-medium cursor-pointer bg-blue-500 text-neutral-50 capitalize',
       className,
     );
 
     return (
-      <span
-        ref={ref}
-        className={tagClassName}
-        {...props}
-        style={{ backgroundColor, color: textColor }}
-      >
+      <span ref={ref} className={tagClassName} {...props}>
         {name}
       </span>
     );

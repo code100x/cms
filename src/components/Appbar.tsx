@@ -3,76 +3,128 @@
 import Link from 'next/link';
 import { AppbarAuth } from './AppbarAuth';
 import { useSession } from 'next-auth/react';
-/* import { useRecoilState } from 'recoil'; */
-/* import { sidebarOpen as sidebarOpenAtom } from '../store/atoms/sidebar'; */
-/* import { usePathname } from 'next/navigation'; */
-import clsx from 'clsx';
 import Logo from './landing/logo/logo';
 import { Button } from './ui/button';
 import { Sparkles } from 'lucide-react';
 import { NavigationMenu } from './landing/appbar/nav-menu';
 import SearchBar from './search/SearchBar';
 import MobileScreenSearch from './search/MobileScreenSearch';
-import ProfileDropdown from './profile-menu/ProfileDropdown';
-import { ThemeToggler } from './ThemeToggler';
 import { SelectTheme } from './profile-menu/SelectTheme';
-
-export const Appbar = ({
-  className,
-  showLogoforLanding,
-}: {
-  className: string;
-  showLogoforLanding?: boolean;
-}) => {
+import { motion } from 'framer-motion';
+export const Appbar = () => {
   const { data: session, status: sessionStatus } = useSession();
-  /*   const [sidebarOpen, setSidebarOpen] = useRecoilState(sidebarOpenAtom); */
-  /*   const currentPath = usePathname(); */
-
   const isLoading = sessionStatus === 'loading';
 
   return (
-    <>
-      <nav className={clsx(className)}>
-        <div className="flex w-full items-center justify-between md:max-w-screen-2xl">
-          {showLogoforLanding && <Logo onFooter={false} />}
+    <nav className="fixed top-0 z-[99999] mx-auto w-full p-4">
+      <section className="md:hidden">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{
+            duration: 0.5,
+            ease: 'easeInOut',
+            type: 'spring',
+            damping: 10,
+          }}
+          className="mx-auto flex items-center justify-between gap-4 rounded-xl bg-neutral-50 p-4 shadow-md dark:bg-neutral-900"
+        >
+          <Logo />
           {session?.user ? (
             !isLoading && (
               <>
-                <div className="hidden md:block">
-                  <SearchBar />
-                </div>
-                <div className="flex items-center space-x-2">
-                  {/* Search Bar for smaller devices */}
+                <div className="flex w-fit items-center justify-between gap-4">
+                  <div className="hidden md:block">
+                    <SearchBar />
+                  </div>
                   <MobileScreenSearch />
                   <SelectTheme />
-                  <ProfileDropdown />
                 </div>
               </>
             )
           ) : (
-            <div className="flex items-center space-x-2">
-              <div className="hidden items-center justify-around space-x-3 sm:flex md:block md:w-auto">
+            <div className="flex items-center">
+              <div className="hidden items-center justify-around space-x-3 md:flex md:w-auto">
                 <AppbarAuth />
-
                 <Button size={'sm'} asChild>
                   <Link
                     href={'https://harkirat.classx.co.in/new-courses'}
                     target="_blank"
                   >
-                    <p className="text-white">Join now</p>{' '}
-                    <Sparkles className="ml-2 h-4 w-4 text-white duration-200 ease-linear hover:translate-x-0.5" />
+                    Join now
+                    <Sparkles className="ml-2 h-4 w-4 duration-200 ease-linear hover:translate-x-0.5" />
                   </Link>
                 </Button>
+                <SelectTheme />
               </div>
-              <ThemeToggler />
-              <div className="block">
+              <div className="flex items-center gap-2 md:hidden">
+                <SelectTheme />
                 <NavigationMenu />
               </div>
             </div>
           )}
-        </div>
-      </nav>
-      {/* <div className="h-16 w-full print:hidden" /> */}
-    </>
+        </motion.div>
+      </section>
+      <section className="mx-auto hidden w-full max-w-7xl justify-between md:flex">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{
+            duration: 0.5,
+            ease: 'easeInOut',
+            type: 'spring',
+            damping: 10,
+          }}
+          className="flex items-center justify-between gap-4 rounded-xl bg-neutral-50 p-4 shadow-md dark:bg-neutral-900"
+        >
+          <Logo />
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{
+            duration: 0.5,
+            ease: 'easeInOut',
+            type: 'spring',
+            damping: 10,
+          }}
+          className="flex items-center justify-between gap-4 rounded-xl bg-neutral-50 p-4 shadow-md dark:bg-neutral-900"
+        >
+          {session?.user ? (
+            !isLoading && (
+              <>
+                <div className="flex w-fit items-center justify-between gap-4">
+                  <div className="hidden md:block">
+                    <SearchBar />
+                  </div>
+                  <MobileScreenSearch />
+                  <SelectTheme />
+                </div>
+              </>
+            )
+          ) : (
+            <div className="flex items-center">
+              <div className="hidden items-center justify-around space-x-3 md:flex md:w-auto">
+                <AppbarAuth />
+                <Button size={'sm'} asChild>
+                  <Link
+                    href={'https://harkirat.classx.co.in/new-courses'}
+                    target="_blank"
+                  >
+                    Join now
+                    <Sparkles className="ml-2 h-4 w-4 duration-200 ease-linear hover:translate-x-0.5" />
+                  </Link>
+                </Button>
+                <SelectTheme />
+              </div>
+              <div className="flex items-center gap-2 md:hidden">
+                <SelectTheme />
+                <NavigationMenu />
+              </div>
+            </div>
+          )}
+        </motion.div>
+      </section>
+    </nav>
   );
 };

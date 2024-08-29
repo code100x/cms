@@ -219,6 +219,139 @@ async function seedVideoMetadata() {
   }
 }
 
+async function seedBookmarks() {
+  try {
+    await db.bookmark.createMany({
+      data: [
+        {
+          userId: '1',
+          contentId: 1,
+        },
+        {
+          userId: '2',
+          contentId: 2,
+        },
+      ],
+    });
+  } catch (error) {
+    console.error('Error seeding bookmarks:', error);
+    throw error;
+  }
+}
+
+async function seedComments() {
+  try {
+    await db.comment.createMany({
+      data: [
+        {
+          content: 'This is the first comment',
+          contentId: 1,
+          userId: '1',
+          upvotes: 10,
+          downvotes: 2,
+        },
+        {
+          content: 'This is a reply to the first comment',
+          contentId: 1,
+          parentId: 1, // Assuming the first comment has ID 1
+          userId: '2',
+          upvotes: 5,
+          downvotes: 1,
+        },
+      ],
+    });
+  } catch (error) {
+    console.error('Error seeding comments:', error);
+    throw error;
+  }
+}
+
+async function seedQuestions() {
+  try {
+    await db.question.createMany({
+      data: [
+        {
+          title: 'How to seed a Prisma database?',
+          content: 'I need help seeding a Prisma database with sample data.',
+          slug: 'how-to-seed-a-prisma-database',
+          authorId: '1',
+          upvotes: 15,
+          downvotes: 3,
+          tags: ['prisma', 'database', 'seeding'],
+        },
+        {
+          title: 'What is the best way to learn TypeScript?',
+          content:
+            'Looking for resources and tips to learn TypeScript effectively.',
+          slug: 'best-way-to-learn-typescript',
+          authorId: '2',
+          upvotes: 20,
+          downvotes: 1,
+          tags: ['typescript', 'learning', 'resources'],
+        },
+      ],
+    });
+  } catch (error) {
+    console.error('Error seeding questions:', error);
+    throw error;
+  }
+}
+
+async function seedAnswers() {
+  try {
+    await db.answer.createMany({
+      data: [
+        {
+          content:
+            'You can use the `prisma db seed` command to seed your database.',
+          questionId: 1, // Assuming the first question has ID 1
+          authorId: '2',
+          upvotes: 7,
+          downvotes: 0,
+        },
+        {
+          content:
+            'Check out the official TypeScript documentation and try building small projects.',
+          questionId: 2, // Assuming the second question has ID 2
+          authorId: '1',
+          upvotes: 10,
+          downvotes: 1,
+        },
+      ],
+    });
+  } catch (error) {
+    console.error('Error seeding answers:', error);
+    throw error;
+  }
+}
+
+async function seedVotes() {
+  try {
+    await db.vote.createMany({
+      data: [
+        {
+          questionId: 1,
+          userId: '1',
+          voteType: 'UPVOTE',
+        },
+        {
+          answerId: 1, // Assuming the first answer has ID 1
+          userId: '2',
+          voteType: 'UPVOTE',
+        },
+        {
+          commentId: 1, // Assuming the first comment has ID 1
+          userId: '1',
+          voteType: 'DOWNVOTE',
+        },
+      ],
+    });
+  } catch (error) {
+    console.error('Error seeding votes:', error);
+    throw error;
+  }
+}
+
 async function seedPurchases() {
   try {
     await db.userPurchases.create({
@@ -292,6 +425,11 @@ async function seedDatabase() {
     await seedVideoMetadata();
     await seedPurchases();
     await addClassesFromAugustToMay();
+    await seedBookmarks();
+    await seedComments();
+    await seedQuestions();
+    await seedAnswers();
+    await seedVotes();
   } catch (error) {
     console.error('Error seeding database:', error);
     throw error;

@@ -4,10 +4,7 @@ import {
   Drawer,
   DrawerClose,
   DrawerContent,
-  DrawerDescription,
   DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
   DrawerTrigger,
 } from '@/components/ui/drawer';
 import { MenuIcon } from 'lucide-react';
@@ -30,14 +27,8 @@ export function NavigationMenu() {
           <MenuIcon className="h-5 w-5" />
         </Button>
       </DrawerTrigger>
-
       <DrawerContent>
         <div className="mx-auto w-full max-w-sm">
-          <DrawerHeader className="flex w-full flex-col items-center text-center">
-            <DrawerTitle>100xdevs</DrawerTitle>
-            <DrawerDescription>Choose an option</DrawerDescription>
-          </DrawerHeader>
-
           {session?.data?.user ? (
             <div className="p-4 pb-16">
               <div className="flex flex-col items-center justify-center space-y-2 text-lg">
