@@ -50,7 +50,7 @@ const SingleQuestionPage = async ({
 
   return (
     <div className="mt-5 md:mx-[15%]">
-      <Link href="/questions" className="p-4">
+      <Link href="/question" className="p-4">
         Go Back
       </Link>
       <div className="mt-3 items-center justify-center px-3">

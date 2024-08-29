@@ -139,106 +139,99 @@ export default async function QuestionsPage({
   const response = await fetchQuestionsByTabType(searchParams, sessionId!);
   return (
     <>
-      <div className="flex h-screen flex-col">
+      <div className="flex h-full flex-col">
         {/* Header */}
-        <div className="flex items-center justify-between p-5">
-          <h1 className="bg-background/6 top-0 flex items-center text-xl backdrop-blur-lg">
-            Questions
-          </h1>
-
-          <Search />
-        </div>
+        <h1 className="bg-background/6 top-0 flex items-center p-5 text-xl backdrop-blur-lg">
+          Questions
+        </h1>
 
         {/* Content Area */}
-        <div className="flex-1 overflow-y-auto pb-20">
-          {/* Next question button */}
-          <NewPostDialog />
-
-          <div className="mx-auto md:p-10 xl:mx-[15%]">
-            <div className="flex-col items-center justify-center p-4 dark:text-white">
-              <div className="flex items-center justify-between">
-                <div className="px-16">
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button className="shrink-0" variant="outline">
-                        <ArrowUpDownIcon className="mr-2 h-4 w-4" />
-                        Sort by
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end" className="w-[200px]">
-                      <DropdownMenuRadioGroup value={tabType}>
-                        <Link
-                          className="py-2"
-                          href={getUpdatedUrl('/question', searchParams, {
-                            tabtype: TabType.mq,
-                          })}
-                        >
-                          <DropdownMenuRadioItem value={TabType.mq}>
-                            Your questions
-                          </DropdownMenuRadioItem>
-                        </Link>
-
-                        <Link
-                          href={getUpdatedUrl('/question', searchParams, {
-                            tabtype: TabType.mu,
-                          })}
-                        >
-                          <DropdownMenuRadioItem value={TabType.mu}>
-                            Most Voted
-                          </DropdownMenuRadioItem>
-                        </Link>
-                        <Link
-                          href={getUpdatedUrl(`/question`, searchParams, {
-                            tabtype: TabType.md,
-                          })}
-                        >
-                          <DropdownMenuRadioItem value={TabType.md}>
-                            Most Down Voted
-                          </DropdownMenuRadioItem>
-                        </Link>
-                        <Link
-                          href={getUpdatedUrl('/question', searchParams, {
-                            tabtype: TabType.mr,
-                          })}
-                        >
-                          <DropdownMenuRadioItem value={TabType.mr}>
-                            Most Recent
-                          </DropdownMenuRadioItem>
-                        </Link>
-                      </DropdownMenuRadioGroup>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </div>
-                <Link
-                  className="mb-2 me-2 rounded-lg bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-gradient-to-br"
-                  href={getUpdatedUrl('/question', searchParams, {
-                    newPost:
-                      searchParams.newPost === 'close' || !searchParams.newPost
-                        ? 'open'
-                        : 'close',
-                  })}
+        {/* Next question button */}
+        <NewPostDialog />
+        <div className="flex h-full flex-col overflow-hidden px-4 lg:px-24">
+          <div className="mb-4 flex flex-wrap items-center justify-between gap-4">
+            <div className="flex items-center justify-start gap-2">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button className="shrink-0" variant="outline">
+                    <ArrowUpDownIcon className="mr-2 h-4 w-4" />
+                    Sort by
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent
+                  className="w-[200px]"
+                  side={'bottom'}
+                  align="start"
                 >
-                  New Question
-                </Link>
-              </div>
+                  <DropdownMenuRadioGroup value={tabType}>
+                    <Link
+                      className="py-2"
+                      href={getUpdatedUrl('/question', searchParams, {
+                        tabtype: TabType.mq,
+                      })}
+                    >
+                      <DropdownMenuRadioItem value={TabType.mq}>
+                        Your questions
+                      </DropdownMenuRadioItem>
+                    </Link>
 
-              {/* Chat */}
-              <div className="m-auto w-full">
-                <div className="w-full space-y-4">
-                  {response?.data?.map((post) => (
-                    <PostCard
-                      post={post}
-                      sessionUser={session?.user}
-                      key={post.id}
-                      isAnswer={false}
-                      questionId={post.id}
-                      enableLink={true}
-                      reply={false}
-                    />
-                  ))}
-                </div>
-              </div>
+                    <Link
+                      href={getUpdatedUrl('/question', searchParams, {
+                        tabtype: TabType.mu,
+                      })}
+                    >
+                      <DropdownMenuRadioItem value={TabType.mu}>
+                        Most Voted
+                      </DropdownMenuRadioItem>
+                    </Link>
+                    <Link
+                      href={getUpdatedUrl(`/question`, searchParams, {
+                        tabtype: TabType.md,
+                      })}
+                    >
+                      <DropdownMenuRadioItem value={TabType.md}>
+                        Most Down Voted
+                      </DropdownMenuRadioItem>
+                    </Link>
+                    <Link
+                      href={getUpdatedUrl('/question', searchParams, {
+                        tabtype: TabType.mr,
+                      })}
+                    >
+                      <DropdownMenuRadioItem value={TabType.mr}>
+                        Most Recent
+                      </DropdownMenuRadioItem>
+                    </Link>
+                  </DropdownMenuRadioGroup>
+                </DropdownMenuContent>
+              </DropdownMenu>
+              <Link
+                className="whitespace-nowrap rounded-md bg-primary px-4 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-500/90"
+                href={getUpdatedUrl('/question', searchParams, {
+                  newPost:
+                    searchParams.newPost === 'close' || !searchParams.newPost
+                      ? 'open'
+                      : 'close',
+                })}
+              >
+                New Question
+              </Link>
             </div>
+            <Search />
+          </div>
+          <div className="no-scrollbar flex h-full flex-col items-end overflow-y-auto rounded-md bg-secondary p-4 pb-8 dark:bg-[#0F172A]">
+            {/* Chat */}
+            {response?.data?.map((post) => (
+              <PostCard
+                post={post}
+                sessionUser={session?.user}
+                key={post.id}
+                isAnswer={false}
+                questionId={post.id}
+                enableLink={true}
+                reply={false}
+              />
+            ))}
             <Pagination dataLength={response?.data?.length || 0} />
           </div>
         </div>

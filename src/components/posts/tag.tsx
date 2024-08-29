@@ -12,7 +12,7 @@ const Tag = forwardRef(
     { className, name = 'M1000:)', ...props }: TagProps,
     ref: Ref<HTMLSpanElement>,
   ) => {
-    const [backgroundColor, textColor] = useColorGenerator(name);
+    const { background, text } = useColorGenerator(name);
 
     const tagClassName = cn(
       'px-4  rounded-xl py-1 text-[12px] cursor-pointer mr-1',
@@ -22,9 +22,9 @@ const Tag = forwardRef(
     return (
       <span
         ref={ref}
-        className={tagClassName}
+        className={`${tagClassName} bg-${background} text-${text}`}
         {...props}
-        style={{ backgroundColor, color: textColor }}
+        style={{ background, color: text }}
       >
         {name}
       </span>

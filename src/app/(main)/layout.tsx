@@ -14,9 +14,7 @@ export default (props: Props) => {
           <SideBar />
           <div className="ml-[5.1rem] flex h-screen w-full flex-col overflow-hidden lg:ml-0">
             <Appbar />
-            <div className="min-h-[calc(100vh-64px)]">
-              <div className="">{props.children}</div>
-            </div>
+            {props.children}
           </div>
         </div>
       }

@@ -5,9 +5,5 @@ interface Props {
 }
 
 export default function MainLayout(props: Props) {
-  return (
-    <div className="flex h-screen overflow-hidden">
-      <div className="w-full">{props.children}</div>
-    </div>
-  );
+  return <div className="h-[calc(100vh-54px)] w-full">{props.children}</div>;
 }

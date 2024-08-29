@@ -12,7 +12,6 @@ import MDEditor from '@uiw/react-md-editor';
 import DeleteForm from './form/form-delete';
 
 import Link from 'next/link';
-import Tag from './tag';
 
 import {
   Author,
@@ -37,6 +36,8 @@ import { FormPostErrors } from './form/form-errors';
 import { Button } from '../ui/button';
 import { Card, CardFooter } from '../ui/card';
 import { CardBody } from '../3dcard';
+import { Badge } from '../ui/badge';
+import useColorGenerator from '@/hooks/useColorGenerator';
 
 interface IProps {
   post: ExtendedQuestion | ExtendedAnswer;
@@ -91,20 +92,20 @@ const PostCard: React.FC<IProps> = ({
 
   const internalDetails = () => {
     return (
-      <div className="flex w-full items-start gap-2.5">
-        <Avatar className="cursor-pointer">
-          <AvatarFallback>
+      <div className="flex w-full items-start gap-2.5 py-2">
+        <Avatar className="hidden cursor-pointer md:block">
+          <AvatarFallback className="bg-background">
             {post.author.name?.substring(0, 2).toUpperCase()}
           </AvatarFallback>
         </Avatar>
         {/*         <div className="my-2 flex border items-center justify-between gap-3"> */}
-        <div className="leading-1.5 flex w-full flex-col rounded-e-xl rounded-es-xl border">
-          <div className="flex w-full items-center justify-between gap-3 rounded-tr-lg border-b bg-gray-500/10 p-2 dark:bg-gray-800/20">
-            <div className="flex items-center gap-2">
+        <div className="leading-1.5 flex w-full flex-col rounded-md bg-background">
+          <div className="flex w-full items-center justify-between gap-3 rounded-tr-lg bg-gray-500/10 p-2 dark:bg-gray-800/20">
+            <div className="flex flex-wrap items-center gap-2 pl-1">
               <TextSnippet className="mb-1 font-medium">
                 {post.author.name}
               </TextSnippet>
-              <div className="flex items-center">
+              <div className="flex flex-wrap items-center whitespace-nowrap">
                 <TextSnippet className="text-xs text-gray-500">
                   {dayjs(post.createdAt).fromNow()}
                 </TextSnippet>
@@ -147,13 +148,13 @@ const PostCard: React.FC<IProps> = ({
 
           {!isAnswer && enableLink && isExtendedQuestion(post) && (
             <Link href={`/questions/${post?.slug}`}>
-              <TextSnippet className="mx-2 py-2 text-lg hover:underline">
+              <TextSnippet className="mx-2 py-2 pl-1 text-lg hover:underline">
                 {post?.title}
               </TextSnippet>
             </Link>
           )}
 
-          <CardFooter className="flex flex-col items-start justify-between border-gray-200 p-2 dark:border-gray-700">
+          <CardFooter className="flex flex-col items-start justify-between border-gray-200 p-3 dark:border-gray-700">
             {post.content && (
               <div data-color-mode={theme} className="max-w-3xl">
                 <div className="wmde-markdown-var"> </div>
@@ -169,11 +170,21 @@ const PostCard: React.FC<IProps> = ({
                 />
               </div>
             )}
-            <div className="my-2 mb-2 flex">
+            <div className="my-2 mb-2 flex flex-wrap gap-1">
               {isExtendedQuestion(post) &&
                 post.tags
                   .filter((v) => v !== '')
-                  .map((v, index) => <Tag name={v} key={index + v} />)}
+                  .map((v, index) => {
+                    const { background, text } = useColorGenerator(v);
+                    return (
+                      <Badge
+                        className={`${background} ${text} hover:${background} whitespace-nowrap rounded-md`}
+                        key={index}
+                      >
+                        {v}
+                      </Badge>
+                    );
+                  })}
             </div>
             <div className="flex w-full items-center justify-between">
               <div className="flex">
@@ -199,9 +210,9 @@ const PostCard: React.FC<IProps> = ({
                     size={18}
                     color="#3B81F6"
                     fill="#3B81F6"
-                    className="ml-1 duration-300 ease-in-out hover:scale-125"
+                    className="ml-1 cursor-auto"
                   />
-                  <p className="text-sm">{post.totalanswers}</p>
+                  <p className="cursor-auto text-sm">{post.totalanswers}</p>
                 </TextSnippet>
               </div>
             </div>
@@ -234,8 +245,8 @@ const PostCard: React.FC<IProps> = ({
     );
   };
   return (
-    <Card className="w-full">
-      <CardBody className="flex h-auto w-full items-start justify-between gap-5 p-2 sm:p-4">
+    <Card className="w-full border-none bg-transparent">
+      <CardBody className="flex h-auto w-full items-start justify-between gap-5">
         <div className="flex w-full flex-1 flex-row items-start justify-between">
           {internalDetails()}
         </div>
