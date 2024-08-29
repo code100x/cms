@@ -4,6 +4,7 @@ import BookmarkButton from './bookmark/BookmarkButton';
 import { formatTime } from '@/lib/utils';
 import VideoThumbnail from './videothumbnail';
 import CardComponent from './CardComponent';
+import PercentageComplete from './PercentageComplete';
 
 export const ContentCard = ({
   title,
@@ -15,6 +16,7 @@ export const ContentCard = ({
   bookmark,
   contentId,
   contentDuration,
+  percentComplete,
 }: {
   type: 'folder' | 'video' | 'notion';
   contentId?: number;
@@ -73,6 +75,9 @@ export const ContentCard = ({
             // }
           />
         </div>
+      )}
+      {type === 'folder' && (
+        <PercentageComplete percent={percentComplete || 0} />
       )}
 
       {bookmark !== undefined && contentId && (
