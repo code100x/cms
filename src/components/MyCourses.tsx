@@ -30,8 +30,10 @@ export const MyCourses = async () => {
     );
   return (
     <>
-      <Courses courses={purchases} />
-      {/*       <RefreshDb refreshDb={refreshDb} /> */}
+      <div className="px-4">
+        <Courses courses={purchases} />
+      </div>
+      {/* <RefreshDb refreshDb={refreshDb} /> */}
     </>
   );
 };

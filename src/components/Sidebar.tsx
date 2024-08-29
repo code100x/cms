@@ -6,7 +6,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
-import { X, ChevronRight } from 'lucide-react';
+import { X, ChevronRight, ChevronLeft } from 'lucide-react';
 import { FullCourseContent } from '@/db/course';
 import { useRecoilState } from 'recoil';
 import { sidebarOpen as sidebarOpenAtom } from '@/store/atoms/sidebar';
@@ -155,18 +155,19 @@ export function Sidebar({
     return (
       <div
         onClick={() => setSidebarOpen((s) => !s)}
-        className="mt-2 cursor-pointer"
+        className="absolute right-2 top-2 h-fit cursor-pointer"
       >
-        <ChevronRight
-          size={28}
-          className="rounded-br rounded-tr border-b border-r border-t"
-        />
+        <button className="flex items-center rounded-lg border py-2 pl-2 pr-2 md:pr-4">
+          <ChevronLeft size={20} className="hidden sm:block md:mr-2" />
+          <ChevronRight size={20} className="block sm:hidden md:mr-2" />
+          <span className="hidden md:block">Show course content</span>
+        </button>
       </div>
     );
   }
 
   return (
-    <div className="no-scrollbar absolute z-20 m-4 h-full w-[300px] min-w-[300px] cursor-pointer self-start overflow-y-scroll scroll-smooth rounded-lg border bg-gray-50 dark:bg-[#020817] sm:sticky sm:top-[64px] sm:h-sidebar">
+    <div className="no-scrollbar absolute z-20 h-full w-[300px] min-w-[300px] self-start overflow-y-scroll scroll-smooth border bg-gray-50 dark:bg-[#020817] sm:sticky sm:top-[64px] sm:h-sidebar">
       <div className="flex items-center justify-between border-b p-4">
         <h4 className="text-lg dark:text-[#F8FAFC]">Course Content</h4>
         <div
@@ -174,7 +175,7 @@ export function Sidebar({
             setSidebarOpen((s) => !s);
           }}
         >
-          <X size={20} />
+          <X size={20} className="cursor-pointer" />
         </div>
       </div>
       <Accordion type="single" collapsible className="w-full">
@@ -248,13 +249,13 @@ function VideoIcon() {
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"
-      stroke-width="1.5"
+      strokeWidth="1.5"
       stroke="currentColor"
       className="h-5 w-5"
     >
       <path
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
         d="m15.75 10.5 4.72-4.72a.75.75 0 0 1 1.28.53v11.38a.75.75 0 0 1-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25h-9A2.25 2.25 0 0 0 2.25 7.5v9a2.25 2.25 0 0 0 2.25 2.25Z"
       />
     </svg>
@@ -267,13 +268,13 @@ function NotionIcon() {
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"
-      stroke-width="1.5"
+      strokeWidth="1.5"
       stroke="currentColor"
       className="h-5 w-5"
     >
       <path
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
         d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"
       />
     </svg>
