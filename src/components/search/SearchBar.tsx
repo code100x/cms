@@ -116,7 +116,7 @@ const SearchBar = ({ onCardClick }: { onCardClick?: () => void }) => {
 
       {/* Search Results */}
       {isInputFocused && searchTerm.length > 0 && (
-        <div className="absolute top-14 z-10 max-h-[40vh] w-full overflow-y-auto rounded-lg border-2 bg-white py-2 shadow-lg dark:bg-[#020817]">
+        <div className="absolute top-14 z-30 max-h-[40vh] w-full overflow-y-auto rounded-lg border-2 bg-white py-2 shadow-lg dark:bg-[#020817]">
           {renderSearchResults()}
         </div>
       )}
