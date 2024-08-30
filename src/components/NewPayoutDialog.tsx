@@ -15,7 +15,6 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from '@/components/ui/dialog';
 
 interface DialogProps {
@@ -105,22 +104,20 @@ export default function NewPayoutDialog({
               <Input
                 placeholder={`Enter your ${title} address`}
                 {...register(fieldName)}
-                className='p-4'
+                className="p-4"
               />
               {errors[fieldName] && (
-              <p className="text-sm text-red-500">
-                {errors[fieldName]?.message}
-              </p>
-            )}
+                <p className="text-sm text-red-500">
+                  {errors[fieldName]?.message}
+                </p>
+              )}
               <Button type="submit" disabled={isLoading}>
                 {isLoading ? <Loader /> : 'Add'}
               </Button>
             </div>
-            
           </form>
         </DialogContent>
       </Dialog>
     </>
-
   );
 }

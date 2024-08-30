@@ -122,6 +122,8 @@ model VideoMetadata {
   migrated_video_1080p_mp4_1 String?
   migrated_video_360p_mp4_1  String?
   migrated_video_720p_mp4_1  String?
+  original_mp4_url           String?
+  transcoded                 Boolean         @default(false)
 
   @@unique([contentId])
 }
