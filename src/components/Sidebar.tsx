@@ -155,7 +155,7 @@ export function Sidebar({
     <>
       {sidebarOpen && (
         <div className="no-scrollbar absolute z-20 m-4 h-full w-[300px] min-w-[300px] cursor-pointer self-start overflow-y-scroll scroll-smooth rounded-lg border bg-gray-50 dark:bg-[#020817] sm:sticky sm:top-[64px] sm:h-sidebar">
-          <div className="flex items-center justify-between border-b p-4">
+          <div className="flex items-center justify-between border-b p-4 sticky top-0 bg-background">
             <h4 className="text-lg dark:text-[#F8FAFC]">Course Content</h4>
             <div
               onClick={() => {
