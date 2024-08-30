@@ -16,6 +16,7 @@ import MobileScreenSearch from './search/MobileScreenSearch';
 import ProfileDropdown from './profile-menu/ProfileDropdown';
 import { ThemeToggler } from './ThemeToggler';
 import { SelectTheme } from './profile-menu/SelectTheme';
+import { Skeleton } from '@/components/ui/skeleton';
 
 export const Appbar = ({
   className,
@@ -24,36 +25,42 @@ export const Appbar = ({
   className: string;
   showLogoforLanding?: boolean;
 }) => {
-  const { data: session, status: sessionStatus } = useSession();
+  const { status: sessionStatus } = useSession();
   /*   const [sidebarOpen, setSidebarOpen] = useRecoilState(sidebarOpenAtom); */
   /*   const currentPath = usePathname(); */
-
-  const isLoading = sessionStatus === 'loading';
 
   return (
     <>
       <nav className={clsx(className)}>
-        <div className="flex w-full items-center justify-between md:max-w-screen-2xl">
+        <div className="container flex w-full items-center justify-between md:max-w-screen-2xl">
           {showLogoforLanding && <Logo onFooter={false} />}
-          {session?.user ? (
-            !isLoading && (
-              <>
-                <div className="hidden md:block">
-                  <SearchBar />
-                </div>
-                <div className="flex items-center space-x-2">
-                  {/* Search Bar for smaller devices */}
-                  <MobileScreenSearch />
-                  <SelectTheme />
-                  <ProfileDropdown />
-                </div>
-              </>
-            )
-          ) : (
+          {sessionStatus === 'loading' && (
+            <div className="flex items-center space-x-2">
+              <div className="space-y-2">
+                <Skeleton className="h-10 w-[1300px]" />
+              </div>
+              <Skeleton className="h-10 w-10 rounded-md" />
+              <Skeleton className="h-10 w-10 rounded-full" />
+            </div>
+          )}
+          {sessionStatus === 'authenticated' && (
+            <>
+              <div className="hidden md:block">
+                <SearchBar />
+              </div>
+              <div className="flex items-center space-x-2">
+                {/* Search Bar for smaller devices */}
+                {/* Make sure MobileScreenSearch is defined */}
+                <MobileScreenSearch />
+                <SelectTheme />
+                <ProfileDropdown />
+              </div>
+            </>
+          )}
+          {sessionStatus === 'unauthenticated' && (
             <div className="flex items-center space-x-2">
               <div className="hidden items-center justify-around space-x-3 sm:flex md:block md:w-auto">
                 <AppbarAuth />
-
                 <Button size={'sm'} asChild>
                   <Link
                     href={'https://harkirat.classx.co.in/new-courses'}
