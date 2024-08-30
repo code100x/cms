@@ -160,6 +160,21 @@ export default function Page() {
               )}
             </div>
           </div>
+          <div className="mt-6 px-2 py-4 sm:px-0">
+            <div>
+              <div className="flex w-[90vw] justify-between">
+                <p className="py-2 font-semibold">Github</p>
+                <Button
+                  id="github"
+                  size="sm"
+                  className="light:text-black sticky rounded-md bg-black p-3 text-white transition-colors duration-500 hover:bg-[#242424] dark:bg-white dark:text-black hover:dark:bg-white"
+                  onClick={(e) => openDialog(e)}
+                >
+                  Link your Github
+                </Button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

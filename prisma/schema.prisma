@@ -156,6 +156,7 @@ model User {
   certificate    Certificate[]
   upiIds         UpiId[]           @relation("UserUpiIds")
   solanaAddresses SolanaAddress[]  @relation("UserSolanaAddresses")
+  
 }
 
 model UpiId {

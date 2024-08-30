@@ -23,7 +23,8 @@ export const AdminCourseContent = ({
 
   return (
     <div>
-      Course content
+      <div className="sticky">Course content</div>
+
       <div className="mx-auto grid max-w-screen-xl cursor-pointer grid-cols-1 justify-between gap-5 p-4 md:grid-cols-3">
         {courseContent?.map(
           (content: { image: string; id: number; title: string }) => (
