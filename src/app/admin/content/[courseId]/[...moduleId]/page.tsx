@@ -13,18 +13,20 @@ export default async function UpdateCourseContent({
   const rest = params.moduleId;
   const course = await getCourse(parseInt(courseId, 10));
   const fullCourseContent = await getFullCourseContent(parseInt(courseId, 10));
+
   const courseContent = findContentById(
     fullCourseContent,
     rest.map((x) => parseInt(x, 10)),
   );
-  const contentType =
-    courseContent?.length === 1 ? courseContent[0]?.type : 'folder';
+  const contentType = courseContent?.folder
+    ? 'folder'
+    : courseContent?.value?.type;
 
   if (contentType === 'video') {
     return (
       <div className="mx-auto max-w-screen-xl justify-between p-4 text-white">
         {/* @ts-ignore */}
-        <UpdateVideoClient content={courseContent[0]} />
+        <UpdateVideoClient content={courseContent.value} />
       </div>
     );
   }
@@ -48,11 +50,12 @@ export default async function UpdateCourseContent({
       />
       <AdminCourseContent
         rest={rest}
-        //@ts-ignore
-        courseContent={courseContent?.map((x: any) => ({
+        // @ts-ignore
+        courseContent={courseContent?.value?.map((x: any) => ({
           title: x?.title || '',
           image: x?.thumbnail || '',
           id: x?.id || 0,
+          createdAt: x?.createdAt,
         }))}
         courseId={parseInt(courseId, 10)}
       />

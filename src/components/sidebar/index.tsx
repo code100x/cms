@@ -1,7 +1,8 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AnimatedTooltip } from '@/components/ui/animated-tooltip';
 import { signOut } from 'next-auth/react';
+import { refreshDb } from '@/actions/refresh-db';
 
 import Logo from '../landing/logo/logo';
 import {
@@ -10,8 +11,10 @@ import {
   MessageSquare,
   History,
   PanelRightOpen,
+  PanelLeftOpen,
   LogOut,
 } from 'lucide-react';
+import { RefreshDb } from '../RefreshDb';
 
 export const menuOptions = [
   { id: 1, name: 'My Courses', Component: Library, href: '/my-courses' },
@@ -22,6 +25,12 @@ export const menuOptions = [
 
 export const MenuOptions = () => {
   const [expanded, setExpanded] = useState(true);
+
+  useEffect(() => {
+    if (window.innerWidth < 500) {
+      setExpanded(false);
+    }
+  }, []);
 
   return (
     <aside className="h-screen">
@@ -38,7 +47,11 @@ export const MenuOptions = () => {
             onClick={() => setExpanded((curr) => !curr)}
           >
             <div className="p-2">
-              <PanelRightOpen size={24} />
+              {expanded ? (
+                <PanelRightOpen size={24} />
+              ) : (
+                <PanelLeftOpen size={24} />
+              )}
             </div>
           </div>
         </div>
@@ -46,8 +59,9 @@ export const MenuOptions = () => {
         <div className="boarder border-gray flex flex-1 flex-col gap-6 p-4">
           <AnimatedTooltip expanded={expanded} items={menuOptions} />
         </div>
+        <RefreshDb refreshDb={refreshDb} expanded={expanded} />
 
-        <div className="border-t p-4">
+        <div className="mt-4 border-t p-4">
           <div className="flex rounded-md p-2">
             <LogOut size={24} color="#DD503F" />
             <button

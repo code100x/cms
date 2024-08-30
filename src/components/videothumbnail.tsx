@@ -7,10 +7,12 @@ const VideoThumbnail = ({
   imageUrl,
   contentId,
   title,
+  contentDuration,
 }: {
   imageUrl: string;
   contentId: number;
   title: string;
+  contentDuration: any;
 }) => {
   const [videoUrl, setVideoUrl] = useState<string | null>(null);
   const [hover, setHover] = useState(false);
@@ -52,7 +54,11 @@ const VideoThumbnail = ({
               />
             ) : (
               //@ts-ignore
-              <CardComponent type="video" title={title} />
+              <CardComponent
+                type="video"
+                title={title}
+                contentDuration={contentDuration}
+              />
             )}
           </>
         )}

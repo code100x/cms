@@ -22,7 +22,7 @@ const BookmarkList = ({
           {bookmarkData.map((bookmark) => {
             const {
               contentId,
-              content: { type, parent, title, hidden, thumbnail },
+              content: { type, parent, title, hidden, thumbnail, createdAt },
             } = bookmark;
             if (type === 'video' && parent && !hidden) {
               const { id: folderId, courses } = parent;
@@ -40,6 +40,7 @@ const BookmarkList = ({
                   }}
                   bookmark={bookmark}
                   contentId={contentId}
+                  createdAt={createdAt}
                 />
               );
             }

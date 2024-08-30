@@ -12,6 +12,7 @@ export const AdminCourseContent = ({
     title: string;
     image: string;
     id: number;
+    createdAt: Date;
   }[];
   rest: string[];
 }) => {
@@ -26,7 +27,12 @@ export const AdminCourseContent = ({
       Course content
       <div className="mx-auto grid max-w-screen-xl cursor-pointer grid-cols-1 justify-between gap-5 p-4 md:grid-cols-3">
         {courseContent?.map(
-          (content: { image: string; id: number; title: string }) => (
+          (content: {
+            image: string;
+            id: number;
+            title: string;
+            createdAt: Date;
+          }) => (
             <ContentCard
               type={'folder'}
               title={content.title}
@@ -35,6 +41,7 @@ export const AdminCourseContent = ({
                 router.push(`${updatedRoute}/${content.id}`);
               }}
               key={content.id}
+              createdAt={content.createdAt}
             />
           ),
         ) ?? []}
