@@ -18,10 +18,23 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 import ExternalLinks from './ExternalLinks';
 import { signOut } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
 const ProfileDropdown = () => {
+  const router = useRouter();
   const menuItemLinks = [
     {
       href: '/history',
@@ -79,14 +92,34 @@ const ProfileDropdown = () => {
 
         <DropdownMenuSeparator />
 
-        <DropdownMenuItem
-          onClick={() => {
-            signOut();
-          }}
-        >
-          <LogOutIcon className="mr-2 h-4 w-4" />
-          <span>Logout</span>
-        </DropdownMenuItem>
+        <AlertDialog>
+          <AlertDialogTrigger asChild>
+            <div className="my-1.5 flex cursor-pointer items-center px-2 hover:text-red-500">
+              <LogOutIcon className="mr-2 h-4 w-4" />
+              <span>Logout</span>
+            </div>
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Confirm Logout</AlertDialogTitle>
+              <AlertDialogDescription>
+                Are you sure you want to log out? You will need to sign in again
+                to access your account.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction
+                onClick={async () => {
+                  await signOut();
+                  router.push('/');
+                }}
+              >
+                Continue
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </DropdownMenuContent>
     </DropdownMenu>
   );

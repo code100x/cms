@@ -3,7 +3,17 @@ import { useEffect, useState } from 'react';
 import { AnimatedTooltip } from '@/components/ui/animated-tooltip';
 import { signOut } from 'next-auth/react';
 import { refreshDb } from '@/actions/refresh-db';
-
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 import Logo from '../landing/logo/logo';
 import {
   Library,
@@ -15,6 +25,7 @@ import {
   LogOut,
 } from 'lucide-react';
 import { RefreshDb } from '../RefreshDb';
+import { useRouter } from 'next/navigation';
 
 export const menuOptions = [
   { id: 1, name: 'My Courses', Component: Library, href: '/my-courses' },
@@ -25,7 +36,7 @@ export const menuOptions = [
 
 export const MenuOptions = () => {
   const [expanded, setExpanded] = useState(true);
-
+  const router = useRouter();
   useEffect(() => {
     if (window.innerWidth < 500) {
       setExpanded(false);
@@ -62,19 +73,41 @@ export const MenuOptions = () => {
         <RefreshDb refreshDb={refreshDb} expanded={expanded} />
 
         <div className="mt-4 border-t p-4">
-          <div className="flex rounded-md p-2">
-            <LogOut size={24} color="#DD503F" />
-            <button
-              onClick={() => {
-                signOut();
-              }}
-              className={`flex items-center justify-between overflow-hidden transition-all ${
-                expanded ? 'ml-3 w-52' : 'w-0'
-              }`}
-            >
-              <h4 className="font-semibold text-[#DD503F]">Logout</h4>
-            </button>
-          </div>
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <div className="flex cursor-pointer rounded-md p-2">
+                <LogOut size={24} color="#DD503F" />
+                <button
+                  className={`flex items-center justify-between overflow-hidden transition-all ${
+                    expanded ? 'ml-3 w-52' : 'w-0'
+                  }`}
+                >
+                  <h4 className="font-semibold text-[#DD503F]">Logout</h4>
+                </button>
+              </div>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Confirm Logout</AlertDialogTitle>
+                <AlertDialogDescription>
+                  Are you sure you want to log out? You will need to sign in
+                  again to access your account.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction
+                  className="text-white"
+                  onClick={async () => {
+                    await signOut();
+                    router.push('/');
+                  }}
+                >
+                  Continue
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
         </div>
       </nav>
     </aside>
