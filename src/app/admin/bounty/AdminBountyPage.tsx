@@ -26,7 +26,6 @@ export const AdminBountyPage = () => {
   const fetchBounties = async () => {
     setIsLoading(true);
     const result = await getBounties();
-    console.log('Fetched Bounties:', result.bounties);
     if (result) {
       setBounties(result.bounties);
       setINRBounties(result.totalINRBounties);

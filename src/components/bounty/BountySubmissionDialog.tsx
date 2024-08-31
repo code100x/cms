@@ -40,8 +40,7 @@ export default function BountySubmissionDialog({
         setSubmitError('Add at least 1 payment method');
         return;
       }
-      const result = await submitBounty(data);
-      console.log(result);
+      await submitBounty(data);
       reset();
       onClose();
     } catch (error: any) {

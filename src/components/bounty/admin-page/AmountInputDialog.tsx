@@ -1,6 +1,7 @@
 import { Dialog } from '@/components/ui/dialog';
 import React, { useState } from 'react';
 import { Button } from 'react-day-picker';
+import { toast } from 'sonner';
 
 interface AmountInputDialogProps {
   isOpen: boolean;
@@ -20,7 +21,7 @@ const AmountInputDialog: React.FC<AmountInputDialogProps> = ({
       onConfirm(parsedAmount);
       onClose();
     } else {
-      alert('Invalid amount entered.');
+      toast.error('Invalid amount entered.');
     }
   };
 

@@ -28,7 +28,7 @@ export async function approveBounty(data: AdminApprovalData) {
   const validatedData = adminApprovalSchema.parse(data);
 
   const updatedBounty = await prisma.bountySubmission.update({
-    where: { id: validatedData.bountyId }, // Convert to number
+    where: { id: validatedData.bountyId },
     data: { status: validatedData.status },
   });
 
