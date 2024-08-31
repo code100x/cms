@@ -20,7 +20,7 @@ export async function GET(req: NextRequest) {
       },
       orderBy: [
         {
-          subtitle_tried: 'desc',
+          subtitle_tried: 'asc',
         },
         {
           contentId: 'desc',
