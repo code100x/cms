@@ -6,7 +6,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
-import { X, ChevronRight } from 'lucide-react';
+import { X } from 'lucide-react';
 import { FullCourseContent } from '@/db/course';
 import { useRecoilState } from 'recoil';
 import { sidebarOpen as sidebarOpenAtom } from '@/store/atoms/sidebar';
@@ -151,37 +151,27 @@ export function Sidebar({
     });
   };
 
-  if (!sidebarOpen) {
-    return (
-      <div
-        onClick={() => setSidebarOpen((s) => !s)}
-        className="mt-2 cursor-pointer"
-      >
-        <ChevronRight
-          size={28}
-          className="rounded-br rounded-tr border-b border-r border-t"
-        />
-      </div>
-    );
-  }
-
   return (
-    <div className="no-scrollbar absolute z-20 m-4 h-full w-[300px] min-w-[300px] cursor-pointer self-start overflow-y-scroll scroll-smooth rounded-lg border bg-gray-50 dark:bg-[#020817] sm:sticky sm:top-[64px] sm:h-sidebar">
-      <div className="flex items-center justify-between border-b p-4">
-        <h4 className="text-lg dark:text-[#F8FAFC]">Course Content</h4>
-        <div
-          onClick={() => {
-            setSidebarOpen((s) => !s);
-          }}
-        >
-          <X size={20} />
+    <>
+      {sidebarOpen && (
+        <div className="no-scrollbar absolute z-20 m-4 h-full w-[300px] min-w-[300px] cursor-pointer self-start overflow-y-scroll scroll-smooth rounded-lg border bg-gray-50 dark:bg-[#020817] sm:sticky sm:top-[64px] sm:h-sidebar">
+          <div className="sticky top-0 flex items-center justify-between border-b bg-background p-4">
+            <h4 className="text-lg dark:text-[#F8FAFC]">Course Content</h4>
+            <div
+              onClick={() => {
+                setSidebarOpen((s) => !s);
+              }}
+            >
+              <X size={20} />
+            </div>
+          </div>
+          <Accordion type="single" collapsible className="w-full">
+            {/* Render course content */}
+            {renderContent(fullCourseContent)}
+          </Accordion>
         </div>
-      </div>
-      <Accordion type="single" collapsible className="w-full">
-        {/* Render course content */}
-        {renderContent(fullCourseContent)}
-      </Accordion>
-    </div>
+      )}
+    </>
   );
 }
 

@@ -71,8 +71,8 @@ export const ContentRendererClient = ({
 
   return (
     <div className="flex flex-col gap-2">
-      <div className="flex">
-        <div className="w-full flex-1">
+      <div className="flex flex-wrap justify-between gap-4 xl:flex-nowrap">
+        <div className="w-full">
           <VideoPlayerSegment
             setQuality={setQuality}
             contentId={content.id}
@@ -106,15 +106,8 @@ export const ContentRendererClient = ({
               </div>
             </div>
             <div className="">
-              {/* <QualitySelector /> */}
               {metadata.slides ? (
-                <div
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'row-reverse',
-                    gap: '10px',
-                  }}
-                >
+                <div className="flex flex-row-reverse gap-2">
                   <a href={metadata.slides} target="_blank">
                     <button className="mb-2 me-2 flex items-center gap-2 rounded-lg bg-blue-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700">
                       <Presentation size={18} />
@@ -169,13 +162,14 @@ export const ContentRendererClient = ({
             </div>
           ) : null}
         </div>
-
-        {showChapters && (
-          <VideoContentChapters
-            segments={metadata?.segments}
-            onCancel={toggleShowChapters}
-          />
-        )}
+        <div className="w-full xl:max-w-[500px]">
+          {showChapters && (
+            <VideoContentChapters
+              segments={metadata?.segments}
+              onCancel={toggleShowChapters}
+            />
+          )}
+        </div>
       </div>
     </div>
   );
