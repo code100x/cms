@@ -112,6 +112,7 @@ model VideoMetadata {
   video_360p_3               String? // Link to 360p quality video variant 3
   video_360p_4               String? // Link to 360p quality video variant 4
   subtitles                  String? // Link to subtitles file
+  subtitle_tried             Int             @default(0) //Count of subtitle transcoding tries
   segments                   Json?
   content                    Content         @relation(fields: [contentId], references: [id])
   slides                     String? // link to slides
@@ -342,3 +343,4 @@ enum MigrationStatus {
   MIGRATED
   MIGRATION_ERROR
 }
+
