@@ -9,7 +9,7 @@ export const payoutMethodSchema = z.object({
     .optional(),
   solanaAddress: z
     .string()
-    .refine((value) => /^[A-Za-z0-9]{44}$/.test(value), {
+    .refine((value) => (/^[A-Za-z0-9]{44}$/).test(value), {
       message: 'Enter a valid Solana address',
     })
     .optional(),
