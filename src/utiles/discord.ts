@@ -1,5 +1,6 @@
 import axios from 'axios';
 import DiscordOauth2 from 'discord-oauth2';
+//@ts-ignore
 import qs from 'qs';
 
 export const getOauthUrl = () => {
