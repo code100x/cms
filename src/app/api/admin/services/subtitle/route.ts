@@ -29,10 +29,10 @@ export async function GET(req: NextRequest) {
       include: {
         content: {
           include: {
-            courses: true
-          }
+            courses: true,
+          },
         },
-      }
+      },
     });
     if (!video)
       return NextResponse.json(
