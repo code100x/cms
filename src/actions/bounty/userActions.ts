@@ -6,34 +6,45 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 
 export async function submitBounty(data: BountySubmissionData) {
-  const validatedData = bountySubmissionSchema.parse(data);
-  const session = await getServerSession(authOptions);
+  try {
+    const validatedData = bountySubmissionSchema.parse(data);
+    const session = await getServerSession(authOptions);
 
-  if (!session?.user.id) {
-    throw new Error('User not authenticated');
+    if (!session?.user.id) {
+      throw new Error('User not authenticated');
+    }
+
+    const bountySubmission = await prisma.bountySubmission.create({
+      data: {
+        prLink: validatedData.prLink,
+        paymentMethod: validatedData.paymentMethod,
+        userId: session.user.id,
+      },
+    });
+
+    return bountySubmission;
+  } catch (error) {
+    console.error('Error submitting bounty:', error);
+    throw error;
   }
-
-  const bountySubmission = await prisma.bountySubmission.create({
-    data: {
-      prLink: validatedData.prLink,
-      paymentMethod: validatedData.paymentMethod,
-      userId: session.user.id,
-    },
-  });
-
-  return bountySubmission;
 }
+
 export async function getUserBounties() {
-  const session = await getServerSession(authOptions);
+  try {
+    const session = await getServerSession(authOptions);
 
-  if (!session?.user.id) {
-    throw new Error('User not authenticated');
+    if (!session?.user.id) {
+      throw new Error('User not authenticated');
+    }
+
+    const bounties = await prisma.bountySubmission.findMany({
+      where: { userId: session.user.id },
+      include: { user: true },
+    });
+
+    return bounties;
+  } catch (error) {
+    console.error('Error retrieving user bounties:', error);
+    throw error;
   }
-
-  const bounties = await prisma.bountySubmission.findMany({
-    where: { userId: session.user.id },
-    include: { user: true },
-  });
-
-  return bounties;
 }

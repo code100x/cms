@@ -30,7 +30,14 @@ export default function Page() {
   const fetchUserBounties = async () => {
     try {
       const userBounties = await getUserBounties();
-      setBounties(userBounties);
+
+      const sortedBounties = userBounties.sort((a, b) => {
+        return (
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        );
+      });
+
+      setBounties(sortedBounties);
     } catch (error) {
       toast.error('Failed to fetch bounties');
     }
@@ -117,9 +124,9 @@ export default function Page() {
                     {bounty.status === 'confirmed' && (
                       <p>
                         <span className="font-semibold">Amount Received:</span>{' '}
-                        {bounty.paymentMethod === 'UpiId'
-                          ? `${bounty.amount}INR`
-                          : `${bounty.amount}SOL`}
+                        {bounty.paymentMethod.includes('@')
+                          ? `${bounty.amount} INR`
+                          : `${bounty.amount} SOL`}
                       </p>
                     )}
                   </div>

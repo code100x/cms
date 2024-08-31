@@ -9,6 +9,7 @@ import {
   Bird,
   CreditCard,
   Calendar,
+  CircleDollarSign,
 } from 'lucide-react';
 import {
   DropdownMenu,
@@ -39,8 +40,13 @@ const ProfileDropdown = () => {
       label: 'Questions',
     },
     {
-      href: '/bounty',
+      href: '/payout-methods',
       icon: <CreditCard className="mr-2 h-4 w-4" />,
+      label: 'Payout Method',
+    },
+    {
+      href: '/bounty',
+      icon: <CircleDollarSign className="mr-2 h-4 w-4" />,
       label: 'Bounty',
     },
     {

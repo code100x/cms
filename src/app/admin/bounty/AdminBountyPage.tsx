@@ -10,6 +10,7 @@ import {
 } from '@/actions/bounty/adminActions';
 import { toast } from 'sonner';
 import ConfirmedBountiesDialog from '@/components/bounty/admin-page/ConfirmedBountiesDialog';
+import { ConfirmBountyDialog } from '@/components/bounty/admin-page/ConfirmBountyDialog';
 
 export const AdminBountyPage = () => {
   const [bounties, setBounties] = useState<Bounty[]>([]);
@@ -17,20 +18,26 @@ export const AdminBountyPage = () => {
   const [SOLBounties, setSOLBounties] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
+  const [isConfirmDialogOpen, setIsConfirmDialogOpen] =
+    useState<boolean>(false);
+  const [selectedBounty, setSelectedBounty] = useState<Bounty | null>(null);
+  const [currency, setCurrency] = useState<'INR' | 'SOL'>('INR');
+
+  const fetchBounties = async () => {
+    setIsLoading(true);
+    const result = await getBounties();
+    console.log('Fetched Bounties:', result.bounties);
+    if (result) {
+      setBounties(result.bounties);
+      setINRBounties(result.totalINRBounties);
+      setSOLBounties(result.totalSOLBounties);
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchBounties = async () => {
-      const result = await getBounties();
-      console.log('Fetched Bounties:', result.bounties);
-      if (result) {
-        setBounties(result.bounties);
-        setINRBounties(result.totalINRBounties);
-        setSOLBounties(result.totalSOLBounties);
-        setIsLoading(false);
-      }
-    };
     fetchBounties();
-  }, [bounties]);
+  }, []);
 
   const handleDelete = async (bounty: Bounty) => {
     const confirmed = window.confirm(
@@ -38,30 +45,37 @@ export const AdminBountyPage = () => {
     );
     if (confirmed) {
       const result = await deleteBounty(bounty.id);
-      const deletedBountyId = bounty.id;
       if (result.success) {
         toast.success('Bounty deleted successfully.');
-        setBounties(bounties.filter((bounty) => bounty.id !== deletedBountyId));
+        setBounties(bounties.filter((b) => b.id !== bounty.id));
       } else {
         toast.error('Failed to delete bounty.');
       }
     }
   };
 
-  const handleConfirm = async (bountyId: string) => {
-    const amount = prompt('Enter the amount of bounty given:');
-    if (amount) {
-      const parsedAmount = parseFloat(amount);
-      if (!isNaN(parsedAmount)) {
-        const result = await confirmBounty(bountyId, parsedAmount);
-        if (result.success) {
-          toast.success('Bounty confirmed successfully.');
-          setINRBounties((prevTotal) => prevTotal + parsedAmount);
+  const handleConfirm = (bounty: Bounty) => {
+    const paymentMethod = bounty.paymentMethod.includes('@') ? 'INR' : 'SOL';
+    setSelectedBounty(bounty);
+    setCurrency(paymentMethod);
+    setIsConfirmDialogOpen(true);
+  };
+
+  const handleConfirmBounty = async (amount: number) => {
+    if (selectedBounty) {
+      const result = await confirmBounty(selectedBounty.id, amount);
+      if (result.success) {
+        toast.success('Bounty confirmed successfully.');
+        if (currency === 'INR') {
+          setINRBounties((prevTotal) => prevTotal + amount);
         } else {
-          toast.error('Failed to confirm bounty.');
+          setSOLBounties((prevTotal) => prevTotal + amount);
         }
+        setSelectedBounty(null);
+        setIsConfirmDialogOpen(false);
+        fetchBounties();
       } else {
-        toast.error('Invalid amount entered.');
+        toast.error('Failed to confirm bounty.');
       }
     }
   };
@@ -79,9 +93,10 @@ export const AdminBountyPage = () => {
         <div className="mb-6 flex flex-col items-start justify-center px-4 pt-3 sm:px-8">
           <h1 className="text-black dark:text-white">Admin Bounty Page</h1>
           <h2 className="mt-2 text-xl text-black dark:text-white">
-            Total Bounties Distributed: INR {INRBounties} | SOL {SOLBounties}
+            Total Bounties Distributed: INR {INRBounties.toFixed(2)} | SOL{' '}
+            {SOLBounties}
           </h2>
-          <Button onClick={openDialog} className="mb-4">
+          <Button onClick={openDialog} className="my-4">
             Show Confirmed Bounties
           </Button>
           {isLoading ? (
@@ -110,11 +125,11 @@ export const AdminBountyPage = () => {
                           {bounty.prLink}
                         </a>
                         <div className="text-lg text-gray-700 dark:text-gray-300">
-                          Address : {bounty.paymentMethod}
+                          Address: {bounty.paymentMethod}
                         </div>
                       </div>
                       <div className="flex items-center space-x-4">
-                        <Button onClick={() => handleConfirm(bounty.id)}>
+                        <Button onClick={() => handleConfirm(bounty)}>
                           Confirm
                         </Button>
                         <Button
@@ -135,6 +150,13 @@ export const AdminBountyPage = () => {
         isOpen={isDialogOpen}
         onClose={closeDialog}
         bounties={confirmedBounties}
+      />
+      <ConfirmBountyDialog
+        isOpen={isConfirmDialogOpen}
+        setIsOpen={setIsConfirmDialogOpen}
+        onClose={() => setIsConfirmDialogOpen(false)}
+        onConfirm={handleConfirmBounty}
+        currency={currency}
       />
     </>
   );
