@@ -147,7 +147,7 @@ export const ContentRendererClient = ({
             </div>
           ) : null}
         </div>
-        <div className="w-full xl:max-w-[500px]">
+        <div className="w-full xl:w-auto">
           {showChapters && (
             <VideoContentChapters
               segments={metadata?.segments}
