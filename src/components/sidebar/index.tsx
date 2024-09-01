@@ -1,9 +1,10 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { AnimatedTooltip } from '@/components/ui/animated-tooltip';
 import { signOut } from 'next-auth/react';
 import { refreshDb } from '@/actions/refresh-db';
-
+import { useRecoilState } from 'recoil';
+import { sectionSidebarOpen as sectionSidebarOpenAtom } from '@/store/atoms/sidebar';
 import Logo from '../landing/logo/logo';
 import {
   Library,
@@ -24,7 +25,7 @@ export const menuOptions = [
 ];
 
 export const MenuOptions = () => {
-  const [expanded, setExpanded] = useState(true);
+  const [expanded, setExpanded] = useRecoilState(sectionSidebarOpenAtom);
 
   useEffect(() => {
     if (window.innerWidth < 500) {
