@@ -6,7 +6,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
-import { X } from 'lucide-react';
+// import { X } from 'lucide-react';
 import { FullCourseContent } from '@/db/course';
 import { useRecoilState } from 'recoil';
 import { sidebarOpen as sidebarOpenAtom } from '@/store/atoms/sidebar';
@@ -14,6 +14,8 @@ import { useEffect, useState } from 'react';
 import { handleMarkAsCompleted } from '@/lib/utils';
 import BookmarkButton from './bookmark/BookmarkButton';
 import Link from 'next/link';
+import { Button } from './ui/button';
+import { LuListVideo } from 'react-icons/lu';
 
 export function Sidebar({
   courseId,
@@ -23,12 +25,17 @@ export function Sidebar({
   courseId: string;
 }) {
   const pathName = usePathname();
-
   const [sidebarOpen, setSidebarOpen] = useRecoilState(sidebarOpenAtom);
+  const [showButtonTitle, setShowButtonTitle] = useState<boolean>(true);
   const [currentActiveContentIds, setCurrentActiveContentIds] = useState<
     number[]
   >([]);
 
+  useEffect(() => {
+    if (window.innerWidth < 500) {
+      setShowButtonTitle(false);
+    }
+  }, []);
   useEffect(() => {
     const urlRegex = /\/courses\/.*./;
     const courseUrlRegex = /\/courses\/\d+((?:\/\d+)+)/;
@@ -48,12 +55,6 @@ export function Sidebar({
       setCurrentActiveContentIds(pathArray);
     }
   }, [pathName]);
-
-  useEffect(() => {
-    if (window.innerWidth < 500) {
-      setSidebarOpen(false);
-    }
-  }, []);
 
   const findPathToContent = (
     contents: FullCourseContent[],
@@ -152,18 +153,24 @@ export function Sidebar({
   };
 
   return (
-    <>
+    <div className="min-w-max p-2">
+      <Button
+        variant={'outline'}
+        onClick={() => setSidebarOpen((show) => !show)}
+        className="w-full"
+      >
+        <LuListVideo className="mr-2 text-lg" />
+        {showButtonTitle && sidebarOpen ? 'Hide List' : 'Show List'}
+      </Button>
       {sidebarOpen && (
-        <div className="no-scrollbar absolute z-20 m-4 h-full w-[300px] min-w-[300px] cursor-pointer self-start overflow-y-scroll scroll-smooth rounded-lg border bg-gray-50 dark:bg-[#020817] sm:sticky sm:top-[64px] sm:h-sidebar">
+        <div className="no-scrollbar absolute z-20 mt-2 h-full w-[300px] min-w-[300px] cursor-pointer self-start overflow-y-scroll scroll-smooth rounded-lg border bg-gray-50 dark:bg-[#020817] sm:sticky sm:top-[64px] sm:h-sidebar">
           <div className="sticky top-0 flex items-center justify-between border-b bg-background p-4">
             <h4 className="text-lg dark:text-[#F8FAFC]">Course Content</h4>
             <div
               onClick={() => {
                 setSidebarOpen((s) => !s);
               }}
-            >
-              <X size={20} />
-            </div>
+            ></div>
           </div>
           <Accordion type="single" collapsible className="w-full">
             {/* Render course content */}
@@ -171,7 +178,7 @@ export function Sidebar({
           </Accordion>
         </div>
       )}
-    </>
+    </div>
   );
 }
 

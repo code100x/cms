@@ -4,6 +4,7 @@ import { VideoPlayerSegment } from '@/components/VideoPlayerSegment';
 import VideoContentChapters from '../VideoContentChapters';
 import { Presentation } from 'lucide-react';
 import { useMemo, useState } from 'react';
+// import { DropdownMenu } from '../ui/dropdown-menu';
 
 export const ContentRendererClient = ({
   metadata,
@@ -73,6 +74,38 @@ export const ContentRendererClient = ({
     <div className="flex flex-col gap-2">
       <div className="flex flex-wrap justify-between gap-4 xl:flex-nowrap">
         <div className="w-full">
+          <div className="flex items-center justify-between md:pl-4">
+            <div>
+              <div className="text-bold text-2xl tracking-normal text-gray-900 dark:text-white">
+                {'Lecture: '} {content.title}
+              </div>
+            </div>
+            <div className="flex items-center">
+              {metadata.slides ? (
+                <div className="flex flex-row-reverse gap-2">
+                  <a href={metadata.slides} target="_blank">
+                    <button className="mb-2 me-2 flex items-center gap-2 rounded-lg bg-blue-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700">
+                      <Presentation size={18} />
+                      {'Lecture Slides'}
+                    </button>
+                  </a>
+                </div>
+              ) : null}
+              {/* {!showChapters && metadata.segments?.length > 0 && ( */}
+              <button
+                className="mb-2 me-2 flex items-center gap-2 rounded-lg bg-blue-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700"
+                onClick={() => {
+                  scrollTo({ top: 0, behavior: 'smooth' });
+                  toggleShowChapters();
+                }}
+              >
+                View All Chapters
+              </button>
+              {/* <DropdownMenu>View All</DropdownMenu> */}
+              {/* )} */}
+            </div>
+          </div>
+
           <VideoPlayerSegment
             setQuality={setQuality}
             contentId={content.id}
@@ -99,36 +132,7 @@ export const ContentRendererClient = ({
             }}
             onVideoEnd={() => {}}
           />
-          <div className="flex justify-between">
-            <div>
-              <div className="text-bold text-2xl tracking-normal text-gray-900 dark:text-white">
-                {content.title}
-              </div>
-            </div>
-            <div className="">
-              {metadata.slides ? (
-                <div className="flex flex-row-reverse gap-2">
-                  <a href={metadata.slides} target="_blank">
-                    <button className="mb-2 me-2 flex items-center gap-2 rounded-lg bg-blue-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700">
-                      <Presentation size={18} />
-                      Lecture Slides
-                    </button>
-                  </a>
-                </div>
-              ) : null}
-              {!showChapters && metadata.segments?.length > 0 && (
-                <button
-                  className="my-4 rounded bg-blue-500 p-2 font-bold text-white hover:bg-blue-700"
-                  onClick={() => {
-                    scrollTo({ top: 0, behavior: 'smooth' });
-                    toggleShowChapters();
-                  }}
-                >
-                  View All Chapters
-                </button>
-              )}
-            </div>
-          </div>
+
           {nextContent ? (
             <div className="flex flex-row-reverse">
               <button
@@ -147,7 +151,7 @@ export const ContentRendererClient = ({
             </div>
           ) : null}
         </div>
-        <div className="w-full xl:w-auto">
+        <div className="max-w-1em">
           {showChapters && (
             <VideoContentChapters
               segments={metadata?.segments}
