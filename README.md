@@ -2,7 +2,6 @@
 
 ## Table of contents
 
-
 1. Clone the repository:
    ```bash
    git clone https://github.com/code100x/cms.git
@@ -50,11 +49,15 @@
    ```bash
    npm run prisma:migrate
    ```
-7. Seed the database:
+7. Generate Prisma client:
+   ```bash
+   npx prisma generate
+   ```
+8. Seed the database:
    ```bash
    npm run db:seed
    ```
-8. Start the development server:
+9. Start the development server:
    ```bash
    npm run dev
    ```
@@ -72,7 +75,7 @@ We welcome contributions from the community! To contribute to CMS, follow these 
 
 1. Fork the repository.
 2. Create a new branch (`git checkout -b feature/fooBar`).
-3. Make your changes and commit them (`git commit -am 'Add some fooBar'`).
+3. Make your changes and commit them (`git commit -m 'Add some fooBar'`).
    > Make sure to lint and format your code before commiting
    >
    > - `npm run lint:check` to check for lint errors
@@ -93,4 +96,5 @@ Read our [contribution guidelines](./CONTRIBUTING.md) for more details.
 </a>
 
 ## Issues on mac Silicon
+
 brew install pkg-config cairo pango libpng jpeg giflib librsvg
