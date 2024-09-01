@@ -23,9 +23,26 @@ export const CourseViewToolbar = ({
   const [showButtonTitle, setShowButtonTitle] = useState<boolean>(true);
 
   useEffect(() => {
-    if (window.innerWidth < 500) {
-      setShowButtonTitle(false);
-    }
+    const handleResize = () => {
+      if (window.innerWidth < 500) {
+        setShowButtonTitle(false);
+      }
+      if (window.innerWidth < 900) {
+        // set sidebar open to false
+        setSidebarOpen(false);
+      }
+    };
+
+    // Initial check
+    handleResize();
+
+    // Add event listener
+    window.addEventListener('resize', handleResize);
+
+    // Clean up the event listener on component unmount
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
   }, []);
 
   return (

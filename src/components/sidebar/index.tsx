@@ -27,9 +27,21 @@ export const MenuOptions = () => {
   const [expanded, setExpanded] = useState(true);
 
   useEffect(() => {
-    if (window.innerWidth < 500) {
-      setExpanded(false);
-    }
+    const handleResize = () => {
+      if (window.innerWidth < 900) {
+        setExpanded(false);
+      }
+    };
+
+    handleResize();
+
+    // Add event listener
+    window.addEventListener('resize', handleResize);
+
+    // Clean up the event listener on component unmount
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
   }, []);
 
   return (
