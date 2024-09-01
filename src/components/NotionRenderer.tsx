@@ -61,7 +61,7 @@ export const NotionRenderer = ({ id }: { id: string }) => {
           recordMap={data}
           fullPage={true}
           darkMode={true}
-          className="z-10"
+          className="z-10 max-w-7xl"
           components={{
             Code,
             Equation,

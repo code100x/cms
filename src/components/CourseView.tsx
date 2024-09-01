@@ -37,7 +37,7 @@ export const CourseView = ({
     ? 'folder'
     : courseContent?.value.type;
   return (
-    <div className="no-scrollbar flex h-screen flex-col overflow-y-auto pb-20">
+    <div className="no-scrollbar flex h-screen w-[76%] flex-col overflow-y-auto pb-20">
       <div className="mb-2 flex max-h-fit min-h-[2.5rem] items-center px-2">
         <CourseViewToolbar
           courseData={{
