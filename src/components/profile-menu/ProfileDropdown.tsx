@@ -42,7 +42,7 @@ const ProfileDropdown = () => {
     {
       href: '/payout-methods',
       icon: <CreditCard className="mr-2 h-4 w-4" />,
-      label: 'Payout Method',
+      label: 'Payout Methods',
     },
     {
       href: '/bounty',
