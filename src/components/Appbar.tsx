@@ -63,6 +63,11 @@ export const Appbar = ({
                     <Sparkles className="ml-2 h-4 w-4 text-white duration-200 ease-linear hover:translate-x-0.5" />
                   </Link>
                 </Button>
+                {/* <Button size={'sm'} asChild>
+                  <Link href="https://app.100xdevs.com/questions">
+                  <p className="text-white">Questions</p>
+                  </Link>
+                </Button> */}
               </div>
               <ThemeToggler />
               <div className="block">

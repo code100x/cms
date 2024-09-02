@@ -24,6 +24,7 @@ import { authOptions } from '@/lib/auth';
 import PostCard from '@/components/posts/PostCard';
 import Pagination from '@/components/Pagination';
 import { redirect } from 'next/navigation';
+import { Redirect } from '@/components/Redirect';
 
 type QuestionsResponse = {
   data: ExtendedQuestion[] | null;
@@ -134,6 +135,10 @@ export default async function QuestionsPage({
   }
   const session = await getServerSession(authOptions);
   const sessionId = session?.user?.id;
+
+  if (!session?.user) {
+    return <Redirect to={'/'} />;
+  }
 
   const tabType = searchParams.tabtype || TabType.mu;
   const response = await fetchQuestionsByTabType(searchParams, sessionId!);

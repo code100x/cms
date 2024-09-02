@@ -4,6 +4,7 @@ import { authOptions } from '@/lib/auth';
 import { Content, CourseContent, VideoProgress } from '@prisma/client';
 import WatchHistoryClient from '@/components/WatchHistoryClient';
 import { Fragment } from 'react';
+import { Redirect } from '@/components/Redirect';
 
 export type TWatchHistory = VideoProgress & {
   content: Content & {
@@ -91,6 +92,11 @@ async function getWatchHistory() {
 export default async function WatchHistoryPage() {
   const watchHistory = await getWatchHistory();
   const watchHistoryGroupedByDate = groupByWatchedDate(watchHistory);
+  const session = await getServerSession(authOptions);
+
+  if (!session?.user) {
+    return <Redirect to={'/'} />;
+  }
 
   return (
     <div className="flex h-screen flex-col">
