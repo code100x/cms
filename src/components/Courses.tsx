@@ -8,7 +8,7 @@ export const Courses = ({ courses }: { courses: Course[] }) => {
   const router = useRouter();
   return (
     <section className="flex flex-col pb-20">
-      <div className="grid grid-cols-1 gap-4 px-6 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-4 px-6 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 3xl:grid-cols-5">
         {courses?.map((course) => (
           <CourseCard
             key={course.id}
