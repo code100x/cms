@@ -133,6 +133,10 @@ export default async function Home({
     redirect('/');
   }
   const session = await getServerSession(authOptions);
+  if (!session) {
+    redirect('/signin');
+    return null; // Prevent further rendering
+  }
   const sessionId = session?.user?.id;
 
   const tabType = searchParams.tabtype || TabType.mu;
