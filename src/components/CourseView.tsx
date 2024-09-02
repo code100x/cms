@@ -49,6 +49,7 @@ export const CourseView = ({
           }}
         />
       </div>
+
       {!courseContent?.folder && courseContent?.value.type === 'notion' ? (
         <div className="m-4">
           <NotionRenderer id={courseContent?.value?.id?.toString()} />
