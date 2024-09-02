@@ -24,7 +24,7 @@ export const menuOptions = [
 ];
 
 export const MenuOptions = () => {
-  const [expanded, setExpanded] = useState(true);
+  const [expanded, setExpanded] = useState(false);
 
   useEffect(() => {
     if (window.innerWidth < 500) {
@@ -34,7 +34,11 @@ export const MenuOptions = () => {
 
   return (
     <aside className="h-screen">
-      <nav className="flex h-full flex-col border-r bg-white shadow-sm dark:bg-[#020817]">
+      <nav
+        className={`transition-width flex h-full flex-col border-r bg-white shadow-sm duration-300 dark:bg-[#020817] ${expanded ? 'w-64' : 'w-20'}`}
+        onMouseEnter={() => setExpanded(true)}
+        onMouseLeave={() => setExpanded(false)}
+      >
         {/* Header with logo and expand/collapse button */}
         <div className="flex items-center justify-between border-b p-4 pb-2">
           {expanded && (
@@ -42,10 +46,7 @@ export const MenuOptions = () => {
               <Logo onFooter={false} />
             </div>
           )}
-          <div
-            className="cursor-pointer"
-            onClick={() => setExpanded((curr) => !curr)}
-          >
+          <div className="cursor-pointer">
             <div className="p-2">
               {expanded ? (
                 <PanelRightOpen size={24} />
@@ -56,9 +57,10 @@ export const MenuOptions = () => {
           </div>
         </div>
 
-        <div className="boarder border-gray flex flex-1 flex-col gap-6 p-4">
+        <div className="flex flex-1 flex-col gap-6 p-4">
           <AnimatedTooltip expanded={expanded} items={menuOptions} />
         </div>
+
         <RefreshDb refreshDb={refreshDb} expanded={expanded} />
 
         <div className="mt-4 border-t p-4">
@@ -80,17 +82,3 @@ export const MenuOptions = () => {
     </aside>
   );
 };
-
-/* export const MenuOptions = () => {
-  return <nav className="dark:bg-[#020817] border-r-2 border-gray-700/50 h-screen w-72 overflow-hide justify-between flex items-center flex-col  gap-10 py-6 px-2">
-    <div className="flex flex-col items-center justify-center gap-8">
-      <div className="flex flex-row items-center gap-8">
-        <Logo onFooter={false} />
-        <div onClick={() => { }}>
-          <TbLayoutSidebarRightExpand size={22} color="white" />
-        </div>
-      </div>
-      <AnimatedTooltip items={menuOptions} />
-    </div>
-  </nav>
-} */
