@@ -1,9 +1,17 @@
 'use client';
+
 import { useSearchParams, useRouter } from 'next/navigation';
 import { VideoPlayerSegment } from '@/components/VideoPlayerSegment';
-import VideoContentChapters from '../VideoContentChapters';
-import { Presentation } from 'lucide-react';
-import { useMemo, useState } from 'react';
+import { ChevronDown, ChevronUp, Presentation } from 'lucide-react';
+import { useEffect, useMemo, useState } from 'react';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '../ui/dropdown-menu';
+import videojs from 'video.js';
+import { Segment, formatTime } from '@/lib/utils';
 
 export const ContentRendererClient = ({
   metadata,
@@ -25,11 +33,7 @@ export const ContentRendererClient = ({
     markAsCompleted: boolean;
   };
 }) => {
-  const [showChapters, setShowChapters] = useState(
-    metadata?.segments?.length > 0,
-  );
   const searchParams = useSearchParams();
-
   const router = useRouter();
 
   //@ts-ignore
@@ -38,7 +42,7 @@ export const ContentRendererClient = ({
   );
 
   if (!metadata) {
-    return <div>Loading</div>;
+    return <div>Loading...</div>;
   }
 
   const mpdUrl = metadata?.[quality || '1080'] || '';
@@ -65,14 +69,90 @@ export const ContentRendererClient = ({
     };
   }, [mpdUrl]);
 
-  const toggleShowChapters = () => {
-    setShowChapters((prev) => !prev);
-  };
+  // Drop down starts here
+  const [player, setPlayer] = useState<any>(null);
+  const [currentTime, setCurrentTime] = useState<number>(0);
+
+  useEffect(() => {
+    const allPlayers = videojs.getAllPlayers();
+    const activePlayer = allPlayers[0];
+    setPlayer(activePlayer);
+  }, []);
+
+  useEffect(() => {
+    if (player) {
+      const intervalId = setInterval(() => {
+        setCurrentTime(player.currentTime());
+      }, 1000);
+
+      return () => {
+        clearInterval(intervalId);
+      };
+    }
+  }, [player]);
+
+  const [dropDown, setDropdown] = useState(false);
 
   return (
     <div className="flex flex-col gap-2">
       <div className="flex flex-wrap justify-between gap-4 xl:flex-nowrap">
         <div className="w-full">
+          <div className="flex items-center justify-between md:pl-4">
+            <div>
+              <div className="text-bold text-2xl tracking-normal text-gray-900 dark:text-white">
+                {'Lecture: '} {content.title}
+              </div>
+            </div>
+            <div className="flex items-center">
+              {metadata.segments?.length > 0 && (
+                <DropdownMenu open={dropDown} onOpenChange={setDropdown}>
+                  <DropdownMenuTrigger className="mb-2 me-2 flex items-center gap-2 rounded-lg border px-5 py-2.5 text-sm font-medium hover:bg-blue-800 hover:text-white dark:bg-inherit dark:hover:bg-blue-700">
+                    {'View All Chapters'}
+                    {dropDown ? (
+                      <ChevronUp size={18} />
+                    ) : (
+                      <ChevronDown size={18} />
+                    )}
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="scrollbar-thumb-only mr-4 mt-2 max-h-[60vh] overflow-y-auto scroll-smooth dark:bg-[#020817ee]">
+                    {(metadata?.segments as Segment[])?.map(
+                      ({ start, end, title }, index) => (
+                        <DropdownMenuItem
+                          key={`${index}-${start}${end}${title}`}
+                          onClick={() => {
+                            if (player) {
+                              player.currentTime(start);
+                              player.play();
+                            }
+                          }}
+                          className={`mx-1 my-2 flex cursor-pointer items-center justify-between gap-3 border-b p-2 py-3 text-black dark:text-white ${currentTime >= start && currentTime < end ? 'bg-zinc-200 dark:bg-[#27272A]' : ''}`}
+                        >
+                          <span>{title}</span>
+                          <div className="rounded border bg-[#ffffff] px-1.5 py-0.5 text-[#040fff] dark:border-blue-600 dark:bg-inherit dark:text-[#fff]">
+                            {formatTime(start)}
+                          </div>
+                        </DropdownMenuItem>
+                      ),
+                    )}
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              )}
+
+              {metadata.slides && (
+                <a
+                  href={metadata.slides}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <button className="mb-2 me-2 flex items-center gap-2 rounded-lg bg-blue-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700">
+                    <Presentation size={18} />
+                    {'Lecture Slides'}
+                  </button>
+                </a>
+              )}
+            </div>
+          </div>
+
           <VideoPlayerSegment
             setQuality={setQuality}
             contentId={content.id}
@@ -88,7 +168,7 @@ export const ContentRendererClient = ({
                   overridenative: true,
                 },
               },
-              thumbnail: metadata.thumbnail || false, // data.isComposite ? data.thumbnails[0] : null,
+              thumbnail: metadata.thumbnail || false,
               isComposite: true,
               height: 720,
               width: 1080,
@@ -99,37 +179,8 @@ export const ContentRendererClient = ({
             }}
             onVideoEnd={() => {}}
           />
-          <div className="flex justify-between">
-            <div>
-              <div className="text-bold text-2xl tracking-normal text-gray-900 dark:text-white">
-                {content.title}
-              </div>
-            </div>
-            <div className="">
-              {metadata.slides ? (
-                <div className="flex flex-row-reverse gap-2">
-                  <a href={metadata.slides} target="_blank">
-                    <button className="mb-2 me-2 flex items-center gap-2 rounded-lg bg-blue-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700">
-                      <Presentation size={18} />
-                      Lecture Slides
-                    </button>
-                  </a>
-                </div>
-              ) : null}
-              {!showChapters && metadata.segments?.length > 0 && (
-                <button
-                  className="my-4 rounded bg-blue-500 p-2 font-bold text-white hover:bg-blue-700"
-                  onClick={() => {
-                    scrollTo({ top: 0, behavior: 'smooth' });
-                    toggleShowChapters();
-                  }}
-                >
-                  View All Chapters
-                </button>
-              )}
-            </div>
-          </div>
-          {nextContent ? (
+
+          {nextContent && (
             <div className="flex flex-row-reverse">
               <button
                 className="ml-4 rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
@@ -143,16 +194,8 @@ export const ContentRendererClient = ({
                 }}
               >
                 {nextContent.title}
-              </button>{' '}
+              </button>
             </div>
-          ) : null}
-        </div>
-        <div className="w-full xl:w-auto">
-          {showChapters && (
-            <VideoContentChapters
-              segments={metadata?.segments}
-              onCancel={toggleShowChapters}
-            />
           )}
         </div>
       </div>
