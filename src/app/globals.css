@@ -53,13 +53,16 @@
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
   }
 }
+
 .video-js .vjs-progress-control:hover .vjs-play-progress:after {
   display: none;
 }
+
 .vjs-quality-selector .vjs-custom-dropup-menu {
   bottom: 100%;
   left: 50%;
@@ -74,8 +77,10 @@
 
 /* Hide scrollbar for IE, Edge and Firefox */
 .no-scrollbar {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
 }
 
 /*Timestamp overlapping removal */
@@ -83,11 +88,12 @@
 .vjs-play-progress .vjs-time-tooltip {
   display: none !important;
 }
+
 .vjs-time-divider {
   display: block !important;
 }
 
-.video-js .vjs-current-time{
+.video-js .vjs-current-time {
   display: block !important;
 }
 
@@ -111,22 +117,23 @@ width of the controls on screens smaller than 512px */
   }
 
   .video-js .vjs-control {
-    width: 2rem !important; 
+    width: 2rem !important;
   }
 }
 
-.vjs-tech:focus-visible{
+.vjs-tech:focus-visible {
   outline: none;
 }
 
-.timeline-segments  {
+.timeline-segments {
   position: relative;
   left: 0;
   height: 5px;
   background-color: #afa4a4;
   transition: height 150ms ease-in-out;
 }
-.timeline-segments-preview{
+
+.timeline-segments-preview {
   position: absolute;
   left: 0;
   background: #fff;
@@ -136,6 +143,7 @@ width of the controls on screens smaller than 512px */
   pointer-events: none;
 
 }
+
 .timeline-segments-progress {
   position: absolute;
   left: 0;
@@ -144,8 +152,29 @@ width of the controls on screens smaller than 512px */
   bottom: 0;
   z-index: 2;
   pointer-events: none;
-  
+
 }
-.timeline-segments:hover{
+
+.timeline-segments:hover {
   height: 10px;
+}
+
+/* Scrollbar for view-all-chapter-dropdown */
+/* Hide scrollbar track for WebKit browsers (Chrome, Safari, etc.) */
+.scrollbar-thumb-only::-webkit-scrollbar {
+  width: 12px;
+  background-color: transparent;
+}
+
+/* Style the scrollbar thumb */
+.scrollbar-thumb-only::-webkit-scrollbar-thumb {
+  background-color: darkgrey;
+  border-radius: 6px;
+  border: 3px solid transparent;
+}
+
+/* For Firefox, use scrollbar-color */
+.scrollbar-thumb-only {
+  scrollbar-width: thin;
+  scrollbar-color: darkgrey transparent;
 }

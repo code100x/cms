@@ -2,8 +2,7 @@
 
 import { useSearchParams, useRouter } from 'next/navigation';
 import { VideoPlayerSegment } from '@/components/VideoPlayerSegment';
-// import VideoContentChapters from '../VideoContentChapters';
-import { Presentation } from 'lucide-react';
+import { ChevronDown, ChevronUp, Presentation } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
 import {
   DropdownMenu,
@@ -34,7 +33,6 @@ export const ContentRendererClient = ({
     markAsCompleted: boolean;
   };
 }) => {
-  // const [showChapters, setShowChapters] = useState<boolean>(metadata?.segments?.length > 0);
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -71,10 +69,6 @@ export const ContentRendererClient = ({
     };
   }, [mpdUrl]);
 
-  // const toggleShowChapters = () => {
-  //   setShowChapters((prev) => !prev);
-  // };
-
   // Drop down starts here
   const [player, setPlayer] = useState<any>(null);
   const [currentTime, setCurrentTime] = useState<number>(0);
@@ -97,6 +91,8 @@ export const ContentRendererClient = ({
     }
   }, [player]);
 
+  const [dropDown, setDropdown] = useState(false);
+
   return (
     <div className="flex flex-col gap-2">
       <div className="flex flex-wrap justify-between gap-4 xl:flex-nowrap">
@@ -108,6 +104,40 @@ export const ContentRendererClient = ({
               </div>
             </div>
             <div className="flex items-center">
+              {metadata.segments?.length > 0 && (
+                <DropdownMenu open={dropDown} onOpenChange={setDropdown}>
+                  <DropdownMenuTrigger className="mb-2 me-2 flex items-center gap-2 rounded-lg border px-5 py-2.5 text-sm font-medium hover:bg-blue-800 hover:text-white dark:bg-inherit dark:hover:bg-blue-700">
+                    {'View All Chapters'}
+                    {dropDown ? (
+                      <ChevronUp size={18} />
+                    ) : (
+                      <ChevronDown size={18} />
+                    )}
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="scrollbar-thumb-only mr-4 mt-2 max-h-[60vh] overflow-y-auto scroll-smooth dark:bg-[#020817ee]">
+                    {(metadata?.segments as Segment[])?.map(
+                      ({ start, end, title }, index) => (
+                        <DropdownMenuItem
+                          key={`${index}-${start}${end}${title}`}
+                          onClick={() => {
+                            if (player) {
+                              player.currentTime(start);
+                              player.play();
+                            }
+                          }}
+                          className={`mx-1 my-2 flex cursor-pointer items-center justify-between gap-3 border-b p-2 py-3 text-black dark:text-white ${currentTime >= start && currentTime < end ? 'bg-zinc-200 dark:bg-[#27272A]' : ''}`}
+                        >
+                          <span>{title}</span>
+                          <div className="rounded border bg-[#ffffff] px-1.5 py-0.5 text-[#040fff] dark:border-blue-600 dark:bg-inherit dark:text-[#fff]">
+                            {formatTime(start)}
+                          </div>
+                        </DropdownMenuItem>
+                      ),
+                    )}
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              )}
+
               {metadata.slides && (
                 <a
                   href={metadata.slides}
@@ -120,32 +150,6 @@ export const ContentRendererClient = ({
                   </button>
                 </a>
               )}
-              <DropdownMenu>
-                <DropdownMenuTrigger className="mb-2 me-2 flex items-center gap-2 rounded-lg bg-blue-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700">
-                  View All Chapters
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  {(metadata?.segments as Segment[])?.map(
-                    ({ start, end, title }, index) => (
-                      <DropdownMenuItem
-                        key={`${index}-${start}${end}${title}`}
-                        onClick={() => {
-                          if (player) {
-                            player.currentTime(start);
-                            player.play();
-                          }
-                        }}
-                        className={`flex cursor-pointer items-center justify-between gap-3 p-2 py-3 text-black dark:text-white ${currentTime >= start && currentTime < end ? 'bg-zinc-200 dark:bg-[#27272A]' : ''}`}
-                      >
-                        <span>{title}</span>
-                        <div className="rounded bg-[#ffffff] px-1.5 py-0.5 text-[#040fff] dark:bg-[#263850] dark:text-[#37A4FF]">
-                          {formatTime(start)}
-                        </div>
-                      </DropdownMenuItem>
-                    ),
-                  )}
-                </DropdownMenuContent>
-              </DropdownMenu>
             </div>
           </div>
 
@@ -194,14 +198,6 @@ export const ContentRendererClient = ({
             </div>
           )}
         </div>
-        {/* <div className="max-w-1em">
-          {showChapters && (
-            <VideoContentChapters
-              segments={metadata?.segments}
-              onCancel={toggleShowChapters}
-            />
-          )}
-        </div> */}
       </div>
     </div>
   );

@@ -145,12 +145,11 @@ export default async function QuestionsPage({
           <h1 className="bg-background/6 top-0 flex items-center text-3xl backdrop-blur-lg">
             Questions
           </h1>
-
           <Search />
         </div>
 
         {/* Content Area */}
-        <div className="flex-1 overflow-y-auto pb-20">
+        <div className="overflow-y-auto bg-red-500 pb-20">
           {/* Next question button */}
           <NewPostDialog />
 
@@ -226,15 +225,21 @@ export default async function QuestionsPage({
               <div className="m-auto w-full">
                 <div className="w-full space-y-4">
                   {response?.data?.map((post) => (
-                    <PostCard
-                      post={post}
-                      sessionUser={session?.user}
-                      key={post.id}
-                      isAnswer={false}
-                      questionId={post.id}
-                      enableLink={true}
-                      reply={false}
-                    />
+                    <>
+                      {[...Array(10)].map((_, index) => (
+                        <div key={index}>
+                          <PostCard
+                            post={post}
+                            sessionUser={session?.user}
+                            key={post.id}
+                            isAnswer={false}
+                            questionId={post.id}
+                            enableLink={true}
+                            reply={false}
+                          />
+                        </div>
+                      ))}
+                    </>
                   ))}
                 </div>
               </div>
