@@ -154,7 +154,7 @@ export function Sidebar({
   return (
     <>
       {sidebarOpen && (
-        <div className="no-scrollbar absolute z-20 m-4 h-full w-[300px] min-w-[300px] cursor-pointer self-start overflow-y-scroll scroll-smooth rounded-lg border bg-gray-50 dark:bg-[#020817] sm:sticky sm:top-[64px] sm:h-sidebar">
+        <div className="no-scrollbar absolute z-20 m-4 h-full max-h-[70vh] w-[300px] min-w-[300px] cursor-pointer self-start overflow-y-scroll scroll-smooth rounded-lg border bg-gray-50 dark:bg-[#020817] sm:sticky sm:top-[64px] sm:h-sidebar">
           <div className="sticky top-0 flex items-center justify-between border-b bg-background p-4">
             <h4 className="text-lg dark:text-[#F8FAFC]">Course Content</h4>
             <div
