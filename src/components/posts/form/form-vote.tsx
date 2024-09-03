@@ -53,7 +53,7 @@ const VoteForm: React.FC<IVoteFormProps> = ({
   const userVoteVal = votesArr[0];
 
   return (
-    <div className="flex gap-2">
+    <div className="flex justify-between gap-4 p-2">
       <form
         className="m-auto"
         onSubmit={(e) => {
@@ -61,11 +61,8 @@ const VoteForm: React.FC<IVoteFormProps> = ({
           handleVote(VoteType.UPVOTE);
         }}
       >
-        <button
-          className="flex items-center gap-1 text-gray-500 dark:text-gray-400"
-          type="submit"
-        >
-          <div className="rounded-full border bg-gray-400/20 p-2 hover:bg-gray-600/50 dark:bg-gray-700/50">
+        <button className="flex items-center gap-1" type="submit">
+          <div className="">
             <ThumbsUpIcon
               className="h-4 w-4"
               type="submit"
@@ -86,11 +83,8 @@ const VoteForm: React.FC<IVoteFormProps> = ({
           handleVote(VoteType.DOWNVOTE);
         }}
       >
-        <button
-          className="flex items-center gap-1 text-gray-500 dark:text-gray-400"
-          type="submit"
-        >
-          <div className="rounded-full border bg-gray-400/20 p-2 hover:bg-gray-600/50 dark:bg-gray-700/50">
+        <button className="flex items-center gap-1" type="submit">
+          <div className="">
             <ThumbsDownIcon
               className="h-4 w-4"
               fill={
