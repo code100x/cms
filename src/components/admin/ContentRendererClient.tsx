@@ -25,11 +25,10 @@ export const ContentRendererClient = ({
     markAsCompleted: boolean;
   };
 }) => {
-  const [showChapters, setShowChapters] = useState(
-    metadata?.segments?.length > 0,
-  );
-  const searchParams = useSearchParams();
+  const [showChapters, setShowChapters] = useState(false);
 
+  const searchParams = useSearchParams();
+  console.log(showChapters);
   const router = useRouter();
 
   //@ts-ignore
@@ -105,7 +104,7 @@ export const ContentRendererClient = ({
                 {content.title}
               </div>
             </div>
-            <div className="">
+            <div className="flex items-center">
               {metadata.slides ? (
                 <div className="flex flex-row-reverse gap-2">
                   <a href={metadata.slides} target="_blank">
@@ -116,9 +115,9 @@ export const ContentRendererClient = ({
                   </a>
                 </div>
               ) : null}
-              {!showChapters && metadata.segments?.length > 0 && (
+              {!showChapters && (
                 <button
-                  className="my-4 rounded bg-blue-500 p-2 font-bold text-white hover:bg-blue-700"
+                  className="mb-2 me-2 flex items-center gap-2 rounded-lg bg-blue-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700"
                   onClick={() => {
                     scrollTo({ top: 0, behavior: 'smooth' });
                     toggleShowChapters();
