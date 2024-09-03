@@ -25,7 +25,11 @@ import { toast } from 'sonner';
 import { useTheme } from 'next-themes';
 import { Answer } from '@prisma/client';
 import { Avatar, AvatarFallback } from '../ui/avatar';
-import { MessageSquareReply } from 'lucide-react';
+import {
+  MessageSquareMore,
+  MessageSquarePlus,
+  MessageSquareX,
+} from 'lucide-react';
 import { ROLES } from '@/actions/types';
 import { FormPostErrors } from './form/form-errors';
 import { Button } from '../ui/button';
@@ -82,7 +86,6 @@ const PostCard: React.FC<IProps> = ({
       parentId: isAnswer ? post?.id : undefined,
     });
   };
-
   const internalDetails = () => {
     return (
       <div className="relative h-full w-full">
@@ -97,7 +100,7 @@ const PostCard: React.FC<IProps> = ({
                 <Link href={`/questions/${post?.slug}`}>{post?.title}</Link>
               )}
             </TextSnippet>
-            <div className="absolute right-0 top-0 z-20">
+            <div className="">
               {/* Move this option to the top */}
               {(sessionUser?.role === ROLES.ADMIN ||
                 post?.author?.id === sessionUser?.id) && (
@@ -186,25 +189,54 @@ const PostCard: React.FC<IProps> = ({
                 key={post.id}
                 votesArr={post.votes || []}
               />
-              <TextSnippet className="flex cursor-pointer items-center gap-2">
-                {reply && (
-                  <Button
-                    className="text-blue-600 dark:text-blue-400"
-                    variant="ghost"
-                    onClick={() => setEnableReply((prev) => !prev)}
-                  >
-                    {reply && enableReply ? 'close' : 'reply'}
-                  </Button>
-                )}
-                <MessageSquareReply
-                  size={18}
-                  color="#3B81F6"
-                  fill="#3B81F6"
-                  className="ml-1 duration-300 ease-in-out hover:scale-125"
-                />
-                <p className="text-sm">{post.totalanswers}</p>
-              </TextSnippet>
+              {reply && (
+                <TextSnippet
+                  className="flex cursor-pointer items-center gap-2"
+                  onClick={() => setEnableReply((prev) => !prev)}
+                >
+                  {reply && enableReply ? (
+                    <div className="group flex items-center gap-2 rounded-md border from-blue-500 via-blue-600 to-blue-700 px-4 py-2 duration-300 ease-in-out hover:bg-gradient-to-r">
+                      <MessageSquareX
+                        size={18}
+                        className="ml-2 text-[#3B81F6] group-hover:text-[#fff]"
+                      />
+                      {'Cancel'}
+                    </div>
+                  ) : (
+                    <div className="group flex items-center gap-2 rounded-md border from-blue-500 via-blue-600 to-blue-700 px-4 py-2 duration-300 ease-in-out hover:bg-gradient-to-r">
+                      <MessageSquarePlus
+                        size={18}
+                        className="ml-2 text-[#3B81F6] group-hover:text-[#fff]"
+                      />
+                      {'Add Your Answer'}
+                    </div>
+                  )}
+                </TextSnippet>
+              )}
             </div>
+            {!isAnswer && enableLink && isExtendedQuestion(post) && !reply && (
+              <Link href={`/questions/${post?.slug}`}>
+                <p className="text-sm group-hover:text-[#fff]">
+                  {post.totalanswers === 0 ? (
+                    <div className="group flex items-center gap-2 rounded-md border from-blue-500 via-blue-600 to-blue-700 px-4 py-2 duration-300 ease-in-out hover:bg-gradient-to-r">
+                      <MessageSquarePlus
+                        size={18}
+                        className="ml-2 text-[#3B81F6] group-hover:text-[#fff]"
+                      />
+                      {'Answer'}
+                    </div>
+                  ) : (
+                    <div className="group flex items-center gap-2 rounded-md border from-blue-500 via-blue-600 to-blue-700 px-4 py-2 duration-300 ease-in-out hover:bg-gradient-to-r">
+                      <MessageSquareMore
+                        size={18}
+                        className="ml-2 text-[#3B81F6] group-hover:text-[#fff]"
+                      />
+                      {'View Answers'}
+                    </div>
+                  )}
+                </p>
+              </Link>
+            )}
           </div>
         </div>
       </div>
@@ -212,18 +244,9 @@ const PostCard: React.FC<IProps> = ({
   };
   return (
     <Card className="h-full w-full hover:shadow-md dark:shadow-sm dark:hover:shadow-blue-400">
-      {!isAnswer && !enableLink && isExtendedQuestion(post) && (
-        <CardBody className="flex h-full w-full items-start justify-between gap-5 p-2 sm:p-4">
-          {internalDetails()}
-        </CardBody>
-      )}
-      {!isAnswer && enableLink && isExtendedQuestion(post) && (
-        <Link href={`/questions/${post?.slug}`}>
-          <CardBody className="flex h-full w-full items-start justify-between gap-5 p-2 sm:p-4">
-            {internalDetails()}
-          </CardBody>
-        </Link>
-      )}
+      <CardBody className="flex h-full w-full items-start justify-between gap-5 p-2 sm:p-4">
+        {internalDetails()}
+      </CardBody>
       {enableReply && (
         <div className="m-4">
           <form onSubmit={handleSubmit}>
@@ -235,8 +258,11 @@ const PostCard: React.FC<IProps> = ({
                 onChange={handleMarkdownChange}
               />
               <FormPostErrors id="content" errors={fieldErrors} />
-              <Button type="submit" className="m-3">
-                Reply
+              <Button
+                type="submit"
+                className="m-3 bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 text-white"
+              >
+                {'Post'}
               </Button>
             </div>
           </form>

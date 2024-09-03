@@ -21,7 +21,12 @@ import { getDisabledFeature, getUpdatedUrl, paginationData } from '@/lib/utils';
 import db from '@/db';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
-import PostCard from '@/components/posts/PostCard';
+import dynamic from 'next/dynamic';
+const PostCard = dynamic(() => import('@/components/posts/PostCard'), {
+  ssr: false,
+});
+
+// import PostCard from '@/components/posts/PostCard';
 import Pagination from '@/components/Pagination';
 import { redirect } from 'next/navigation';
 
@@ -223,7 +228,7 @@ export default async function QuestionsPage({
               </div>
 
               {/* Chat */}
-              <div className="grid grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
                 {response?.data?.map((post) => (
                   <PostCard
                     post={post}

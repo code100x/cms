@@ -36,7 +36,8 @@ const DeleteQAForm: React.FC<IVoteFormProps> = ({ questionId, answerId }) => {
     onSuccess: (data) => {
       toast.success(`${data.message}`);
       if (questionId) {
-        router.push('/questions');
+        // Changing this route from questions to question.
+        router.push('/question');
       }
     },
     onError: (error) => {
@@ -54,7 +55,7 @@ const DeleteQAForm: React.FC<IVoteFormProps> = ({ questionId, answerId }) => {
       action={hanleDeleteFunction}
       className="w-full"
     >
-      <button type="submit">
+      <button type="submit" className="p-2">
         <Trash2 />
       </button>
     </form>
