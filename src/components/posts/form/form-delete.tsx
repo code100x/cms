@@ -9,7 +9,8 @@ import { ActionState } from '@/lib/create-safe-action';
 
 import { useRouter } from 'next/navigation';
 import { Delete } from '@/lib/utils';
-import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
+// import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
+import { Trash2 } from 'lucide-react';
 interface IVoteFormProps {
   questionId: number | undefined;
   answerId: number | undefined;
@@ -54,9 +55,7 @@ const DeleteQAForm: React.FC<IVoteFormProps> = ({ questionId, answerId }) => {
       className="w-full"
     >
       <button type="submit">
-        <DropdownMenuItem className="rounded-xl px-1 py-2 text-sm hover:border-none hover:outline-none">
-          Delete
-        </DropdownMenuItem>
+        <Trash2 />
       </button>
     </form>
   );

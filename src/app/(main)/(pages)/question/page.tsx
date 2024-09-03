@@ -151,13 +151,13 @@ export default async function QuestionsPage({
 
         {/* Content Area */}
         <div className="flex-1 overflow-y-auto pb-20">
-          {/* Next question button */}
+          {/* For Posting New Question  */}
           <NewPostDialog />
 
-          <div className="mx-auto md:p-10 xl:mx-[15%]">
+          <div className="mx-auto md:p-10">
             <div className="flex-col items-center justify-center p-4 dark:text-white">
               <div className="flex items-center justify-between">
-                <div className="px-16">
+                <div className="p-2">
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                       <Button className="shrink-0" variant="outline">
@@ -223,20 +223,18 @@ export default async function QuestionsPage({
               </div>
 
               {/* Chat */}
-              <div className="m-auto w-full">
-                <div className="w-full space-y-4">
-                  {response?.data?.map((post) => (
-                    <PostCard
-                      post={post}
-                      sessionUser={session?.user}
-                      key={post.id}
-                      isAnswer={false}
-                      questionId={post.id}
-                      enableLink={true}
-                      reply={false}
-                    />
-                  ))}
-                </div>
+              <div className="grid grid-cols-3 gap-4">
+                {response?.data?.map((post) => (
+                  <PostCard
+                    post={post}
+                    sessionUser={session?.user}
+                    key={post.id}
+                    isAnswer={false}
+                    questionId={post.id}
+                    enableLink={true}
+                    reply={false}
+                  />
+                ))}
               </div>
             </div>
             <Pagination dataLength={response?.data?.length || 0} />
