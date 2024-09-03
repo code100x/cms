@@ -15,8 +15,8 @@ import { getUpdatedUrl, paginationData } from '@/lib/utils';
 import db from '@/db';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
-import PostCard from '@/components/posts/PostCard';
 import Pagination from '@/components/Pagination';
+import AnswerPost from '@/components/questions/AnswerPost';
 
 const organizeAnswers = (
   answers: Answer[],
@@ -105,58 +105,79 @@ const SingleAnswerPage = async ({
   return (
     <div className="pb-14 pt-14 md:mx-[15%]">
       <div className="px-3">
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button className="shrink-0" variant="outline">
-              <ArrowUpDownIcon className="mr-2 h-4 w-4" />
-              Sort by
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-[200px]">
-            <DropdownMenuRadioGroup value={tabType}>
-              <Link
-                href={getUpdatedUrl(`/questions/${params.slug}`, searchParams, {
-                  tabtype: TabType.mu,
-                })}
-              >
-                <DropdownMenuRadioItem value={TabType.mu}>
-                  Most Voted
-                </DropdownMenuRadioItem>
-              </Link>
-              <Link
-                href={getUpdatedUrl(`/questions/${params.slug}`, searchParams, {
-                  tabtype: TabType.md,
-                })}
-              >
-                <DropdownMenuRadioItem value={TabType.md}>
-                  Most Down Voted
-                </DropdownMenuRadioItem>
-              </Link>
-              <Link
-                href={getUpdatedUrl(`/questions/${params.slug}`, searchParams, {
-                  tabtype: TabType.mr,
-                })}
-              >
-                <DropdownMenuRadioItem value={TabType.mr}>
-                  Most Recent
-                </DropdownMenuRadioItem>
-              </Link>
-            </DropdownMenuRadioGroup>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        {answers.length > 0 && (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button className="shrink-0" variant="outline">
+                <ArrowUpDownIcon className="mr-2 h-4 w-4" />
+                Sort by
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-[200px]">
+              <DropdownMenuRadioGroup value={tabType}>
+                <Link
+                  href={getUpdatedUrl(
+                    `/questions/${params.slug}`,
+                    searchParams,
+                    {
+                      tabtype: TabType.mu,
+                    },
+                  )}
+                >
+                  <DropdownMenuRadioItem value={TabType.mu}>
+                    Most Voted
+                  </DropdownMenuRadioItem>
+                </Link>
+                <Link
+                  href={getUpdatedUrl(
+                    `/questions/${params.slug}`,
+                    searchParams,
+                    {
+                      tabtype: TabType.md,
+                    },
+                  )}
+                >
+                  <DropdownMenuRadioItem value={TabType.md}>
+                    Most Down Voted
+                  </DropdownMenuRadioItem>
+                </Link>
+                <Link
+                  href={getUpdatedUrl(
+                    `/questions/${params.slug}`,
+                    searchParams,
+                    {
+                      tabtype: TabType.mr,
+                    },
+                  )}
+                >
+                  <DropdownMenuRadioItem value={TabType.mr}>
+                    Most Recent
+                  </DropdownMenuRadioItem>
+                </Link>
+              </DropdownMenuRadioGroup>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        )}
       </div>
-      <div className="my-3 flex flex-col items-center justify-center gap-2 px-3">
+      <div className="flex flex-col gap-3">
         {answers.map((post: any) => (
-          <PostCard
-            key={post.id}
-            questionId={post.questionId}
-            post={post}
-            sessionUser={session?.user}
-            reply={true}
-          />
+          <div key={post.id} className="rounded-2xl px-8 pt-2">
+            <AnswerPost
+              key={post.id}
+              questionId={post.questionId}
+              post={post}
+              sessionUser={session?.user}
+              reply={true}
+            />
+          </div>
         ))}
       </div>
-      <Pagination dataLength={answers.length} />
+      {answers.length > 0 && <Pagination dataLength={answers.length} />}
+      {answers.length === 0 && (
+        <div className="text-2xl font-bold">
+          <h1>No Answers</h1>
+        </div>
+      )}
     </div>
   );
 };

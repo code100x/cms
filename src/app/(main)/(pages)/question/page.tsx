@@ -21,9 +21,9 @@ import { getDisabledFeature, getUpdatedUrl, paginationData } from '@/lib/utils';
 import db from '@/db';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
-import PostCard from '@/components/posts/PostCard';
 import Pagination from '@/components/Pagination';
 import { redirect } from 'next/navigation';
+import QuestionHeader from '@/components/questions/QuestionPost';
 
 type QuestionsResponse = {
   data: ExtendedQuestion[] | null;
@@ -48,6 +48,7 @@ const getQuestionsWithQuery = async (
       upvotes: true,
       downvotes: true,
       totalanswers: true,
+      content: true,
       tags: true,
       slug: true,
       createdAt: true,
@@ -141,28 +142,37 @@ export default async function QuestionsPage({
     <>
       <div className="flex h-screen flex-col">
         {/* Header */}
-        <div className="flex items-center justify-between p-5">
+        <div className="flex items-center gap-4 p-5">
           <h1 className="bg-background/6 top-0 flex items-center text-3xl backdrop-blur-lg">
             Questions
           </h1>
-
-          <Search />
+          <Link
+            className="mb-2 me-2 rounded-lg bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-gradient-to-br"
+            href={getUpdatedUrl('/question', searchParams, {
+              newPost:
+                searchParams.newPost === 'close' || !searchParams.newPost
+                  ? 'open'
+                  : 'close',
+            })}
+          >
+            New Question
+          </Link>
+          {/* Next question button */}
+          <NewPostDialog />
         </div>
 
         {/* Content Area */}
         <div className="flex-1 overflow-y-auto pb-20">
-          {/* Next question button */}
-          <NewPostDialog />
-
           <div className="mx-auto md:p-10 xl:mx-[15%]">
             <div className="flex-col items-center justify-center p-4 dark:text-white">
-              <div className="flex items-center justify-between">
-                <div className="px-16">
+              <div className="mb-3 flex items-center justify-between">
+                <div className="flex gap-2">
+                  <Search />
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                       <Button className="shrink-0" variant="outline">
                         <ArrowUpDownIcon className="mr-2 h-4 w-4" />
-                        Sort by
+                        <span className="hidden md:inline">Sort By</span>
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end" className="w-[200px]">
@@ -209,24 +219,13 @@ export default async function QuestionsPage({
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </div>
-                <Link
-                  className="mb-2 me-2 rounded-lg bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-gradient-to-br"
-                  href={getUpdatedUrl('/question', searchParams, {
-                    newPost:
-                      searchParams.newPost === 'close' || !searchParams.newPost
-                        ? 'open'
-                        : 'close',
-                  })}
-                >
-                  New Question
-                </Link>
               </div>
 
               {/* Chat */}
               <div className="m-auto w-full">
                 <div className="w-full space-y-4">
                   {response?.data?.map((post) => (
-                    <PostCard
+                    <QuestionHeader
                       post={post}
                       sessionUser={session?.user}
                       key={post.id}

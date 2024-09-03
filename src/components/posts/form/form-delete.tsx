@@ -35,7 +35,7 @@ const DeleteQAForm: React.FC<IVoteFormProps> = ({ questionId, answerId }) => {
     onSuccess: (data) => {
       toast.success(`${data.message}`);
       if (questionId) {
-        router.push('/questions');
+        router.push('/question');
       }
     },
     onError: (error) => {

@@ -58,6 +58,7 @@
     "bcrypt": "^5.1.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
+    "cms": "file:",
     "date-fns": "^3.6.0",
     "dayjs": "^1.11.10",
     "discord-oauth2": "^2.11.0",
