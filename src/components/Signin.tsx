@@ -148,9 +148,9 @@ const Signin = () => {
                       <li
                         key={domain}
                         value={domain}
-                        ref={(listItem) =>
-                          (suggestionRefs.current[index] = listItem!)
-                        }
+                        ref={(listItem) => {
+                          suggestionRefs.current[index] = listItem!;
+                        }}
                         onClick={() => handleSuggestionClick(domain)}
                         className={`relative flex w-full cursor-default select-none items-center rounded-sm p-2 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 ${
                           focusedIndex === index
