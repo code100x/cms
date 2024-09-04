@@ -21,5 +21,5 @@ export default async function AdminLayout({
     return notFound();
   }
 
-  return <>{children}</>;
+  return <div className="flex min-h-screen">{children}</div>;
 }

@@ -251,28 +251,23 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
           break;
       }
     };
-
     const handleKeyUp = (event: any) => {
       if (event.code === 'KeyT') {
         player.playbackRate(1);
       }
     };
-
     document.addEventListener('keydown', handleKeyPress);
     document.addEventListener('keyup', handleKeyUp);
-
     // Cleanup function
     return () => {
       document.removeEventListener('keydown', handleKeyPress);
     };
   }, [player]);
-
   useEffect(() => {
     if (!player) {
       return;
     }
     let interval = 0;
-
     const handleVideoProgress = () => {
       if (!player) {
         return;
@@ -282,6 +277,7 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
           if (!player) {
             return;
           }
+          //@ts-ignore
           if (player?.paused()) {
             return;
           }
@@ -421,10 +417,7 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
   }
 
   return (
-    <div
-      data-vjs-player
-      className="mx-auto md:max-w-[calc(100vw-3rem)] 2xl:max-w-[calc(100vw-17rem)]"
-    >
+    <div data-vjs-player className="mx-auto">
       <div ref={videoRef} />
     </div>
   );

@@ -78,8 +78,8 @@ export default function Courses() {
   };
 
   return (
-    <div>
-      <Card className="mx-auto w-full max-w-6xl overflow-y-auto lg:mt-10">
+    <div className="wrapper my-16 flex flex-col gap-4">
+      <Card>
         <CardHeader>
           <CardTitle>Create a new course</CardTitle>
           <CardDescription>Fill in the course details below</CardDescription>
@@ -214,7 +214,7 @@ export default function Courses() {
           </Form>
         </CardContent>
       </Card>
-      <Card className="mx-auto w-full max-w-6xl overflow-y-auto lg:my-10">
+      <Card>
         <CardHeader>
           <CardTitle>Discord</CardTitle>
         </CardHeader>
