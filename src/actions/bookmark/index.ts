@@ -28,14 +28,17 @@ const createBookmarkHandler = async (
   const userId = session.user.id;
 
   try {
-    const addedBookmark = await db.bookmark.create({
-      data: {
-        contentId,
-        userId,
-      },
+    const result = await db.$transaction(async (prisma) => {
+      const addedBookmark = await prisma.bookmark.create({
+        data: {
+          contentId,
+          userId,
+        },
+      });
+      reloadBookmarkPage();
+      return { data: addedBookmark };
     });
-    reloadBookmarkPage();
-    return { data: addedBookmark };
+    return result;
   } catch (error: any) {
     return { error: error.message || 'Failed to create comment.' };
   }
@@ -53,11 +56,14 @@ const deleteBookmarkHandler = async (
   const { id } = data;
 
   try {
-    const deletedBookmark = await db.bookmark.delete({
-      where: { id, userId },
+    const result = await db.$transaction(async (prisma) => {
+      const deletedBookmark = await prisma.bookmark.delete({
+        where: { id, userId },
+      });
+      reloadBookmarkPage();
+      return { data: deletedBookmark };
     });
-    reloadBookmarkPage();
-    return { data: deletedBookmark };
+    return result;
   } catch (error: any) {
     return { error: error.message || 'Failed to create comment.' };
   }
