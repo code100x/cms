@@ -8,13 +8,17 @@ if [ -f "yarn.lock" ] || [ -f "package-lock.json" ]; then
   RED='\033[0;31m'
   NC='\033[0m' # No Color
   printf "${RED}"
-  echo "###############################################"
-  echo "#                                             #"
-  echo "#  ERROR: 'yarn.lock' or 'package-lock.json'  #"
-  echo "#  IS PRESENT!                                #"
-  echo "#  PLEASE REMOVE THEM BEFORE COMMITTING.      #"
-  echo "# Use rm                                             #"
-  echo "###############################################"
+  echo "-----------------------------------------------"
+  echo "|                                             |"
+  echo "|  ERROR: 'yarn.lock' or 'package-lock.json'  |"
+  echo "|  IS PRESENT!                                |"
+  echo "|  PLEASE REMOVE THEM BEFORE COMMITTING.      |"
+  echo "|                                             |"
+  echo "|  Try:                                       |"
+  echo "|    \`rm yarn.lock\`                           |"
+  echo "|    \`rm package-lock.json\`                   |"
+  echo "|                                             |"
+  echo "-----------------------------------------------"
   printf "${NC}"
   exit 1
 fi
