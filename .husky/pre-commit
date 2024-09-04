@@ -1,9 +1,7 @@
 #!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
+# . "$(dirname -- "$0")/_/husky.sh"
 
-npm run format:fix
-npm run lint:fix
-
+npx lint-staged
 git add .
 
 if [ -f "yarn.lock" ] || [ -f "package-lock.json" ]; then
