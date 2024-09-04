@@ -44,7 +44,8 @@
 4. Create a `.env` file based on the `.env.example` file and configure the `DATABASE_URL` with your postgreSQL connection string.
 5. Install dependencies:
    ```bash
-   npm install
+   npm install -g pnpm
+   pnpm install
    ```
 6. Run database migrations:
    ```bash
