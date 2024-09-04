@@ -1,120 +1,118 @@
-import { cn } from '@/lib/utils';
-import { ChevronRight, Medal } from 'lucide-react';
-import { Poppins } from 'next/font/google';
-import localFont from 'next/font/local';
+'use client';
 import Link from 'next/link';
 import { Button } from '../ui/button';
-import PreFooterSection from './footer/pre-footer/pre-footer';
-import DailyCodeSection from './snaps-section/daily-code/daily-code';
-import DashboardSection from './snaps-section/dashboard/dashboard-section';
-import DiscordSection from './snaps-section/discord-section/discord-section';
-import PlatformSection from './snaps-section/platform/platform-section';
-import TrustedBySection from './trustedby-section/trusted-by';
-import AboutUsSection from './us-section/about-us';
-import WhyUsSection from './us-section/why-us';
-import { Appbar } from '@/components/Appbar';
+import { Navbar } from '../Navbar';
+import { InfiniteMovingCards } from '../ui/infinite-moving-cards';
+import FooterCTA from './footer-cta';
+import Footer from './footer';
+import { motion } from 'framer-motion';
 
-const headingFont = localFont({
-  src: '../../../public/fonts/font.woff2',
-});
+const heroItems = [
+  {
+    imageUrl:
+      'https://appxcontent.kaxa.in/paid_course3/2024-07-07-0.8201249093606604.png',
+  },
+  {
+    imageUrl: 'https://100x-b-mcdn.akamai.net.in/images/adhoc.jpeg',
+  },
+  {
+    imageUrl:
+      'https://appxcontent.kaxa.in/paid_course3/2024-07-09-0.27031454992467685.png',
+  },
+  {
+    imageUrl: 'https://100x-b-mcdn.akamai.net.in/images/ds.jpeg',
+  },
 
-const textFont = Poppins({
-  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
-  subsets: ['latin'],
-});
+  {
+    imageUrl:
+      'https://appxcontent.kaxa.in/paid_course3/2024-07-09-0.6125162399767927.png',
+  },
+];
 
 export default function LandingPage() {
   return (
     <div className="flex min-h-screen flex-col">
-      <Appbar
-        showLogoforLanding={true}
-        className="fixed top-0 z-50 flex h-16 w-full items-center justify-center gap-2 border-b bg-background/80 px-4 shadow-sm backdrop-blur-md print:hidden"
-      />
-
-      <main className="flex flex-col items-center justify-center">
-        {/* Tagline */}
-        <div
-          className={cn(
-            'flex flex-col items-center justify-center',
-            headingFont.className,
-          )}
+      <Navbar />
+      <main className="flex h-[100vh] flex-col items-center justify-center gap-4">
+        {/* Hero */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{
+            duration: 0.5,
+            delay: 0.25,
+            type: 'spring',
+            damping: 10,
+            stiffness: 100,
+          }}
+          className="flex max-w-7xl flex-col items-center justify-center gap-2 px-4"
         >
-          <div className="md:text-md mb-4 flex items-center rounded-full border bg-blue-50 px-4 py-2.5 font-sans text-sm font-semibold uppercase text-blue-700 shadow-md md:px-5">
-            <Medal className="mr-2 h-5 w-5" />
-            #1 learning platform
-          </div>
-
-          <h1 className="mb-3 bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-center text-4xl text-transparent md:mb-4 md:text-6xl">
-            100xdevs
+          <h1 className="max-w-2xl py-2 text-center text-5xl font-extrabold tracking-tighter md:text-6xl xl:text-7xl">
+            <span className="w-fit bg-gradient-to-b from-blue-400 to-blue-700 bg-clip-text pr-1.5 text-center text-transparent md:mb-4">
+              100xDevs,
+            </span>{' '}
+            <span className="bg-gradient-to-b from-primary/90 to-primary/60 bg-clip-text py-1 text-transparent">
+              because 10x ain&apos;t enough!
+            </span>
           </h1>
 
-          <div className="w-fit px-4 pb-4 text-center text-3xl text-neutral-800 dark:text-neutral-200 md:text-6xl">
-            because 10x ain&apos;t enough!
-          </div>
-
-          <div
-            className={cn(
-              'mx-auto mt-4 max-w-sm px-2 text-center text-sm text-neutral-400 dark:text-neutral-500 md:max-w-2xl md:text-xl',
-              textFont.className,
-            )}
-          >
-            A Beginner-Friendly Platform for Mastering Programming Skills and
-            Unleashing Your Inner Developer Genius! Start Learning Today and
-            Transform into a Tech Pro Tomorrow!
-          </div>
-        </div>
-
+          <p className="mx-auto text-center text-lg font-medium tracking-tight text-primary/80 md:text-xl">
+            A beginner-friendly platform for mastering programming skills.
+          </p>
+        </motion.div>
         {/* CTA Buttons */}
-        <div className="flex items-center gap-2">
-          <Button
-            className="mt-6 rounded-full hover:shadow-sm"
-            size={'lg'}
-            asChild
-          >
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{
+            duration: 0.5,
+            delay: 0.5,
+            type: 'spring',
+            damping: 10,
+            stiffness: 100,
+          }}
+          className="flex items-center justify-center gap-2"
+        >
+          <Button size={'lg'} asChild variant={'branding'}>
             <Link
               href={'https://harkirat.classx.co.in/new-courses'}
               target="_blank"
             >
-              <p className="text-white">Explore courses</p>
+              Explore Courses
             </Link>
           </Button>
-
-          <Button
-            className="mt-6 rounded-full hover:shadow-sm"
-            size={'lg'}
-            variant={'outline'}
-            asChild
-          >
-            <Link href={'#trustedby'}>
-              See more{' '}
-              <ChevronRight className="ml-1 h-4 w-4 text-black duration-200 ease-in-out hover:translate-x-1 dark:text-white" />
+          <Button size={'lg'} asChild>
+            <Link href={'https://projects.100xdevs.com'} target="_blank">
+              Explore Notes
             </Link>
           </Button>
-        </div>
-
-        {/* Platform */}
-        <PlatformSection />
-
-        {/* Trusted by */}
-        <TrustedBySection />
-
-        {/* Dashboard */}
-        <DashboardSection />
-
-        {/* DailyCode */}
-        <DailyCodeSection />
-
-        {/* Why Us? */}
-        <WhyUsSection />
-
-        {/* About us */}
-        <AboutUsSection />
-
-        {/* Discord Section */}
-        <DiscordSection />
-        {/* PreFooter Section */}
-        <PreFooterSection />
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{
+            duration: 0.5,
+            delay: 0.75,
+            type: 'spring',
+            damping: 10,
+            stiffness: 100,
+          }}
+          className="relative mx-auto my-4 flex w-screen flex-col items-center justify-center overflow-hidden antialiased"
+        >
+          <InfiniteMovingCards items={heroItems} />
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{
+            duration: 1,
+            delay: 1,
+          }}
+          className="absolute -bottom-[16rem] -z-[20] size-[24rem] overflow-hidden rounded-full bg-gradient-to-t from-blue-400 to-blue-700 blur-[16em]"
+        />
       </main>
+      <FooterCTA />
+      <Footer />
     </div>
   );
 }

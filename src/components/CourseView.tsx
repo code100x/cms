@@ -3,9 +3,10 @@ import { ContentRenderer } from './admin/ContentRenderer';
 import { FolderView } from './FolderView';
 import { NotionRenderer } from './NotionRenderer';
 import { getFolderPercentCompleted } from '@/lib/utils';
-import Comments from './comment/Comments';
 import { QueryParams } from '@/actions/types';
-import { CourseViewToolbar } from './CourseViewToolbar';
+import BreadCrumbComponent from './BreadCrumbComponent';
+import Comments from './comment/Comments';
+// import { Sidebar } from './Sidebar';
 
 export const CourseView = ({
   rest,
@@ -37,22 +38,19 @@ export const CourseView = ({
     ? 'folder'
     : courseContent?.value.type;
   return (
-    <div className="no-scrollbar flex h-screen flex-col overflow-y-auto pb-20">
-      <div className="mb-2 flex max-h-fit min-h-[2.5rem] items-center px-2">
-        <CourseViewToolbar
-          courseData={{
-            course,
-            contentType,
-            courseContent,
-            fullCourseContent,
-            rest,
-          }}
+    <div className="flex w-full flex-col gap-8 pb-16 pt-8">
+      <div className="flex flex-col gap-4">
+        <BreadCrumbComponent
+          course={course}
+          contentType={contentType}
+          courseContent={courseContent}
+          fullCourseContent={fullCourseContent}
+          rest={rest}
         />
       </div>
+
       {!courseContent?.folder && courseContent?.value.type === 'notion' ? (
-        <div className="m-4">
-          <NotionRenderer id={courseContent?.value?.id?.toString()} />
-        </div>
+        <NotionRenderer id={courseContent?.value?.id?.toString()} />
       ) : null}
 
       {!courseContent?.folder && contentType === 'video' ? (
@@ -70,6 +68,7 @@ export const CourseView = ({
           }}
         />
       ) : null}
+
       {!courseContent?.folder &&
         (contentType === 'video' || contentType === 'notion') && (
           <Comments
@@ -83,6 +82,7 @@ export const CourseView = ({
             searchParams={searchParams}
           />
         )}
+
       {courseContent?.folder ? (
         <FolderView
           rest={rest}
@@ -96,7 +96,6 @@ export const CourseView = ({
             videoFullDuration: x?.videoProgress?.videoFullDuration || 0,
             duration: x?.videoProgress?.duration || 0,
             bookmark: null,
-            createdAt: x?.createdAt,
           }))}
           courseId={parseInt(course.id, 10)}
         />

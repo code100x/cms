@@ -11,7 +11,6 @@ export const SelectCourse = ({ courses }: { courses: Course[] }) => {
       {courses.map((course) => (
         <CourseCard
           buttonColor=""
-          roundedCardSize="lg"
           //@ts-ignore
           course={course}
           onClick={() => {

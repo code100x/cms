@@ -2,14 +2,13 @@
 import React, { useId } from 'react';
 import { useAction } from '@/hooks/useAction';
 import { toast } from 'sonner';
-
 import { deleteQuestion } from '@/actions/question';
 import { deleteAnswer } from '@/actions/answer';
 import { ActionState } from '@/lib/create-safe-action';
-
 import { useRouter } from 'next/navigation';
 import { Delete } from '@/lib/utils';
-import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
+import { Trash2 } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 interface IVoteFormProps {
   questionId: number | undefined;
   answerId: number | undefined;
@@ -48,17 +47,14 @@ const DeleteQAForm: React.FC<IVoteFormProps> = ({ questionId, answerId }) => {
   };
 
   return (
-    <form
+    <Button
       id={`delete-${idForm}`}
-      action={hanleDeleteFunction}
-      className="w-full"
+      onClick={hanleDeleteFunction}
+      size="icon"
+      variant="destructive"
     >
-      <button type="submit">
-        <DropdownMenuItem className="rounded-xl px-1 py-2 text-sm hover:border-none hover:outline-none">
-          Delete
-        </DropdownMenuItem>
-      </button>
-    </form>
+      <Trash2 className="size-4" />
+    </Button>
   );
 };
 

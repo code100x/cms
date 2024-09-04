@@ -41,13 +41,17 @@ export default async function UpdateCourseContent({
   }
 
   return (
-    <div className="mx-auto max-w-screen-xl justify-between p-4 text-black dark:text-white">
-      {course?.title}
-      <div className="font-bold md:text-5xl lg:text-6xl">Content</div>
+    <main className="wrapper flex max-w-screen-xl flex-col justify-between gap-8">
+      <div className="flex w-full flex-col justify-between gap-2">
+        <h1 className="text-3xl font-bold md:text-4xl">Content</h1>
+        <p className="text-xl capitalize">{course?.title}</p>
+      </div>
+
       <AddContent
         courseId={parseInt(courseId, 10)}
         parentContentId={parseFloat(rest[rest.length - 1])}
       />
+
       <AdminCourseContent
         rest={rest}
         // @ts-ignore
@@ -59,6 +63,6 @@ export default async function UpdateCourseContent({
         }))}
         courseId={parseInt(courseId, 10)}
       />
-    </div>
+    </main>
   );
 }

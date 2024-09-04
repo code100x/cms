@@ -66,8 +66,8 @@ const createQuestionHandler = async (
         slug, // Include the slug
       },
     });
-    revalidatePath(`/questions/${question.id}`);
-    revalidatePath(`/questions`);
+    revalidatePath(`/question/${question.id}`);
+    revalidatePath(`/question`);
 
     return { data: question };
   } catch (error) {
@@ -106,7 +106,7 @@ const updateQuestionHandler = async (
 
   if (!existingQuestion || existingQuestion.authorId !== session.user.id) {
     return {
-      error: 'Unauthorized: You can only update questions you have authored',
+      error: 'Unauthorized: You can only update question you have authored',
     };
   }
 
@@ -141,8 +141,8 @@ const updateQuestionHandler = async (
         slug, // Include the new slug
       },
     });
-    revalidatePath(`/questions/${questionId}`);
-    revalidatePath(`/questions`);
+    revalidatePath(`/question/${questionId}`);
+    revalidatePath(`/question`);
 
     return { data: updatedQuestion };
   } catch (error) {
@@ -179,7 +179,7 @@ const deleteQuestionHandler = async (
     (question.authorId !== session.user.id && session.user.role !== ROLES.ADMIN)
   ) {
     return {
-      error: 'Unauthorized: You can only delete questions you have authored',
+      error: 'Unauthorized: You can only delete question you have authored',
     };
   }
 
@@ -214,8 +214,8 @@ const deleteQuestionHandler = async (
       });
     });
 
-    revalidatePath(`/questions/${questionId}`);
-    revalidatePath(`/questions`);
+    revalidatePath(`/question/${questionId}`);
+    revalidatePath(`/question`);
 
     return {
       data: {

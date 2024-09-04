@@ -28,10 +28,13 @@ const CommentDeleteForm = ({ commentId }: { commentId: number }) => {
   };
   return (
     <form className="w-full" onSubmit={handleFormSubmit}>
-      <button className="w-full" type="submit" disabled={isLoading}>
-        <div className="flex items-center gap-x-2">
-          Delete <Trash2Icon className="h-4 w-4" />
-        </div>
+      <button
+        className="flex w-full items-center gap-2"
+        type="submit"
+        disabled={isLoading}
+      >
+        <Trash2Icon className="size-4" />
+        Delete
       </button>
     </form>
   );
