@@ -70,6 +70,13 @@ export const Appbar = () => {
       >
         <div className="flex h-full flex-col gap-4">
           <div className="flex w-full items-center border-b border-primary/10 p-4">
+            {!isCollapsed && (
+              <>
+                <h3 className="text-xl font-bold tracking-tighter text-primary lg:text-2xl">
+                  Menu
+                </h3>
+              </>
+            )}
             <motion.button
               onClick={toggleCollapse}
               className="ml-auto flex items-center rounded-lg p-3 text-center transition-all duration-300 hover:bg-blue-600/5 hover:text-blue-500"

@@ -7,7 +7,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
-import { Play, File, SidebarOpen, SidebarClose } from 'lucide-react';
+import { Play, File, X, Menu } from 'lucide-react';
 import { FullCourseContent } from '@/db/course';
 import { useRecoilState } from 'recoil';
 import { sidebarOpen as sidebarOpenAtom } from '@/store/atoms/sidebar';
@@ -28,7 +28,7 @@ const sidebarVariants = {
   closed: {
     width: 0,
     opacity: 0,
-    x: '-100%',
+    x: '100%',
     transition: { type: 'spring', stiffness: 300, damping: 30 },
   },
 };
@@ -163,13 +163,9 @@ export function Sidebar({
 
   return (
     <>
-      <Button
-        onClick={() => setSidebarOpen((s) => !s)}
-        className="w-fit gap-2"
-        size="lg"
-      >
-        <SidebarOpen className="size-5" />
-        <span>Show Contents</span>
+      <Button onClick={() => setSidebarOpen((s) => !s)} className="w-fit gap-2">
+        {sidebarOpen ? <X className="size-5" /> : <Menu className="size-5" />}
+        <span>{sidebarOpen ? 'Hide Contents' : 'Show Contents'}</span>
       </Button>
       <AnimatePresence>
         {sidebarOpen && (
@@ -179,9 +175,9 @@ export function Sidebar({
             animate="open"
             exit="closed"
             variants={sidebarVariants}
-            className="fixed left-0 top-0 z-[99999] h-screen w-full overflow-y-auto rounded-r-lg bg-neutral-50 shadow-xl dark:bg-neutral-900 md:max-w-[30vw]"
+            className="fixed right-0 top-0 z-[99999] flex h-screen w-full flex-col gap-4 overflow-y-auto rounded-r-lg border-l border-primary/10 bg-neutral-50 dark:bg-neutral-900 md:max-w-[30vw]"
           >
-            <div className="sticky top-0 z-10 flex items-center justify-between bg-neutral-50 p-4 dark:bg-neutral-900">
+            <div className="sticky top-0 z-10 flex items-center justify-between border-b border-primary/10 p-5">
               <h4 className="text-xl font-bold tracking-tighter text-primary lg:text-2xl">
                 Course Content
               </h4>
@@ -190,10 +186,10 @@ export function Sidebar({
                 size="icon"
                 onClick={() => setSidebarOpen(false)}
               >
-                <SidebarClose className="size-5" />
+                <X className="size-5" />
               </Button>
             </div>
-            <Accordion type="multiple" className="w-full px-2 capitalize">
+            <Accordion type="multiple" className="w-full px-4 capitalize">
               {memoizedContent}
             </Accordion>
           </motion.div>

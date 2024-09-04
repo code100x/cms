@@ -28,7 +28,6 @@ export const Courses = ({ courses }: { courses: Course[] }) => {
         <CourseCard
           key={course.id}
           course={course}
-          buttonColor=""
           onClick={() => {
             if (
               course.title.includes('Machine Learning') ||

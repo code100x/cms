@@ -4,9 +4,6 @@ import { Meta, StoryObj } from '@storybook/react';
 const meta: Meta<typeof CourseCard> = {
   title: 'CourseCard',
   component: CourseCard,
-  argTypes: {
-    buttonColor: { control: 'color' },
-  },
 };
 
 export default meta;

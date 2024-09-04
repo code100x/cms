@@ -124,7 +124,7 @@ const SingleAnswerPage = async ({
           <DropdownMenuContent align="end" className="w-[200px]">
             <DropdownMenuRadioGroup value={tabType}>
               <Link
-                href={getUpdatedUrl(`/questions/${params.slug}`, searchParams, {
+                href={getUpdatedUrl(`/question/${params.slug}`, searchParams, {
                   tabtype: TabType.mu,
                 })}
               >
@@ -133,7 +133,7 @@ const SingleAnswerPage = async ({
                 </DropdownMenuRadioItem>
               </Link>
               <Link
-                href={getUpdatedUrl(`/questions/${params.slug}`, searchParams, {
+                href={getUpdatedUrl(`/question/${params.slug}`, searchParams, {
                   tabtype: TabType.md,
                 })}
               >
@@ -142,7 +142,7 @@ const SingleAnswerPage = async ({
                 </DropdownMenuRadioItem>
               </Link>
               <Link
-                href={getUpdatedUrl(`/questions/${params.slug}`, searchParams, {
+                href={getUpdatedUrl(`/question/${params.slug}`, searchParams, {
                   tabtype: TabType.mr,
                 })}
               >

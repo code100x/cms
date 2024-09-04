@@ -1,7 +1,6 @@
 'use client';
 import Link from 'next/link';
 import { Button } from '../ui/button';
-import { Navbar } from '../Navbar';
 import { InfiniteMovingCards } from '../ui/infinite-moving-cards';
 import FooterCTA from './footer-cta';
 import Footer from './footer';
@@ -32,7 +31,6 @@ const heroItems = [
 export default function LandingPage() {
   return (
     <div className="flex min-h-screen flex-col">
-      <Navbar />
       <main className="flex h-[100vh] flex-col items-center justify-center gap-4">
         {/* Hero */}
         <motion.div
@@ -97,7 +95,7 @@ export default function LandingPage() {
             damping: 10,
             stiffness: 100,
           }}
-          className="relative mx-auto my-4 flex w-screen flex-col items-center justify-center overflow-hidden antialiased"
+          className="relative mx-auto my-4 flex w-full flex-col items-center justify-center overflow-hidden antialiased"
         >
           <InfiniteMovingCards items={heroItems} />
         </motion.div>

@@ -6,6 +6,7 @@
     "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
   },
   "scripts": {
+    "preinstall": "npx only-allow pnpm",
     "postinstall": "prisma generate",
     "dev": "next dev",
     "build": "next build",
@@ -49,6 +50,7 @@
     "@radix-ui/react-scroll-area": "^1.1.0",
     "@radix-ui/react-slot": "^1.1.0",
     "@radix-ui/react-switch": "^1.1.0",
+    "@radix-ui/react-separator": "^1.1.0",
     "@radix-ui/react-tooltip": "^1.0.7",
     "@tabler/icons-react": "^3.14.0",
     "@types/bcrypt": "^5.0.2",

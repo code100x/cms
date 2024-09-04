@@ -130,9 +130,7 @@ export const Navbar = () => {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -20 }}
                 >
-                  <Button variant={'outline'} className="mb-2 w-full">
-                    <Link href="/login">Log in</Link>
-                  </Button>
+                  <AppbarAuth />
                   <Button variant={'branding'} className="w-full">
                     <Link
                       href={'https://harkirat.classx.co.in/new-courses'}

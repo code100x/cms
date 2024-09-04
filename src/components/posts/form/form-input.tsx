@@ -45,7 +45,7 @@ export const FormPostInput = forwardRef<HTMLInputElement, FormInputProps>(
           {label ? (
             <Label
               htmlFor={id}
-              className="text-xs font-semibold text-neutral-700"
+              className="text-xs font-semibold text-neutral-500"
             >
               {label}
             </Label>
@@ -60,7 +60,10 @@ export const FormPostInput = forwardRef<HTMLInputElement, FormInputProps>(
             placeholder={placeholder}
             type={type}
             disabled={pending || disabled}
-            className={cn('', className)}
+            className={cn(
+              'focus:ring-none rounded-lg border-none bg-primary/5 px-4 text-base focus:outline-none',
+              className,
+            )}
             aria-describedby={`${id}-error`}
           />
         </div>

@@ -52,17 +52,16 @@ export const NewPostDialog = () => {
     onSuccess: (data) => {
       toast.success(`Question "${data.title}" created`);
       formRef?.current?.reset();
-      if (!fieldErrors?.content && !fieldErrors?.title && !fieldErrors?.tags) {
-        setValue('');
-        router.push(
-          getUpdatedUrl(`${path}/`, paramsObject, { newPost: 'close' }),
-        );
-      }
+      setValue('');
+      router.push(`/question/${data.slug}`);
+      handleOnCloseClick();
     },
     onError: (error) => {
       toast.error(error);
+      handleOnCloseClick();
     },
   });
+
   const handleOnCloseClick = () => {
     router.push(getUpdatedUrl(`${path}/`, paramsObject, { newPost: 'close' }));
     if (fieldErrors?.content || fieldErrors?.title || fieldErrors?.tags) {
@@ -85,7 +84,7 @@ export const NewPostDialog = () => {
 
   return (
     <Modal ref={ref} onClose={handleOnCloseClick}>
-      <div className="fixed inset-0 z-40 bg-black/50 backdrop-blur-md" />
+      <div className="fixed inset-0 bg-black/50 backdrop-blur-md" />
       <AnimatePresence>
         <form ref={formRef} onSubmit={onSubmit}>
           <motion.div
@@ -97,11 +96,11 @@ export const NewPostDialog = () => {
               type: 'spring',
               damping: 10,
             }}
-            className="fixed inset-0 z-50 mx-auto flex w-full max-w-screen-md items-center justify-center md:max-w-4xl md:p-8"
+            className="fixed inset-0 mx-auto flex w-full max-w-screen-md items-center justify-center p-4 md:max-w-4xl md:p-8"
           >
             <div
               ref={containerRef}
-              className="z-50 flex max-h-[65vh] w-full flex-col gap-4 rounded-xl border-2 bg-background p-4"
+              className="flex max-h-[80vh] w-full flex-col gap-4 overflow-y-auto rounded-xl border border-primary/10 bg-background p-6"
             >
               <div className="flex items-center justify-between gap-4 border-b pb-4">
                 <h2 className="text-xl font-bold tracking-tighter md:text-2xl">
@@ -116,7 +115,7 @@ export const NewPostDialog = () => {
                   <X className="size-4" />
                 </Button>
               </div>
-              <div className="flex flex-col gap-2">
+              <div className="flex w-full flex-col gap-2">
                 <h3 className="wmde-markdown-var text-lg font-bold tracking-tighter">
                   Title
                 </h3>
@@ -127,18 +126,22 @@ export const NewPostDialog = () => {
                   className="w-full"
                 />
               </div>
-              <div className="flex flex-col gap-2">
+              <div className="flex w-full flex-col gap-2">
                 <h3 className="wmde-markdown-var text-lg font-bold tracking-tighter">
                   Tags
                 </h3>
                 <FormPostInput
                   id="tags"
-                  placeholder="Enter tags separated by comma (query, javascript, react)"
+                  placeholder="Enter tags separated by comma"
                   errors={fieldErrors}
+                  className="w-full"
                 />
               </div>
 
-              <div data-color-mode={theme} className="flex flex-col gap-2">
+              <div
+                data-color-mode={theme}
+                className="flex w-full flex-col gap-2"
+              >
                 <h3 className="wmde-markdown-var text-lg font-bold tracking-tighter">
                   Question
                 </h3>
@@ -147,10 +150,11 @@ export const NewPostDialog = () => {
                   value={value}
                   onChange={handleMarkdownChange}
                   visibleDragbar={false}
+                  className="w-full border-none outline-none focus:border-none"
                 />
                 <FormPostErrors id="content" errors={fieldErrors} />
               </div>
-              <Button type="submit" size={'lg'} className="md:w-fit">
+              <Button type="submit" variant={'branding'} className="md:w-fit">
                 Submit Question
               </Button>
             </div>
