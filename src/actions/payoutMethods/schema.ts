@@ -1,15 +1,18 @@
 import { z } from 'zod';
+// Define seperate regex patterns
+const upiRegex = /^[0-9A-Za-z._-]{2,256}@[A-Za-z]{2,64}$/;
+const solanaRegex = /^[A-Za-z0-9]{44}$/;
 
 export const payoutMethodSchema = z.object({
   upiId: z
     .string()
-    .refine((value) => (/^[0-9A-Za-z._-]{2,256}@[A-Za-z]{2,64}$/).test(value), {
+    .refine((value) => upiRegex.test(value), {
       message: 'Enter a valid UPI address',
     })
     .optional(),
   solanaAddress: z
     .string()
-    .refine((value) => (/^[A-Za-z0-9]{44}$/).test(value), {
+    .refine((value) => solanaRegex.test(value), {
       message: 'Enter a valid Solana address',
     })
     .optional(),
@@ -18,13 +21,13 @@ export const payoutMethodSchema = z.object({
 export const upiIdInsertSchema = z.object({
   upiId: z
     .string()
-    .refine((value) => (/^[0-9A_Za-z._-]{2,256}@[A_Za-z]{2,64}$/).test(value), {
+    .refine((value) => upiRegex.test(value), {
       message: 'Invalid UPI address',
     }),
 });
 
 export const solanaAddressInsertSchema = z.object({
-  solanaAddress: z.string().refine((value) => (/^[A-Za-z0-9]{44}$/).test(value), {
+  solanaAddress: z.string().refine((value) => solanaRegex.test(value), {
     message: 'Invalid Solana address',
   }),
 });
