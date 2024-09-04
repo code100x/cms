@@ -43,6 +43,7 @@ class QualitySelectorControllBar extends videojs.getComponent('Button') {
     });
     dropUpMenuElement.querySelectorAll('li').forEach((item) => {
       item.addEventListener('click', (e: any) => {
+        e.stopPropagation(); //prevent bubbling up
         const quality = e.target.getAttribute('data-quality');
         const urlParams = new URLSearchParams(window.location.search);
         if (quality !== urlParams.get('quality')) {
