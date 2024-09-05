@@ -4,9 +4,23 @@
 npx lint-staged
 git add .
 
+if [ "$npm_execpath" | grep -q "pnpm"; then
+  RED='\033[0;31m'
+  NC='\033[0m'
+  printf "${RED}"
+  echo "-----------------------------------------------"
+  echo "|                                             |"
+  echo "|  ERROR: 'Using npm !'                       |"
+  echo "|  PLEASE use pnpm instead of npm             |"
+  echo "|                                             |"
+  echo "-----------------------------------------------"
+  printf "${NC}"
+  exit 1
+fi
+
 if [ -f "yarn.lock" ] || [ -f "package-lock.json" ]; then
   RED='\033[0;31m'
-  NC='\033[0m' # No Color
+  NC='\033[0m'
   printf "${RED}"
   echo "-----------------------------------------------"
   echo "|                                             |"
