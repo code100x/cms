@@ -33,6 +33,7 @@ const PrintNotes = ({ recordMap }: { recordMap: any }) => {
         fullPage={true}
         darkMode={false}
         className="z-10"
+        disableHeader={true}
         components={{
           Code,
           Equation,
