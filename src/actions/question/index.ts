@@ -170,7 +170,7 @@ const deleteQuestionHandler = async (
   const { questionId } = data;
 
   const question = await db.question.findUnique({
-    where: { id: questionId },
+    where: { id: questionId, authorId: userExists.id },
   });
 
   if (
