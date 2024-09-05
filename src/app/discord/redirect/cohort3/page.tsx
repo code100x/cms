@@ -62,7 +62,7 @@ export default function DiscordOauthRedirect() {
   return (
     <div className="flex h-screen">
       <div className="m-auto">
-        <h1>Discord connected!</h1>
+        <p>Discord connected!</p>
       </div>
     </div>
   );

@@ -12,10 +12,10 @@ export const useBookmark = (bookmark: Bookmark | null, contentId: number) => {
     onSuccess: (data: Bookmark) => {
       toast(
         <div className="flex items-center gap-2">
-          <span>Bookmark Added!</span>
+          Bookmark Added!
           <Link
             className="text-[#040fff]"
-            href={'/bookmarks'}
+            href={'/bookmark'}
             onClick={() => {
               toast.dismiss();
             }}

@@ -14,15 +14,15 @@ const CardComponent = ({
   const [, secondPart] = title.split(' | ');
 
   return (
-    <div className="flex min-h-[22vh] items-center overflow-clip rounded-t-md">
+    <div className="flex min-h-[24vh] items-center overflow-clip rounded-xl">
       <img
         src={bgImage.src}
         alt="background"
-        className="absolute h-full w-full rounded-t-md"
+        className="absolute h-full w-full rounded-xl"
       />
       <div className="relative flex h-full flex-grow flex-col items-center justify-center">
         <p className="md:text-md flex-wrap whitespace-normal text-wrap rounded-full border-black bg-gray-400/20 px-3 py-1 text-center text-xs capitalize text-white sm:text-lg lg:text-sm">
-          100xdevs
+          100xDevs
         </p>
         <p className="sm:text-md flex-wrap whitespace-normal text-wrap border-black text-center text-xs capitalize text-white sm:text-lg">
           {secondPart} {/* Displaying the second part of the title */}

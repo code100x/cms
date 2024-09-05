@@ -1,41 +1,23 @@
-'use client';
-import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
-export default function GlobalError() {
-  const router = useRouter();
-  useEffect(() => {
-    // Set the title dynamically
-    document.title = '404: Page could not be found';
-  }, []);
-  const handleClick = () => {
-    document.title =
-      'Take your development skills from 0 to 100 and join the 100xdevs community';
-    router.push('/');
-  };
+import React from 'react';
+import Link from 'next/link';
+import { Button } from '../components/ui/button';
+
+const NotFound = () => {
   return (
-    <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform text-center">
-      <h1 className="mb-4 text-6xl font-semibold text-red-500">404</h1>
-      <p className="mb-4 text-lg dark:text-white">Oops! Page Not Found.</p>
-      <div className="animate-bounce">
-        <svg
-          className="mx-auto h-16 w-16 text-red-500"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
-          ></path>
-        </svg>
-      </div>
-      <button onClick={handleClick}>
-        <div className="mt-2 inline-block rounded bg-blue-500 px-4 py-2 font-semibold hover:bg-blue-600 dark:text-white">
-          Go back to Home
-        </div>
-      </button>
+    <div className="flex min-h-screen flex-col">
+      <main className="flex flex-1 flex-col items-center justify-center p-8 text-center">
+        <h1 className="mb-4 text-4xl font-bold tracking-tighter text-primary md:text-6xl">
+          404 - Page Not Found
+        </h1>
+        <p className="mb-8 text-lg text-muted-foreground md:text-xl">
+          Oops! The page you're looking for doesn't exist.
+        </p>
+        <Button asChild size="lg">
+          <Link href="/">Go Back Home</Link>
+        </Button>
+      </main>
     </div>
   );
-}
+};
+
+export default NotFound;
