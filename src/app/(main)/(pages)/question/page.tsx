@@ -2,10 +2,10 @@ import { NewPostDialog } from '@/components/NewPostDialog';
 
 import Link from 'next/link';
 import dayjs from 'dayjs';
-
 import { ExtendedQuestion, QuestionQuery } from '@/actions/question/types';
 import Search from '@/components/search';
 import { ArrowUpDownIcon } from 'lucide-react';
+import { Redirect } from '@/components/Redirect';
 
 import {
   DropdownMenu,
@@ -99,6 +99,7 @@ const getQuestionsWithQuery = async (
     return { data: null, error: errorMessage };
   }
 };
+
 const fetchQuestionsByTabType = async (
   searchParams: QueryParams,
   sessionId: string,
@@ -133,6 +134,9 @@ export default async function QuestionsPage({
     redirect('/');
   }
   const session = await getServerSession(authOptions);
+  if (!session?.user) {
+    return <Redirect to={'/'} />;
+  }
   const sessionId = session?.user?.id;
 
   const tabType = searchParams.tabtype || TabType.mu;
