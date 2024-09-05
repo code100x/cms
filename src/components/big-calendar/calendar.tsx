@@ -25,6 +25,7 @@ import { format } from 'date-fns';
 import { Card, CardContent } from '@/components/ui/card';
 import EventForm, { FormValues } from './event-form';
 import { Event as PrismaEvent } from '@prisma/client';
+import Link from 'next/link';
 
 interface CalendarEvent extends Omit<PrismaEvent, 'createdAt' | 'updatedAt'> {
   start: Date;
@@ -200,16 +201,11 @@ const CalendarPageComponent: React.FC<CalendarPageProps> = ({ isAdmin }) => {
   };
 
   return (
-    <main className="container mx-auto max-w-7xl p-4 sm:px-6 lg:px-8">
+    <main className="w-full">
       {isAdmin && (
-        <Button
-          onClick={() => setIsAddEventDialogOpen(true)}
-          className="mb-6 bg-purple-600 text-white hover:bg-purple-700"
-        >
-          Add Event
-        </Button>
+        <Button onClick={() => setIsAddEventDialogOpen(true)}>Add Event</Button>
       )}
-      <Card className="rounded-lg shadow-lg">
+      <Card className="mx-auto">
         <CardContent className="p-0">
           <DnDCalendar
             localizer={localizer}
@@ -284,14 +280,14 @@ const CalendarPageComponent: React.FC<CalendarPageProps> = ({ isAdmin }) => {
             {selectedEvent?.videoLink && (
               <p>
                 <strong>Video Link:</strong>{' '}
-                <a
+                <Link
                   href={selectedEvent.videoLink}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-blue-600 underline"
                 >
                   Join
-                </a>
+                </Link>
               </p>
             )}
             {selectedEvent?.notes && (

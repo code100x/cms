@@ -1,3 +1,4 @@
+'use client';
 import { SearchIcon, XIcon } from 'lucide-react';
 import { useState } from 'react';
 import SearchBar from './SearchBar';

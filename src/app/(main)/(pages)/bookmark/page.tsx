@@ -13,14 +13,15 @@ export default async function BookmarksPage() {
   const bookmarkData = await getBookmarkDataWithContent();
 
   return (
-    <div className="flex h-screen flex-col">
-      <h1 className="bg-background/6 top-0 flex items-center p-5 text-3xl backdrop-blur-lg">
-        Bookmarks
-      </h1>
-
-      <main className="no-scrollbar mb-10 flex h-full flex-col overflow-y-scroll text-lg">
+    <main className="flex flex-col gap-4 pb-16 pt-8">
+      <div className="flex flex-col justify-between gap-2 md:flex-row">
+        <h1 className="text-wrap text-3xl font-extrabold capitalize tracking-tighter md:text-4xl">
+          Bookmarks
+        </h1>
+      </div>
+      <div className="flex h-full flex-col gap-4 rounded-2xl py-4">
         <BookmarkView bookmarkData={bookmarkData} />
-      </main>
-    </div>
+      </div>
+    </main>
   );
 }

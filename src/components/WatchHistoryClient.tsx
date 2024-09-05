@@ -1,7 +1,6 @@
 'use client';
 
 import { ContentCard } from '@/components/ContentCard';
-import { TWatchHistory } from '../app/history/page';
 import { useRouter } from 'next/navigation';
 import {
   Carousel,
@@ -10,6 +9,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@/components/ui/carousel';
+import { TWatchHistory } from '@/app/(main)/(pages)/watch-history/page';
 
 const WatchHistoryClient = ({ history }: { history: TWatchHistory[] }) => {
   return (
@@ -34,7 +34,7 @@ const HistoryCard = ({
   id,
   contentId,
   currentTimestamp,
-  content: { type, title, thumbnail, hidden, parent, VideoMetadata, createdAt },
+  content: { type, title, thumbnail, hidden, parent, VideoMetadata },
 }: TWatchHistory) => {
   const router = useRouter();
 
@@ -48,18 +48,18 @@ const HistoryCard = ({
       : 0;
 
     return (
-      <ContentCard
-        type={type}
-        key={id}
-        title={title}
-        image={thumbnail || ''}
-        onClick={() => {
-          router.push(videoUrl);
-        }}
-        videoProgressPercent={videoProgressPercent}
-        hoverExpand={false}
-        createdAt={createdAt}
-      />
+      <>
+        <ContentCard
+          type={type}
+          key={id}
+          title={title}
+          image={thumbnail || ''}
+          onClick={() => {
+            router.push(videoUrl);
+          }}
+          videoProgressPercent={videoProgressPercent}
+        />
+      </>
     );
   }
 };

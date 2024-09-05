@@ -2,8 +2,10 @@
 import { useSearchParams, useRouter } from 'next/navigation';
 import { VideoPlayerSegment } from '@/components/VideoPlayerSegment';
 import VideoContentChapters from '../VideoContentChapters';
-import { Presentation } from 'lucide-react';
+import { ChevronDown, ChevronUp } from 'lucide-react';
 import { useMemo, useState } from 'react';
+import { Button } from '../ui/button';
+import Link from 'next/link';
 
 export const ContentRendererClient = ({
   metadata,
@@ -70,84 +72,66 @@ export const ContentRendererClient = ({
   };
 
   return (
-    <div className="flex flex-col gap-2">
-      <div className="flex flex-wrap justify-between gap-4 xl:flex-nowrap">
-        <div className="w-full">
-          <VideoPlayerSegment
-            setQuality={setQuality}
-            contentId={content.id}
-            subtitles={metadata.subtitles}
-            thumbnails={[]}
-            segments={metadata?.segments || []}
-            videoJsOptions={{
-              playbackrates: [0.5, 1, 1.25, 1.5, 1.75, 2],
-              controls: true,
-              fluid: true,
-              html5: {
-                vhs: {
-                  overridenative: true,
-                },
+    <div className="flex w-full flex-col gap-2">
+      <div className="flex w-full flex-col">
+        <VideoPlayerSegment
+          setQuality={setQuality}
+          contentId={content.id}
+          subtitles={metadata.subtitles}
+          thumbnails={[]}
+          segments={metadata?.segments || []}
+          videoJsOptions={{
+            playbackrates: [0.5, 1, 1.25, 1.5, 1.75, 2],
+            controls: true,
+            fluid: true,
+            html5: {
+              vhs: {
+                overridenative: true,
               },
-              thumbnail: metadata.thumbnail || false, // data.isComposite ? data.thumbnails[0] : null,
-              isComposite: true,
-              height: 720,
-              width: 1080,
-              delta: 30,
-              autoplay: true,
-              responsive: true,
-              sources: [source],
-            }}
-            onVideoEnd={() => {}}
-          />
-          <div className="flex justify-between">
-            <div>
-              <div className="text-bold text-2xl tracking-normal text-gray-900 dark:text-white">
-                {content.title}
-              </div>
-            </div>
-            <div className="">
-              {metadata.slides ? (
-                <div className="flex flex-row-reverse gap-2">
-                  <a href={metadata.slides} target="_blank">
-                    <button className="mb-2 me-2 flex items-center gap-2 rounded-lg bg-blue-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700">
-                      <Presentation size={18} />
-                      Lecture Slides
-                    </button>
-                  </a>
-                </div>
-              ) : null}
-              {!showChapters && metadata.segments?.length > 0 && (
-                <button
-                  className="my-4 rounded bg-blue-500 p-2 font-bold text-white hover:bg-blue-700"
-                  onClick={() => {
-                    scrollTo({ top: 0, behavior: 'smooth' });
-                    toggleShowChapters();
-                  }}
-                >
-                  View All Chapters
-                </button>
-              )}
-            </div>
+            },
+            thumbnail: metadata.thumbnail || false, // data.isComposite ? data.thumbnails[0] : null,
+            isComposite: true,
+            height: 720,
+            width: 1280,
+            delta: 30,
+            autoplay: true,
+            responsive: true,
+            sources: [source],
+          }}
+          onVideoEnd={() => {}}
+        />
+        <div className="flex flex-col gap-4 rounded-xl bg-primary/5 p-4">
+          <div className="flex w-full flex-col justify-between gap-2 md:flex-row">
+            <h2 className="line-clamp-2 text-wrap text-2xl font-extrabold capitalize tracking-tight text-primary md:text-3xl">
+              {content.title}
+            </h2>
+            {metadata.slides ? (
+              <Link href={metadata.slides} target="_blank">
+                <Button className="gap-2">Lecture Slides</Button>
+              </Link>
+            ) : null}
           </div>
-          {nextContent ? (
-            <div className="flex flex-row-reverse">
-              <button
-                className="ml-4 rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
-                onClick={() => {
-                  const originalPath = window.location.pathname;
-                  const parts = originalPath.split('/');
-                  parts.pop();
-                  parts.push(nextContent.id.toString());
-                  const newPath = parts.join('/');
-                  router.push(newPath);
-                }}
-              >
-                {nextContent.title}
-              </button>{' '}
-            </div>
-          ) : null}
-        </div>
-        <div className="w-full xl:w-auto">
+
+          {!showChapters && metadata.segments?.length > 0 && (
+            <button
+              className="flex w-fit items-center gap-2"
+              onClick={() => {
+                toggleShowChapters();
+              }}
+            >
+              <p>Chapters</p>
+              {showChapters ? (
+                <>
+                  <ChevronUp className="size-5 text-neutral-500" />
+                </>
+              ) : (
+                <>
+                  <ChevronDown className="size-5 text-neutral-500" />
+                </>
+              )}
+            </button>
+          )}
+
           {showChapters && (
             <VideoContentChapters
               segments={metadata?.segments}
@@ -155,6 +139,21 @@ export const ContentRendererClient = ({
             />
           )}
         </div>
+        {nextContent ? (
+          <Button
+            size={'lg'}
+            onClick={() => {
+              const originalPath = window.location.pathname;
+              const parts = originalPath.split('/');
+              parts.pop();
+              parts.push(nextContent.id.toString());
+              const newPath = parts.join('/');
+              router.push(newPath);
+            }}
+          >
+            {nextContent.title}
+          </Button>
+        ) : null}
       </div>
     </div>
   );

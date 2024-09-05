@@ -24,8 +24,7 @@ export const AdminCourseContent = ({
 
   return (
     <div>
-      Course content
-      <div className="mx-auto grid max-w-screen-xl cursor-pointer grid-cols-1 justify-between gap-5 p-4 md:grid-cols-3">
+      <div className="mx-auto grid cursor-pointer grid-cols-1 justify-between gap-4 md:grid-cols-2 lg:grid-cols-3">
         {courseContent?.map(
           (content: {
             image: string;
@@ -41,7 +40,6 @@ export const AdminCourseContent = ({
                 router.push(`${updatedRoute}/${content.id}`);
               }}
               key={content.id}
-              createdAt={content.createdAt}
             />
           ),
         ) ?? []}

@@ -1,20 +1,33 @@
 'use client';
 
 import * as React from 'react';
-import { SunDimIcon, SunMoonIcon } from 'lucide-react';
+import { Moon, Sun } from 'lucide-react';
 import { useTheme } from 'next-themes';
-import { Button } from './ui/button';
 
-export function ThemeToggler() {
+export function SelectTheme({ text }: { text?: boolean }) {
   const { setTheme, theme } = useTheme();
   return (
-    <Button
-      onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
-      variant="outline"
-      size="iconSM"
-    >
-      <SunDimIcon className="h-[1rem] w-[1rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-      <SunMoonIcon className="absolute h-[1rem] w-[1rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-    </Button>
+    <>
+      {text === false ? (
+        <div
+          className={`flex items-center gap-2 rounded-lg p-3 text-center transition-all duration-300 hover:bg-blue-600/5 hover:text-blue-500`}
+          onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+        >
+          <Sun className="size-6 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+          <Moon className="absolute size-6 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+        </div>
+      ) : (
+        <div
+          className={`flex items-center gap-2 rounded-lg text-center transition-all duration-300 hover:bg-blue-600/5 hover:text-blue-500`}
+          onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+        >
+          <Sun className="size-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+          <Moon className="absolute size-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+          <span className="text-base">
+            {theme === 'light' ? 'Dark' : 'Light'} Mode
+          </span>
+        </div>
+      )}
+    </>
   );
 }

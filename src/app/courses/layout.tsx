@@ -1,12 +1,17 @@
+import { Appbar } from '@/components/Appbar';
 import React from 'react';
-import MainLayout from '@/app/(main)/layout';
 
 interface Props {
   children: React.ReactNode;
 }
 
 const CourseLayout = (props: Props) => {
-  return <MainLayout>{props.children}</MainLayout>;
+  return (
+    <div className="flex min-h-screen">
+      <Appbar />
+      <div className="wrapper w-full">{props.children}</div>
+    </div>
+  );
 };
 
 export default CourseLayout;
