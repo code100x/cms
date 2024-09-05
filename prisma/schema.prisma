@@ -53,6 +53,7 @@ model Content {
   comments         Comment[]
   commentsCount    Int             @default(0)
   bookmark         Bookmark[]
+  watchLater      WatchLater[]
 }
 
 model CourseContent {
@@ -160,6 +161,7 @@ model User {
   upiIds            UpiId[]         @relation("UserUpiIds")
   solanaAddresses   SolanaAddress[] @relation("UserSolanaAddresses")
   githubUser        GitHubLink?     @relation("UserGithub")
+  watchLater      WatchLater[]
 }
 
 model GitHubLink {
@@ -320,6 +322,19 @@ model Event {
   notes     String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model WatchLater {
+  id         Int      @id @default(autoincrement())
+  userId     String
+  contentId  Int
+  createdAt  DateTime @default(now())
+  sortOrder  Int 
+
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  content Content @relation(fields: [contentId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, contentId])
 }
 
 enum VoteType {

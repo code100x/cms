@@ -5,6 +5,7 @@ import { formatTime } from '@/lib/utils';
 import VideoThumbnail from './videothumbnail';
 import CardComponent from './CardComponent';
 import DonutChart from './DonutChart';
+import WatchLaterButton from './watch-later/WatchLaterButton';
 
 export const ContentCard = ({
   title,
@@ -43,7 +44,7 @@ export const ContentCard = ({
       className={`relative min-h-fit cursor-pointer rounded-2xl border border-gray-700/50 duration-200 ease-in group${hoverExpand ? ' ' : ''} `}
     >
       {markAsCompleted && (
-        <div className="absolute right-2 top-2 z-10">
+        <div className="absolute right-10 top-1 z-10">
           <CheckCircle2 color="green" size={30} fill="lightgreen" />
         </div>
       )}
@@ -83,6 +84,16 @@ export const ContentCard = ({
             size={28}
             align="start"
             side="bottom"
+          />
+        </div>
+      )}
+      {type === 'video' && (
+        <div className="absolute right-1 top-4 z-10">
+          <WatchLaterButton
+            size={28}
+            align="start"
+            side="bottom"
+            contentId={contentId}
           />
         </div>
       )}
