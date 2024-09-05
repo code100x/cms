@@ -14,7 +14,7 @@ export const CourseCard = ({
 }) => {
   const router = useRouter();
   const imageUrl =
-    course.imageUrl && course.imageUrl !== ''
+    course.imageUrl
       ? course.imageUrl
       : 'banner_placeholder.png';
   return (
