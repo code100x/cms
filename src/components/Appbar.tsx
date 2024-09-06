@@ -1,11 +1,9 @@
+/* eslint-disable no-nested-ternary */
 'use client';
 
 import Link from 'next/link';
 import { AppbarAuth } from './AppbarAuth';
 import { useSession } from 'next-auth/react';
-/* import { useRecoilState } from 'recoil'; */
-/* import { sidebarOpen as sidebarOpenAtom } from '../store/atoms/sidebar'; */
-/* import { usePathname } from 'next/navigation'; */
 import clsx from 'clsx';
 import Logo from './landing/logo/logo';
 import { Button } from './ui/button';
@@ -25,8 +23,6 @@ export const Appbar = ({
   showLogoforLanding?: boolean;
 }) => {
   const { data: session, status: sessionStatus } = useSession();
-  /*   const [sidebarOpen, setSidebarOpen] = useRecoilState(sidebarOpenAtom); */
-  /*   const currentPath = usePathname(); */
 
   const isLoading = sessionStatus === 'loading';
 
@@ -35,25 +31,30 @@ export const Appbar = ({
       <nav className={clsx(className)}>
         <div className="flex w-full items-center justify-between md:max-w-screen-2xl">
           {showLogoforLanding && <Logo onFooter={false} />}
-          {session?.user ? (
-            !isLoading && (
-              <>
-                <div className="hidden md:block">
-                  <SearchBar />
-                </div>
-                <div className="flex items-center space-x-2">
-                  {/* Search Bar for smaller devices */}
-                  <MobileScreenSearch />
-                  <SelectTheme />
-                  <ProfileDropdown />
-                </div>
-              </>
-            )
+          {isLoading ? (
+            // Show a loading indicator or skeleton here
+            <div className="flex w-full items-center justify-end space-x-2 p-1">
+              <div className="hidden items-center justify-around space-x-3 sm:flex md:block md:w-auto">
+                <div className="h-8 w-24 animate-pulse rounded-md bg-gray-600"></div>
+              </div>
+              <div className="h-8 w-8 animate-pulse rounded-md bg-gray-600"></div>
+              <div className="h-8 w-8 animate-pulse rounded-full bg-gray-600"></div>
+            </div>
+          ) : session?.user ? (
+            <>
+              <div className="hidden md:block">
+                <SearchBar />
+              </div>
+              <div className="flex items-center space-x-2">
+                <MobileScreenSearch />
+                <SelectTheme />
+                <ProfileDropdown />
+              </div>
+            </>
           ) : (
             <div className="flex items-center space-x-2">
               <div className="hidden items-center justify-around space-x-3 sm:flex md:block md:w-auto">
                 <AppbarAuth />
-
                 <Button size={'sm'} asChild>
                   <Link
                     href={'https://harkirat.classx.co.in/new-courses'}
@@ -72,7 +73,6 @@ export const Appbar = ({
           )}
         </div>
       </nav>
-      {/* <div className="h-16 w-full print:hidden" /> */}
     </>
   );
 };
