@@ -1,45 +1,31 @@
 'use client';
-
-import { InfoIcon } from 'lucide-react';
-import Link from 'next/link';
+import React from 'react';
 import { useEffect } from 'react';
+import { Button } from '@/components/ui/button';
 
-export default function ErrorPage({
-  error,
-}: {
-  error: Error & { digest?: string };
-}) {
+interface ErrorProps {
+  error: Error;
+  reset: () => void;
+}
+
+const Error: React.FC<ErrorProps> = ({ error, reset }) => {
   useEffect(() => {
-    // Log the error to an error reporting service
     console.error(error);
   }, [error]);
 
   return (
-    <>
-      <div className="bg-red-50 p-4">
-        <div className="flex">
-          <div className="flex-shrink-0">
-            <InfoIcon aria-hidden="true" className="h-5 w-5 text-red-400" />
-          </div>
-          <div className="ml-3">
-            <h3 className="text-sm font-medium text-red-800">
-              There was a error loading the site
-            </h3>
-          </div>
-        </div>
+    <div className="wrapper my-auto flex min-h-screen flex-col items-center justify-center">
+      <div className="flex flex-col items-center justify-center">
+        <h1 className="text-3xl font-bold text-red-600">
+          Oops! Something went wrong
+        </h1>
+        <p className="mb-6 text-center text-lg text-primary">
+          {error.message || 'An unexpected error occurred'}
+        </p>
+        <Button onClick={reset}>Try again</Button>
       </div>
-      <div className="flex min-h-[calc(100vh-180px)] flex-col items-center justify-center gap-y-6 px-4">
-        <h2 className="text-3xl font-bold">Something went wrong!</h2>
-        <h2 className="text-xl font-bold">
-          Alternatively You can view content on!
-        </h2>
-        <Link
-          href="https://harkirat.classx.co.in/purchases"
-          className="text-white underline underline-offset-2"
-        >
-          https://harkirat.classx.co.in/purchases
-        </Link>
-      </div>
-    </>
+    </div>
   );
-}
+};
+
+export default Error;

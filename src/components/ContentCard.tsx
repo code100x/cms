@@ -1,10 +1,10 @@
-import { CheckCircle2 } from 'lucide-react';
+import { CheckCircle2, Play } from 'lucide-react';
 import { Bookmark } from '@prisma/client';
 import BookmarkButton from './bookmark/BookmarkButton';
 import { formatTime } from '@/lib/utils';
 import VideoThumbnail from './videothumbnail';
 import CardComponent from './CardComponent';
-import DonutChart from './DonutChart';
+import { motion } from 'framer-motion';
 
 export const ContentCard = ({
   title,
@@ -12,11 +12,9 @@ export const ContentCard = ({
   markAsCompleted,
   type,
   videoProgressPercent,
-  hoverExpand = true,
   bookmark,
   contentId,
   contentDuration,
-  createdAt,
 }: {
   type: 'folder' | 'video' | 'notion';
   contentId?: number;
@@ -26,29 +24,27 @@ export const ContentCard = ({
   markAsCompleted?: boolean;
   percentComplete?: number | null;
   videoProgressPercent?: number;
-  hoverExpand?: boolean;
   bookmark?: Bookmark | null;
   contentDuration?: number;
-  createdAt: Date;
+  uploadDate?: string;
 }) => {
-  const formattedDate = createdAt?.toLocaleDateString('en-GB', {
-    day: '2-digit',
-    month: 'long',
-    year: 'numeric',
-  });
-
   return (
-    <div
+    <motion.div
       onClick={onClick}
-      className={`relative min-h-fit cursor-pointer rounded-2xl border border-gray-700/50 duration-200 ease-in group${hoverExpand ? ' ' : ''} `}
+      className={`group relative flex h-fit w-full max-w-md cursor-pointer flex-col gap-2 rounded-2xl transition-all duration-300 hover:-translate-y-2`}
     >
       {markAsCompleted && (
         <div className="absolute right-2 top-2 z-10">
           <CheckCircle2 color="green" size={30} fill="lightgreen" />
         </div>
       )}
+      {type === 'video' && (
+        <div className="absolute bottom-12 right-2 z-10 rounded-md p-2 font-semibold text-white">
+          <Play className="size-6" />
+        </div>
+      )}
       {type !== 'video' && (
-        <div className="relative overflow-hidden">
+        <div className="relative overflow-hidden rounded-md">
           <CardComponent
             title={title}
             contentDuration={contentDuration && formatTime(contentDuration)}
@@ -69,38 +65,27 @@ export const ContentCard = ({
           <VideoThumbnail
             title={title}
             contentId={contentId ?? 0}
-            contentDuration={contentDuration && formatTime(contentDuration)}
             imageUrl=""
+            // imageUrl={
+            //   'https://d2szwvl7yo497w.cloudfront.net/courseThumbnails/video.png'
+            // }
           />
         </div>
       )}
-
-      {bookmark !== undefined && contentId && (
-        <div className="absolute left-1 top-4">
+      <div className="flex items-center justify-between gap-4">
+        <h3 className="w-full truncate text-xl font-bold capitalize tracking-tighter md:text-2xl">
+          {title}
+        </h3>
+        {bookmark !== undefined && contentId && (
           <BookmarkButton
             bookmark={bookmark}
             contentId={contentId}
-            size={28}
-            align="start"
-            side="bottom"
+            size={24}
+            align="end"
+            side="top"
           />
-        </div>
-      )}
-      <div className="flex items-center justify-between p-4">
-        <div className="space-y-2">
-          <h3 className="text-bold text-lg tracking-normal">{title}</h3>
-          <h4 className="text-bold text-xs tracking-normal text-[#64748B]">
-            Posted on: {formattedDate}
-          </h4>
-        </div>
-        {type === 'video' && videoProgressPercent && (
-          <div className="flex items-center justify-center">
-            <DonutChart
-              percentage={parseInt(videoProgressPercent.toFixed(0), 10)}
-            />
-          </div>
         )}
       </div>
-    </div>
+    </motion.div>
   );
 };

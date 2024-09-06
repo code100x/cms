@@ -7,12 +7,10 @@ const VideoThumbnail = ({
   imageUrl,
   contentId,
   title,
-  contentDuration,
 }: {
   imageUrl: string;
   contentId: number;
   title: string;
-  contentDuration: any;
 }) => {
   const [videoUrl, setVideoUrl] = useState<string | null>(null);
   const [hover, setHover] = useState(false);
@@ -33,7 +31,7 @@ const VideoThumbnail = ({
   };
   return (
     <div
-      className="m relative max-h-[573px] max-w-[1053px]"
+      className="relative max-h-[573px] max-w-[1053px]"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
@@ -54,11 +52,7 @@ const VideoThumbnail = ({
               />
             ) : (
               //@ts-ignore
-              <CardComponent
-                type="video"
-                title={title}
-                contentDuration={contentDuration}
-              />
+              <CardComponent type="video" title={title} />
             )}
           </>
         )}

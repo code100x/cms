@@ -1,78 +1,106 @@
 'use client';
+import {
+  Bookmark,
+  MessageSquare,
+  History,
+  Home,
+  SidebarOpen,
+  SidebarClose,
+} from 'lucide-react';
+import { SidebarItems } from './ui/sidebar-items';
+import { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 
-import Link from 'next/link';
-import { AppbarAuth } from './AppbarAuth';
-import { useSession } from 'next-auth/react';
-/* import { useRecoilState } from 'recoil'; */
-/* import { sidebarOpen as sidebarOpenAtom } from '../store/atoms/sidebar'; */
-/* import { usePathname } from 'next/navigation'; */
-import clsx from 'clsx';
-import Logo from './landing/logo/logo';
-import { Button } from './ui/button';
-import { Sparkles } from 'lucide-react';
-import { NavigationMenu } from './landing/appbar/nav-menu';
-import SearchBar from './search/SearchBar';
-import MobileScreenSearch from './search/MobileScreenSearch';
-import ProfileDropdown from './profile-menu/ProfileDropdown';
-import { ThemeToggler } from './ThemeToggler';
-import { SelectTheme } from './profile-menu/SelectTheme';
+export const menuOptions = [
+  { id: 1, name: 'Home', Component: Home, href: '/home' },
+  { id: 3, name: 'Bookmarks', Component: Bookmark, href: '/bookmark' },
+  { id: 4, name: 'Questions', Component: MessageSquare, href: '/question' },
+  { id: 5, name: 'Watch History', Component: History, href: '/watch-history' },
+];
 
-export const Appbar = ({
-  className,
-  showLogoforLanding,
-}: {
-  className: string;
-  showLogoforLanding?: boolean;
-}) => {
-  const { data: session, status: sessionStatus } = useSession();
-  /*   const [sidebarOpen, setSidebarOpen] = useRecoilState(sidebarOpenAtom); */
-  /*   const currentPath = usePathname(); */
+// Custom hook for media query
+const useMediaQuery = (query: string) => {
+  const [matches, setMatches] = useState(false);
 
-  const isLoading = sessionStatus === 'loading';
+  useEffect(() => {
+    const media = window.matchMedia(query);
+    if (media.matches !== matches) {
+      setMatches(media.matches);
+    }
+    const listener = () => setMatches(media.matches);
+    media.addListener(listener);
+    return () => media.removeListener(listener);
+  }, [matches, query]);
+
+  return matches;
+};
+
+export const Appbar = () => {
+  const [isCollapsed, setIsCollapsed] = useState(true);
+  const [isMounted, setIsMounted] = useState(false);
+  const isMediumToXL = useMediaQuery(
+    '(min-width: 768px) and (max-width: 1535px)',
+  );
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  const toggleCollapse = () => setIsCollapsed(!isCollapsed);
+
+  const sidebarVariants = {
+    expanded: { width: '12vw' },
+    collapsed: { width: '4vw' },
+  };
 
   return (
     <>
-      <nav className={clsx(className)}>
-        <div className="flex w-full items-center justify-between md:max-w-screen-2xl">
-          {showLogoforLanding && <Logo onFooter={false} />}
-          {session?.user ? (
-            !isLoading && (
+      {/* Desktop Sidebar */}
+      <motion.nav
+        initial={false}
+        animate={isMounted && (isCollapsed ? 'collapsed' : 'expanded')}
+        variants={sidebarVariants}
+        transition={{
+          duration: 0.3,
+          type: 'spring',
+          stiffness: 200,
+          damping: 20,
+        }}
+        className="fixed left-0 top-0 z-[999] hidden h-full flex-col border-r border-primary/10 bg-background dark:bg-background 2xl:flex"
+      >
+        <div className="flex h-full flex-col gap-4">
+          <div className="flex w-full items-center border-b border-primary/10 p-4">
+            {!isCollapsed && (
               <>
-                <div className="hidden md:block">
-                  <SearchBar />
-                </div>
-                <div className="flex items-center space-x-2">
-                  {/* Search Bar for smaller devices */}
-                  <MobileScreenSearch />
-                  <SelectTheme />
-                  <ProfileDropdown />
-                </div>
+                <h3 className="text-xl font-bold tracking-tighter text-primary lg:text-2xl">
+                  Menu
+                </h3>
               </>
-            )
-          ) : (
-            <div className="flex items-center space-x-2">
-              <div className="hidden items-center justify-around space-x-3 sm:flex md:block md:w-auto">
-                <AppbarAuth />
-
-                <Button size={'sm'} asChild>
-                  <Link
-                    href={'https://harkirat.classx.co.in/new-courses'}
-                    target="_blank"
-                  >
-                    <p className="text-white">Join now</p>{' '}
-                    <Sparkles className="ml-2 h-4 w-4 text-white duration-200 ease-linear hover:translate-x-0.5" />
-                  </Link>
-                </Button>
-              </div>
-              <ThemeToggler />
-              <div className="block">
-                <NavigationMenu />
-              </div>
-            </div>
-          )}
+            )}
+            <motion.button
+              onClick={toggleCollapse}
+              className="ml-auto flex items-center rounded-lg p-3 text-center transition-all duration-300 hover:bg-blue-600/5 hover:text-blue-500"
+            >
+              {isCollapsed ? <SidebarOpen /> : <SidebarClose />}
+            </motion.button>
+          </div>
+          <div className="flex flex-col gap-8 p-2">
+            <SidebarItems items={menuOptions} isCollapsed={isCollapsed} />
+          </div>
         </div>
-      </nav>
-      {/* <div className="h-16 w-full print:hidden" /> */}
+      </motion.nav>
+
+      {/* Mobile Bottom Navigation */}
+      <motion.nav
+        initial={{ y: 100 }}
+        animate={{ y: 0 }}
+        transition={{ duration: 0.3, ease: 'easeInOut' }}
+        className="fixed bottom-0 left-0 right-0 z-[999] 2xl:hidden"
+      >
+        <div className="flex items-center justify-around border-t border-primary/10 bg-background p-4 shadow-xl">
+          <SidebarItems items={menuOptions} isCollapsed={!isMediumToXL} />
+        </div>
+      </motion.nav>
     </>
   );
 };

@@ -40,12 +40,12 @@ export const FormPostInput = forwardRef<HTMLInputElement, FormInputProps>(
     const { pending } = useFormStatus();
 
     return (
-      <div className="space-y-2">
-        <div className="space-y-1">
+      <div className="flex w-full flex-col gap-2">
+        <div className="w-full">
           {label ? (
             <Label
               htmlFor={id}
-              className="text-xs font-semibold text-neutral-700"
+              className="text-xs font-semibold text-neutral-500"
             >
               {label}
             </Label>
@@ -60,7 +60,10 @@ export const FormPostInput = forwardRef<HTMLInputElement, FormInputProps>(
             placeholder={placeholder}
             type={type}
             disabled={pending || disabled}
-            className={cn('h-7 px-2 py-1 text-sm', className)}
+            className={cn(
+              'focus:ring-none rounded-lg border-none bg-primary/5 px-4 text-base focus:outline-none',
+              className,
+            )}
             aria-describedby={`${id}-error`}
           />
         </div>

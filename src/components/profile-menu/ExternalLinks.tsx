@@ -19,12 +19,12 @@ const ExternalLinks = () => {
   ];
   return externalLinks.map((link) => (
     <Link key={link.href} href={link.href} target="_blank">
-      <DropdownMenuItem className="flex items-center justify-between">
+      <DropdownMenuItem className="flex items-center justify-between text-base">
         <div className="flex items-center gap-2">
           {link.icon}
           <span>{link.label}</span>
         </div>
-        <ArrowUpRightFromSquare className="h-3 w-3" />
+        <ArrowUpRightFromSquare className="size-4" />
       </DropdownMenuItem>
     </Link>
   ));

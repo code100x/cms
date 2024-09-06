@@ -2,8 +2,6 @@
 import { useRouter } from 'next/navigation';
 import { ContentCard } from './ContentCard';
 import { Bookmark } from '@prisma/client';
-import { sidebarOpen as sidebarOpenAtom } from '@/store/atoms/sidebar';
-import { useRecoilState } from 'recoil';
 
 export const FolderView = ({
   courseContent,
@@ -22,11 +20,9 @@ export const FolderView = ({
     videoFullDuration?: number;
     duration?: number;
     bookmark: Bookmark | null;
-    createdAt: Date;
   }[];
 }) => {
   const router = useRouter();
-  const [sidebarOpen] = useRecoilState(sidebarOpenAtom);
 
   if (!courseContent?.length) {
     return (
@@ -43,9 +39,7 @@ export const FolderView = ({
 
   return (
     <div>
-      <div
-        className={`grid max-w-screen-xl grid-cols-1 justify-between gap-5 px-2 py-4 md:${sidebarOpen ? 'grid-cols-3' : 'grid-cols-4'} lg:${sidebarOpen ? 'grid-cols-3' : 'grid-cols-4'}`}
-      >
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
         {courseContent.map((content) => {
           const videoProgressPercent =
             content.type === 'video' &&
@@ -68,7 +62,6 @@ export const FolderView = ({
               videoProgressPercent={videoProgressPercent}
               bookmark={content.bookmark}
               contentDuration={content.videoFullDuration}
-              createdAt={content.createdAt}
             />
           );
         })}

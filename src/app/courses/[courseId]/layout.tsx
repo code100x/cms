@@ -7,18 +7,6 @@ import { getServerSession } from 'next-auth';
 import { redirect } from 'next/navigation';
 import { toast } from 'sonner';
 
-// interface PurchaseType {
-//   id: number;
-//   title: string;
-//   imageUrl: string;
-//   description: string;
-//   appxCourseId: number;
-//   openToEveryone: boolean;
-//   slug: string;
-//   discordRoleId: string;
-//   totalVideos?: number;
-//   totalVideosWatched: number;
-// }
 type CheckAccessReturn = 'yes' | 'no' | 'error';
 
 const checkAccess = async (courseId: string): Promise<CheckAccessReturn> => {
@@ -60,9 +48,9 @@ const Layout = async ({
   const fullCourseContent = await getFullCourseContent(parseInt(courseId, 10));
 
   return (
-    <div className="relative flex min-h-screen">
+    <div className="relative flex min-h-screen flex-col py-24">
       <Sidebar fullCourseContent={fullCourseContent} courseId={courseId} />
-      <div className="no-scrollbar grow overflow-y-auto p-2">{children}</div>
+      {children}
     </div>
   );
 };

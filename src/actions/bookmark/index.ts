@@ -12,7 +12,7 @@ import {
 import { revalidatePath } from 'next/cache';
 
 const reloadBookmarkPage = () => {
-  revalidatePath('/bookmarks');
+  revalidatePath('/bookmark');
 };
 
 const createBookmarkHandler = async (
