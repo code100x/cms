@@ -37,12 +37,12 @@ interface user {
   token: string;
 }
 
-const generateJWT = async (payload: JWTPayload) => {
+const generateJWT = async (payload: JWTPayload, ip: string) => {
   const secret = process.env.JWT_SECRET || 'secret';
 
   const jwk = await importJWK({ k: secret, alg: 'HS256', kty: 'oct' });
 
-  const jwt = await new SignJWT(payload)
+  const jwt = await new SignJWT({ ...payload, ip })
     .setProtectedHeader({ alg: 'HS256' })
     .setIssuedAt()
     .setExpirationTime('365d')
@@ -114,16 +114,16 @@ export const authOptions = {
         username: { label: 'email', type: 'text', placeholder: '' },
         password: { label: 'password', type: 'password', placeholder: '' },
       },
-      async authorize(credentials: any) {
+      async authorize(credentials: any, req: any) {
         try {
+          const ip =
+            req.headers['x-forwarded-for'] || req.connection.remoteAddress;
           if (process.env.LOCAL_CMS_PROVIDER) {
             return {
               id: '1',
               name: 'test',
               email: 'test@gmail.com',
-              token: await generateJWT({
-                id: '1',
-              }),
+              token: await generateJWT({ id: '1' }, ip),
             };
           }
           const hashedPassword = await bcrypt.hash(credentials.password, 10);
@@ -143,9 +143,12 @@ export const authOptions = {
             userDb.password &&
             (await bcrypt.compare(credentials.password, userDb.password))
           ) {
-            const jwt = await generateJWT({
-              id: userDb.id,
-            });
+            const jwt = await generateJWT(
+              {
+                id: userDb.id,
+              },
+              ip,
+            );
             await db.user.update({
               where: {
                 id: userDb.id,
@@ -168,9 +171,12 @@ export const authOptions = {
             credentials.password,
           );
 
-          const jwt = await generateJWT({
-            id: user.data?.userid,
-          });
+          const jwt = await generateJWT(
+            {
+              id: user.data?.userid,
+            },
+            ip,
+          );
 
           if (user.data) {
             try {
