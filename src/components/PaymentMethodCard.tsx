@@ -30,7 +30,7 @@ export const PayoutMethodCard: React.FC<PayoutMethodCardProps> = ({
   onDelete,
 }) => {
   return (
-    <div className="group relative flex h-[18rem] cursor-pointer flex-col justify-between overflow-hidden rounded-lg border-2 p-6">
+    <div className="group relative flex h-[14rem] cursor-pointer flex-col justify-between overflow-hidden rounded-lg border-2 p-6">
       <div>
         <h3 className="text-lg font-semibold">{title}</h3>
         <p className="text-sm text-muted-foreground">{description}</p>

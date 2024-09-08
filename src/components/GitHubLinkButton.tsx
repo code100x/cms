@@ -59,7 +59,7 @@ export const GitHubLinkButton = () => {
 
   return (
     <>
-      <div className="group relative flex h-[18rem] cursor-pointer flex-col justify-between overflow-hidden rounded-lg border-2 p-6">
+      <div className="group relative flex h-[14rem] cursor-pointer flex-col justify-between overflow-hidden rounded-lg border-2 p-6">
         <div>
           <div>
             <h3 className="text-lg font-semibold">Github</h3>
