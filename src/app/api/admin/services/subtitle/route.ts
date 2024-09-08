@@ -52,7 +52,6 @@ export async function GET(req: NextRequest) {
     });
     return NextResponse.json(video);
   } catch (error) {
-    console.log(error);
     return NextResponse.json(
       { message: 'Error fetching video' },
       { status: 500 },
