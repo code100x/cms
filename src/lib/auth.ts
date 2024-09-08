@@ -114,7 +114,11 @@ export const authOptions = {
         username: { label: 'email', type: 'text', placeholder: '' },
         password: { label: 'password', type: 'password', placeholder: '' },
       },
-      async authorize(credentials: any) {
+
+      async authorize(credentials: any, req: any) {
+        const userIp =
+          req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+
         try {
           if (process.env.LOCAL_CMS_PROVIDER) {
             return {
@@ -152,6 +156,7 @@ export const authOptions = {
               },
               data: {
                 token: jwt,
+                ip: userIp,
               },
             });
 
@@ -160,6 +165,7 @@ export const authOptions = {
               name: userDb.name,
               email: credentials.username,
               token: jwt,
+              ip: userIp,
             };
           }
           console.log('not in db');
@@ -191,6 +197,7 @@ export const authOptions = {
                   email: credentials.username,
                   token: jwt,
                   password: hashedPassword,
+                  ip: userIp,
                 },
               });
             } catch (e) {
@@ -202,6 +209,7 @@ export const authOptions = {
               name: user.data.name,
               email: credentials.username,
               token: jwt,
+              ip: userIp,
             };
           }
 

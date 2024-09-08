@@ -160,6 +160,7 @@ model User {
   upiIds            UpiId[]         @relation("UserUpiIds")
   solanaAddresses   SolanaAddress[] @relation("UserSolanaAddresses")
   githubUser        GitHubLink?     @relation("UserGithub")
+  ip                String?
 }
 
 model GitHubLink {
@@ -343,4 +344,3 @@ enum MigrationStatus {
   MIGRATED
   MIGRATION_ERROR
 }
-
