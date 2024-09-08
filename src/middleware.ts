@@ -17,11 +17,11 @@ export default withAuth(async (req) => {
     return NextResponse.redirect(new URL('/invalidsession', req.url));
   }
   const user = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL_LOCAL}/api/user?token=${token.jwtToken}`,
+    `${process.env.NEXT_PUBLIC_BASE_URL_LOCAL}/api/user?token=${token.jwtToken}?ip=${userIp}`,
   );
 
   const json = await user.json();
-  if (!json.user || (json.user.ip && json.user.ip !== userIp)) {
+  if (!json.user) {
     return NextResponse.redirect(new URL('/invalidsession', req.url));
   }
 });
