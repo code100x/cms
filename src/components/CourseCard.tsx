@@ -38,7 +38,7 @@ export const CourseCard = ({
       </div>
       <div className="flex flex-1 flex-col justify-between gap-4 p-4">
         <div className="flex w-full justify-between gap-2">
-          <h3 className="w-full truncate text-xl font-bold capitalize tracking-tighter md:text-2xl">
+          <h3 className="w-full truncate text-xl font-medium capitalize tracking-tighter md:text-2xl">
             {course.title}
           </h3>
           {course.totalVideos !== undefined && (
