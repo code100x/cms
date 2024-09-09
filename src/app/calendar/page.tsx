@@ -13,8 +13,10 @@ const CalendarPage = async () => {
     process.env.ADMINS?.split(',').includes(session.user.email!) ?? false;
 
   return (
-    <div className="wrapper flex min-h-screen">
-      <CalendarPageComponent isAdmin={isAdmin} />
+    <div className="wrapper flex min-h-screen w-full flex-col gap-4">
+      <div className="mx-auto my-auto w-full">
+        <CalendarPageComponent isAdmin={isAdmin} />
+      </div>
     </div>
   );
 };

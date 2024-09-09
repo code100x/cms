@@ -31,9 +31,9 @@ export default function Page() {
 
   return (
     <div className="h-max pb-4 transition-colors duration-500 md:p-8">
-      <div className="mb-6 flex flex-col items-start justify-center px-4 pt-3 sm:px-8">
-        <div className="my-2 mb-6 text-3xl text-black transition-colors duration-500 dark:text-white">
-          <h1 className="font-semibold text-black dark:text-white">
+      <div className="mx-auto my-16 mb-6 flex flex-col items-start justify-center gap-2 px-4 pt-3 sm:px-8">
+        <div className="my-2 mb-6 flex w-full flex-col justify-between gap-2">
+          <h1 className="text-4xl font-bold capitalize tracking-tighter md:text-5xl">
             Payout Methods
           </h1>
         </div>
