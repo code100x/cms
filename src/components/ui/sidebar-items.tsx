@@ -25,7 +25,7 @@ export const SidebarItems = ({
   return (
     <>
       {items.map((item) => {
-        const isActive = pathname === item.href;
+        const isActive = pathname.startsWith(item.href);
         return (
           <TooltipProvider key={item.id}>
             <Tooltip>

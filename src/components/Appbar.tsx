@@ -69,7 +69,7 @@ export const Appbar = () => {
         className="fixed left-0 top-0 z-[999] hidden h-full flex-col border-r border-primary/10 bg-background dark:bg-background 2xl:flex"
       >
         <div className="flex h-full flex-col gap-4">
-          <div className="flex w-full items-center border-b border-primary/10 p-4">
+          <div className="flex w-full items-center justify-center border-b border-primary/10 p-4">
             {!isCollapsed && (
               <>
                 <h3 className="text-xl font-bold tracking-tighter text-primary lg:text-2xl">
