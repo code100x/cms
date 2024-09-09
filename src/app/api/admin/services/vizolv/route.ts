@@ -3,18 +3,21 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(req: NextRequest) {
   const authKey = req.headers.get('Authorization');
-  const page = parseInt(req.nextUrl.searchParams.get('page') || '0');
-  const limit = parseInt(req.nextUrl.searchParams.get('limit') || '10');
+  const videoId = req.nextUrl.searchParams.get('videoId');
+
+  if (!videoId)
+    return NextResponse.json(
+      { message: 'No videoId provided' },
+      { status: 400 },
+    );
 
   if (authKey !== process.env.VIZOLV_SECRET)
     return NextResponse.json({ message: 'Unauthorized' }, { status: 403 });
 
   try {
-    const videoMetadata = await db.videoMetadata.findMany({
+    const videoMetadata = await db.videoMetadata.findFirst({
       where: {
-        subtitles: {
-          not: null,
-        },
+        id: parseInt(videoId),
       },
       select: {
         content: {
@@ -33,11 +36,6 @@ export async function GET(req: NextRequest) {
         contentId: true,
         subtitles: true,
       },
-      orderBy: {
-        contentId: 'desc',
-      },
-      take: limit,
-      skip: page * limit,
     });
 
     if (!videoMetadata)
@@ -46,18 +44,7 @@ export async function GET(req: NextRequest) {
         { status: 404 },
       );
 
-    // Parse the video metadata to the format required by Vizolv
-    const parsedVideoMetadata = videoMetadata.map((video) => ({
-      title: video.content.title,
-      description: video.content.description,
-      duration: video.duration,
-      courseId: video.content.courses[0]?.courseId,
-      folderId: video.content.parentId,
-      videoId: video.contentId,
-      captions: video.subtitles,
-    }));
-    
-    return NextResponse.json(parsedVideoMetadata);
+    return NextResponse.json(videoMetadata);
   } catch (error) {
     return NextResponse.json(
       { message: 'Error fetching video metadata' },
