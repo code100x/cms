@@ -24,7 +24,7 @@ export default async function UpdateCourseContent({
 
   if (contentType === 'video') {
     return (
-      <div className="mx-auto max-w-screen-xl justify-between p-4 text-white">
+      <div className="mx-auto max-w-screen-xl justify-between space-y-20 p-4 text-white">
         {/* @ts-ignore */}
         <UpdateVideoClient content={courseContent.value} />
       </div>
@@ -33,7 +33,7 @@ export default async function UpdateCourseContent({
 
   if (contentType === 'notion') {
     return (
-      <div className="text-blacke mx-auto max-w-screen-xl justify-between p-4 dark:text-white">
+      <div className="mx-auto max-w-screen-xl justify-between p-4 text-black dark:text-white">
         {/* <NotionRenderer id={courseContent[0]?.id} /> */}
         Notion doc
       </div>
@@ -42,7 +42,7 @@ export default async function UpdateCourseContent({
 
   return (
     <main className="wrapper flex max-w-screen-xl flex-col justify-between gap-8">
-      <div className="my-16 flex w-full flex-col justify-between gap-2">
+      <div className="flex w-full flex-col justify-between gap-2">
         <h1 className="text-3xl font-bold md:text-4xl">Content</h1>
         <p className="text-xl capitalize">{course?.title}</p>
       </div>
