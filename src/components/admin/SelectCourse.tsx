@@ -7,7 +7,7 @@ export const SelectCourse = ({ courses }: { courses: Course[] }) => {
   const router = useRouter();
 
   return (
-    <div className="mx-auto grid max-w-screen-xl cursor-pointer grid-cols-1 justify-between gap-5 p-4 md:grid-cols-3">
+    <div className="mx-auto my-16 grid max-w-screen-xl cursor-pointer grid-cols-1 justify-between gap-5 p-4 md:grid-cols-3">
       {courses.map((course) => (
         <CourseCard
           //@ts-ignore

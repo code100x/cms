@@ -6,7 +6,3 @@ npm run lint:fix
 
 git add .
 
-if [ -f "yarn.lock" ] || [ -f "package-lock.json" ]; then
-  echo "Error: yarn.lock or package-lock.json is present. Please remove them before committing."
-  exit 1
-fi

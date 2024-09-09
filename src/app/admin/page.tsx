@@ -78,8 +78,8 @@ export default function Courses() {
   };
 
   return (
-    <div className="wrapper my-16 flex flex-col gap-4">
-      <Card>
+    <div className="wrapper flex flex-col gap-4">
+      <Card className="my-20">
         <CardHeader>
           <CardTitle>Create a new course</CardTitle>
           <CardDescription>Fill in the course details below</CardDescription>
