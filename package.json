@@ -21,7 +21,7 @@
     "prisma:docker": "npm run prisma:migrate && npm run db:seed && npm run studio",
     "dev:docker": "npm run prisma:docker & next dev",
     "prisma:migrate": "prisma migrate deploy",
-    "db:seed": "prisma db seed",
+    "db:seed": "prisma db seed & prisma generate",
     "db:reset": "prisma migrate reset",
     "update:videometadata": "ts-node --compiler-options \"{\\\"module\\\": \\\"CommonJS\\\"}\" ./src/scripts/updateVideoMetaData.ts",
     "prepare": "husky install",

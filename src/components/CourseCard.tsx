@@ -13,10 +13,7 @@ export const CourseCard = ({
   onClick: () => void;
 }) => {
   const router = useRouter();
-  const imageUrl =
-    course.imageUrl
-      ? course.imageUrl
-      : 'banner_placeholder.png';
+  const imageUrl = course.imageUrl ? course.imageUrl : 'banner_placeholder.png';
   return (
     <div
       className={`flex w-full cursor-pointer flex-col rounded-2xl bg-primary/5 transition-all duration-300 hover:-translate-y-2 hover:border-primary/20`}
