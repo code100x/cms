@@ -62,12 +62,7 @@ export async function GET(request: NextRequest) {
         title: true,
         parent: {
           select: {
-            courses: {
-              select: {
-                courseId: true,
-                contentId: true,
-              },
-            },
+            courses: true,
           },
         },
       },
