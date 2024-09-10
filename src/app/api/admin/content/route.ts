@@ -35,7 +35,6 @@ const sendUpdateToDiscord = async (data: DiscordData) => {
   }
 };
 
-
 export const POST = async (req: NextRequest) => {
   const {
     type,
@@ -72,7 +71,7 @@ export const POST = async (req: NextRequest) => {
     courseTitle,
     rest,
     discordChecked,
-  })
+  });
 
   if (adminPassword !== process.env.ADMIN_SECRET) {
     return NextResponse.json({}, { status: 403 });

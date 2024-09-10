@@ -80,7 +80,6 @@ export default function DiscordPage() {
                   Allow user to re-initiate discord
                 </Button>
 
-
               </aside>
             </div>
           </AccordionContent>
@@ -146,7 +145,6 @@ export default function DiscordPage() {
           </AccordionContent>
         </AccordionItem>
       </Accordion>
-
 
     </div>
   );

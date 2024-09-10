@@ -11,7 +11,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { Cuboid, Flag, LogOut, ToggleRight } from 'lucide-react';
+import { Cuboid, Flag, ToggleRight } from 'lucide-react';
 
 export default function DiscordPage() {
   const [email, setEmail] = useState('');
@@ -172,8 +172,6 @@ export default function DiscordPage() {
           </AccordionContent>
         </AccordionItem>
       </Accordion>
-
-
 
     </div>
   );

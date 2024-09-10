@@ -3,12 +3,11 @@ import { useEffect, useState } from 'react';
 import { AddNotionMetadata } from './AddNotionMetadata';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
-import { Label } from "@/components/ui/label"
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { FaDiscord } from 'react-icons/fa';
 import { toast } from 'sonner';
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
 export const AddContent = ({
   rest,
@@ -25,17 +24,17 @@ export const AddContent = ({
   const [imageUri, setImageUri] = useState('');
   const [title, setTitle] = useState('');
   const [metadata, setMetadata] = useState({});
-  const [discordChecked, setDiscordChecked] = useState(false)
-  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [discordChecked, setDiscordChecked] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleDiscordClick = () => {
-    setIsModalOpen(true)
-  }
+    setIsModalOpen(true);
+  };
 
   const handleModalChoice = (choice: boolean) => {
-    setDiscordChecked(choice)
-    setIsModalOpen(false)
-  }
+    setDiscordChecked(choice);
+    setIsModalOpen(false);
+  };
   const [adminPassword, setAdminPassword] = useState('');
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -81,7 +80,6 @@ export const AddContent = ({
     }
   };
 
-
   return (
     <div className="grid grid-cols-1 lg:grid-cols-7 rounded-xl border-2 p-6 gap-4">
       <aside className='flex flex-col gap-8 col-span-1 lg:col-span-3'>
@@ -90,7 +88,7 @@ export const AddContent = ({
         <RadioGroup
           className='flex flex-warp overflow-auto no-scrollbar max-w-full items-start gap-4'
           value={type}
-          onValueChange={(value)=>{
+          onValueChange={(value) => {
             setType(value);
             setMetadata({});
           }}

@@ -7,11 +7,10 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { FileText, ShieldCheck, Video } from 'lucide-react';
+import { FileText, Video } from 'lucide-react';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { Label } from '../ui/label';
-
 
 export const UpdateVideoClient = ({
   content,

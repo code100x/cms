@@ -1,6 +1,6 @@
 'use client';
 import { AnimatePresence, motion } from 'framer-motion';
-import { FileText, Flag, LucideIcon, MessageCircle, MessageSquare, PackagePlus, Users } from 'lucide-react';
+import { FileText, Flag, LucideIcon, MessageCircle, PackagePlus, Users } from 'lucide-react';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import React, { useState } from 'react';

@@ -4,7 +4,6 @@ import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
@@ -33,7 +32,6 @@ import {
 } from "@/components/ui/accordion";
 import { Cuboid, PackagePlus } from 'lucide-react';
 import { FaDiscord } from 'react-icons/fa';
-
 
 const courseSchema = z.object({
   title: z.string().min(5, {
@@ -343,9 +341,7 @@ export default function Courses() {
           </AccordionContent>
         </AccordionItem>
 
-
       </Accordion>
-
 
     </div>
   );
