@@ -92,6 +92,7 @@ DATABASE_URL=postgresql://myuser:mypassword@localhost:5432/mydatabase?schema=pub
 
 ```
 Or
+
 3. Start a PostgreSQL database ( locally or Online, just keep the PostgreSQL connection string ready ).
 
 
