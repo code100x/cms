@@ -8,6 +8,9 @@ export const getBookmarkDataWithContent = async (): Promise<
 > => {
   const session = await getServerSession(authOptions);
   const userId = session?.user.id;
+  if (!userId) {
+    return { error: 'Unauthorized' };
+  }
 
   return await db.bookmark.findMany({
     where: {

@@ -1,9 +1,16 @@
 import React from 'react';
+import { getServerSession } from 'next-auth';
+import { Redirect } from '@/components/Redirect';
 
 interface Props {
   children: React.ReactNode;
 }
 
-export default function MainLayout(props: Props) {
+export default async function MainLayout(props: Props) {
+  const session = await getServerSession();
+
+  if (!session?.user) {
+    return <Redirect to={'/'} />;
+  }
   return <div className="w-full py-16">{props.children}</div>;
 }
