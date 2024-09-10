@@ -87,7 +87,7 @@ export const POST = async (req: NextRequest) => {
         video_360p_mp4_3: metadata.video_360p_mp4_3,
         video_360p_mp4_4: metadata.video_360p_mp4_4,
 
-        subtitles: metadata.subtitles || '',
+        subtitles: metadata.subtitles,
         segments: metadata.segments || [],
         duration: metadata.duration,
         thumbnail_mosiac_url: metadata.thumbnail_mosiac_url,
