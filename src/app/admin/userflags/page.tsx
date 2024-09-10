@@ -114,19 +114,19 @@ export default function DiscordPage() {
               </aside>
 
               <aside className='col-span-1 lg:col-span-4'>
-                <div className="flex flex-col items-center gap-5 rounded-lg border">
+                <div className="flex flex-col gap-5 rounded-lg">
                   <Textarea
                     // style={{ width: 800 }}
                     rows={10}
                     placeholder="Segments (JSON)"
-                    className=""
+                    className=" text-lg "
                     onChange={(e) => {
                       setSegmentsJson(e.target.value);
                     }}
                   />
                   <Input
                     placeholder="Admin Secret"
-                    className="h-14"
+                    className="h-14 text-lg "
                     type=" text"
                     onChange={(e) => {
                       setAdminSecret(e.target.value);
@@ -134,7 +134,7 @@ export default function DiscordPage() {
                   />
                   <Input
                     placeholder="Content Id"
-                    className="h-14"
+                    className="h-14 text-lg "
                     type=" text"
                     onChange={(e) => {
                       setContentId(e.target.value);
@@ -143,7 +143,7 @@ export default function DiscordPage() {
 
                   <h1>JSON is validated in the form.</h1>
                   <Button
-                    className="rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
+                    className="rounded px-4 py-2 font-bold text-white w-full lg:w-[20%]"
                     onClick={async () => {
                       if (!isValidJsonString(segmentsJson)) {
                         return toast.warning('Not a valid JSON');

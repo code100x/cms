@@ -51,13 +51,13 @@ const ApproveComment = () => {
           <AccordionContent>
             <form className='w-full h-full' onSubmit={handleApprove} ref={formRef}>
               <div className="grid w-full grid-cols-1 lg:grid-cols-7 p-2 gap-2 rounded-lg border-gray-200 shadow-sm dark:border-gray-800">
-                <div className="col-span-1 lg:col-span-2 flex flex-col gap-2  p-4">
+                <div className="col-span-1 lg:col-span-3 flex flex-col gap-2  p-4">
                   <div className="text-sm font-medium leading-none text-gray-500 dark:text-gray-400">
                     Enter the information below to approve the comment
                   </div>
                 </div>
 
-                <aside className='col-span-1 flex flex-col gap-6 p-4 lg:col-span-5 '>
+                <aside className='col-span-1 flex flex-col gap-6 p-4 lg:col-span-4 '>
 
                   <div className="flex items-center">
                     <Label className="sr-only">Comment ID</Label>

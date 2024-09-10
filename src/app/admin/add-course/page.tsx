@@ -31,7 +31,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { PackagePlus } from 'lucide-react';
+import { Cuboid, PackagePlus } from 'lucide-react';
 import { FaDiscord } from 'react-icons/fa';
 
 
@@ -89,11 +89,16 @@ export default function Courses() {
   return (
     <div className="wrapper my-16 flex flex-col gap-4">
 
+      <section className='flex gap-2 border-2 p-4 bg-primary/5 rounded-lg my-4 items-center'>
+        <Cuboid size={18} />
+        <h2 className='text-md font-bold'>View Content</h2>
+      </section>
+
       <Accordion defaultValue='add-new-course' className='border-2 p-4 rounded-2xl' type="single" collapsible>
         <AccordionItem value="add-new-course">
           <AccordionTrigger className='p-6 text-2xl font-bold'>
             <div className='flex gap-4 flex-col' >
-              <PackagePlus size={40}/>New course
+              <PackagePlus size={40} />New course
             </div>
           </AccordionTrigger>
           <AccordionContent>
