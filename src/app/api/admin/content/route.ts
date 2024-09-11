@@ -24,6 +24,59 @@ export const POST = async (req: NextRequest) => {
     return NextResponse.json({}, { status: 403 });
   }
 
+  const trimmedMetadata = {
+    video_360p_1: metadata.video_360p_1 ? metadata.video_360p_1.trim() : '',
+    video_360p_2: metadata.video_360p_2 ? metadata.video_360p_2.trim() : '',
+    video_360p_3: metadata.video_360p_3 ? metadata.video_360p_3.trim() : '',
+    video_360p_4: metadata.video_360p_4 ? metadata.video_360p_4.trim() : '',
+    video_720p_1: metadata.video_720p_1 ? metadata.video_720p_1.trim() : '',
+    video_720p_2: metadata.video_720p_2 ? metadata.video_720p_2.trim() : '',
+    video_720p_3: metadata.video_720p_3 ? metadata.video_720p_3.trim() : '',
+    video_720p_4: metadata.video_720p_4 ? metadata.video_720p_4.trim() : '',
+    video_1080p_1: metadata.video_1080p_1 ? metadata.video_1080p_1.trim() : '',
+    video_1080p_2: metadata.video_1080p_2 ? metadata.video_1080p_2.trim() : '',
+    video_1080p_3: metadata.video_1080p_3 ? metadata.video_1080p_3.trim() : '',
+    video_1080p_4: metadata.video_1080p_4 ? metadata.video_1080p_4.trim() : '',
+    /// mp4s
+
+    video_1080p_mp4_1: metadata.video_1080p_mp4_1
+      ? metadata.video_1080p_mp4_1.trim()
+      : '',
+    video_1080p_mp4_2: metadata.video_1080p_mp4_2
+      ? metadata.video_1080p_mp4_2.trim()
+      : '',
+    video_1080p_mp4_3: metadata.video_1080p_mp4_3
+      ? metadata.video_1080p_mp4_3.trim()
+      : '',
+    video_1080p_mp4_4: metadata.video_1080p_mp4_4
+      ? metadata.video_1080p_mp4_4.trim()
+      : '',
+    video_720p_mp4_1: metadata.video_720p_mp4_1
+      ? metadata.video_720p_mp4_1.trim()
+      : '',
+    video_720p_mp4_2: metadata.video_720p_mp4_2
+      ? metadata.video_720p_mp4_2.trim()
+      : '',
+    video_720p_mp4_3: metadata.video_720p_mp4_3
+      ? metadata.video_720p_mp4_3.trim()
+      : '',
+    video_720p_mp4_4: metadata.video_720p_mp4_4
+      ? metadata.video_720p_mp4_4.trim()
+      : '',
+    video_360p_mp4_1: metadata.video_360p_mp4_1
+      ? metadata.video_360p_mp4_1.trim()
+      : '',
+    video_360p_mp4_2: metadata.video_360p_mp4_2
+      ? metadata.video_360p_mp4_2.trim()
+      : '',
+    video_360p_mp4_3: metadata.video_360p_mp4_3
+      ? metadata.video_360p_mp4_3.trim()
+      : '',
+    video_360p_mp4_4: metadata.video_360p_mp4_4
+      ? metadata.video_360p_mp4_4.trim()
+      : '',
+  };
+
   const content = await db.content.create({
     data: {
       type,
@@ -60,32 +113,32 @@ export const POST = async (req: NextRequest) => {
   } else if (type === 'video') {
     await db.videoMetadata.create({
       data: {
-        video_360p_1: metadata.video_360p_1,
-        video_360p_2: metadata.video_360p_2,
-        video_360p_3: metadata.video_360p_3,
-        video_360p_4: metadata.video_360p_4,
-        video_720p_1: metadata.video_720p_1,
-        video_720p_2: metadata.video_720p_2,
-        video_720p_3: metadata.video_720p_3,
-        video_720p_4: metadata.video_720p_4,
-        video_1080p_1: metadata.video_1080p_1,
-        video_1080p_2: metadata.video_1080p_2,
-        video_1080p_3: metadata.video_1080p_3,
-        video_1080p_4: metadata.video_1080p_4,
+        video_360p_1: trimmedMetadata.video_360p_1,
+        video_360p_2: trimmedMetadata.video_360p_2,
+        video_360p_3: trimmedMetadata.video_360p_3,
+        video_360p_4: trimmedMetadata.video_360p_4,
+        video_720p_1: trimmedMetadata.video_720p_1,
+        video_720p_2: trimmedMetadata.video_720p_2,
+        video_720p_3: trimmedMetadata.video_720p_3,
+        video_720p_4: trimmedMetadata.video_720p_4,
+        video_1080p_1: trimmedMetadata.video_1080p_1,
+        video_1080p_2: trimmedMetadata.video_1080p_2,
+        video_1080p_3: trimmedMetadata.video_1080p_3,
+        video_1080p_4: trimmedMetadata.video_1080p_4,
         /// mp4s
 
-        video_1080p_mp4_1: metadata.video_1080p_mp4_1,
-        video_1080p_mp4_2: metadata.video_1080p_mp4_2,
-        video_1080p_mp4_3: metadata.video_1080p_mp4_3,
-        video_1080p_mp4_4: metadata.video_1080p_mp4_4,
-        video_720p_mp4_1: metadata.video_720p_mp4_1,
-        video_720p_mp4_2: metadata.video_720p_mp4_2,
-        video_720p_mp4_3: metadata.video_720p_mp4_3,
-        video_720p_mp4_4: metadata.video_720p_mp4_4,
-        video_360p_mp4_1: metadata.video_360p_mp4_1,
-        video_360p_mp4_2: metadata.video_360p_mp4_2,
-        video_360p_mp4_3: metadata.video_360p_mp4_3,
-        video_360p_mp4_4: metadata.video_360p_mp4_4,
+        video_1080p_mp4_1: trimmedMetadata.video_1080p_mp4_1,
+        video_1080p_mp4_2: trimmedMetadata.video_1080p_mp4_2,
+        video_1080p_mp4_3: trimmedMetadata.video_1080p_mp4_3,
+        video_1080p_mp4_4: trimmedMetadata.video_1080p_mp4_4,
+        video_720p_mp4_1: trimmedMetadata.video_720p_mp4_1,
+        video_720p_mp4_2: trimmedMetadata.video_720p_mp4_2,
+        video_720p_mp4_3: trimmedMetadata.video_720p_mp4_3,
+        video_720p_mp4_4: trimmedMetadata.video_720p_mp4_4,
+        video_360p_mp4_1: trimmedMetadata.video_360p_mp4_1,
+        video_360p_mp4_2: trimmedMetadata.video_360p_mp4_2,
+        video_360p_mp4_3: trimmedMetadata.video_360p_mp4_3,
+        video_360p_mp4_4: trimmedMetadata.video_360p_mp4_4,
 
         subtitles: metadata.subtitles || '',
         segments: metadata.segments || [],
