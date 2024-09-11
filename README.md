@@ -58,13 +58,6 @@ docker-compose up
 
 ```
 
-```bash
-
-docker volume create postgres-data # (optional) run this command if you face any mount volume / volume not exist error
-
-docker-compose up
-
-```
 
 ### Without Docker
 
