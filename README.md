@@ -28,19 +28,7 @@ git clone https://github.com/code100x/cms.git
 
 ```
 
-```bash
-
-git clone https://github.com/code100x/cms.git
-
-```
-
 2. Navigate to the project directory:
-
-```bash
-
-cd cms
-
-```
 
 ```bash
 
