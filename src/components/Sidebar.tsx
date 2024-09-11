@@ -17,6 +17,7 @@ import BookmarkButton from './bookmark/BookmarkButton';
 import Link from 'next/link';
 import { Button } from './ui/button';
 import { AnimatePresence, motion } from 'framer-motion';
+import { WatchLaterPopup } from './watch-later/WatchLater';
 
 const sidebarVariants = {
   open: {
@@ -163,10 +164,13 @@ export function Sidebar({
 
   return (
     <>
+      <div className='flex gap-3'>
       <Button onClick={() => setSidebarOpen((s) => !s)} className="w-fit gap-2">
         {sidebarOpen ? <X className="size-5" /> : <Menu className="size-5" />}
         <span>{sidebarOpen ? 'Hide Contents' : 'Show Contents'}</span>
       </Button>
+      <WatchLaterPopup/>
+      </div>
       <AnimatePresence>
         {sidebarOpen && (
           <motion.div

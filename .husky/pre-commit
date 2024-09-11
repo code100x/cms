@@ -1,11 +1,10 @@
-#!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
-
+#!/bin/sh
 npm run format:fix
 npm run lint:fix
 
 git add .
 
+# Ensure no yarn.lock or package-lock.json files are committed
 if [ -f "yarn.lock" ] || [ -f "package-lock.json" ]; then
   echo "Error: yarn.lock or package-lock.json is present. Please remove them before committing."
   exit 1

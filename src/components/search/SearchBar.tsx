@@ -9,18 +9,38 @@ import VideoSearchCard from './VideoSearchCard';
 import VideoSearchInfo from './VideoSearchInfo';
 import { toast } from 'sonner';
 import VideoSearchLoading from './VideoSearchLoading';
+import { useRecoilState } from 'recoil';
+import {
+  Content,
+  selectedVideoIdsState,
+  watchLaterVideoData,
+} from '@/store/atoms/watchlater';
+import { addWatchLater } from '@/utiles/add-watch-later';
+import { deleteWatchLater } from '@/utiles/delete-watch-later';
 
-const SearchBar = ({ onCardClick }: { onCardClick?: () => void }) => {
+const SearchBar = ({
+  onCardClick,
+  watchLater = false,
+}: {
+  onCardClick?: () => void;
+  watchLater?: boolean;
+}) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchedVideos, setSearchedVideos] = useState<
     TSearchedVideos[] | null
   >(null);
   const [isInputFocused, setIsInputFocused] = useState<boolean>(false);
   const [loading, setLoading] = useState(false);
+  const [videoData, setVideoData] =
+    useRecoilState<Content[]>(watchLaterVideoData);
+
   const router = useRouter();
 
   const ref = useRef<HTMLDivElement>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
+  const [selectedVideoIds, setSelectedVideoIds] = useRecoilState(
+    selectedVideoIdsState,
+  );
 
   useClickOutside(ref, () => {
     setIsInputFocused(false);
@@ -51,6 +71,11 @@ const SearchBar = ({ onCardClick }: { onCardClick?: () => void }) => {
     setSearchedVideos(null);
   }, [searchTerm, fetchData]);
 
+  useEffect(() => {
+    const selectIds = videoData.map((val) => val.content.id);
+    setSelectedVideoIds(selectIds);
+  }, []);
+
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
   };
@@ -74,6 +99,17 @@ const SearchBar = ({ onCardClick }: { onCardClick?: () => void }) => {
     }
   };
 
+  const handleCheckboxClick = async (video: any, isChecked: boolean) => {
+    const { id } = video;
+
+    if (isChecked) {
+      await addWatchLater(id, setVideoData);
+      setSelectedVideoIds((prev) => [...prev, id]);
+    } else {
+      await deleteWatchLater(id, setSelectedVideoIds, setVideoData);
+    }
+  };
+
   const renderSearchResults = () => {
     if (searchTerm.length < 3) {
       return (
@@ -84,24 +120,44 @@ const SearchBar = ({ onCardClick }: { onCardClick?: () => void }) => {
     } else if (!searchedVideos || searchedVideos.length === 0) {
       return <VideoSearchInfo text="No videos found" />;
     }
-    return searchedVideos.map((video) => (
-      <VideoSearchCard
-        key={video.id}
-        video={video}
-        onCardClick={handleCardClick}
-      />
-    ));
+    return searchedVideos.map((video, index) => {
+      const isChecked = selectedVideoIds.includes(video.id);
+
+      return (
+        <div
+          className="flex"
+          key={index}
+          onClick={() => watchLater && handleCheckboxClick(video, !isChecked)}
+        >
+          {watchLater && (
+            <input
+              checked={isChecked}
+              onChange={(e) => handleCheckboxClick(video, e.target.checked)}
+              type="checkbox"
+              className="ml-3 mt-3 h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
+            />
+          )}
+          <VideoSearchCard
+            video={video}
+            onCardClick={!watchLater ? handleCardClick : () => {}}
+            watchLater={watchLater}
+          />
+        </div>
+      );
+    });
   };
 
   return (
     <div
-      className="relative flex h-10 w-full items-center lg:w-[32vw]"
+      className={`relative flex h-10 w-full items-center ${watchLater ? 'lg:w-[24vw]' : 'lg:w-[32vw]'}`}
       ref={ref}
     >
       {/* Search Input Bar */}
       <SearchIcon className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-primary/80" />
       <Input
-        placeholder="Search for videos..."
+        placeholder={
+          watchLater ? 'Search and Add Videos...' : 'Search for videos...'
+        }
         className="focus:ring-none rounded-lg border-none bg-primary/5 px-10 text-base focus:outline-none"
         value={searchTerm}
         onChange={handleInputChange}

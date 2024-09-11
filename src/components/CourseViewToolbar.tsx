@@ -7,6 +7,7 @@ import { LuListVideo } from 'react-icons/lu';
 import { useRecoilState } from 'recoil';
 import { sidebarOpen as sidebarOpenAtom } from '@/store/atoms/sidebar';
 import { useEffect, useState } from 'react';
+import { WatchLaterPopup } from './watch-later/WatchLater';
 
 export const CourseViewToolbar = ({
   courseData,
@@ -31,13 +32,16 @@ export const CourseViewToolbar = ({
   return (
     <div className="flex w-full items-center justify-between">
       <BreadCrumbComponent {...courseData} />
-      <Button
-        variant={'outline'}
-        onClick={() => setSidebarOpen((show) => !show)}
-      >
-        <LuListVideo className="mr-2 text-lg" />
-        {showButtonTitle && sidebarOpen ? 'Hide List' : 'Show List'}
-      </Button>
+      <div className="flex gap-3">
+        <Button
+          variant={'outline'}
+          onClick={() => setSidebarOpen((show) => !show)}
+        >
+          <LuListVideo className="mr-2 text-lg" />
+          {showButtonTitle && sidebarOpen ? 'Hide List' : 'Show List'}
+        </Button>
+        <WatchLaterPopup />
+      </div>
     </div>
   );
 };

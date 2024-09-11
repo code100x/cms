@@ -5,6 +5,7 @@ import { formatTime } from '@/lib/utils';
 import VideoThumbnail from './videothumbnail';
 import CardComponent from './CardComponent';
 import { motion } from 'framer-motion';
+import WatchLaterButton from './watch-later/WatchLaterButton';
 
 export const ContentCard = ({
   title,
@@ -34,7 +35,7 @@ export const ContentCard = ({
       className={`group relative flex h-fit w-full max-w-md cursor-pointer flex-col gap-2 rounded-2xl transition-all duration-300 hover:-translate-y-2`}
     >
       {markAsCompleted && (
-        <div className="absolute right-2 top-2 z-10">
+        <div className="absolute right-10 top-1 z-10">
           <CheckCircle2 color="green" size={30} fill="lightgreen" />
         </div>
       )}
@@ -85,6 +86,16 @@ export const ContentCard = ({
             side="top"
           />
         )}
+        {type === 'video' && (
+        <div className="absolute right-1 top-4 z-10">
+          <WatchLaterButton
+            size={28}
+            align="start"
+            side="bottom"
+            contentId={contentId}
+          />
+        </div>
+      )}
       </div>
     </motion.div>
   );
