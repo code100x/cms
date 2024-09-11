@@ -40,7 +40,7 @@ export const SidebarItems = ({
                 >
                   <item.Component />
                   {!isCollapsed && (
-                    <span className="text-lg font-medium tracking-tight">
+                    <span className="text-md font-medium tracking-tight">
                       {item.name}
                     </span>
                   )}
