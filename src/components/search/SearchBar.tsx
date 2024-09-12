@@ -136,7 +136,7 @@ const ContentSearch = () => {
             <SearchIcon className="h-[1.2rem] w-[1.2rem]" />
           </div>
         </Button>
-        <DialogContent className="max-w-2xl gap-0 p-0">
+        <DialogContent className="m-2 max-w-2xl gap-0 p-0">
           {/* Search Input Bar */}
           <div className="flex items-center border-b px-4 py-2">
             <SearchIcon className="h-[1.5rem] w-[1.5rem]" />
