@@ -1,11 +1,12 @@
-import { FullCourseContent } from '@/db/course';
+import { ChildCourseContent, FullCourseContent } from '@/db/course';
 import { ContentRenderer } from './admin/ContentRenderer';
 import { FolderView } from './FolderView';
 import { NotionRenderer } from './NotionRenderer';
 import { getFolderPercentCompleted } from '@/lib/utils';
-import Comments from './comment/Comments';
 import { QueryParams } from '@/actions/types';
 import BreadCrumbComponent from './BreadCrumbComponent';
+import Comments from './comment/Comments';
+// import { Sidebar } from './Sidebar';
 
 export const CourseView = ({
   rest,
@@ -13,22 +14,32 @@ export const CourseView = ({
   fullCourseContent,
   courseContent,
   nextContent,
-  contentType,
   searchParams,
   possiblePath,
 }: {
   fullCourseContent: FullCourseContent[];
   rest: string[];
   course: any;
-  courseContent: any;
+  courseContent:
+    | {
+        folder: true;
+        value: ChildCourseContent[];
+      }
+    | {
+        folder: false;
+        value: ChildCourseContent;
+      }
+    | null;
   nextContent: any;
-  contentType: any;
   searchParams: QueryParams;
   possiblePath: string;
 }) => {
+  const contentType = courseContent?.folder
+    ? 'folder'
+    : courseContent?.value.type;
   return (
-    <>
-      <div className=" min-h-[2.5rem] max-h-fit mb-2 flex items-center px-4">
+    <div className="flex w-full flex-col gap-8 pb-16 pt-8">
+      <div className="flex flex-col gap-4">
         <BreadCrumbComponent
           course={course}
           contentType={contentType}
@@ -37,40 +48,45 @@ export const CourseView = ({
           rest={rest}
         />
       </div>
-      {contentType === 'notion' ? (
-        <NotionRenderer id={courseContent[0]?.id} />
+
+      {!courseContent?.folder && courseContent?.value.type === 'notion' ? (
+        <NotionRenderer id={courseContent?.value?.id?.toString()} />
       ) : null}
 
-      {contentType === 'video' ? (
+      {!courseContent?.folder && contentType === 'video' ? (
         <ContentRenderer
           nextContent={nextContent}
           content={{
-            thumbnail: courseContent[0]?.thumbnail || '',
-            id: courseContent[0]?.id || 0,
-            title: courseContent[0]?.title || '',
+            thumbnail: courseContent?.value?.thumbnail || '',
+            id: courseContent?.value.id || 0,
+            title: courseContent?.value?.title || '',
             type: contentType || 'video',
-            description: courseContent[0]?.description || '',
+            description: courseContent?.value?.description || '',
             markAsCompleted:
-              courseContent[0]?.videoProgress?.markAsCompleted || false,
-            bookmark: courseContent[0].bookmark,
+              courseContent?.value?.videoProgress?.markAsCompleted || false,
+            bookmark: courseContent?.value.bookmark ?? null,
           }}
         />
       ) : null}
-      {(contentType === 'video' || contentType === 'notion') && (
-        <Comments
-          content={{
-            id: courseContent[0]?.id || 0,
-            courseId: courseContent[0]?.parentId || 0,
-            commentCount: courseContent[0]?.commentsCount || 0,
-            possiblePath,
-          }}
-          searchParams={searchParams}
-        />
-      )}
-      {contentType === 'folder' ? (
+
+      {!courseContent?.folder &&
+        (contentType === 'video' || contentType === 'notion') && (
+          <Comments
+            content={{
+              id: courseContent?.value?.id || 0,
+              courseId: parseInt(course.id, 10) || 0,
+              //@ts-ignore
+              commentCount: courseContent?.value.commentsCount || 0,
+              possiblePath,
+            }}
+            searchParams={searchParams}
+          />
+        )}
+
+      {courseContent?.folder ? (
         <FolderView
           rest={rest}
-          courseContent={courseContent?.map((x: any) => ({
+          courseContent={courseContent?.value.map((x: any) => ({
             title: x?.title || '',
             image: x?.thumbnail || '',
             type: x?.type || 'folder',
@@ -79,10 +95,11 @@ export const CourseView = ({
             percentComplete: getFolderPercentCompleted(x?.children),
             videoFullDuration: x?.videoProgress?.videoFullDuration || 0,
             duration: x?.videoProgress?.duration || 0,
+            bookmark: null,
           }))}
           courseId={parseInt(course.id, 10)}
         />
       ) : null}
-    </>
+    </div>
   );
 };

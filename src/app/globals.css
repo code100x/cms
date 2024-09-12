@@ -4,48 +4,65 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --background: 224 50% 98%;
+    --foreground: 224 71.5% 2%;
+
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 224 71.4% 4.1%;
+
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-    --primary: 221.2 83.2% 53.3%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --popover-foreground: 224 71.4% 4.1%;
+
+    --primary: 220.9 39.3% 11%;
+    --primary-foreground: 210 20% 98%;
+
+    --secondary: 220 14.3% 95.9%;
+    --secondary-foreground: 220.9 39.3% 11%;
+
+    --muted: 220 14.3% 95.9%;
+    --muted-foreground: 220 8.9% 46.1%;
+
+    --accent: 220 14.3% 95.9%;
+    --accent-foreground: 220.9 39.3% 11%;
+
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 221.2 83.2% 53.3%;
+    --destructive-foreground: 210 20% 98%;
+
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 224 71.4% 4.1%;
+
     --radius: 0.5rem;
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 217.2 91.2% 59.8%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    --background: 224 25% 5%;
+    --foreground: 210 50% 98%;
+
+    --card: 224 71.4% 4.1%;
+    --card-foreground: 210 20% 98%;
+
+    --popover: 224 71.4% 4.1%;
+    --popover-foreground: 210 20% 98%;
+
+    --primary: 210 20% 98%;
+    --primary-foreground: 220.9 39.3% 11%;
+
+    --secondary: 215 27.9% 16.9%;
+    --secondary-foreground: 210 20% 98%;
+
+    --muted: 215 27.9% 16.9%;
+    --muted-foreground: 217.9 10.6% 64.9%;
+
+    --accent: 215 27.9% 16.9%;
+    --accent-foreground: 210 20% 98%;
+
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 224.3 76.3% 48%;
+    --destructive-foreground: 210 20% 98%;
+
+    --border: 215 27.9% 16.9%;
+    --input: 215 27.9% 16.9%;
+    --ring: 216 12.2% 83.9%;
   }
 }
 
@@ -57,26 +74,45 @@
     @apply bg-background text-foreground;
   }
 }
-.video-js .vjs-progress-control:hover .vjs-play-progress:after {
-  display: none;
+
+.vjs-tech {
+  border-radius: 0.75rem !important;
 }
-.vjs-quality-selector .vjs-custom-dropup-menu {
-  bottom: 100%;
-  left: 50%;
-  transform: translateX(-50%);
+/* Overall Video Player Styles */
+.video-js {
+  border-radius: 0.75rem !important;
+  font-family: inherit !important;
+  max-width: 100%;
+  background-color: #000; /* Ensure background color matches video content */
 }
 
-
-/* Hide scrollbar for Chrome, Safari and Opera */
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
+/* Control Bar Background */
+.vjs-control-bar {
+  border-radius: 0 0 0.75rem 0.75rem !important;
+  background-color: rgba(
+    0,
+    0,
+    0,
+    0.8
+  ) !important; /* Dark background for better contrast */
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5); /* Subtle shadow for depth */
+  align-items: center !important;
+  display: flex !important;
 }
 
-/* Hide scrollbar for IE, Edge and Firefox */
-.no-scrollbar {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
+/* Play/Pause Button */
+.vjs-play-control {
+  color: #fff !important;
 }
+
+/* Volume Control */
+.vjs-volume-control .vjs-volume-bar {
+  background: #333 !important;
+}
+.vjs-volume-control .vjs-volume-level {
+  background: #336be3 !important;
+}
+
 
 /* custom scrollbar */
 
@@ -103,34 +139,88 @@
 }
 
 /*Timestamp overlapping removal */
+=======
+/* Progress Bar */
+.vjs-play-progress {
+  background: #336be3 !important;
+}
 
+
+/* Custom Quality Selector Dropdown */
+.vjs-quality-selector .vjs-custom-dropup-menu {
+  bottom: calc(100% + 5px); /* Space between dropdown and control */
+  left: 50%;
+  transform: translateX(-50%);
+  background: #333; /* Dropdown background */
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+.vjs-quality-selector .vjs-custom-dropup-menu li {
+  padding: 0.5rem 1rem;
+  color: #fff;
+}
+.vjs-quality-selector .vjs-custom-dropup-menu li:hover {
+  background: #444;
+}
+
+/* Custom Tooltip Styling */
 .vjs-play-progress .vjs-time-tooltip {
+  background: #333 !important;
+  color: #fff !important;
+  border-radius: 0.25rem;
+  padding: 0.25rem 0.5rem;
+}
+
+/* Responsive Control Bar */
+@media (max-width: 550px) {
+  .vjs-seek-button,
+  .vjs-time-divider {
+    display: none !important;
+  }
+  .vjs-control {
+    font-size: 0.75rem !important;
+    /* width: 2.5rem !important; */
+  }
+
+  /* Hide time divider and duration on very small screens */
+
+  /* Fullscreen Mobile Controls */
+  .vjs-fullscreen .vjs-control-bar {
+    position: fixed;
+    padding: 0.5rem;
+    background-color: rgba(
+      0,
+      0,
+      0,
+      0.9
+    ) !important; /* Darker background for fullscreen */
+    z-index: 10;
+  }
+}
+
+/* Hide Non-essential Controls */
+.vjs-picture-in-picture-control,
+.vjs-settings-menu {
   display: none !important;
 }
-.vjs-time-divider {
-  display: block !important;
+
+/* Custom Styling for Time Tooltip */
+.vjs-time-tooltip {
+  background: rgba(0, 0, 0, 0.75) !important;
+  color: #fff !important;
+  border-radius: 0.25rem;
+  padding: 0.25rem;
 }
 
-.video-js .vjs-current-time{
-  display: block !important;
-}
-
-.vjs-duration {
-  display: block !important;
-}
-
-.vjs-tech:focus-visible{
-  outline: none;
-}
-
-.timeline-segments  {
+.timeline-segments {
   position: relative;
   left: 0;
   height: 5px;
   background-color: #afa4a4;
   transition: height 150ms ease-in-out;
 }
-.timeline-segments-preview{
+
+.timeline-segments-preview {
   position: absolute;
   left: 0;
   background: #fff;
@@ -138,8 +228,8 @@
   bottom: 0;
   z-index: 1;
   pointer-events: none;
-
 }
+
 .timeline-segments-progress {
   position: absolute;
   left: 0;
@@ -148,8 +238,89 @@
   bottom: 0;
   z-index: 2;
   pointer-events: none;
-
 }
-.timeline-segments:hover{
+.timeline-segments:hover {
   height: 10px;
+}
+
+@layer utilities {
+  .wrapper {
+    @apply h-full w-full max-w-7xl px-4 py-4 md:px-12 lg:mx-auto xl:max-w-[90rem];
+  }
+
+  .flex-center {
+    @apply flex items-center justify-center;
+  }
+
+  .flex-between {
+    @apply flex items-center justify-between;
+  }
+}
+
+.markdown-editor-default-font {
+  font-family: inherit !important;
+}
+
+/* notion-custom.css */
+.notion {
+  font-family: var(--font-satoshi), sans-serif !important;
+}
+
+.notion h1,
+.notion h2,
+.notion h3 {
+  font-family: var(--font-satoshi), sans-serif !important;
+}
+
+.notion-header {
+  display: none !important;
+}
+.notion-code {
+  border-radius: 12px !important;
+}
+.medium-zoom-image {
+  border-radius: 0.5rem !important;
+  border: 1px solid #0a0a0a36 !important;
+  background-size: cover !important;
+  cursor: pointer !important;
+}
+.notion-page {
+  padding: 1rem !important;
+  background-color: transparent !important;
+}
+
+.notion-renderer.notion {
+  max-width: 100%;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+}
+
+.notion-renderer .notion-page,
+.notion-renderer .notion-text,
+.notion-renderer .notion-h1,
+.notion-renderer .notion-h2,
+.notion-renderer .notion-h3 {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+.notion-renderer .notion-asset-wrapper {
+  max-width: 100%;
+}
+
+.notion-renderer .notion-asset-wrapper img {
+  max-width: 100%;
+  height: auto;
+}
+
+.notion-renderer .notion-code {
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+@media (max-width: 640px) {
+  .notion-renderer .notion-page {
+    padding: 0.5rem !important;
+  }
 }

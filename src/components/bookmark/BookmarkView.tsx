@@ -7,19 +7,17 @@ const BookmarkView = ({
   bookmarkData: TBookmarkWithContent[] | null | { error: string };
 }) => {
   return (
-    <div className="flex h-full">
-      <div className="grow p-2 overflow-y-auto no-scrollbar">
-        {bookmarkData === null ||
-        'error' in bookmarkData ||
-        !bookmarkData.length ? (
-          <div className="flex mt-64">
-            <div className="m-auto">No bookmark added yet!</div>
-          </div>
-        ) : (
-          <BookmarkList bookmarkData={bookmarkData} />
-        )}
-      </div>
-    </div>
+    <>
+      {bookmarkData === null ||
+      'error' in bookmarkData ||
+      !bookmarkData.length ? (
+        <div className="mt-64 flex">
+          <div className="text-2xl font-bold">No bookmark added yet!</div>
+        </div>
+      ) : (
+        <BookmarkList bookmarkData={bookmarkData} />
+      )}
+    </>
   );
 };
 

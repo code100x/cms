@@ -26,7 +26,7 @@ export const FolderView = ({
 
   if (!courseContent?.length) {
     return (
-      <div className="flex mt-64">
+      <div className="mt-64 flex">
         <div className="m-auto">No content here yet!</div>
       </div>
     );
@@ -39,8 +39,7 @@ export const FolderView = ({
 
   return (
     <div>
-      <div></div>
-      <div className="max-w-screen-xl justify-between mx-auto p-4 cursor-pointer grid grid-cols-1 gap-5 md:grid-cols-3">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
         {courseContent.map((content) => {
           const videoProgressPercent =
             content.type === 'video' &&

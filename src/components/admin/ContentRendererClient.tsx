@@ -1,10 +1,11 @@
 'use client';
 import { useSearchParams, useRouter } from 'next/navigation';
-// import { QualitySelector } from '../QualitySelector';
 import { VideoPlayerSegment } from '@/components/VideoPlayerSegment';
 import VideoContentChapters from '../VideoContentChapters';
+import { ChevronDown, ChevronUp } from 'lucide-react';
 import { useMemo, useState } from 'react';
-import { handleMarkAsCompleted } from '@/lib/utils';
+import { Button } from '../ui/button';
+import Link from 'next/link';
 
 export const ContentRendererClient = ({
   metadata,
@@ -26,10 +27,6 @@ export const ContentRendererClient = ({
     markAsCompleted: boolean;
   };
 }) => {
-  const [contentCompleted, setContentCompleted] = useState(
-    content.markAsCompleted,
-  );
-  const [loadingMarkAs, setLoadingMarkAs] = useState(false);
   const [showChapters, setShowChapters] = useState(
     metadata?.segments?.length > 0,
   );
@@ -74,22 +71,9 @@ export const ContentRendererClient = ({
     setShowChapters((prev) => !prev);
   };
 
-  const handleMarkCompleted = async () => {
-    setLoadingMarkAs(true);
-    const data: any = await handleMarkAsCompleted(
-      !contentCompleted,
-      content.id,
-    );
-
-    if (data.contentId) {
-      setContentCompleted((prev) => !prev);
-    }
-    setLoadingMarkAs(false);
-  };
-
   return (
-    <div className="flex gap-2 items-start flex-col lg:flex-row">
-      <div className="flex-1 w-full">
+    <div className="flex w-full flex-col gap-2">
+      <div className="flex w-full flex-col">
         <VideoPlayerSegment
           setQuality={setQuality}
           contentId={content.id}
@@ -108,86 +92,69 @@ export const ContentRendererClient = ({
             thumbnail: metadata.thumbnail || false, // data.isComposite ? data.thumbnails[0] : null,
             isComposite: true,
             height: 720,
-            width: 1080,
+            width: 1280,
             delta: 30,
             autoplay: true,
             responsive: true,
             sources: [source],
           }}
-          onVideoEnd={() => {
-            setContentCompleted(true);
-          }}
+          onVideoEnd={() => {}}
         />
-        <div className="flex justify-between mb-2">
-          <div>
-            <div className="text-gray-900 dark:text-white font-bold text-2xl">
+        <div className="flex flex-col gap-4 rounded-xl bg-primary/5 p-4">
+          <div className="flex w-full flex-col justify-between gap-2 md:flex-row">
+            <h2 className="line-clamp-2 text-wrap text-2xl font-extrabold capitalize tracking-tight text-primary md:text-3xl">
               {content.title}
-            </div>
-
-            <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold rounded p-2 my-4"
-              disabled={loadingMarkAs}
-              onClick={handleMarkCompleted}
-            >
-              {contentCompleted ? 'Mark as Incomplete' : 'Mark as completed'}
-            </button>
-          </div>
-
-          <div>
-            {/* <QualitySelector /> */}
+            </h2>
             {metadata.slides ? (
-              <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'row-reverse',
-                  gap: '10px',
-                }}
-              >
-                <a href={metadata.slides} target="_blank">
-                  <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold rounded p-2">
-                    Slides
-                  </button>
-                </a>
-              </div>
+              <Link href={metadata.slides} target="_blank">
+                <Button className="gap-2">Lecture Slides</Button>
+              </Link>
             ) : null}
-            {!showChapters && metadata.segments?.length > 0 && (
-              <button
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold rounded my-4 p-2"
-                onClick={() => {
-                  scrollTo({ top: 0, behavior: 'smooth' });
-                  toggleShowChapters();
-                }}
-              >
-                View All Chapters
-              </button>
-            )}
           </div>
-        </div>
-        {nextContent ? (
-          <div className="flex flex-row-reverse">
+
+          {!showChapters && metadata.segments?.length > 0 && (
             <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-4"
+              className="flex w-fit items-center gap-2"
               onClick={() => {
-                const originalPath = window.location.pathname;
-                const parts = originalPath.split('/');
-                parts.pop();
-                parts.push(nextContent.id.toString());
-                const newPath = parts.join('/');
-                router.push(newPath);
+                toggleShowChapters();
               }}
             >
-              {nextContent.title}
-            </button>{' '}
-          </div>
+              <p>Chapters</p>
+              {showChapters ? (
+                <>
+                  <ChevronUp className="size-5 text-neutral-500" />
+                </>
+              ) : (
+                <>
+                  <ChevronDown className="size-5 text-neutral-500" />
+                </>
+              )}
+            </button>
+          )}
+
+          {showChapters && (
+            <VideoContentChapters
+              segments={metadata?.segments}
+              onCancel={toggleShowChapters}
+            />
+          )}
+        </div>
+        {nextContent ? (
+          <Button
+            size={'lg'}
+            onClick={() => {
+              const originalPath = window.location.pathname;
+              const parts = originalPath.split('/');
+              parts.pop();
+              parts.push(nextContent.id.toString());
+              const newPath = parts.join('/');
+              router.push(newPath);
+            }}
+          >
+            {nextContent.title}
+          </Button>
         ) : null}
       </div>
-
-      {showChapters && (
-        <VideoContentChapters
-          segments={metadata?.segments}
-          onCancel={toggleShowChapters}
-        />
-      )}
     </div>
   );
 };

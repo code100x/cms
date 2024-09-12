@@ -9,6 +9,7 @@ import {
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
 import { FullCourseContent } from '@/db/course';
+import { Home } from 'lucide-react';
 import Link from 'next/link';
 import { useMemo } from 'react';
 
@@ -51,12 +52,6 @@ export default function BreadCrumbComponent({
         breadcrumbs.push(childContent);
       }
     }
-
-    // if (courseContent.length > 0 && contentType !== 'folder') {
-    //     // breadcrumbs.push(courseContent[0]);
-    //     // console.log("courseContent[0] : ", courseContent[0]);
-    // }
-
     return breadcrumbs;
   }, [rest, fullCourseContent, courseContent, contentType]);
 
@@ -65,18 +60,27 @@ export default function BreadCrumbComponent({
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
-            <BreadcrumbLink asChild>
-              <Link href={'/'}>100xdevs</Link>
+            <BreadcrumbLink className="text-sm text-blue-600" asChild>
+              <Link href={'/'}>
+                <Home className="size-4" />
+              </Link>
             </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
             {generateBreadcrumbs.length > 0 ? (
-              <BreadcrumbLink asChild>
-                <Link href={`/courses/${course.id}`}>{course.title} </Link>
+              <BreadcrumbLink className="text-blue-600" asChild>
+                <Link
+                  href={`/courses/${course.id}`}
+                  className="text-sm font-semibold capitalize text-primary/60"
+                >
+                  {course.title}
+                </Link>
               </BreadcrumbLink>
             ) : (
-              <BreadcrumbPage>{course.title}</BreadcrumbPage>
+              <BreadcrumbPage className="text-sm font-semibold capitalize text-primary">
+                {course.title}
+              </BreadcrumbPage>
             )}
           </BreadcrumbItem>
           <BreadcrumbSeparator />
@@ -93,9 +97,10 @@ export default function BreadCrumbComponent({
                 {index !== array.length - 1 ? (
                   <>
                     <BreadcrumbItem>
-                      <BreadcrumbLink className="font-semibold" asChild>
+                      <BreadcrumbLink asChild>
                         <Link
                           href={`/courses/${course.id}/${finalRouteArray.join('/')}`}
+                          className="text-sm font-semibold capitalize text-primary/60"
                         >
                           {breadcrumb?.title}
                         </Link>
@@ -106,7 +111,7 @@ export default function BreadCrumbComponent({
                   </>
                 ) : (
                   <BreadcrumbItem>
-                    <BreadcrumbPage className="font-semibold">
+                    <BreadcrumbPage className="text-sm font-semibold capitalize text-primary">
                       {breadcrumb.title}
                     </BreadcrumbPage>
                   </BreadcrumbItem>

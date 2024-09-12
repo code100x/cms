@@ -5,33 +5,44 @@ import { ContentCard } from '../ContentCard';
 export const AdminCourseContent = ({
   courseContent,
   courseId,
+  rest,
 }: {
   courseId: number;
   courseContent: {
     title: string;
     image: string;
     id: number;
+    createdAt: Date;
   }[];
+  rest: string[];
 }) => {
   const router = useRouter();
+  let updatedRoute = `/admin/content/${courseId}`;
+  for (let i = 0; i < rest.length; i++) {
+    updatedRoute += `/${rest[i]}`;
+  }
 
   return (
     <div>
-      Course content
-      <div className="max-w-screen-xl justify-between mx-auto p-4 cursor-pointer grid grid-cols-1 gap-5 md:grid-cols-3">
-        {courseContent.map(
-          (content: { image: string; id: number; title: string }) => (
+      <div className="mx-auto grid cursor-pointer grid-cols-1 justify-between gap-4 md:grid-cols-2 lg:grid-cols-3">
+        {courseContent?.map(
+          (content: {
+            image: string;
+            id: number;
+            title: string;
+            createdAt: Date;
+          }) => (
             <ContentCard
               type={'folder'}
               title={content.title}
               image={content.image || ''}
               onClick={() => {
-                router.push(`/admin/content/${courseId}/${content.id}`);
+                router.push(`${updatedRoute}/${content.id}`);
               }}
               key={content.id}
             />
           ),
-        )}
+        ) ?? []}
       </div>
     </div>
   );

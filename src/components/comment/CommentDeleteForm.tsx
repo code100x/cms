@@ -10,7 +10,7 @@ import { toast } from 'sonner';
 const CommentDeleteForm = ({ commentId }: { commentId: number }) => {
   const currentPath = usePathname();
 
-  const { execute } = useAction(deleteMessage, {
+  const { execute, isLoading } = useAction(deleteMessage, {
     onSuccess: () => {
       toast('Comment deleted');
     },
@@ -27,11 +27,14 @@ const CommentDeleteForm = ({ commentId }: { commentId: number }) => {
     });
   };
   return (
-    <form onSubmit={handleFormSubmit}>
-      <button type="submit">
-        <div className="flex gap-x-2 items-center">
-          Delete <Trash2Icon className="w-4 h-4" />
-        </div>
+    <form className="w-full" onSubmit={handleFormSubmit}>
+      <button
+        className="flex w-full items-center gap-2"
+        type="submit"
+        disabled={isLoading}
+      >
+        <Trash2Icon className="size-4" />
+        Delete
       </button>
     </form>
   );

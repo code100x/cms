@@ -1,5 +1,4 @@
-import { getOauthUrl } from '@/utiles/discord';
-import { SiDiscord, SiGithub, SiNotion } from '@icons-pack/react-simple-icons';
+import { SiGithub, SiNotion } from '@icons-pack/react-simple-icons';
 import Link from 'next/link';
 import React from 'react';
 import { DropdownMenuItem } from '../ui/dropdown-menu';
@@ -13,11 +12,6 @@ const ExternalLinks = () => {
       icon: <SiGithub className="h-4 w-4" />,
     },
     {
-      href: getOauthUrl(),
-      label: 'Join Discord',
-      icon: <SiDiscord className="h-4 w-4" />,
-    },
-    {
       href: 'https://projects.100xdevs.com/',
       label: 'Slides',
       icon: <SiNotion className="h-4 w-4" />,
@@ -25,12 +19,12 @@ const ExternalLinks = () => {
   ];
   return externalLinks.map((link) => (
     <Link key={link.href} href={link.href} target="_blank">
-      <DropdownMenuItem className="flex items-center justify-between">
+      <DropdownMenuItem className="flex items-center justify-between text-base">
         <div className="flex items-center gap-2">
           {link.icon}
           <span>{link.label}</span>
         </div>
-        <ArrowUpRightFromSquare className="h-3 w-3" />
+        <ArrowUpRightFromSquare className="size-4" />
       </DropdownMenuItem>
     </Link>
   ));

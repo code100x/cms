@@ -1,23 +1,14 @@
+
 import { MyCourses } from '@/components/MyCourses';
 import HelpIcon from '@/components/helpSection/helpIcon';
+
 import LandingPage from '@/components/landing/landing-page';
 import { authOptions } from '@/lib/auth';
-import { cn } from '@/lib/utils';
+import { redirect } from 'next/navigation';
 import { getServerSession } from 'next-auth';
-import { Poppins } from 'next/font/google';
-
-const rs = Poppins({
-  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
-  subsets: ['latin'],
-});
 
 const getUserDetails = async () => {
-  // console.log('get user details start');
-  // const date = new Date();
   const session = await getServerSession(authOptions);
-  // console.log(
-  //   `get user details end ${  (new Date().getTime() - date.getTime()) / 1000}`,
-  // );
   return session;
 };
 
@@ -25,6 +16,7 @@ export default async function Home() {
   const session = await getUserDetails();
 
   if (session?.user) {
+
     return (
       <main className="max-w-screen-xl flex-col flex text-lg mx-auto pt-10 pb-6 h-full overflow-y-auto no-scrollbar">
         <div className="px-6 max-w-2xl antialiased">
@@ -42,10 +34,13 @@ export default async function Home() {
         <HelpIcon />
       </main>
     );
+
+    redirect('/home');
+
   }
 
   return (
-    <main className="pt-36 pb-20">
+    <main>
       <LandingPage />
     </main>
   );

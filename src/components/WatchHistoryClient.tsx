@@ -1,7 +1,6 @@
 'use client';
 
 import { ContentCard } from '@/components/ContentCard';
-import { TWatchHistory } from '../app/history/page';
 import { useRouter } from 'next/navigation';
 import {
   Carousel,
@@ -10,23 +9,26 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@/components/ui/carousel';
+import { TWatchHistory } from '@/app/(main)/(pages)/watch-history/page';
 
-const WatchHistoryClient = ({ history }: { history: TWatchHistory[] }) => (
-  <Carousel>
-    <CarouselContent>
-      {history.map((progress) => (
-        <CarouselItem
-          className="basis-1/2 md:basis-1/3 lg:basis-1/5"
-          key={progress.id}
-        >
-          <HistoryCard {...progress} />
-        </CarouselItem>
-      ))}
-    </CarouselContent>
-    <CarouselNext />
-    <CarouselPrevious />
-  </Carousel>
-);
+const WatchHistoryClient = ({ history }: { history: TWatchHistory[] }) => {
+  return (
+    <Carousel>
+      <CarouselContent>
+        {history.map((progress) => (
+          <CarouselItem
+            className="basis-full md:basis-1/3 lg:basis-1/4"
+            key={progress.id}
+          >
+            <HistoryCard {...progress} />
+          </CarouselItem>
+        ))}
+      </CarouselContent>
+      <CarouselNext />
+      <CarouselPrevious />
+    </Carousel>
+  );
+};
 
 const HistoryCard = ({
   id,
@@ -44,18 +46,20 @@ const HistoryCard = ({
     const videoProgressPercent = videoDuration
       ? Math.round((currentTimestamp / videoDuration) * 100)
       : 0;
+
     return (
-      <ContentCard
-        type={type}
-        key={id}
-        title={title}
-        image={thumbnail || ''}
-        onClick={() => {
-          router.push(videoUrl);
-        }}
-        videoProgressPercent={videoProgressPercent}
-        hoverExpand={false}
-      />
+      <>
+        <ContentCard
+          type={type}
+          key={id}
+          title={title}
+          image={thumbnail || ''}
+          onClick={() => {
+            router.push(videoUrl);
+          }}
+          videoProgressPercent={videoProgressPercent}
+        />
+      </>
     );
   }
 };

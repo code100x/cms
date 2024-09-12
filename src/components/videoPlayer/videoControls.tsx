@@ -306,38 +306,38 @@ export default function VideoPlayerControls({
     <>
       <div
         id="skip-duration-back"
-        className={`${isSkipDurationBack ? 'opacity-100' : 'opacity-0'} transition-all duration-300 inline-flex items-center justify-center flex-col absolute rounded-full z-[1] top-[calc(50%-40px)] h-20 w-20 p-2 pointer-events-none bg-[#fff]/90 text-[#000] left-[10%]`}
+        className={`${isSkipDurationBack ? 'opacity-100' : 'opacity-0'} pointer-events-none absolute left-[10%] top-[calc(50%-40px)] z-[1] inline-flex h-20 w-20 flex-col items-center justify-center rounded-full bg-[#fff]/90 p-2 text-[#000] transition-all duration-300`}
       >
         <SkipDurationBackIcon />
         <span className="text-[13px] font-bold">15 sec</span>
       </div>
       <div
         id="skip-duration-next"
-        className={`${isSkipDurationNext ? 'opacity-100' : 'opacity-0'} transition-all duration-300 inline-flex items-center justify-center flex-col absolute rounded-full z-[1] top-[calc(50%-40px)] h-20 w-20 p-2 pointer-events-none bg-[#fff]/90 text-[#000] right-[10%]`}
+        className={`${isSkipDurationNext ? 'opacity-100' : 'opacity-0'} pointer-events-none absolute right-[10%] top-[calc(50%-40px)] z-[1] inline-flex h-20 w-20 flex-col items-center justify-center rounded-full bg-[#fff]/90 p-2 text-[#000] transition-all duration-300`}
       >
         <SkipDurationNextIcon />
         <span className="text-[13px] font-bold">15 sec</span>
       </div>
       <div
-        className={`inline-flex flex-col items-center ${playerPaused ? 'opacity-100' : 'opacity-0'} justify-center h-20 w-20 bg-[#db3636] text-[#fff]  absolute left-[calc(50%-48px)] top-[calc(50%-48px)] z-[1] rounded-full pointer-events-none p-3 transition-all duration-300 shadow-lg`}
+        className={`inline-flex flex-col items-center ${playerPaused ? 'opacity-100' : 'opacity-0'} pointer-events-none absolute left-[calc(50%-48px)] top-[calc(50%-48px)] z-[1] h-20 w-20 justify-center rounded-full bg-[#db3636] p-3 text-[#fff] shadow-lg transition-all duration-300`}
       >
         {playerPaused ? <PauseIcon className="" /> : <PlayIcon className="" />}
       </div>
       <div
-        className={`absolute bottom-0 ${!isFullScreen && 'group-hover/v-container:opacity-100'} w-full z-50 transition-all py-1 before:content-[''] before:absolute before:bottom-0 before:pointer-events-none before:w-full before:aspect-[5/1] before:z-[-1] before:bg-gradient-to-t from-[#000000E6] to-transparent`}
+        className={`absolute bottom-0 ${!isFullScreen && 'group-hover/v-container:opacity-100'} z-50 w-full from-[#000000E6] to-transparent py-1 transition-all before:pointer-events-none before:absolute before:bottom-0 before:z-[-1] before:aspect-[5/1] before:w-full before:bg-gradient-to-t before:content-['']`}
       >
         {/* timeline segments */}
         <div
           id="timeline-container"
-          className="group/timeline relative h-[5px] w-[calc(100%-20px)] cursor-pointer flex items-center transition-all mx-[10px] mb-2"
+          className="group/timeline relative mx-[10px] mb-2 flex h-[5px] w-[calc(100%-20px)] cursor-pointer items-center transition-all"
         >
           <div
             id="timeline"
-            className="w-full h-full relative top-0 left-0 flex items-center justify-between"
+            className="relative left-0 top-0 flex h-full w-full items-center justify-between"
           >
             <div
               id="timeline-label"
-              className="absolute -top-8 text-[#f2f2f2] text-[14px] hidden group-hover/timeline:flex font-semibol px-1 rounded-md items-center gap-1 bg-[#555] whitespace-nowrap"
+              className="font-semibol absolute -top-8 hidden items-center gap-1 whitespace-nowrap rounded-md bg-[#555] px-1 text-[14px] text-[#f2f2f2] group-hover/timeline:flex"
             >
               0:00
             </div>{' '}
@@ -346,8 +346,8 @@ export default function VideoPlayerControls({
         </div>
 
         {/* //controls */}
-        <div className="p-2 flex items-center justify-between">
-          <div className="flex gap-3 items-center">
+        <div className="flex items-center justify-between p-2">
+          <div className="flex items-center gap-3">
             {/*//play-pause-btn*/}
             <button
               className="flex items-center justify-center outline-none"
@@ -361,7 +361,7 @@ export default function VideoPlayerControls({
             </button>
 
             {/*volume-container*/}
-            <div className="flex gap-2 items-center group/volume-container">
+            <div className="group/volume-container flex items-center gap-2">
               <button className="outline-none" onClick={toggleVolumeBtn}>
                 <HighVolumeIcon
                   className={volumeIconState === 'high' ? 'block' : 'hidden'}
@@ -377,7 +377,7 @@ export default function VideoPlayerControls({
               <input
                 ref={volumeSliderRef}
                 type="range"
-                className="cursor-pointer appearance-none h-[3px] w-0 scale-x-0 transition-all duration-200 group-hover/volume-container:scale-x-100 group-hover/volume-container:w-[75px] relative outline-none bg-[#f2f2f2] [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-[13px] [&::-webkit-slider-thumb]:h-[13px] [&::-webkit-slider-thumb]:bg-[#ff2a2a] [&::-webkit-slider-thumb]:cursor-pointer [&::-webkit-slider-thumb]:rounded-full"
+                className="relative h-[3px] w-0 scale-x-0 cursor-pointer appearance-none bg-[#f2f2f2] outline-none transition-all duration-200 group-hover/volume-container:w-[75px] group-hover/volume-container:scale-x-100 [&::-webkit-slider-thumb]:h-[13px] [&::-webkit-slider-thumb]:w-[13px] [&::-webkit-slider-thumb]:cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-[#ff2a2a]"
                 name="mute-btn-range"
                 min="0"
                 max="1"
@@ -393,10 +393,10 @@ export default function VideoPlayerControls({
               <span className="duration-end-time"> {durationEndTime}</span>
             </div>
           </div>
-          <div className="flex gap-4 items-center">
+          <div className="flex items-center gap-4">
             {/* speed-btn */}
             <button
-              className="flex items-center justify-center w-8 outline-none"
+              className="flex w-8 items-center justify-center outline-none"
               onClick={playBackSpeedHandler}
             >
               {playBackSpeed}
@@ -410,7 +410,7 @@ export default function VideoPlayerControls({
             >
               <CaptionIcon />
               <div
-                className={`absolute h-[3px] w-[calc(100%-6px)] transition-all bg-[#f52626] bottom-0 ${showCaption ? 'opacity-100' : 'opacity-0'}`}
+                className={`absolute bottom-0 h-[3px] w-[calc(100%-6px)] bg-[#f52626] transition-all ${showCaption ? 'opacity-100' : 'opacity-0'}`}
               ></div>
             </button>
 

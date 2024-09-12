@@ -5,30 +5,25 @@ import { authOptions } from '@/lib/auth';
 import { getPurchases } from '@/utiles/appx';
 import { getServerSession } from 'next-auth';
 import { redirect } from 'next/navigation';
+import { toast } from 'sonner';
 
-// interface PurchaseType {
-//   id: number;
-//   title: string;
-//   imageUrl: string;
-//   description: string;
-//   appxCourseId: number;
-//   openToEveryone: boolean;
-//   slug: string;
-//   discordRoleId: string;
-//   totalVideos?: number;
-//   totalVideosWatched: number;
-// }
-const checkAccess = async (courseId: string) => {
+type CheckAccessReturn = 'yes' | 'no' | 'error';
+
+const checkAccess = async (courseId: string): Promise<CheckAccessReturn> => {
   const session = await getServerSession(authOptions);
 
   if (!session?.user) {
-    return false;
+    return 'no';
   }
-  const purchases = await getPurchases(session.user.email);
+  const response = await getPurchases(session.user.email);
+  if (response.type === 'error') {
+    return 'error';
+  }
+  const purchases = response.courses;
   if (purchases.map((p) => p.id).includes(Number(courseId))) {
-    return true;
+    return 'yes';
   }
-  return false;
+  return 'no';
 };
 
 const Layout = async ({
@@ -42,16 +37,20 @@ const Layout = async ({
   const courseId = params.courseId;
   const hasAccess = await checkAccess(courseId);
 
-  if (!hasAccess) {
+  if (hasAccess === 'no') {
     redirect('/api/auth/signin');
+  }
+
+  if (hasAccess === 'error') {
+    toast.error('Ratelimited by appx please try again later');
   }
 
   const fullCourseContent = await getFullCourseContent(parseInt(courseId, 10));
 
   return (
-    <div className="flex h-full">
-      <Sidebar fullCourseContent={fullCourseContent} courseId={courseId[0]} />
-      <div className="grow p-2 overflow-y-auto no-scrollbar">{children}</div>
+    <div className="relative flex min-h-screen flex-col py-24">
+      <Sidebar fullCourseContent={fullCourseContent} courseId={courseId} />
+      {children}
     </div>
   );
 };

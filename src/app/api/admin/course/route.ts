@@ -6,7 +6,10 @@ const requestBodySchema = z.object({
   adminSecret: z.string(),
   title: z.string(),
   description: z.string(),
-  imageUrl: z.string().url().or(z.string()),
+  imageUrl: z
+    .string()
+    .url({ message: 'URL should be valid image url' })
+    .or(z.string()),
   id: z.string(),
   slug: z.string(),
   appxCourseId: z.string(),
@@ -45,13 +48,15 @@ export async function POST(req: NextRequest) {
       slug,
       description,
       id: parseInt(id, 10),
-      appxCourseId: parseInt(appxCourseId, 10),
+      appxCourseId: parseInt(appxCourseId, 10).toString(),
       discordRoleId,
     },
   });
 
   return NextResponse.json(
-    {},
+    {
+      message: 'Course is successfully added',
+    },
     {
       status: 200,
     },

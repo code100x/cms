@@ -1,22 +1,52 @@
-import { privacyPolicyContent } from '../../../../components/landing/footer/privacy-policy/privacy-policy';
+'use client';
+import FooterCTA from '@/components/landing/footer-cta';
+import { privacyPolicyContent } from './privacy-policy';
+import { motion } from 'framer-motion';
+import Footer from '@/components/landing/footer';
 
 const PrivacyPolicyPage = () => {
   return (
-    <main className="flex flex-col items-start justify-center -mt-6 mb-12 px-4 md:px-36">
-      <h1 className="text-3xl md:text-4xl font-semibold text-neutral-800 dark:text-neutral-200 mb-4 md:mb-6 w-full text-center md:max-w-screen-2xl mx-auto">
-        Privacy Policy
-      </h1>
-      {privacyPolicyContent.map((item) => {
-        return (
-          <div
-            className="my-3 text-neutral-700 dark:text-neutral-300 font-normal text-lg"
-            key={item.id}
-          >
-            <p className="">{item.description}</p>
-          </div>
-        );
-      })}
-    </main>
+    <>
+      <motion.main
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{
+          duration: 0.5,
+          delay: 0.25,
+          type: 'spring',
+          damping: 10,
+          stiffness: 100,
+        }}
+        className="wrapper flex flex-col items-start justify-center"
+      >
+        <h1 className="mx-auto mb-8 w-full text-center text-4xl font-extrabold tracking-tighter text-primary md:mb-12 md:text-5xl">
+          Privacy Policy
+        </h1>
+        <div className="mx-auto max-w-3xl">
+          {privacyPolicyContent.map((item) => (
+            <motion.div
+              key={item.id}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                duration: 0.5,
+                delay: 0.5 + item.id * 0.1,
+                type: 'spring',
+                damping: 10,
+                stiffness: 100,
+              }}
+              className="mb-6"
+            >
+              <p className="text-lg font-medium text-foreground/80">
+                {item.description}
+              </p>
+            </motion.div>
+          ))}
+        </div>
+      </motion.main>
+      <FooterCTA />
+      <Footer />
+    </>
   );
 };
 

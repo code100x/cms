@@ -17,9 +17,9 @@ const CommentInputForm = ({
   const currentPath = usePathname();
   const formRef = React.useRef<HTMLFormElement>(null);
   const textareaRef = React.useRef<HTMLTextAreaElement>(null);
-  const { execute, fieldErrors } = useAction(createMessage, {
+  const { execute, isLoading, fieldErrors } = useAction(createMessage, {
     onSuccess: () => {
-      toast('Comment added');
+      toast.success(`${parentId ? 'Replied' : 'Commented'}`);
       formRef.current?.reset();
     },
     onError: (error) => {
@@ -39,6 +39,32 @@ const CommentInputForm = ({
       currentPath,
     });
   };
+
+  // Function to adjust the height of the textarea
+  const adjustTextareaHeight = () => {
+    if (textareaRef.current) {
+      textareaRef.current.style.height = 'auto'; // Reset the height
+      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`; // Set the height based on scroll height
+    }
+  };
+
+  // Effect to handle the initial and dynamic height adjustment
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      event.stopPropagation();
+    };
+
+    textareaRef.current?.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      textareaRef.current?.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
+
+  // Effect to dynamically adjust textarea height
+  useEffect(() => {
+    adjustTextareaHeight();
+  }, []); // Run on mount
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       // Prevent shortcuts from affecting video when typing in the textarea
@@ -51,19 +77,28 @@ const CommentInputForm = ({
       textareaRef.current?.removeEventListener('keydown', handleKeyDown);
     };
   }, []);
+
+  const handleTextChange = () => {
+    adjustTextareaHeight();
+  };
   return (
-    <form className="grid gap-4" onSubmit={handleFormSubmit} ref={formRef}>
+    <form
+      className="flex flex-col gap-4 rounded-xl"
+      onSubmit={handleFormSubmit}
+      ref={formRef}
+    >
       <textarea
         ref={textareaRef}
         id="content"
         name="content"
-        className="min-h-[50px] rounded-md dark:bg-gray-800 border-2 text-muted-foreground p-2 "
-        placeholder="Add a public comment..."
+        className="w-full resize-none border-b border-primary/25 bg-transparent p-4 focus:outline-none focus:ring-0"
+        placeholder={parentId ? 'Add a reply...' : 'Add a comment...'}
+        onChange={handleTextChange} // Adjust height on text change
       />
       <FormErrors id="content" errors={fieldErrors} />
-      <div className="flex justify-end gap-2">
-        <Button type="submit">Comment</Button>
-      </div>
+      <Button type="submit" disabled={isLoading} className="w-fit">
+        {parentId ? 'Reply' : 'Comment'}
+      </Button>
     </form>
   );
 };

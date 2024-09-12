@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { AddNotionMetadata } from './AddNotionMetadata';
 import { Input } from '../ui/input';
+import { Button } from '../ui/button';
 
 export const AddContent = ({
   courseId,
@@ -17,75 +18,60 @@ export const AddContent = ({
   const [adminPassword, setAdminPassword] = useState('');
 
   return (
-    <div>
-      <div className="">
-        <div className="p-2 space-x-2">
-          <button
-            className={`${type === 'video' ? 'bg-green-500' : 'bg-blue-500'} text-white font-bold py-2 px-4 rounded`}
-            onClick={() => setType('video')}
-          >
-            Video
-          </button>
-          <button
-            className={`${type === 'folder' ? 'bg-green-500' : 'bg-blue-500'}  text-white font-bold py-2 px-4 rounded`}
-            onClick={() => setType('folder')}
-          >
-            Folder
-          </button>
-          <button
-            className={`${type === 'notion' ? 'bg-green-500' : 'bg-blue-500'}  text-white font-bold py-2 px-4 rounded`}
-            onClick={() => setType('notion')}
-          >
-            Notion
-          </button>
-        </div>
-        <br /> <br />
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
-          <Input
-            className="dark:text-white text-black"
-            type="text"
-            placeholder="Title"
-            onChange={(e) => setTitle(e.target.value)}
-          />
-          <Input
-            className="dark:text-white text-black"
-            type="text"
-            placeholder="Image url"
-            onChange={(e) => setImageUri(e.target.value)}
-          />
-          <Input
-            className="dark:text-white text-black"
-            type="text"
-            placeholder="Admin password"
-            onChange={(e) => setAdminPassword(e.target.value)}
-          />
-        </div>
-        {type === 'video' && <AddVideosMetadata onChange={setMetadata} />}
-        {type === 'notion' && <AddNotionMetadata onChange={setMetadata} />}
-        <button
-          onClick={async () => {
-            await fetch('/api/admin/content', {
-              body: JSON.stringify({
-                type,
-                description: '',
-                thumbnail: imageUri,
-                title,
-                courseId,
-                parentContentId,
-                metadata,
-                adminPassword,
-              }),
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-            });
-          }}
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-        >
-          Submit
-        </button>
+    <div className="flex flex-col gap-4">
+      <div className="flex gap-2">
+        <Button size={'lg'} onClick={() => setType('video')}>
+          Video
+        </Button>
+        <Button size={'lg'} onClick={() => setType('folder')}>
+          Folder
+        </Button>
+        <Button size={'lg'} onClick={() => setType('notion')}>
+          Notion
+        </Button>
       </div>
+      <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3">
+        <Input
+          type="text"
+          placeholder="Title"
+          onChange={(e) => setTitle(e.target.value)}
+        />
+        <Input
+          type="text"
+          placeholder="Image url"
+          onChange={(e) => setImageUri(e.target.value)}
+        />
+        <Input
+          type="text"
+          placeholder="Admin password"
+          onChange={(e) => setAdminPassword(e.target.value)}
+        />
+      </div>
+      {type === 'video' && <AddVideosMetadata onChange={setMetadata} />}
+      {type === 'notion' && <AddNotionMetadata onChange={setMetadata} />}
+      <Button
+        onClick={async () => {
+          await fetch('/api/admin/content', {
+            body: JSON.stringify({
+              type,
+              description: '',
+              thumbnail: imageUri,
+              title,
+              courseId,
+              parentContentId,
+              metadata,
+              adminPassword,
+            }),
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          });
+        }}
+        className="w-fit"
+      >
+        Submit
+      </Button>
     </div>
   );
 };
@@ -128,9 +114,8 @@ function AddVideoMetadata({ onChange }: { onChange: (metadata: any) => void }) {
     onChange({ video_1080p, video_720p, video_360p });
   }, [video_1080p, video_720p, video_360p]);
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 py-2">
+    <div className="grid grid-cols-1 gap-2 py-2 sm:grid-cols-2 md:grid-cols-3">
       <Input
-        className="dark:text-white text-black"
         type="text"
         placeholder="1080p"
         onChange={async (e) => {
@@ -138,7 +123,6 @@ function AddVideoMetadata({ onChange }: { onChange: (metadata: any) => void }) {
         }}
       />
       <Input
-        className="dark:text-white text-black"
         type="text"
         placeholder="720p"
         onChange={async (e) => {
@@ -146,7 +130,6 @@ function AddVideoMetadata({ onChange }: { onChange: (metadata: any) => void }) {
         }}
       />
       <Input
-        className="dark:text-white text-black"
         type="text"
         placeholder="360p"
         onChange={async (e) => {

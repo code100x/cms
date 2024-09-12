@@ -1,6 +1,7 @@
+'use client';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Input } from '@/components/ui/input';
-import { SearchIcon, XCircleIcon } from 'lucide-react';
+import { SearchIcon, X } from 'lucide-react';
 import { TSearchedVideos } from '@/app/api/search/route';
 import { useRouter } from 'next/navigation';
 import useClickOutside from '@/hooks/useClickOutside';
@@ -94,21 +95,21 @@ const SearchBar = ({ onCardClick }: { onCardClick?: () => void }) => {
 
   return (
     <div
-      className="relative flex items-center w-full lg:w-[300px] xl:w-[400px] h-10"
+      className="relative flex h-10 w-full items-center lg:w-[32vw]"
       ref={ref}
     >
       {/* Search Input Bar */}
-      <SearchIcon className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-gray-500" />
+      <SearchIcon className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-primary/80" />
       <Input
         placeholder="Search for videos..."
-        className="px-10 border-2 focus-visible:ring-transparent rounded-full"
+        className="focus:ring-none rounded-lg border-none bg-primary/5 px-10 text-base focus:outline-none"
         value={searchTerm}
         onChange={handleInputChange}
         onFocus={() => setIsInputFocused(true)}
         ref={searchInputRef}
       />
       {searchTerm.length > 0 && (
-        <XCircleIcon
+        <X
           className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 transform cursor-pointer"
           onClick={handleClearInput}
         />
@@ -116,7 +117,7 @@ const SearchBar = ({ onCardClick }: { onCardClick?: () => void }) => {
 
       {/* Search Results */}
       {isInputFocused && searchTerm.length > 0 && (
-        <div className="absolute top-12 bg-white dark:bg-[#020817] rounded-lg border-2 shadow-lg w-full py-2 max-h-[40vh] overflow-y-auto">
+        <div className="absolute top-12 z-30 max-h-[40vh] w-full overflow-y-auto rounded-lg border-2 bg-background p-2 shadow-lg">
           {renderSearchResults()}
         </div>
       )}

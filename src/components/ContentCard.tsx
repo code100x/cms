@@ -1,18 +1,17 @@
-import { CheckCircle2 } from 'lucide-react';
-import PercentageComplete from './PercentageComplete';
+import { CheckCircle2, Play } from 'lucide-react';
 import { Bookmark } from '@prisma/client';
 import BookmarkButton from './bookmark/BookmarkButton';
 import { formatTime } from '@/lib/utils';
 import VideoThumbnail from './videothumbnail';
+import CardComponent from './CardComponent';
+import { motion } from 'framer-motion';
 
 export const ContentCard = ({
   title,
   onClick,
   markAsCompleted,
-  percentComplete,
   type,
   videoProgressPercent,
-  hoverExpand = true,
   bookmark,
   contentId,
   contentDuration,
@@ -25,40 +24,34 @@ export const ContentCard = ({
   markAsCompleted?: boolean;
   percentComplete?: number | null;
   videoProgressPercent?: number;
-  hoverExpand?: boolean;
   bookmark?: Bookmark | null;
   contentDuration?: number;
+  uploadDate?: string;
 }) => {
-  let image =
-    'https://d2szwvl7yo497w.cloudfront.net/courseThumbnails/folder.png';
-  if (type === 'notion') {
-    image = 'https://d2szwvl7yo497w.cloudfront.net/courseThumbnails/notes.png';
-  } else if (type === 'video') {
-    image = 'https://d2szwvl7yo497w.cloudfront.net/courseThumbnails/video.png';
-  }
   return (
-    <div
+    <motion.div
       onClick={onClick}
-      className={`relative ease-in duration-200 cursor-pointer group${hoverExpand ? ' ' : ''} `}
+      className={`group relative flex h-fit w-full max-w-md cursor-pointer flex-col gap-2 rounded-2xl transition-all duration-300 hover:-translate-y-2`}
     >
-      {percentComplete !== null && percentComplete !== undefined && (
-        <PercentageComplete percent={percentComplete} />
-      )}
       {markAsCompleted && (
-        <div className="absolute top-2 right-2 z-10">
+        <div className="absolute right-2 top-2 z-10">
           <CheckCircle2 color="green" size={30} fill="lightgreen" />
         </div>
       )}
       {type === 'video' && (
-        <div className=" absolute bottom-12 right-2 z-10  text-white bg-zinc-900 p-1 px-2 rounded-md font-semibold text-blue-900g">
-          {contentDuration && formatTime(contentDuration)}
+        <div className="absolute bottom-12 right-2 z-10 rounded-md p-2 font-semibold text-white">
+          <Play className="size-6" />
         </div>
       )}
       {type !== 'video' && (
         <div className="relative overflow-hidden rounded-md">
-          <img src={image} alt={title} className="" />
+          <CardComponent
+            title={title}
+            contentDuration={contentDuration && formatTime(contentDuration)}
+            type={type}
+          />
           {!!videoProgressPercent && (
-            <div className="absolute bottom-0 w-full h-1 bg-[#707071]">
+            <div className="absolute bottom-0 h-1 w-full bg-[#707071]">
               <div
                 className="h-full bg-[#FF0101]"
                 style={{ width: `${videoProgressPercent}%` }}
@@ -68,30 +61,31 @@ export const ContentCard = ({
         </div>
       )}
       {type === 'video' && (
-        <div className="relative overflow-hidden rounded-md ">
+        <div className="relative overflow-hidden">
           <VideoThumbnail
+            title={title}
             contentId={contentId ?? 0}
-            imageUrl={
-              'https://d2szwvl7yo497w.cloudfront.net/courseThumbnails/video.png'
-            }
+            imageUrl=""
+            // imageUrl={
+            //   'https://d2szwvl7yo497w.cloudfront.net/courseThumbnails/video.png'
+            // }
           />
         </div>
       )}
-
-      {bookmark !== undefined && contentId && (
-        <div className="absolute top-2 left-2">
+      <div className="flex items-center justify-between gap-4">
+        <h3 className="w-full truncate text-xl font-bold capitalize tracking-tighter md:text-2xl">
+          {title}
+        </h3>
+        {bookmark !== undefined && contentId && (
           <BookmarkButton
             bookmark={bookmark}
             contentId={contentId}
-            size={28}
-            align="start"
-            side="bottom"
+            size={24}
+            align="end"
+            side="top"
           />
-        </div>
-      )}
-      <div className="flex justify-between mt-2 text-gray-900 dark:text-white">
-        <div>{title} </div>
+        )}
       </div>
-    </div>
+    </motion.div>
   );
 };

@@ -1,0 +1,117 @@
+import db from '@/db';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/lib/auth';
+import { Content, CourseContent, VideoProgress } from '@prisma/client';
+import WatchHistoryClient from '@/components/WatchHistoryClient';
+import { Fragment } from 'react';
+
+export type TWatchHistory = VideoProgress & {
+  content: Content & {
+    parent: { id: number; courses: CourseContent[] } | null;
+    VideoMetadata: { duration: number | null } | null;
+  };
+};
+
+const formatWatchHistoryDate = (date: Date) => {
+  const now = new Date();
+  const diff = now.getTime() - date.getTime();
+  const diffInDays = diff / (1000 * 60 * 60 * 24);
+
+  if (diffInDays < 1) {
+    return 'Today';
+  } else if (diffInDays < 2) {
+    return 'Yesterday';
+  }
+  const currentYear = now.getFullYear();
+
+  const historyYear = date.getFullYear();
+
+  if (currentYear - historyYear > 0) {
+    return date.toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
+    });
+  }
+  return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+};
+
+const groupByWatchedDate = (userVideoProgress: TWatchHistory[]) => {
+  return userVideoProgress.reduce(
+    (acc, item) => {
+      const date = new Date(item.updatedAt);
+      const formattedDate = formatWatchHistoryDate(date);
+
+      if (!acc[formattedDate]) {
+        acc[formattedDate] = [];
+      }
+      acc[formattedDate].push(item);
+      return acc;
+    },
+    {} as { [key: string]: TWatchHistory[] },
+  );
+};
+
+async function getWatchHistory() {
+  const session = await getServerSession(authOptions);
+  if (!session?.user) {
+    return [];
+  }
+  const userId = session.user.id;
+
+  const userVideoProgress: TWatchHistory[] = await db.videoProgress.findMany({
+    where: {
+      userId,
+    },
+    include: {
+      content: {
+        include: {
+          VideoMetadata: {
+            select: {
+              duration: true,
+            },
+          },
+          parent: {
+            select: {
+              id: true,
+              courses: true,
+            },
+          },
+        },
+      },
+    },
+    orderBy: {
+      updatedAt: 'desc',
+    },
+  });
+
+  return userVideoProgress;
+}
+
+export default async function WatchHistoryPage() {
+  const watchHistory = await getWatchHistory();
+  const watchHistoryGroupedByDate = groupByWatchedDate(watchHistory);
+
+  return (
+    <div className="mx-auto my-16 flex min-h-screen w-full flex-col gap-4">
+      {/* Header */}
+      <div className="flex w-full flex-col justify-between gap-2">
+        <h1 className="text-4xl font-bold capitalize tracking-tighter md:text-5xl">
+          Watch History
+        </h1>
+      </div>
+      {Object.entries(watchHistoryGroupedByDate).map(([date, history]) => {
+        return (
+          <Fragment key={date}>
+            <h2 className="text-lg font-medium text-neutral-500 md:text-xl">
+              {date}
+            </h2>
+            <div className="flex h-full flex-col gap-4 rounded-2xl py-4">
+              <WatchHistoryClient history={history} />
+            </div>
+          </Fragment>
+        );
+      })}
+    </div>
+  );
+}

@@ -1,13 +1,34 @@
 'use client';
 import { Segment, formatTime } from '@/lib/utils';
-import { X } from 'lucide-react';
 import { useEffect, useState } from 'react';
-
+import { motion } from 'framer-motion';
 import videojs from 'video.js';
+
+const chaptersVariants = {
+  open: {
+    width: '100%',
+    opacity: 1,
+    y: 0,
+    transition: {
+      type: 'spring',
+      stiffness: 100,
+      damping: 10,
+    },
+  },
+  closed: {
+    width: 0,
+    opacity: 0,
+    y: -20,
+    transition: {
+      type: 'spring',
+      stiffness: 100,
+      damping: 10,
+    },
+  },
+};
 
 const VideoContentChapters = ({
   segments,
-  onCancel,
 }: {
   segments: any;
   onCancel: () => void;
@@ -34,33 +55,36 @@ const VideoContentChapters = ({
   }, [player]);
 
   return (
-    <div className="w-full lg:w-1/3 rounded-md shadow-md border text-sm">
-      <div className="flex items-center justify-between p-2 py-3 dark:bg-[#212020] bg-[#F5F5F5]">
-        <span>Chapters</span>
-        <X onClick={onCancel} className="cursor-pointer" />
-      </div>
-      <div className="max-h-[70vh] overflow-auto">
-        {(segments as Segment[])?.map(({ start, end, title }, index) => {
-          return (
-            <div key={`${index}-${start}${end}${title}`}>
-              <div
-                className={`dark:text-white text-black p-2 py-3 flex items-center gap-3 justify-between cursor-pointer ${currentTime >= start && currentTime < end ? 'dark:bg-[#27272A] bg-zinc-200' : ''}`}
-                onClick={() => {
-                  player.currentTime(start);
-                  player.play();
-                }}
-              >
-                <span>{title}</span>
-                <div className="dark:bg-[#263850] dark:text-[#37A4FF] bg-[#ffffff] text-[#040fff] px-1.5 py-0.5 rounded">
-                  {formatTime(start)}
+    <>
+      <motion.div
+        initial="closed"
+        animate="open"
+        exit="closed"
+        variants={chaptersVariants}
+        className="flex w-full flex-col"
+      >
+        <div className="flex w-full flex-wrap gap-2">
+          {(segments as Segment[])?.map(({ start, end, title }, index) => {
+            return (
+              <div key={`${index}-${start}${end}${title}`}>
+                <div
+                  className={`flex max-w-64 cursor-pointer items-center justify-between gap-2 rounded-lg p-4 transition-all duration-300 hover:bg-primary/10 ${currentTime >= start && currentTime < end ? 'bg-blue-500/10' : 'bg-primary/5'}`}
+                  onClick={() => {
+                    player.currentTime(start);
+                    player.play();
+                  }}
+                >
+                  <p className="truncate font-medium tracking-tight">{title}</p>
+                  <span className="rounded-full bg-blue-500/20 px-2 py-1 font-medium text-blue-500">
+                    {formatTime(start)}
+                  </span>
                 </div>
               </div>
-              {index !== segments.length - 1 && <hr />}
-            </div>
-          );
-        })}
-      </div>
-    </div>
+            );
+          })}
+        </div>
+      </motion.div>
+    </>
   );
 };
 

@@ -20,15 +20,12 @@ export default async function Course({
     fullCourseContent,
     rest.map((x) => parseInt(x, 10)),
   );
-  const contentType =
-    courseContent?.length === 1 ? courseContent[0]?.type : 'folder';
   const nextContent = null; //await getNextVideo(Number(rest[rest.length - 1]))
 
   return (
     <CourseView
       rest={rest}
       course={course}
-      contentType={contentType}
       nextContent={nextContent}
       courseContent={courseContent}
       fullCourseContent={fullCourseContent}

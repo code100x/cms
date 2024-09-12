@@ -1,12 +1,5 @@
-import db from '@/db';
-import { Courses } from '@/components/Courses';
+import { redirect } from 'next/navigation';
 
-async function getCourses() {
-  const courses = db.course.findMany();
-  return courses;
-}
-
-export default async function CoursesComponent() {
-  const courses = await getCourses();
-  return <Courses courses={courses} />;
+export default function CoursesComponent() {
+  return redirect('/home');
 }

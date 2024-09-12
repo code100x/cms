@@ -1,5 +1,4 @@
-import { XCircle } from 'lucide-react';
-
+import { motion } from 'framer-motion';
 interface FormErrorsProps {
   id: string;
   errors?: Record<string, string[] | undefined>;
@@ -11,20 +10,27 @@ export const FormPostErrors = ({ id, errors }: FormErrorsProps) => {
   }
 
   return (
-    <div
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{
+        duration: 0.5,
+        ease: 'easeInOut',
+        type: 'spring',
+        damping: 10,
+      }}
       id={`${id}-error`}
       aria-live="polite"
-      className="mt-2 text-xs text-rose-500"
+      className="mt-2 text-sm"
     >
       {errors?.[id]?.map((error: string) => (
         <div
           key={error}
-          className="flex items-center font-medium p-2 border border-rose-500 bg-rose-500/10 rounded-sm"
+          className="flex items-center gap-2 rounded-lg border border-red-600 bg-red-600/10 p-3 font-medium text-red-600"
         >
-          <XCircle className="h-4 w-4 mr-2" />
           {error}
         </div>
       ))}
-    </div>
+    </motion.div>
   );
 };

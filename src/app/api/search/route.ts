@@ -1,8 +1,8 @@
-import { Cache } from '@/db/Cache';
+import { cache } from '@/db/Cache';
 import db from '@/db';
 import { CourseContent } from '@prisma/client';
 import Fuse from 'fuse.js';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
 export type TSearchedVideos = {
   id: number;
@@ -21,12 +21,12 @@ const fuzzySearch = (videos: TSearchedVideos[], searchQuery: string) => {
   return searchedVideos.map((video) => video.item);
 };
 
-export async function GET(request: Request) {
+export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const searchQuery = searchParams.get('q');
 
   if (searchQuery && searchQuery.length > 2) {
-    const value: TSearchedVideos[] = await Cache.getInstance().get(
+    const value: TSearchedVideos[] = await cache.get(
       'getAllVideosForSearch',
       [],
     );
@@ -52,12 +52,7 @@ export async function GET(request: Request) {
       },
     });
 
-    Cache.getInstance().set(
-      'getAllVideosForSearch',
-      [],
-      allVideos,
-      24 * 60 * 60,
-    );
+    cache.set('getAllVideosForSearch', [], allVideos, 24 * 60 * 60);
 
     return NextResponse.json(fuzzySearch(allVideos, searchQuery));
   }

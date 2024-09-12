@@ -1,33 +1,21 @@
 import Link from 'next/link';
-import localFont from 'next/font/local';
-import { cn } from '@/lib/utils';
 
-const headingFont = localFont({
-  src: '../../../../public/fonts/font.woff2',
-});
-
-const Logo = ({ onFooter = false }: { onFooter: boolean }) => {
+const Logo = ({ text = false }: { text?: boolean }) => {
   return (
-    <Link href={'/'}>
-      <div className="hover:opacity-90 transition flex items-center gap-x-2">
-        <img
-          src={
-            'https://d2szwvl7yo497w.cloudfront.net/courseThumbnails/main.png'
-          }
-          className="rounded-full"
-          height={30}
-          width={30}
-        />
+    <Link href={'/'} className="flex w-full items-center gap-2">
+      <img
+        src={
+          'https://appx-wsb-gcp.akamai.net.in/subject/2023-01-17-0.17044360120951185.jpg'
+        }
+        className="size-10 rounded-full"
+      />
+      {text && (
         <p
-          className={cn(
-            'dark:text-neutral-100 text-neutral-700',
-            onFooter ? 'text-3xl text-neutral-200' : 'text-xl',
-            headingFont.className,
-          )}
+          className={`w-full bg-gradient-to-b from-blue-400 to-blue-700 bg-clip-text text-xl font-black tracking-tighter text-transparent md:text-2xl`}
         >
-          100xdevs
+          100xDevs
         </p>
-      </div>
+      )}
     </Link>
   );
 };

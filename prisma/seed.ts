@@ -37,7 +37,7 @@ async function seedCourses() {
   const courses = [
     {
       id: 1,
-      appxCourseId: 1,
+      appxCourseId: '1',
       discordRoleId: '2',
       title: 'test course 1',
       imageUrl:
@@ -48,7 +48,7 @@ async function seedCourses() {
     },
     {
       id: 2,
-      appxCourseId: 2,
+      appxCourseId: '2',
       discordRoleId: '3',
       title: 'test course 2',
       imageUrl:
@@ -59,7 +59,7 @@ async function seedCourses() {
     },
     {
       id: 3,
-      appxCourseId: 2,
+      appxCourseId: '2',
       discordRoleId: '3',
       title: 'test course 2',
       imageUrl:
@@ -70,7 +70,7 @@ async function seedCourses() {
     },
     {
       id: 4,
-      appxCourseId: 2,
+      appxCourseId: '2',
       discordRoleId: '3',
       title: 'test course 2',
       imageUrl:
@@ -81,7 +81,7 @@ async function seedCourses() {
     },
     {
       id: 5,
-      appxCourseId: 2,
+      appxCourseId: '2',
       discordRoleId: '3',
       title: 'test course 2',
       imageUrl:
@@ -107,39 +107,43 @@ async function seedCourses() {
 }
 
 async function seedContent() {
-  const content = [
-    {
-      id: 1,
-      type: 'folder',
-      title: 'week 1',
-      hidden: false,
-      thumbnail:
-        'https://appx-recordings.s3.ap-south-1.amazonaws.com/drm/100x/images/week-1.jpg',
-      commentsCount: 0,
-    },
-    {
-      id: 2,
-      type: 'notion',
-      title: 'Notes for week 1',
-      hidden: false,
-      thumbnail:
-        'https://appx-recordings.s3.ap-south-1.amazonaws.com/drm/100x/images/notes.png',
-      parentId: 1,
-      commentsCount: 0,
-    },
-    {
-      id: 3,
-      type: 'video',
-      title: 'test video for week 1',
-      hidden: false,
-      thumbnail:
-        'https://appx-recordings.s3.ap-south-1.amazonaws.com/drm/100x/images/week-1-orientation.jpg',
-      parentId: 1,
-      commentsCount: 0,
-    },
-  ];
+  const folderData = {
+    type: 'folder',
+    title: 'week 1',
+    hidden: false,
+    thumbnail:
+      'https://appx-recordings.s3.ap-south-1.amazonaws.com/drm/100x/images/week-1.jpg',
+    commentsCount: 0,
+  };
+
   try {
-    await db.content.createMany({ data: content });
+    const createdFolder = await db.content.create({ data: folderData });
+    console.log('Created folder:', createdFolder);
+    const folderId = createdFolder.id;
+
+    const contentData = [
+      {
+        type: 'notion',
+        title: 'Notes for week 1',
+        hidden: false,
+        thumbnail:
+          'https://appx-recordings.s3.ap-south-1.amazonaws.com/drm/100x/images/notes.png',
+        parentId: folderId,
+        commentsCount: 0,
+      },
+      {
+        type: 'video',
+        title: 'test video for week 1',
+        hidden: false,
+        thumbnail:
+          'https://appx-recordings.s3.ap-south-1.amazonaws.com/drm/100x/images/week-1-orientation.jpg',
+        parentId: folderId,
+        commentsCount: 0,
+      },
+    ];
+
+    const createdContent = await db.content.createMany({ data: contentData });
+    console.log('Created content:', createdContent);
   } catch (error) {
     console.error('Error seeding content:', error);
     throw error;
@@ -247,6 +251,37 @@ async function seedPurchases() {
   }
 }
 
+export async function addClassesFromAugustToMay() {
+  const startDate = new Date('2024-08-01T00:00:00+05:30');
+  const endDate = new Date('2025-05-31T23:59:59+05:30');
+
+  for (
+    let date = new Date(startDate);
+    date <= endDate;
+    date.setDate(date.getDate() + 1)
+  ) {
+    if (date.getDay() === 5) {
+      // Friday
+      await db.event.create({
+        data: {
+          title: 'Web 3 Class',
+          start: new Date(date.setHours(19, 30, 0, 0)),
+          end: new Date(date.setHours(21, 30, 0, 0)),
+        },
+      });
+    } else if (date.getDay() === 6 || date.getDay() === 0) {
+      // Saturday or Sunday
+      await db.event.create({
+        data: {
+          title: 'WebDevs/Devops Class',
+          start: new Date(date.setHours(19, 30, 0, 0)),
+          end: new Date(date.setHours(21, 30, 0, 0)),
+        },
+      });
+    }
+  }
+}
+
 async function seedDatabase() {
   try {
     await seedUsers();
@@ -256,6 +291,7 @@ async function seedDatabase() {
     await seedNotionMetadata();
     await seedVideoMetadata();
     await seedPurchases();
+    await addClassesFromAugustToMay();
   } catch (error) {
     console.error('Error seeding database:', error);
     throw error;

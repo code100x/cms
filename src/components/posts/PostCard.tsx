@@ -3,14 +3,11 @@ import '@uiw/react-md-editor/markdown-editor.css';
 import '@uiw/react-markdown-preview/markdown.css';
 import React, { useState } from 'react';
 import VoteForm from './form/form-vote';
-import TextSnippet from './textSnippet';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 dayjs.extend(relativeTime);
 import MDEditor from '@uiw/react-md-editor';
-
 import DeleteForm from './form/form-delete';
-
 import Link from 'next/link';
 import Tag from './tag';
 
@@ -22,21 +19,14 @@ import {
 import { useAction } from '@/hooks/useAction';
 import { createAnswer } from '@/actions/answer';
 import { toast } from 'sonner';
-
 import { useTheme } from 'next-themes';
 import { Answer } from '@prisma/client';
 import { Avatar, AvatarFallback } from '../ui/avatar';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from '../ui/dropdown-menu';
-import { MessageSquareReply, MoreHorizontal } from 'lucide-react';
+import { Reply } from 'lucide-react';
 import { ROLES } from '@/actions/types';
 import { FormPostErrors } from './form/form-errors';
+import { useRouter } from 'next/navigation';
 import { Button } from '../ui/button';
-import { Card, CardFooter } from '../ui/card';
-import { CardBody } from '../3dcard';
 
 interface IProps {
   post: ExtendedQuestion | ExtendedAnswer;
@@ -45,6 +35,7 @@ interface IProps {
   enableLink?: boolean;
   isAnswer?: boolean;
   questionId: number;
+  parentAuthorName?: string | null;
 }
 const isExtendedQuestion = (
   post: ExtendedQuestion | Answer,
@@ -58,6 +49,7 @@ const PostCard: React.FC<IProps> = ({
   reply = false,
   enableLink = false,
   isAnswer = true,
+  parentAuthorName,
 }) => {
   const { theme } = useTheme();
   const [markDownValue, setMarkDownValue] = useState('');
@@ -68,11 +60,13 @@ const PostCard: React.FC<IProps> = ({
     }
   };
 
+  const router = useRouter();
+
   const { execute, fieldErrors } = useAction(createAnswer, {
     onSuccess: () => {
-      toast.success(`Answer created`);
+      toast.success(`Reply added`);
       if (!fieldErrors?.content) {
-        setEnableReply((prev) => !prev);
+        setEnableReply(false);
         setMarkDownValue('');
       }
     },
@@ -80,6 +74,7 @@ const PostCard: React.FC<IProps> = ({
       toast.error(error);
     },
   });
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     execute({
@@ -89,164 +84,168 @@ const PostCard: React.FC<IProps> = ({
     });
   };
 
-  const internalDetails = () => {
-    return (
-      <div className="w-full">
-        <div className="flex items-center justify-between gap-3 my-2">
-          <div className="flex items-center gap-3 w-full">
-            <Avatar className="cursor-pointer">
-              <AvatarFallback>
-                {post.author.name?.substring(0, 2).toUpperCase()}
-              </AvatarFallback>
-            </Avatar>
-            <div className="flex flex-col">
-              <TextSnippet className="font-medium mb-1">
-                {post.author.name}
-              </TextSnippet>
-              <div className="flex items-center">
-                <TextSnippet className="text-xs text-gray-500">
-                  {dayjs(post.createdAt).fromNow()}
-                </TextSnippet>
-                <TextSnippet className="text-xs text-gray-500 ml-1">
-                  • Updated {dayjs(post.updatedAt).fromNow()}
-                </TextSnippet>
-              </div>
+  const formatNumber = (num: number) => {
+    if (num >= 1000) {
+      return `${(num / 1000).toFixed(1).replace(/\.0$/, '')}K`;
+    }
+    return num.toString();
+  };
+
+  return (
+    <div
+      className={`flex w-full cursor-pointer flex-col gap-4 p-3 transition-all duration-300 sm:p-5 ${
+        !post.content && !isAnswer
+          ? `rounded-xl bg-neutral-50 hover:-translate-y-2 dark:bg-neutral-900`
+          : `rounded-r-xl border-l-2 border-blue-500 bg-primary/5`
+      }`}
+      onClick={() => {
+        if (isExtendedQuestion(post)) {
+          router.push(`/question/${post?.slug}`);
+        }
+      }}
+    >
+      <div className="flex w-full flex-col items-start justify-between sm:flex-row sm:items-center">
+        <div className="mb-2 flex items-center gap-2 sm:mb-0">
+          <Avatar>
+            <AvatarFallback>
+              {post.author.name?.substring(0, 1).toUpperCase()}
+            </AvatarFallback>
+          </Avatar>
+          <div className="flex flex-col">
+            <span className="font-bold tracking-tight">{post.author.name}</span>
+            <div className="text-xs tracking-tight text-primary/80 sm:text-sm">
+              {post.updatedAt ? (
+                <span>Updated {dayjs(post.updatedAt).fromNow()}</span>
+              ) : (
+                <span>Created {dayjs(post.createdAt).fromNow()}</span>
+              )}
             </div>
           </div>
-          <DropdownMenu>
-            <DropdownMenuTrigger>
-              <MoreHorizontal
-                size={35}
-                className="active:outline-none hover:outline-none rounded-full border p-1.5 "
-              />
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="rounded-xl backdrop-blur bg-gray-200/30  dark:bg-gray-700/30 px-2 cursor-pointer py-2">
-              {(sessionUser?.role === ROLES.ADMIN ||
-                post?.author?.id === sessionUser?.id) && (
-                <DeleteForm
-                  key={post.id}
-                  questionId={!isAnswer ? post.id : undefined}
-                  answerId={isAnswer ? post.id : undefined}
-                />
-              )}
-              <hr />
-              {/* <DropdownMenuItem className="text-sm px-1 py-2 hover:border-none hover:outline-none">
-                            Report spam
-                          </DropdownMenuItem> */}
-            </DropdownMenuContent>
-          </DropdownMenu>
         </div>
+        {(sessionUser?.role === ROLES.ADMIN ||
+          post?.author?.id === sessionUser?.id) && (
+          <DeleteForm
+            key={post.id}
+            questionId={!isAnswer ? post.id : undefined}
+            answerId={isAnswer ? post.id : undefined}
+          />
+        )}
+      </div>
+
+      {parentAuthorName && isAnswer && (
+        <div className="text-xs text-primary/70 sm:text-sm">
+          Replied to <span className="font-bold">{parentAuthorName}</span>
+        </div>
+      )}
+
+      {!isAnswer && !enableLink && isExtendedQuestion(post) && (
+        <span className="line-clamp-2 text-lg font-bold tracking-tight sm:text-xl">
+          {post?.title}
+        </span>
+      )}
+
+      {!isAnswer && enableLink && isExtendedQuestion(post) && (
+        <Link href={`/question/${post?.slug}`}>
+          <span className="line-clamp-2 text-lg font-bold tracking-tight sm:text-xl">
+            {post?.title}
+          </span>
+        </Link>
+      )}
+
+      <div className="flex flex-wrap items-center gap-2">
         {isExtendedQuestion(post) &&
           post.tags
             .filter((v) => v !== '')
             .map((v, index) => <Tag name={v} key={index + v} />)}
+      </div>
 
-        {!isAnswer && enableLink && isExtendedQuestion(post) && (
-          <Link href={`/questions/${post?.slug}`}>
-            <TextSnippet className="text-lg  py-2 hover:underline">
-              {post?.title}
-            </TextSnippet>
-          </Link>
-        )}
-        {!isAnswer && !enableLink && isExtendedQuestion(post) && (
-          <TextSnippet className="text-lg  py-2 hover:underline">
-            {post?.title}
-          </TextSnippet>
-        )}
-        {post.content && (
-          <div data-color-mode={theme}>
-            <div className="wmde-markdown-var"> </div>
-            <MDEditor.Markdown
-              className="text-black dark:text-white"
-              source={post.content}
-              style={{
-                whiteSpace: 'pre-wrap',
-                wordBreak: 'break-word',
-                overflowWrap: 'break-word',
-                backgroundColor: 'transparent',
-              }}
-            />
-          </div>
-        )}
+      {post.content && (
+        <div data-color-mode={theme} className="mb-4 w-full rounded-xl">
+          <div className="wmde-markdown-var"> </div>
+          <MDEditor.Markdown
+            className="markdown-editor-default-font text-sm sm:text-base"
+            source={post.content}
+            style={{
+              whiteSpace: 'pre-wrap',
+              wordBreak: 'break-word',
+              overflowWrap: 'break-word',
+              backgroundColor: 'transparent',
+            }}
+          />
+        </div>
+      )}
 
-        {enableReply && (
-          <div>
-            <hr className="mt-3 mb-3" />
-            <form onSubmit={handleSubmit}>
-              <div data-color-mode={theme}>
-                <div className="wmde-markdown-var"> </div>
-                <MDEditor
-                  id={post.id.toString()}
-                  value={markDownValue}
-                  onChange={handleMarkdownChange}
-                />
-                <FormPostErrors id="content" errors={fieldErrors} />
-                <Button type="submit" className="m-3">
-                  Reply
-                </Button>
-              </div>
-            </form>
-          </div>
+      <div className="flex flex-wrap items-center gap-2">
+        <VoteForm
+          upvotes={post.upvotes}
+          downvotes={post.downvotes}
+          questionId={isAnswer ? undefined : post.id}
+          answerId={isAnswer ? post.id : undefined}
+          key={post.id}
+          votesArr={post.votes || []}
+        />
+        {reply && (
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setEnableReply((prev) => !prev)}
+            className="text-xs sm:text-sm"
+          >
+            <Reply className="mr-1 size-4" />
+            {enableReply ? 'Close' : 'Reply'}
+          </Button>
+        )}
+        {!isAnswer && (
+          <p className="text-xs tracking-tight text-primary/70 sm:text-sm">
+            • {formatNumber(post.totalanswers)}{' '}
+            {post.totalanswers === 1 ? 'reply' : 'replies'}
+          </p>
         )}
       </div>
-    );
-  };
-  return (
-    <Card className="w-full bg-background ">
-      <CardBody className="flex gap-5 items-start justify-between h-auto w-full p-2 sm:p-4">
-        <div className="flex flex-1 flex-row items-start justify-between w-full">
-          {internalDetails()}
-        </div>
-      </CardBody>
 
-      <CardFooter className="flex items-center justify-between  border-gray-200 dark:border-gray-700 flex-col p-0 px-1 pb-2 md:px-5">
-        <div className="flex justify-between w-full">
-          <div className="flex">
-            <VoteForm
-              upvotes={post.upvotes}
-              downvotes={post.downvotes}
-              questionId={isAnswer ? undefined : post.id}
-              answerId={isAnswer ? post.id : undefined}
-              key={post.id}
-              votesArr={post.votes || []}
+      {enableReply && (
+        <form onSubmit={handleSubmit} className="mt-4">
+          <div data-color-mode={theme} className="flex w-full flex-col gap-4">
+            <MDEditor
+              className="markdown-editor-default-font text-sm sm:text-base"
+              id={post.id.toString()}
+              value={markDownValue}
+              onChange={handleMarkdownChange}
+              preview="edit"
+              visibleDragbar={false}
+              height={200}
             />
-            <TextSnippet className="flex items-center gap-2 cursor-pointer">
-              {reply && (
-                <Button
-                  className="text-blue-600 dark:text-blue-400"
-                  variant="ghost"
-                  onClick={() => setEnableReply((prev) => !prev)}
-                >
-                  {reply && enableReply ? 'close' : 'reply'}
-                </Button>
-              )}
-              <MessageSquareReply
-                size={18}
-                color="#3B81F6"
-                fill="#3B81F6"
-                className="hover:scale-125 duration-300 ease-in-out ml-1"
-              />
-              <p className="text-sm">{post.totalanswers}</p>
-            </TextSnippet>
+            <FormPostErrors id="content" errors={fieldErrors} />
+            <Button type="submit" size="sm" className="w-full sm:w-auto">
+              Add a reply
+            </Button>
+            <p className="text-xs text-primary/80 sm:text-sm">
+              Be respectful towards others while answering
+            </p>
           </div>
-        </div>
-        {isAnswer &&
-          !isExtendedQuestion(post) &&
-          post.responses &&
-          post?.responses.length > 0 &&
-          post?.responses.map((post: ExtendedAnswer) => (
-            <div key={post.id} className="w-full">
-              <hr className="mt-1 mb-1 w-3 m-auto" />
-              <PostCard
-                questionId={post.questionId}
-                post={post}
-                sessionUser={sessionUser}
-                reply={true}
-              />
-            </div>
-          ))}
-      </CardFooter>
-    </Card>
+        </form>
+      )}
+
+      {isAnswer &&
+        !isExtendedQuestion(post) &&
+        post.responses &&
+        post?.responses.length > 0 && (
+          <div className="mt-4 space-y-4">
+            {post?.responses.map((nestedPost: ExtendedAnswer) => (
+              <div key={nestedPost.id}>
+                <PostCard
+                  questionId={nestedPost.questionId}
+                  post={nestedPost}
+                  sessionUser={sessionUser}
+                  reply={false}
+                  parentAuthorName={post.author.name}
+                  isAnswer={true}
+                />
+              </div>
+            ))}
+          </div>
+        )}
+    </div>
   );
 };
 
