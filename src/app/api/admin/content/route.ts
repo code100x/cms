@@ -14,7 +14,7 @@ interface DiscordData {
 
 const sendUpdateToDiscord = async (data: DiscordData) => {
   const body = {
-    content: 'Hello @everyone',
+    content: 'Hello everyone',
     tts: false,
     color: 'white',
     embeds: [
