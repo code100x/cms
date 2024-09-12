@@ -1,23 +1,23 @@
 version: '3.5'
 services:
-  app:
-    build: .
-    container_name: cms-docker
-    environment:
-      - DATABASE_URL=postgresql://postgres:postgres@db:5432/cms?schema=public
-      - NEXT_WEBPACK_USEPOLLING=1
-    ports:
-      - '3000:3000'
-      - '5555:5555'
-    volumes:
-      - .:/usr/src/app
-      - /usr/src/app/node_modules
-    depends_on:
-      db:
-        condition: service_healthy
+  # app:
+  #   build: .
+  #   container_name: cms-docker
+  #   environment:
+  #     - DATABASE_URL=postgresql://postgres:postgres@db:5432/cms?schema=public
+  #     - NEXT_WEBPACK_USEPOLLING=1
+  #   ports:
+  #     - '3000:3000'
+  #     - '5555:5555'
+  #   volumes:
+  #     - .:/usr/src/app
+  #     - /usr/src/app/node_modules
+  #   depends_on:
+  #     db:
+  #       condition: service_healthy
 
   db:
-    image: postgres:9.6
+    image: postgres
     container_name: db
     restart: always
     environment:
