@@ -2,8 +2,8 @@
 import { useEffect, useState } from 'react';
 import NewPayoutDialog from '@/components/NewPayoutDialog';
 import { GitHubLinkButton } from '@/components/GitHubLinkButton';
-import SOL from '../../../public/platform/sol.svg';
-import UPI from '../../../public/platform/upi.svg';
+import SOL from '../../../../../public/platform/sol.svg';
+import UPI from '../../../../../public/platform/upi.svg';
 import { PayoutMethodCard } from '@/components/PaymentMethodCard';
 import { usePayoutMethods } from '@/hooks/usePayoutMethod';
 
