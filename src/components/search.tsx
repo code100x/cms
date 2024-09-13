@@ -19,7 +19,7 @@ const Search = () => {
   };
   return (
     <div className="relative flex h-10 w-full items-center md:w-[300px] lg:w-[400px] xl:w-[500px]">
-      <SearchIcon className="absolute left-5 top-1/2 h-4 w-4 -translate-y-1/2 transform text-gray-500" />
+      <SearchIcon className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 transform text-gray-500" />
       <Input
         aria-label="Search Input"
         className="focus:ring-none rounded-lg border-none bg-primary/5 px-10 text-base focus:outline-none"
