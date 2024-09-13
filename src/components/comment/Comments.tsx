@@ -65,8 +65,8 @@ const Comments = async ({
   const modifiedSearchParams = { ...searchParams };
   delete modifiedSearchParams.parentId;
   return (
-    <div className="flex w-full flex-col gap-8">
-      <div className="flex flex-col gap-4">
+    <div className="over flex w-full flex-col gap-8 overflow-x-hidden">
+      <div className="flex max-w-7xl flex-col gap-4">
         {data.parentComment && (
           <Link
             href={getUpdatedUrl(
@@ -217,7 +217,7 @@ const Comments = async ({
           parentId={data?.parentComment?.id}
         />
       </div>
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-4 break-words">
         <div className="grid grid-cols-1 gap-6">
           {data.comments.map((c) => (
             <div className="flex w-full items-start gap-4" key={c.id}>

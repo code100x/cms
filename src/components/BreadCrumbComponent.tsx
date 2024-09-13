@@ -93,14 +93,14 @@ export default function BreadCrumbComponent({
               finalRouteArray = [...rest];
             }
             return (
-              <>
+              <div key={index} className="flex items-center">
                 {index !== array.length - 1 ? (
                   <>
                     <BreadcrumbItem>
                       <BreadcrumbLink asChild>
                         <Link
                           href={`/courses/${course.id}/${finalRouteArray.join('/')}`}
-                          className="text-sm font-semibold capitalize text-primary/60"
+                          className="mr-2 text-sm font-semibold capitalize text-primary/60"
                         >
                           {breadcrumb?.title}
                         </Link>
@@ -116,7 +116,7 @@ export default function BreadCrumbComponent({
                     </BreadcrumbPage>
                   </BreadcrumbItem>
                 )}
-              </>
+              </div>
             );
           })}
         </BreadcrumbList>
