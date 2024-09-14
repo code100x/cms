@@ -76,7 +76,7 @@ export default function LandingPage() {
               href={'https://harkirat.classx.co.in/new-courses'}
               target="_blank"
             >
-              Explore Courses
+              Explore Me
             </Link>
           </Button>
           <Button size={'lg'} asChild>

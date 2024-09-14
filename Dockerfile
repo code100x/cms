@@ -1,17 +1,24 @@
+# Use the Node.js 20 Alpine base image
 FROM node:20-alpine
-ARG DATABASE_URL
 
+# Set the working directory inside the container
 WORKDIR /usr/src/app
 
-# Install pnpm globally
-RUN npm install -g pnpm
+# Copy over package files and Prisma schema
+COPY package.json package-lock.json ./
+COPY prisma ./prisma
 
+# Install dependencies
+RUN npm install
+
+# Copy the rest of the application files
 COPY . .
-RUN pnpm install
-RUN DATABASE_URL=$DATABASE_URL npx prisma generate
-RUN DATABASE_URL=$DATABASE_URL pnpm run build
 
+# Build the Next.js application
+RUN npm run build
+
+# Expose the port for the app (3000 for Next.js)
 EXPOSE 3000
 
-CMD ["pnpm", "run", "start"]
-
+# Command to run the app in production mode
+CMD ["npm", "run", "start"]

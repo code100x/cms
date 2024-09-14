@@ -2,6 +2,7 @@ version: '3.5'
 services:
   app:
     build: .
+    command: sh -c "pnpm run build && pnpm start"
     container_name: cms-docker
     environment:
       - DATABASE_URL=postgresql://postgres:postgres@db:5432/cms?schema=public
