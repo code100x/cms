@@ -54,7 +54,6 @@ const VideoThumbnail = ({
                 className="h-full w-full object-cover"
               />
             ) : (
-              //@ts-ignore
               <CardComponent type="video" title={title} />
             )}
           </>
