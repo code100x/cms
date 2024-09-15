@@ -150,6 +150,7 @@ export const ContentRenderer = async ({
         nextContent={nextContent}
         metadata={metadata}
         content={content}
+        bookmark={content.bookmark}
       />
     </div>
   );

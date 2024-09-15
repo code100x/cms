@@ -4,10 +4,10 @@ import { UserIcon } from 'lucide-react';
 
 const UserAdminPage = () => {
   return (
-    <div className="flex flex-col gap-4 mx-auto px-4 max-w-7xl h-[100dvh]">
-      <section className='flex gap-2 border-2 p-4 bg-primary/5 rounded-lg my-4 items-center'>
+    <div className="mx-auto flex h-[100dvh] max-w-7xl flex-col gap-4 px-4">
+      <section className="my-4 flex items-center gap-2 rounded-lg border-2 bg-primary/5 p-4">
         <UserIcon size={18} />
-        <h2 className='text-md font-bold'>User Mangement</h2>
+        <h2 className="text-md font-bold">User Mangement</h2>
       </section>
       <LogoutUserComp />
     </div>
