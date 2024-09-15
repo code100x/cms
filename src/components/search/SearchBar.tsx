@@ -93,24 +93,43 @@ const SearchBar = ({ onCardClick }: { onCardClick?: () => void }) => {
     ));
   };
 
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if ((event.ctrlKey || event.metaKey) && event.key === 'k') {
+        event.preventDefault();
+        searchInputRef.current?.focus();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
+
   return (
     <div
-      className="relative flex h-10 w-full items-center lg:w-[32vw]"
+      className="relative flex h-10 w-full items-center lg:w-[28vw]"
       ref={ref}
     >
       {/* Search Input Bar */}
       <SearchIcon className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-primary/80" />
       <Input
-        placeholder="Search for videos..."
-        className="focus:ring-none rounded-lg border-none bg-primary/5 px-10 text-base focus:outline-none"
+        placeholder="Search..."
+        className="focus:ring-none rounded-lg border-none bg-primary/5 pl-10 pr-24 text-base hover:bg-primary/10 focus:outline-none"
         value={searchTerm}
         onChange={handleInputChange}
         onFocus={() => setIsInputFocused(true)}
         ref={searchInputRef}
       />
+      <kbd className="pointer-events-none absolute right-[0.5rem] top-[0.5rem] hidden h-6 select-none items-center gap-1 rounded border bg-muted px-2 font-mono font-medium opacity-100 sm:flex">
+        <span>⌘</span>
+        <span>K</span>
+      </kbd>
       {searchTerm.length > 0 && (
         <X
-          className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 transform cursor-pointer"
+          className="absolute right-20 top-1/2 h-4 w-4 -translate-y-1/2 transform cursor-pointer"
           onClick={handleClearInput}
         />
       )}

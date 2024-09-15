@@ -28,12 +28,6 @@ git clone https://github.com/code100x/cms.git
 
 ```
 
-```bash
-
-git clone https://github.com/code100x/cms.git
-
-```
-
 2. Navigate to the project directory:
 
 ```bash
@@ -42,21 +36,7 @@ cd cms
 
 ```
 
-```bash
-
-cd cms
-
-```
-
 3. Run the following command to start the application:
-
-```bash
-
-docker volume create postgres-data # (optional) run this command if you face any mount volume / volume not exist error
-
-docker-compose up
-
-```
 
 ```bash
 
@@ -201,16 +181,6 @@ We welcome contributions from the community! To contribute to CMS, follow these 
 2. Create a new branch (`git checkout -b feature/fooBar`).
 
 3. Make your changes and commit them (`git commit -am 'Add some fooBar'`).
-
-> Before committing, ensure your code is properly formatted and linted:
-
-> - Run `npm run lint:check` to check for lint errors
-
-> - Run `npm run lint:fix` to automatically fix lint errors
-
-> - Run `npm run format:check` to check code formatting
-
-> - Run `npm run format:fix` to automatically fix formatting issues
 
 > Before committing, ensure your code is properly formatted and linted:
 

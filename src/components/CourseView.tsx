@@ -38,7 +38,7 @@ export const CourseView = ({
     ? 'folder'
     : courseContent?.value.type;
   return (
-    <div className="flex w-full flex-col gap-8 pb-16 pt-8">
+    <div className="flex min-h-screen w-full flex-col gap-8">
       <div className="flex flex-col gap-4">
         <BreadCrumbComponent
           course={course}

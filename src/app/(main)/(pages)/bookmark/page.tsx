@@ -13,7 +13,7 @@ export default async function BookmarksPage() {
   const bookmarkData = await getBookmarkDataWithContent();
 
   return (
-    <main className="flex flex-col gap-4 pb-16 pt-8">
+    <main className="flex flex-col gap-4">
       <div className="flex flex-col justify-between gap-2 md:flex-row">
         <h1 className="text-wrap text-3xl font-extrabold capitalize tracking-tighter md:text-4xl">
           Bookmarks

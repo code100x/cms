@@ -2,21 +2,23 @@
 
 import { motion, AnimatePresence } from 'framer-motion';
 import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import Link from 'next/link';
-import { ArrowLeft, Menu } from 'lucide-react';
+import { Menu, SidebarClose, SidebarOpen } from 'lucide-react';
 import { Button } from './ui/button';
 import { AppbarAuth } from './AppbarAuth';
 import { SelectTheme } from './ThemeToggler';
 import ProfileDropdown from './profile-menu/ProfileDropdown';
+import { useRecoilState } from 'recoil';
+import { appbarOpen as appbarOpenAtom } from '@/store/atoms/appbar';
 
 export const Navbar = () => {
   const { data: session } = useSession();
-  const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isAppbarOpen, setIsAppbarOpen] = useRecoilState(appbarOpenAtom);
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+  const toggleAppbar = () => setIsAppbarOpen((prev) => !prev);
 
   const navItemVariants = {
     hidden: { opacity: 0, y: -20 },
@@ -42,7 +44,7 @@ export const Navbar = () => {
           damping: 10,
           stiffness: 100,
         }}
-        className="fixed z-[999] top-0 w-full border-b border-primary/10 bg-background"
+        className="w-full border-b bg-background"
       >
         <div className="wrapper flex w-full items-center justify-between p-3">
           <motion.div
@@ -53,14 +55,16 @@ export const Navbar = () => {
             custom={0}
           >
             {session?.user && (
-              <Button
-                onClick={() => router.back()}
-                variant={'ghost'}
-                size={'icon'}
-                className="flex items-center gap-2"
+              <motion.button
+                onClick={toggleAppbar}
+                className="hidden items-center rounded-lg bg-blue-600/5 p-3 text-center transition-all duration-300 hover:bg-blue-600/10 hover:text-blue-500 md:flex"
               >
-                <ArrowLeft className="size-6" />
-              </Button>
+                {isAppbarOpen ? (
+                  <SidebarClose className="size-6" />
+                ) : (
+                  <SidebarOpen className="size-6" />
+                )}
+              </motion.button>
             )}
             <Link href={'/'} className="flex items-center gap-2">
               <img

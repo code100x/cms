@@ -2,10 +2,11 @@
 import { useSearchParams, useRouter } from 'next/navigation';
 import { VideoPlayerSegment } from '@/components/VideoPlayerSegment';
 import VideoContentChapters from '../VideoContentChapters';
-import { ChevronDown, ChevronUp } from 'lucide-react';
+import { Eye, EyeOff } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import { Button } from '../ui/button';
 import Link from 'next/link';
+import { Separator } from '../ui/separator';
 
 export const ContentRendererClient = ({
   metadata,
@@ -72,8 +73,8 @@ export const ContentRendererClient = ({
   };
 
   return (
-    <div className="flex w-full flex-col gap-2">
-      <div className="flex w-full flex-col">
+    <div className="flex w-full flex-col gap-2 lg:flex-row">
+      <div className="flex w-full flex-col gap-2">
         <VideoPlayerSegment
           setQuality={setQuality}
           contentId={content.id}
@@ -102,7 +103,7 @@ export const ContentRendererClient = ({
         />
         <div className="flex flex-col gap-4 rounded-xl bg-primary/5 p-4">
           <div className="flex w-full flex-col justify-between gap-2 md:flex-row">
-            <h2 className="line-clamp-2 text-wrap text-2xl font-extrabold capitalize tracking-tight text-primary md:text-3xl">
+            <h2 className="line-clamp-2 text-wrap text-xl font-semibold capitalize tracking-tight text-primary md:text-2xl">
               {content.title}
             </h2>
             {metadata.slides ? (
@@ -112,32 +113,21 @@ export const ContentRendererClient = ({
             ) : null}
           </div>
 
-          {!showChapters && metadata.segments?.length > 0 && (
-            <button
-              className="flex w-fit items-center gap-2"
-              onClick={() => {
-                toggleShowChapters();
-              }}
-            >
-              <p>Chapters</p>
-              {showChapters ? (
-                <>
-                  <ChevronUp className="size-5 text-neutral-500" />
-                </>
-              ) : (
-                <>
-                  <ChevronDown className="size-5 text-neutral-500" />
-                </>
-              )}
-            </button>
-          )}
-
-          {showChapters && (
-            <VideoContentChapters
-              segments={metadata?.segments}
-              onCancel={toggleShowChapters}
-            />
-          )}
+          <button
+            className="flex w-fit items-center gap-2"
+            onClick={() => {
+              toggleShowChapters();
+            }}
+          >
+            {showChapters ? (
+              <EyeOff className="size-5" />
+            ) : (
+              <Eye className="size-5" />
+            )}
+            <p className="text-sm font-medium">
+              {showChapters ? 'Hide' : 'Show'} Chapters
+            </p>
+          </button>
         </div>
         {nextContent ? (
           <Button
@@ -155,6 +145,27 @@ export const ContentRendererClient = ({
           </Button>
         ) : null}
       </div>
+      {/* Chapters */}
+      {showChapters && (
+        <div className="flex w-full flex-col rounded-xl bg-primary/5 lg:max-w-[35%] xl:max-w-[30%] 2xl:max-w-[25%]">
+          <div className="flex flex-col gap-2 p-4">
+            <h3 className="text-lg font-bold md:text-xl">Video Chapters</h3>
+          </div>
+          <Separator />
+          <div className="flex flex-col gap-2 overflow-y-auto py-4">
+            {metadata.segments ? (
+              <VideoContentChapters
+                segments={metadata?.segments}
+                onCancel={toggleShowChapters}
+              />
+            ) : (
+              <div className="flex items-center justify-center">
+                <p>No chapters found</p>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 };

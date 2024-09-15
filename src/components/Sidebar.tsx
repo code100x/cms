@@ -140,7 +140,9 @@ export function Sidebar({
                 <Check content={content} />
                 {content.type === 'video' && <Play className="size-4" />}
                 {content.type === 'notion' && <File className="size-4" />}
-                <div className="truncate text-base">{content.title}</div>
+                <div className="line-clamp-1 w-full max-w-[75%] text-wrap text-left text-base">
+                  {content.title}
+                </div>
               </div>
               {content.type === 'video' && (
                 <BookmarkButton
@@ -175,9 +177,9 @@ export function Sidebar({
             animate="open"
             exit="closed"
             variants={sidebarVariants}
-            className="fixed right-0 top-0 z-[99999] flex h-screen w-full flex-col gap-4 overflow-y-auto rounded-r-lg border-l border-primary/10 bg-neutral-50 dark:bg-neutral-900 md:max-w-[30vw]"
+            className="fixed right-0 top-0 z-[99999] flex h-screen w-full flex-col gap-4 overflow-y-auto rounded-r-lg border-l border-primary/10 bg-background md:max-w-[30vw]"
           >
-            <div className="sticky top-0 z-10 flex items-center justify-between border-b border-primary/10 p-5">
+            <div className="sticky top-0 z-10 flex items-center justify-between border-b border-primary/10 bg-background p-5">
               <h4 className="text-xl font-bold tracking-tighter text-primary lg:text-2xl">
                 Course Content
               </h4>

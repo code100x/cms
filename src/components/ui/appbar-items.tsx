@@ -9,7 +9,7 @@ import {
 } from './tooltip';
 import { usePathname } from 'next/navigation';
 
-export const SidebarItems = ({
+export const AppbarItems = ({
   items,
   isCollapsed,
 }: {

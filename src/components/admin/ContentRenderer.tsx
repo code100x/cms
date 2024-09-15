@@ -145,12 +145,10 @@ export const ContentRenderer = async ({
 }) => {
   const metadata = await getMetadata(content.id);
   return (
-    <div>
-      <ContentRendererClient
-        nextContent={nextContent}
-        metadata={metadata}
-        content={content}
-      />
-    </div>
+    <ContentRendererClient
+      nextContent={nextContent}
+      metadata={metadata}
+      content={content}
+    />
   );
 };

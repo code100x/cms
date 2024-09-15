@@ -34,7 +34,7 @@ const VideoThumbnail = ({
   };
   return (
     <div
-      className="relative max-h-[573px] max-w-[1053px]"
+      className="flex h-[27vh] items-center overflow-clip rounded-2xl bg-gradient-to-bl from-blue-400 to-blue-800 p-4"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >

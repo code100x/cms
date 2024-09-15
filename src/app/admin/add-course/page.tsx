@@ -2,12 +2,6 @@
 
 import { Button } from '@/components/ui/button';
 import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
-import {
   Form,
   FormControl,
   FormField,
@@ -24,14 +18,16 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { FolderPlus } from 'lucide-react';
+import { Separator } from '@/components/ui/separator';
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/components/ui/accordion";
-import { Cuboid, PackagePlus } from 'lucide-react';
+} from '@/components/ui/accordion';
 import { FaDiscord } from 'react-icons/fa';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 const courseSchema = z.object({
   title: z.string().min(5, {
@@ -74,7 +70,7 @@ export default function Courses() {
     setIsLoading(true);
     try {
       await axios.post('/api/admin/course', data);
-      toast('course succesfully created');
+      toast('Course successfully created');
       router.push('/');
     } catch (error: any) {
       console.log(error);
@@ -85,205 +81,214 @@ export default function Courses() {
   };
 
   return (
-    <div className="wrapper my-16 flex flex-col gap-4">
+    <div className="wrapper flex flex-col gap-8">
+      <div className="flex items-center gap-2">
+        <FolderPlus className="size-8" />
+        <h2 className="text-2xl font-bold tracking-tighter md:text-3xl">
+          Add New Course
+        </h2>
+      </div>
 
-      <section className='flex gap-2 border-2 p-4 bg-primary/5 rounded-lg my-4 items-center'>
-        <Cuboid size={18} />
-        <h2 className='text-md font-bold'>View Content</h2>
-      </section>
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="grid gap-4 lg:grid-cols-2"
+        >
+          <FormField
+            control={form.control}
+            name="title"
+            render={({ field }: { field: any }) => (
+              <FormItem>
+                <FormLabel>Title</FormLabel>
+                <FormControl>
+                  <Input
+                    className="h-12 px-4"
+                    placeholder="Enter the Course name"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="imageUrl"
+            render={({ field }: { field: any }) => (
+              <FormItem>
+                <FormLabel>Image URL</FormLabel>
+                <FormControl>
+                  <Input
+                    className="h-12 px-4"
+                    placeholder="Enter the URL of Image"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="description"
+            render={({ field }: { field: any }) => (
+              <FormItem className="col-span-1 lg:col-span-2">
+                <FormLabel>Description</FormLabel>
+                <FormControl>
+                  <Textarea
+                    className="min-h-[100px] px-4 py-2"
+                    placeholder="Enter the Course Description"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="slug"
+            render={({ field }: { field: any }) => (
+              <FormItem>
+                <FormLabel>Slug</FormLabel>
+                <FormControl>
+                  <Input
+                    className="h-12 px-4"
+                    placeholder="Enter the Course Slug"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="id"
+            render={({ field }: { field: any }) => (
+              <FormItem>
+                <FormLabel>ID</FormLabel>
+                <FormControl>
+                  <Input
+                    className="h-12 px-4"
+                    placeholder="Enter the Course ID"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="adminSecret"
+            render={({ field }: { field: any }) => (
+              <FormItem>
+                <FormLabel>Admin Secret</FormLabel>
+                <FormControl>
+                  <Input
+                    className="h-12 px-4"
+                    placeholder="Enter the Admin Secret"
+                    type="password"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="appxCourseId"
+            render={({ field }: { field: any }) => (
+              <FormItem>
+                <FormLabel>App X Course ID</FormLabel>
+                <FormControl>
+                  <Input
+                    className="h-12 px-4"
+                    placeholder="Enter the App X Course ID"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="discordRoleId"
+            render={({ field }: { field: any }) => (
+              <FormItem>
+                <FormLabel>Discord Role ID</FormLabel>
+                <FormControl>
+                  <Input
+                    className="h-12 px-4"
+                    placeholder="Enter the Discord Role ID"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <div className="col-span-1 lg:col-span-2">
+            <Button
+              className="w-full lg:w-auto"
+              type="submit"
+              disabled={isLoading}
+            >
+              {isLoading ? 'Creating...' : 'Create Course'}
+            </Button>
+          </div>
+        </form>
+      </Form>
 
-      <Accordion defaultValue='add-new-course' className='border-2 p-4 rounded-2xl' type="single" collapsible>
-        <AccordionItem value="add-new-course">
-          <AccordionTrigger className='p-6 text-2xl font-bold'>
-            <div className='flex gap-4 flex-col' >
-              <PackagePlus size={40} />New course
+      <Separator />
+      <Accordion type="single" collapsible>
+        <AccordionItem value="discord-config">
+          <AccordionTrigger className="p-6 text-2xl font-bold">
+            <div className="flex flex-col gap-4">
+              <FaDiscord className="text-5xl" /> Discord Config
             </div>
           </AccordionTrigger>
           <AccordionContent>
-            <div className='w-full grid grid-cols-1 lg:grid-cols-7'>
-              <div className='text-sm font-semibold text-gray-400 col-span-1 lg:col-span-2 p-6'>Create new course for 100xdevs community and let user explore new courses</div>
-              <div className='col-span-1 lg:col-span-5 p-4'>
-                <Card className='bg-background border-2'>
-                  <CardHeader>
-                    {/* <CardTitle>Create a new course</CardTitle> */}
-                    <CardTitle>Fill in the course details below</CardTitle>
-                  </CardHeader>
-                  <CardContent className="grid gap-4 p-4 pt-0">
-                    <Form {...form}>
-                      <form
-                        onSubmit={form.handleSubmit(onSubmit)}
-                        className="grid gap-4 lg:grid-cols-2"
-                      >
-                        <FormField
-                          control={form.control}
-                          name="title"
-                          render={({ field }: { field: any }) => (
-                            <FormItem>
-                              <FormLabel>Title</FormLabel>
-                              <FormControl>
-                                <Input className='h-12 px-3' placeholder="Enter the Course name" {...field} />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                        <FormField
-                          control={form.control}
-                          name="imageUrl"
-                          render={({ field }: { field: any }) => (
-                            <FormItem>
-                              <FormLabel>Image url</FormLabel>
-                              <FormControl>
-                                <Input className='h-12 px-3' placeholder="Enter the url of Image" {...field} />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                        <FormField
-                          control={form.control}
-                          name="description"
-                          render={({ field }: { field: any }) => (
-                            <FormItem className='col-span-1 lg:col-span-2'>
-                              <FormLabel>Description</FormLabel>
-                              <FormControl>
-                                <Textarea
-                                  className='h-12 px-3' placeholder="Enter the Description of course"
-                                  {...field}
-                                />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                        <FormField
-                          control={form.control}
-                          name="slug"
-                          render={({ field }: { field: any }) => (
-                            <FormItem>
-                              <FormLabel>Slug</FormLabel>
-                              <FormControl>
-                                <Input className='h-12 px-3' placeholder="Enter the Course slug" {...field} />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                        <FormField
-                          control={form.control}
-                          name="id"
-                          render={({ field }: { field: any }) => (
-                            <FormItem>
-                              <FormLabel>Id</FormLabel>
-                              <FormControl>
-                                <Input className='h-12 px-3' placeholder="Enter the Course ID" {...field} />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                        <FormField
-                          control={form.control}
-                          name="adminSecret"
-                          render={({ field }: { field: any }) => (
-                            <FormItem>
-                              <FormLabel>Admin Secret</FormLabel>
-                              <FormControl>
-                                <Input className='h-12 px-3' placeholder="Enter the Admin Secret" {...field} />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                        <FormField
-                          control={form.control}
-                          name="appxCourseId"
-                          render={({ field }: { field: any }) => (
-                            <FormItem>
-                              <FormLabel>app x course id</FormLabel>
-                              <FormControl>
-                                <Input
-                                  className='h-12 px-3' placeholder="Enter the appx course ID"
-                                  {...field}
-                                />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                        <FormField
-                          control={form.control}
-                          name="discordRoleId"
-                          render={({ field }: { field: any }) => (
-                            <FormItem>
-                              <FormLabel>Discord Role Id</FormLabel>
-                              <FormControl>
-                                <Input
-                                  placeholder="Enter the Discord Role Id"
-                                  {...field}
-                                />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                        <div className="lg:col-span-2">
-                          {isLoading ? (
-                            <Button>Loading...</Button>
-                          ) : (
-                            <Button className='w-[20%]' type="submit">Create</Button>
-                          )}
-                        </div>
-                      </form>
-                    </Form>
-                  </CardContent>
-                </Card>
+            <div className="grid w-full grid-cols-1 lg:grid-cols-7">
+              <div className="text-gray-400col-span-1 p-6 text-sm font-semibold lg:col-span-2">
+                Manage discord configuration for the users
               </div>
-            </div>
-          </AccordionContent>
-        </AccordionItem>
-
-        <AccordionItem className='border-none' value="discord-config">
-          <AccordionTrigger className='p-6 text-2xl font-bold'>
-            <div className='flex gap-4 flex-col' >
-              <FaDiscord className='text-5xl' /> Discord Config
-            </div>
-          </AccordionTrigger>
-          <AccordionContent>
-            <div className='w-full grid grid-cols-1 lg:grid-cols-7'>
-              <div className='text-sm font-semibold text-gray-400col-span-1 lg:col-span-2 p-6'>Mangae discord configuration for the users</div>
-              <div className='col-span-1 lg:col-span-5 p-4'>
-                <Card className='bg-background'>
+              <div className="col-span-1 p-4 lg:col-span-5">
+                <Card className="bg-background">
                   <CardHeader>
                     <CardTitle>Discord</CardTitle>
                   </CardHeader>
                   <CardContent className="flex flex-col gap-5 lg:flex-row">
-                    <Card className="mx-auto border-2 bg-background w-full max-w-3xl overflow-y-auto">
+                    <Card className="mx-auto w-full max-w-3xl overflow-y-auto border bg-background">
                       <CardHeader>
-                        <CardTitle>Allow user another account in cohort 3</CardTitle>
+                        <CardTitle>
+                          Allow user another account in cohort 3
+                        </CardTitle>
                       </CardHeader>
                       <CardContent className="grid gap-4 p-4 pt-0">
                         <Input
                           type="text"
                           placeholder="Email"
-                          onChange={(e) => {
-                            setEmail(e.target.value);
-                          }}
-                        ></Input>
+                          onChange={(e) => setEmail(e.target.value)}
+                        />
                         <Input
                           type="text"
                           placeholder="Admin Password"
-                          onChange={(e) => {
-                            setAdminPassword(e.target.value);
-                          }}
-                        ></Input>
+                          onChange={(e) => setAdminPassword(e.target.value)}
+                        />
                         <Button
                           onClick={async () => {
                             try {
-                              const res = await axios.post('/api/admin/discordReset', {
-                                email,
-                                adminPassword,
-                              });
+                              const res = await axios.post(
+                                '/api/admin/discordReset',
+                                {
+                                  email,
+                                  adminPassword,
+                                },
+                              );
                               toast(JSON.stringify(res.data.data));
                             } catch (error) {
                               //@ts-ignore
@@ -295,25 +300,23 @@ export default function Courses() {
                         </Button>
                       </CardContent>
                     </Card>
-                    <Card className="mx-auto border-2 bg-background w-full max-w-3xl overflow-y-auto">
+                    <Card className="mx-auto w-full max-w-3xl overflow-y-auto border bg-background">
                       <CardHeader>
-                        <CardTitle>Get users discord username in cohort 3</CardTitle>
+                        <CardTitle>
+                          Get users discord username in cohort 3
+                        </CardTitle>
                       </CardHeader>
                       <CardContent className="grid gap-4 p-4 pt-0">
                         <Input
                           type="text"
                           placeholder="Email"
-                          onChange={(e) => {
-                            setEmail(e.target.value);
-                          }}
-                        ></Input>
+                          onChange={(e) => setEmail(e.target.value)}
+                        />
                         <Input
                           type="text"
                           placeholder="Admin Password"
-                          onChange={(e) => {
-                            setAdminPassword(e.target.value);
-                          }}
-                        ></Input>
+                          onChange={(e) => setAdminPassword(e.target.value)}
+                        />
                         <Button
                           onClick={async () => {
                             try {
@@ -340,9 +343,7 @@ export default function Courses() {
             </div>
           </AccordionContent>
         </AccordionItem>
-
       </Accordion>
-
     </div>
   );
 }

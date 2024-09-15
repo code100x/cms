@@ -1,6 +1,6 @@
 'use client';
 import { SearchIcon, XIcon } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import SearchBar from './SearchBar';
 
 const MobileScreenSearch = () => {
@@ -9,6 +9,22 @@ const MobileScreenSearch = () => {
   const toggleSearchBar = () => {
     setShowSearchBar((prev) => !prev);
   };
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if ((event.ctrlKey || event.metaKey) && event.key === 'k') {
+        event.preventDefault();
+        setShowSearchBar(true);
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
+
   return (
     <div className="md:hidden">
       {showSearchBar ? (

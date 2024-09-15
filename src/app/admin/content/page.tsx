@@ -10,7 +10,10 @@ async function getCourses() {
 export default async function CourseContent() {
   const courses = await getCourses();
   return (
-    <div className="mx-auto max-w-screen-xl cursor-pointer justify-between p-4">
+    <div className="wrapper flex flex-col gap-8">
+      <h1 className="text-3xl font-bold capitalize md:text-4xl">
+        Content Management
+      </h1>
       <SelectCourse courses={courses} />
     </div>
   );

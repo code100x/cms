@@ -1,9 +1,14 @@
 import { Appbar } from '@/components/Appbar';
 import React from 'react';
+import { Metadata } from 'next';
 
 interface Props {
   children: React.ReactNode;
 }
+
+export const metadata: Metadata = {
+  title: 'App | 100xDevs',
+};
 
 export default (props: Props) => {
   return (

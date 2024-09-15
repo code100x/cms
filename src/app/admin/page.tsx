@@ -1,22 +1,17 @@
 'use client';
-import { AnimatePresence, motion } from 'framer-motion';
-import { FileText, Flag, LucideIcon, MessageCircle, PackagePlus, Users } from 'lucide-react';
-import { useSession } from 'next-auth/react';
+import { motion } from 'framer-motion';
+import {
+  FileText,
+  Flag,
+  LucideIcon,
+  MessageCircle,
+  PackagePlus,
+  Users,
+} from 'lucide-react';
 import Link from 'next/link';
-import React, { useState } from 'react';
+import React from 'react';
 
 export default function AdminPage() {
-  const session = useSession();
-  const user = session?.data?.user;
-
-  const currentHour = new Date().getHours();
-  let greeting = 'Good Morning';
-  if (currentHour >= 12 && currentHour < 18) {
-    greeting = 'Good Afternoon';
-  } else if (currentHour >= 18 || currentHour < 5) {
-    greeting = 'Good Evening';
-  }
-
   const DiscordIcon: React.FC<{ className?: string }> = ({ className }) => (
     <svg
       viewBox="0 -28.5 256 256"
@@ -41,8 +36,7 @@ export default function AdminPage() {
     icon: LucideIcon | typeof DiscordIcon;
     title: string;
     description: string;
-    exploreText: string;
-  }
+  };
 
   const cardsData: CardData[] = [
     {
@@ -50,102 +44,79 @@ export default function AdminPage() {
       icon: PackagePlus,
       title: 'Add Course',
       description: 'Proceed to add new course',
-      exploreText: 'Explore more!',
     },
     {
       href: '/admin/content',
       icon: FileText,
       title: 'View Content',
       description: 'Browse and manage existing content',
-      exploreText: 'Discover more!',
     },
     {
       href: '/admin/discord',
       icon: DiscordIcon,
       title: 'Discord Configuration',
       description: 'Set up and manage Discord integration',
-      exploreText: 'Configure now!',
     },
     {
       href: '/admin/comment',
       icon: MessageCircle,
       title: 'Comments Management',
       description: 'Moderate and manage user comments',
-      exploreText: 'Manage comments!',
     },
     {
       href: '/admin/user',
       icon: Users,
       title: 'User Management',
       description: 'Manage user accounts and permissions',
-      exploreText: 'Manage users!',
     },
     {
       href: '/admin/userflags',
       icon: Flag,
       title: 'User Flags',
       description: 'Review and handle user flags and reports',
-      exploreText: 'Check flags!',
     },
   ];
 
-  const AdminCard: React.FC<CardData> = ({ href, icon: Icon, title, description, exploreText }) => {
-    const [isHovered, setIsHovered] = useState(false);
-
+  const AdminCard: React.FC<CardData> = ({
+    href,
+    icon: Icon,
+    title,
+    description,
+  }) => {
     return (
-
-      <motion.div
-        initial={{ y: 50, opacity: 0, filter: 'blur(10px)' }}
-        animate={{ y: 0, opacity: 1, filter: 'blur(0px)' }}
-        transition={{ duration: 0.5, ease: 'linear' }}
+      <Link
+        href={href}
+        className="flex min-h-[15rem] w-full cursor-pointer flex-col justify-center gap-6 overflow-hidden rounded-2xl border p-4 transition-all duration-300 hover:border-blue-500"
       >
-        <Link
-          href={href}
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
-          className='h-[15rem] overflow-hidden relative group cursor-pointer hover:border-blue-500 transition-all duration-200 ease-linear flex flex-col items-center justify-center p-4 rounded-lg border-2 w-full'
-        >
-          <div className='border bg-blue-400 bg-opacity-5 rounded-md w-[4rem] h-[3rem] p-2 flex items-center justify-center'>
-            <Icon className='w-6 h-6' />
-          </div>
-          <div className='flex flex-col items-center justify-center mt-4 w-full gap-1'>
-            <h1 className='text-xl font-semibold'>{title}</h1>
-
-            {isHovered && (
-              <AnimatePresence>
-                <motion.p
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 20 }}
-                  transition={{ duration: 0.3 }}
-                  className='text-sm text-gray-400 transition-all duration-200 ease-linear'
-                >
-                  {description}
-                </motion.p>
-              </AnimatePresence>
-            )}
-          </div>
-
-          <div className='w-[80%] transition-all duration-500 ease-linear group-hover:bottom-0 text-center text-xs border-2 py-1 absolute -bottom-[60px] border-b-0 px-4 rounded-tr-lg rounded-tl-lg'>
-            {exploreText}
-          </div>
-        </Link>
-      </motion.div>
+        <div className="flex w-fit items-center rounded-lg bg-blue-500/5 p-3">
+          <Icon className="size-8" />
+        </div>
+        <div className="flex w-full flex-col">
+          <h3 className="text-xl font-semibold tracking-tighter text-primary md:text-2xl">
+            {title}
+          </h3>
+          <motion.p className="text-primary/80">{description}</motion.p>
+        </div>
+      </Link>
     );
   };
 
   return (
-    <main className='max-w-[1280px] flex flex-col gap-6 items-center p-4 min-h-full max-h-fit w-full mx-auto'>
-      <section className='w-full flex flex-col gap-2 text-center text-3xl'>
-        <h1>{greeting}, {user?.name}</h1>
-        <h4 className='text-sm text-gray-500'>Welcome! Explore more from below</h4>
-      </section>
+    <motion.main
+      initial={{ y: 20, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.3 }}
+      className="wrapper mx-auto flex min-h-screen w-full flex-col gap-8"
+    >
+      <h1 className="text-2xl font-bold tracking-tighter text-primary md:text-3xl">
+        Admin Dashboard
+      </h1>
 
-      <section className='my-4 w-full grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3'>
+      <div className="grid w-full grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
         {cardsData.map((card, index) => (
           <AdminCard key={index} {...card} />
         ))}
-      </section>
-    </main>
+      </div>
+    </motion.main>
   );
 }

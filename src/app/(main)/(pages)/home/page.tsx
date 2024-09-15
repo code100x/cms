@@ -15,16 +15,18 @@ export default async function MyCoursesPage() {
 
   // Determine the appropriate greeting based on the time of day
   let greeting = 'Good Morning';
-  if (currentHour >= 12 && currentHour < 18) {
+  if (currentHour >= 5 && currentHour < 12) {
+    greeting = 'Good Morning';
+  } else if (currentHour >= 12 && currentHour < 18) {
     greeting = 'Good Afternoon';
-  } else if (currentHour >= 18 || currentHour < 5) {
+  } else {
     greeting = 'Good Evening';
   }
 
   return (
-    <main className="flex flex-col gap-4 pb-16 pt-8">
+    <main className="flex flex-col gap-4">
       <div className="flex flex-col justify-between gap-4 lg:flex-row">
-        <h1 className="text-wrap text-3xl font-extrabold capitalize tracking-tighter md:text-4xl">
+        <h1 className="text-wrap text-2xl font-bold capitalize tracking-tighter lg:text-3xl">
           {greeting} {session.user.name}
         </h1>
         <SearchBar />

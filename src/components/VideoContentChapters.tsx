@@ -9,21 +9,11 @@ const chaptersVariants = {
     width: '100%',
     opacity: 1,
     y: 0,
-    transition: {
-      type: 'spring',
-      stiffness: 100,
-      damping: 10,
-    },
   },
   closed: {
     width: 0,
     opacity: 0,
     y: -20,
-    transition: {
-      type: 'spring',
-      stiffness: 100,
-      damping: 10,
-    },
   },
 };
 
@@ -61,28 +51,26 @@ const VideoContentChapters = ({
         animate="open"
         exit="closed"
         variants={chaptersVariants}
-        className="flex w-full flex-col"
+        className="flex w-full flex-col gap-2"
       >
-        <div className="flex w-full flex-wrap gap-2">
-          {(segments as Segment[])?.map(({ start, end, title }, index) => {
-            return (
-              <div key={`${index}-${start}${end}${title}`}>
-                <div
-                  className={`flex max-w-64 cursor-pointer items-center justify-between gap-2 rounded-lg p-4 transition-all duration-300 hover:bg-primary/10 ${currentTime >= start && currentTime < end ? 'bg-blue-500/10' : 'bg-primary/5'}`}
-                  onClick={() => {
-                    player.currentTime(start);
-                    player.play();
-                  }}
-                >
-                  <p className="truncate font-medium tracking-tight">{title}</p>
-                  <span className="rounded-full bg-blue-500/20 px-2 py-1 font-medium text-blue-500">
-                    {formatTime(start)}
-                  </span>
-                </div>
+        {(segments as Segment[])?.map(({ start, end, title }, index) => {
+          return (
+            <div key={`${index}-${start}${end}${title}`}>
+              <div
+                className={`flex cursor-pointer flex-col gap-2 p-4 transition-all duration-300 hover:bg-blue-500/10 ${currentTime >= start && currentTime < end ? 'bg-blue-500/5' : ''}`}
+                onClick={() => {
+                  player.currentTime(start);
+                  player.play();
+                }}
+              >
+                <p className="line-clamp-1 text-lg font-medium">{title}</p>
+                <span className="w-fit rounded-full bg-blue-500/20 px-2 py-1 text-sm text-blue-50">
+                  {formatTime(start)}
+                </span>
               </div>
-            );
-          })}
-        </div>
+            </div>
+          );
+        })}
       </motion.div>
     </>
   );

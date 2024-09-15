@@ -139,7 +139,7 @@ export default async function QuestionsPage({
   const response = await fetchQuestionsByTabType(searchParams, sessionId!);
   return (
     <>
-      <div className="mx-auto my-16 flex min-h-screen w-full flex-col gap-4">
+      <div className="mx-auto flex min-h-screen w-full flex-col gap-4">
         {/* Header */}
         <div className="flex w-full flex-col justify-between gap-2">
           <h1 className="text-4xl font-bold capitalize tracking-tighter md:text-5xl">

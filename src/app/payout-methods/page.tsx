@@ -30,13 +30,11 @@ export default function Page() {
   const closeDialog = () => setIsDialogBoxOpen(false);
 
   return (
-    <div className="h-max pb-4 transition-colors duration-500 md:p-8">
-      <div className="mb-6 flex flex-col items-start justify-center px-4 pt-3 sm:px-8">
-        <div className="my-2 mb-6 text-3xl text-black transition-colors duration-500 dark:text-white">
-          <h1 className="font-semibold text-black dark:text-white">
-            Payout Methods
-          </h1>
-        </div>
+    <div className="wrapper">
+      <div className="flex flex-col gap-8">
+        <h2 className="text-2xl font-bold tracking-tighter md:text-3xl">
+          Payout Methods
+        </h2>
 
         <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
           <PayoutMethodCard
@@ -65,11 +63,11 @@ export default function Page() {
           title={btnClicked}
         />
 
-        <div className="my-8 w-full">
-          <h2 className="my-4 text-3xl font-semibold">Apps</h2>
-          <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
-            <GitHubLinkButton />
-          </div>
+        <h2 className="text-2xl font-bold tracking-tighter md:text-3xl">
+          Apps
+        </h2>
+        <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
+          <GitHubLinkButton />
         </div>
       </div>
     </div>

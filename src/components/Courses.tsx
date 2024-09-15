@@ -23,7 +23,7 @@ export const Courses = ({ courses }: { courses: Course[] }) => {
   };
   const router = useRouter();
   return (
-    <section className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+    <section className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
       {courses?.map((course) => (
         <CourseCard
           key={course.id}
@@ -41,7 +41,7 @@ export const Courses = ({ courses }: { courses: Course[] }) => {
         />
       ))}
       <div
-        className={`flex w-full cursor-pointer flex-col items-center rounded-2xl bg-primary/5 p-16 transition-all duration-300 hover:-translate-y-2 hover:border-primary/20`}
+        className={`flex w-full cursor-pointer flex-col items-center rounded-2xl bg-primary/5 p-16 transition-all duration-300 hover:bg-primary/10`}
       >
         <div className="flex h-full flex-col items-center justify-center gap-4 text-center">
           <div className="flex flex-col items-center text-center">

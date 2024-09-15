@@ -12,5 +12,5 @@ export default async function MainLayout(props: Props) {
   if (!session?.user) {
     return <Redirect to={'/'} />;
   }
-  return <div className="w-full py-16">{props.children}</div>;
+  return <div className="w-full py-4">{props.children}</div>;
 }

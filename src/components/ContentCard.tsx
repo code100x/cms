@@ -31,20 +31,43 @@ export const ContentCard = ({
   return (
     <motion.div
       onClick={onClick}
-      className={`group relative flex h-fit w-full max-w-md cursor-pointer flex-col gap-2 rounded-2xl transition-all duration-300 hover:-translate-y-2`}
+      className={`relative flex h-full w-full cursor-pointer flex-col gap-2 rounded-2xl`}
     >
       {markAsCompleted && (
         <div className="absolute right-2 top-2 z-10">
-          <CheckCircle2 color="green" size={30} fill="lightgreen" />
+          <CheckCircle2 className="size-6 text-neutral-800" fill="#22c55e" />
         </div>
       )}
       {type === 'video' && (
-        <div className="absolute bottom-12 right-2 z-10 rounded-md p-2 font-semibold text-white">
+        <div className="absolute bottom-12 right-2 z-10 p-2 font-semibold text-white">
           <Play className="size-6" />
         </div>
       )}
+      {type === 'notion' && (
+        <div className="absolute bottom-12 right-2 z-10 p-2 font-semibold text-white">
+          <svg
+            viewBox="0 0 24 24"
+            height="20px"
+            fill="white"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+            <g
+              id="SVGRepo_tracerCarrier"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            ></g>
+            <g id="SVGRepo_iconCarrier">
+              <path
+                d="M7 0h16v20H5V0h2zm14 18V2H7v16h14zM9 4h10v2H9V4zm10 4H9v2h10V8zM9 12h7v2H9v-2zm10 10H3V4H1v20h18v-2z"
+                fill="#fffff"
+              ></path>
+            </g>
+          </svg>
+        </div>
+      )}
       {type !== 'video' && (
-        <div className="relative overflow-hidden rounded-md">
+        <div className="relative">
           <CardComponent
             title={title}
             contentDuration={contentDuration && formatTime(contentDuration)}
@@ -61,19 +84,16 @@ export const ContentCard = ({
         </div>
       )}
       {type === 'video' && (
-        <div className="relative overflow-hidden">
+        <div className="relative h-full w-full">
           <VideoThumbnail
             title={title}
             contentId={contentId ?? 0}
             imageUrl=""
-            // imageUrl={
-            //   'https://d2szwvl7yo497w.cloudfront.net/courseThumbnails/video.png'
-            // }
           />
         </div>
       )}
       <div className="flex items-center justify-between gap-4">
-        <h3 className="w-full truncate text-xl font-bold capitalize tracking-tighter md:text-2xl">
+        <h3 className="w-full truncate text-xl font-medium capitalize tracking-tight md:text-2xl">
           {title}
         </h3>
         {bookmark !== undefined && contentId && (
