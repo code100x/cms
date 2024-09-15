@@ -28,19 +28,7 @@ git clone https://github.com/code100x/cms.git
 
 ```
 
-```bash
-
-git clone https://github.com/code100x/cms.git
-
-```
-
 2. Navigate to the project directory:
-
-```bash
-
-cd cms
-
-```
 
 ```bash
 
@@ -58,13 +46,6 @@ docker-compose up
 
 ```
 
-```bash
-
-docker volume create postgres-data # (optional) run this command if you face any mount volume / volume not exist error
-
-docker-compose up
-
-```
 
 ### Without Docker
 
