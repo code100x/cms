@@ -5,7 +5,7 @@ import React from 'react';
 
 const VideoSearchCard = ({ video }: { video: TSearchedVideos }) => {
   const { id: videoId, parentId, parent } = video;
-  if (parentId && parent) {
+  if (parentId && parent?.courses.length) {
     const courseId = parent.courses[0].courseId;
     const videoUrl = `/courses/${courseId}/${parentId}/${videoId}`;
     return (
