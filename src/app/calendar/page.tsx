@@ -2,6 +2,7 @@ import { getServerSession } from 'next-auth';
 import { redirect } from 'next/navigation';
 import React from 'react';
 import CalendarPageComponent from '@/components/big-calendar/calendar';
+import { Appbar } from '@/components/Appbar';
 
 const CalendarPage = async () => {
   const session = await getServerSession();
@@ -14,6 +15,7 @@ const CalendarPage = async () => {
 
   return (
     <div className="wrapper flex min-h-screen">
+      <Appbar />
       <CalendarPageComponent isAdmin={isAdmin} />
     </div>
   );
