@@ -65,7 +65,7 @@ export const Appbar = ({
                 </Button>
               </div>
               <ThemeToggler />
-              <div className="block">
+              <div className="block sm:hidden">
                 <NavigationMenu />
               </div>
             </div>
