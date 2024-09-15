@@ -64,7 +64,7 @@ export const CourseView = ({
             description: courseContent?.value?.description || '',
             markAsCompleted:
               courseContent?.value?.videoProgress?.markAsCompleted || false,
-            bookmark: courseContent?.value.bookmark ?? null,
+            bookmark: courseContent?.value.bookmark || null,
           }}
         />
       ) : null}
@@ -95,7 +95,7 @@ export const CourseView = ({
             percentComplete: getFolderPercentCompleted(x?.children),
             videoFullDuration: x?.videoProgress?.videoFullDuration || 0,
             duration: x?.videoProgress?.duration || 0,
-            bookmark: null,
+            bookmark: x.bookmark || null,
           }))}
           courseId={parseInt(course.id, 10)}
         />
