@@ -13,7 +13,7 @@ import { handleMarkAsCompleted } from '@/lib/utils';
 import { useSearchParams } from 'next/navigation';
 import './QualitySelectorControllBar';
 import { YoutubeRenderer } from './YoutubeRenderer';
-
+import { useSession } from "next-auth/react";
 // todo correct types
 interface VideoPlayerProps {
   setQuality: React.Dispatch<React.SetStateAction<string>>;
@@ -263,6 +263,57 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
       document.removeEventListener('keydown', handleKeyPress);
     };
   }, [player]);
+
+  const {
+    data:session,
+  } = useSession();
+
+  useEffect(() => {
+    if (!player) {
+      return;
+    }
+
+    const createWatermark = () => {
+      const uniqueId = `w-${crypto.getRandomValues(new Uint32Array(1))[0]}`;
+      const watermarkElement = document.createElement("div");
+      watermarkElement.id = uniqueId;
+      const userEmail = session?.user?.email;
+      // TODO add phone number later in watermark in future
+      watermarkElement.innerText = `${userEmail}`;
+      watermarkElement.style.cssText = `
+        display: inline-block;
+        color: black;
+        background-color: white;
+        font-size: 0.8rem;
+        z-index: 9999;
+        position: absolute;
+        opacity: 0.8;
+        padding: 0.1rem 0.2rem;
+        border-radius:0.2rem;
+        text-align: center;
+        user-select: none;
+        left: ${Math.random() * (player.el().clientWidth - 150)}px;
+        top: ${Math.random() * (player.el().clientHeight - 40)}px;
+        @media only screen and (max-width: 992px) { font-size: 0.3rem; }
+      `;
+
+      player.el().appendChild(watermarkElement);
+
+      setTimeout(() => {
+        player.el().removeChild(watermarkElement);
+      }, 3900); // Remove just before the next watermark appears
+    };
+
+    const watermarkInterval = setInterval(createWatermark, 4000);
+
+    return () => {
+      clearInterval(watermarkInterval);
+      const playerElement = player.el();
+      const watermarks = playerElement.querySelectorAll('[id^="w-"]');
+      watermarks.forEach((watermark) => playerElement.removeChild(watermark));
+    };
+  }, [player,session?.user]);
+
   useEffect(() => {
     if (!player) {
       return;
