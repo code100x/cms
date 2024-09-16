@@ -41,8 +41,11 @@ const BookmarkButton = ({
           >
             <BookmarkIcon
               size={size}
-              {...(addedBookmark && { fill: '#2563EB' })}
-              className="drop-shadow-2xl"
+              className={`drop-shadow-2xl transition-colors duration-300 ${
+                addedBookmark
+                  ? 'stroke-blue-500 stroke-2 text-blue-500'
+                  : 'text-gray-400 hover:text-gray-600'
+              }`}
             />
           </Button>
         </TooltipTrigger>
