@@ -147,12 +147,12 @@ export const ContentRendererClient = ({
       </div>
       {/* Chapters */}
       {showChapters && (
-        <div className="flex w-full flex-col rounded-xl bg-primary/5 lg:max-w-[35%] xl:max-w-[30%] 2xl:max-w-[25%]">
+        <div className="flex w-full flex-col rounded-xl bg-primary/5 lg:max-w-[30%] 2xl:max-w-[25%]">
           <div className="flex flex-col gap-2 p-4">
             <h3 className="text-lg font-bold md:text-xl">Video Chapters</h3>
           </div>
           <Separator />
-          <div className="flex flex-col gap-2 overflow-y-auto py-4">
+          <div className="flex h-full max-h-[calc(100vh-28rem)] flex-col gap-2 overflow-y-auto py-4 xl:max-h-[calc(100vh-20rem)]">
             {metadata.segments ? (
               <VideoContentChapters
                 segments={metadata?.segments}
