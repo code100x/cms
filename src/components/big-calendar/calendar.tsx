@@ -214,7 +214,11 @@ const CalendarPageComponent: React.FC<CalendarPageProps> = ({ isAdmin }) => {
           <DnDCalendar
             localizer={localizer}
             events={events}
-            style={{ height: 'calc(100vh - 200px)', minHeight: '600px' }}
+            style={{
+              height: 'calc(100vh - 200px)',
+              minHeight: '600px',
+              padding: '20px',
+            }}
             selectable={isAdmin}
             date={date}
             onNavigate={handleNavigate}
