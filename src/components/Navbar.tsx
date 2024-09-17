@@ -1,35 +1,41 @@
 'use client';
 
-import { motion, AnimatePresence } from 'framer-motion';
-import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
-import Link from 'next/link';
+import { AnimatePresence, motion } from 'framer-motion';
 import { ArrowLeft, Menu } from 'lucide-react';
-import { Button } from './ui/button';
+import { useSession } from 'next-auth/react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useCallback, useMemo, useState } from 'react';
 import { AppbarAuth } from './AppbarAuth';
 import { SelectTheme } from './ThemeToggler';
 import ProfileDropdown from './profile-menu/ProfileDropdown';
+import { Button } from './ui/button';
+import SearchBar from './search/SearchBar';
 
-export const Navbar = () => {
+export default function Navbar() {
   const { data: session } = useSession();
   const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+  // Memoizing the toggleMenu and toggleSearch functions
+  const toggleMenu = useCallback(() => setIsMenuOpen((prev) => !prev), []);
 
-  const navItemVariants = {
-    hidden: { opacity: 0, y: -20 },
-    visible: (i: number) => ({
-      opacity: 1,
-      y: 0,
-      transition: {
-        delay: i * 0.1,
-        duration: 0.5,
-        ease: [0.43, 0.13, 0.23, 0.96],
-      },
+  // Memoizing the navItemVariants object
+  const navItemVariants = useMemo(
+    () => ({
+      hidden: { opacity: 0, y: -20 },
+      visible: (i: number) => ({
+        opacity: 1,
+        y: 0,
+        transition: {
+          delay: i * 0.1,
+          duration: 0.5,
+          ease: [0.43, 0.13, 0.23, 0.96],
+        },
+      }),
     }),
-  };
+    [],
+  );
 
   return (
     <AnimatePresence>
@@ -42,7 +48,7 @@ export const Navbar = () => {
           damping: 10,
           stiffness: 100,
         }}
-        className="fixed z-[999] top-0 w-full border-b border-primary/10 bg-background"
+        className="fixed top-0 z-[999] w-full border-b border-primary/10 bg-background"
       >
         <div className="wrapper flex w-full items-center justify-between p-3">
           <motion.div
@@ -77,6 +83,8 @@ export const Navbar = () => {
               </p>
             </Link>
           </motion.div>
+
+          {session?.user && <SearchBar />}
 
           <motion.div
             className="flex items-center gap-4"
@@ -147,4 +155,4 @@ export const Navbar = () => {
       </motion.nav>
     </AnimatePresence>
   );
-};
+}

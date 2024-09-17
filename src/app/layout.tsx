@@ -7,7 +7,7 @@ import { Providers } from './providers';
 import { GoogleAnalytics } from '@/components/analytics/GoogleAnalytics';
 import { siteConfig } from '@/config/site-config';
 import { Toaster } from 'sonner';
-import { Navbar } from '@/components/Navbar';
+import Navbar from '@/components/Navbar';
 
 const satoshi = localFont({
   display: 'swap',

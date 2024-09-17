@@ -1,6 +1,5 @@
 import { MyCourses } from '@/components/MyCourses';
 import { Redirect } from '@/components/Redirect';
-import SearchBar from '@/components/search/SearchBar';
 import { getServerSession } from 'next-auth';
 
 export default async function MyCoursesPage() {
@@ -27,7 +26,6 @@ export default async function MyCoursesPage() {
         <h1 className="text-wrap text-3xl font-extrabold capitalize tracking-tighter md:text-4xl">
           {greeting} {session.user.name}
         </h1>
-        <SearchBar />
       </div>
 
       <div className="flex h-full flex-col gap-4 rounded-2xl py-4">
