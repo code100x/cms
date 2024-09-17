@@ -26,6 +26,7 @@ export const NewPostDialog = () => {
   const paramsObject = searchParamsToObject(searchParam);
   const path = usePathname();
   const router = useRouter();
+  const tagInputRef = useRef<HTMLInputElement | null>(null);
   const [value, setValue] = useState<string>('**Hello world!!!**');
   const [tags, setTags] = useState<string[]>([]);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -55,6 +56,7 @@ export const NewPostDialog = () => {
       formRef?.current?.reset();
       setValue('');
       router.push(`/question/${data.slug}`);
+      setTags([]); 
       handleOnCloseClick();
     },
     onError: (error) => {
@@ -79,22 +81,26 @@ export const NewPostDialog = () => {
       content: value,
       tags,
     });
-    setTags([]); // Reset the tags
-    formRef.current?.reset(); // Reset the form
-    handleOnCloseClick() // Close the modal
   };
 
   const addTag = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === ',') {
       event.preventDefault();
       const formData = new FormData(formRef.current as HTMLFormElement);
-      const tag = formData.get('tags')?.toString().trim();
-
+      const tag = formData.get('tags')?.toString().trim().replace(/,+$/, '');
+  
       if (tag) {
-        setTags(tag.split(',').filter((tag) => tag.trim() !== ''));
+        setTags((prevTags) => [
+          ...prevTags,
+          tag
+        ]);
+      }
+      if (tagInputRef.current) {
+        tagInputRef.current.value = '';
       }
     }
   };
+  
 
   const removeTag = (tag: string) => {
     setTags(tags.filter((t) => t !== tag));
@@ -170,6 +176,7 @@ export const NewPostDialog = () => {
                     errors={fieldErrors}
                     className="w-full"
                     onKeyUp={addTag}
+                    ref={tagInputRef}
                   />
                 </div>
               </div>
