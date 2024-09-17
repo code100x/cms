@@ -7,14 +7,29 @@ import { ArrowUpRightFromSquare } from 'lucide-react';
 const ExternalLinks = () => {
   const externalLinks = [
     {
-      href: 'https://github.com/100xdevs-cohort-2/assignments',
-      label: 'Assignments',
-      icon: <SiGithub className="h-4 w-4" />,
-    },
-    {
       href: 'https://projects.100xdevs.com/',
       label: 'Slides',
-      icon: <SiNotion className="h-4 w-4" />,
+      icon: <SiNotion className="h-5 w-5" />,
+    },
+    {
+      href: 'https://github.com/100xDevs-hkirat/',
+      label: 'Assignments C1',
+      icon: <SiGithub className="h-5 w-5" />,
+    },
+    {
+      href: 'https://github.com/100xdevs-cohort-2/',
+      label: 'Assignments C2',
+      icon: <SiGithub className="h-5 w-5" />,
+    },
+    {
+      href: 'https://github.com/100xdevs-cohort-3/',
+      label: 'Assignments C3 & Web3',
+      icon: <SiGithub className="h-5 w-5" />,
+    },
+    {
+      href: 'https://github.com/code100x/',
+      label: 'Contribute to code100x',
+      icon: <SiGithub className="h-5 w-5" />,
     },
   ];
   return externalLinks.map((link) => (

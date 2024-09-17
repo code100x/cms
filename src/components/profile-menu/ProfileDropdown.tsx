@@ -8,7 +8,7 @@ import {
   LogOut,
   Bookmark,
   History,
-  MessageSquare,
+  MessageCircleCode,
 } from 'lucide-react';
 import {
   DropdownMenu,
@@ -21,6 +21,7 @@ import {
 import ExternalLinks from './ExternalLinks';
 import { signOut } from 'next-auth/react';
 import { SelectTheme } from '../ThemeToggler';
+import { buttonVariants } from '../ui/button';
 
 const ProfileDropdown = () => {
   const menuItemLinks = [
@@ -36,7 +37,7 @@ const ProfileDropdown = () => {
     },
     {
       href: '/question',
-      icon: <MessageSquare className="size-4" />,
+      icon: <MessageCircleCode className="size-4" />,
       label: 'Questions',
     },
     {
@@ -86,9 +87,10 @@ const ProfileDropdown = () => {
           onClick={() => {
             signOut();
           }}
+          className={`cursor-pointer ${buttonVariants({ variant: 'destructive' })} flex justify-normal`}
         >
           <span
-            className={`flex items-center gap-2 text-base transition-all duration-300 hover:text-red-500`}
+            className={`flex items-center gap-2 text-base transition-all duration-300 hover:text-red-600`}
           >
             <LogOut className="size-4" />
             Logout

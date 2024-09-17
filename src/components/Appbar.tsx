@@ -1,7 +1,7 @@
 'use client';
 import {
   Bookmark,
-  MessageSquare,
+  MessageCircleCode,
   History,
   Home,
   SidebarOpen,
@@ -14,7 +14,7 @@ import { motion } from 'framer-motion';
 export const menuOptions = [
   { id: 1, name: 'Home', Component: Home, href: '/home' },
   { id: 3, name: 'Bookmarks', Component: Bookmark, href: '/bookmark' },
-  { id: 4, name: 'Questions', Component: MessageSquare, href: '/question' },
+  { id: 4, name: 'Questions', Component: MessageCircleCode, href: '/question' },
   { id: 5, name: 'Watch History', Component: History, href: '/watch-history' },
 ];
 
