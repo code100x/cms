@@ -16,6 +16,7 @@ interface IVoteFormProps {
   upvotes: number;
   downvotes: number;
   votesArr: any[];
+  slug: string;
 }
 
 const VoteForm: React.FC<IVoteFormProps> = ({
@@ -24,6 +25,7 @@ const VoteForm: React.FC<IVoteFormProps> = ({
   upvotes = 0,
   downvotes = 0,
   votesArr,
+  slug,
 }) => {
   const currentPath = usePathname();
   const { execute } = useAction(voteHandlerAction, {
@@ -34,7 +36,7 @@ const VoteForm: React.FC<IVoteFormProps> = ({
   });
   const handleVote = (voteType: VoteType) => {
     toast.promise(
-      execute({ voteType, questionId, answerId, currentPath }),
+      execute({ voteType, questionId, answerId, currentPath, slug }),
       voteType === VoteType.DOWNVOTE
         ? {
             loading: 'Downvoting...',
@@ -54,20 +56,20 @@ const VoteForm: React.FC<IVoteFormProps> = ({
 
   return (
     <div className="flex gap-2">
-      <form
+      <button
         className="m-auto"
-        onSubmit={(e) => {
+        onClick={(e) => {
+          e.stopPropagation();
           e.preventDefault();
           handleVote(VoteType.UPVOTE);
         }}
       >
-        <button
+        <div
           className={`flex min-w-8 items-center gap-1 rounded-full px-4 py-1 text-lg transition-all duration-300 ${
             userVoted && userVoteVal.voteType === VoteType.UPVOTE
               ? 'bg-green-500/20 text-green-500'
               : 'bg-primary/10 text-primary hover:bg-green-500/20 hover:text-green-500'
           }`}
-          type="submit"
         >
           <ArrowBigUp
             className={`size-5 ${
@@ -82,22 +84,22 @@ const VoteForm: React.FC<IVoteFormProps> = ({
             }
           />
           <span>{upvotes}</span>
-        </button>
-      </form>
-      <form
+        </div>
+      </button>
+      <button
         className="m-auto"
-        onSubmit={(e) => {
+        onClick={(e) => {
+          e.stopPropagation();
           e.preventDefault();
           handleVote(VoteType.DOWNVOTE);
         }}
       >
-        <button
+        <div
           className={`flex min-w-8 items-center gap-1 rounded-full px-4 py-1 text-lg transition-all duration-300 ${
             userVoted && userVoteVal.voteType === VoteType.DOWNVOTE
               ? 'bg-red-500/20 text-red-500'
               : 'bg-primary/10 text-primary hover:bg-red-500/20 hover:text-red-500'
           }`}
-          type="submit"
         >
           <ArrowBigDown
             className={`size-5 ${
@@ -112,8 +114,8 @@ const VoteForm: React.FC<IVoteFormProps> = ({
             }
           />
           <span>{downvotes}</span>
-        </button>
-      </form>
+        </div>
+      </button>
     </div>
   );
 };

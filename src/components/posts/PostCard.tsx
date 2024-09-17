@@ -177,6 +177,7 @@ const PostCard: React.FC<IProps> = ({
 
       <div className="flex flex-wrap items-center gap-2">
         <VoteForm
+          slug={isExtendedQuestion(post) ? post.slug : ''}
           upvotes={post.upvotes}
           downvotes={post.downvotes}
           questionId={isAnswer ? undefined : post.id}
