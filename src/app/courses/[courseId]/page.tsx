@@ -1,4 +1,5 @@
 import { QueryParams } from '@/actions/types';
+import { CourseReviewInputForm } from '@/components/CourseReviewForm';
 import { CourseView } from '@/components/CourseView';
 import { getCourse, getFullCourseContent } from '@/db/course';
 import findContentById from '@/lib/find-content-by-id';
@@ -19,14 +20,17 @@ export default async function Course({
   const nextContent = null;
 
   return (
-    <CourseView
-      rest={[]}
-      course={course}
-      nextContent={nextContent}
-      courseContent={courseContent}
-      fullCourseContent={fullCourseContent}
-      searchParams={searchParams}
-      possiblePath=""
-    />
+    <>
+      <CourseView
+        rest={[]}
+        course={course}
+        nextContent={nextContent}
+        courseContent={courseContent}
+        fullCourseContent={fullCourseContent}
+        searchParams={searchParams}
+        possiblePath=""
+      />
+      <CourseReviewInputForm courseId={Number(courseId)} />
+    </>
   );
 }

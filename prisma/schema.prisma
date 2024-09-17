@@ -9,19 +9,20 @@ datasource db {
 }
 
 model Course {
-  id              Int             @id @default(autoincrement())
+  id              Int               @id @default(autoincrement())
   appxCourseId    String
   discordRoleId   String
   title           String
   imageUrl        String
   description     String
-  openToEveryone  Boolean         @default(false)
+  reviews         RatingAndReview[]
+  openToEveryone  Boolean           @default(false)
   slug            String
-  discordOauthUrl String          @default("")
+  discordOauthUrl String            @default("")
   content         CourseContent[]
   purchasedBy     UserPurchases[]
   certificate     Certificate[]
-  certIssued      Boolean         @default(false)
+  certIssued      Boolean           @default(false)
 }
 
 model UserPurchases {
@@ -138,18 +139,19 @@ model Session {
 }
 
 model User {
-  id                String          @id @default(cuid())
+  id                String            @id @default(cuid())
   name              String?
-  email             String?         @unique
+  email             String?           @unique
   token             String?
   sessions          Session[]
   purchases         UserPurchases[]
   videoProgress     VideoProgress[]
   comments          Comment[]
   votes             Vote[]
+  review            RatingAndReview[]
   discordConnect    DiscordConnect?
-  disableDrm        Boolean         @default(false)
-  bunnyProxyEnabled Boolean         @default(false)
+  disableDrm        Boolean           @default(false)
+  bunnyProxyEnabled Boolean           @default(false)
   bookmarks         Bookmark[]
   password          String?
   appxUserId        String?
@@ -157,9 +159,9 @@ model User {
   questions         Question[]
   answers           Answer[]
   certificate       Certificate[]
-  upiIds            UpiId[]         @relation("UserUpiIds")
-  solanaAddresses   SolanaAddress[] @relation("UserSolanaAddresses")
-  githubUser        GitHubLink?     @relation("UserGithub")
+  upiIds            UpiId[]           @relation("UserUpiIds")
+  solanaAddresses   SolanaAddress[]   @relation("UserSolanaAddresses")
+  githubUser        GitHubLink?       @relation("UserGithub")
 }
 
 model GitHubLink {
@@ -322,6 +324,18 @@ model Event {
   updatedAt DateTime @updatedAt
 }
 
+model RatingAndReview {
+  id        Int      @id @default(autoincrement())
+  content   String
+  rating    Int
+  courseId  Int
+  course    Course   @relation(fields: [courseId], references: [id])
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 enum VoteType {
   UPVOTE
   DOWNVOTE
@@ -343,4 +357,3 @@ enum MigrationStatus {
   MIGRATED
   MIGRATION_ERROR
 }
-
