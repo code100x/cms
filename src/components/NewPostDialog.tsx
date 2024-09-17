@@ -74,24 +74,24 @@ export const NewPostDialog = () => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const title = formData.get('title');
-
-    const tags = formData.get('tags')?.toString().split(',').map(tag => tag.trim()).filter(tag => tag !== '') || [];
-
     execute({
       title: title?.toString() || '',
       content: value,
       tags,
     });
+    setTags([]); // Reset the tags
+    formRef.current?.reset(); // Reset the form
+    handleOnCloseClick() // Close the modal
   };
 
   const addTag = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === ',') {
       event.preventDefault();
       const formData = new FormData(formRef.current as HTMLFormElement);
-      const tags = formData.get('tags')?.toString().trim();
+      const tag = formData.get('tags')?.toString().trim();
 
-      if (tags) {
-        setTags(tags.split(',').filter((tag) => tag.trim() !== ''));
+      if (tag) {
+        setTags(tag.split(',').filter((tag) => tag.trim() !== ''));
       }
     }
   };
