@@ -4,12 +4,16 @@ import { getServerSession } from 'next-auth';
 import { redirect } from 'next/navigation';
 import React from 'react';
 
-const SigninPage = async () => {
+export default async function SignInPage() {
   const session = await getServerSession(authOptions);
   if (session?.user) {
-    redirect('/');
+    redirect('/home');
   }
-  return <Signin />;
-};
-
-export default SigninPage;
+  return (
+    <div className="flex min-h-screen items-center justify-center bg-background">
+      <div className="w-full max-w-md">
+        <Signin />
+      </div>
+    </div>
+  );
+}

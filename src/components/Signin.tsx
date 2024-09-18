@@ -17,7 +17,11 @@ const emailDomains = [
   'rediffmail.com',
 ];
 
-const Signin = () => {
+interface SigninProps {
+  onSignInSuccess?: () => void;
+}
+
+const Signin: React.FC<SigninProps> = ({ onSignInSuccess }) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [checkingPassword, setCheckingPassword] = useState(false);
   const [requiredError, setRequiredError] = useState({
@@ -31,7 +35,7 @@ const Signin = () => {
   const suggestionRefs = useRef<HTMLLIElement[]>([]);
 
   function togglePasswordVisibility() {
-    setIsPasswordVisible((prevState: any) => !prevState);
+    setIsPasswordVisible((prevState: boolean) => !prevState);
   }
   const router = useRouter();
   const email = useRef('');
@@ -112,15 +116,18 @@ const Signin = () => {
 
     toast.dismiss(loadId);
     if (!res?.error) {
-      router.push('/');
       toast.success('Signed In');
+      if (onSignInSuccess) {
+        onSignInSuccess();
+        router.push('/home');
+      }
     } else {
       toast.error('oops something went wrong..!');
       setCheckingPassword(false);
     }
   };
   return (
-    <section className="wrapper relative flex min-h-screen items-center justify-center overflow-hidden antialiased">
+    <section className="wrapper relative flex items-center justify-center overflow-hidden antialiased">
       <motion.div
         initial={{ y: -40, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
@@ -130,7 +137,7 @@ const Signin = () => {
           type: 'spring',
           damping: 10,
         }}
-        className="flex w-full flex-col justify-between gap-12 rounded-2xl bg-primary/5 p-8 md:max-w-[30vw]"
+        className="flex w-full flex-col justify-between gap-12 rounded-2xl bg-primary/5 p-8"
       >
         <div className="flex flex-col text-center">
           <h2 className="text-3xl font-semibold tracking-tighter md:text-4xl">

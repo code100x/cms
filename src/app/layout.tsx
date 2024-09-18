@@ -21,7 +21,13 @@ const satoshi = localFont({
 
 export const metadata: Metadata = siteConfig;
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+export default function RootLayout({
+  children,
+  authModal,
+}: {
+  children: ReactNode;
+  authModal: ReactNode;
+}) {
   return (
     <html lang="en">
       <body
@@ -33,6 +39,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <GoogleAnalytics />
         <Providers>
           <Navbar />
+          {authModal}
           {children}
           <Toaster richColors />
         </Providers>
