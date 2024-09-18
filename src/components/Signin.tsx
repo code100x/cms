@@ -41,29 +41,33 @@ const Signin = () => {
     const value = e.target.value;
     email.current = value;
 
+    // Reset focused index and clear required error for email
     setFocusedIndex(0);
     setRequiredError((prevState) => ({
       ...prevState,
       emailReq: false,
     }));
 
-    if (!value.includes('@')) {
-      setSuggestedDomains(emailDomains);
-      return;
-    }
+    // Only show suggestions if '@' is the last character in the email
+    if (value.includes('@')) {
+      const [, currentDomain] = value.split('@');
+      // Check for exact matches and filter for partial matches
+      const exactMatch = emailDomains.find(
+        (domain) => domain === currentDomain,
+      );
+      if (exactMatch) {
+        setSuggestedDomains([]);
+        return;
+      }
 
-    const [, currentDomain] = value.split('@');
-    // Check for exact matches and filter for partial matches
-    const exactMatch = emailDomains.find((domain) => domain === currentDomain);
-    if (exactMatch) {
+      const matchingDomains = emailDomains.filter((domain) =>
+        domain.startsWith(currentDomain),
+      );
+      setSuggestedDomains(matchingDomains);
+    } else {
+      // Hide suggestions if '@' is not the last character
       setSuggestedDomains([]);
-      return;
     }
-
-    const matchingDomains = emailDomains.filter((domain) =>
-      domain.startsWith(currentDomain),
-    );
-    setSuggestedDomains(matchingDomains);
   };
 
   const handleSuggestionClick = (domain: string) => {
