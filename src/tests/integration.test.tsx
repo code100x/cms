@@ -1,5 +1,6 @@
+import SigninPage from '@/app/(auth)/signin/page';
 import { render, screen } from '@testing-library/react';
-import SigninPage from '@/app/signin/page';
+
 import { getServerSession } from 'next-auth';
 import { redirect } from 'next/navigation';
 import { vi } from 'vitest';
