@@ -1,17 +1,6 @@
 'use client';
 
-import { SiGithub, SiNotion } from '@icons-pack/react-simple-icons';
-import {
-  Bookmark,
-  Calendar,
-  Clapperboard,
-  History,
-  LogOut,
-  MessageCircleCode,
-  NotebookText,
-  SearchIcon,
-} from 'lucide-react';
-
+import { TSearchedVideos } from '@/app/api/search/route';
 import {
   CommandDialog,
   CommandEmpty,
@@ -24,40 +13,77 @@ import {
 } from '@/components/ui/command';
 import { Input } from '@/components/ui/input';
 import useClickOutside from '@/hooks/useClickOutside';
+import { SiGithub, SiNotion } from '@icons-pack/react-simple-icons';
+import {
+  Bookmark,
+  Calendar,
+  Clapperboard,
+  History,
+  LogOut,
+  MessageCircleCode,
+  NotebookText,
+  SearchIcon,
+} from 'lucide-react';
+import { signOut } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
+import { toast } from 'sonner';
 import VideoSearchCard from './VideoSearchCard';
 import VideoSearchInfo from './VideoSearchInfo';
 import VideoSearchLoading from './VideoSearchLoading';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { toast } from 'sonner';
-import { signOut } from 'next-auth/react';
-import { TSearchedVideos } from '@/app/api/search/route';
 
 interface SearchBarProps {
   onCardClick?: () => void;
+  isMobile: boolean;
 }
 
-export default function SearchBar({ onCardClick }: SearchBarProps) {
-  const [open, setOpen] = useState(false);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [commandSearchTerm, setCommandSearchTerm] = useState('');
-  const [searchedVideos, setSearchedVideos] = useState<
-    TSearchedVideos[] | null
-  >(null);
-  const [isInputFocused, setIsInputFocused] = useState<boolean>(false);
-  const [loading, setLoading] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
-  const searchInputRef = useRef<HTMLInputElement>(null);
+function useDebounce<T>(value: T, delay: number): T {
+  const [debouncedValue, setDebouncedValue] = useState<T>(value);
 
-  const router = useRouter();
-  const commandDialogRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedValue(value);
+    }, delay);
 
-  useClickOutside(ref, () => {
-    setIsInputFocused(false);
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [value, delay]);
+
+  return debouncedValue;
+}
+
+export default function SearchBar({ onCardClick, isMobile }: SearchBarProps) {
+  // Combined state object for better performance
+  const [state, setState] = useState({
+    open: false,
+    searchTerm: '',
+    commandSearchTerm: '',
+    searchedVideos: null as TSearchedVideos[] | null,
+    isInputFocused: false,
+    loading: false,
   });
 
+  const debouncedSearchTerm = useDebounce(state.searchTerm, 300);
+  const debouncedCommandSearchTerm = useDebounce(state.commandSearchTerm, 300);
+
+  const ref = useRef<HTMLDivElement>(null);
+  const searchInputRef = useRef<HTMLInputElement>(null);
+  const router = useRouter();
+
+  useClickOutside(ref, () => {
+    setState((prev) => ({ ...prev, isInputFocused: false }));
+  });
+
+  // Memoized fetch function to prevent unnecessary re-creations
   const fetchData = useCallback(async (term: string) => {
-    setLoading(true);
+    setState((prev) => ({ ...prev, loading: true }));
 
     try {
       const response = await fetch(`/api/search?q=${encodeURIComponent(term)}`);
@@ -65,50 +91,41 @@ export default function SearchBar({ onCardClick }: SearchBarProps) {
         throw new Error('Network response was not ok');
       }
       const data = await response.json();
-      setSearchedVideos(data);
+      setState((prev) => ({ ...prev, searchedVideos: data }));
     } catch (err) {
       toast.error('Something went wrong while searching for videos');
-      setCommandSearchTerm('');
-      setSearchTerm('');
+      setState((prev) => ({ ...prev, commandSearchTerm: '', searchTerm: '' }));
     } finally {
-      setLoading(false);
+      setState((prev) => ({ ...prev, loading: false }));
     }
   }, []);
 
-  // Debouncing (Main Input Field)
+  // Effect for main search input
   useEffect(() => {
-    const debouncedSearch = setTimeout(() => {
-      if (searchTerm.trim().length > 2) {
-        fetchData(searchTerm);
-      } else {
-        setSearchedVideos(null);
-      }
-    }, 300);
+    if (debouncedSearchTerm.trim().length > 2) {
+      fetchData(debouncedSearchTerm);
+    } else {
+      setState((prev) => ({ ...prev, searchedVideos: null }));
+    }
+  }, [debouncedSearchTerm, fetchData]);
 
-    return () => clearTimeout(debouncedSearch);
-  }, [searchTerm, fetchData]);
-
-  // Debouncing (CommandDialog)
+  // Effect for command dialog search
   useEffect(() => {
-    const debouncedCommandSearch = setTimeout(() => {
-      if (commandSearchTerm.trim().length > 2) {
-        fetchData(commandSearchTerm);
-      } else {
-        setSearchedVideos(null);
-      }
-    }, 300);
+    if (debouncedCommandSearchTerm.trim().length > 2) {
+      fetchData(debouncedCommandSearchTerm);
+    } else {
+      setState((prev) => ({ ...prev, searchedVideos: null }));
+    }
+  }, [debouncedCommandSearchTerm, fetchData]);
 
-    return () => clearTimeout(debouncedCommandSearch);
-  }, [commandSearchTerm, fetchData]);
-
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
+  const handleKeyDown = useCallback(
+    (e: KeyboardEvent) => {
       if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
         e.preventDefault();
-        setOpen((prevOpen) => !prevOpen);
+        setState((prev) => ({ ...prev, open: !prev.open }));
       }
 
-      if (open && e.key === 'Enter') {
+      if (state.open && e.key === 'Enter') {
         e.preventDefault();
         const activeElement = document.activeElement;
         if (activeElement instanceof HTMLElement) {
@@ -117,89 +134,104 @@ export default function SearchBar({ onCardClick }: SearchBarProps) {
       }
 
       // Shortcut Handlers
-      if (open && e.ctrlKey) {
+      if (state.open && e.ctrlKey) {
         switch (e.key.toLowerCase()) {
           case 'c':
             e.preventDefault();
             router.push('/home');
-            setOpen(false);
+            setState((prev) => ({ ...prev, open: false }));
             break;
           case 'h':
             e.preventDefault();
             router.push('/watch-history');
-            setOpen(false);
+            setState((prev) => ({ ...prev, open: false }));
             break;
           case 'b':
             e.preventDefault();
             router.push('/bookmark');
-            setOpen(false);
+            setState((prev) => ({ ...prev, open: false }));
             break;
           case 'q':
             e.preventDefault();
             router.push('/question');
-            setOpen(false);
+            setState((prev) => ({ ...prev, open: false }));
             break;
           case 's':
             e.preventDefault();
             window.location.href = 'https://projects.100xdevs.com/';
-            setOpen(false);
+            setState((prev) => ({ ...prev, open: false }));
             break;
           case 'g':
             e.preventDefault();
             window.location.href = 'https://github.com/code100x/';
-            setOpen(false);
+            setState((prev) => ({ ...prev, open: false }));
             break;
         }
       }
-    };
+    },
+    [state.open, router],
+  );
 
+  useEffect(() => {
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [open, router]);
+  }, [handleKeyDown]);
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(event.target.value);
-  };
+  const handleInputChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setState((prev) => ({ ...prev, searchTerm: event.target.value }));
+    },
+    [],
+  );
 
-  const handleCardClick = (videoUrl: string) => {
-    if (onCardClick !== undefined) {
-      onCardClick();
-    }
-    setSearchTerm('');
-    setCommandSearchTerm('');
-    router.push(videoUrl);
-  };
+  const handleCardClick = useCallback(
+    (videoUrl: string) => {
+      if (onCardClick) {
+        onCardClick();
+      }
+      setState((prev) => ({ ...prev, searchTerm: '', commandSearchTerm: '' }));
+      router.push(videoUrl);
+    },
+    [onCardClick, router],
+  );
 
-  const renderSearchResults = (term: string) => {
-    if (term.length < 3) {
-      return (
-        <VideoSearchInfo text="Please enter at least 3 characters to search" />
-      );
-    }
-    if (loading) {
-      return <VideoSearchLoading />;
-    }
-    if (!searchedVideos || searchedVideos.length === 0) {
-      return <VideoSearchInfo text="No videos found" />;
-    }
+  const renderSearchResults = useMemo(
+    () => (term: string) => {
+      if (term.length < 3) {
+        return (
+          <VideoSearchInfo text="Please enter at least 3 characters to search" />
+        );
+      }
+      if (state.loading) {
+        return <VideoSearchLoading />;
+      }
+      if (!state.searchedVideos || state.searchedVideos.length === 0) {
+        return <VideoSearchInfo text="No videos found" />;
+      }
 
-    return searchedVideos.map((video) => (
-      <VideoSearchCard
-        key={video.id}
-        video={video}
-        onCardClick={handleCardClick}
-      />
-    ));
-  };
+      return state.searchedVideos.map((video) => (
+        <VideoSearchCard
+          key={video.id}
+          video={video}
+          onCardClick={handleCardClick}
+        />
+      ));
+    },
+    [state.loading, state.searchedVideos, handleCardClick],
+  );
 
-  const icon = navigator.userAgent.toLowerCase().includes('mac')
-    ? '⌘'
-    : 'Ctrl + ';
+  const icon = useMemo(
+    () => (navigator.userAgent.toLowerCase().includes('mac') ? '⌘' : 'Ctrl + '),
+    [],
+  );
 
   return (
     <>
+      {/* Main search input */}
       <div
-        className="relative mx-auto flex w-full max-w-sm items-center lg:max-w-lg"
+        className={`relative mx-auto flex w-full items-center ${
+          isMobile ? 'max-w-full' : 'max-w-sm lg:max-w-lg'
+        }`}
         ref={ref}
       >
         <SearchIcon className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-gray-500 dark:text-gray-400" />
@@ -207,47 +239,58 @@ export default function SearchBar({ onCardClick }: SearchBarProps) {
           type="search"
           placeholder="Search Anything"
           className="rounded-lg border-gray-200 bg-white pl-10 pr-12 focus-visible:ring-gray-300 dark:border-gray-800 dark:bg-gray-950 dark:focus-visible:ring-gray-700"
-          value={searchTerm}
+          value={state.searchTerm}
           onChange={handleInputChange}
-          onFocus={() => setIsInputFocused(true)}
+          onFocus={() =>
+            setState((prev) => ({ ...prev, isInputFocused: true }))
+          }
           ref={searchInputRef}
+          aria-label="Search"
         />
 
-        {searchTerm.length === 0 && (
+        {state.searchTerm.length === 0 && !isMobile && (
           <kbd className="pointer-events-none absolute right-3 top-2.5 inline-flex hidden h-5 select-none items-center gap-1 rounded border border-gray-200 bg-gray-100 px-1.5 font-mono text-[10px] font-medium text-gray-600 opacity-100 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 sm:block">
             <span className="text-xs">{icon}</span>K
           </kbd>
         )}
 
-        {isInputFocused && searchTerm.length > 0 && (
-          <div className="absolute top-12 z-30 max-h-[40vh] w-full overflow-y-auto rounded-lg border-2 bg-background p-2 shadow-lg">
-            {renderSearchResults(searchTerm)}
+        {(state.isInputFocused || isMobile) && state.searchTerm.length > 0 && (
+          <div
+            className={`absolute ${isMobile ? 'top-full' : 'top-12'} z-30 max-h-[40vh] w-full overflow-y-auto rounded-lg border-2 bg-background p-2 shadow-lg`}
+          >
+            {renderSearchResults(state.searchTerm)}
           </div>
         )}
       </div>
 
-      <CommandDialog open={open} onOpenChange={setOpen}>
-        <div ref={commandDialogRef}>
+      {/* Command dialog for advanced navigation & shortcuts */}
+      {!isMobile && (
+        <CommandDialog
+          open={state.open}
+          onOpenChange={(open) => setState((prev) => ({ ...prev, open }))}
+        >
           <CommandInput
             placeholder="Type a command or search..."
-            value={commandSearchTerm}
-            onValueChange={setCommandSearchTerm}
+            value={state.commandSearchTerm}
+            onValueChange={(value) =>
+              setState((prev) => ({ ...prev, commandSearchTerm: value }))
+            }
           />
           <CommandList>
             <CommandEmpty>No results found.</CommandEmpty>
 
             <CommandGroup heading="Videos">
-              {loading ? (
+              {state.loading ? (
                 <CommandItem>
                   <VideoSearchLoading />
                 </CommandItem>
               ) : (
                 <CommandItem
                   onSelect={() => {
-                    setOpen(false);
+                    setState((prev) => ({ ...prev, open: false }));
                   }}
                 >
-                  {renderSearchResults(commandSearchTerm)}
+                  {renderSearchResults(state.commandSearchTerm)}
                 </CommandItem>
               )}
             </CommandGroup>
@@ -256,7 +299,7 @@ export default function SearchBar({ onCardClick }: SearchBarProps) {
               <CommandItem
                 onSelect={() => {
                   router.push('/calendar');
-                  setOpen(false);
+                  setState((prev) => ({ ...prev, open: false }));
                 }}
               >
                 <Calendar className="mr-2 h-4 w-4" />
@@ -269,7 +312,7 @@ export default function SearchBar({ onCardClick }: SearchBarProps) {
               <CommandItem
                 onSelect={() => {
                   signOut();
-                  setOpen(false);
+                  setState((prev) => ({ ...prev, open: false }));
                 }}
               >
                 <LogOut className="mr-2 h-4 w-4" />
@@ -310,8 +353,8 @@ export default function SearchBar({ onCardClick }: SearchBarProps) {
               </CommandItem>
             </CommandGroup>
           </CommandList>
-        </div>
-      </CommandDialog>
+        </CommandDialog>
+      )}
     </>
   );
 }
