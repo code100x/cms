@@ -6,13 +6,15 @@ import { deleteQuestion } from '@/actions/question';
 import { deleteAnswer } from '@/actions/answer';
 import { ActionState } from '@/lib/create-safe-action';
 import { useRouter } from 'next/navigation';
-import { Delete } from '@/lib/utils';
 import { Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Delete } from '@/lib/utils';
+
 interface IVoteFormProps {
   questionId: number | undefined;
   answerId: number | undefined;
 }
+
 type DeleteActionData = { questionId?: number; answerId?: number };
 type DeleteAction = (
   data: DeleteActionData,
@@ -21,6 +23,7 @@ type DeleteAction = (
 const DeleteQAForm: React.FC<IVoteFormProps> = ({ questionId, answerId }) => {
   const idForm = useId();
   const router = useRouter();
+
   const deleteAction: DeleteAction = async ({ questionId, answerId }) => {
     if (questionId) {
       return deleteQuestion({ questionId });
@@ -42,14 +45,19 @@ const DeleteQAForm: React.FC<IVoteFormProps> = ({ questionId, answerId }) => {
     },
   });
 
-  const hanleDeleteFunction = () => {
-    execute(questionId ? { questionId } : { answerId });
+  const handleDeleteFunction = () => {
+    // Use window.confirm to show a confirmation dialog
+    const isConfirmed = window.confirm('Are you sure you want to delete this?');
+
+    if (isConfirmed) {
+      execute(questionId ? { questionId } : { answerId });
+    }
   };
 
   return (
     <Button
       id={`delete-${idForm}`}
-      onClick={hanleDeleteFunction}
+      onClick={handleDeleteFunction} // Show confirmation when clicking delete
       size="icon"
       variant="destructive"
     >

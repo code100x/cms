@@ -13,6 +13,8 @@ const SingleQuestionPage = async ({
 }) => {
   const session = await getServerSession(authOptions);
   const sessionId = session?.user.id;
+
+  // Fetch question data from the database
   const question: any = await db.question.findUnique({
     where: {
       slug: params.slug,
@@ -25,6 +27,7 @@ const SingleQuestionPage = async ({
       totalanswers: true,
       tags: true,
       slug: true,
+      resolved: true, // Include resolved status
       authorId: true,
       content: true,
       createdAt: true,
@@ -47,6 +50,8 @@ const SingleQuestionPage = async ({
     },
   });
 
+  // Initialize state for resolved status
+
   return (
     <div className="wrapper">
       <div className="items-center justify-center">
@@ -58,6 +63,10 @@ const SingleQuestionPage = async ({
             questionId={question.id}
             isAnswer={false}
             enableLink={false}
+            title={question.title} // Pass title
+            tags={question.tags} // Pass tags
+            resolved={question.resolved} // Pass resolved state
+            // Pass the handler
           />
         )}
       </div>

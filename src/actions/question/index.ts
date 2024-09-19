@@ -62,7 +62,8 @@ const createQuestionHandler = async (
         content,
         tags,
         authorId: session.user.id,
-        slug, // Include the slug
+        slug,
+        // Include the slug
       },
     });
     revalidatePath(`/question/${question.id}`);
@@ -88,7 +89,8 @@ const updateQuestionHandler = async (
     };
   }
 
-  const { title, content, tags, questionId } = data;
+  const { title, content, tags, questionId, resolved } = data;
+
   const userExists = await db.user.findUnique({
     where: { id: session.user.id },
   });
@@ -137,7 +139,8 @@ const updateQuestionHandler = async (
         title,
         content,
         tags,
-        slug, // Include the new slug
+        resolved: resolved ?? false,
+        slug,
       },
     });
     revalidatePath(`/question/${questionId}`);

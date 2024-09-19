@@ -39,6 +39,7 @@ export interface QuestionQuery {
     totalanswers?: boolean;
     createdAt: true;
     updatedAt: true;
+    resolved?: boolean;
     author: {
       select: {
         id: boolean;
@@ -66,6 +67,7 @@ export interface QuestionQuery {
       gte?: string;
       lt?: string;
     };
+    resolved?: boolean;
   };
 }
 

@@ -52,6 +52,7 @@ const getQuestionsWithQuery = async (
       slug: true,
       createdAt: true,
       updatedAt: true,
+      resolved: true,
       votes: {
         where: { userId: sessionId },
         select: { userId: true, voteType: true },
@@ -231,6 +232,7 @@ export default async function QuestionsPage({
                 questionId={post.id}
                 enableLink={true}
                 reply={false}
+                resolved={post.resolved}
               />
             ))}
           </div>

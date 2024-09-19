@@ -29,6 +29,7 @@ export const NewPostDialog = () => {
   const [value, setValue] = useState<string>('**Hello world!!!**');
   const containerRef = useRef<HTMLDivElement>(null);
   const { ref, onOpen, onClose } = useModal();
+  const [loading, setLoading] = useState(false);
   const handleMarkdownChange = (newValue?: string) => {
     if (typeof newValue === 'string') {
       setValue(newValue);
@@ -55,10 +56,12 @@ export const NewPostDialog = () => {
       setValue('');
       router.push(`/question/${data.slug}`);
       handleOnCloseClick();
+      setLoading(false);
     },
     onError: (error) => {
       toast.error(error);
       handleOnCloseClick();
+      setLoading(false);
     },
   });
 
@@ -69,6 +72,7 @@ export const NewPostDialog = () => {
     }
   };
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    setLoading(true);
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const title = formData.get('title');
@@ -155,7 +159,7 @@ export const NewPostDialog = () => {
                 <FormPostErrors id="content" errors={fieldErrors} />
               </div>
               <Button type="submit" variant={'branding'} className="md:w-fit">
-                Submit Question
+                {loading ? 'Submitting...' : 'Submit Question'}
               </Button>
             </div>
           </motion.div>

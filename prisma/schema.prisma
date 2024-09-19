@@ -262,6 +262,7 @@ model Question {
   authorId     String
   upvotes      Int      @default(0)
   downvotes    Int      @default(0)
+  resolved     Boolean  @default(false)
   totalanswers Int      @default(0)
   answers      Answer[]
   votes        Vote[]
@@ -283,6 +284,7 @@ model Answer {
   upvotes      Int      @default(0)
   downvotes    Int      @default(0)
   totalanswers Int      @default(0)
+  
   parentId     Int?
   responses    Answer[] @relation("AnswerToAnswer")
   parent       Answer?  @relation("AnswerToAnswer", fields: [parentId], references: [id])

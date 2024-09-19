@@ -1,7 +1,7 @@
 'use client';
 import '@uiw/react-md-editor/markdown-editor.css';
 import '@uiw/react-markdown-preview/markdown.css';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import VoteForm from './form/form-vote';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
@@ -27,6 +27,7 @@ import { ROLES } from '@/actions/types';
 import { FormPostErrors } from './form/form-errors';
 import { useRouter } from 'next/navigation';
 import { Button } from '../ui/button';
+import { updateQuestion } from '@/actions/question';
 
 interface IProps {
   post: ExtendedQuestion | ExtendedAnswer;
@@ -36,12 +37,17 @@ interface IProps {
   isAnswer?: boolean;
   questionId: number;
   parentAuthorName?: string | null;
+  resolved?: boolean;
+  title?: string;
+  tags?: string[] | undefined;
 }
+
 const isExtendedQuestion = (
   post: ExtendedQuestion | Answer,
 ): post is ExtendedQuestion => {
   return (post as ExtendedQuestion).slug !== undefined;
 };
+
 const PostCard: React.FC<IProps> = ({
   post,
   sessionUser,
@@ -50,10 +56,20 @@ const PostCard: React.FC<IProps> = ({
   enableLink = false,
   isAnswer = true,
   parentAuthorName,
+  resolved = false,
+  title,
+  tags,
 }) => {
   const { theme } = useTheme();
   const [markDownValue, setMarkDownValue] = useState('');
   const [enableReply, setEnableReply] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [isResolved, setIsResolved] = useState(resolved);
+
+  useEffect(() => {
+    setIsResolved(resolved);
+  }, [resolved]);
+
   const handleMarkdownChange = (newValue?: string) => {
     if (typeof newValue === 'string') {
       setMarkDownValue(newValue);
@@ -67,16 +83,44 @@ const PostCard: React.FC<IProps> = ({
       toast.success(`Reply added`);
       if (!fieldErrors?.content) {
         setEnableReply(false);
+        setLoading(false);
         setMarkDownValue('');
       }
     },
     onError: (error) => {
+      setLoading(false);
       toast.error(error);
     },
   });
 
+  const { execute: updateQuestionAction } = useAction(updateQuestion, {
+    onSuccess: () => {
+      toast.success('Marked as resolved');
+      setIsResolved(true);
+      setLoading(false);
+    },
+    onError: (error) => {
+      toast.error(error);
+      setLoading(false);
+    },
+  });
+
+  const handleMarkAsResolved = () => {
+    setLoading(true);
+
+    const titleToPass = title ?? ''; // Ensure title is always a string
+    updateQuestionAction({
+      questionId,
+      content: post.content,
+      resolved: true,
+      title: titleToPass,
+      tags,
+    });
+  };
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setLoading(true);
     execute({
       content: markDownValue,
       questionId,
@@ -122,6 +166,26 @@ const PostCard: React.FC<IProps> = ({
             </div>
           </div>
         </div>
+
+        {/* Mark as Resolved Button */}
+        {(sessionUser?.id === post.author.id ||
+          sessionUser?.role === ROLES.ADMIN) &&
+          !isResolved && (
+            <Button
+              onClick={handleMarkAsResolved}
+              disabled={isResolved || loading}
+            >
+              {!isResolved && loading ? 'Marking...' : 'Mark as Resolved'}
+            </Button>
+          )}
+
+        {/* Display if the question is resolved */}
+        {isResolved && (
+          <div className="h-[25px] w-[100px] rounded-lg bg-pink-500 text-center">
+            <p className="text-white">Resolved</p>
+          </div>
+        )}
+
         {(sessionUser?.role === ROLES.ADMIN ||
           post?.author?.id === sessionUser?.id) && (
           <DeleteForm
@@ -217,7 +281,7 @@ const PostCard: React.FC<IProps> = ({
             />
             <FormPostErrors id="content" errors={fieldErrors} />
             <Button type="submit" size="sm" className="w-full sm:w-auto">
-              Add a reply
+              {loading ? 'Adding a Reply..' : 'Add a reply'}
             </Button>
             <p className="text-xs text-primary/80 sm:text-sm">
               Be respectful towards others while answering
