@@ -240,37 +240,40 @@ const Comments = async ({
                         <span className="text-sm text-primary/80">Pinned</span>
                       )}
                     </div>
-
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <MoreVerticalIcon className="size-6" />
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent>
-                        {(session.user.id.toString() ===
-                          (c as ExtendedComment).userId.toString() ||
-                          session.user.role === ROLES.ADMIN) && (
-                          <DropdownMenuItem>
-                            <CommentDeleteForm commentId={c.id} />
-                          </DropdownMenuItem>
-                        )}
-                        {session.user.role === ROLES.ADMIN && (
-                          <DropdownMenuItem>
-                            <CommentPinForm
-                              commentId={c.id}
-                              contentId={c.contentId}
-                            />
-                          </DropdownMenuItem>
-                        )}
-                        {session.user.role === ROLES.ADMIN && (
-                          <DropdownMenuItem>
-                            <CommentApproveForm
-                              commentId={c.id}
-                              contentId={c.contentId}
-                            />
-                          </DropdownMenuItem>
-                        )}
-                      </DropdownMenuContent>
-                    </DropdownMenu>
+                    {session.user.id.toString() ===
+                      (c as ExtendedComment).userId.toString() ||
+                      (session.user.role === ROLES.ADMIN && (
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <MoreVerticalIcon className="size-6" />
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent>
+                            {(session.user.id.toString() ===
+                              (c as ExtendedComment).userId.toString() ||
+                              session.user.role === ROLES.ADMIN) && (
+                              <DropdownMenuItem>
+                                <CommentDeleteForm commentId={c.id} />
+                              </DropdownMenuItem>
+                            )}
+                            {session.user.role === ROLES.ADMIN && (
+                              <DropdownMenuItem>
+                                <CommentPinForm
+                                  commentId={c.id}
+                                  contentId={c.contentId}
+                                />
+                              </DropdownMenuItem>
+                            )}
+                            {session.user.role === ROLES.ADMIN && (
+                              <DropdownMenuItem>
+                                <CommentApproveForm
+                                  commentId={c.id}
+                                  contentId={c.contentId}
+                                />
+                              </DropdownMenuItem>
+                            )}
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      ))}
                   </div>
 
                   <TimeCodeComment
