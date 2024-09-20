@@ -1,0 +1,43 @@
+name: Continuous Deployment (Prod)
+on:
+  push:
+    branches: [ production ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Docker login
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build and push
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./Dockerfile.prod
+          push: true
+          tags: 100xdevs/cms:${{ github.sha }}
+          build-args: |
+            DATABASE_URL=${{ secrets.PROD_DATABASE }} 
+
+      - name: Clone staging-ops repo, update, and push
+        env:
+          PAT: ${{ secrets.PAT }}
+        run: |
+          git clone https://github.com/code100x/staging-ops.git
+          cd staging-ops
+          sed -i 's|image: 100xdevs/cms:.*|image: 100xdevs/cms:${{ github.sha }}|' prod/cms/deployment.yml
+          git config user.name "GitHub Actions Bot"
+          git config user.email "actions@github.com"
+          git add prod/cms/deployment.yml
+          git commit -m "Update cms image to ${{ github.sha }}"
+          git push https://${PAT}@github.com/code100x/staging-ops.git main
