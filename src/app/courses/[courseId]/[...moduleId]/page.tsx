@@ -1,7 +1,10 @@
+import Head from 'next/head';
 import { QueryParams } from '@/actions/types';
 import { CourseView } from '@/components/CourseView';
 import { getCourse, getFullCourseContent } from '@/db/course';
 import findContentById from '@/lib/find-content-by-id';
+import { TITLE as DEFAULT_TITLE } from '@/config/site-config';
+
 
 export default async function Course({
   params,
@@ -21,16 +24,24 @@ export default async function Course({
     rest.map((x) => parseInt(x, 10)),
   );
   const nextContent = null; //await getNextVideo(Number(rest[rest.length - 1]))
+  const pageTitle = course?.title 
+  ? `${course.title} | 100xDevs` 
+  : DEFAULT_TITLE;
 
   return (
-    <CourseView
-      rest={rest}
-      course={course}
-      nextContent={nextContent}
-      courseContent={courseContent}
-      fullCourseContent={fullCourseContent}
-      searchParams={searchParams}
-      possiblePath={possiblePath}
-    />
+    <>
+      <Head>
+        <title>{pageTitle}</title>
+      </Head>
+      <CourseView
+        rest={rest}
+        course={course}
+        nextContent={nextContent}
+        courseContent={courseContent}
+        fullCourseContent={fullCourseContent}
+        searchParams={searchParams}
+        possiblePath={possiblePath}
+      />
+    </>
   );
 }
