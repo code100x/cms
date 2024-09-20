@@ -1,4 +1,5 @@
 import prisma from '@/db';
+import { env } from '@/env';
 import { authOptions } from '@/lib/auth';
 import { getServerSession } from 'next-auth';
 import { NextRequest, NextResponse } from 'next/server';
@@ -25,8 +26,8 @@ export async function GET(req: NextRequest) {
           Accept: 'application/json',
         },
         body: JSON.stringify({
-          client_id: process.env.GITHUB_ID,
-          client_secret: process.env.GITHUB_SECRET,
+          client_id: env.GITHUB_ID,
+          client_secret: env.GITHUB_SECRET,
           code,
         }),
       },

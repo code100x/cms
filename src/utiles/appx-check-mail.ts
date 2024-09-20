@@ -1,6 +1,8 @@
-const APPX_AUTH_KEY = process.env.APPX_AUTH_KEY;
-const APPX_CLIENT_SERVICE = process.env.APPX_CLIENT_SERVICE;
-const APPX_BASE_API = process.env.APPX_BASE_API;
+import { env } from '@/env';
+
+const APPX_AUTH_KEY = env.APPX_AUTH_KEY;
+const APPX_CLIENT_SERVICE = env.APPX_CLIENT_SERVICE;
+const APPX_BASE_API = env.APPX_BASE_API;
 
 const baseUrl: string = `${APPX_BASE_API}/get/checkemailforpurchase`;
 

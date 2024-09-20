@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import db from '@/db';
 import { z } from 'zod';
+import { env } from '@/env';
 
 const requestBodySchema = z.object({
   adminPassword: z.string(),
@@ -20,7 +21,7 @@ export async function POST(req: NextRequest) {
   try {
     const { adminPassword, email } = parseResult.data;
 
-    if (adminPassword !== process.env.ADMIN_SECRET) {
+    if (adminPassword !== env.ADMIN_SECRET) {
       return NextResponse.json(
         {
           message: 'Invalid Admin Password',

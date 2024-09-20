@@ -26,6 +26,7 @@ import { createSafeAction } from '@/lib/create-safe-action';
 import { CommentType, Prisma } from '@prisma/client';
 import { revalidatePath } from 'next/cache';
 import { ROLES } from '../types';
+import { env } from '@/env';
 
 export const getComments = async (
   q: Prisma.CommentFindManyArgs,
@@ -273,7 +274,7 @@ const updateCommentHandler = async (
       content: content ?? existingComment.content,
       approved: existingComment.approved,
     };
-    if (adminPassword === process.env.ADMIN_SECRET) {
+    if (adminPassword === env.ADMIN_SECRET) {
       updObj.approved = approved ?? existingComment.approved;
     }
     const updatedComment = await prisma.comment.update({
@@ -295,7 +296,7 @@ const approveIntroCommentHandler = async (
   const { content_comment_ids, approved, adminPassword, currentPath } = data;
 
   if (adminPassword) {
-    if (adminPassword !== process.env.ADMIN_SECRET) {
+    if (adminPassword !== env.ADMIN_SECRET) {
       return { error: 'Unauthorized' };
     }
   } else if (!session || !session.user || session.user.role !== ROLES.ADMIN) {

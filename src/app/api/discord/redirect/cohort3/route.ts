@@ -4,6 +4,7 @@ import db from '@/db';
 import { getServerSession } from 'next-auth';
 import { getPurchases } from '@/utiles/appx';
 import { authOptions } from '@/lib/auth';
+import { env } from '@/env';
 
 const COHORT3_GUILD_ID = '1263912990160457738';
 
@@ -109,10 +110,10 @@ export async function POST(req: NextRequest) {
     data.code,
     roles,
     COHORT3_GUILD_ID,
-    process.env.COHORT3_BOT_TOKEN ?? '',
-    process.env.COHORT3_DISCORD_ACCESS_KEY ?? '',
-    process.env.COHORT3_DISCORD_ACCESS_SECRET ?? '',
-    process.env.COHORT3_DISCORD_REDIRECT_URI ?? '',
+    env.COHORT3_BOT_TOKEN ?? '',
+    env.COHORT3_DISCORD_ACCESS_KEY ?? '',
+    env.COHORT3_DISCORD_ACCESS_SECRET ?? '',
+    env.COHORT3_DISCORD_REDIRECT_URI ?? '',
   );
 
   if (!discordId || !discordUsername) {

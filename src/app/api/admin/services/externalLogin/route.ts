@@ -1,11 +1,12 @@
 import db from '@/db';
 import { NextRequest, NextResponse } from 'next/server';
 import bcrypt from 'bcrypt';
+import { env } from '@/env';
 
 export async function POST(req: NextRequest) {
   const authKey = req.headers.get('Auth-Key');
 
-  if (authKey !== process.env.JOB_BOARD_AUTH_SECRET) {
+  if (authKey !== env.JOB_BOARD_AUTH_SECRET) {
     return NextResponse.json({ message: 'Unauthorized' }, { status: 403 });
   }
 

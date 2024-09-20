@@ -1,11 +1,12 @@
 import db from '@/db';
+import { env } from '@/env';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(req: NextRequest) {
   const authKey = req.headers.get('Authorization');
   const videoId = req.nextUrl.searchParams.get('videoId');
 
-  if (authKey !== process.env.VIZOLV_SECRET)
+  if (authKey !== env.VIZOLV_SECRET)
     return NextResponse.json({ message: 'Unauthorized' }, { status: 403 });
 
   if (!videoId)

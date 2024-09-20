@@ -4,6 +4,7 @@ import db from '@/db';
 import { getServerSession } from 'next-auth';
 import { getPurchases } from '@/utiles/appx';
 import { authOptions } from '@/lib/auth';
+import { env } from '@/env';
 
 const ROLES = [
   '1175845469335859271',
@@ -54,11 +55,11 @@ export async function POST(req: NextRequest) {
       ...purchases.map((purchase: any) => purchase.discordRoleId),
       ROLES[Math.floor(Math.random() * ROLES.length)],
     ],
-    process.env.GUILD_ID ?? '',
-    process.env.BOT_TOKEN ?? '',
-    process.env.DISCORD_ACCESS_KEY ?? '',
-    process.env.DISCORD_ACCESS_SECRET ?? '',
-    process.env.DISCORD_REDIRECT_URI ?? '',
+    env.GUILD_ID ?? '',
+    env.BOT_TOKEN ?? '',
+    env.DISCORD_ACCESS_KEY ?? '',
+    env.DISCORD_ACCESS_SECRET ?? '',
+    env.DISCORD_REDIRECT_URI ?? '',
   );
 
   if (!discordId || !discordUsername) {

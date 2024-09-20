@@ -2,6 +2,7 @@
 import db from '@/db';
 import { cache } from '@/db/Cache';
 import { getAllCourses } from '@/db/course';
+import { env } from '@/env';
 import { authOptions } from '@/lib/auth';
 import { APPX_COURSE_IDS } from '@/utiles/appx';
 import { checkUserEmailForPurchase } from '@/utiles/appx-check-mail';
@@ -28,7 +29,7 @@ export async function refreshDbInternal(userId?: string, email?: string) {
     };
   }
 
-  if (process.env.LOCAL_CMS_PROVIDER) {
+  if (env.LOCAL_CMS_PROVIDER) {
     return { error: false, message: 'Refetched Courses' };
   }
 

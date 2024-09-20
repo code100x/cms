@@ -1,4 +1,5 @@
 import db from '@/db';
+import { env } from '@/env';
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 
@@ -10,7 +11,7 @@ const patchVideoSchema = z.object({
 export async function GET(req: NextRequest) {
   const authKey = req.headers.get('Authorization');
 
-  if (authKey !== process.env.SUBTITLE_SECRET)
+  if (authKey !== env.SUBTITLE_SECRET)
     return NextResponse.json({ message: 'Unauthorized' }, { status: 403 });
 
   try {
@@ -62,7 +63,7 @@ export async function GET(req: NextRequest) {
 export async function PATCH(req: NextRequest) {
   const authKey = req.headers.get('Authorization');
 
-  if (authKey !== process.env.SUBTITLE_SECRET)
+  if (authKey !== env.SUBTITLE_SECRET)
     return NextResponse.json({ message: 'Unauthorized' }, { status: 403 });
 
   const requestBody = await req.json();

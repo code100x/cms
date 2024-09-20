@@ -1,9 +1,10 @@
+import { env } from '@/env';
 import { authOptions } from '@/lib/auth';
 import axios from 'axios';
 import { getServerSession } from 'next-auth';
 import { NextRequest, NextResponse } from 'next/server';
 
-const VIDEO_FETCH_URL = process.env.FETCHER_URL;
+const VIDEO_FETCH_URL = env.FETCHER_URL;
 
 // Input is /video/123.m3u8
 export const GET = async (

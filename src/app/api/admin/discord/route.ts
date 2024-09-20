@@ -1,4 +1,5 @@
 import db from '@/db';
+import { env } from '@/env';
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 
@@ -18,7 +19,7 @@ export async function POST(req: NextRequest) {
   }
   const { adminSecret, email } = parseResult.data;
 
-  if (adminSecret !== process.env.ADMIN_SECRET) {
+  if (adminSecret !== env.ADMIN_SECRET) {
     return NextResponse.json({}, { status: 401 });
   }
 

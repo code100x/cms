@@ -1,4 +1,5 @@
 import db from '@/db';
+import { env } from '@/env';
 import axios from 'axios';
 import { NextRequest, NextResponse } from 'next/server';
 
@@ -26,10 +27,7 @@ const sendUpdateToDiscord = async (data: DiscordData) => {
   };
 
   try {
-    await axios.post(
-      process.env.NEXT_PUBLIC_DISCORD_WEBHOOK_URL as string,
-      body,
-    );
+    await axios.post(env.NEXT_PUBLIC_DISCORD_WEBHOOK_URL as string, body);
   } catch (error) {
     console.error('Failed to send update to Discord:', error);
   }
@@ -73,7 +71,7 @@ export const POST = async (req: NextRequest) => {
     discordChecked,
   });
 
-  if (adminPassword !== process.env.ADMIN_SECRET) {
+  if (adminPassword !== env.ADMIN_SECRET) {
     return NextResponse.json({}, { status: 403 });
   }
 
@@ -157,7 +155,7 @@ export const POST = async (req: NextRequest) => {
     }
   }
   if (discordChecked && (type === 'notion' || type === 'video')) {
-    if (!process.env.NEXT_PUBLIC_DISCORD_WEBHOOK_URL) {
+    if (!env.NEXT_PUBLIC_DISCORD_WEBHOOK_URL) {
       return NextResponse.json(
         { message: 'Environment variable for discord webhook is not set' },
         { status: 500 },

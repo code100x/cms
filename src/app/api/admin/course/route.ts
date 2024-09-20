@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import db from '@/db';
 import { z } from 'zod';
+import { env } from '@/env';
 
 const requestBodySchema = z.object({
   adminSecret: z.string(),
@@ -37,7 +38,7 @@ export async function POST(req: NextRequest) {
     discordRoleId,
   } = parseResult.data;
 
-  if (adminSecret !== process.env.ADMIN_SECRET) {
+  if (adminSecret !== env.ADMIN_SECRET) {
     return NextResponse.json({}, { status: 401 });
   }
 

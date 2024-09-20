@@ -10,8 +10,9 @@ import { cache } from '@/db/Cache';
 import prisma from '@/db';
 import { checkUserEmailForPurchase } from './appx-check-mail';
 import { refreshDbInternal } from '@/actions/refresh-db';
+import { env } from '@/env';
 
-const LOCAL_CMS_PROVIDER = process.env.LOCAL_CMS_PROVIDER;
+const LOCAL_CMS_PROVIDER = env.LOCAL_CMS_PROVIDER;
 const COHORT_3_PARENT_COURSES = [8, 9, 10, 11, 12];
 
 export const APPX_COURSE_IDS = [1, 2, 3, 8, 9, 10, 11, 12];

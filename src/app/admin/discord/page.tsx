@@ -8,7 +8,7 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/components/ui/accordion";
+} from '@/components/ui/accordion';
 import { InfoIcon, RefreshCcw } from 'lucide-react';
 import { FaDiscord } from 'react-icons/fa';
 
@@ -17,33 +17,37 @@ export default function DiscordPage() {
   const [adminSecret, setAdminSecret] = useState('' as any);
   const [userData, setUserData] = useState({} as any);
   return (
-    <div className="flex flex-col w-full max-w-7xl mx-auto justify-around px-4 py-5 gap-6">
-
-      <section className='flex gap-2 border-2 p-4 bg-primary/5 rounded-lg my-4 items-center'>
-        <FaDiscord className='text-3xl' />
-        <h2 className='text-md font-bold'>Discord Configuration</h2>
+    <div className="mx-auto flex w-full max-w-7xl flex-col justify-around gap-6 px-4 py-5">
+      <section className="my-4 flex items-center gap-2 rounded-lg border-2 bg-primary/5 p-4">
+        <FaDiscord className="text-3xl" />
+        <h2 className="text-md font-bold">Discord Configuration</h2>
       </section>
-      
-      <Accordion defaultValue='refresh-permission' className='border-2  w-full rounded-2xl' type="single" collapsible>
-        <AccordionItem className='p-4' value="refresh-permission">
-          <AccordionTrigger className='p-6 text-lg lg:text-2xl font-bold'>
-            <div className='flex gap-4 items-start flex-col' >
+
+      <Accordion
+        defaultValue="refresh-permission"
+        className="w-full rounded-2xl border-2"
+        type="single"
+        collapsible
+      >
+        <AccordionItem className="p-4" value="refresh-permission">
+          <AccordionTrigger className="p-6 text-lg font-bold lg:text-2xl">
+            <div className="flex flex-col items-start gap-4">
               <RefreshCcw size={40} /> Refresh Discord Permission
             </div>
           </AccordionTrigger>
           <AccordionContent>
-            <div className="grid w-full grid-cols-1 lg:grid-cols-7 p-2 gap-2 rounded-lg border-gray-200 shadow-sm dark:border-gray-800">
-              <div className="col-span-1 lg:col-span-3 flex flex-col gap-2 p-4">
+            <div className="grid w-full grid-cols-1 gap-2 rounded-lg border-gray-200 p-2 shadow-sm dark:border-gray-800 lg:grid-cols-7">
+              <div className="col-span-1 flex flex-col gap-2 p-4 lg:col-span-3">
                 <div className="text-md font-medium leading-none text-gray-500 dark:text-gray-400">
-                  User entered discord with wrong email ? Here you can refresh email
+                  User entered discord with wrong email ? Here you can refresh
+                  email
                 </div>
-                <h1 className="text-yellow-500 capitalize">
+                <h1 className="capitalize text-yellow-500">
                   (please delete old user from discord first)
                 </h1>
               </div>
 
-              <aside className='col-span-1 flex flex-col gap-6 p-4 lg:col-span-4 '>
-
+              <aside className="col-span-1 flex flex-col gap-6 p-4 lg:col-span-4">
                 <Input
                   placeholder="Email"
                   className="h-14"
@@ -59,7 +63,7 @@ export default function DiscordPage() {
                   onChange={(e) => setAdminSecret(e.target.value)}
                 />
                 <Button
-                  className="rounded  px-4 py-2 font-bold text-white lg:w-fit w-full"
+                  className="w-full rounded px-4 py-2 font-bold text-white lg:w-fit"
                   onClick={async () => {
                     const response = await fetch('/api/admin/discord/refresh', {
                       method: 'POST',
@@ -79,45 +83,43 @@ export default function DiscordPage() {
                 >
                   Allow user to re-initiate discord
                 </Button>
-
               </aside>
             </div>
           </AccordionContent>
         </AccordionItem>
 
-        <AccordionItem className='border-none p-4' value="get-user-info">
-          <AccordionTrigger className='p-6 text-lg lg:text-2xl font-bold'>
-            <div className='flex gap-4 flex-col' >
+        <AccordionItem className="border-none p-4" value="get-user-info">
+          <AccordionTrigger className="p-6 text-lg font-bold lg:text-2xl">
+            <div className="flex flex-col gap-4">
               <InfoIcon size={40} /> Get User Information
             </div>
           </AccordionTrigger>
           <AccordionContent>
-
-            <div className="grid w-full grid-cols-1 lg:grid-cols-7 p-2 gap-2 rounded-lg border-gray-200 shadow-sm dark:border-gray-800">
-              <div className="col-span-1 lg:col-span-3 flex flex-col gap-2 p-4">
+            <div className="grid w-full grid-cols-1 gap-2 rounded-lg border-gray-200 p-2 shadow-sm dark:border-gray-800 lg:grid-cols-7">
+              <div className="col-span-1 flex flex-col gap-2 p-4 lg:col-span-3">
                 <div className="text-md font-medium leading-none text-gray-500 dark:text-gray-400">
-                  Enter the user email and get user's information just by one click
+                  Enter the user email and get user's information just by one
+                  click
                 </div>
               </div>
 
-              <aside className='col-span-1 flex flex-col gap-6 p-4 lg:col-span-4 '>
-
+              <aside className="col-span-1 flex flex-col gap-6 p-4 lg:col-span-4">
                 <Input
                   placeholder="Email"
-                  className=" h-14 px-2"
+                  className="h-14 px-2"
                   type=" text"
                   onChange={(e) => {
                     setEmail(e.target.value);
                   }}
                 />
                 <Input
-                  className=" h-14 px-2"
+                  className="h-14 px-2"
                   type="text"
                   placeholder="Admin secret"
                   onChange={(e) => setAdminSecret(e.target.value)}
                 />
                 <Button
-                  className="rounded  px-4 py-2 font-bold text-white  lg:w-[20%] w-full"
+                  className="w-full rounded px-4 py-2 font-bold text-white lg:w-[20%]"
                   onClick={async () => {
                     const response = await fetch('/api/admin/discord/', {
                       method: 'POST',
@@ -145,7 +147,6 @@ export default function DiscordPage() {
           </AccordionContent>
         </AccordionItem>
       </Accordion>
-
     </div>
   );
 }

@@ -1,4 +1,5 @@
 import { TabType, QueryParams } from '@/actions/types';
+import { env } from '@/env';
 import { CommentType, Prisma } from '@prisma/client';
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
@@ -361,7 +362,7 @@ export const generateHandle = (title: string): string => {
 };
 
 export const getDisabledFeature = (feature: string): boolean => {
-  return (process.env.NEXT_PUBLIC_DISABLE_FEATURES || '')
+  return (env.NEXT_PUBLIC_DISABLE_FEATURES || '')
     .toLowerCase()
     .split(',')
     .includes(feature);
