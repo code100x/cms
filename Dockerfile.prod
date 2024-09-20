@@ -5,9 +5,10 @@ WORKDIR /usr/src/app
 
 COPY . .
 
-RUN npm install
+RUN npm install -g pnpm
+RUN pnpm install
 RUN DATABASE_URL=$DATABASE_URL npx prisma generate
-RUN DATABASE_URL=$DATABASE_URL npm run build
+RUN DATABASE_URL=$DATABASE_URL pnpm run build
 
 EXPOSE 3000
 
