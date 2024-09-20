@@ -5,12 +5,6 @@
   "prisma": {
     "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
   },
-  "eslintConfig": {
-    "extends": "next",
-    "rules": {
-      "no-unused-vars": "off"
-    }
-  },
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "postinstall": "prisma generate",
