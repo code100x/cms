@@ -23,7 +23,8 @@ export const NewPostDialog = () => {
   const { theme } = useTheme();
   const formRef = useRef<ElementRef<'form'>>(null);
   const searchParam = useSearchParams();
-  const paramsObject = searchParamsToObject(searchParam);
+  const params = new URLSearchParams(Array.from(searchParam.entries()));
+  const paramsObject = searchParamsToObject(params);
   const path = usePathname();
   const router = useRouter();
   const [value, setValue] = useState<string>('**Hello world!!!**');

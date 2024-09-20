@@ -78,7 +78,7 @@ rules:
   operator-assignment: [2, always]
   padded-blocks: [2, never]
   quote-props: [2, as-needed]
-  keyword-spacing: [2, {'before': true, 'after': true, 'overrides': {}}]
+  keyword-spacing: [2, {"before": true, 'after': true, 'overrides': {}}]
   space-before-blocks: [2, always]
   array-bracket-spacing: [2, never]
   computed-property-spacing: [2, never]
@@ -108,9 +108,10 @@ rules:
   "@typescript-eslint/no-this-alias": "off"
   "@typescript-eslint/no-unnecessary-type-constraint": "off"
   "@typescript-eslint/ban-types": "off"
+  "@typescript-eslint/no-unused-vars": "off"
 
 overrides:
-  - files: 
+  - files:
       - "test/**"
       - "*.spec.ts"
       - "*.test.ts"
@@ -118,3 +119,7 @@ overrides:
       prefer-arrow-callback: 0
       "@typescript-eslint/no-non-null-assertion": 0
       "@typescript-eslint/no-unused-vars": 0
+  - files:
+      - "src/components/ui/**.tsx"
+    rules:
+      "@typescript-eslint/no-empty-object-type": 0

@@ -20,6 +20,7 @@ export default function DiscordOauthRedirect() {
           'Content-Type': 'application/json',
         },
       });
+      console.log(response);
       if (response.status !== 200) {
         const responseText = await response.json();
         setError(
@@ -36,6 +37,7 @@ export default function DiscordOauthRedirect() {
   };
 
   useEffect(() => {
+    console.log(code);
     if (code) {
       updateDiscordUser(code);
     }

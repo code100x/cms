@@ -3,3 +3,4 @@ node_modules
 .gitignore
 .env.example
 .env
+pnpm-lock.yaml

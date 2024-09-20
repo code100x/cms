@@ -12,9 +12,10 @@ interface IPagination {
   dataLength: number;
 }
 const Pagination: React.FC<IPagination> = ({ dataLength = 1 }) => {
-  const searchParams = useSearchParams();
   const path = usePathname();
-  const paramsObj = searchParamsToObject(searchParams);
+  const searchParams = useSearchParams();
+  const params = new URLSearchParams(Array.from(searchParams.entries()));
+  const paramsObj = searchParamsToObject(params);
   const paginationQ = paginationData(paramsObj);
   return (
     <div className="flex items-center justify-center space-x-4">

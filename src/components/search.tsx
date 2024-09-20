@@ -9,10 +9,11 @@ import { getUpdatedUrl, searchParamsToObject } from '@/lib/utils';
 
 const Search = () => {
   const router = useRouter();
-  const searchParams = useSearchParams();
   const [search, setSearch] = useState('');
   const path = usePathname();
-  const paramsObj = searchParamsToObject(searchParams);
+  const searchParams = useSearchParams();
+  const params = new URLSearchParams(Array.from(searchParams.entries()));
+  const paramsObj = searchParamsToObject(params);
 
   const handleSearch = () => {
     router.push(getUpdatedUrl(path, paramsObj, { search }));
