@@ -97,6 +97,7 @@ export const ContentRendererClient = ({
             autoplay: true,
             responsive: true,
             sources: [source],
+            preload: "auto",
           }}
           onVideoEnd={() => {}}
         />
