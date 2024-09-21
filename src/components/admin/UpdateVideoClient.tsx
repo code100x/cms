@@ -161,10 +161,17 @@ export const UpdateVideoClient = ({
                   }}
                   placeholder={'pdf link'}
                 />
+                <Input
+                  type="text"
+                  placeholder="Admin password"
+                  onChange={(e) => setAdminPassword(e.target.value)}
+                  className="h-14"
+                />
                 <Button
                   className="my-4 rounded p-2 font-bold text-white w-full lg:w-[20%]"
                   onClick={async () => {
                     await axios.post('/api/admin/contentmetadata', {
+                      adminPassword,
                       contentId: content.id,
                       updates: {
                         slides: pdfLink,
@@ -199,10 +206,17 @@ export const UpdateVideoClient = ({
                   }}
                   placeholder={'vtt link'}
                 />
+                <Input
+                  type="text"
+                  placeholder="Admin password"
+                  onChange={(e) => setAdminPassword(e.target.value)}
+                  className="h-14"
+                />
                 <Button
                   className="my-4 rounded  p-2 font-bold text-white w-full lg:w-[20%]"
                   onClick={async () => {
                     await axios.post('/api/admin/contentmetadata', {
+                      adminPassword,
                       contentId: content.id,
                       updates: {
                         subtitles: vttLink,
