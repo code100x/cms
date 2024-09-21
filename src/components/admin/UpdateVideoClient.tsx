@@ -114,7 +114,6 @@ export const UpdateVideoClient = ({
                   type="text"
                   placeholder="Admin password"
                   onChange={(e) => setAdminPassword(e.target.value)}
-                  className="h-14"
                 />
                 <Button
                   className="my-4 w-full rounded p-2 font-bold text-white lg:w-[20%]"
@@ -165,7 +164,6 @@ export const UpdateVideoClient = ({
                   type="text"
                   placeholder="Admin password"
                   onChange={(e) => setAdminPassword(e.target.value)}
-                  className="h-14"
                 />
                 <Button
                   className="my-4 rounded p-2 font-bold text-white w-full lg:w-[20%]"
@@ -210,7 +208,7 @@ export const UpdateVideoClient = ({
                   type="text"
                   placeholder="Admin password"
                   onChange={(e) => setAdminPassword(e.target.value)}
-                  className="h-14"
+                  className="my-3"
                 />
                 <Button
                   className="my-4 rounded  p-2 font-bold text-white w-full lg:w-[20%]"
