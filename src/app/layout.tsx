@@ -8,6 +8,8 @@ import { GoogleAnalytics } from '@/components/analytics/GoogleAnalytics';
 import { siteConfig } from '@/config/site-config';
 import { Toaster } from 'sonner';
 import { Navbar } from '@/components/Navbar';
+import NextTopLoader from 'nextjs-toploader';
+
 
 const satoshi = localFont({
   display: 'swap',
@@ -30,7 +32,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           satoshi.variable,
         )}
       >
+        next
+        
         <GoogleAnalytics />
+        <NextTopLoader />
         <Providers>
           <Navbar />
           {children}
