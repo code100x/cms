@@ -43,7 +43,7 @@ export default function LandingPage() {
             damping: 10,
             stiffness: 100,
           }}
-          className="flex max-w-7xl flex-col items-center justify-center gap-2 px-4"
+          className="mt-24 flex max-w-7xl flex-col items-center justify-center gap-2 px-4"
         >
           <h1 className="max-w-2xl py-2 text-center text-5xl font-extrabold tracking-tighter md:text-6xl xl:text-7xl">
             <span className="w-fit bg-gradient-to-b from-blue-400 to-blue-700 bg-clip-text pr-1.5 text-center text-transparent md:mb-4">
