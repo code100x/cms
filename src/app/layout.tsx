@@ -32,8 +32,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           satoshi.variable,
         )}
       >
-        next
-        
+
         <GoogleAnalytics />
         <NextTopLoader />
         <Providers>
