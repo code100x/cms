@@ -10,7 +10,7 @@ const requestBodySchema = z.object({
 });
 
 const generateJWT = async (payload: JWTPayload) => {
-  const secret = process.env.JWT_SECRET || 'secret';
+  const secret = process.env.JWT_SECRET || '';
 
   const jwk = await importJWK({ k: secret, alg: 'HS256', kty: 'oct' });
 
