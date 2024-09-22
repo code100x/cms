@@ -64,18 +64,6 @@ export async function POST(req: NextRequest) {
       password &&
       (await bcrypt.compare(password, user.password))
     ) {
-      const courses = await db.course.findMany({
-        where: {
-          purchasedBy: {
-            some: {
-              user: {
-                email,
-              },
-            },
-          },
-        },
-      });
-
       const jwt = await generateJWT({
         id: user.id,
         email: user.email,
@@ -89,7 +77,6 @@ export async function POST(req: NextRequest) {
             email: user.email,
             name: user.name,
           },
-          courses,
           token: jwt,
         },
       });
