@@ -50,7 +50,7 @@ export function SearchBar() {
     const handleKeyPress = (event: KeyboardEvent) => {
       switch (event.code) {
         case 'KeyK':
-          if (event.ctrlKey || e.metaKey) {
+          if (event.ctrlKey || event.metaKey) {
             event.preventDefault();
             setDialogOpen((prev) => !prev);
           }
