@@ -31,7 +31,7 @@ const heroItems = [
 export default function LandingPage() {
   return (
     <div className="flex min-h-screen flex-col">
-      <main className="flex h-[100vh] flex-col items-center justify-center gap-4">
+      <main className="flex h-full flex-col items-center justify-center gap-4">
         {/* Hero */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -45,7 +45,7 @@ export default function LandingPage() {
           }}
           className="flex max-w-7xl flex-col items-center justify-center gap-2 px-4"
         >
-          <h1 className="max-w-2xl py-2 text-center text-5xl font-extrabold tracking-tighter md:text-6xl xl:text-7xl">
+          <h1 className="max-w-2xl py-2 pt-36 text-center text-5xl font-extrabold tracking-tighter md:text-6xl xl:text-7xl">
             <span className="w-fit bg-gradient-to-b from-blue-400 to-blue-700 bg-clip-text pr-1.5 text-center text-transparent md:mb-4">
               100xDevs,
             </span>{' '}
@@ -69,7 +69,7 @@ export default function LandingPage() {
             damping: 10,
             stiffness: 100,
           }}
-          className="flex items-center justify-center gap-2"
+          className="flex items-center justify-center gap-2 py-5"
         >
           <Button size={'lg'} asChild variant={'branding'}>
             <Link
