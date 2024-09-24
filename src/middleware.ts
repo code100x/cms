@@ -7,7 +7,10 @@ export const config = {
 };
 
 interface RequestWithUser extends NextRequest {
-  user?: any;
+  user?: {
+    id: string,
+    email: string,
+  };
 }
 
 export const verifyJWT = async (token: string): Promise<JWTPayload | null> => {
