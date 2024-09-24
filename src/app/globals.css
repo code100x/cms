@@ -129,10 +129,9 @@
 }
 .vjs-quality-selector .vjs-custom-dropup-menu li {
   padding: 0.5rem 1rem;
-  color: #fff;
 }
 .vjs-quality-selector .vjs-custom-dropup-menu li:hover {
-  background: #444;
+  border-radius: inherit;
 }
 
 /* Custom Tooltip Styling */

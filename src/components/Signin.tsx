@@ -5,9 +5,10 @@ import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { toast } from 'sonner';
 import { motion } from 'framer-motion';
+
 const emailDomains = [
   'gmail.com',
   'yahoo.com',
@@ -29,6 +30,7 @@ const Signin = () => {
   const [focusedIndex, setFocusedIndex] = useState(-1);
   const passwordRef = useRef<HTMLInputElement>(null);
   const suggestionRefs = useRef<HTMLLIElement[]>([]);
+  const dropdownRef = useRef<HTMLUListElement>(null);
 
   function togglePasswordVisibility() {
     setIsPasswordVisible((prevState: any) => !prevState);
@@ -119,6 +121,24 @@ const Signin = () => {
       setCheckingPassword(false);
     }
   };
+
+  // Handle clicks outside the dropdown
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setSuggestedDomains([]);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
   return (
     <section className="wrapper relative flex min-h-screen items-center justify-center overflow-hidden antialiased">
       <motion.div
@@ -158,6 +178,7 @@ const Signin = () => {
               />
               {email.current && suggestedDomains.length > 0 && (
                 <ul
+                  ref={dropdownRef}
                   className={`absolute top-20 z-50 max-h-96 w-full min-w-[8rem] overflow-auto rounded-md border bg-popover text-popover-foreground shadow-md data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2`}
                 >
                   {suggestedDomains.map((domain: string, index: number) => (
