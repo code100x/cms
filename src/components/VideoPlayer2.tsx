@@ -27,7 +27,7 @@ interface VideoPlayerProps {
   onVideoEnd: () => void;
 }
 
-const PLAYBACK_RATES: number[] = [0.5, 1, 1.25, 1.5, 1.75, 2, 2.5, 3];
+const PLAYBACK_RATES: number[] = [0.5, 1, 1.25, 1.5, 1.75, 2];
 const VOLUME_LEVELS: number[] = [0, 0.2, 0.4, 0.6, 0.8, 1.0];
 
 export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
@@ -386,7 +386,7 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
         videoElement,
         {
           ...options,
-          playbackRates: [0.5, 1, 1.25, 1.5, 1.75, 2, 2.5, 3],
+          playbackRates: [0.5, 1, 1.25, 1.5, 1.75, 2],
         },
         () => {
           player.mobileUi(); // mobile ui #https://github.com/mister-ben/videojs-mobile-ui
