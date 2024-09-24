@@ -8,6 +8,7 @@ import { GoogleAnalytics } from '@/components/analytics/GoogleAnalytics';
 import { siteConfig } from '@/config/site-config';
 import { Toaster } from 'sonner';
 import { Navbar } from '@/components/Navbar';
+import HelpIcon from '@/components/helpSection/helpIcon';
 
 const satoshi = localFont({
   display: 'swap',
@@ -35,6 +36,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           <Navbar />
           {children}
           <Toaster richColors />
+          <HelpIcon />
         </Providers>
       </body>
     </html>
