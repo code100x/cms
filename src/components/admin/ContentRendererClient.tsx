@@ -6,11 +6,13 @@ import { ChevronDown, ChevronUp } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import { Button } from '../ui/button';
 import Link from 'next/link';
+import BookmarkButton from '../bookmark/BookmarkButton';
 
 export const ContentRendererClient = ({
   metadata,
   content,
   nextContent,
+  bookmark,
 }: {
   nextContent: {
     id: number;
@@ -26,6 +28,12 @@ export const ContentRendererClient = ({
     description: string;
     markAsCompleted: boolean;
   };
+  bookmark: {
+    id: number;
+    userId: string;
+    contentId: number;
+    createdAt: Date;
+  } | null;
 }) => {
   const [showChapters, setShowChapters] = useState(
     metadata?.segments?.length > 0,
@@ -105,11 +113,23 @@ export const ContentRendererClient = ({
             <h2 className="line-clamp-2 text-wrap text-2xl font-extrabold capitalize tracking-tight text-primary md:text-3xl">
               {content.title}
             </h2>
-            {metadata.slides ? (
-              <Link href={metadata.slides} target="_blank">
-                <Button className="gap-2">Lecture Slides</Button>
-              </Link>
-            ) : null}
+            <div className="flex items-center gap-4">
+              {bookmark !== undefined && content.id && (
+                <BookmarkButton
+                  bookmark={bookmark}
+                  contentId={content.id}
+                  size={36}
+                  align="end"
+                  side="top"
+                />
+              )}
+
+              {metadata.slides ? (
+                <Link href={metadata.slides} target="_blank">
+                  <Button className="gap-2">Lecture Slides</Button>
+                </Link>
+              ) : null}
+            </div>
           </div>
 
           {!showChapters && metadata.segments?.length > 0 && (
