@@ -1,6 +1,5 @@
 import db from '@/db';
 import { NextResponse, NextRequest } from 'next/server';
-// import bcrypt from 'bcrypt';
 
 export async function GET(req: NextRequest) {
   try {

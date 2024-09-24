@@ -22,61 +22,63 @@ const fuzzySearch = (videos: TSearchedVideos[], searchQuery: string) => {
 };
 
 export async function GET(request: NextRequest) {
-  const { searchParams } = new URL(request.url);
-  const searchQuery = searchParams.get('q');
-  // TODO: Add this post middleware is fixed
-  //   const user = request.user;
+  try {
+    const { searchParams } = new URL(request.url);
+    const searchQuery = searchParams.get('q');
+    const user = JSON.parse(request.headers.get('g') || '');
 
-  // this will be the coming from the JWT
-  const user = {
-    id: '1',
-    email: 'testuser@example.com',
-  };
-
-  if (searchQuery && searchQuery.length > 2) {
-    const value: TSearchedVideos[] = await cache.get(
-      'getAllVideosForSearch',
-      [],
-    );
-
-    if (value) {
-      return NextResponse.json(fuzzySearch(value, searchQuery));
+    if (!user) {
+      return NextResponse.json({ message: 'User Not Found' }, { status: 400 });
     }
 
-    const allVideos = await db.content.findMany({
-      where: {
-        type: 'video',
-        hidden: false,
-        parent: {
-          courses: {
-            some: {
-              course: {
-                purchasedBy: {
-                  some: {
-                    userId: user.id,
+    if (searchQuery && searchQuery.length > 2) {
+      const value: TSearchedVideos[] = await cache.get(
+        'getAllVideosForSearch',
+        [],
+      );
+
+      if (value) {
+        return NextResponse.json(fuzzySearch(value, searchQuery));
+      }
+
+      const allVideos = await db.content.findMany({
+        where: {
+          type: 'video',
+          hidden: false,
+          parent: {
+            courses: {
+              some: {
+                course: {
+                  purchasedBy: {
+                    some: {
+                      userId: user.id,
+                    },
                   },
                 },
               },
             },
           },
         },
-      },
-      select: {
-        id: true,
-        parentId: true,
-        title: true,
-        parent: {
-          select: {
-            courses: true,
+        select: {
+          id: true,
+          parentId: true,
+          title: true,
+          parent: {
+            select: {
+              courses: true,
+            },
           },
         },
-      },
-    });
+      });
 
-    cache.set('getAllVideosForSearch', [], allVideos, 24 * 60 * 60);
+      cache.set('getAllVideosForSearch', [], allVideos, 24 * 60 * 60);
 
-    return NextResponse.json(fuzzySearch(allVideos, searchQuery));
+      return NextResponse.json(fuzzySearch(allVideos, searchQuery));
+    }
+  } catch (err) {
+    return NextResponse.json(
+      { message: 'Error fetching search results', err },
+      { status: 500 },
+    );
   }
-
-  return NextResponse.json({}, { status: 400 });
 }

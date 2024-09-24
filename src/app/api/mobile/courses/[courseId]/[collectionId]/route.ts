@@ -1,10 +1,11 @@
 import db from '@/db';
 import { NextRequest, NextResponse } from 'next/server';
-// import bcrypt from 'bcrypt';
 
-export async function GET(req: NextRequest,{ params }: { params: { collectionId: string } }) {
+export async function GET(
+  req: NextRequest,
+  { params }: { params: { collectionId: string } },
+) {
   try {
-    console.log({ params });
     const { collectionId } = params;
     const collectionData = await db.content.findMany({
       where: {

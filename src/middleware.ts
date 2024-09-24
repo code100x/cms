@@ -8,8 +8,8 @@ export const config = {
 
 interface RequestWithUser extends NextRequest {
   user?: {
-    id: string,
-    email: string,
+    id: string;
+    email: string;
   };
 }
 
@@ -31,8 +31,8 @@ export const withMobileAuth = async (req: RequestWithUser) => {
   if (req.headers.get('Auth-Key')) {
     return NextResponse.next();
   }
-  const token = req.headers.get('Authorization'); // Extract the token
-  console.log('token', token);
+  const token = req.headers.get('Authorization');
+
   if (!token) {
     return NextResponse.json({ message: 'Unauthorized' }, { status: 403 });
   }

@@ -5,9 +5,6 @@ export async function GET(
   req: NextRequest,
   { params }: { params: { courseId: string } },
 ) {
-  /*
-    get user courses by courseId
-  */
   try {
     const { courseId } = params;
     const folderContents = await db.content.findMany({
