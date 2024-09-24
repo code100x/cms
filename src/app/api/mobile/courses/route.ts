@@ -1,21 +1,13 @@
-
 import db from '@/db';
 import { NextResponse, NextRequest } from 'next/server';
 // import bcrypt from 'bcrypt';
 
 export async function GET(req: NextRequest) {
   try {
-    console.log(req);
-    const user = {
-      id: '1',
-      appxUserId: '100',
-      disableDrm: false,
-      email: 'testuser@example.com',
-      password: 'fjklasjf',
-      token: 'jfskd.fjskdf.fsdf',
-    };
-
-    console.log(user);
+    const user = JSON.parse(req.headers.get('g') || '');
+    if (!user) {
+      return NextResponse.json({ message: 'User Not Found' }, { status: 400 });
+    }
     const userCourses = await db.course.findMany({
       where: {
         purchasedBy: {
