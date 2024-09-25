@@ -163,16 +163,6 @@ We welcome contributions from the community! To contribute to CMS, follow these 
 
 > - Run `npm run format:fix` to automatically fix formatting issues
 
-> Before committing, ensure your code is properly formatted and linted:
-
-> - Run `npm run lint:check` to check for lint errors
-
-> - Run `npm run lint:fix` to automatically fix lint errors
-
-> - Run `npm run format:check` to check code formatting
-
-> - Run `npm run format:fix` to automatically fix formatting issues
-
 4. Push to the branch (`git push origin feature/fooBar`).
 
 5. Create a new Pull Request.
