@@ -182,7 +182,7 @@ export function Sidebar({
 
   return (
     <>
-      <Button onClick={() => setSidebarOpen((s) => !s)} className="w-fit gap-2">
+      <Button onClick={() => setSidebarOpen((s) => !s)} className="w-fit gap-2 xl:absolute">
         {sidebarOpen ? <X className="size-5" /> : <Menu className="size-5" />}
         <span>{sidebarOpen ? 'Hide Contents' : 'Show Contents'}</span>
       </Button>
