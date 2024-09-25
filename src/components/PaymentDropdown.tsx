@@ -63,7 +63,7 @@ export default function PaymentMethodsDropdown({
     <>
       <Button
         onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-        className="mt-5 flex w-full items-center justify-between py-2 text-black transition-colors duration-500 hover:bg-gray-200 dark:text-white dark:hover:bg-gray-700"
+        className="mt-5 flex w-full items-center justify-between py-2 text-white transition-colors duration-500 hover:bg-gray-900 dark:text-black dark:hover:bg-gray-700"
       >
         {isDropdownOpen ? (
           <>

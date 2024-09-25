@@ -6,6 +6,6 @@ export const bountySubmissionSchema = z.object({
 });
 
 export const adminApprovalSchema = z.object({
-  bountyId: z.string().uuid({ message: 'Invalid Bounty ID' }),
+  bountyId: z.string(),
   status: z.enum(['approved', 'rejected']),
 });

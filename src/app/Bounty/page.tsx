@@ -28,6 +28,7 @@ export default function Page() {
   };
 
   const fetchUserBounties = async () => {
+    setIsLoading(true);
     try {
       const userBounties = await getUserBounties();
 
@@ -40,6 +41,8 @@ export default function Page() {
       setBounties(sortedBounties);
     } catch (error) {
       toast.error('Failed to fetch bounties');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -47,11 +50,6 @@ export default function Page() {
     fetchPayoutMethods();
     fetchUserBounties();
   }, []);
-
-  useEffect(() => {
-    fetchPayoutMethods();
-    fetchUserBounties();
-  }, [isBountyDialogOpen]);
 
   const handleBountyDialogOpen = () => {
     if (upiAddresses?.length || solanaAddresses?.length) {
@@ -61,14 +59,19 @@ export default function Page() {
     }
   };
 
-  const handleBountyDialogClose = () => setIsBountyDialogOpen(false);
+  const handleBountyDialogClose = () => {
+    setIsBountyDialogOpen(false);
+    fetchUserBounties();
+  };
 
   return (
     <>
       <div className="h-max pb-4 transition-colors duration-500 md:p-8">
         <div className="mb-6 flex flex-col items-start justify-center px-4 pt-3 sm:px-8">
-          <div className="text-3xl text-black transition-colors duration-500 dark:text-white">
-            <h1 className="text-black dark:text-white">Your Bounties</h1>
+          <div className="text-2xl text-black transition-colors duration-500 dark:text-white sm:text-3xl">
+            <h1 className="mt-20 text-black dark:text-white sm:mt-16">
+              Your Bounties
+            </h1>
           </div>
 
           <PaymentMethodsDropdown
@@ -112,7 +115,7 @@ export default function Page() {
                         href={bounty.prLink}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-blue-500 underline"
+                        className="break-all text-blue-500 underline"
                       >
                         {bounty.prLink}
                       </a>

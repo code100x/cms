@@ -1,7 +1,8 @@
 'use server';
 import prisma from '@/db';
-import { adminApprovalSchema } from './schema';
-import { AdminApprovalData } from './types';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/lib/auth';
+import { ROLES } from '../types';
 
 export type Bounty = {
   id: string;
@@ -19,67 +20,90 @@ export type Bounty = {
 };
 
 type BountyResponse = {
-  bounties: Bounty[];
-  totalINRBounties: number;
-  totalSOLBounties: number;
+  bounties?: Bounty[];
+  totalINRBounties?: number;
+  totalSOLBounties?: number;
+  error?: string;
 };
 
-export async function approveBounty(data: AdminApprovalData) {
-  const validatedData = adminApprovalSchema.parse(data);
-
-  const updatedBounty = await prisma.bountySubmission.update({
-    where: { id: validatedData.bountyId },
-    data: { status: validatedData.status },
-  });
-
-  return updatedBounty;
-}
-
 export async function getBounties(): Promise<BountyResponse> {
-  const bounties = await prisma.bountySubmission.findMany({
-    select: {
-      id: true,
-      prLink: true,
-      paymentMethod: true,
-      status: true,
-      createdAt: true,
-      updatedAt: true,
-      amount: true,
-      userId: true,
-      user: {
-        select: {
-          id: true,
-          name: true,
+  const session = await getServerSession(authOptions);
+
+  if (!session || !session.user || session.user.role !== ROLES.ADMIN) {
+    return { error: 'Unauthorized or insufficient permissions' };
+  }
+
+  try {
+    const bounties = await prisma.bountySubmission.findMany({
+      select: {
+        id: true,
+        prLink: true,
+        paymentMethod: true,
+        status: true,
+        createdAt: true,
+        updatedAt: true,
+        amount: true,
+        userId: true,
+        user: {
+          select: {
+            id: true,
+            name: true,
+          },
         },
       },
-    },
-  });
-  let totalINRBounties = 0;
-  let totalSOLBounties = 0;
+    });
 
-  bounties.forEach((bounty) => {
-    if (bounty.paymentMethod.includes('@')) {
-      totalINRBounties += bounty.amount || 0;
-    } else {
-      totalSOLBounties += bounty.amount || 0;
-    }
-  });
+    let totalINRBounties = 0;
+    let totalSOLBounties = 0;
 
-  return { bounties, totalINRBounties, totalSOLBounties };
+    bounties.forEach((bounty) => {
+      if (bounty.paymentMethod.includes('@')) {
+        totalINRBounties += bounty.amount || 0;
+      } else {
+        totalSOLBounties += bounty.amount || 0;
+      }
+    });
+
+    return { bounties, totalINRBounties, totalSOLBounties };
+  } catch (e) {
+    return { error: 'An error occurred while approving the bounty.' };
+  }
 }
 
 export async function deleteBounty(bountyId: string) {
-  const deleteBounty = await prisma.bountySubmission.delete({
-    where: { id: bountyId },
-  });
-  return { success: !!deleteBounty };
+  const session = await getServerSession(authOptions);
+
+  if (!session || !session.user || session.user.role !== ROLES.ADMIN) {
+    return { error: 'Unauthorized or insufficient permissions' };
+  }
+  try {
+    const deleteBounty = await prisma.bountySubmission.delete({
+      where: { id: bountyId },
+    });
+    return { success: !!deleteBounty };
+  } catch (e) {
+    return { error: 'An error occurred while approving the bounty.' };
+  }
 }
 
 export async function confirmBounty(bountyId: string, amount: number) {
-  const updatedBounty = await prisma.bountySubmission.update({
-    where: { id: bountyId },
-    data: { status: 'confirmed', amount },
-  });
+  const session = await getServerSession(authOptions);
 
-  return { success: !!updatedBounty };
+  if (!session || !session.user || session.user.role !== ROLES.ADMIN) {
+    return { error: 'Unauthorized or insufficient permissions' };
+  }
+
+  try {
+    const updatedBounty = await prisma.bountySubmission.update({
+      where: { id: bountyId },
+      data: { status: 'confirmed', amount },
+    });
+
+    if (updatedBounty) {
+      return { success: true };
+    }
+    return { error: 'Failed to update bounty.' };
+  } catch (e) {
+    return { error: 'An error occurred while approving the bounty.' };
+  }
 }

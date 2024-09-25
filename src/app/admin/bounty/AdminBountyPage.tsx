@@ -26,12 +26,14 @@ export const AdminBountyPage = () => {
   const fetchBounties = async () => {
     setIsLoading(true);
     const result = await getBounties();
-    if (result) {
-      setBounties(result.bounties);
-      setINRBounties(result.totalINRBounties);
-      setSOLBounties(result.totalSOLBounties);
-      setIsLoading(false);
+    if (result.error) {
+      toast.error(result.error);
+    } else {
+      setBounties(result.bounties!);
+      setINRBounties(result.totalINRBounties!);
+      setSOLBounties(result.totalSOLBounties!);
     }
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -60,9 +62,10 @@ export const AdminBountyPage = () => {
     setIsConfirmDialogOpen(true);
   };
 
-  const handleConfirmBounty = async (amount: number) => {
+  const handleConfirmBountyDialog = async (amount: number) => {
     if (selectedBounty) {
       const result = await confirmBounty(selectedBounty.id, amount);
+
       if (result.success) {
         toast.success('Bounty confirmed successfully.');
         if (currency === 'INR') {
@@ -74,7 +77,7 @@ export const AdminBountyPage = () => {
         setIsConfirmDialogOpen(false);
         fetchBounties();
       } else {
-        toast.error('Failed to confirm bounty.');
+        toast.error(result.error);
       }
     }
   };
@@ -90,7 +93,9 @@ export const AdminBountyPage = () => {
     <>
       <div className="h-max pb-4 transition-colors duration-500 md:p-8">
         <div className="mb-6 flex flex-col items-start justify-center px-4 pt-3 sm:px-8">
-          <h1 className="text-black dark:text-white">Admin Bounty Page</h1>
+          <h1 className="mt-20 text-black dark:text-white">
+            Admin Bounty Management
+          </h1>
           <h2 className="mt-2 text-xl text-black dark:text-white">
             Total Bounties Distributed: INR {INRBounties.toFixed(2)} | SOL{' '}
             {SOLBounties}
@@ -119,7 +124,7 @@ export const AdminBountyPage = () => {
                           href={bounty.prLink}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-blue-600 hover:underline dark:text-blue-400"
+                          className="break-all text-blue-600 hover:underline dark:text-blue-400"
                         >
                           {bounty.prLink}
                         </a>
@@ -154,7 +159,7 @@ export const AdminBountyPage = () => {
         isOpen={isConfirmDialogOpen}
         setIsOpen={setIsConfirmDialogOpen}
         onClose={() => setIsConfirmDialogOpen(false)}
-        onConfirm={handleConfirmBounty}
+        onConfirm={handleConfirmBountyDialog}
         currency={currency}
       />
     </>

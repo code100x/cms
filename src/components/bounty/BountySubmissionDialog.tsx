@@ -9,6 +9,7 @@ import { bountySubmissionSchema } from '@/actions/bounty/schema';
 import { BountySubmissionData } from '@/actions/bounty/types';
 import { UpiId, SolanaAddress } from '@prisma/client';
 import { X } from 'lucide-react';
+import { toast } from 'sonner';
 
 interface BountySubmissionDialogProps {
   isOpen: boolean;
@@ -35,25 +36,20 @@ export default function BountySubmissionDialog({
   });
 
   const onSubmit: SubmitHandler<BountySubmissionData> = async (data) => {
-    try {
-      if (!upiAddresses?.length && !solanaAddresses?.length) {
-        setSubmitError('Add at least 1 payment method');
-        return;
-      }
-      await submitBounty(data);
-      reset();
+    if (!data.paymentMethod) {
+      setSubmitError('Add at least 1 payment method');
+      return;
+    }
+    const { prLink, paymentMethod } = data;
+    const result = await submitBounty({ prLink, paymentMethod });
+    if (result.error) {
+      toast.error(result.error);
+    } else if (result.data) {
+      toast.success('Bounty submitted successfully!');
       onClose();
-    } catch (error: any) {
-      if (
-        error instanceof Error &&
-        error.message.includes(
-          'Unique constraint failed on the fields: (`userId`,`prLink`)',
-        )
-      ) {
-        setSubmitError('Cannot submit the same PR again');
-      } else {
-        setSubmitError(`Failed to submit bounty: ${error.message}`);
-      }
+      reset();
+    } else {
+      toast.error('Failed to submit bounty!');
     }
   };
 

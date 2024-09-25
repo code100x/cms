@@ -37,7 +37,10 @@ const ConfirmedBountiesDialog: React.FC<ConfirmedBountiesDialogProps> = ({
                 <div className="mt-1 text-sm text-gray-500 dark:text-gray-400">
                   <span>Paid to: {bounty.paymentMethod}</span>
                 </div>
-                <span>Amount : {bounty.amount}</span>
+                <span>
+                  Amount : {bounty.amount}{' '}
+                  {bounty.paymentMethod.includes('@') ? 'INR' : 'SOL'}
+                </span>
               </div>
             </li>
           ))}
