@@ -131,7 +131,17 @@ const Signin = () => {
       router.push('/');
       toast.success('Signed In');
     } else {
-      toast.error('oops something went wrong..!');
+      if (res.status === 401) {
+        toast.error('Invalid Credentials, try again!');
+      } else if (res.status === 400) {
+        toast.error('Missing Credentials!');
+      } else if (res.status === 404) {
+        toast.error('Account not found!');
+      } else if (res.status === 403) {
+        toast.error('Forbidden!');
+      } else {
+        toast.error('oops something went wrong..!');
+      }
       setCheckingPassword(false);
     }
   };
