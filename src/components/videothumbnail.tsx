@@ -1,27 +1,30 @@
 import React, { useState } from 'react';
-import VideoPreview from '@/actions/videopreview/videoPreview';
-import { useEffect } from 'react';
+// import VideoPreview from '@/actions/videopreview/videoPreview';
+// import { useEffect } from 'react';
 import CardComponent from './CardComponent';
 
 const VideoThumbnail = ({
   imageUrl,
-  contentId,
+  // contentId,
   title,
 }: {
   imageUrl: string;
-  contentId: number;
+  contentId?: number;
   title: string;
 }) => {
-  const [videoUrl, setVideoUrl] = useState<string | null>(null);
+  const [
+    videoUrl,
+    /*setVideoUrl*/
+  ] = useState<string | null>(null);
   const [hover, setHover] = useState(false);
 
-  useEffect(() => {
-    async function fetchVideoUrl() {
-      const url = await VideoPreview({ contentId });
-      setVideoUrl(url);
-    }
-    fetchVideoUrl();
-  }, [contentId]);
+  // useEffect(() => {
+  //   async function fetchVideoUrl() {
+  //     const url = await VideoPreview({ contentId });
+  //     setVideoUrl(url);
+  //   }
+  //   fetchVideoUrl();
+  // }, [contentId]);
   const handleMouseEnter = () => {
     // setHover(true);
   };

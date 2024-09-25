@@ -217,7 +217,7 @@ const Comments = async ({
           parentId={data?.parentComment?.id}
         />
       </div>
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-4 break-all">
         <div className="grid grid-cols-1 gap-6">
           {data.comments.map((c) => (
             <div className="flex w-full items-start gap-4" key={c.id}>
