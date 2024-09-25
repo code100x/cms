@@ -100,41 +100,6 @@ DATABASE_URL=postgresql://myuser:mypassword@localhost:5432/mydatabase?schema=pub
 
 4. Create a `.env` file based on the `.env.example` file and configure the `DATABASE_URL` with your PostgreSQL connection string.
 
-```bash
-
-cd cms
-
-```
-
-3. (Optional) Start a PostgreSQL database using Docker:
-
-```bash
-
-docker run -d \
-
---name cms-db \
-
--e POSTGRES_USER=myuser  \
-
--e POSTGRES_PASSWORD=mypassword \
-
--e  POSTGRES_DB=mydatabase  \
-
--p 5432:5432 \
-
-postgres
-
-```
-
-The connection URL for this setup will be:
-
-```
-
-DATABASE_URL=postgresql://myuser:mypassword@localhost:5432/mydatabase?schema=public
-
-```
-
-4. Create a `.env` file based on the `.env.example` file and configure the `DATABASE_URL` with your PostgreSQL connection string.
 
 5. Install dependencies:
 
