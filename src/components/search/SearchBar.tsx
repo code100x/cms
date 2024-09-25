@@ -48,13 +48,16 @@ export function SearchBar() {
 
   useEffect(() => {
     const handleKeyPress = (event: KeyboardEvent) => {
+      // Check for Ctrl+K on Windows/Linux or Cmd+K on macOS
+      if (
+        (event.ctrlKey && event.key === 'k') ||
+        (event.metaKey && event.key === 'k')
+      ) {
+        event.preventDefault();
+        setDialogOpen((prev) => !prev);
+      }
+      // For control of search result
       switch (event.code) {
-        case 'KeyK':
-          if (event.ctrlKey || event.metaKey) {
-            event.preventDefault();
-            setDialogOpen((prev) => !prev);
-          }
-          break;
         case 'ArrowDown':
           event.preventDefault();
           setSelectedIndex(
@@ -120,8 +123,9 @@ export function SearchBar() {
             value={searchTerm}
             onValueChange={(search) => setSearchTerm(search)}
           />
-          <kbd className="m-1 rounded-sm bg-white/15 p-1.5 text-xs leading-3">
-            Ctrl K
+          <kbd className="m-1 flex items-center space-x-2 rounded-sm bg-white/15 p-1.5 text-center leading-3">
+            <span className="text-md">⌘</span>{' '}
+            <span className="text-sm">K</span>
           </kbd>
         </div>
         <CommandList></CommandList>
