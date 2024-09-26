@@ -63,6 +63,7 @@ const createQuestionHandler = async (
         tags,
         authorId: session.user.id,
         slug, // Include the slug
+        videoId,
       },
     });
     revalidatePath(`/question/${question.id}`);
@@ -138,6 +139,7 @@ const updateQuestionHandler = async (
         content,
         tags,
         slug, // Include the new slug
+        videoId,
       },
     });
     revalidatePath(`/question/${questionId}`);
