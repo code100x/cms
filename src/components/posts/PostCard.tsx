@@ -1,7 +1,7 @@
 'use client';
 import '@uiw/react-md-editor/markdown-editor.css';
 import '@uiw/react-markdown-preview/markdown.css';
-import React, { useState } from 'react';
+import React, { useState, useTransition } from 'react';
 import VoteForm from './form/form-vote';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
@@ -62,6 +62,8 @@ const PostCard: React.FC<IProps> = ({
 
   const router = useRouter();
 
+  const [isPending, startTransition] = useTransition(); 
+
   const { execute, fieldErrors } = useAction(createAnswer, {
     onSuccess: () => {
       toast.success(`Reply added`);
@@ -97,11 +99,13 @@ const PostCard: React.FC<IProps> = ({
         !post.content && !isAnswer
           ? `rounded-xl bg-neutral-50 hover:-translate-y-2 dark:bg-neutral-900`
           : `rounded-r-xl border-l-2 border-blue-500 bg-primary/5`
-      }`}
+      } ${isPending && `animate-pulse duration-700`}`}
       onClick={() => {
-        if (isExtendedQuestion(post)) {
-          router.push(`/question/${post?.slug}`);
-        }
+        startTransition(() => {
+          if (isExtendedQuestion(post)) {
+            router.push(`/question/${post?.slug}`);
+          }
+        });
       }}
     >
       <div className="flex w-full flex-col items-start justify-between sm:flex-row sm:items-center">
