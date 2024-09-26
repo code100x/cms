@@ -266,6 +266,7 @@ model Question {
   answers      Answer[]
   votes        Vote[]
   tags         String[]
+  videoId      Int?
   updatedAt    DateTime @updatedAt
 
   @@index([authorId])
