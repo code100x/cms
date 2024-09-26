@@ -101,6 +101,7 @@ export function Sidebar({
           currentUrlContentId,
         );
         setCurrentActiveContentIds(pathArray || []);
+        setSidebarOpen(false);
       }
     }
   }, [pathName, findPathToContent, fullCourseContent]);
