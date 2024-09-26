@@ -201,7 +201,7 @@ const CalendarPageComponent: React.FC<CalendarPageProps> = ({ isAdmin }) => {
   };
 
   return (
-    <main className="w-full">
+    <main className="w-full pt-20">
       {isAdmin && (
         <Button onClick={() => setIsAddEventDialogOpen(true)}>Add Event</Button>
       )}

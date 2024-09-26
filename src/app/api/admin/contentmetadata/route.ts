@@ -2,20 +2,29 @@ import db from '@/db';
 import { NextRequest, NextResponse } from 'next/server';
 
 export const POST = async (req: NextRequest) => {
-  const {
-    updates,
-    contentId,
-  }: {
-    updates: any;
-    contentId: number;
-  } = await req.json();
-
-  await db.videoMetadata.update({
-    where: {
+  try {
+    const {
+      updates,
       contentId,
-    },
-    data: updates,
-  });
+      adminPassword,
+    }: {
+      updates: any;
+      contentId: number;
+      adminPassword: string;
+    } = await req.json();
 
-  return NextResponse.json({}, { status: 200 });
+    if (adminPassword !== process.env.ADMIN_SECRET) {
+      return NextResponse.json({}, { status: 403 });
+    }
+    await db.videoMetadata.update({
+      where: {
+        contentId,
+      },
+      data: updates,
+    });
+
+    return NextResponse.json({}, { status: 200 });
+  } catch (err) {
+    return NextResponse.json({}, { status: 500 });
+  }
 };

@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useRef } from 'react';
 import { usePathname } from 'next/navigation';
 import {
   Accordion,
@@ -45,6 +45,8 @@ export function Sidebar({
   const [currentActiveContentIds, setCurrentActiveContentIds] = useState<
     number[]
   >([]);
+  const sidebarRef = useRef<HTMLDivElement | null>(null);
+  const closeSidebar = () => setSidebarOpen(false);
 
   const findPathToContent = useCallback(
     (
@@ -70,6 +72,23 @@ export function Sidebar({
   );
 
   useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        sidebarRef.current &&
+        !sidebarRef.current.contains(event.target as Node)
+      ) {
+        closeSidebar();
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [sidebarRef]);
+
+  useEffect(() => {
     const urlRegex = /\/courses\/.*./;
     const courseUrlRegex = /\/courses\/\d+((?:\/\d+)+)/;
 
@@ -82,6 +101,7 @@ export function Sidebar({
           currentUrlContentId,
         );
         setCurrentActiveContentIds(pathArray || []);
+        setSidebarOpen(false);
       }
     }
   }, [pathName, findPathToContent, fullCourseContent]);
@@ -163,7 +183,10 @@ export function Sidebar({
 
   return (
     <>
-      <Button onClick={() => setSidebarOpen((s) => !s)} className="w-fit gap-2">
+      <Button
+        onClick={() => setSidebarOpen((s) => !s)}
+        className="w-fit gap-2 xl:absolute"
+      >
         {sidebarOpen ? <X className="size-5" /> : <Menu className="size-5" />}
         <span>{sidebarOpen ? 'Hide Contents' : 'Show Contents'}</span>
       </Button>
@@ -173,11 +196,12 @@ export function Sidebar({
             key="sidebar"
             initial="closed"
             animate="open"
+            ref={sidebarRef}
             exit="closed"
             variants={sidebarVariants}
             className="fixed right-0 top-0 z-[99999] flex h-screen w-full flex-col gap-4 overflow-y-auto rounded-r-lg border-l border-primary/10 bg-neutral-50 dark:bg-neutral-900 md:max-w-[30vw]"
           >
-            <div className="sticky top-0 z-10 flex items-center justify-between border-b border-primary/10 p-5">
+            <div className="sticky top-0 z-10 flex items-center justify-between border-b border-primary/10 p-5 backdrop-blur-md">
               <h4 className="text-xl font-bold tracking-tighter text-primary lg:text-2xl">
                 Course Content
               </h4>
