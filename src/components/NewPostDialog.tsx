@@ -180,7 +180,18 @@ export const NewPostDialog = () => {
                   />
                 </div>
               </div>
-
+              
+              <div className="flex w-full flex-col gap-2">
+                <h3 className="wmde-markdown-var text-lg font-bold tracking-tighter">
+                  Link Video
+                </h3>
+                <FormPostInput
+                  id="title"
+                  placeholder="Link a Related Video"
+                  errors={fieldErrors}
+                  className="w-full"
+                />
+              </div>
               <div
                 data-color-mode={theme}
                 className="flex w-full flex-col gap-2"
