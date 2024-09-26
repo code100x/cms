@@ -11,6 +11,7 @@ services:
       - '5555:5555'
     volumes:
       - .:/usr/src/app
+      - /usr/src/app/.next
       - /usr/src/app/node_modules
     depends_on:
       db:
