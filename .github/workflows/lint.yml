@@ -3,16 +3,28 @@ on:
   pull_request:
     branches:
       - '**'
-
 jobs:
-
-  Continuous-Integration:
-
-    name: Performs linting, formatting on the application
+  deploy-gh-pages:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout the Repository
+      - name: Checkout
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 7
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: pnpm
+
+      - name: Use taobao registry
+        run: npm config set registry https://registry.npmmirror.com/
 
       - name: Install Dependencies
         run: pnpm install --legacy-peer-deps
