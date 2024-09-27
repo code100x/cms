@@ -26,7 +26,9 @@ export const NewPostDialog = () => {
   const paramsObject = searchParamsToObject(searchParam);
   const path = usePathname();
   const router = useRouter();
+  const tagInputRef = useRef<HTMLInputElement | null>(null);
   const [value, setValue] = useState<string>('**Hello world!!!**');
+  const [tags, setTags] = useState<string[]>([]);
   const containerRef = useRef<HTMLDivElement>(null);
   const { ref, onOpen, onClose } = useModal();
   const handleMarkdownChange = (newValue?: string) => {
@@ -54,6 +56,7 @@ export const NewPostDialog = () => {
       formRef?.current?.reset();
       setValue('');
       router.push(`/question/${data.slug}`);
+      setTags([]);
       handleOnCloseClick();
     },
     onError: (error) => {
@@ -68,18 +71,35 @@ export const NewPostDialog = () => {
       setFieldErrors({});
     }
   };
+
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const title = formData.get('title');
-
-    const tags = formData.get('tags');
-
     execute({
       title: title?.toString() || '',
       content: value,
-      tags: (tags?.toString() || '').split(','),
+      tags,
     });
+  };
+
+  const addTag = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === ',') {
+      event.preventDefault();
+      const formData = new FormData(formRef.current as HTMLFormElement);
+      const tag = formData.get('tags')?.toString().trim().replace(/,+$/, '');
+
+      if (tag) {
+        setTags((prevTags) => [...prevTags, tag]);
+      }
+      if (tagInputRef.current) {
+        tagInputRef.current.value = '';
+      }
+    }
+  };
+
+  const removeTag = (tag: string) => {
+    setTags(tags.filter((t) => t !== tag));
   };
 
   return (
@@ -130,12 +150,31 @@ export const NewPostDialog = () => {
                 <h3 className="wmde-markdown-var text-lg font-bold tracking-tighter">
                   Tags
                 </h3>
-                <FormPostInput
-                  id="tags"
-                  placeholder="Enter tags separated by comma"
-                  errors={fieldErrors}
-                  className="w-full"
-                />
+                <div className="flex flex-col gap-2">
+                  <div className="flex gap-1">
+                    {tags.map((tag, index) => (
+                      <span
+                        key={index}
+                        className="mr-2 flex items-center gap-1 rounded-md bg-primary/10 px-2 py-1 text-xs text-primary"
+                      >
+                        {tag}
+                        <X
+                          size={12}
+                          className="cursor-pointer"
+                          onClick={() => removeTag(tag)}
+                        />
+                      </span>
+                    ))}
+                  </div>
+                  <FormPostInput
+                    id="tags"
+                    placeholder="Enter tags separated by comma"
+                    errors={fieldErrors}
+                    className="w-full"
+                    onKeyUp={addTag}
+                    ref={tagInputRef}
+                  />
+                </div>
               </div>
 
               <div
