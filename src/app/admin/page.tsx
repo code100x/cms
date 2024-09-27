@@ -4,18 +4,11 @@ import { FileText, Flag, LucideIcon, MessageCircle, PackagePlus, Users } from 'l
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import React, { useState } from 'react';
+import { Greeting } from '@/components/Greeting';
 
 export default function AdminPage() {
   const session = useSession();
   const user = session?.data?.user;
-
-  const currentHour = new Date().getHours();
-  let greeting = 'Good Morning';
-  if (currentHour >= 12 && currentHour < 18) {
-    greeting = 'Good Afternoon';
-  } else if (currentHour >= 18 || currentHour < 5) {
-    greeting = 'Good Evening';
-  }
 
   const DiscordIcon: React.FC<{ className?: string }> = ({ className }) => (
     <svg
@@ -137,7 +130,7 @@ export default function AdminPage() {
   return (
     <main className='max-w-[1280px] flex flex-col gap-6 items-center p-4 min-h-full max-h-fit w-full mx-auto'>
       <section className='w-full flex flex-col gap-2 text-center text-3xl'>
-        <h1>{greeting}, {user?.name}</h1>
+        <h1><Greeting />, {user?.name}</h1>
         <h4 className='text-sm text-gray-500'>Welcome! Explore more from below</h4>
       </section>
 
