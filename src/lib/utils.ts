@@ -1,6 +1,7 @@
 import { TabType, QueryParams } from '@/actions/types';
 import { CommentType, Prisma } from '@prisma/client';
 import { type ClassValue, clsx } from 'clsx';
+import { ReadonlyURLSearchParams } from 'next/navigation';
 import { twMerge } from 'tailwind-merge';
 import Player from 'video.js/dist/types/player';
 
@@ -214,7 +215,7 @@ export const getUpdatedUrl = (
 };
 
 export const searchParamsToObject = (
-  searchParams: URLSearchParams,
+  searchParams: URLSearchParams | ReadonlyURLSearchParams,
 ): Record<string, string | string[]> => {
   const obj: Record<string, string | string[]> = {};
   searchParams.forEach((value, key) => {

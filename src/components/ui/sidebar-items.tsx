@@ -38,9 +38,9 @@ export const SidebarItems = ({
                       : 'hover:bg-blue-600/5 hover:text-blue-500'
                   } ${isCollapsed ? 'justify-center' : 'gap-2'}`}
                 >
-                  <item.Component />
+                  <item.Component size={18} />
                   {!isCollapsed && (
-                    <span className="text-lg font-medium tracking-tight">
+                    <span className="text-sm font-medium tracking-tight lg:text-lg">
                       {item.name}
                     </span>
                   )}

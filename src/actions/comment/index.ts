@@ -23,7 +23,7 @@ import {
   CommentUpdateSchema,
 } from './schema';
 import { createSafeAction } from '@/lib/create-safe-action';
-import { CommentType, Prisma } from '@prisma/client';
+import { Comment, CommentType, Prisma } from '@prisma/client';
 import { revalidatePath } from 'next/cache';
 import { ROLES } from '../types';
 
@@ -328,7 +328,7 @@ const approveIntroCommentHandler = async (
     const updObj = {
       approved,
     };
-    let updatedComment = null;
+    let updatedComment: Comment | null = null;
     await prisma.$transaction(async (prisma) => {
       updatedComment = await prisma.comment.update({
         where: { id: parseInt(commentId, 10) },

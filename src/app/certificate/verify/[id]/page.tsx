@@ -1,4 +1,4 @@
-import { CertificateVerify } from '@/components/CertificateVerify';
+import { CertificateVerify } from '@/components/certificate/verify';
 import db from '@/db';
 import { User, Certificate, Course } from '@prisma/client';
 

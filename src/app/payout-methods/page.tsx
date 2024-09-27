@@ -1,10 +1,10 @@
 'use client';
 import { useEffect, useState } from 'react';
 import NewPayoutDialog from '@/components/NewPayoutDialog';
-import { GitHubLinkButton } from '@/components/GitHubLinkButton';
+import { GitHubLinkButton } from '@/components/payout-methods/GitHubLinkButton';
 import SOL from '../../../public/platform/sol.svg';
 import UPI from '../../../public/platform/upi.svg';
-import { PayoutMethodCard } from '@/components/PaymentMethodCard';
+import { PayoutMethodCard } from '@/components/payout-methods/PaymentMethodCard';
 import { usePayoutMethods } from '@/hooks/usePayoutMethod';
 
 export default function Page() {
@@ -31,7 +31,7 @@ export default function Page() {
 
   return (
     <div className="h-max pb-4 transition-colors duration-500 md:p-8">
-      <div className="mb-6 flex flex-col items-start justify-center px-4 md:pt-20 pt-24 sm:px-8">
+      <div className="mb-6 flex flex-col items-start justify-center px-4 pt-24 sm:px-8 md:pt-20">
         <div className="my-2 mb-6 text-3xl text-black transition-colors duration-500 dark:text-white">
           <h1 className="mt-16 font-semibold text-black dark:text-white sm:mt-12">
             Payout Methods

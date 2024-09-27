@@ -1,9 +1,10 @@
 import { QueryParams } from '@/actions/types';
-import { CourseView } from '@/components/CourseView';
+import { CourseView } from '@/components/course';
 import { getCourse, getFullCourseContent } from '@/db/course';
 import findContentById from '@/lib/find-content-by-id';
+import { Course } from '@prisma/client';
 
-export default async function Course({
+export default async function ServerCoursePage({
   params,
   searchParams,
 }: {
@@ -11,22 +12,20 @@ export default async function Course({
   searchParams: QueryParams;
 }) {
   const courseId = params.courseId;
-  const course = await getCourse(parseInt(courseId, 10));
+  const course: Course = await getCourse(parseInt(courseId, 10));
   const fullCourseContent = await getFullCourseContent(parseInt(courseId, 10));
 
   const courseContent = findContentById(fullCourseContent, []);
 
   const nextContent = null;
 
-  return (
-    <CourseView
-      rest={[]}
-      course={course}
-      nextContent={nextContent}
-      courseContent={courseContent}
-      fullCourseContent={fullCourseContent}
-      searchParams={searchParams}
-      possiblePath=""
-    />
-  );
+  return await CourseView({
+    course,
+    rest: [],
+    nextContent,
+    fullCourseContent,
+    courseContent,
+    searchParams,
+    possiblePath: '',
+  });
 }

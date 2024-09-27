@@ -1,5 +1,5 @@
 import { QueryParams } from '@/actions/types';
-import { Sidebar } from '@/components/Sidebar';
+import Sidebar from '@/components/layout/Sidebar';
 import { getFullCourseContent } from '@/db/course';
 import { authOptions } from '@/lib/auth';
 import { getPurchases } from '@/utiles/appx';
@@ -48,8 +48,13 @@ const Layout = async ({
   const fullCourseContent = await getFullCourseContent(parseInt(courseId, 10));
 
   return (
-    <div className="relative flex min-h-screen flex-col py-24">
-      <Sidebar fullCourseContent={fullCourseContent} courseId={courseId} />
+    <div className="relative flex min-h-screen flex-col py-24 md:py-14">
+      <div className="md:hidden">
+        <Sidebar
+          fullCourseContent={fullCourseContent}
+          courseId={parseInt(courseId, 10)}
+        />
+      </div>
       {children}
     </div>
   );

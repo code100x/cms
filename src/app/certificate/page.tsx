@@ -1,4 +1,4 @@
-import { CertificateComponent } from '@/components/Certificate';
+import { CertificateComponent } from '@/components/certificate';
 import { getCertificates } from '@/db/cert';
 
 const CertificatePage = async () => {

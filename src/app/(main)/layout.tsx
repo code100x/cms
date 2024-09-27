@@ -1,4 +1,4 @@
-import { Appbar } from '@/components/Appbar';
+import { Appbar } from '@/components/layout/Appbar';
 import React from 'react';
 
 interface Props {

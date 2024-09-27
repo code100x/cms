@@ -9,7 +9,7 @@ import { addSolanaAddress, addUpi } from '@/actions/payoutMethods';
 import { toast } from 'sonner';
 import { useAction } from '@/hooks/useAction';
 import { useState } from 'react';
-import { Loader } from './Loader';
+import { Loader } from './helper/Loader';
 import {
   Dialog,
   DialogContent,

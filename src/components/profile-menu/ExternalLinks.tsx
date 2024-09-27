@@ -17,17 +17,21 @@ const ExternalLinks = () => {
       icon: <SiNotion className="h-4 w-4" />,
     },
   ];
-  return externalLinks.map((link) => (
-    <Link key={link.href} href={link.href} target="_blank">
-      <DropdownMenuItem className="flex items-center justify-between text-base">
-        <div className="flex items-center gap-2">
-          {link.icon}
-          <span>{link.label}</span>
-        </div>
-        <ArrowUpRightFromSquare className="size-4" />
-      </DropdownMenuItem>
-    </Link>
-  ));
+  return (
+    <>
+      {externalLinks.map((link) => (
+        <Link key={link.href} href={link.href} target="_blank">
+          <DropdownMenuItem className="flex items-center justify-between text-base">
+            <div className="flex items-center gap-2">
+              {link.icon}
+              <span>{link.label}</span>
+            </div>
+            <ArrowUpRightFromSquare className="size-4" />
+          </DropdownMenuItem>
+        </Link>
+      ))}
+    </>
+  );
 };
 
 export default ExternalLinks;

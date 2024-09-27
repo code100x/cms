@@ -1,5 +1,5 @@
 import { QueryParams } from '@/actions/types';
-import { CourseView } from '@/components/CourseView';
+import { CourseView } from '@/components/course';
 import { getCourse, getFullCourseContent } from '@/db/course';
 import findContentById from '@/lib/find-content-by-id';
 
@@ -22,15 +22,13 @@ export default async function Course({
   );
   const nextContent = null; //await getNextVideo(Number(rest[rest.length - 1]))
 
-  return (
-    <CourseView
-      rest={rest}
-      course={course}
-      nextContent={nextContent}
-      courseContent={courseContent}
-      fullCourseContent={fullCourseContent}
-      searchParams={searchParams}
-      possiblePath={possiblePath}
-    />
-  );
+  return await CourseView({
+    course,
+    rest,
+    nextContent,
+    fullCourseContent,
+    courseContent,
+    searchParams,
+    possiblePath,
+  });
 }

@@ -1,4 +1,4 @@
-import { CourseCard } from '@/components/CourseCard';
+import { CourseCard } from '@/components/helper/CourseCard';
 import { Meta, StoryObj } from '@storybook/react';
 
 const meta: Meta<typeof CourseCard> = {

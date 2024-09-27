@@ -1,10 +1,10 @@
-import { NewPostDialog } from '@/components/NewPostDialog';
+import { NewPostDialog } from '@/components/question/NewPostDialog';
 
 import Link from 'next/link';
 import dayjs from 'dayjs';
 
 import { ExtendedQuestion, QuestionQuery } from '@/actions/question/types';
-import Search from '@/components/search';
+import Search from '@/components/question/Search';
 import { ArrowUpDownIcon, Plus } from 'lucide-react';
 
 import {
@@ -22,7 +22,7 @@ import db from '@/db';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import PostCard from '@/components/posts/PostCard';
-import Pagination from '@/components/Pagination';
+import Pagination from '@/components/question/Pagination';
 import { redirect } from 'next/navigation';
 
 type QuestionsResponse = {

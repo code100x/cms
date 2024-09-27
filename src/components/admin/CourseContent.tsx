@@ -1,6 +1,6 @@
 'use client';
 import { useRouter } from 'next/navigation';
-import { ContentCard } from '../ContentCard';
+import { ContentCard } from '../helper/ContentCard';
 
 export const AdminCourseContent = ({
   courseContent,

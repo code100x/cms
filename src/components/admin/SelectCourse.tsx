@@ -1,7 +1,7 @@
 'use client';
 import { Course } from '@prisma/client';
 import { useRouter } from 'next/navigation';
-import { CourseCard } from '../CourseCard';
+import { CourseCard } from '../helper/CourseCard';
 
 export const SelectCourse = ({ courses }: { courses: Course[] }) => {
   const router = useRouter();

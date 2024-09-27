@@ -1,16 +1,9 @@
 import db from '@/db';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
-import { Content, CourseContent, VideoProgress } from '@prisma/client';
-import WatchHistoryClient from '@/components/WatchHistoryClient';
+import WatchHistoryClient from '@/components/watch-history/WatchHistoryClient';
 import { Fragment } from 'react';
-
-export type TWatchHistory = VideoProgress & {
-  content: Content & {
-    parent: { id: number; courses: CourseContent[] } | null;
-    VideoMetadata: { duration: number | null } | null;
-  };
-};
+import { TWatchHistory } from '@/types';
 
 const formatWatchHistoryDate = (date: Date) => {
   const now = new Date();

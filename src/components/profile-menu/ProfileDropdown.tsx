@@ -20,7 +20,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import ExternalLinks from './ExternalLinks';
 import { signOut } from 'next-auth/react';
-import { SelectTheme } from '../ThemeToggler';
+import { ThemeToggler } from '../helper/ThemeToggler';
 
 const ProfileDropdown = () => {
   const menuItemLinks = [
@@ -79,7 +79,7 @@ const ProfileDropdown = () => {
         <DropdownMenuSeparator />
 
         <DropdownMenuItem>
-          <SelectTheme text={true} />
+          <ThemeToggler text={true} />
         </DropdownMenuItem>
 
         <DropdownMenuItem
