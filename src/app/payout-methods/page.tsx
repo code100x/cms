@@ -1,11 +1,11 @@
 'use client';
 import { useEffect, useState } from 'react';
-import NewPayoutDialog from '@/components/NewPayoutDialog';
 import { GitHubLinkButton } from '@/components/payout-methods/GitHubLinkButton';
 import SOL from '../../../public/platform/sol.svg';
 import UPI from '../../../public/platform/upi.svg';
 import { PayoutMethodCard } from '@/components/payout-methods/PaymentMethodCard';
 import { usePayoutMethods } from '@/hooks/usePayoutMethod';
+import NewPayoutDialog from '@/components/payout-methods/NewPayoutDialog';
 
 export default function Page() {
   const [isDialogBoxOpen, setIsDialogBoxOpen] = useState<boolean>(false);
@@ -58,7 +58,6 @@ export default function Page() {
             onDelete={handleSolanaDelete}
           />
         </div>
-
         <NewPayoutDialog
           onClose={closeDialog}
           isOpen={isDialogBoxOpen}
