@@ -88,9 +88,11 @@ export const Navbar = () => {
               </p>
             </Link>
           </motion.div>
-          <div className="hidden md:block">
-            <SidebarItems items={menuOptions} isCollapsed={false} />
-          </div>
+          {session?.user && (
+            <div className="hidden md:block">
+              <SidebarItems items={menuOptions} isCollapsed={false} />
+            </div>
+          )}
 
           <motion.div
             className="flex items-center gap-4"
