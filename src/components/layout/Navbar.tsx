@@ -12,8 +12,6 @@ import { ThemeToggler } from '../helper/ThemeToggler';
 import ProfileDropdown from '../profile-menu/ProfileDropdown';
 import { useSetRecoilState } from 'recoil';
 import { auth } from '@/store/atoms/auth';
-import { SidebarItems } from '../ui/sidebar-items';
-import { menuOptions } from './Appbar';
 
 export const Navbar = () => {
   const { data: session } = useSession();
@@ -88,11 +86,6 @@ export const Navbar = () => {
               </p>
             </Link>
           </motion.div>
-          {session?.user && (
-            <div className="hidden md:block">
-              <SidebarItems items={menuOptions} isCollapsed={false} />
-            </div>
-          )}
 
           <motion.div
             className="flex items-center gap-4"
