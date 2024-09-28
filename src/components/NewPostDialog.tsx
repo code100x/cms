@@ -6,7 +6,6 @@ import Modal from './Modal';
 import MDEditor from '@uiw/react-md-editor';
 import { usePathname, useSearchParams } from 'next/navigation';
 import React, { ElementRef, useEffect, useRef, useState } from 'react';
-
 import { useRouter } from 'next/navigation';
 import { Button } from './ui/button';
 import { useAction } from '@/hooks/useAction';
@@ -56,7 +55,7 @@ export const NewPostDialog = () => {
       formRef?.current?.reset();
       setValue('');
       router.push(`/question/${data.slug}`);
-      setTags([]); 
+      setTags([]);
       handleOnCloseClick();
     },
     onError: (error) => {
@@ -88,19 +87,15 @@ export const NewPostDialog = () => {
       event.preventDefault();
       const formData = new FormData(formRef.current as HTMLFormElement);
       const tag = formData.get('tags')?.toString().trim().replace(/,+$/, '');
-  
+
       if (tag) {
-        setTags((prevTags) => [
-          ...prevTags,
-          tag
-        ]);
+        setTags((prevTags) => [...prevTags, tag]);
       }
       if (tagInputRef.current) {
         tagInputRef.current.value = '';
       }
     }
   };
-  
 
   const removeTag = (tag: string) => {
     setTags(tags.filter((t) => t !== tag));

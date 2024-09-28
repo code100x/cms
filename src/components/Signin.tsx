@@ -48,7 +48,7 @@ const Signin = () => {
       ...prevState,
       emailReq: false,
     }));
-    
+
     // Check if the input is a phone number
     const phoneNumberRegex = /^[0-9]{10}$/;
     if (phoneNumberRegex.test(value)) {
@@ -62,9 +62,12 @@ const Signin = () => {
     }
 
     const [, currentDomain] = value.split('@');
-    
+
     // Clear suggestions if domain doesn't match
-    if (!currentDomain || !emailDomains.some((domain) => domain.startsWith(currentDomain))) {
+    if (
+      !currentDomain ||
+      !emailDomains.some((domain) => domain.startsWith(currentDomain))
+    ) {
       setSuggestedDomains([]); // Hide suggestions for mismatched domains
       return;
     }
