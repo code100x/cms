@@ -5,6 +5,7 @@ export interface QueryParams {
   page?: number;
   tabtype?: TabType;
   search?: string;
+  videoId?: number;
   date?: string;
   type?: CommentType;
   parentId?: number;

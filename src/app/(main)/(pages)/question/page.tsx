@@ -57,20 +57,32 @@ const getQuestionsWithQuery = async (
         select: { userId: true, voteType: true },
       },
       author: { select: { id: true, name: true } },
+      video: {
+        select: {
+          id: true,
+          title: true,
+        },
+      },
     },
   };
 
-  const searchQuery = searchParams.search
-    ? {
-        where: {
-          ...additionalQuery.where,
-          title: {
-            contains: searchParams.search,
-            mode: 'insensitive',
+  const searchQuery =
+    searchParams.search || searchParams.videoId
+      ? {
+          where: {
+            ...additionalQuery.where,
+            ...(searchParams.search && {
+              title: {
+                contains: searchParams.search,
+                mode: 'insensitive',
+              },
+            }),
+            ...(searchParams.videoId && {
+              videoId: parseInt(searchParams.videoId.toString(), 10),
+            }),
           },
-        },
-      }
-    : {};
+        }
+      : {};
 
   const dateFilter = searchParams.date;
   if (dateFilter) {

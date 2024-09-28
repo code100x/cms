@@ -34,7 +34,7 @@ interface CommandMenuProps {
   onCommandSearchTermChange: (value: string) => void;
   loading: boolean;
   searchedVideos: TSearchedVideos[] | null;
-  onCardClick: (videoUrl: string) => void;
+  onCardClick: (videoUrl: string, videoId: number, videoTitle: string) => void;
   onClose: () => void;
 }
 
@@ -112,7 +112,7 @@ export function CommandMenu({
                   if (video.parentId && video.parent?.courses.length) {
                     const courseId = video.parent.courses[0].courseId;
                     const videoUrl = `/courses/${courseId}/${video.parentId}/${video.id}`;
-                    onCardClick(videoUrl);
+                    onCardClick(videoUrl, video.id, video.title);
                     onClose();
                   }
                 }}

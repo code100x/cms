@@ -45,6 +45,12 @@ export interface QuestionQuery {
         name: boolean;
       };
     };
+    video: {
+      select: {
+        id: boolean;
+        title: boolean;
+      };
+    };
     votes: {
       where: {
         userId: string | undefined;
@@ -57,7 +63,7 @@ export interface QuestionQuery {
   };
   where?: {
     authorId?: string;
-
+    videoId?: number;
     title?: {
       contains: string;
     };
@@ -76,13 +82,20 @@ export interface Author {
   email?: string | null;
 }
 
+export interface Video {
+  id: number;
+  title: string;
+} 
+
 export interface ExtendedQuestion extends Question {
   author: Author;
+  video: Video;
   votes: any[];
 }
 
 export interface ExtendedAnswer extends Answer {
   author: Author;
+  video: Video;
   votes: any[];
   responses: ExtendedAnswer[];
 }

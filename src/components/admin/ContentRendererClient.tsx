@@ -105,11 +105,19 @@ export const ContentRendererClient = ({
             <h2 className="line-clamp-2 text-wrap text-2xl font-extrabold capitalize tracking-tight text-primary md:text-3xl">
               {content.title}
             </h2>
-            {metadata.slides ? (
-              <Link href={metadata.slides} target="_blank">
-                <Button className="gap-2">Lecture Slides</Button>
+            <div className="flex gap-2">
+              <Link href={'/question?newPost=open'}>
+                <Button className="gap-2">Ask a question</Button>
               </Link>
-            ) : null}
+              <Link href={`/question?videoId=${content.id}`}>
+                <Button className="gap-2">View questions</Button>
+              </Link>
+              {metadata.slides ? (
+                <Link href={metadata.slides} target="_blank">
+                  <Button className="gap-2">Lecture Slides</Button>
+                </Link>
+              ) : null}
+            </div>
           </div>
 
           {!showChapters && metadata.segments?.length > 0 && (

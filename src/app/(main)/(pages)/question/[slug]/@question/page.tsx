@@ -35,6 +35,12 @@ const SingleQuestionPage = async ({
           name: true,
         },
       },
+      video: {
+        select: {
+          id: true,
+          title: true,
+        },
+      },
       votes: {
         where: {
           userId: sessionId,

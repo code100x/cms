@@ -20,9 +20,14 @@ import { SearchResults } from './SearchResults';
 interface SearchBarProps {
   onCardClick?: () => void;
   isMobile?: boolean;
+  shouldRedirect?: boolean;
 }
 
-export function SearchBar({ onCardClick, isMobile = false }: SearchBarProps) {
+export function SearchBar({
+  onCardClick,
+  isMobile = false,
+  shouldRedirect = true,
+}: SearchBarProps) {
   const [state, setState] = useState({
     open: false,
     searchTerm: '',
@@ -146,7 +151,9 @@ export function SearchBar({ onCardClick, isMobile = false }: SearchBarProps) {
         onCardClick();
       }
       setState((prev) => ({ ...prev, searchTerm: '', commandSearchTerm: '' }));
-      router.push(videoUrl);
+      if (shouldRedirect) {
+        router.push(videoUrl);
+      }
     },
     [onCardClick, router],
   );
