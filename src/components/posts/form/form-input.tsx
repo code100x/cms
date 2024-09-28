@@ -19,6 +19,9 @@ interface FormInputProps {
   errors?: Record<string, string[] | undefined>;
   className?: string;
   defaultValue?: string;
+  value?: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onClick?:() => void;
   onBlur?: () => void;
   onKeyUp?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
 }
@@ -35,6 +38,9 @@ export const FormPostInput = forwardRef<HTMLInputElement, FormInputProps>(
       errors,
       className,
       defaultValue = '',
+      onClick,
+      value,
+      onChange,
       onKeyUp,
       onBlur,
     },
@@ -55,11 +61,13 @@ export const FormPostInput = forwardRef<HTMLInputElement, FormInputProps>(
           ) : null}
           <Input
             onBlur={onBlur}
-            defaultValue={defaultValue}
             ref={ref}
             required={required}
             name={id}
             id={id}
+            onClick={onClick}
+            value={value}
+            onChange={onChange}
             onKeyUp={onKeyUp}
             placeholder={placeholder}
             type={type}
@@ -69,6 +77,7 @@ export const FormPostInput = forwardRef<HTMLInputElement, FormInputProps>(
               className,
             )}
             aria-describedby={`${id}-error`}
+            defaultValue={value === undefined ? defaultValue : undefined}
           />
         </div>
         <FormPostErrors id={id} errors={errors} />

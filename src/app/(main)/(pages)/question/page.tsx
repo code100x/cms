@@ -52,6 +52,7 @@ const getQuestionsWithQuery = async (
       slug: true,
       createdAt: true,
       updatedAt: true,
+      videoId: true,
       votes: {
         where: { userId: sessionId },
         select: { userId: true, voteType: true },

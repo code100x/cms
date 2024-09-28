@@ -1,7 +1,7 @@
 'use client';
 import '@uiw/react-md-editor/markdown-editor.css';
 import '@uiw/react-markdown-preview/markdown.css';
-import React, { useState, useTransition } from 'react';
+import React, { useState, useTransition, useEffect } from 'react';
 import VoteForm from './form/form-vote';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
@@ -54,6 +54,7 @@ const PostCard: React.FC<IProps> = ({
   const { theme } = useTheme();
   const [markDownValue, setMarkDownValue] = useState('');
   const [enableReply, setEnableReply] = useState(false);
+
   const handleMarkdownChange = (newValue?: string) => {
     if (typeof newValue === 'string') {
       setMarkDownValue(newValue);
@@ -62,7 +63,7 @@ const PostCard: React.FC<IProps> = ({
 
   const router = useRouter();
 
-  const [isPending, startTransition] = useTransition(); 
+  const [isPending, startTransition] = useTransition();
 
   const { execute, fieldErrors } = useAction(createAnswer, {
     onSuccess: () => {
@@ -92,6 +93,24 @@ const PostCard: React.FC<IProps> = ({
     }
     return num.toString();
   };
+
+  const [videoTitles, setVideoTitles] = useState({});
+
+  useEffect(() => {
+    const fetchVideoTitles = async () => {
+      const response = await fetch('/api/search?q=videos');
+      const data = await response.json();
+      const videoTitlesMap = data.reduce(
+        (acc: { [x: string]: any }, video: { id: number; title: string }) => {
+          acc[video.id] = video.title;
+          return acc;
+        },
+        {},
+      );
+      setVideoTitles(videoTitlesMap);
+    };
+    fetchVideoTitles();
+  }, []);
 
   return (
     <div
@@ -179,6 +198,12 @@ const PostCard: React.FC<IProps> = ({
         </div>
       )}
 
+      {isExtendedQuestion(post) && post.videoId && (
+        <p className="text-xs tracking-tight text-primary/70 sm:text-sm">
+          Video: {videoTitles[post.videoId] || post.videoId}
+        </p>
+      )}
+      
       <div className="flex flex-wrap items-center gap-2">
         <VoteForm
           upvotes={post.upvotes}

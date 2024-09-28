@@ -32,7 +32,7 @@ const createQuestionHandler = async (
     };
   }
 
-  const { title, content, tags } = data;
+  const { title, content, tags, videoId = 0 } = data;
 
   // Create initial slug
   let slug = generateHandle(title);
@@ -89,7 +89,7 @@ const updateQuestionHandler = async (
     };
   }
 
-  const { title, content, tags, questionId } = data;
+  const { title, content, tags, questionId, videoId = 0 } = data;
   const userExists = await db.user.findUnique({
     where: { id: session.user.id },
   });
