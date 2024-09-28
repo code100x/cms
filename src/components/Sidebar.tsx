@@ -160,7 +160,7 @@ export function Sidebar({
                 <Check content={content} />
                 {content.type === 'video' && <Play className="size-4" />}
                 {content.type === 'notion' && <File className="size-4" />}
-                <div className="truncate text-base">{content.title}</div>
+                <div className="text-ellipsis text-base">{content.title}</div>
               </div>
               {content.type === 'video' && (
                 <BookmarkButton
