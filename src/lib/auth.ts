@@ -2,10 +2,11 @@ import db from '@/db';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { JWTPayload, SignJWT, importJWK } from 'jose';
 import bcrypt from 'bcrypt';
-import prisma from '@/db';
 import { NextAuthOptions } from 'next-auth';
 import { Session } from 'next-auth';
 import { JWT } from 'next-auth/jwt';
+import { v4 as uuidv4 } from 'uuid';
+import { cache } from '@/db/Cache';
 
 interface AppxSigninResponse {
   data: {
@@ -37,19 +38,28 @@ interface user {
   token: string;
 }
 
-const generateJWT = async (payload: JWTPayload) => {
-  const secret = process.env.JWT_SECRET || 'secret';
+const generateJWT = async (payload: JWTPayload, ipAddress: string) => {
+  const secret = process.env.JWT_SECRET;
+  if (!secret) throw new Error('JWT_SECRET is not defined');
 
   const jwk = await importJWK({ k: secret, alg: 'HS256', kty: 'oct' });
-
-  const jwt = await new SignJWT(payload)
+  const jti = uuidv4();
+  const jwt = await new SignJWT({ ...payload, ip: ipAddress, jti })
     .setProtectedHeader({ alg: 'HS256' })
     .setIssuedAt()
-    .setExpirationTime('365d')
+    .setExpirationTime('24h')
     .sign(jwk);
+
+  await cache.set(
+    'session',
+    [jti],
+    JSON.stringify({ ...payload, ipAddress }),
+    24 * 60 * 60,
+  );
 
   return jwt;
 };
+
 async function validateUser(
   email: string,
   password: string,
@@ -97,7 +107,7 @@ async function validateUser(
     }
 
     const data = await response.json();
-    return data as any; // Or process data as needed
+    return data as any;
   } catch (error) {
     console.error('Error validating user:', error);
   }
@@ -106,7 +116,7 @@ async function validateUser(
   };
 }
 
-export const authOptions = {
+export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
       name: 'Credentials',
@@ -114,21 +124,29 @@ export const authOptions = {
         username: { label: 'email', type: 'text', placeholder: '' },
         password: { label: 'password', type: 'password', placeholder: '' },
       },
-      async authorize(credentials: any) {
+      async authorize(credentials: any, req: any) {
         try {
+          const ipAddress =
+            req.headers['x-forwarded-for']?.split(',')[0] ||
+            req.socket.remoteAddress;
+
           if (process.env.LOCAL_CMS_PROVIDER) {
             return {
               id: '1',
               name: 'test',
               email: 'test@gmail.com',
-              token: await generateJWT({
-                id: '1',
-              }),
+              token: await generateJWT(
+                {
+                  id: '1',
+                },
+                ipAddress,
+              ),
             };
           }
+
           const hashedPassword = await bcrypt.hash(credentials.password, 10);
 
-          const userDb = await prisma.user.findFirst({
+          const userDb = await db.user.findFirst({
             where: {
               email: credentials.username,
             },
@@ -138,14 +156,19 @@ export const authOptions = {
               name: true,
             },
           });
+
           if (
             userDb &&
             userDb.password &&
             (await bcrypt.compare(credentials.password, userDb.password))
           ) {
-            const jwt = await generateJWT({
-              id: userDb.id,
-            });
+            const jwt = await generateJWT(
+              {
+                id: userDb.id,
+              },
+              ipAddress,
+            );
+
             await db.user.update({
               where: {
                 id: userDb.id,
@@ -162,19 +185,23 @@ export const authOptions = {
               token: jwt,
             };
           }
-          console.log('not in db');
+
+          console.log('User not in db, validating with external service');
           const user: AppxSigninResponse = await validateUser(
             credentials.username,
             credentials.password,
           );
 
-          const jwt = await generateJWT({
-            id: user.data?.userid,
-          });
-
           if (user.data) {
+            const jwt = await generateJWT(
+              {
+                id: user.data.userid,
+              },
+              ipAddress,
+            );
+
             try {
-              await db.user.upsert({
+              const createdUser = await db.user.upsert({
                 where: {
                   id: user.data.userid,
                 },
@@ -186,60 +213,58 @@ export const authOptions = {
                   password: hashedPassword,
                 },
                 update: {
-                  id: user.data.userid,
                   name: user.data.name,
                   email: credentials.username,
                   token: jwt,
                   password: hashedPassword,
                 },
               });
+
+              return {
+                id: createdUser.id,
+                name: createdUser.name,
+                email: credentials.username,
+                token: jwt,
+              };
             } catch (e) {
-              console.log(e);
+              console.error('Error creating or updating user:', e);
+              return null;
             }
-
-            return {
-              id: user.data.userid,
-              name: user.data.name,
-              email: credentials.username,
-              token: jwt,
-            };
           }
-
-          // Return null if user data could not be retrieved
           return null;
         } catch (e) {
-          console.error(e);
+          console.error('Error in authorize function:', e);
+          return null;
         }
-        return null;
       },
     }),
   ],
   secret: process.env.NEXTAUTH_SECRET || 'secr3t',
   callbacks: {
-    session: async ({ session, token }) => {
-      const newSession: session = session as session;
-      if (newSession.user && token.uid) {
-        newSession.user.id = token.uid as string;
-        newSession.user.jwtToken = token.jwtToken as string;
+    async jwt({ token, user }): Promise<token> {
+      if (user) {
+        (token as token).uid = user.id;
+        (token as token).jwtToken = (user as user).token;
+      }
+      return token as token;
+    },
+    async session({ session, token }) {
+      const newSession = session as session;
+      if (newSession.user && (token as token).uid) {
+        newSession.user.id = (token as token).uid;
+        newSession.user.jwtToken = (token as token).jwtToken;
         newSession.user.role = process.env.ADMINS?.split(',').includes(
           session.user?.email ?? '',
         )
           ? 'admin'
           : 'user';
       }
-      return newSession!;
-    },
-    jwt: async ({ token, user }): Promise<JWT> => {
-      const newToken: token = token as token;
-
-      if (user) {
-        newToken.uid = user.id;
-        newToken.jwtToken = (user as user).token;
-      }
-      return newToken;
+      return newSession;
     },
   },
   pages: {
     signIn: '/signin',
   },
-} satisfies NextAuthOptions;
+};
+
+export { generateJWT };

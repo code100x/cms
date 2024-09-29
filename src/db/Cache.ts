@@ -5,6 +5,10 @@ import { RedisCache } from '@/lib/cache/redis-cache';
 const redisUrl = process.env.REDIS_URL;
 
 export class Cache implements ICache {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  delete(arg0: string, arg1: any[]) {
+    throw new Error('Method not implemented.');
+  }
   private static instance: Cache;
   private delegate: ICache;
 

@@ -5,17 +5,21 @@ import React, { useEffect } from 'react';
 import { Toaster } from '@/components/ui/sonner';
 import { toast } from 'sonner';
 
-const page = () => {
+const InvalidSessionPage = () => {
   useEffect(() => {
-    signOut({
-      callbackUrl: '/signin',
-    });
-    toast('Too many devices connected. Logging out!', {
-      action: {
-        label: 'Close',
-        onClick: () => toast.dismiss(),
-      },
-    });
+    const handleSignOut = async () => {
+      await signOut({
+        callbackUrl: '/signin',
+      });
+      toast('Too many devices connected. Logging out!', {
+        action: {
+          label: 'Close',
+          onClick: () => toast.dismiss(),
+        },
+      });
+    };
+
+    handleSignOut();
   }, []);
 
   return (
@@ -25,4 +29,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default InvalidSessionPage;

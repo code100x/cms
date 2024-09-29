@@ -87,35 +87,35 @@ model NotionMetadata {
 model VideoMetadata {
   id                         Int             @id @default(autoincrement())
   contentId                  Int
-  video_1080p_mp4_1          String? // Link to 1080p mp4 quality video variant 1
-  video_1080p_mp4_2          String? // Link to 1080p mp4 quality video variant 2
-  video_1080p_mp4_3          String? // Link to 1080p mp4 quality video variant 3
-  video_1080p_mp4_4          String? // Link to 1080p mp4 quality video variant 4
-  video_1080p_1              String? // Link to 1080p quality video variant 1
-  video_1080p_2              String? // Link to 1080p quality video variant 2
-  video_1080p_3              String? // Link to 1080p quality video variant 3
-  video_1080p_4              String? // Link to 1080p quality video variant 4
-  video_720p_mp4_1           String? // Link to 720p mp4 quality video variant 1
-  video_720p_mp4_2           String? // Link to 720p mp4 quality video variant 2
-  video_720p_mp4_3           String? // Link to 720p mp4 quality video variant 3
-  video_720p_mp4_4           String? // Link to 720p mp4 quality video variant 4
-  video_720p_1               String? // Link to 720p quality video variant 1
-  video_720p_2               String? // Link to 720p quality video variant 2
-  video_720p_3               String? // Link to 720p quality video variant 3
-  video_720p_4               String? // Link to 720p quality video variant 4
-  video_360p_mp4_1           String? // Link to 360p mp4 quality video variant 1
-  video_360p_mp4_2           String? // Link to 360p mp4 quality video variant 2
-  video_360p_mp4_3           String? // Link to 360p mp4 quality video variant 3
-  video_360p_mp4_4           String? // Link to 360p mp4 quality video variant 4
-  video_360p_1               String? // Link to 360p quality video variant 1
-  video_360p_2               String? // Link to 360p quality video variant 2
-  video_360p_3               String? // Link to 360p quality video variant 3
-  video_360p_4               String? // Link to 360p quality video variant 4
-  subtitles                  String? // Link to subtitles file
-  subtitle_tried             Int             @default(0) //Count of subtitle transcoding tries
+  video_1080p_mp4_1          String?
+  video_1080p_mp4_2          String?
+  video_1080p_mp4_3          String?
+  video_1080p_mp4_4          String?
+  video_1080p_1              String?
+  video_1080p_2              String?
+  video_1080p_3              String?
+  video_1080p_4              String?
+  video_720p_mp4_1           String?
+  video_720p_mp4_2           String?
+  video_720p_mp4_3           String?
+  video_720p_mp4_4           String?
+  video_720p_1               String?
+  video_720p_2               String?
+  video_720p_3               String?
+  video_720p_4               String?
+  video_360p_mp4_1           String?
+  video_360p_mp4_2           String?
+  video_360p_mp4_3           String?
+  video_360p_mp4_4           String?
+  video_360p_1               String?
+  video_360p_2               String?
+  video_360p_3               String?
+  video_360p_4               String?
+  subtitles                  String?
+  subtitle_tried             Int             @default(0)
   segments                   Json?
   content                    Content         @relation(fields: [contentId], references: [id])
-  slides                     String? // link to slides
+  slides                     String?
   thumbnail_mosiac_url       String?
   duration                   Int?
   migration_status           MigrationStatus @default(NOT_MIGRATED)
@@ -138,34 +138,59 @@ model Session {
 }
 
 model User {
-  id                String          @id @default(cuid())
+  id                String              @id @default(cuid())
   name              String?
-  email             String?         @unique
-  token             String?
-  sessions          Session[]
-  purchases         UserPurchases[]
-  videoProgress     VideoProgress[]
-  comments          Comment[]
-  votes             Vote[]
-  discordConnect    DiscordConnect?
-  disableDrm        Boolean         @default(false)
-  bunnyProxyEnabled Boolean         @default(false)
-  bookmarks         Bookmark[]
+  email             String?             @unique
+  emailVerified     DateTime?
+  image             String?
   password          String?
-  appxUserId        String?
-  appxUsername      String?
+  token             String?
+  accounts          Account[]
+  sessions          Session[]
+  ipChangeLogs      IpChangeLog[]
+  refreshTokens     RefreshToken[]
+  githubLink        GitHubLink?
+  upiIds            UpiId[]             @relation("UserUpiIds")
+  solanaAddresses   SolanaAddress[]     @relation("UserSolanaAddresses")
+  discordConnect    DiscordConnect?
+  videoProgresses   VideoProgress[]
+  bookmarks         Bookmark[]
+  comments          Comment[]
   questions         Question[]
   answers           Answer[]
-  certificate       Certificate[]
-  upiIds            UpiId[]         @relation("UserUpiIds")
-  solanaAddresses   SolanaAddress[] @relation("UserSolanaAddresses")
-  githubUser        GitHubLink?     @relation("UserGithub")
+  votes             Vote[]
+  purchases         UserPurchases[]
+  certificates      Certificate[]
+  refreshToken      String? @unique
+}
+
+model RefreshToken {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+}
+
+model IpChangeLog {
+  id        String   @id @default(cuid())
+  userId    String
+  oldIp     String
+  newIp     String
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@index([userId])
 }
 
 model GitHubLink {
   id           String   @id @default(cuid())
   userId       String   @unique
-  user         User     @relation("UserGithub", fields: [userId], references: [id], onDelete: Cascade)
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   githubId     String
   username     String
   avatarUrl    String?
@@ -322,6 +347,25 @@ model Event {
   updatedAt DateTime @updatedAt
 }
 
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
 enum VoteType {
   UPVOTE
   DOWNVOTE
@@ -343,4 +387,3 @@ enum MigrationStatus {
   MIGRATED
   MIGRATION_ERROR
 }
-
