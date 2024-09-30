@@ -29,7 +29,7 @@ export const SidebarItems = ({
         return (
           <TooltipProvider key={item.id}>
             <Tooltip>
-              <TooltipTrigger>
+              <TooltipTrigger asChild>
                 <Link
                   href={item.href}
                   className={`flex items-center rounded-lg p-3 text-center transition-all duration-300 ${
