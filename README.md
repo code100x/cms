@@ -1,7 +1,5 @@
 <h1 style="font-size: 40px;">CMS - 100xDevs</h1>
 
-![stars](https://badgen.net/github/stars/code100x/cms) ![forks](https://badgen.net/github/forks/code100x/cms) ![contributors](https://badgen.net/github/contributors/code100x/cms?color=green)
-
 Open source repo for app.100xdevs.com
 
 ## Running Locally
