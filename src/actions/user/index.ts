@@ -25,3 +25,39 @@ export const logoutUser = async (email: string, adminPassword: string) => {
 
   return { message: 'User logged out' };
 };
+
+export const searchPayoutMethods = async (
+  searchTerm: string,
+  adminPassword: string,
+) => {
+  if (adminPassword !== process.env.ADMIN_SECRET) {
+    return { error: 'Unauthorized' };
+  }
+  let user;
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (emailRegex.test(searchTerm)) {
+    user = await db.user.findUnique({
+      where: { email: searchTerm },
+      include: {
+        upiIds: true,
+        solanaAddresses: true,
+      },
+    });
+  } else {
+    user = await db.user.findFirst({
+      where: { githubUser: { username: searchTerm } },
+      select: {
+        upiIds: true,
+        solanaAddresses: true,
+      },
+    });
+  }
+
+  if (user) {
+    return {
+      data: { upiIds: user.upiIds, solAddresses: user.solanaAddresses },
+    };
+  } else {
+    return { error: 'User not found' };
+  }
+};
