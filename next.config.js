@@ -33,4 +33,8 @@ const nextConfig = {
   },
 };
 
+if (process.env.STANDALONE = "1") {
+  nextConfig.output = 'standalone';
+}
+
 module.exports = nextConfig;
