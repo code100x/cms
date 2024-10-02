@@ -1,6 +1,13 @@
 'use client';
 import { AnimatePresence, motion } from 'framer-motion';
-import { FileText, Flag, LucideIcon, MessageCircle, PackagePlus, Users } from 'lucide-react';
+import {
+  FileText,
+  Flag,
+  LucideIcon,
+  MessageCircle,
+  PackagePlus,
+  Users,
+} from 'lucide-react';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import React, { useState } from 'react';
@@ -42,7 +49,7 @@ export default function AdminPage() {
     title: string;
     description: string;
     exploreText: string;
-  }
+  };
 
   const cardsData: CardData[] = [
     {
@@ -89,11 +96,16 @@ export default function AdminPage() {
     },
   ];
 
-  const AdminCard: React.FC<CardData> = ({ href, icon: Icon, title, description, exploreText }) => {
+  const AdminCard: React.FC<CardData> = ({
+    href,
+    icon: Icon,
+    title,
+    description,
+    exploreText,
+  }) => {
     const [isHovered, setIsHovered] = useState(false);
 
     return (
-
       <motion.div
         initial={{ y: 50, opacity: 0, filter: 'blur(10px)' }}
         animate={{ y: 0, opacity: 1, filter: 'blur(0px)' }}
@@ -103,13 +115,13 @@ export default function AdminPage() {
           href={href}
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
-          className='h-[15rem] overflow-hidden relative group cursor-pointer hover:border-blue-500 transition-all duration-200 ease-linear flex flex-col items-center justify-center p-4 rounded-lg border-2 w-full'
+          className="group relative flex h-[15rem] w-full cursor-pointer flex-col items-center justify-center overflow-hidden rounded-lg border-2 p-4 transition-all duration-200 ease-linear hover:border-blue-500"
         >
-          <div className='border bg-blue-400 bg-opacity-5 rounded-md w-[4rem] h-[3rem] p-2 flex items-center justify-center'>
-            <Icon className='w-6 h-6' />
+          <div className="flex h-[3rem] w-[4rem] items-center justify-center rounded-md border bg-blue-400 bg-opacity-5 p-2">
+            <Icon className="h-6 w-6" />
           </div>
-          <div className='flex flex-col items-center justify-center mt-4 w-full gap-1'>
-            <h1 className='text-xl font-semibold'>{title}</h1>
+          <div className="mt-4 flex w-full flex-col items-center justify-center gap-1">
+            <h1 className="text-xl font-semibold">{title}</h1>
 
             {isHovered && (
               <AnimatePresence>
@@ -118,7 +130,7 @@ export default function AdminPage() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 20 }}
                   transition={{ duration: 0.3 }}
-                  className='text-sm text-gray-400 transition-all duration-200 ease-linear'
+                  className="text-sm text-gray-400 transition-all duration-200 ease-linear"
                 >
                   {description}
                 </motion.p>
@@ -126,7 +138,7 @@ export default function AdminPage() {
             )}
           </div>
 
-          <div className='w-[80%] transition-all duration-500 ease-linear group-hover:bottom-0 text-center text-xs border-2 py-1 absolute -bottom-[60px] border-b-0 px-4 rounded-tr-lg rounded-tl-lg'>
+          <div className="absolute -bottom-[60px] w-[80%] rounded-tl-lg rounded-tr-lg border-2 border-b-0 px-4 py-1 text-center text-xs transition-all duration-500 ease-linear group-hover:bottom-0">
             {exploreText}
           </div>
         </Link>
@@ -135,13 +147,17 @@ export default function AdminPage() {
   };
 
   return (
-    <main className='max-w-[1280px] flex flex-col gap-6 items-center p-4 min-h-full max-h-fit w-full mx-auto'>
-      <section className='w-full flex flex-col gap-2 text-center text-3xl'>
-        <h1>{greeting}, {user?.name}</h1>
-        <h4 className='text-sm text-gray-500'>Welcome! Explore more from below</h4>
+    <main className="mx-auto flex max-h-fit min-h-full w-full max-w-[1280px] flex-col items-center gap-6 p-4">
+      <section className="flex w-full flex-col gap-2 text-center text-3xl">
+        <h1>
+          {greeting}, {user?.name}
+        </h1>
+        <h4 className="text-sm text-gray-500">
+          Welcome! Explore more from below
+        </h4>
       </section>
 
-      <section className='my-4 w-full grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3'>
+      <section className="my-4 grid w-full grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {cardsData.map((card, index) => (
           <AdminCard key={index} {...card} />
         ))}
