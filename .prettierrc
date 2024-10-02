@@ -5,5 +5,6 @@
   "trailingComma": "all",
   "plugins": [
     "prettier-plugin-tailwindcss"
-  ]
+  ],
+  "embeddedLanguageFormatting": "off"
 }

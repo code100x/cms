@@ -35,7 +35,7 @@ export const POST = async (req: NextRequest) => {
         video_1080p_3: updates.video_1080p,
         video_1080p_4: updates.video_1080p,
         /// mp4s
-  
+
         video_1080p_mp4_1: updates.video_1080p_mp4,
         video_1080p_mp4_2: updates.video_1080p_mp4,
         video_1080p_mp4_3: updates.video_1080p_mp4,
@@ -50,7 +50,7 @@ export const POST = async (req: NextRequest) => {
         video_360p_mp4_4: updates.video_360p_mp4,
       },
     });
-  
+
     return NextResponse.json({}, { status: 200 });
   } catch (err) {
     return NextResponse.json({}, { status: 500 });

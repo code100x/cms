@@ -1,12 +1,48 @@
 #!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
 
-npm run format:fix
-npm run lint:fix
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[0;33m'
+NC='\033[0m'
 
-git add .
+print_color() {
+  printf "${!1}%s${NC}\n" "$2"
+}
 
-if [ -f "yarn.lock" ] || [ -f "package-lock.json" ]; then
-  echo "Error: yarn.lock or package-lock.json is present. Please remove them before committing."
-  exit 1
-fi
+run_command() {
+  print_color "YELLOW" "Running $1..."
+  if eval "$1"; then
+    print_color "GREEN" "$1 completed successfully."
+  else
+    print_color "RED" "$1 failed. Please fix the issues and try committing again."
+    exit 1
+  fi
+}
+
+check_lock_files() {
+  local lock_files=("yarn.lock" "package-lock.json" "pnpm-lock.yaml")
+  local staged_files=$(git diff --cached --name-only)
+
+  for file in "${lock_files[@]}"; do
+    if echo "$staged_files" | grep -q "$file"; then
+      print_color "RED" "Error: $file is staged for commit. Please remove it before committing."
+      exit 1
+    fi
+  done
+}
+
+main() {
+  check_lock_files
+
+  run_command "npm run format:fix"
+
+  run_command "npm run lint:fix"
+
+  git add .
+
+  run_command "npm run lint:check"
+
+  print_color "GREEN" "Pre-commit checks passed successfully!"
+}
+
+main
