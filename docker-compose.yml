@@ -2,7 +2,7 @@ services:
   app:
     build:
       context: .
-      dockerfile: Dockerfile.prod
+      dockerfile: Dockerfile.dev
       args:
         - DATABASE_URL=postgresql://postgres:postgres@db:5432/cms?schema=public
     container_name: cms-docker
