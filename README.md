@@ -128,3 +128,19 @@ Read our [contribution guidelines](./CONTRIBUTING.md) for more details.
 <a  href="https://github.com/code100x/cms/graphs/contributors">
 <img  src="https://contrib.rocks/image?repo=code100x/cms&max=400&columns=20"  />
 </a>
+
+## Docker Build (Multistage)
+
+To build and run the application using the multistage Dockerfile locally:
+
+1. Build the Docker image:
+   ```bash
+   docker build -f Dockerfile.multistage -t nextjs-app --build-arg DATABASE_URL=your_database_url .
+   ```
+
+2. Run the Docker container:
+   ```bash
+   docker run -p 3000:3000 nextjs-app
+   ```
+
+Replace `your_database_url` with the actual database URL for your local environment.

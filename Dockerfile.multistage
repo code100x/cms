@@ -1,0 +1,67 @@
+# Stage 1: Build the application
+FROM node:20-alpine AS builder
+ARG DATABASE_URL
+ENV DATABASE_URL=${DATABASE_URL}
+
+WORKDIR /usr/src/app
+
+# Install pnpm globally
+RUN npm install -g pnpm
+
+# Copy package.json and pnpm-lock.yaml (if you have one)
+COPY package.json pnpm-lock.yaml* ./
+
+# Copy Prisma schema
+COPY prisma ./prisma
+
+# Install dependencies including dev dependencies
+RUN pnpm install
+
+# Generate Prisma client
+RUN npx prisma generate --schema=./prisma/schema.prisma
+
+# Copy the rest of the application code
+COPY . .
+
+# Install next globally
+RUN npm install -g next
+
+# Copy ESLint configuration
+COPY .eslintrc.js .
+COPY .eslintignore .
+
+# Build the application
+RUN pnpm run lint || true && pnpm run build
+
+# Stage 2: Create the production image
+FROM node:20-alpine
+ARG DATABASE_URL
+
+WORKDIR /usr/src/app
+
+# Install pnpm globally
+RUN npm install -g pnpm
+
+# Copy package.json and pnpm-lock.yaml (if you have one)
+COPY package.json pnpm-lock.yaml* ./
+
+# Install only production dependencies
+RUN pnpm install --prod --no-frozen-lockfile
+
+# Copy Prisma schema and generate client
+COPY prisma ./prisma
+RUN npx prisma generate --schema=./prisma/schema.prisma
+
+# Copy built application from the builder stage
+COPY --from=builder /usr/src/app/.next ./.next
+COPY --from=builder /usr/src/app/public ./public
+
+# Set environment variables
+ENV NODE_ENV=production
+ENV DATABASE_URL=${DATABASE_URL}
+
+# Expose the port the app runs on
+EXPOSE 3000
+
+# Start the application
+CMD ["pnpm", "start"]

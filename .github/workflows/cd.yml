@@ -23,7 +23,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: .
-          file: ./Dockerfile.prod
+          file: ./Dockerfile.multistage
           push: true
           tags: 100xdevs/cms-staging:${{ github.sha }}
           build-args: |
