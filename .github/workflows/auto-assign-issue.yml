@@ -1,0 +1,55 @@
+name: Auto Assign Issue
+
+on:
+  issue_comment:
+    types: [created]
+
+jobs:
+  auto-assign:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Auto-assign issue
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          script: |
+            const triggerWords = ['take', 'assign me', 'I\'ll work on this'];
+            const comment = context.payload.comment.body.toLowerCase();
+            
+            if (triggerWords.some(word => comment.includes(word))) {
+              const issue = context.payload.issue;
+              const commenter = context.payload.comment.user.login;
+              
+              try {
+                if (!issue.assignees || issue.assignees.length === 0) {
+                  await github.rest.issues.addAssignees({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    issue_number: issue.number,
+                    assignees: [commenter]
+                  });
+                  
+                  await github.rest.issues.createComment({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    issue_number: issue.number,
+                    body: `@${commenter} has been assigned to this issue.`
+                  });
+                } else {
+                  await github.rest.issues.createComment({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    issue_number: issue.number,
+                    body: `This issue is already assigned to someone else.`
+                  });
+                }
+              } catch (error) {
+                console.error('Error:', error);
+                await github.rest.issues.createComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: issue.number,
+                  body: `An error occurred while trying to assign this issue. Please contact a repository maintainer.`
+                });
+              }
+            }
