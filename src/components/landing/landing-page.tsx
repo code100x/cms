@@ -1,10 +1,13 @@
 'use client';
+
 import Link from 'next/link';
+import { useEffect } from 'react';
 import { Button } from '../ui/button';
 import { InfiniteMovingCards } from '../ui/infinite-moving-cards';
 import FooterCTA from './footer-cta';
 import Footer from './footer';
 import { motion } from 'framer-motion';
+import TwitterEmbed from './twitter-embed-card';
 
 const heroItems = [
   {
@@ -21,7 +24,6 @@ const heroItems = [
   {
     imageUrl: 'https://100x-b-mcdn.akamai.net.in/images/ds.jpeg',
   },
-
   {
     imageUrl:
       'https://appxcontent.kaxa.in/paid_course3/2024-07-09-0.6125162399767927.png',
@@ -29,6 +31,19 @@ const heroItems = [
 ];
 
 export default function LandingPage() {
+  useEffect(() => {
+    // Load Twitter script
+    const script = document.createElement('script');
+    script.src = 'https://platform.twitter.com/widgets.js';
+    script.async = true;
+    document.body.appendChild(script);
+
+    return () => {
+      // Cleanup the script when the component is unmounted
+      document.body.removeChild(script);
+    };
+  }, []);
+
   return (
     <div className="flex min-h-screen flex-col">
       <main className="flex h-full flex-col items-center justify-center gap-4">
@@ -58,6 +73,7 @@ export default function LandingPage() {
             A beginner-friendly platform for mastering programming skills.
           </p>
         </motion.div>
+
         {/* CTA Buttons */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -73,7 +89,7 @@ export default function LandingPage() {
         >
           <Button size={'lg'} asChild variant={'branding'}>
             <Link
-              href={'https://harkirat.classx.co.in/new-courses'}
+              href={'https://harkirat.classx.co.in\new-courses'}
               target="_blank"
             >
               Explore Courses
@@ -85,6 +101,8 @@ export default function LandingPage() {
             </Link>
           </Button>
         </motion.div>
+
+        {/* Infinite Moving Cards */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -99,6 +117,7 @@ export default function LandingPage() {
         >
           <InfiniteMovingCards items={heroItems} />
         </motion.div>
+
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -108,6 +127,28 @@ export default function LandingPage() {
           }}
           className="absolute -bottom-[16rem] -z-[20] size-[24rem] overflow-hidden rounded-full bg-gradient-to-t from-blue-400 to-blue-700 blur-[16em]"
         />
+
+        {/* Success Stories */}
+        <motion.section
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{
+            duration: 0.5,
+            delay: 0.75,
+            type: 'spring',
+            damping: 10,
+            stiffness: 100,
+          }}
+          className="p-0"
+        >
+          <h2 className="py-2 pt-36 text-center text-3xl font-extrabold tracking-tighter md:text-4xl xl:text-5xl">
+            Success Stories
+          </h2>
+          <p className="text-center">
+            Here's What our students have achieved with our learnings.
+          </p>
+          <TwitterEmbed />
+        </motion.section>
       </main>
       <FooterCTA />
       <Footer />
