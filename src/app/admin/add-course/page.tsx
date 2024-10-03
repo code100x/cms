@@ -1,12 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Form,
   FormControl,
@@ -29,7 +24,7 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/components/ui/accordion";
+} from '@/components/ui/accordion';
 import { Cuboid, PackagePlus } from 'lucide-react';
 import { FaDiscord } from 'react-icons/fa';
 
@@ -86,24 +81,32 @@ export default function Courses() {
 
   return (
     <div className="wrapper my-16 flex flex-col gap-4">
-
-      <section className='flex gap-2 border-2 p-4 bg-primary/5 rounded-lg my-4 items-center'>
+      <section className="my-4 flex items-center gap-2 rounded-lg border-2 bg-primary/5 p-4">
         <Cuboid size={18} />
-        <h2 className='text-md font-bold'>View Content</h2>
+        <h2 className="text-md font-bold">View Content</h2>
       </section>
 
-      <Accordion defaultValue='add-new-course' className='border-2 p-4 rounded-2xl' type="single" collapsible>
+      <Accordion
+        defaultValue="add-new-course"
+        className="rounded-2xl border-2 p-4"
+        type="single"
+        collapsible
+      >
         <AccordionItem value="add-new-course">
-          <AccordionTrigger className='p-6 text-2xl font-bold'>
-            <div className='flex gap-4 flex-col' >
-              <PackagePlus size={40} />New course
+          <AccordionTrigger className="p-6 text-2xl font-bold">
+            <div className="flex flex-col gap-4">
+              <PackagePlus size={40} />
+              New course
             </div>
           </AccordionTrigger>
           <AccordionContent>
-            <div className='w-full grid grid-cols-1 lg:grid-cols-7'>
-              <div className='text-sm font-semibold text-gray-400 col-span-1 lg:col-span-2 p-6'>Create new course for 100xdevs community and let user explore new courses</div>
-              <div className='col-span-1 lg:col-span-5 p-4'>
-                <Card className='bg-background border-2'>
+            <div className="grid w-full grid-cols-1 lg:grid-cols-7">
+              <div className="col-span-1 p-6 text-sm font-semibold text-gray-400 lg:col-span-2">
+                Create new course for 100xdevs community and let user explore
+                new courses
+              </div>
+              <div className="col-span-1 p-4 lg:col-span-5">
+                <Card className="border-2 bg-background">
                   <CardHeader>
                     {/* <CardTitle>Create a new course</CardTitle> */}
                     <CardTitle>Fill in the course details below</CardTitle>
@@ -121,7 +124,11 @@ export default function Courses() {
                             <FormItem>
                               <FormLabel>Title</FormLabel>
                               <FormControl>
-                                <Input className='h-12 px-3' placeholder="Enter the Course name" {...field} />
+                                <Input
+                                  className="h-12 px-3"
+                                  placeholder="Enter the Course name"
+                                  {...field}
+                                />
                               </FormControl>
                               <FormMessage />
                             </FormItem>
@@ -134,7 +141,11 @@ export default function Courses() {
                             <FormItem>
                               <FormLabel>Image url</FormLabel>
                               <FormControl>
-                                <Input className='h-12 px-3' placeholder="Enter the url of Image" {...field} />
+                                <Input
+                                  className="h-12 px-3"
+                                  placeholder="Enter the url of Image"
+                                  {...field}
+                                />
                               </FormControl>
                               <FormMessage />
                             </FormItem>
@@ -144,11 +155,12 @@ export default function Courses() {
                           control={form.control}
                           name="description"
                           render={({ field }: { field: any }) => (
-                            <FormItem className='col-span-1 lg:col-span-2'>
+                            <FormItem className="col-span-1 lg:col-span-2">
                               <FormLabel>Description</FormLabel>
                               <FormControl>
                                 <Textarea
-                                  className='h-12 px-3' placeholder="Enter the Description of course"
+                                  className="h-12 px-3"
+                                  placeholder="Enter the Description of course"
                                   {...field}
                                 />
                               </FormControl>
@@ -163,7 +175,11 @@ export default function Courses() {
                             <FormItem>
                               <FormLabel>Slug</FormLabel>
                               <FormControl>
-                                <Input className='h-12 px-3' placeholder="Enter the Course slug" {...field} />
+                                <Input
+                                  className="h-12 px-3"
+                                  placeholder="Enter the Course slug"
+                                  {...field}
+                                />
                               </FormControl>
                               <FormMessage />
                             </FormItem>
@@ -176,7 +192,11 @@ export default function Courses() {
                             <FormItem>
                               <FormLabel>Id</FormLabel>
                               <FormControl>
-                                <Input className='h-12 px-3' placeholder="Enter the Course ID" {...field} />
+                                <Input
+                                  className="h-12 px-3"
+                                  placeholder="Enter the Course ID"
+                                  {...field}
+                                />
                               </FormControl>
                               <FormMessage />
                             </FormItem>
@@ -189,7 +209,11 @@ export default function Courses() {
                             <FormItem>
                               <FormLabel>Admin Secret</FormLabel>
                               <FormControl>
-                                <Input className='h-12 px-3' placeholder="Enter the Admin Secret" {...field} />
+                                <Input
+                                  className="h-12 px-3"
+                                  placeholder="Enter the Admin Secret"
+                                  {...field}
+                                />
                               </FormControl>
                               <FormMessage />
                             </FormItem>
@@ -203,7 +227,8 @@ export default function Courses() {
                               <FormLabel>app x course id</FormLabel>
                               <FormControl>
                                 <Input
-                                  className='h-12 px-3' placeholder="Enter the appx course ID"
+                                  className="h-12 px-3"
+                                  placeholder="Enter the appx course ID"
                                   {...field}
                                 />
                               </FormControl>
@@ -231,7 +256,9 @@ export default function Courses() {
                           {isLoading ? (
                             <Button>Loading...</Button>
                           ) : (
-                            <Button className='w-[20%]' type="submit">Create</Button>
+                            <Button className="w-[20%]" type="submit">
+                              Create
+                            </Button>
                           )}
                         </div>
                       </form>
@@ -243,24 +270,28 @@ export default function Courses() {
           </AccordionContent>
         </AccordionItem>
 
-        <AccordionItem className='border-none' value="discord-config">
-          <AccordionTrigger className='p-6 text-2xl font-bold'>
-            <div className='flex gap-4 flex-col' >
-              <FaDiscord className='text-5xl' /> Discord Config
+        <AccordionItem className="border-none" value="discord-config">
+          <AccordionTrigger className="p-6 text-2xl font-bold">
+            <div className="flex flex-col gap-4">
+              <FaDiscord className="text-5xl" /> Discord Config
             </div>
           </AccordionTrigger>
           <AccordionContent>
-            <div className='w-full grid grid-cols-1 lg:grid-cols-7'>
-              <div className='text-sm font-semibold text-gray-400col-span-1 lg:col-span-2 p-6'>Mangae discord configuration for the users</div>
-              <div className='col-span-1 lg:col-span-5 p-4'>
-                <Card className='bg-background'>
+            <div className="grid w-full grid-cols-1 lg:grid-cols-7">
+              <div className="text-gray-400col-span-1 p-6 text-sm font-semibold lg:col-span-2">
+                Mangae discord configuration for the users
+              </div>
+              <div className="col-span-1 p-4 lg:col-span-5">
+                <Card className="bg-background">
                   <CardHeader>
                     <CardTitle>Discord</CardTitle>
                   </CardHeader>
                   <CardContent className="flex flex-col gap-5 lg:flex-row">
-                    <Card className="mx-auto border-2 bg-background w-full max-w-3xl overflow-y-auto">
+                    <Card className="mx-auto w-full max-w-3xl overflow-y-auto border-2 bg-background">
                       <CardHeader>
-                        <CardTitle>Allow user another account in cohort 3</CardTitle>
+                        <CardTitle>
+                          Allow user another account in cohort 3
+                        </CardTitle>
                       </CardHeader>
                       <CardContent className="grid gap-4 p-4 pt-0">
                         <Input
@@ -280,10 +311,13 @@ export default function Courses() {
                         <Button
                           onClick={async () => {
                             try {
-                              const res = await axios.post('/api/admin/discordReset', {
-                                email,
-                                adminPassword,
-                              });
+                              const res = await axios.post(
+                                '/api/admin/discordReset',
+                                {
+                                  email,
+                                  adminPassword,
+                                },
+                              );
                               toast(JSON.stringify(res.data.data));
                             } catch (error) {
                               //@ts-ignore
@@ -295,9 +329,11 @@ export default function Courses() {
                         </Button>
                       </CardContent>
                     </Card>
-                    <Card className="mx-auto border-2 bg-background w-full max-w-3xl overflow-y-auto">
+                    <Card className="mx-auto w-full max-w-3xl overflow-y-auto border-2 bg-background">
                       <CardHeader>
-                        <CardTitle>Get users discord username in cohort 3</CardTitle>
+                        <CardTitle>
+                          Get users discord username in cohort 3
+                        </CardTitle>
                       </CardHeader>
                       <CardContent className="grid gap-4 p-4 pt-0">
                         <Input
@@ -340,9 +376,7 @@ export default function Courses() {
             </div>
           </AccordionContent>
         </AccordionItem>
-
       </Accordion>
-
     </div>
   );
 }
