@@ -62,7 +62,7 @@ const PostCard: React.FC<IProps> = ({
 
   const router = useRouter();
 
-  const [isPending, startTransition] = useTransition(); 
+  const [isPending, startTransition] = useTransition();
 
   const { execute, fieldErrors } = useAction(createAnswer, {
     onSuccess: () => {
