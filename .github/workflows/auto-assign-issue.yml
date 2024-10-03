@@ -1,0 +1,68 @@
+name: Auto Assign Issues On Comment
+
+on:
+  issue_comment:
+    types: [created]
+
+permissions:
+  issues: write
+
+jobs:
+  auto-assign:
+    runs-on: ubuntu-latest
+    if: (!github.event.issue.pull_request) && github.event.comment.body == '/assign'
+    concurrency:
+      # Only run one at a time per user
+      group: ${{ github.actor }}-auto-assign-issue
+    steps:
+      - name: Check current issue assignees
+        id: check-assignee
+        run: |
+          RESPONSE=$(curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+          https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.issue.number }})
+          CURRENT_ASSIGNEES=$(echo "$RESPONSE" | jq -r '.assignees[].login')
+
+          # Check if the commenter is already assigned
+          if echo "$CURRENT_ASSIGNEES" | grep -q "${{ github.event.comment.user.login }}"; then
+            echo "ASSIGNMENT_STATUS=already_assigned" >> $GITHUB_ENV
+
+          # Check if someone else is already assigned
+          elif [ -n "$CURRENT_ASSIGNEES" ]; then
+            echo "ASSIGNMENT_STATUS=assigned_to_others" >> $GITHUB_ENV
+
+          # No one is assigned, issue can be assigned to the commenter
+          else
+            echo "ASSIGNMENT_STATUS=can_assign" >> $GITHUB_ENV
+          fi
+
+      - name: Assign issue to commenter
+        if: env.ASSIGNMENT_STATUS == 'can_assign'
+        run: |
+          echo "Assigning issue #${{ github.event.issue.number }} to @${{ github.event.comment.user.login }}"
+          curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+          -d '{"assignees": ["${{ github.event.comment.user.login }}"]}' \
+          https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.issue.number }}/assignees
+
+      - name: Log already assigned
+        if: env.ASSIGNMENT_STATUS == 'already_assigned'
+        run: |
+          echo "Issue #${{ github.event.issue.number }} is already assigned to @${{ github.event.comment.user.login }}."
+
+      - name: Log issue assigned to someone else
+        if: env.ASSIGNMENT_STATUS == 'assigned_to_others'
+        run: |
+          echo "Issue #${{ github.event.issue.number }} is already assigned to someone else: $CURRENT_ASSIGNEES."
+
+      - name: Comment on the issue based on outcome
+        run: |
+          if [ "${{ env.ASSIGNMENT_STATUS }}" == "can_assign" ]; then
+            COMMENT_BODY="Issue #${{ github.event.issue.number }} has been successfully assigned to @${{ github.event.comment.user.login }}."
+          elif [ "${{ env.ASSIGNMENT_STATUS }}" == "already_assigned" ]; then
+            COMMENT_BODY="Issue #${{ github.event.issue.number }} is already assigned to you, @${{ github.event.comment.user.login }}."
+          else
+            COMMENT_BODY="Issue #${{ github.event.issue.number }} is already assigned to someone else: $CURRENT_ASSIGNEES."
+          fi
+          
+          curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+          -d '{"body": "'"${COMMENT_BODY}"'"}' \
+          https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.issue.number }}/comments
