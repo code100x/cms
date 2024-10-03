@@ -57,7 +57,7 @@ export default function BreadCrumbComponent({
 
   return (
     <>
-      <Breadcrumb>
+      <Breadcrumb className="xl:pt-4">
         <BreadcrumbList>
           <BreadcrumbItem>
             <BreadcrumbLink className="text-sm text-blue-600" asChild>
