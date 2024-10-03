@@ -23,7 +23,6 @@ const fuzzySearch = (videos: TSearchedVideos[], searchQuery: string) => {
 };
 
 function isAdmin(email: string): boolean {
-  console.log('isAdmin called ', email);
   const adminEmails = process.env.ADMINS?.split(',') || [];
   return adminEmails.includes(email);
 }
@@ -44,7 +43,6 @@ export async function GET(request: NextRequest) {
 
     if (!value || value.length === 0) {
       if (userIsAdmin) {
-        console.log('Fetching all videos for admin users');
         value = await db.content.findMany({
           where: {
             type: 'video',
