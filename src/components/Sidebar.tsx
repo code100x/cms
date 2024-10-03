@@ -75,7 +75,8 @@ export function Sidebar({
     const handleClickOutside = (event: MouseEvent) => {
       if (
         sidebarRef.current &&
-        !sidebarRef.current.contains(event.target as Node)
+        !sidebarRef.current.contains(event.target as Node) &&
+        !(event.target as HTMLElement).closest('button')
       ) {
         closeSidebar();
       }
