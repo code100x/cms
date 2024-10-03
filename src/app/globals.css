@@ -129,10 +129,9 @@
 }
 .vjs-quality-selector .vjs-custom-dropup-menu li {
   padding: 0.5rem 1rem;
-  color: #fff;
 }
 .vjs-quality-selector .vjs-custom-dropup-menu li:hover {
-  background: #444;
+  border-radius: inherit;
 }
 
 /* Custom Tooltip Styling */
@@ -307,4 +306,28 @@
   .notion-renderer .notion-page {
     padding: 0.5rem !important;
   }
+}
+
+/* Smooth scrollbar */
+
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #020817;
+  border-radius: 15px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #2a2e3a;
+  border-radius: 15px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
