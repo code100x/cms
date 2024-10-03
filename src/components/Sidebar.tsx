@@ -1,22 +1,27 @@
 'use client';
-import React, { useRef } from 'react';
-import { usePathname } from 'next/navigation';
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
-import { Play, File, X, Menu } from 'lucide-react';
 import { FullCourseContent } from '@/db/course';
-import { useRecoilState } from 'recoil';
-import { sidebarOpen as sidebarOpenAtom } from '@/store/atoms/sidebar';
-import { useEffect, useState, useCallback, useMemo } from 'react';
 import { handleMarkAsCompleted } from '@/lib/utils';
-import BookmarkButton from './bookmark/BookmarkButton';
-import Link from 'next/link';
-import { Button } from './ui/button';
+import { sidebarOpen as sidebarOpenAtom } from '@/store/atoms/sidebar';
 import { AnimatePresence, motion } from 'framer-motion';
+import { File, Menu, Play, X } from 'lucide-react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
+import { useRecoilState } from 'recoil';
+import BookmarkButton from './bookmark/BookmarkButton';
+import { Button } from './ui/button';
 
 const sidebarVariants = {
   open: {
@@ -46,6 +51,7 @@ export function Sidebar({
     number[]
   >([]);
   const sidebarRef = useRef<HTMLDivElement | null>(null);
+  const toggleButtonRef = useRef<HTMLButtonElement | null>(null);
   const closeSidebar = () => setSidebarOpen(false);
 
   const findPathToContent = useCallback(
@@ -73,12 +79,16 @@ export function Sidebar({
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
+      // Ignore clicks on the sidebar or the toggle button
       if (
-        sidebarRef.current &&
-        !sidebarRef.current.contains(event.target as Node)
+        (sidebarRef.current &&
+          sidebarRef.current.contains(event.target as Node)) ||
+        (toggleButtonRef.current &&
+          toggleButtonRef.current.contains(event.target as Node))
       ) {
-        closeSidebar();
+        return;
       }
+      closeSidebar();
     };
 
     document.addEventListener('mousedown', handleClickOutside);
@@ -86,7 +96,7 @@ export function Sidebar({
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [sidebarRef]);
+  }, [sidebarRef, toggleButtonRef]);
 
   useEffect(() => {
     const urlRegex = /\/courses\/.*./;
@@ -183,7 +193,13 @@ export function Sidebar({
 
   return (
     <>
-      <Button onClick={() => setSidebarOpen((s) => !s)} className="w-fit gap-2 xl:absolute">
+      <Button
+        ref={toggleButtonRef}
+        onClick={() => {
+          setSidebarOpen((s) => !s);
+        }}
+        className="w-fit gap-2 xl:absolute"
+      >
         {sidebarOpen ? <X className="size-5" /> : <Menu className="size-5" />}
         <span>{sidebarOpen ? 'Hide Contents' : 'Show Contents'}</span>
       </Button>

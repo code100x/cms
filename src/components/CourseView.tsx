@@ -1,11 +1,11 @@
-import { ChildCourseContent, FullCourseContent } from '@/db/course';
-import { ContentRenderer } from './admin/ContentRenderer';
-import { FolderView } from './FolderView';
-import { NotionRenderer } from './NotionRenderer';
-import { getFolderPercentCompleted } from '@/lib/utils';
 import { QueryParams } from '@/actions/types';
+import { ChildCourseContent, FullCourseContent } from '@/db/course';
+import { getFolderPercentCompleted } from '@/lib/utils';
+import { ContentRenderer } from './admin/ContentRenderer';
 import BreadCrumbComponent from './BreadCrumbComponent';
 import Comments from './comment/Comments';
+import { FolderView } from './FolderView';
+import { NotionRenderer } from './NotionRenderer';
 // import { Sidebar } from './Sidebar';
 
 export const CourseView = ({
@@ -21,15 +21,15 @@ export const CourseView = ({
   rest: string[];
   course: any;
   courseContent:
-  | {
-    folder: true;
-    value: ChildCourseContent[];
-  }
-  | {
-    folder: false;
-    value: ChildCourseContent;
-  }
-  | null;
+    | {
+        folder: true;
+        value: ChildCourseContent[];
+      }
+    | {
+        folder: false;
+        value: ChildCourseContent;
+      }
+    | null;
   nextContent: any;
   searchParams: QueryParams;
   possiblePath: string;
@@ -38,7 +38,7 @@ export const CourseView = ({
     ? 'folder'
     : courseContent?.value.type;
   return (
-    <div className="flex w-full flex-col gap-8 pb-16 pt-8 xl:pt-[9px]">
+    <div className="flex w-full flex-col gap-8 pb-16 pt-5 xl:pt-12">
       <div className="flex flex-col gap-4 xl:pt-2">
         <BreadCrumbComponent
           course={course}
