@@ -29,20 +29,43 @@ const CommentVoteForm: React.FC<CommentVoteFormProps> = ({
     },
   });
 
-  const handleVote = (voteType: VoteType) => {
+  const handleVote = (newVoteType: VoteType) => {
+    let toastMessage = {
+      loading: 'Processing vote...',
+      success: 'Vote updated successfully.',
+      error: 'Error updating vote.',
+    };
+
+    if (voteType === newVoteType) {
+      toastMessage = {
+        loading: 'Removing vote...',
+        success: `Vote removed successfully.`,
+        error: 'Error removing vote.',
+      };
+    } else if (voteType === null) {
+      toastMessage = {
+        loading:
+          newVoteType === VoteType.UPVOTE ? 'Upvoting...' : 'Downvoting...',
+        success:
+          newVoteType === VoteType.UPVOTE
+            ? 'Comment upvoted.'
+            : 'Comment downvoted.',
+        error: 'Error casting vote.',
+      };
+    } else {
+      toastMessage = {
+        loading: 'Changing vote...',
+        success:
+          newVoteType === VoteType.UPVOTE
+            ? 'Changed to upvote.'
+            : 'Changed to downvote.',
+        error: 'Error changing vote.',
+      };
+    }
+
     toast.promise(
-      execute({ voteType, commentId, currentPath }),
-      voteType === VoteType.DOWNVOTE
-        ? {
-            loading: 'Downvoting...',
-            success: 'Comment has been downvoted.',
-            error: 'Error',
-          }
-        : {
-            loading: 'Upvoting...',
-            success: 'Comment has been upvoted.',
-            error: 'Error',
-          },
+      execute({ voteType: newVoteType, commentId, currentPath }),
+      toastMessage,
     );
   };
 
