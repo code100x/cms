@@ -35,8 +35,7 @@ const useMediaQuery = (query: string) => {
   return matches;
 };
 
-export const Appbar = () => {
-  const [isCollapsed, setIsCollapsed] = useState(true);
+export const Appbar = ({ isCollapsed, setIsCollapsed }: any) => {
   const [isMounted, setIsMounted] = useState(false);
   const isMediumToXL = useMediaQuery(
     '(min-width: 768px) and (max-width: 1535px)',

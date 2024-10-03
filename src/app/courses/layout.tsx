@@ -1,17 +1,26 @@
+'use client';
 import { Appbar } from '@/components/Appbar';
+import { sidebarState } from '@/store/atoms/sidebar';
 import React from 'react';
+import { useRecoilState } from 'recoil';
 
 interface Props {
   children: React.ReactNode;
 }
 
-const CourseLayout = (props: Props) => {
+export default function CourseLayout({ children }: Props) {
+  const [isCollapsed, setIsCollapsed] = useRecoilState(sidebarState);
+
   return (
     <div className="flex min-h-screen">
-      <Appbar />
-      <div className="wrapper w-full">{props.children}</div>
+      <Appbar isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />
+      <div
+        className={`flex-grow transition-all duration-300 ${
+          isCollapsed ? 'ml-[6vw]' : 'ml-[14vw]'
+        }`}
+      >
+        {children}
+      </div>
     </div>
   );
-};
-
-export default CourseLayout;
+}

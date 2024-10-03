@@ -21,15 +21,15 @@ export const CourseView = ({
   rest: string[];
   course: any;
   courseContent:
-  | {
-    folder: true;
-    value: ChildCourseContent[];
-  }
-  | {
-    folder: false;
-    value: ChildCourseContent;
-  }
-  | null;
+    | {
+        folder: true;
+        value: ChildCourseContent[];
+      }
+    | {
+        folder: false;
+        value: ChildCourseContent;
+      }
+    | null;
   nextContent: any;
   searchParams: QueryParams;
   possiblePath: string;

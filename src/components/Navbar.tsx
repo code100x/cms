@@ -10,6 +10,8 @@ import { Button } from './ui/button';
 import { AppbarAuth } from './AppbarAuth';
 import { SelectTheme } from './ThemeToggler';
 import ProfileDropdown from './profile-menu/ProfileDropdown';
+import { useRecoilValue } from 'recoil';
+import { sidebarState } from '@/store/atoms/sidebar';
 
 export const Navbar = () => {
   const { data: session } = useSession();
@@ -17,6 +19,7 @@ export const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathname = usePathname();
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+  const isCollapsed = useRecoilValue(sidebarState); // Access Recoil state
 
   const navItemVariants = {
     hidden: { opacity: 0, y: -20 },
@@ -42,9 +45,11 @@ export const Navbar = () => {
           damping: 10,
           stiffness: 100,
         }}
-        className="fixed top-0 z-[999] w-full border-b border-primary/10 bg-background"
+        className={`fixed top-0 z-[999] w-full border-b border-primary/10 bg-background transition-all duration-300 ${
+          isCollapsed ? '' : 'ml-[8vw]'
+        }`}
       >
-        <div className="wrapper flex w-full items-center justify-between p-3">
+        <div className={`wrapper flex w-full items-center justify-between p-3`}>
           <motion.div
             className="flex items-center gap-4"
             initial="hidden"
@@ -79,7 +84,7 @@ export const Navbar = () => {
           </motion.div>
 
           <motion.div
-            className="flex items-center gap-4"
+            className={`flex items-center gap-4 ${isCollapsed ? '' : 'mr-12'}`}
             initial="hidden"
             animate="visible"
             variants={navItemVariants}
