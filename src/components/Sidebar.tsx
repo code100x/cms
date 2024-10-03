@@ -183,7 +183,11 @@ export function Sidebar({
 
   return (
     <>
-      <Button onClick={() => setSidebarOpen((s) => !s)} className="w-fit gap-2 xl:absolute">
+      <Button
+        onClick={() => setSidebarOpen((s) => !s)}
+        disabled={sidebarOpen}
+        className="w-fit gap-2"
+      >
         {sidebarOpen ? <X className="size-5" /> : <Menu className="size-5" />}
         <span>{sidebarOpen ? 'Hide Contents' : 'Show Contents'}</span>
       </Button>
@@ -198,7 +202,7 @@ export function Sidebar({
             variants={sidebarVariants}
             className="fixed right-0 top-0 z-[99999] flex h-screen w-full flex-col gap-4 overflow-y-auto rounded-r-lg border-l border-primary/10 bg-neutral-50 dark:bg-neutral-900 md:max-w-[30vw]"
           >
-            <div className="sticky top-0 z-10 flex items-center justify-between border-b border-primary/10 p-5 backdrop-blur-md">
+            <div className="sticky top-0 z-20 flex items-center justify-between border-b border-primary/10 p-5 backdrop-blur-md">
               <h4 className="text-xl font-bold tracking-tighter text-primary lg:text-2xl">
                 Course Content
               </h4>
