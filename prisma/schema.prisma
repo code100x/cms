@@ -343,4 +343,3 @@ enum MigrationStatus {
   MIGRATED
   MIGRATION_ERROR
 }
-
