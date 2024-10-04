@@ -3,11 +3,18 @@ import { useEffect, useState } from 'react';
 import { AddNotionMetadata } from './AddNotionMetadata';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
-import { Label } from "@/components/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Label } from '@/components/ui/label';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { FaDiscord } from 'react-icons/fa';
 import { toast } from 'sonner';
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
 
 export const AddContent = ({
   rest,
@@ -39,10 +46,9 @@ export const AddContent = ({
   const [loading, setLoading] = useState<boolean>(false);
 
   const getLabelClassName = (value: string) => {
-    return `flex gap-6 p-6 rounded-lg items-center space-x-2 ${type === value
-      ? 'border-[3px] border-blue-500'
-      : 'border-[3px]'
-      }`;
+    return `flex gap-6 p-6 rounded-lg items-center space-x-2 ${
+      type === value ? 'border-[3px] border-blue-500' : 'border-[3px]'
+    }`;
   };
 
   const handleContentSubmit = async () => {
@@ -81,72 +87,72 @@ export const AddContent = ({
   };
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-7 rounded-xl border-2 p-6 gap-4">
-      <aside className='flex flex-col gap-8 col-span-1 lg:col-span-3'>
+    <div className="grid grid-cols-1 gap-4 rounded-xl border-2 p-6 lg:grid-cols-7">
+      <aside className="col-span-1 flex flex-col gap-8 lg:col-span-3">
         <div>Select the Content Mode</div>
 
         <RadioGroup
-          className='flex flex-warp overflow-auto no-scrollbar max-w-full items-start gap-4'
+          className="flex-warp no-scrollbar flex max-w-full items-start gap-4 overflow-auto"
           value={type}
           onValueChange={(value) => {
             setType(value);
             setMetadata({});
           }}
         >
-          <Label htmlFor="video" className={getLabelClassName("video")}>
+          <Label htmlFor="video" className={getLabelClassName('video')}>
             <RadioGroupItem value="video" id="video" />
             <span>Video</span>
           </Label>
-          <Label htmlFor="folder" className={getLabelClassName("folder")}>
+          <Label htmlFor="folder" className={getLabelClassName('folder')}>
             <RadioGroupItem value="folder" id="folder" />
             <span>Folder</span>
           </Label>
-          <Label htmlFor="notion" className={getLabelClassName("notion")}>
+          <Label htmlFor="notion" className={getLabelClassName('notion')}>
             <RadioGroupItem value="notion" id="notion" />
             <span>Notion</span>
           </Label>
         </RadioGroup>
 
-        <div className='border-t-2 my-2 py-6 w-full md:w-[90%] flex flex-col gap-4'>
-          <div className='flex gap-1 flex-col'>
-            <h3 className='text-xl font-bold'>Apps Integrations</h3>
-            <h6 className='text-md text-gray-500'>Click app to start sending notification to that platform</h6>
+        <div className="my-2 flex w-full flex-col gap-4 border-t-2 py-6 md:w-[90%]">
+          <div className="flex flex-col gap-1">
+            <h3 className="text-xl font-bold">Apps Integrations</h3>
+            <h6 className="text-md text-gray-500">
+              Click app to start sending notification to that platform
+            </h6>
           </div>
 
-          {(type === 'video' || type === 'notion') ?
-            (
-              <>
-                <div onClick={handleDiscordClick} className={`p-2 cursor-pointer border-[3px] ${discordChecked ? 'border-blue-500' : ''} bg-blue-400 bg-opacity-5 rounded-lg w-fit`}>
-                  <FaDiscord className='text-5xl' />
-                </div>
+          {type === 'video' || type === 'notion' ? (
+            <>
+              <div
+                onClick={handleDiscordClick}
+                className={`cursor-pointer border-[3px] p-2 ${discordChecked ? 'border-blue-500' : ''} w-fit rounded-lg bg-blue-400 bg-opacity-5`}
+              >
+                <FaDiscord className="text-5xl" />
+              </div>
 
-                <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-                  <DialogContent>
-                    <DialogHeader>
-                      <DialogTitle>Send Notification to Discord?</DialogTitle>
-                      <DialogDescription>
-                        Do you want to send the notification to Discord?
-                      </DialogDescription>
-                    </DialogHeader>
-                    <DialogFooter>
-                      <Button variant="outline" onClick={() => handleModalChoice(false)}>
-                        No
-                      </Button>
-                      <Button onClick={() => handleModalChoice(true)}>
-                        Yes
-                      </Button>
-                    </DialogFooter>
-                  </DialogContent>
-                </Dialog>
-              </>
-
-            )
-            :
-            (
-              <div>No Apps automations available for this option</div>
-            )
-          }
-
+              <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>Send Notification to Discord?</DialogTitle>
+                    <DialogDescription>
+                      Do you want to send the notification to Discord?
+                    </DialogDescription>
+                  </DialogHeader>
+                  <DialogFooter>
+                    <Button
+                      variant="outline"
+                      onClick={() => handleModalChoice(false)}
+                    >
+                      No
+                    </Button>
+                    <Button onClick={() => handleModalChoice(true)}>Yes</Button>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
+            </>
+          ) : (
+            <div>No Apps automations available for this option</div>
+          )}
         </div>
       </aside>
 
@@ -161,24 +167,24 @@ export const AddContent = ({
           Notion
         </Button>
       </div> */}
-      <div className="grid col-span-1 lg:col-span-4 gap-4 grid-cols-1">
+      <div className="col-span-1 grid grid-cols-1 gap-4 lg:col-span-4">
         <Input
           type="text"
           placeholder="Title"
           onChange={(e) => setTitle(e.target.value)}
-          className='h-14'
+          className="h-14"
         />
         <Input
           type="text"
           placeholder="Image url"
           onChange={(e) => setImageUri(e.target.value)}
-          className='h-14'
+          className="h-14"
         />
         <Input
           type="text"
           placeholder="Admin password"
           onChange={(e) => setAdminPassword(e.target.value)}
-          className='h-14'
+          className="h-14"
         />
         {type === 'video' && <AddVideosMetadata onChange={setMetadata} />}
         {type === 'notion' && <AddNotionMetadata onChange={setMetadata} />}
@@ -239,7 +245,7 @@ function AddVideoMetadata({ onChange }: { onChange: (metadata: any) => void }) {
         onChange={async (e) => {
           await setVideo_1080p(e.target.value);
         }}
-        className='h-14'
+        className="h-14"
       />
       <Input
         type="text"
@@ -247,7 +253,7 @@ function AddVideoMetadata({ onChange }: { onChange: (metadata: any) => void }) {
         onChange={async (e) => {
           await setVideo_720p(e.target.value);
         }}
-        className='h-14'
+        className="h-14"
       />
       <Input
         type="text"
@@ -255,7 +261,7 @@ function AddVideoMetadata({ onChange }: { onChange: (metadata: any) => void }) {
         onChange={async (e) => {
           await setVideo_360p(e.target.value);
         }}
-        className='h-14'
+        className="h-14"
       />
     </div>
   );

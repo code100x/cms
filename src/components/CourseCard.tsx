@@ -71,11 +71,13 @@ export const CourseCard = ({
               Claim Certificate
             </Button>
           ) : (
-            <Button variant="link" size={'lg'}>
-              <Link href={course.discordOauthUrl} target={'blank'}>
-                Join Discord
-              </Link>
-            </Button>
+            <Link
+              className="inline-flex items-center justify-center rounded-md py-2 text-sm font-medium text-primary underline-offset-4 ring-offset-background transition-colors hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
+              href={course.discordOauthUrl}
+              target={'blank'}
+            >
+              Join Discord
+            </Link>
           )}
         </div>
       </div>
