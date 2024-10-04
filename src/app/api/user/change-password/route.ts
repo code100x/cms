@@ -103,7 +103,7 @@ export async function GET(req: NextRequest) {
   }
 }
 
-export async function POST(req: NextResponse) {
+export async function POST(req: NextRequest) {
   const parseResult = PostRequestBody.safeParse(await req.json());
 
   if (!parseResult.success) {

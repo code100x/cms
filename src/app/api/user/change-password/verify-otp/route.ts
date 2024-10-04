@@ -1,5 +1,5 @@
 import axios, { AxiosError } from 'axios';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 
 const requestBodySchema = z.object({
@@ -12,7 +12,7 @@ const headers = {
   'Auth-Key': process.env.APPX_AUTH_KEY || '',
 };
 
-export async function GET(req: NextResponse) {
+export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const email = searchParams.get('email');
   const otp = searchParams.get('otp');
