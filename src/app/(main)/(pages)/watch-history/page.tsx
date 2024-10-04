@@ -8,7 +8,7 @@ import { getPurchases } from '@/utiles/appx';
 
 export type TWatchHistory = VideoProgress & {
   content: Content & {
-    parent: { id: number; courses: CourseContent[] } | null;
+    parent: { id?: number | undefined; courses: CourseContent[] } | null;
     VideoMetadata: { duration: number | null } | null;
   };
 };
@@ -91,11 +91,28 @@ async function getWatchHistory() {
     },
   });
 
-  const filteruserVideoProgress = userVideoProgress.filter((videoProgress) => {
-    return videoProgress?.content?.parent?.courses.some((course) =>
-      courses.some((purchaseCourses) => purchaseCourses.id === course.courseId),
-    );
-  });
+  const filteruserVideoProgress: TWatchHistory[] = userVideoProgress
+    .map((videoProgress) => {
+      const filteredCourse = videoProgress?.content?.parent?.courses.filter(
+        (course) =>
+          courses.some(
+            (purchaseCourse) => purchaseCourse.id === course.courseId,
+          ),
+      );
+      if (filteredCourse && filteredCourse.length > 0) {
+        return {
+          ...videoProgress,
+          content: {
+            ...videoProgress.content,
+            parent: {
+              ...videoProgress.content.parent,
+              courses: filteredCourse,
+            },
+          },
+        };
+      }
+    })
+    .filter((videoProgress) => videoProgress !== undefined);
 
   return filteruserVideoProgress;
 }
