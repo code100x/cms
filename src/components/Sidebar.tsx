@@ -157,10 +157,12 @@ export function Sidebar({
           >
             <div className="flex w-full items-center justify-between gap-2">
               <div className="flex items-center gap-2">
-                <Check content={content} />
-                {content.type === 'video' && <Play className="size-4" />}
-                {content.type === 'notion' && <File className="size-4" />}
-                <div className="truncate text-base">{content.title}</div>
+                <div className="flex gap-2">
+                  <Check content={content} />
+                  {content.type === 'video' && <Play className="size-4" />}
+                  {content.type === 'notion' && <File className="size-4" />}
+                </div>
+                <div className="break-words text-base">{content.title}</div>
               </div>
               {content.type === 'video' && (
                 <BookmarkButton
@@ -183,10 +185,7 @@ export function Sidebar({
 
   return (
     <>
-      <Button
-        onClick={() => setSidebarOpen((s) => !s)}
-        className="w-fit gap-2 xl:absolute"
-      >
+      <Button onClick={() => setSidebarOpen((s) => !s)} className="w-fit gap-2">
         {sidebarOpen ? <X className="size-5" /> : <Menu className="size-5" />}
         <span>{sidebarOpen ? 'Hide Contents' : 'Show Contents'}</span>
       </Button>

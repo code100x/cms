@@ -17,5 +17,6 @@ export type ReturnTypeDeleteBookmark = ActionState<
 export type TBookmarkWithContent = Bookmark & {
   content: Content & {
     parent: { id: number; courses: CourseContent[] } | null;
+    courses: CourseContent[];
   };
 };
