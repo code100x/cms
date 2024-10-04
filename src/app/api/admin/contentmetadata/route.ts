@@ -12,7 +12,7 @@ export const POST = async (req: NextRequest) => {
       contentId: number;
       adminPassword: string;
     } = await req.json();
-  
+
     if (adminPassword !== process.env.ADMIN_SECRET) {
       return NextResponse.json({}, { status: 403 });
     }
@@ -22,7 +22,7 @@ export const POST = async (req: NextRequest) => {
       },
       data: updates,
     });
-  
+
     return NextResponse.json({}, { status: 200 });
   } catch (err) {
     return NextResponse.json({}, { status: 500 });
