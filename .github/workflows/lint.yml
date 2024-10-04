@@ -18,7 +18,7 @@ jobs:
         run: npm install -g pnpm
         
       - name: Install Dependencies
-        run: pnpm install --legacy-peer-deps
+        run: pnpm install
 
       - name: Run linting check
         run: pnpm run lint:check
