@@ -81,6 +81,7 @@ export default function ForgetPasswordForm({ setForgetPassword }: Props) {
       });
       toast.dismiss(id);
       toast.success('Password changed successfully.');
+      setForgetPassword(false);
     } catch (error) {
       toast.dismiss(id);
       if (error instanceof AxiosError) {
@@ -119,6 +120,7 @@ export default function ForgetPasswordForm({ setForgetPassword }: Props) {
         <div className="relative flex flex-col gap-2">
           <Label htmlFor="email">Registered Email</Label>
           <Input
+            autoComplete="off"
             className="focus:ring-none border-none bg-primary/5 focus:outline-none"
             name="email"
             id="email"
@@ -136,11 +138,12 @@ export default function ForgetPasswordForm({ setForgetPassword }: Props) {
           <div className="relative flex flex-col gap-2">
             <Label htmlFor="email">OTP</Label>
             <Input
+              autoComplete="off"
               className="focus:ring-none border-none bg-primary/5 focus:outline-none"
               name="otp"
               id="otp"
               disabled={otpSent && otpVerified}
-              placeholder="XXXXXX"
+              placeholder="XXXX"
               value={details.otp}
               onChange={changeHandler}
             />
@@ -152,6 +155,7 @@ export default function ForgetPasswordForm({ setForgetPassword }: Props) {
             <Label htmlFor="email">New Password</Label>
             <div className="flex">
               <Input
+                autoComplete="off"
                 className="focus:ring-none border-none bg-primary/5 focus:outline-none"
                 name="newPassword"
                 type={isPasswordVisible ? 'text' : 'password'}

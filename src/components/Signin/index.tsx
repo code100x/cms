@@ -27,11 +27,10 @@ const Signin = () => {
               100xDevs
             </span>
           </h2>
-          {!forgetPassword && (
-            <p className="text-lg font-medium tracking-tighter text-primary/75 md:text-xl">
-              Log in to access paid content!
-            </p>
-          )}
+          <p className="text-lg font-medium tracking-tighter text-primary/75 md:text-xl">
+            {!forgetPassword && 'Log in to access paid content!'}
+            {forgetPassword && 'Change password with OTP!'}
+          </p>
         </div>
         {forgetPassword ? (
           <ForgetPasswordForm setForgetPassword={setForgetPassword} />
