@@ -8,6 +8,7 @@ import {
 import { useBookmark } from '@/hooks/useBookmark';
 import { Bookmark } from '@prisma/client';
 import { Button } from '../ui/button';
+
 type Side = 'top' | 'right' | 'bottom' | 'left';
 type Align = 'center' | 'start' | 'end';
 
@@ -19,7 +20,7 @@ const BookmarkButton = ({
   align = 'center',
 }: {
   bookmark: Bookmark | null;
-  contentId: number;
+  contentId: number | number[]; // Accepts a single ID or an array of IDs
   size?: number;
   side?: Side;
   align?: Align;
@@ -41,13 +42,13 @@ const BookmarkButton = ({
           >
             <BookmarkIcon
               size={size}
-              {...(addedBookmark && { fill: '#2563EB' })}
+              {...(addedBookmark && { fill: '#2563EB' })} // Change the icon color when bookmarked
               className="drop-shadow-2xl"
             />
           </Button>
         </TooltipTrigger>
         <TooltipContent sideOffset={16} side={side} align={align}>
-          <p>{addedBookmark ? 'Remove bookmark' : 'Bookmark this video'}</p>
+          <p>{addedBookmark ? 'Remove bookmark' : 'Bookmark this content'}</p>
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>
