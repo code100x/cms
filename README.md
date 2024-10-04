@@ -4,6 +4,9 @@ Open source repo for app.100xdevs.com
 
 ## Running Locally
 
+> [!NOTE]  
+> This project uses [pnpm](https://pnpm.io/) only as a package manager.
+
 1. Clone the repository:
 
 ```bash
@@ -59,6 +62,7 @@ pnpm run prisma:migrate
 ```
 
 7. Generate prisma client
+
 ```bash
 pnpm prisma generate
 ```
