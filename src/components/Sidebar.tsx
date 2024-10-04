@@ -46,6 +46,7 @@ export function Sidebar({
     number[]
   >([]);
   const sidebarRef = useRef<HTMLDivElement | null>(null);
+  const buttonRef = useRef<HTMLButtonElement | null>(null);
   const closeSidebar = () => setSidebarOpen(false);
 
   const findPathToContent = useCallback(
@@ -75,7 +76,8 @@ export function Sidebar({
     const handleClickOutside = (event: MouseEvent) => {
       if (
         sidebarRef.current &&
-        !sidebarRef.current.contains(event.target as Node)
+        !sidebarRef.current.contains(event.target as Node) &&
+        !buttonRef.current?.contains(event.target as Node)
       ) {
         closeSidebar();
       }
@@ -185,7 +187,11 @@ export function Sidebar({
 
   return (
     <>
-      <Button onClick={() => setSidebarOpen((s) => !s)} className="w-fit gap-2">
+      <Button
+        ref={buttonRef}
+        onClick={() => setSidebarOpen((s) => !s)}
+        className="w-fit gap-2"
+      >
         {sidebarOpen ? <X className="size-5" /> : <Menu className="size-5" />}
         <span>{sidebarOpen ? 'Hide Contents' : 'Show Contents'}</span>
       </Button>
