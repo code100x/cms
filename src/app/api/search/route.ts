@@ -3,8 +3,6 @@ import db from '@/db';
 import { CourseContent } from '@prisma/client';
 import Fuse from 'fuse.js';
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth';
 
 export type TSearchedVideos = {
   id: number;
@@ -26,7 +24,6 @@ const fuzzySearch = (videos: TSearchedVideos[], searchQuery: string) => {
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const searchQuery = searchParams.get('q');
-  const session = await getServerSession(authOptions);
 
   if (searchQuery && searchQuery.length > 2) {
     const value: TSearchedVideos[] = await cache.get(
@@ -42,19 +39,6 @@ export async function GET(request: NextRequest) {
       where: {
         type: 'video',
         hidden: false,
-        parent: {
-          courses: {
-            some: {
-              course: {
-                purchasedBy: {
-                  some: {
-                    userId: session?.user?.id,
-                  },
-                },
-              },
-            },
-          },
-        },
       },
       select: {
         id: true,

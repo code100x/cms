@@ -1,5 +1,4 @@
 import { QueryParams } from '@/actions/types';
-import SearchBar from '@/components/search/SearchBar';
 import { Sidebar } from '@/components/Sidebar';
 import { getFullCourseContent } from '@/db/course';
 import { authOptions } from '@/lib/auth';
@@ -50,10 +49,7 @@ const Layout = async ({
 
   return (
     <div className="relative flex min-h-screen flex-col py-24">
-      <div className="flex justify-between gap-8">
-        <SearchBar />
-        <Sidebar fullCourseContent={fullCourseContent} courseId={courseId} />
-      </div>
+      <Sidebar fullCourseContent={fullCourseContent} courseId={courseId} />
       {children}
     </div>
   );
