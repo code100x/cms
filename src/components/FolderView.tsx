@@ -2,6 +2,7 @@
 import { useRouter } from 'next/navigation';
 import { ContentCard } from './ContentCard';
 import { Bookmark } from '@prisma/client';
+import { CourseContentType } from '@/lib/utils';
 
 export const FolderView = ({
   courseContent,
@@ -11,7 +12,7 @@ export const FolderView = ({
   courseId: number;
   rest: string[];
   courseContent: {
-    type: 'folder' | 'video' | 'notion';
+    type: CourseContentType;
     title: string;
     image: string;
     id: number;
@@ -20,6 +21,7 @@ export const FolderView = ({
     videoFullDuration?: number;
     duration?: number;
     bookmark: Bookmark | null;
+    weeklyContentTitles?: string[];
   }[];
 }) => {
   const router = useRouter();
@@ -62,6 +64,7 @@ export const FolderView = ({
               videoProgressPercent={videoProgressPercent}
               bookmark={content.bookmark}
               contentDuration={content.videoFullDuration}
+              weeklyContentTitles={content.weeklyContentTitles}
             />
           );
         })}
