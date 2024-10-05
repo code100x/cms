@@ -43,14 +43,6 @@ export const NewPostDialog = () => {
     let timeoutId: any;
     if (paramsObject.newPost === 'open') {
       onOpen();
-
-      const videoIdFromUrl = paramsObject.videoId as string;
-      const videoTitleFromUrl = paramsObject.videoTitle as string;
-
-      if (videoIdFromUrl && videoTitleFromUrl) {
-        setVideoId(videoIdFromUrl);
-        setVideoTitle(videoTitleFromUrl);
-      }
     } else {
       onClose();
     }
@@ -58,6 +50,13 @@ export const NewPostDialog = () => {
       clearTimeout(timeoutId);
     };
   }, [onClose, onOpen, paramsObject.newPost]);
+
+  useEffect(() => {
+    if (paramsObject.newPost === 'open') {
+      setVideoId(paramsObject.videoId as string);
+      setVideoTitle(paramsObject.videoTitle as string);
+    }
+  }, [paramsObject.newPost, paramsObject.videoId, paramsObject.videoTitle]);
 
   const { execute, fieldErrors, setFieldErrors } = useAction(createQuestion, {
     onSuccess: (data) => {
