@@ -9,6 +9,7 @@ import {
   Bookmark,
   History,
   MessageSquare,
+  Settings,
 } from 'lucide-react';
 import {
   DropdownMenu,
@@ -47,6 +48,11 @@ const ProfileDropdown = () => {
       href: '/calendar',
       icon: <Calendar className="size-4" />,
       label: 'Calendar',
+    },
+    {
+      href: '/password',
+      icon: <Settings className="size-4" />,
+      label: 'Change Password',
     },
   ];
 

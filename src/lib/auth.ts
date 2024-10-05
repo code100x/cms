@@ -50,7 +50,8 @@ const generateJWT = async (payload: JWTPayload) => {
 
   return jwt;
 };
-async function validateUser(
+
+export async function validateUser(
   email: string,
   password: string,
 ): Promise<
