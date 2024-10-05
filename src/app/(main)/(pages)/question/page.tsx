@@ -24,6 +24,8 @@ import { authOptions } from '@/lib/auth';
 import PostCard from '@/components/posts/PostCard';
 import Pagination from '@/components/Pagination';
 import { redirect } from 'next/navigation';
+import LabelDropdown from '@/components/LabelDropdown';
+import { ClearFilter } from '@/components/questions/ClearFIlter';
 
 type QuestionsResponse = {
   data: ExtendedQuestion[] | null;
@@ -155,6 +157,7 @@ export default async function QuestionsPage({
           <div className="flex flex-col justify-between gap-4 md:flex-row">
             <Search />
             <div className="flex items-center justify-between gap-2">
+              <LabelDropdown posts={response && response.data}/>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button size={'lg'}>
@@ -220,6 +223,7 @@ export default async function QuestionsPage({
               </Link>
             </div>
           </div>
+          <ClearFilter/>
           {/* Chat */}
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             {response?.data?.map((post) => (

@@ -1,7 +1,7 @@
 'use client';
 import '@uiw/react-md-editor/markdown-editor.css';
 import '@uiw/react-markdown-preview/markdown.css';
-import React, { useState, useTransition } from 'react';
+import React, { useEffect, useState, useTransition } from 'react';
 import VoteForm from './form/form-vote';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
@@ -25,7 +25,7 @@ import { Avatar, AvatarFallback } from '../ui/avatar';
 import { Reply } from 'lucide-react';
 import { ROLES } from '@/actions/types';
 import { FormPostErrors } from './form/form-errors';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { Button } from '../ui/button';
 
 interface IProps {
@@ -51,6 +51,7 @@ const PostCard: React.FC<IProps> = ({
   isAnswer = true,
   parentAuthorName,
 }) => {
+  const [showQuestion,setShowQuestion]= useState(true);
   const { theme } = useTheme();
   const [markDownValue, setMarkDownValue] = useState('');
   const [enableReply, setEnableReply] = useState(false);
@@ -59,6 +60,31 @@ const PostCard: React.FC<IProps> = ({
       setMarkDownValue(newValue);
     }
   };
+
+  const searchParams = useSearchParams();
+  const tags = searchParams.get("tags");
+  const newTags =tags?.split(",");
+
+  useEffect(() => {
+    console.log("chekc new tags",newTags);
+    if (newTags==undefined || !isExtendedQuestion(post)) {
+      return;
+    }
+    const tagExists = post.tags?.some(tag => {
+      const trimmedTag = tag.trim();  // Trim first
+      const formattedTag = trimmedTag === trimmedTag.toUpperCase() 
+        ? trimmedTag 
+        : trimmedTag[0].toUpperCase() + trimmedTag.slice(1);
+        
+      return newTags.includes(formattedTag);
+    });
+    
+    if (isExtendedQuestion(post) && tagExists) {
+      setShowQuestion(true);
+    } else {
+      setShowQuestion(false);
+    }
+  },[searchParams]);
 
   const router = useRouter();
 
@@ -94,6 +120,7 @@ const PostCard: React.FC<IProps> = ({
   };
 
   return (
+    <> {showQuestion &&
     <div
       className={`flex w-full cursor-pointer flex-col gap-4 p-3 transition-all duration-300 sm:p-5 ${
         !post.content && !isAnswer
@@ -250,6 +277,8 @@ const PostCard: React.FC<IProps> = ({
           </div>
         )}
     </div>
+}
+    </>
   );
 };
 
