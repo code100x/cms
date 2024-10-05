@@ -10,7 +10,7 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/components/ui/accordion";
+} from '@/components/ui/accordion';
 import { Cuboid, Flag, ToggleRight } from 'lucide-react';
 
 export default function DiscordPage() {
@@ -19,27 +19,31 @@ export default function DiscordPage() {
   const [adminSecret, setAdminSecret] = useState('');
   const [contentId, setContentId] = useState('');
   return (
-    <div className="flex flex-col w-full max-w-7xl gap-2 px-4 mx-auto">
-
-      <section className='flex gap-2 border-2 p-4 bg-primary/5 rounded-lg my-4 items-center'>
+    <div className="mx-auto flex w-full max-w-7xl flex-col gap-2 px-4">
+      <section className="my-4 flex items-center gap-2 rounded-lg border-2 bg-primary/5 p-4">
         <Flag size={18} />
-        <h2 className='text-md font-bold'>User Flags</h2>
+        <h2 className="text-md font-bold">User Flags</h2>
       </section>
 
-      <Accordion defaultValue='toggle-drm' className='border-2 p-4 rounded-2xl' type="single" collapsible>
-        <AccordionItem className='p-6' value="toggle-drm">
-          <AccordionTrigger className='text-lg lg:text-2xl font-bold'>
-            <div className='flex gap-4 flex-col' >
+      <Accordion
+        defaultValue="toggle-drm"
+        className="rounded-2xl border-2 p-4"
+        type="single"
+        collapsible
+      >
+        <AccordionItem className="p-6" value="toggle-drm">
+          <AccordionTrigger className="text-lg font-bold lg:text-2xl">
+            <div className="flex flex-col gap-4">
               <ToggleRight size={40} /> Toggle DRM
             </div>
           </AccordionTrigger>
           <AccordionContent>
-            <section className='grid grid-cols-1 py-4 lg:grid-cols-7 w-full'>
-              <aside className='col-span-2 lg:col-span-3'>
-                <h1 className='text-lg'>Toggle DRM</h1>
+            <section className="grid w-full grid-cols-1 py-4 lg:grid-cols-7">
+              <aside className="col-span-2 lg:col-span-3">
+                <h1 className="text-lg">Toggle DRM</h1>
               </aside>
 
-              <aside className='col-span-1 lg:col-span-4'>
+              <aside className="col-span-1 lg:col-span-4">
                 <form className="flex w-full flex-col gap-5 rounded-xl">
                   <Input
                     placeholder="email"
@@ -59,7 +63,7 @@ export default function DiscordPage() {
                   />
 
                   <Button
-                    className="w-full rounded  px-4 py-2 font-bold text-white"
+                    className="w-full rounded px-4 py-2 font-bold text-white"
                     onClick={async () => {
                       await fetch('/api/admin/drm', {
                         body: JSON.stringify({
@@ -77,7 +81,7 @@ export default function DiscordPage() {
                     Enable DRM
                   </Button>
                   <Button
-                    className="w-full rounded  px-4 py-2 font-bold text-white "
+                    className="w-full rounded px-4 py-2 font-bold text-white"
                     onClick={async () => {
                       await fetch('/api/admin/drm', {
                         body: JSON.stringify({
@@ -97,36 +101,34 @@ export default function DiscordPage() {
                 </form>
               </aside>
             </section>
-
           </AccordionContent>
         </AccordionItem>
-        <AccordionItem className='border-none p-6' value="add-metadata">
-          <AccordionTrigger className='text-lg lg:text-2xl font-bold'>
-            <div className='flex gap-4 flex-col' >
+        <AccordionItem className="border-none p-6" value="add-metadata">
+          <AccordionTrigger className="text-lg font-bold lg:text-2xl">
+            <div className="flex flex-col gap-4">
               <Cuboid size={40} /> Add metadata
             </div>
           </AccordionTrigger>
           <AccordionContent>
-
-            <section className='grid grid-cols-1 py-4 lg:grid-cols-7 w-full'>
-              <aside className='col-span-2 lg:col-span-3'>
-                <h1 className='text-lg'>Add metadata</h1>
+            <section className="grid w-full grid-cols-1 py-4 lg:grid-cols-7">
+              <aside className="col-span-2 lg:col-span-3">
+                <h1 className="text-lg">Add metadata</h1>
               </aside>
 
-              <aside className='col-span-1 lg:col-span-4'>
+              <aside className="col-span-1 lg:col-span-4">
                 <div className="flex flex-col gap-5 rounded-lg">
                   <Textarea
                     // style={{ width: 800 }}
                     rows={10}
                     placeholder="Segments (JSON)"
-                    className=" text-lg "
+                    className="text-lg"
                     onChange={(e) => {
                       setSegmentsJson(e.target.value);
                     }}
                   />
                   <Input
                     placeholder="Admin Secret"
-                    className="h-14 text-lg "
+                    className="h-14 text-lg"
                     type=" text"
                     onChange={(e) => {
                       setAdminSecret(e.target.value);
@@ -134,7 +136,7 @@ export default function DiscordPage() {
                   />
                   <Input
                     placeholder="Content Id"
-                    className="h-14 text-lg "
+                    className="h-14 text-lg"
                     type=" text"
                     onChange={(e) => {
                       setContentId(e.target.value);
@@ -143,7 +145,7 @@ export default function DiscordPage() {
 
                   <h1>JSON is validated in the form.</h1>
                   <Button
-                    className="rounded px-4 py-2 font-bold text-white w-full lg:w-[20%]"
+                    className="w-full rounded px-4 py-2 font-bold text-white lg:w-[20%]"
                     onClick={async () => {
                       if (!isValidJsonString(segmentsJson)) {
                         return toast.warning('Not a valid JSON');
@@ -168,11 +170,9 @@ export default function DiscordPage() {
                 </div>
               </aside>
             </section>
-
           </AccordionContent>
         </AccordionItem>
       </Accordion>
-
     </div>
   );
 }

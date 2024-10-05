@@ -14,7 +14,7 @@ interface IPagination {
 const Pagination: React.FC<IPagination> = ({ dataLength = 1 }) => {
   const searchParams = useSearchParams();
   const path = usePathname();
-  const paramsObj = searchParamsToObject(searchParams);
+  const paramsObj = searchParamsToObject(searchParams as any); // build fix (eslint)
   const paginationQ = paginationData(paramsObj);
   return (
     <div className="flex items-center justify-center space-x-4">
