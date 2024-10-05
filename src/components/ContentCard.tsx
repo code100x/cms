@@ -31,6 +31,9 @@ export const ContentCard = ({
   return (
     <motion.div
       onClick={onClick}
+      tabIndex={0}
+      role="button"
+      onKeyDown={(e:React.KeyboardEvent) => (['Enter', ' '].includes(e.key) && onClick())}
       className={`group relative flex h-fit w-full max-w-md cursor-pointer flex-col gap-2 rounded-2xl transition-all duration-300 hover:-translate-y-2`}
     >
       {markAsCompleted && (

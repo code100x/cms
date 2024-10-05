@@ -23,7 +23,7 @@ export const NewPostDialog = () => {
   const { theme } = useTheme();
   const formRef = useRef<ElementRef<'form'>>(null);
   const searchParam = useSearchParams();
-  const paramsObject = searchParamsToObject(searchParam);
+  const paramsObject = searchParamsToObject(searchParam as any); // build fix (eslint)
   const path = usePathname();
   const router = useRouter();
   const tagInputRef = useRef<HTMLInputElement | null>(null);

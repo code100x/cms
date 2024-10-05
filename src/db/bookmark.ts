@@ -25,6 +25,12 @@ export const getBookmarkDataWithContent = async (): Promise<
               courses: true,
             },
           },
+          courses: {
+            select: {
+              courseId: true,
+              contentId: true,
+            },
+          },
         },
       },
     },

@@ -12,7 +12,7 @@ const Search = () => {
   const searchParams = useSearchParams();
   const [search, setSearch] = useState('');
   const path = usePathname();
-  const paramsObj = searchParamsToObject(searchParams);
+  const paramsObj = searchParamsToObject(searchParams as any); // build fix (eslint)
 
   const handleSearch = () => {
     router.push(getUpdatedUrl(path, paramsObj, { search }));

@@ -4,10 +4,11 @@ import { authOptions } from '@/lib/auth';
 import { Content, CourseContent, VideoProgress } from '@prisma/client';
 import WatchHistoryClient from '@/components/WatchHistoryClient';
 import { Fragment } from 'react';
+import { getPurchases } from '@/utiles/appx';
 
 export type TWatchHistory = VideoProgress & {
   content: Content & {
-    parent: { id: number; courses: CourseContent[] } | null;
+    parent: { id?: number | undefined; courses: CourseContent[] } | null;
     VideoMetadata: { duration: number | null } | null;
   };
 };
@@ -58,6 +59,11 @@ async function getWatchHistory() {
     return [];
   }
   const userId = session.user.id;
+  const purchases = await getPurchases(session?.user.email || '');
+  if (purchases.type === 'error') {
+    throw new Error('Ratelimited by appx please try again later');
+  }
+  const courses = purchases.courses;
 
   const userVideoProgress: TWatchHistory[] = await db.videoProgress.findMany({
     where: {
@@ -85,7 +91,30 @@ async function getWatchHistory() {
     },
   });
 
-  return userVideoProgress;
+  const filteruserVideoProgress: TWatchHistory[] = userVideoProgress
+    .map((videoProgress) => {
+      const filteredCourse = videoProgress?.content?.parent?.courses.filter(
+        (course) =>
+          courses.some(
+            (purchaseCourse) => purchaseCourse.id === course.courseId,
+          ),
+      );
+      if (filteredCourse && filteredCourse.length > 0) {
+        return {
+          ...videoProgress,
+          content: {
+            ...videoProgress.content,
+            parent: {
+              ...videoProgress.content.parent,
+              courses: filteredCourse,
+            },
+          },
+        };
+      }
+    })
+    .filter((videoProgress) => videoProgress !== undefined);
+
+  return filteruserVideoProgress;
 }
 
 export default async function WatchHistoryPage() {
