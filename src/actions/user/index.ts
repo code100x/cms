@@ -94,7 +94,7 @@ const changePasswordHandler = async (
       },
       data: {
         password: hashedPassword,
-        token
+        token,
       },
     });
 
@@ -106,7 +106,7 @@ const changePasswordHandler = async (
   } catch (error) {
     console.error('Error updating password user:', error);
     return {
-      error: 'Fail to update password'
+      error: 'Fail to update password',
     };
   }
 };
