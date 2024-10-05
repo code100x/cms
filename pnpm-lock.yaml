@@ -289,7 +289,7 @@ importers:
         specifier: ^0.8.0
         version: 0.8.0(eslint@8.57.0)(typescript@5.5.4)
       husky:
-        specifier: ^9.0.7
+        specifier: ^9.1.4
         version: 9.1.4
       jsdom:
         specifier: ^24.0.0
