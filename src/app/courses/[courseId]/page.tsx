@@ -17,7 +17,6 @@ export default async function Course({
   const courseContent = findContentById(fullCourseContent, []);
 
   const nextContent = null;
-
   return (
     <CourseView
       rest={[]}

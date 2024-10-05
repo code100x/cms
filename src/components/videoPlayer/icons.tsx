@@ -101,7 +101,7 @@ export const SkipDurationBackIcon = () => {
       fill="none"
       stroke="currentColor"
       stroke-width="2"
-      stroke-linecap="round"
+      strokeLinecap="round"
       stroke-linejoin="round"
     >
       <polygon points="19 4 12 12 19 20 19 4" />
@@ -120,7 +120,7 @@ export const SkipDurationNextIcon = () => {
       fill="none"
       stroke="currentColor"
       stroke-width="2"
-      stroke-linecap="round"
+      strokeLinecap="round"
       stroke-linejoin="round"
     >
       <polygon points="5 4 12 12 5 20 5 4" />

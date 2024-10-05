@@ -22,6 +22,7 @@ export const FolderView = ({
     bookmark: Bookmark | null;
   }[];
 }) => {
+  // console.log("course content", courseContent);
   const router = useRouter();
 
   if (!courseContent?.length) {
@@ -31,6 +32,7 @@ export const FolderView = ({
       </div>
     );
   }
+
   let updatedRoute = `/courses/${courseId}`;
   for (let i = 0; i < rest.length; i++) {
     updatedRoute += `/${rest[i]}`;

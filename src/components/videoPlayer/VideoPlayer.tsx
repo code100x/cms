@@ -83,6 +83,7 @@ export const VideoPlayer = ({
         Math.ceil((100 * 1000) / player.playbackRate()),
       );
     };
+
     const handleVideoEnded = (interval: number) => {
       handleMarkAsCompleted(true, contentId);
       window.clearInterval(interval);

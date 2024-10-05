@@ -181,6 +181,7 @@ async function seedNotionMetadata() {
 
 async function seedVideoMetadata() {
   try {
+    console.log('seeding video meta data');
     await db.videoMetadata.create({
       data: {
         id: 1,

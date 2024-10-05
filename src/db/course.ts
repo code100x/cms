@@ -163,6 +163,7 @@ export const getNextVideo = async (currentVideoId: number) => {
     },
   });
   cache.set('getNextVideo', [currentVideoId.toString()], latestContent);
+  // console.log("---\nCourse.ts :", latestContent);
   return latestContent;
 };
 
