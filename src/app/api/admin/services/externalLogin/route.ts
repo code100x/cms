@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import bcrypt from 'bcrypt';
 
 const loginSchema = z.object({
-  email: z.string().email(),
+  email: z.string(),
   password: z.string(),
 });
 
@@ -28,7 +28,7 @@ export async function POST(req: NextRequest) {
 
     const { email, password } = result.data;
 
-    const user = await db.user.findUnique({
+    const user = await db.user.findFirst({
       where: { email },
       select: {
         id: true,
@@ -77,9 +77,8 @@ export async function POST(req: NextRequest) {
       { status: 401 },
     );
   } catch (error) {
-    console.error('Authentication error:', error);
     return NextResponse.json(
-      { message: 'An error occurred during authentication' },
+      { message: 'Error fetching user' },
       { status: 500 },
     );
   }
