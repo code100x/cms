@@ -8,6 +8,8 @@ const CalendarPage = async () => {
   if (!session || !session.user) {
     return redirect('/signin');
   }
+  console.log('Session Email:', session.user.email);
+  console.log('Admins List:', process.env.ADMINS?.split(','));
 
   const isAdmin =
     process.env.ADMINS?.split(',').includes(session.user.email!) ?? false;

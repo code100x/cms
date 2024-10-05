@@ -1,0 +1,6031 @@
+[33mcommit bc978a22767d32a7da2496c058637f520a101ffb[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmy-feature-branch[m[33m)[m
+Author: imsidkg <siddharth8271skg2@gmail.com>
+Date:   Sun Oct 6 05:13:43 2024 +0530
+
+    denies the user from commenting only whitespace, gives a toast error if the user does so. references issue#1440
+
+[33mcommit f59789d33d765653894d81e48d9cd6693bb5aec0[m[33m ([m[1;31morigin/my-feature-branch[m[33m)[m
+Author: imsidkg <siddharth8271skg2@gmail.com>
+Date:   Sat Oct 5 23:58:00 2024 +0530
+
+    dependency changes
+
+[33mcommit 7ca2c082a54b71bef3cbb2d706ed478a7a00e37a[m
+Author: Nawin Kumar Sharma <126372969+NawinKumarSharma@users.noreply.github.com>
+Date:   Thu Oct 3 18:10:57 2024 +0530
+
+    refactor(comment): improve voting functionality (#1323)
+
+[33mcommit 4a88e5b923d8ca279f797102bf0bbe83fad4f58f[m
+Author: Vansh Chopra <76000026+vanshavenger@users.noreply.github.com>
+Date:   Thu Oct 3 16:15:29 2024 +0530
+
+    FIX: Typescript error for react 17 or above (#1374)
+
+[33mcommit ccfd168aa67e3a22c7d4abfaf72fe98884df26c3[m
+Author: Archie <shivamsinghcse21@gmail.com>
+Date:   Thu Oct 3 16:14:07 2024 +0530
+
+    bug: show content button hide the Breadcrumb #1389 (#1393)
+
+[33mcommit cba08882467a118e4a460cdf0d8eca5739bbb823[m
+Author: Sargam <sargampoudel100@gmail.com>
+Date:   Thu Oct 3 04:26:03 2024 +0545
+
+    fix: quick fix the ui
+
+[33mcommit c0a832d34dd9da06cfba6966b60ce6e560035fa6[m
+Author: Harsh Vardhan Pandey <hp424805@gmail.com>
+Date:   Thu Oct 3 04:02:23 2024 +0530
+
+    feat: add multistage docker build. (#1371)
+    
+    * fix: commit
+    
+    * chore: change file reference for dev
+
+[33mcommit a27312e71e3bc11249bf6a434d37fb58b2ffd286[m
+Author: Sargam <sargampoudel100@gmail.com>
+Date:   Mon Sep 30 06:37:57 2024 +0545
+
+    chore: improve readme
+
+[33mcommit 19fa533f73b3282611853dae7ddaaf661dbbc7ba[m
+Author: Sargam <sargampoudel100@gmail.com>
+Date:   Mon Sep 30 06:36:13 2024 +0545
+
+    docs: improve readme
+
+[33mcommit 3ce7cc1bd79a6f1a2f1f0890b2a0f2820eb1201c[m
+Author: Kapil jangid <103230903+CuriousCoder00@users.noreply.github.com>
+Date:   Mon Sep 30 06:16:59 2024 +0530
+
+    Improved README for clarity and usability. (#1329)
+
+[33mcommit 1ceeb144ba20f3f1b369c8c1a2de70391ac25fdb[m
+Author: mortale2004 <114370142+mortale2004@users.noreply.github.com>
+Date:   Thu Sep 26 16:47:06 2024 +0530
+
+    fix: The theme toggle button appears twice. (#1315)
+    
+    * fix: Greeting in the home page
+    
+    * fix:UX of 'Sidebar.tsx'  while navigating to course ccontent.
+    
+    * fixed: extra dropdown button for the changing theme and formatting
+    
+    * fixed: incorrect greeting issue
+
+[33mcommit b3b65c19ef80ad4f3290518461157b1127051949[m
+Author: Keshav Malik <91189139+Keshav-0907@users.noreply.github.com>
+Date:   Thu Sep 26 04:06:28 2024 +0530
+
+    feat : list All User-Added Tags Before Submission (#1241)
+    
+    * Input tag Enhancement
+    
+    * fixes
+    
+    * Made Input empty after adding tag
+
+[33mcommit e67b700d72e2049af3239275be8ba095a0a6e797[m
+Author: Aditya Pandey <116359939+adityapandey23@users.noreply.github.com>
+Date:   Thu Sep 26 04:02:56 2024 +0530
+
+    bugfix: docker-compose up fails (#1297)
+
+[33mcommit 1478d0acb4db0de42738163903ec9e43dde9c09e[m
+Author: Paribesh Nepal <100255987+Paribesh01@users.noreply.github.com>
+Date:   Wed Sep 25 18:12:00 2024 -0400
+
+    feat(ui): adds nextjs top loader
+
+[33mcommit 1f1fe990297e706bf61522f738c92079721578e1[m
+Author: Meer Uzair <121447358+MeerUzairWasHere@users.noreply.github.com>
+Date:   Thu Sep 26 03:41:12 2024 +0530
+
+    fix(ui): restrict menu option to only comment creator
+
+[33mcommit ff5c9743bdc80422676a7a8189055f87c7173790[m
+Author: S.Adithya Vardhan <168300867+Adiflickzzz@users.noreply.github.com>
+Date:   Thu Sep 26 03:39:00 2024 +0530
+
+    fix(ui): add loading animations in question card
+
+[33mcommit 3555bf3a7a91f85edb0cbff077a8556cfdad224c[m
+Author: Shaurya Jha <106850641+shaurya35@users.noreply.github.com>
+Date:   Thu Sep 26 03:36:53 2024 +0530
+
+    Fix new UI bug (#1325)
+
+[33mcommit 5dd76ca97a5df2bd3e6c52ff1289fb735f9a0718[m
+Author: Mohammed Zafeeruddin <121102547+Zafeeruddin@users.noreply.github.com>
+Date:   Thu Sep 26 01:06:19 2024 +0300
+
+    Added error handling (#1327)
+
+[33mcommit a1aee59a2594e40b38ccbccee8abeaea115361f3[m
+Author: Manas Kumar Pradhan <125083715+pkmanas22@users.noreply.github.com>
+Date:   Wed Sep 25 00:28:50 2024 +0530
+
+    fix: Smooth Custom Scrollbar (#1310)
+
+[33mcommit 36d8ab2945d7ce4a684b1fab082d661db97d1b2a[m
+Author: Raj Raghav Singh <113702274+raghavsingh05@users.noreply.github.com>
+Date:   Tue Sep 24 19:50:57 2024 +0530
+
+    fix(ui): header was covering content
+    
+    * fix: add backdrop blur to prevent sidebar overlap with course content when scrolled (#1167)
+    
+    * fix: main heading hidden behind navbar by adding appropriate padding
+
+[33mcommit d78f12e378392cfc07517966edcc19366c0a4f8f[m
+Author: Raj Raghav Singh <113702274+raghavsingh05@users.noreply.github.com>
+Date:   Tue Sep 24 16:03:43 2024 +0530
+
+    fix(ui): added backdrop filter for nav
+    
+    Co-authored-by: Sargam <sargampoudel100@gmail.com>
+
+[33mcommit 9ac8b87df2f4902c63cfa62f1f61dfacb9a3cb16[m
+Author: Ashutosh <102981372+ashutosh017@users.noreply.github.com>
+Date:   Tue Sep 24 16:02:27 2024 +0530
+
+    fix: Sidebar is not closing when clicking outside #1183 (#1184)
+
+[33mcommit ff3f26829b43cd3e16a927aa899aa52af6b9b5ed[m
+Author: mortale2004 <114370142+mortale2004@users.noreply.github.com>
+Date:   Tue Sep 24 16:01:00 2024 +0530
+
+    fix: Greeting in the home page (#1204)
+
+[33mcommit c5a6b2d2a7da1fb93bd7049782c917493629a580[m
+Author: Polaki Sai Kiran <121670156+KiranPolaki@users.noreply.github.com>
+Date:   Tue Sep 24 15:59:34 2024 +0530
+
+    [BUG] fix comments overflow (#1207)
+
+[33mcommit 2f37b0790775b0a602e9f3247dc6359e825a8789[m
+Author: Ajeesh RS <ajeeshrs79@gmail.com>
+Date:   Tue Sep 24 15:57:09 2024 +0530
+
+    fix: hide back button in navbar on home page and resolve padding issu… (#1213)
+
+[33mcommit f5353daedef3fd9ae4dad905ab907d9beda8ab36[m
+Author: Pranav Ahuja <72250259+kingpranav21@users.noreply.github.com>
+Date:   Tue Sep 24 15:56:07 2024 +0530
+
+    Issue: #1211 (#1212)
+    
+    Clear suggestions on mismatch: If the user types a phone number or custom domain, the suggestions disappear.
+    
+    Hide suggestions on blur: If the user doesn’t select a suggestion and clicks outside the field, the suggestions are cleared.
+
+[33mcommit bb4f6ba0e27a3410a7fb331f664f04d29d1632fd[m
+Author: Ayush Katare <144807559+katareayush@users.noreply.github.com>
+Date:   Tue Sep 24 15:55:25 2024 +0530
+
+    UI Fixes in payout-methods (#1217)
+
+[33mcommit 4096b8b884b035b849770e10687e44c27e4acdf6[m
+Author: Sudhir singh <160540662+singh-sudhir16@users.noreply.github.com>
+Date:   Tue Sep 24 15:51:29 2024 +0530
+
+    fixed issue-#1193: repeating commands in README.md (#1218)
+    
+    Co-authored-by: singh-sudhir16 <mai.sudhir.singh14@gmail.com>
+
+[33mcommit 57de62b9507ac6ddad5d9efb8cc34a2bad3940f9[m
+Merge: 13f7207 83f27d1
+Author: Kirat <harkirat96@gmail.com>
+Date:   Tue Sep 24 04:16:20 2024 +0530
+
+    Merge pull request #1298 from paahaad/fix/updatecontent-api
+    
+    Added authentication to content update apis.
+
+[33mcommit 13f72077d67b8e81c2e533cbd94ad75d5277bf46[m
+Author: Munadil <155079796+Munadil16@users.noreply.github.com>
+Date:   Tue Sep 24 03:27:53 2024 +0530
+
+    fix: Quality selector bg issue in light mode (#1282)
+
+[33mcommit 169c5c4cada0f7d8e29baf140379e1635adebaf9[m
+Author: vatan malik <142028575+vatan45@users.noreply.github.com>
+Date:   Tue Sep 24 03:24:05 2024 +0530
+
+    dropdown should disappears as clicked somewhere else on the page (#1305)
+
+[33mcommit 83f27d1111a0d00168b5ec021db574611eb7e5f2[m
+Author: Parvat Raj <parvat.raj2@gmail.com>
+Date:   Sun Sep 22 04:08:10 2024 +0530
+
+    added auth to content-update-apis
+
+[33mcommit deff456194f8b57861ea7955e33460d8bb157a57[m
+Author: Parvat Raj <parvat.raj2@gmail.com>
+Date:   Sun Sep 22 04:02:13 2024 +0530
+
+    fix contentmetadata api
+
+[33mcommit d71191232e9b1fa3f5243d4e6b14655388cf70bf[m
+Author: Parvat Raj <parvat.raj2@gmail.com>
+Date:   Sun Sep 22 03:58:28 2024 +0530
+
+    added admin auth for the api
+
+[33mcommit 15ea328c84bf86e24cbcff850443459d8ac85603[m
+Merge: 4a1392d 7d963e0
+Author: Kirat <harkirat96@gmail.com>
+Date:   Thu Sep 19 20:44:07 2024 +0530
+
+    Merge pull request #1272 from SujithThirumalaisamy/new
+    
+    Added CI/CD workflow for staging and prod
+
+[33mcommit 7d963e0f4c73a01ce2dbddfbb6524c28784a382a[m
+Author: SujithThirumalaisamy <sujithmasi1267@gmail.com>
+Date:   Thu Sep 19 20:23:00 2024 +0530
+
+    Added CI/CD workflow for staging and prod
+
+[33mcommit 4a1392d1d89b50f170e72cda57ba0a55972aa500[m
+Merge: ec21501 953ac31
+Author: Singh <38940603+siinghd@users.noreply.github.com>
+Date:   Sun Sep 15 20:52:20 2024 -0600
+
+    Merge pull request #1220 from Parikshit2001/feature-2
+    
+    Fix Menu bar UI
+
+[33mcommit ec215017ac16efdd505edc5b9829d018fe716728[m
+Merge: 50971e1 b17e0a6
+Author: Singh <38940603+siinghd@users.noreply.github.com>
+Date:   Sun Sep 15 19:19:52 2024 -0600
+
+    Merge pull request #1227 from pvcodes/bugfix/sidebar
+    
+    added background to course-content header
+
+[33mcommit 50971e1b081e9c8996946f66f002c9c632932664[m
+Merge: 164842f 6073780
+Author: Kirat <harkirat96@gmail.com>
+Date:   Mon Sep 16 03:53:56 2024 +0530
+
+    Merge pull request #1234 from ItsFlash10/feat-jboard-auth
+    
+    Added job-board auth route
+
+[33mcommit 607378099718e333eaddf87a1b5d494f175f6314[m
+Author: ItsFlash10 <satyamsworld@gmail.com>
+Date:   Mon Sep 16 03:52:41 2024 +0530
+
+    Added job-board auth route
+
+[33mcommit 164842f5f04a0b18b43789eb00254a7b31460e4d[m
+Merge: bd1f029 b8a5ce6
+Author: Singh <38940603+siinghd@users.noreply.github.com>
+Date:   Sun Sep 15 09:52:10 2024 -0600
+
+    Merge pull request #1161 from SujithThirumalaisamy/new
+    
+    Added vizolv service endpoint
+
+[33mcommit b8a5ce6cdc7dcf14dfaeea50892ec43be50244a5[m
+Author: SujithThirumalaisamy <sujithmasi1267@gmail.com>
+Date:   Sun Sep 15 21:13:39 2024 +0530
+
+    Moved auth check to top
+
+[33mcommit 791bece7badcb1816fc02b883d6d75b7dc188441[m
+Merge: 71a58af bd1f029
+Author: Sujith Thirumalaisamy <108384868+SujithThirumalaisamy@users.noreply.github.com>
+Date:   Sun Sep 15 21:15:29 2024 +0530
+
+    Merge branch 'code100x:main' into new
+
+[33mcommit b17e0a6e0865aac57c156bc476ea1ab5ec3aa6e9[m
+Author: Pranjal Verma <pvcodes@machine.local>
+Date:   Sun Sep 15 16:22:53 2024 +0530
+
+    added background to course-content header
+
+[33mcommit 953ac314c8cd06a17457fa6b0740e41fc9b2727a[m
+Author: Parikshit <72187548+Parikshit2001@users.noreply.github.com>
+Date:   Sat Sep 14 22:59:01 2024 +0530
+
+    Fix Menu bar UI
+
+[33mcommit bd1f02996ff967fa47af1a08ab3cd820103fb078[m
+Author: Aman Kumar Bairagi <118182376+amanbairagi30@users.noreply.github.com>
+Date:   Fri Sep 13 02:44:12 2024 +0530
+
+    Revamp Admin UI & Discord Notifcation (#1181)
+    
+    * revamped admin ui and added discord notifications
+    
+    * updated the video client component
+    
+    * some lint fix
+    
+    * minor change in .env.example
+    
+    * Update src/app/api/admin/content/route.ts
+    
+    ---------
+    
+    Co-authored-by: Sargam <sargampoudel100@gmail.com>
+
+[33mcommit db8226aada8d3f3cbbd69b68d31ec0b332185ced[m
+Merge: 08b4a2e 21cee8a
+Author: Singh <38940603+siinghd@users.noreply.github.com>
+Date:   Thu Sep 12 10:38:48 2024 -0600
+
+    Merge pull request #1199 from paahaad/fix/thumbnail
+    
+    fix: thumbnail-server-action
+
+[33mcommit 21cee8a76d17b02444b6c39d890a6bef41b65e88[m
+Author: Parvat Raj <parvat.raj2@gmail.com>
+Date:   Thu Sep 12 03:10:49 2024 +0530
+
+    fix: thumbnail-server-action
+
+[33mcommit 71a58af3feb600ac15fc5454d04b1c5e76691fe6[m
+Author: Sujith Thirumalaisamy <108384868+SujithThirumalaisamy@users.noreply.github.com>
+Date:   Tue Sep 10 19:09:42 2024 +0530
+
+    Fix: Empty string to be null for subtitles url
+
+[33mcommit 1327f07963aacdffbe3b6fdc1be25d6fa650baab[m
+Merge: 3add8b1 08b4a2e
+Author: Sujith Thirumalaisamy <108384868+SujithThirumalaisamy@users.noreply.github.com>
+Date:   Tue Sep 10 19:08:33 2024 +0530
+
+    Merge branch 'code100x:main' into new
+
+[33mcommit 08b4a2e28f467e512838bc809cbd23584a5b323e[m
+Author: Parvat Raj Singh <42418677+paahaad@users.noreply.github.com>
+Date:   Tue Sep 10 12:58:32 2024 +0530
+
+    fix:bookmark (#1172)
+
+[33mcommit 3add8b165d57f330f1bbf7d83c84d1488efc5dd0[m
+Author: SujithThirumalaisamy <sujithmasi1267@gmail.com>
+Date:   Mon Sep 9 16:13:15 2024 +0530
+
+    Removed pagination. Added logic to fetch by ID
+
+[33mcommit a5e30f48cae657b36626d03c33028968fd3b3e8c[m
+Author: SujithThirumalaisamy <sujithmasi1267@gmail.com>
+Date:   Sun Sep 8 20:12:07 2024 +0530
+
+    Added vizolv service endpoint
+
+[33mcommit 881b135652218814edc4f7edc7672c9a6e4599bb[m
+Author: Keshav Bagaade <keshav.bagaade@gmail.com>
+Date:   Sun Sep 8 00:33:22 2024 +0530
+
+    Fixes for yesterday's UI Revamp PR (#1140)
+    
+    * ui refresh
+    
+    * fixed static pages (tnc, privacy-policy), fixed Navbar being rendered twice on landing page
+    
+    * fixed thumbnails, added momentjs and qs to package.json
+    
+    * Update README.md
+    
+    * lint fix
+    
+    * Update pnpm-lock.yaml
+    
+    * revert to older pnpm-lock.yaml
+    
+    * minor fixes
+    
+    * Update pnpm-lock.yaml
+    
+    * Update src/components/CourseCard.tsx
+    
+    ---------
+    
+    Co-authored-by: Sargam <sargampoudel100@gmail.com>
+
+[33mcommit c56cba7a38625c9002373be8f80f51f51a0503a9[m
+Author: Meer Uzair <121447358+MeerUzairWasHere@users.noreply.github.com>
+Date:   Thu Sep 5 17:02:03 2024 +0530
+
+    disabled header in NotionRendererLib component (#1143)
+
+[33mcommit f6d6cb4d6f26cb4b557a0d98f6812a886bd8052d[m
+Author: Keshav Bagaade <keshav.bagaade@gmail.com>
+Date:   Thu Sep 5 01:36:30 2024 +0530
+
+    Major ui revamp (#1135)
+    
+    * ui refresh
+    
+    * fixed static pages (tnc, privacy-policy), fixed Navbar being rendered twice on landing page
+
+[33mcommit 97cd178106e6742adb8ff343d570d9a76293edbc[m
+Merge: ff19b43 732a010
+Author: Sargam <sargampoudel100@gmail.com>
+Date:   Wed Sep 4 19:07:51 2024 +0530
+
+    Merge pull request #1131 from sans-byte/bugfix/videoQualityDropUp
+    
+    Bugfix : for video player drop up display
+
+[33mcommit 732a01000cd5c9f0e35a54d760c4f530b71aaacb[m
+Author: sanskar jain <sanskarj15@gmail.com>
+Date:   Wed Sep 4 14:37:03 2024 +0530
+
+    Bugfix for video player drop up display
+
+[33mcommit ff19b43062bf9d578c1a5218d4ddb5b09ab8de3d[m
+Merge: f207a55 b2727dc
+Author: Sargam <sargampoudel100@gmail.com>
+Date:   Sun Sep 1 17:37:32 2024 +0530
+
+    Merge pull request #848 from vijaysingh2219/main
+    
+    feat: Add email domain suggestions to signin component
+
+[33mcommit f207a55fa84a92b4dd17e0696bf5738bce77393d[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Sun Sep 1 01:40:08 2024 +0530
+
+    Fixed condition
+
+[33mcommit 76aa94c566b3243ee6bea4b93ea478014862dec0[m
+Merge: 7c2a9f3 2a30325
+Author: Kirat <harkirat96@gmail.com>
+Date:   Sun Sep 1 01:21:12 2024 +0530
+
+    Merge pull request #1054 from zenithexe/video-ui-responsive2
+    
+    Made video-player and video-chapters responsive
+
+[33mcommit 7c2a9f3b4577ffd6a210f1f71b6c2afd90fcf122[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Sat Aug 31 23:37:00 2024 +0530
+
+    updated .env
+
+[33mcommit e1dd1cc3a87b25db5f27369c6849f7ea2cfdb0dd[m
+Merge: 1565ed6 2709981
+Author: Kirat <harkirat96@gmail.com>
+Date:   Sat Aug 31 23:33:34 2024 +0530
+
+    Merge pull request #1092 from SujithThirumalaisamy/new
+    
+    Added subtitles service routes
+
+[33mcommit 270998102ea5fe707d6ef6498f9ded085a3d2040[m
+Author: Sujith Thirumalaisamy <108384868+SujithThirumalaisamy@users.noreply.github.com>
+Date:   Sat Aug 31 22:32:16 2024 +0530
+
+    Revert lint
+
+[33mcommit ab67d8e3557b80f6aa26e797b47b2d723e53215d[m
+Author: Sujith Thirumalaisamy <108384868+SujithThirumalaisamy@users.noreply.github.com>
+Date:   Sat Aug 31 22:31:47 2024 +0530
+
+    Revert lint
+
+[33mcommit 802ad90ff605be73550876132e80e208071c5e9a[m
+Author: SujithThirumalaisamy <sujithmasi1267@gmail.com>
+Date:   Sat Aug 31 22:25:16 2024 +0530
+
+    Added subtitle services routes
+
+[33mcommit 792f153b856e2c5ba2ab9a6f892a9bba9149aad1[m
+Author: SujithThirumalaisamy <sujithmasi1267@gmail.com>
+Date:   Sat Aug 31 22:24:40 2024 +0530
+
+    Added subtitle services routes
+
+[33mcommit 1565ed6acf3da13ed737cdef2aee324225d634dc[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Sat Aug 31 02:12:58 2024 +0530
+
+    Added transcode
+
+[33mcommit 0966fa14823f0262cbcab470fc58c7a7c3acfa28[m
+Merge: 10309e6 bc46af8
+Author: Singh <38940603+siinghd@users.noreply.github.com>
+Date:   Fri Aug 30 11:49:15 2024 -0600
+
+    Merge pull request #1085 from zenithexe/sticky-sidebar-heading
+    
+    Made sidebar Header Sticky
+
+[33mcommit 10309e6a9709cdbc9247e436718d5e22e4d8ba4e[m
+Merge: a999161 79fa2a1
+Author: Singh <38940603+siinghd@users.noreply.github.com>
+Date:   Fri Aug 30 11:48:25 2024 -0600
+
+    Merge pull request #1086 from csgaikwad/fix_search_result_zIndex
+    
+    fix: Adjust z-index for improved search results visibility (#1082)
+
+[33mcommit a999161026d5e17f4d1375aca9e437daba03205f[m
+Merge: 390d08c 60f67d7
+Author: Kirat <harkirat96@gmail.com>
+Date:   Fri Aug 30 22:31:53 2024 +0530
+
+    Merge pull request #1066 from amanbairagi30/github-link
+    
+    feat : Adds Github Link , makes code modular , improves  payout UI significantly
+
+[33mcommit 79fa2a164326c571c5784132a49551e48f3d79d1[m
+Author: Shekhar <131723143+csgaikwad@users.noreply.github.com>
+Date:   Fri Aug 30 18:12:11 2024 +0530
+
+    revert tsconfig.json
+
+[33mcommit ed9832b4e3b2d67ef4193eb997f8fad001c1cf10[m
+Author: csgaikwad <csgaikwad321@gmail.com>
+Date:   Fri Aug 30 18:08:10 2024 +0530
+
+    fixed search result issue
+
+[33mcommit 9f03e6eb0bba8b3f57ca1447feed509aecf87a67[m
+Author: csgaikwad <csgaikwad321@gmail.com>
+Date:   Fri Aug 30 17:37:31 2024 +0530
+
+    fixed the search result zIndex issue
+
+[33mcommit bc46af8986e8267f1ad0cc4b9e57c0fc598f9ef5[m
+Author: Jalish Buktawar <jalish.dev@gmail.com>
+Date:   Fri Aug 30 15:00:26 2024 +0530
+
+    made sidebar header sticky
+
+[33mcommit b2727dc4fa85e8dc3528d1f6be18a0bf5678d1f7[m
+Merge: 71b3486 390d08c
+Author: Vijay <74645268+vijaysingh2219@users.noreply.github.com>
+Date:   Fri Aug 30 12:20:15 2024 +0530
+
+    Merge branch 'code100x:main' into main
+
+[33mcommit 71b3486de3f52fe260dfcf84dcc545a7457efad5[m
+Author: Vijay <74645268+vijaysingh2219@users.noreply.github.com>
+Date:   Fri Aug 30 12:18:29 2024 +0530
+
+    fix: package-lock.json
+
+[33mcommit 390d08c08a6b713524465cb8b0b1c257536102c8[m
+Merge: cc0d5fb 2d18f9f
+Author: Singh <38940603+siinghd@users.noreply.github.com>
+Date:   Thu Aug 29 21:43:40 2024 -0600
+
+    Merge pull request #1083 from mrsourav1/fixed/search-api-req-type
+    
+    fixed:search api req type
+
+[33mcommit 2d18f9fac9ed22be8054708b7c91052aa13bd176[m
+Author: Sourav <souravsahani99@gmail.com>
+Date:   Thu Aug 29 22:53:57 2024 +0530
+
+    fixed:search api req type
+
+[33mcommit cc0d5fbbd5f92cdf6745d4400e0f46d05a901e92[m
+Merge: 1355f4f caf912c
+Author: Singh <38940603+siinghd@users.noreply.github.com>
+Date:   Thu Aug 29 09:07:02 2024 -0600
+
+    Merge pull request #1078 from devsargam/main
+    
+    chore: only allow `pnpm` as the package manager for the project
+
+[33mcommit 1355f4fe130d1be64b573899466ea0ad261ff4ce[m
+Merge: ea2598d 1c4beb2
+Author: Singh <38940603+siinghd@users.noreply.github.com>
+Date:   Thu Aug 29 09:04:59 2024 -0600
+
+    Merge pull request #1074 from Rishabh-Singh-Codes/main
+    
+    Added & fixed various UI refactor issues
+
+[33mcommit 1c4beb21005bd17bb151806a4d951914cc68315d[m
+Author: Rishabh Singh <rishabhsinghcodes@gmail.com>
+Date:   Thu Aug 29 20:11:34 2024 +0530
+
+    removed recharts dep. & created donut chart
+
+[33mcommit 5b4505582e7025fb2c110ba24a9dd171f9c67520[m
+Author: Rishabh Singh <rishabhsinghcodes@gmail.com>
+Date:   Thu Aug 29 18:57:24 2024 +0530
+
+    only-allow pnpm
+
+[33mcommit caf912c906401f29293dfb029912abb10e16b501[m
+Author: Sargam <sargampoudel100@gmail.com>
+Date:   Thu Aug 29 18:51:55 2024 +0530
+
+    fix: only allow pnpm as package manager
+
+[33mcommit cef6b97dfcd2442c1ada99c544434f659800fa8e[m
+Author: Sargam <sargampoudel100@gmail.com>
+Date:   Thu Aug 29 18:49:33 2024 +0530
+
+    chore: rm unnecessary lock files
+
+[33mcommit 9fd5ae33e2f8de10c3c7690c44cbd6a41f78e0e6[m
+Merge: 1cbd084 ea2598d
+Author: Rishabh Singh <rishabhsinghcodes@gmail.com>
+Date:   Thu Aug 29 12:48:00 2024 +0530
+
+    resolved CourseView conflict
+
+[33mcommit 1cbd084319aa985edfd0a9c1b5f7cb60d5137617[m
+Author: Rishabh Singh <rishabhsinghcodes@gmail.com>
+Date:   Thu Aug 29 12:31:03 2024 +0530
+
+    removed yarn.lock & package.lock && added husky pre commit
+
+[33mcommit e66f9a5e35c5ccede49fd441f51dc59fd74dc803[m
+Author: Rishabh Singh <rishabhsinghcodes@gmail.com>
+Date:   Thu Aug 29 12:12:07 2024 +0530
+
+    fixed conflict issues
+
+[33mcommit 524a55e9323d93f2a34f510519c0f83af8d3cbd9[m
+Author: Rishabh Singh <rishabhsinghcodes@gmail.com>
+Date:   Thu Aug 29 11:34:55 2024 +0530
+
+    fixed various UI refactor issues
+
+[33mcommit 60f67d792500f0c6093c7624939d706151c30be9[m
+Author: Aman Kumar Bairagi <amanbairagi1089@gmail.com>
+Date:   Wed Aug 28 12:26:22 2024 +0530
+
+    update .env.example with necessary keys
+
+[33mcommit 8f0b8b5c26dd0413221140d05955f57fffc104c3[m
+Author: Aman Kumar Bairagi <amanbairagi1089@gmail.com>
+Date:   Wed Aug 28 12:24:40 2024 +0530
+
+    add github link
+
+[33mcommit 8c1ab1435543145e4e05907fd9a25c926ab5c451[m
+Author: Aman Kumar Bairagi <amanbairagi1089@gmail.com>
+Date:   Wed Aug 28 12:07:28 2024 +0530
+
+    add github link
+
+[33mcommit 2a30325117654fd02dfba89c569b00a8d13a3fe7[m
+Author: Jalish Buktawar <jalish.dev@gmail.com>
+Date:   Tue Aug 27 16:25:31 2024 +0530
+
+    fixed ui
+
+[33mcommit 0ca2e73f7a0655c7e1e5d52a7a24b4efed46130e[m
+Author: Jalish Buktawar <jalish.dev@gmail.com>
+Date:   Tue Aug 27 16:19:27 2024 +0530
+
+    made the video-page made responsive
+
+[33mcommit ea2598d8d1d5d54a3bc62cd4e70c375c00711ce2[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Tue Aug 27 10:39:55 2024 +0530
+
+    Fixed images for build
+
+[33mcommit a45941dccfc3ab7eec2be95e1238dfb058d80cd2[m
+Merge: 4320771 658a892
+Author: Kirat <harkirat96@gmail.com>
+Date:   Tue Aug 27 10:39:20 2024 +0530
+
+    Merge pull request #1049 from zenithexe/fix-video-player-responsive
+    
+    Made video-player and video-chapters responsive
+
+[33mcommit 658a892b3dfc3b67f2564bd668a44e1efed6989a[m
+Author: Jalish Buktawar <jalish.dev@gmail.com>
+Date:   Tue Aug 27 06:47:00 2024 +0530
+
+    Made video-player and video-chapters responsive
+
+[33mcommit 372e43d52258e9229de0d58b9b8399550b3a2746[m
+Author: Vijay <74645268+vijaysingh2219@users.noreply.github.com>
+Date:   Mon Aug 26 22:21:41 2024 +0530
+
+    fix: yarn.lock file
+
+[33mcommit 432077105f8ece2db9b0a97e77cb5c90615dc509[m
+Merge: 054ff4d 4838c56
+Author: Singh <38940603+siinghd@users.noreply.github.com>
+Date:   Mon Aug 26 10:32:40 2024 -0600
+
+    Merge pull request #955 from nischal-shetty2/fix/questions-page
+    
+    fix: questions Page, single question page, reply MDeditor
+
+[33mcommit 054ff4de0cef900cbc6224009d509441bc9c49f9[m
+Merge: 5f84771 64a6471
+Author: Singh <38940603+siinghd@users.noreply.github.com>
+Date:   Mon Aug 26 10:26:52 2024 -0600
+
+    Merge pull request #1035 from ItsFlash10/main
+    
+    fix: Fixed Refresh DB CTA in the sidebar
+
+[33mcommit 64a6471f054a8dfc323bcdef582a8acead8c1c15[m
+Author: ItsFlash10 <satyamsworld@gmail.com>
+Date:   Mon Aug 26 21:04:39 2024 +0530
+
+    fix: Fixed Refresh DB CTA in the sidebar
+
+[33mcommit 5f847716f91b480aa64551f656ce7e4e8273a313[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Mon Aug 26 19:45:39 2024 +0530
+
+    Removed loader
+
+[33mcommit 4dc98ddf4a123a9fab6d5cbcfc3706d35e25c12c[m
+Merge: 86b510a c65ed7f
+Author: Kirat <harkirat96@gmail.com>
+Date:   Mon Aug 26 19:28:22 2024 +0530
+
+    Merge pull request #1019 from rameshguditalu/feature/add-refresh-db-#1016
+    
+    Added RefreshDB button
+
+[33mcommit 86b510aeb25e0c01b8c861819388fa2737897879[m
+Merge: 0211b1f d64ab2d
+Author: Kirat <harkirat96@gmail.com>
+Date:   Mon Aug 26 19:14:45 2024 +0530
+
+    Merge pull request #918 from code100x/hkirat/fix-admin-dashboard
+    
+    Fixes admin dashbaord
+
+[33mcommit 38adef356a5493fa23dc129a523c6640a5da7ebf[m
+Author: Vijay <74645268+vijaysingh2219@users.noreply.github.com>
+Date:   Mon Aug 26 14:59:34 2024 +0530
+
+    fix: format warning
+
+[33mcommit ef987b9f6c2e0a75d161c141cafffa183c5148d9[m
+Author: Vijay <74645268+vijaysingh2219@users.noreply.github.com>
+Date:   Mon Aug 26 14:55:42 2024 +0530
+
+    fix: merge conflicts
+
+[33mcommit 509aa2c9fc33f0e160b769b14c3243899a1882d1[m
+Merge: 3ed2f5f 0211b1f
+Author: Vijay <74645268+vijaysingh2219@users.noreply.github.com>
+Date:   Mon Aug 26 14:45:06 2024 +0530
+
+    Merge branch 'main' into main
+
+[33mcommit c65ed7ff4f34ea4fe0dbe33265fc367c0cdef2a5[m
+Author: Ramesh176 <rameshsw17@gmail.com>
+Date:   Sun Aug 25 14:37:38 2024 +0530
+
+    Added RefreshDB button
+
+[33mcommit 0211b1fd2bad29361772e0e9c0f1d9a7ea53b432[m
+Merge: 1056cda d14c76b
+Author: Kirat <harkirat96@gmail.com>
+Date:   Sat Aug 24 22:19:56 2024 +0530
+
+    Merge pull request #893 from vanshavenger/calendar
+    
+    FEAT: Add calendar, Fixed Lint errors
+
+[33mcommit d14c76b5597d31be655b50816d3f9dd213e03af2[m
+Author: vanshavenger <vanshchopra101@gmail.com>
+Date:   Sat Aug 24 22:15:58 2024 +0530
+
+    rename to calendar Page
+
+[33mcommit 1056cda5db90d96cddf00a4f1c4b75539c53a0ee[m
+Merge: 0d9d9e3 5473c46
+Author: Singh <38940603+siinghd@users.noreply.github.com>
+Date:   Wed Aug 21 18:09:22 2024 -0600
+
+    Merge pull request #973 from krish858/main
+    
+    minor ui-changes
+
+[33mcommit 0d9d9e35e7c8257509ed3ddce9af9beca20e08b3[m
+Merge: e597270 30454b6
+Author: Singh <38940603+siinghd@users.noreply.github.com>
+Date:   Wed Aug 21 18:05:21 2024 -0600
+
+    Merge pull request #979 from ItsFlash10/course-card
+    
+    fix: Changed the Course Card as per the new design
+
+[33mcommit 30454b68c5040c33222a9829193f3365dda94bd8[m
+Author: Satyam Shubham <satyam.shubham@vectoscalar.com>
+Date:   Thu Aug 22 04:58:00 2024 +0530
+
+    Changed Course Card as per the new FIGMA design
+
+[33mcommit 5473c4603d6df370ccc8b87f3fc21acd92a6e6eb[m
+Author: krish pandey <143093900+krish858@users.noreply.github.com>
+Date:   Wed Aug 21 21:58:40 2024 +0530
+
+    minor ui-changes
+
+[33mcommit 3189e60bbe58754f5eb68aac45ef7a194a463940[m
+Merge: fc09d29 e597270
+Author: Satyam Shubham <satyam.shubham@vectoscalar.com>
+Date:   Wed Aug 21 19:25:59 2024 +0530
+
+    Merge remote-tracking branch 'upstream/main'
+
+[33mcommit e5972705c9f41ca124f59e11715991140f9e5d56[m
+Merge: bcbdc1e 4b7e856
+Author: Kirat <harkirat96@gmail.com>
+Date:   Wed Aug 21 17:42:13 2024 +0530
+
+    Merge pull request #969 from SujithThirumalaisamy/new
+    
+    Added middleware.ts
+
+[33mcommit 4b7e85681999a861fccc9a2573759edd87b867a5[m
+Author: SujithThirumalaisamy <sujithmasi1267@gmail.com>
+Date:   Wed Aug 21 17:40:13 2024 +0530
+
+    Revert
+
+[33mcommit 20a9e6db7b42767cdbdc530e5296082d75609de1[m
+Author: SujithThirumalaisamy <sujithmasi1267@gmail.com>
+Date:   Wed Aug 21 17:38:31 2024 +0530
+
+    Revert
+
+[33mcommit 81d7e7c84c77896e38dd270abc541e5d1ddfeb43[m
+Author: SujithThirumalaisamy <sujithmasi1267@gmail.com>
+Date:   Wed Aug 21 17:28:59 2024 +0530
+
+    Added middleware.ts
+
+[33mcommit 4838c56aefb81513b8ea40fe4984c86b37c96fb6[m
+Author: Nischal Shetty <nischal2004coc@gmail.com>
+Date:   Tue Aug 20 23:56:55 2024 +0530
+
+    Pre-commit format problem
+
+[33mcommit 375129454f3910b2d0914e9124d0cf2c5f755cd0[m
+Author: Nischal Shetty <nischal2004coc@gmail.com>
+Date:   Tue Aug 20 23:21:16 2024 +0530
+
+    Format fix
+
+[33mcommit d766a56f59d3567646911562e3d93cdc5dd20eaa[m
+Author: Nischal Shetty <nischal2004coc@gmail.com>
+Date:   Tue Aug 20 22:50:10 2024 +0530
+
+    Fixed questions, single question page, reply modal
+
+[33mcommit fc09d2991265638bb13f509b753bf344ab1aaf5d[m
+Author: Satyam Shubham <satyam.shubham@vectoscalar.com>
+Date:   Tue Aug 20 22:43:24 2024 +0530
+
+    Fixed Watch History spelling mistake
+
+[33mcommit d64ab2d7ab43e58fe725ee8281115c5d0806c723[m
+Merge: 6154ca2 bcbdc1e
+Author: Kirat <harkirat96@gmail.com>
+Date:   Tue Aug 20 13:31:01 2024 +0530
+
+    Merge branch 'main' into hkirat/fix-admin-dashboard
+
+[33mcommit ee16411c809337234ac7417535c45bb3a54e7d07[m
+Merge: e88626d bcbdc1e
+Author: Vansh Chopra <76000026+vanshavenger@users.noreply.github.com>
+Date:   Tue Aug 20 13:11:31 2024 +0530
+
+    Merge branch 'main' into calendar
+
+[33mcommit bcbdc1e94ce095f5bee5dce766ea0e49884308f2[m
+Merge: 2a5a2aa c256f5f
+Author: Kirat <harkirat96@gmail.com>
+Date:   Tue Aug 20 11:35:16 2024 +0530
+
+    Merge pull request #920 from code100x/hkirat/ankit
+    
+    feat(header): implement new design as per issue #888
+
+[33mcommit c256f5f6837df30c758f33487a0c8f6e13da7e2d[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Tue Aug 20 11:34:57 2024 +0530
+
+    Fixed build, redirect
+
+[33mcommit fc428e3f950f5c36bb2da80d264ee59456c14266[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Tue Aug 20 11:24:17 2024 +0530
+
+    lint
+
+[33mcommit 9c76dae3af48321e73a99ccfd460b50839932f76[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Tue Aug 20 11:15:18 2024 +0530
+
+    Added changes on top of ankits changes
+
+[33mcommit 6154ca247edc050908effa671da54c7ab8a59ebe[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Tue Aug 20 10:12:58 2024 +0530
+
+    Fixes content by id
+
+[33mcommit 7551f8a4d2a5a7128b57a7bf7095962727f289d4[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Tue Aug 20 10:08:11 2024 +0530
+
+    Fixed admin dashboard
+
+[33mcommit 31bad8ebb60bc775c770d12dba3f87aa3742c33e[m
+Author: ankitmukhia <ankitmukhia157@gmail.com>
+Date:   Mon Aug 19 03:54:32 2024 +0530
+
+    fixed pnpm yaml file
+
+[33mcommit ce02c4620d272eaa0b9b0c2cad2fcb1d35feb7a1[m
+Author: ankitmukhia <ankitmukhia157@gmail.com>
+Date:   Mon Aug 19 03:22:07 2024 +0530
+
+    feat(header): implement new design for question/bookmark/history
+
+[33mcommit e88626da04aa77f0f99d3466dece16eb6d441433[m
+Author: vanshavenger <vanshchopra101@gmail.com>
+Date:   Mon Aug 19 03:23:57 2024 +0530
+
+    remove lock diff
+
+[33mcommit a697930e441d564f4a8fdae5ecf5b0ca501c89ab[m
+Merge: 8ba3ccd 2a5a2aa
+Author: brookly 🥦 <114481298+ankitmukhia@users.noreply.github.com>
+Date:   Sun Aug 18 21:18:01 2024 +0530
+
+    Merge branch 'main' into feat--redesign-888
+
+[33mcommit 8ba3ccd6ec13a1a2fb9c6891ebce32a731849c2a[m
+Author: ankitmukhia <ankitmukhia157@gmail.com>
+Date:   Sun Aug 18 20:49:16 2024 +0530
+
+    feat(header): implement new design as per issue #888
+
+[33mcommit 943c2e05bf9baf9f8b6cc20ca9ecb88e9d478a61[m
+Author: vanshavenger <vanshchopra101@gmail.com>
+Date:   Sat Aug 17 12:41:00 2024 +0530
+
+    fix security concerns
+
+[33mcommit e5511903b2e66ab2b4a9fbf8a9ffb5c7debec49d[m
+Author: vanshavenger <vanshchopra101@gmail.com>
+Date:   Sat Aug 17 12:22:22 2024 +0530
+
+    added old yarn
+
+[33mcommit a4f9182f22b0ba3aad03b1a1e9e1f3034274e57d[m
+Author: vanshavenger <vanshchopra101@gmail.com>
+Date:   Sat Aug 17 12:18:38 2024 +0530
+
+    Add calendar script to seed script
+
+[33mcommit a69e90bffa735647d70f7250cc938817f3f5bdca[m
+Author: vanshavenger <vanshchopra101@gmail.com>
+Date:   Fri Aug 16 15:19:30 2024 +0530
+
+    FEAT: Add calendar, Fixed Lint errors
+    
+    In this i have added a calendar component for the Cohort students and admin can access and update events, so that students can just come and check on which day which topic in class happened and find its video link and Notes attached. And Students can see upcoming agenda at the single place that is updated by the admin of the next entire 30 days from the current date.
+
+[33mcommit 2a5a2aa4357c3dc5c5be389135ce172cd187a799[m
+Merge: 2e590da 06d1b01
+Author: Singh <38940603+siinghd@users.noreply.github.com>
+Date:   Wed Aug 14 09:11:47 2024 -0700
+
+    Merge pull request #882 from ajeeshRS/feature/add-payout-method-section
+    
+    feat: added payout methods section
+
+[33mcommit 2e590dac3440a4f004bba76c9fb9cc6f3ed858c1[m
+Merge: 3747c41 a2f2ec8
+Author: Singh <38940603+siinghd@users.noreply.github.com>
+Date:   Wed Aug 14 09:07:53 2024 -0700
+
+    Merge pull request #874 from iSouvikKhan/feature/ActiveWeek
+    
+    ContentID correction
+
+[33mcommit 06d1b01a8740cfe48dd87f77870c2e809b6be0e0[m
+Author: Ajeesh RS <ajeeshrs79@gmail.com>
+Date:   Wed Aug 14 21:33:14 2024 +0530
+
+    fix: yarn.lock
+
+[33mcommit 3747c418387f43f6b129136af829865f0f807b3b[m
+Merge: 139ec0b 4933006
+Author: Singh <38940603+siinghd@users.noreply.github.com>
+Date:   Wed Aug 14 08:59:39 2024 -0700
+
+    Merge pull request #880 from vijaysingh2219/fix/pin-functionality
+    
+    fix: pin functionality issue in the comment dropdown menu
+
+[33mcommit 139ec0b081004879c966ab3c9aa1539e26b423fc[m
+Merge: bbb19be c0df2b6
+Author: Singh <38940603+siinghd@users.noreply.github.com>
+Date:   Wed Aug 14 07:01:39 2024 -0700
+
+    Merge pull request #865 from pruthviraj7714/form-ui-improved
+    
+    Improved the UI for form & Fixed the Logic
+
+[33mcommit 51df73935e4816d440b5659f77451de127c60da3[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Wed Aug 14 08:13:02 2024 +0530
+
+    Updated bunnyUrl
+
+[33mcommit bbb19beb2229c0bc95c96b2b1b7096e7c0590445[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Wed Aug 14 05:58:44 2024 +0530
+
+    Added admin routes
+
+[33mcommit 531b82ef601cfbf8b646d735a5d3aa8370c316d2[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Mon Aug 5 23:25:05 2024 +0530
+
+    Removed log
+
+[33mcommit 5d69400c92d8d706466992f23f061be121c0ac31[m
+Author: Ajeesh <ajeeshrs79@gmail.com>
+Date:   Tue Aug 13 00:22:35 2024 +0530
+
+    feat: added payout methods section
+
+[33mcommit 493300687aa596288176e3a3b894452ad83e0e95[m
+Author: Vijay <74645268+vijaysingh2219@users.noreply.github.com>
+Date:   Mon Aug 12 22:06:29 2024 +0530
+
+    fix: resolve copy to clipboard issue in comment dropdown
+
+[33mcommit 5848298c1d63bc175a5e5e9b73af7893fe1b6386[m
+Author: Vijay <74645268+vijaysingh2219@users.noreply.github.com>
+Date:   Mon Aug 12 13:32:46 2024 +0530
+
+    fix: pin functionality issue in the comment dropdown menu
+
+[33mcommit a2f2ec829eb1903ee9f9f40768cfab709b615d8f[m
+Author: Souvik Khan <souvik97381@gmail.com>
+Date:   Sun Aug 11 04:32:33 2024 +0530
+
+    ContentID correction
+
+[33mcommit 3ed2f5f3fd946aeaae6cf27ebd27728ac80322c7[m
+Author: Vijay <74645268+vijaysingh2219@users.noreply.github.com>
+Date:   Fri Aug 9 18:50:00 2024 +0530
+
+    feat: add focused index for domain suggestions
+
+[33mcommit 55029acbf739d6c67460e533fc192308e94ca67a[m
+Merge: 1efbda2 349ea5a
+Author: Vijay <74645268+vijaysingh2219@users.noreply.github.com>
+Date:   Fri Aug 9 17:33:15 2024 +0530
+
+    Merge branch 'code100x:main' into main
+
+[33mcommit 349ea5a5d524095b487b417143573753f4279d36[m
+Merge: b2ccb8c 56a21a1
+Author: Singh <38940603+siinghd@users.noreply.github.com>
+Date:   Thu Aug 8 11:25:25 2024 -0600
+
+    Merge pull request #863 from rushikeshg25/fix-signin-toast
+    
+    fix: Signing in toaster without email and pass
+
+[33mcommit 56a21a1b4e5dd36995e6d8d2d907be84a1fa2f71[m
+Author: rushikeshg25 <rushikeshvghotekar25@gmail.com>
+Date:   Thu Aug 8 22:30:32 2024 +0530
+
+    fix: Signing in toaster without email and pass
+
+[33mcommit b2ccb8cc88af1961c5e883e41c25e18701256380[m
+Merge: 33df5d3 7027677
+Author: Singh <38940603+siinghd@users.noreply.github.com>
+Date:   Thu Aug 8 10:55:42 2024 -0600
+
+    Merge pull request #846 from SujithThirumalaisamy/main
+    
+    Fixed modifier action propogation
+
+[33mcommit c0df2b607fd5918e2b04ab4e04ab070dcc6ebef1[m
+Author: pruthviarj7714 <marganepruthviraj@gmail.com>
+Date:   Thu Aug 8 17:46:21 2024 +0530
+
+    lint & format fix
+
+[33mcommit 33df5d339df70ad48f85ddd22884f7f540b87052[m
+Merge: 3cb0259 713e36f
+Author: Kirat <harkirat96@gmail.com>
+Date:   Mon Aug 5 23:19:38 2024 +0530
+
+    Merge pull request #856 from devsargam/main
+    
+    fixed error page
+
+[33mcommit 713e36f7dd74e6c774951bbcd897c396c446715c[m
+Author: Sargam <sargampoudel100@gmail.com>
+Date:   Mon Aug 5 23:31:18 2024 +0545
+
+    fixed error page
+
+[33mcommit 3cb02596f9b4a7ebeb5cbe56ee9e0c6a3c50f897[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Mon Aug 5 22:48:30 2024 +0530
+
+    Fixed routes
+
+[33mcommit 3c9bb4f66c7b1252e865299ee37c557aeed8d5f7[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Sun Aug 4 09:43:42 2024 +0530
+
+    Fixed bug
+
+[33mcommit dffa7bd95647d6a8a377dcaaf572d207d2ac04b1[m
+Merge: 305f347 ba87eba
+Author: Kirat <harkirat96@gmail.com>
+Date:   Mon Aug 5 17:23:35 2024 +0530
+
+    Merge pull request #851 from devsargam/main
+    
+    Add appx rate limit fallback
+
+[33mcommit ba87eba8bb4b79a14f3f90c7326d195bd007370a[m
+Author: Sargam <sargampoudel100@gmail.com>
+Date:   Mon Aug 5 13:45:52 2024 +0545
+
+    fix: add lock files
+
+[33mcommit e686e88349b7a8f425fb3dbd75234d59e922c2db[m
+Author: Sargam <sargampoudel100@gmail.com>
+Date:   Mon Aug 5 13:42:13 2024 +0545
+
+    fixed conflicts
+
+[33mcommit 1efbda21a8a35770c93a6d746a0a665222059f68[m
+Author: Vijay <74645268+vijaysingh2219@users.noreply.github.com>
+Date:   Sun Aug 4 17:31:16 2024 +0530
+
+    Update tsconfig.json
+
+[33mcommit 9d2db95d7f80c36a10c92bd43220de830dea64c5[m
+Author: Vijay <74645268+vijaysingh2219@users.noreply.github.com>
+Date:   Sun Aug 4 16:59:51 2024 +0530
+
+    feat: Add email domain suggestions to signin component
+
+[33mcommit 305f3470ca49bb297453bb709ab4efb399415a91[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Sun Aug 4 07:31:24 2024 +0530
+
+    Added script to migrate purchases
+
+[33mcommit 474a7624fc50508950d38ea06465557b0069d928[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Sun Aug 4 05:52:57 2024 +0530
+
+    Denormalized courses
+
+[33mcommit c837b5092d15e2d1dc6c0afa8a2fbbf721c46c41[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Sun Aug 4 05:24:36 2024 +0530
+
+    Added admins tuff
+
+[33mcommit 702767776ab1b772f8b572098b177cc1fcad8da0[m
+Author: SujithThirumalaisamy <sujithmasi1267@gmail.com>
+Date:   Sat Aug 3 22:03:08 2024 +0530
+
+    Fixed modifier action propogation
+
+[33mcommit 4e33525ecceb3c2e9491dd35ce95941ad3350d11[m
+Merge: 4b15073 7d5a70f
+Author: Singh <38940603+siinghd@users.noreply.github.com>
+Date:   Sun Jul 28 09:51:14 2024 -0600
+
+    Merge pull request #832 from Zafeeruddin/feature/ToasterLoader
+    
+    Feature/toaster loader
+
+[33mcommit 4b150736465b87bab7a9327ad2660569c6ccdca7[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Sat Jul 27 17:12:43 2024 +0530
+
+    Fixes
+
+[33mcommit 2649c1601880765d933d48524c973caffeeaca4b[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Mon Jul 22 03:02:36 2024 +0530
+
+    Revert
+
+[33mcommit ba2d2bf336b9f50df3ea429b737a3ba349573f95[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Mon Jul 22 02:56:59 2024 +0530
+
+    Added video
+
+[33mcommit 7d5a70f04096f51f1402dcd41ab262dd36f37f2c[m
+Author: Zafeeruddin <mohammed.xafeer@gmail.com>
+Date:   Sun Jul 21 14:08:35 2024 +0530
+
+    Added loading toaster for user signup
+
+[33mcommit b9953661553ab3528c6cf5f8c64a8ef2492c4e06[m
+Author: Zafeeruddin <mohammed.xafeer@gmail.com>
+Date:   Sun Jul 21 14:04:11 2024 +0530
+
+    Added loading toaster for user signup
+
+[33mcommit 2e7b804fc24d007ada3fd8a01a3ef9e838c0683e[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Sun Jul 21 08:16:12 2024 +0530
+
+    Added new discord
+
+[33mcommit ca7f1212818f3a4c2e479e2d0b91fbad116fdb44[m
+Merge: 3b28347 be1b267
+Author: Singh <38940603+siinghd@users.noreply.github.com>
+Date:   Sat Jul 6 16:10:25 2024 -0600
+
+    Merge pull request #498 from pratham-srivastava-07/typeError
+    
+    Fixed src/actions/refresh-db/index.ts
+
+[33mcommit 3b28347dd0bdb9e9e6c89d14f94d8ac7532e3690[m
+Merge: aaf9715 fe5c1ea
+Author: Singh <38940603+siinghd@users.noreply.github.com>
+Date:   Sat Jul 6 15:54:12 2024 -0600
+
+    Merge pull request #804 from pruthviraj7714/feature/course-form-fixed
+    
+    Feature/course form fixed
+
+[33mcommit aaf971588af3d0b1b4dc15feec3d270c97ae7970[m
+Merge: c5d3278 5ad4c5a
+Author: Singh <38940603+siinghd@users.noreply.github.com>
+Date:   Sat Jul 6 15:52:43 2024 -0600
+
+    Merge pull request #785 from nischal-shetty2/fix/certificateBug
+    
+    Fix/ certificate download Bug
+
+[33mcommit fe5c1ea6752cbbca2ad8f1f43e44285b893e5cfd[m
+Merge: aa1402f c5d3278
+Author: Singh <38940603+siinghd@users.noreply.github.com>
+Date:   Thu Jul 4 13:48:49 2024 -0600
+
+    Merge branch 'main' into feature/course-form-fixed
+
+[33mcommit c5d3278952dbd0e132ace88b40ae50f697400340[m
+Merge: a115414 5ddbd75
+Author: Singh <38940603+siinghd@users.noreply.github.com>
+Date:   Thu Jul 4 13:44:04 2024 -0600
+
+    Merge pull request #809 from NayanPatidar/fix-folderview-irresponsive
+    
+    Fix : Folder View And Video Player Getting Compressed
+
+[33mcommit a115414fb97a91f8b0cda2ba4b7cb845f7413150[m
+Merge: 87ff4b2 53947d3
+Author: Singh <38940603+siinghd@users.noreply.github.com>
+Date:   Thu Jul 4 13:34:30 2024 -0600
+
+    Merge pull request #812 from subhanahujha007/main
+    
+    Update README.md fixes the wrong docker command in read me
+
+[33mcommit 87ff4b285a28b56b94887cd4f75b34813c114988[m
+Merge: 18eeb3f c37e5d0
+Author: Singh <38940603+siinghd@users.noreply.github.com>
+Date:   Thu Jul 4 12:26:35 2024 -0600
+
+    Merge pull request #322 from asharma991/caption-toggle-fix
+    
+    fix: add exact check for language and kind, referring docs
+
+[33mcommit 53947d345ba0c57f351f94fbbd9bbb3894e3e9bf[m
+Author: Subhanshu jha <138554397+subhanahujha007@users.noreply.github.com>
+Date:   Thu Jul 4 23:00:57 2024 +0530
+
+    Update README.md
+
+[33mcommit aa1402fa95cb4369f23ad4a8fc73e2aa145ef92f[m
+Author: pruthviarj7714 <marganepruthviraj@gmail.com>
+Date:   Thu Jul 4 10:59:05 2024 +0530
+
+    removed lock-file change
+
+[33mcommit 5ddbd75db0a21aa0089bf58d30efb1d96a5c03ca[m
+Author: NayanPatidar <nayanpatidar28@gmail.com>
+Date:   Tue Jul 2 00:24:47 2024 +0530
+
+    Fix Sidebar Css
+
+[33mcommit e02464b4a750fe89fee0e0df99c9262b5de8ae66[m
+Author: pruthviarj7714 <marganepruthviraj@gmail.com>
+Date:   Mon Jul 1 04:41:05 2024 +0530
+
+    lock file fixed
+
+[33mcommit d3ffc08bb59fb4eacfbc7558b39c450f15a48cc5[m
+Author: pruthviarj7714 <marganepruthviraj@gmail.com>
+Date:   Mon Jul 1 04:30:06 2024 +0530
+
+    lock file fixed
+
+[33mcommit 7eb74ba7c42eec26e4249a52e5d5487feb884c7f[m
+Author: pruthviarj7714 <marganepruthviraj@gmail.com>
+Date:   Mon Jul 1 03:12:21 2024 +0530
+
+    yarn-lock fixed
+
+[33mcommit 8a74a091955ef581cb75d59fb15d5adf2c7eac15[m
+Author: pruthviarj7714 <marganepruthviraj@gmail.com>
+Date:   Mon Jul 1 03:03:09 2024 +0530
+
+    versions fixed
+
+[33mcommit 1638778bb9e929231bb12055da27030391111444[m
+Author: pruthviarj7714 <marganepruthviraj@gmail.com>
+Date:   Sat Jun 29 06:17:34 2024 +0530
+
+    lock-file fixed
+
+[33mcommit 18eeb3f90edad907d3c6454efc53097509994eb9[m
+Merge: 553f0a1 0d58c25
+Author: Singh <38940603+siinghd@users.noreply.github.com>
+Date:   Fri Jun 28 18:24:30 2024 -0600
+
+    Merge pull request #392 from haddercone/patch-3
+    
+    fix: added script for video  `duration` update
+
+[33mcommit 0d58c25510bf0409e57e6edaebbd6abaf2ee3c8c[m
+Merge: a590ad0 553f0a1
+Author: Singh <38940603+siinghd@users.noreply.github.com>
+Date:   Fri Jun 28 18:24:03 2024 -0600
+
+    Merge branch 'main' into patch-3
+
+[33mcommit 553f0a1432be28a287b6dffb7d1d46c664f7ab0d[m
+Merge: b28c0fc b0fad7c
+Author: Singh <38940603+siinghd@users.noreply.github.com>
+Date:   Thu Jun 27 10:27:22 2024 -0600
+
+    Merge pull request #371 from rituraj00/main
+    
+    updated docker-compose.yml file and adding instruction in README
+
+[33mcommit b28c0fcd19b2cfdde337b639c09c4f8220e467d3[m
+Merge: 5f134f9 5535575
+Author: Singh <38940603+siinghd@users.noreply.github.com>
+Date:   Thu Jun 27 10:23:58 2024 -0600
+
+    Merge pull request #794 from PatelYash7/Fix_Button_Overflow
+    
+    Fixes: buttons overflowing #793
+
+[33mcommit 5f134f9d7dfeab9ad2cde1b2b685179c3f52fa93[m
+Merge: a322d77 a3f80fb
+Author: Singh <38940603+siinghd@users.noreply.github.com>
+Date:   Thu Jun 27 10:07:25 2024 -0600
+
+    Merge pull request #798 from devsargam/chore--add-redis-cache
+    
+    chore: impl cache for redis and memory
+
+[33mcommit a322d771b770bd516e06b3fe8b6a5f90993ec247[m
+Merge: 3be078a 7f86bef
+Author: Singh <38940603+siinghd@users.noreply.github.com>
+Date:   Thu Jun 27 09:48:28 2024 -0600
+
+    Merge pull request #803 from JTiscodin/bug/fixing-word-splits
+    
+    fixing word splits at the end of the comments card
+
+[33mcommit 94ee5b6e666fc1dc141faa30900703b5a7860273[m
+Author: pruthviarj7714 <marganepruthviraj@gmail.com>
+Date:   Thu Jun 27 17:07:52 2024 +0530
+
+    format fix
+
+[33mcommit 3a3dd54ba64064301b1a537c17522991a6f67e82[m
+Author: pruthviarj7714 <marganepruthviraj@gmail.com>
+Date:   Thu Jun 27 17:06:22 2024 +0530
+
+    course form fixed
+
+[33mcommit 7f86befe44ef77c49305c402813afe038e72769c[m
+Author: Jatin Tilwani <jatintilwani500@gmail.com>
+Date:   Thu Jun 27 11:53:25 2024 +0530
+
+    fixing word splits at the end of the comments card
+
+[33mcommit a3f80fbe1b4ed8de0f500073b9c753566aabf397[m
+Author: Sargam <sargampoudel100@gmail.com>
+Date:   Wed Jun 26 23:19:51 2024 +0545
+
+    fix: add default time for cache expriry
+
+[33mcommit 8cb2773dcbde0f5c41d9f3aace5b49a7c598a5df[m
+Merge: 318270e 3be078a
+Author: Sargam <sargampoudel100@gmail.com>
+Date:   Wed Jun 26 22:55:44 2024 +0545
+
+    Merge branch 'main' into chore--add-redis-cache
+
+[33mcommit 318270ef031422834be9db454f9e25106733be4b[m
+Author: Sargam <sargampoudel100@gmail.com>
+Date:   Wed Jun 26 22:54:41 2024 +0545
+
+    Revert "make cache async"
+    
+    This reverts commit 6528c6b3ae3946055016f4951f13950f15079343.
+
+[33mcommit 6528c6b3ae3946055016f4951f13950f15079343[m
+Author: Sargam <sargampoudel100@gmail.com>
+Date:   Tue Jun 25 13:41:37 2024 +0545
+
+    make cache async
+
+[33mcommit 9d18f316f54da10d54458a0c32cf5523f6a3bc0f[m
+Author: Sargam <sargampoudel100@gmail.com>
+Date:   Tue Jun 25 13:31:35 2024 +0545
+
+    fix: made cache impl async
+
+[33mcommit 98858a80e60344a09325703b175f85ff521c72b4[m
+Author: Sargam <sargampoudel100@gmail.com>
+Date:   Tue Jun 25 13:25:29 2024 +0545
+
+    chore: impl single cache
+
+[33mcommit 2e4ec2ea6de0a9fd5dab640e7215a3786841052b[m
+Author: Sargam <sargampoudel100@gmail.com>
+Date:   Tue Jun 25 13:16:39 2024 +0545
+
+    chore: impl cache for `redis` and `memory`
+
+[33mcommit 3be078a31c47925cfb5f6e370c482d099e27a5e1[m
+Merge: d62131e 2051774
+Author: Singh <38940603+siinghd@users.noreply.github.com>
+Date:   Mon Jun 24 18:51:16 2024 -0600
+
+    Merge pull request #796 from NayanPatidar/fix-controlbar-overflow
+    
+    Control Bar Out Of Bounds On Small Screen
+
+[33mcommit 20517742cb6528c77f9bb376662c321bc8f5670c[m
+Author: NayanPatidar <nayanpatidar28@gmail.com>
+Date:   Sun Jun 23 01:51:13 2024 +0530
+
+    Control Bar Css Update
+
+[33mcommit d62131e0c0aa47d9d9e85bbdd806375aa5155643[m
+Merge: 00efe6e 9027342
+Author: Singh <38940603+siinghd@users.noreply.github.com>
+Date:   Fri Jun 21 13:21:54 2024 -0600
+
+    Merge pull request #795 from monish-mukhari/main
+    
+    Update README.md
+
+[33mcommit 9027342c443092b523a81d06b3dfac2c3acffdec[m
+Author: Monish Mukhari <139939664+monish-mukhari@users.noreply.github.com>
+Date:   Fri Jun 21 16:56:06 2024 +0530
+
+    Update README.md
+    
+    corrected git clone command.
+
+[33mcommit 872ee096247257d269aa367f28c220eebe9ab912[m
+Author: Monish Mukhari <139939664+monish-mukhari@users.noreply.github.com>
+Date:   Fri Jun 21 14:49:33 2024 +0530
+
+    Update README.md
+    
+    original git clone command was wrong as it was mentioning to put our username it is fixed from your-username to code100x; now its working.
+
+[33mcommit 00efe6e708274e146d8fb9ce2a940d05da1761e6[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Thu Jun 20 23:13:15 2024 +0530
+
+    Moved ops to ops repo
+
+[33mcommit 5535575620eeec0d42a3a6815f31b17804f64209[m
+Author: Yash Patel <109963122+PatelYash7@users.noreply.github.com>
+Date:   Thu Jun 20 13:14:41 2024 +0530
+
+    Fixes: buttons overflowing #793
+
+[33mcommit 432225ed8f29e2f24434a19f361ae1a4e3914c06[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Thu Jun 20 11:05:28 2024 +0530
+
+    remove video on hover
+
+[33mcommit f5e84db9064e26412a78673e6c81a1ddcc6f647c[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Thu Jun 20 10:59:47 2024 +0530
+
+    Updated dockerfiles
+
+[33mcommit 6e27a3c3a84d822e259c7416f995a62e66b60ba1[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Thu Jun 20 10:58:31 2024 +0530
+
+    Added ops
+
+[33mcommit e337d38f333d098052eb70e9e624e3aef4209d29[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Thu Jun 20 10:53:51 2024 +0530
+
+    removed middleware
+
+[33mcommit b378deec023403033301bca139dd8ad9cc9bd01d[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Thu Jun 20 09:19:14 2024 +0530
+
+    tsignores
+
+[33mcommit ce0c0b1232e10595fa60bccfe500eab8b60b5cb2[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Thu Jun 20 09:18:01 2024 +0530
+
+    ts-ignore the error for now
+
+[33mcommit b0aeef38e6df2e76d4085e3f888bc552212d2e2b[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Thu Jun 20 09:17:01 2024 +0530
+
+    fixed lint
+
+[33mcommit ceb98e4233233096fa7f78eff1128f38fbc4a7b1[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Thu Jun 20 09:14:50 2024 +0530
+
+    update middleware
+
+[33mcommit d7d47a6a92b34604878a4ae0264a92b584a728d1[m
+Merge: f66a0bf e82aeed
+Author: Singh <38940603+siinghd@users.noreply.github.com>
+Date:   Wed Jun 19 14:48:16 2024 -0600
+
+    Merge pull request #792 from mvp5464/duplicate/Error
+    
+     fixed the multiple comments error if you click the comment button quickly
+
+[33mcommit 5ad4c5aa184085a917dc6c6b1a2494478e2809c3[m
+Author: Nischal Shetty <nischal2004coc@gmail.com>
+Date:   Tue Jun 18 07:28:25 2024 +0530
+
+    removed console log
+
+[33mcommit 0ce35af13cad68493b4d613a521e04d33fba72df[m
+Author: Nischal Shetty <nischal2004coc@gmail.com>
+Date:   Mon Jun 17 15:55:28 2024 +0530
+
+    removed if check
+
+[33mcommit e82aeeddc0622591ba6a006d5fa764a5d1167880[m
+Author: mvking5464 <mvking5464@gmail.com>
+Date:   Sun Jun 16 22:41:46 2024 +0530
+
+    fixed quick button press on upvote, downvote, delete, pin, approve
+
+[33mcommit 35326cf83c912e5f02b59cd1e8a32be51d7a42ea[m
+Merge: e9e92f5 f66a0bf
+Author: Singh <38940603+siinghd@users.noreply.github.com>
+Date:   Sun Jun 16 09:38:06 2024 -0600
+
+    Merge branch 'main' into duplicate/Error
+
+[33mcommit f66a0bff8eb4b31ff11eb6b3a19cd8b862d26f6f[m
+Merge: 7bab81c bfa2c2c
+Author: Singh <38940603+siinghd@users.noreply.github.com>
+Date:   Sun Jun 16 09:30:00 2024 -0600
+
+    Merge pull request #791 from kethesainikhil/feature/UIupdate
+    
+    Dyanmic thumbnails generated according to the title of the video , notion , folder(current week)
+
+[33mcommit f5be484fa5c9b8e6369e2f85250d23e90d321f5c[m
+Author: Nischal Shetty <nischal2004coc@gmail.com>
+Date:   Sun Jun 16 12:35:44 2024 +0530
+
+    set loading to true on click
+
+[33mcommit e9e92f541fd1f934429fa5f108dc9ee7f3cf654f[m
+Author: mvking5464 <mvking5464@gmail.com>
+Date:   Sun Jun 16 10:55:00 2024 +0530
+
+    solved duplicate comment error
+
+[33mcommit bfa2c2c909cc9c29dd136a981f754ea805e53b8f[m
+Author: sai nikhil kethe <nikhilkethe007@gmail.com>
+Date:   Sat Jun 15 18:48:46 2024 +0000
+
+    ui updated
+
+[33mcommit 7bab81c07c83de90328b043f321232e9c0e6b377[m
+Merge: a198c79 a8adeac
+Author: Singh <38940603+siinghd@users.noreply.github.com>
+Date:   Sat Jun 15 09:06:35 2024 -0600
+
+    Merge pull request #602 from mvp5464/replyError
+    
+    Fix: Error while replying to comments + clicking on timestamp + going back from reply
+
+[33mcommit 5309d258b1051a4c1cd5f10a6c3a1bf77ba0e83c[m
+Author: Nischal Shetty <nischal2004coc@gmail.com>
+Date:   Sat Jun 15 19:41:06 2024 +0530
+
+    Changed button to disabled on load
+
+[33mcommit 31ea72104554047ba6564cf3451eb164c924ea66[m
+Merge: cdb0e1b a198c79
+Author: Nischal Shetty <nischal2004coc@gmail.com>
+Date:   Sat Jun 15 00:26:13 2024 +0530
+
+    Merge branch 'fix/certificateBug' of https://github.com/nischal-shetty2/cms into fix/certificateBug
+
+[33mcommit a198c79b08b17c62f63af7f9b303b526ddc53c1e[m
+Merge: 7232c99 cd9ccc9
+Author: Singh <38940603+siinghd@users.noreply.github.com>
+Date:   Fri Jun 14 09:51:22 2024 -0600
+
+    Merge pull request #781 from TanmayDhobale/lol
+    
+    feat: Add fallback to Bunny URLs if main URLs are not accessible
+
+[33mcommit cd9ccc9dd6e9a405942b5ee281c70b4ef7f43357[m
+Author: tanmay4l <mrspot67@gmail.com>
+Date:   Fri Jun 14 11:17:49 2024 +0530
+
+    Update ContentRenderer.tsx
+
+[33mcommit 7232c99d015b1ebe8a27082bf82049bf5b5285e3[m
+Merge: 6e0bc8a 31fbf40
+Author: Singh <38940603+siinghd@users.noreply.github.com>
+Date:   Thu Jun 13 21:18:16 2024 -0600
+
+    Merge pull request #770 from thrishank/tailwind-prettier
+    
+    Tailwind prettier
+
+[33mcommit 31fbf40f222b76d3061e169c75e21cd696943c8b[m
+Merge: c82d0a1 6e0bc8a
+Author: Singh <38940603+siinghd@users.noreply.github.com>
+Date:   Thu Jun 13 21:13:23 2024 -0600
+
+    Merge branch 'main' into tailwind-prettier
+
+[33mcommit 6e0bc8af01ea0eb7c19e91bdd5e5f680b7c2001a[m
+Merge: ece4159 ee2ce2e
+Author: Singh <38940603+siinghd@users.noreply.github.com>
+Date:   Thu Jun 13 18:52:54 2024 -0600
+
+    Merge pull request #778 from aadeshkulkarni/chore/singleton-cache
+    
+    Chore | Singleton implementation for Cache
+
+[33mcommit ece4159aa108a3345ea0608e91770f99e5713c82[m
+Merge: 91d008e 6f3e2da
+Author: Singh <38940603+siinghd@users.noreply.github.com>
+Date:   Thu Jun 13 16:13:43 2024 -0600
+
+    Merge pull request #730 from JTiscodin/feature/linkedIn-lightmode-fix
+    
+    Fixed Share on LinkedIn button not visible initially on hover in light mode
+
+[33mcommit 0886e996a183b57cde5b05d8f0c4ed0a676cadc0[m
+Author: tanmay4l <mrspot67@gmail.com>
+Date:   Fri Jun 14 00:19:17 2024 +0530
+
+    Update ContentRenderer.tsx
+
+[33mcommit bd0fd2b62281361686a8c246cdb8e98a2f5bad29[m
+Author: tanmay4l <mrspot67@gmail.com>
+Date:   Fri Jun 14 00:00:41 2024 +0530
+
+    Update ContentRenderer.tsx
+
+[33mcommit c49d307faa70cd035f8314b208b7ece0daedf2d8[m
+Author: tanmay4l <mrspot67@gmail.com>
+Date:   Thu Jun 13 23:55:37 2024 +0530
+
+    Update ContentRenderer.tsx
+
+[33mcommit 1198a4a1a08deffa7783d64b5a3e5c00c8fb7404[m
+Author: tanmay4l <mrspot67@gmail.com>
+Date:   Thu Jun 13 23:29:22 2024 +0530
+
+    Update ContentRenderer.tsx
+
+[33mcommit 6f3e2da6c9203241fe01e60716e6f915b40a5027[m
+Merge: ea809f8 8873a90
+Author: Jatin Tilwani <jatintilwani500@gmail.com>
+Date:   Thu Jun 13 23:19:48 2024 +0530
+
+    Merge branch 'main' of https://github.com/JTiscodin/cms into feature/linkedIn-lightmode-fix
+
+[33mcommit a3251fefe416261054c3d0b4edbe67092db76b9e[m
+Author: tanmay4l <mrspot67@gmail.com>
+Date:   Thu Jun 13 23:01:46 2024 +0530
+
+    Update ContentRenderer.tsx
+
+[33mcommit 699ab18b7d548eba03b0635366ec9a0335bfea14[m
+Author: tanmay4l <mrspot67@gmail.com>
+Date:   Thu Jun 13 13:40:16 2024 +0530
+
+    Update ContentRenderer.tsx
+
+[33mcommit 4ae93095e4d1a17024d43b473ab08482ef6f96a6[m
+Author: tanmay4l <mrspot67@gmail.com>
+Date:   Thu Jun 13 13:27:31 2024 +0530
+
+    Update ContentRenderer.tsx
+
+[33mcommit 3992e7d51dd68f9d112820f5580159d0b00e6e4a[m
+Author: tanmay4l <mrspot67@gmail.com>
+Date:   Thu Jun 13 13:23:43 2024 +0530
+
+    Update ContentRenderer.tsx
+
+[33mcommit 9f9bf03258a0b5b39b62a0bd053e5668b1592815[m
+Author: tanmay4l <mrspot67@gmail.com>
+Date:   Thu Jun 13 13:06:50 2024 +0530
+
+    Update ContentRenderer.tsx
+
+[33mcommit ee2ce2ecbf30391f92af617bf30f551676ef6ad0[m
+Author: Aadesh Kulkarni <aadeshkulkarni@Aadeshs-MacBook-Pro.local>
+Date:   Wed Jun 12 18:22:52 2024 +0530
+
+    chore: improving code maintainability for singleton cache
+
+[33mcommit 91d008e185d1eec02a683d8baf9b5c628952c3d8[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Mon Jun 10 20:08:03 2024 +0530
+
+    added proxy urls
+
+[33mcommit d7baa2428acda6cf0b95292be025d0f47725f347[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Mon Jun 10 19:56:51 2024 +0530
+
+    Added proxy
+
+[33mcommit 8873a9012d684973d7b9f3f7e1ab23819bcabae2[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Thu Jun 6 12:05:34 2024 +0530
+
+    revert videos
+
+[33mcommit c82d0a1312539d59f48e52584711eb638c5db109[m
+Author: thrishank <thrishankkalluru@gmail.com>
+Date:   Wed Jun 5 18:37:36 2024 +0530
+
+    formatting the whole codebase
+
+[33mcommit ffc22dc645744f6598f239d7710f56e44b223ae2[m
+Author: thrishank <thrishankkalluru@gmail.com>
+Date:   Wed Jun 5 18:33:37 2024 +0530
+
+    adding the tailwind-prettier-plugin
+
+[33mcommit cdb0e1b389956edd32fbec85525b4de5b55b8ee1[m
+Author: Nischal Shetty <nischal2004coc@gmail.com>
+Date:   Tue Jun 4 23:53:48 2024 +0530
+
+    Fixed certificate download Bug
+
+[33mcommit 3020106b36a0071cf73968c55bed28affc1e345a[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Tue Jun 4 20:51:32 2024 +0530
+
+    Migrated
+
+[33mcommit ba559b97430e089db1226330d366c02dc0a44640[m
+Merge: 811bbe1 dbd0219
+Author: Kirat <harkirat96@gmail.com>
+Date:   Mon Jun 3 05:25:03 2024 +0530
+
+    Merge pull request #713 from piyushmishra1416/test-setup
+    
+    feature: Bootstrapped Unit and Integration tests
+
+[33mcommit 811bbe18a5d1dddd9a499e4efbd3b288246b9deb[m
+Merge: 81f72d0 3285ba2
+Author: Kirat <harkirat96@gmail.com>
+Date:   Mon Jun 3 05:20:05 2024 +0530
+
+    Merge pull request #728 from AyushShivhare79/fix--dynamic-description-and-typo
+    
+    Added dynamic description and fixed typo error
+
+[33mcommit 81f72d09d57d73772cc6efb84cd503579d000cb1[m
+Merge: 8a060b3 26e17a2
+Author: Kirat <harkirat96@gmail.com>
+Date:   Mon Jun 3 05:18:06 2024 +0530
+
+    Merge pull request #716 from Pritam12F/fixedquessort
+    
+    fixed sorting questions and adding middlewares
+
+[33mcommit 8a060b3417e7169f382b621b08122bee0208f012[m
+Merge: 4c0d31c adda60a
+Author: Kirat <harkirat96@gmail.com>
+Date:   Mon Jun 3 05:09:24 2024 +0530
+
+    Merge pull request #753 from code100x/hkirat/prisma-migrate
+    
+    Migrated prisma
+
+[33mcommit adda60a263c0a6b450c214b516d54e6f1855bfb9[m
+Author: Ubuntu <ubuntu@ip-172-31-92-166.ec2.internal>
+Date:   Sat Jun 1 21:33:57 2024 +0000
+
+    Migrated prisma
+
+[33mcommit 4c0d31ca9c47a06c823b1773a4548a7a63ab63aa[m
+Author: Kirat <harkirat96@gmail.com>
+Date:   Sun Jun 2 03:01:35 2024 +0530
+
+    Update schema.prisma
+
+[33mcommit 0c251d2917a66e61c5950c80c5238056d50a4741[m
+Merge: 00af23b 0be2f33
+Author: Kirat <harkirat96@gmail.com>
+Date:   Sun Jun 2 03:01:11 2024 +0530
+
+    Merge pull request #747 from nimit9/chore--migration-status-db-changes
+    
+    added migration status to video metadata
+
+[33mcommit 0be2f33821fd8b98db556f664424a85e7004b566[m
+Author: Nimit <nimitharia007@gmail.com>
+Date:   Sat Jun 1 22:28:32 2024 +0530
+
+    added migration status to video metadata
+
+[33mcommit dbd02197dd354fed3f229462691b8ef5337d1f92[m
+Author: Piyush <91911367+piyushmishra1416@users.noreply.github.com.>
+Date:   Thu May 30 12:06:44 2024 +0530
+
+    fixed unit test coverage
+
+[33mcommit 3285ba2163bbe465ef439773b998f8ba9e2bdd8d[m
+Author: AyushShivhare79 <ayushshivhare1008@gmail.com>
+Date:   Wed May 29 23:39:32 2024 +0530
+
+    Improved certificate & description and description always as center
+
+[33mcommit ea809f841993844010ef5cc9cdf0ae5a37fd2a14[m
+Author: Jatin Tilwani <jatintilwani500@gmail.com>
+Date:   Wed May 29 20:20:48 2024 +0530
+
+    Fixed Share on LinkedIn button not visible initially on hover in light mode.
+
+[33mcommit 031039b4d470862c554d149004d8a99d71d179a5[m
+Author: AyushShivhare79 <ayushshivhare1008@gmail.com>
+Date:   Wed May 29 18:19:15 2024 +0530
+
+    added dynamic description and fixed typo error
+
+[33mcommit 26e17a223f0e5035f606d1aa80091a569ce7cd48[m
+Merge: 896f42b 00af23b
+Author: Pritam Das <pritam.das.santu@gmail.com>
+Date:   Mon May 27 22:42:41 2024 +0530
+
+    Merge branch 'code100x:main' into fixedquessort
+
+[33mcommit 00af23b0cbe80e733ad19f2ce146f12cc43eac9e[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Mon May 27 20:51:49 2024 +0530
+
+    Fixed cert layout
+
+[33mcommit cc150d17c7eda9f57d7d38b9f7186fff742915da[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Mon May 27 20:35:44 2024 +0530
+
+    Updated cert
+
+[33mcommit a3b5068306260d053bdb149860963cba0432ac88[m
+Merge: 7368c83 679d82d
+Author: Kirat <harkirat96@gmail.com>
+Date:   Mon May 27 20:35:23 2024 +0530
+
+    Merge pull request #609 from TanmayDhobale/reply-btn
+    
+    fixed the cert design !!
+
+[33mcommit 679d82dc1a49756fce93c0d49db49f5d3fb88301[m
+Merge: d63df87 7368c83
+Author: Kirat <harkirat96@gmail.com>
+Date:   Mon May 27 20:35:11 2024 +0530
+
+    Merge branch 'main' into reply-btn
+
+[33mcommit a8adeacdde0a79dfb94ad517243f003dc4c71d5a[m
+Author: mvking5464 <mvking5464@gmail.com>
+Date:   Mon May 27 16:03:49 2024 +0530
+
+    solved by sending courseId instead of contentId
+
+[33mcommit 896f42b94e2f0164caa38353fec81b14021da602[m
+Author: PritamDas <pritam.das.santu@gmail.com>
+Date:   Mon May 27 13:51:56 2024 +0530
+
+    fixed sorting questions and adding middlewares to questions and bookmarks
+
+[33mcommit 20af16f4d146c477730dcf731da1c96aa43b5c4c[m
+Author: Piyush <91911367+piyushmishra1416@users.noreply.github.com.>
+Date:   Mon May 27 13:17:53 2024 +0530
+
+    removed unnecessary codes
+
+[33mcommit 9785b093c7d4b9b13ca2b72ad036ebbac9955b5c[m
+Author: Piyush <91911367+piyushmishra1416@users.noreply.github.com.>
+Date:   Mon May 27 12:22:54 2024 +0530
+
+    fixed env variable loading issue
+
+[33mcommit 8a090ba95f4ce34abb89175d99029bbb42035374[m
+Author: Piyush <91911367+piyushmishra1416@users.noreply.github.com.>
+Date:   Sun May 26 19:55:58 2024 +0530
+
+    integration test setup added
+
+[33mcommit cd04c7235eff8cde3198a56d9896b9183845180a[m
+Author: Piyush <91911367+piyushmishra1416@users.noreply.github.com.>
+Date:   Sat May 25 12:50:14 2024 +0530
+
+    basic setup for collecting coverage
+
+[33mcommit b62554db3ed858a046c83003e9215302483b959a[m
+Author: Piyush <91911367+piyushmishra1416@users.noreply.github.com.>
+Date:   Sat May 25 12:46:24 2024 +0530
+
+    mocked prisma and added an example test
+
+[33mcommit b97045382340fc503959a8fc6dc9b5f7dfed293c[m
+Author: Piyush <91911367+piyushmishra1416@users.noreply.github.com.>
+Date:   Fri May 24 14:40:34 2024 +0530
+
+    lint fix
+
+[33mcommit ddb3522524298678538d68f4fd958c267640aef5[m
+Author: Piyush <91911367+piyushmishra1416@users.noreply.github.com.>
+Date:   Fri May 24 14:39:17 2024 +0530
+
+    actual test written and test setup updated
+
+[33mcommit 58852a361506250da2ac35e798f4f884fbe7d5bc[m
+Author: Piyush <91911367+piyushmishra1416@users.noreply.github.com.>
+Date:   Fri May 24 14:34:53 2024 +0530
+
+    basic test setup
+
+[33mcommit 7368c83cf1ceba3eaa44b00861335ab10526ebff[m
+Merge: e69cef4 8291202
+Author: Kirat <harkirat96@gmail.com>
+Date:   Wed May 22 03:21:47 2024 +0530
+
+    Merge pull request #622 from kethesainikhil/erorr/redirect
+    
+    redirect to home fixed from InHouseError page
+
+[33mcommit e69cef4a687a933ca192d70525ce10bd22283fa8[m
+Merge: 57c7627 6a9233d
+Author: Kirat <harkirat96@gmail.com>
+Date:   Wed May 22 03:18:13 2024 +0530
+
+    Merge pull request #642 from Ankur1493/questionsPage
+    
+    Questions page
+
+[33mcommit 57c7627842e7efbeb013be725bdafe84c2913e0e[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Wed May 22 03:16:26 2024 +0530
+
+    Updated package
+
+[33mcommit 8967d53ba451d33af4ce6c777290d41d5cbacb92[m
+Merge: 308b8df d22ec37
+Author: Kirat <harkirat96@gmail.com>
+Date:   Wed May 22 03:07:46 2024 +0530
+
+    Merge pull request #688 from manishpali17/fix-bookmark-wrong-redirect
+    
+    Fix bookmark redirecting to worng content
+
+[33mcommit d22ec371bc35b77662537058a6a65b07f22dd838[m
+Author: manishpali17 <129128602+manishpali17@users.noreply.github.com>
+Date:   Tue May 21 07:32:34 2024 +0530
+
+    Fix bookmark redirecting to worng content
+
+[33mcommit 308b8df274799d09dcd2d2c76f37e58cdbcade71[m
+Merge: 6838573 a3c729d
+Author: Kirat <harkirat96@gmail.com>
+Date:   Mon May 20 03:21:21 2024 +0530
+
+    Merge pull request #647 from pkmanas22/fixes/632-appbar
+    
+    fix/632 appbar fixes, hide join now and login button while loading
+
+[33mcommit 6838573930f84d8ec5b1f96268bde44f24a18db0[m
+Merge: f27ef33 471602e
+Author: Kirat <harkirat96@gmail.com>
+Date:   Mon May 20 02:25:45 2024 +0530
+
+    Merge pull request #652 from punyakrit/videoplayer
+    
+    keyboard control for video progress handling
+
+[33mcommit f27ef330ae93653ae7c039dce4e7059b2581b278[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Mon May 20 02:21:31 2024 +0530
+
+    Type rewrite, fixed bookmarks
+
+[33mcommit e2c19df8d20b1368c9a0559d4d32fe0f863aaf59[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Mon May 20 01:20:22 2024 +0530
+
+    Fixed complete
+
+[33mcommit 1b1a813404645152b9613ae84487370affb0a957[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Mon May 20 01:17:25 2024 +0530
+
+    Fixed build
+
+[33mcommit d2260d08ab12f3d1c5851e990a685013cc5c0099[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Mon May 20 01:16:45 2024 +0530
+
+    fix type error
+
+[33mcommit c3713ff29478fd90d20f964bd4a7e6bc4927b027[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Mon May 20 01:15:12 2024 +0530
+
+    fix build
+
+[33mcommit 47b810d9f17df5ac834f8876a2d902963b1be6b5[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Mon May 20 01:13:56 2024 +0530
+
+    fix build
+
+[33mcommit f40207b03faebf8e6e13043237b09ac713988c6f[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Mon May 20 01:13:03 2024 +0530
+
+    Fix build
+
+[33mcommit 5c036f0ee815f1dcf56f6360c881b5d1f8a7defc[m
+Merge: fa02f5d d33d88a
+Author: Kirat <harkirat96@gmail.com>
+Date:   Mon May 20 00:48:43 2024 +0530
+
+    Merge pull request #683 from code100x/hkirat/fix-bookmarks
+    
+    fixed bookmarks
+
+[33mcommit d33d88a2bde3e96e3ef1b98741434f0a30c09d2e[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Mon May 20 00:44:01 2024 +0530
+
+    fixed bookmarks
+
+[33mcommit fa02f5d8ae369045c95dc9c206efcda8a120587f[m
+Merge: 79ac4b9 57798c5
+Author: Kirat <harkirat96@gmail.com>
+Date:   Mon May 20 00:30:45 2024 +0530
+
+    Merge pull request #682 from yash-kh/bug/videoProgress
+    
+    video progress bug fix
+
+[33mcommit 57798c52682500a6ee0b3debeaf660e8ac4bdaae[m
+Author: yash-kh <user2@Yashs-MacBook-Air.local>
+Date:   Sun May 19 23:50:19 2024 +0530
+
+    video progress bug fix
+
+[33mcommit 471602efefd489087598a450dede87d4055db708[m
+Author: Punyakrit <punyakritsinghmakhni@gmail.com>
+Date:   Thu May 16 23:46:21 2024 +0530
+
+    add keyboard control for and video progress handling
+
+[33mcommit bcc14017d1ab0c010568cd6636b1d96490a0c9da[m
+Merge: 24341cc 79ac4b9
+Author: Punyakrit Singh Makhni <67222925+punyakrit@users.noreply.github.com>
+Date:   Thu May 16 23:08:30 2024 +0530
+
+    Merge branch 'code100x:main' into main
+
+[33mcommit a3c729db785f2af8a057840eb512ea6a11df32c7[m
+Author: Manas Kumar Pradhan <pkmanas22@gmail.com>
+Date:   Thu May 16 19:56:43 2024 +0530
+
+    fix/632 appbar fixes, hide join now and login button while loading
+
+[33mcommit 6a9233daeff334beb4a7286043bfe92a2f371b29[m
+Author: Ankur1493 <ankursharma1493@gmail.com>
+Date:   Wed May 15 20:15:48 2024 +0530
+
+    added questions page in dropdown
+
+[33mcommit 194f384ee9b447db284939a1f4e063974bf022f9[m
+Author: Ankur1493 <ankursharma1493@gmail.com>
+Date:   Tue May 14 21:07:29 2024 +0530
+
+    bug on running the docker-compose up
+
+[33mcommit 79ac4b9b67a3c78d4e4760c39895f63174dfba12[m
+Merge: 847e4a1 42ac411
+Author: Kirat <harkirat96@gmail.com>
+Date:   Tue May 14 15:32:42 2024 +0530
+
+    Merge pull request #470 from sheninthjr/sheninthjr/storybook
+    
+    Story Book initialized for CourseCard
+
+[33mcommit 42ac411c463ae99ab42e566ff14dfd142460040a[m
+Merge: 87c93b9 847e4a1
+Author: Sheninth Jr <129896101+sheninthjr@users.noreply.github.com>
+Date:   Tue May 14 15:14:29 2024 +0530
+
+    Merge branch 'main' into sheninthjr/storybook
+
+[33mcommit 8291202c16bddaf32b2fee87367feb47d25205a1[m
+Author: sai nikhil kethe <nikhilkethe007@gmail.com>
+Date:   Tue May 14 06:08:35 2024 +0000
+
+    redirect to home fixed
+
+[33mcommit d63df87676a5171dde3b7694d15ee406bbb70fe2[m
+Author: TANMAY <tanmay@TANMAYs-MacBook-Air.local>
+Date:   Mon May 13 16:54:53 2024 +0530
+
+     changed the cert design and seed
+
+[33mcommit 01ce7a56f43f166f45d724829193e33b1784bf69[m
+Author: mvking5464 <mvking5464@gmail.com>
+Date:   Mon May 13 13:15:23 2024 +0530
+
+    Go back button error solve
+
+[33mcommit 0b06c62a05fb84159d724c31d91847727ecc8291[m
+Author: mvking5464 <mvking5464@gmail.com>
+Date:   Mon May 13 13:00:19 2024 +0530
+
+    optimize reply error also solve timestamp error
+
+[33mcommit 66c1732d4ecb6bf6465b0fb21f44f9b0aff158e8[m
+Author: mvking5464 <mvking5464@gmail.com>
+Date:   Mon May 13 12:37:43 2024 +0530
+
+    reply error solved
+
+[33mcommit 8482c4473f2ec3920f4fec5a2377469323826fd5[m
+Author: tanmay4l <mrspot67@gmail.com>
+Date:   Mon May 13 11:25:18 2024 +0530
+
+    Update ContentCard.tsx
+
+[33mcommit 5e9e981ad0efd34d352c22a663af84d79e44ded0[m
+Author: tanmay4l <mrspot67@gmail.com>
+Date:   Mon May 13 11:24:53 2024 +0530
+
+    Update ContentCard.tsx
+
+[33mcommit d71fda1720ccbd422a6478b90170f8fa3da78d22[m
+Merge: a9e773c 847e4a1
+Author: tanmay4l <mrspot67@gmail.com>
+Date:   Mon May 13 11:19:31 2024 +0530
+
+    Merge branch 'main' into segment
+
+[33mcommit a9e773c823f34f66057695ab15e300a801ba8cc3[m
+Author: TANMAY <tanmay@TANMAYs-MacBook-Air.local>
+Date:   Mon May 13 11:16:59 2024 +0530
+
+     fixed the seed file
+
+[33mcommit 847e4a199cd19027c97fcf984f36234ec9bed56e[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Mon May 13 10:38:39 2024 +0530
+
+    fixed url
+
+[33mcommit 7f18d93ee7d0f9c3af94d72e9d6ad0424587dcf1[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Mon May 13 10:36:21 2024 +0530
+
+    revert video player for now
+
+[33mcommit ab8a5e9a9244977a48ff7acf44e27ca2b2eca66d[m
+Merge: e953897 f40ffc4
+Author: Kirat <harkirat96@gmail.com>
+Date:   Mon May 13 10:22:18 2024 +0530
+
+    Merge pull request #593 from Akash1000x/video-controls-not-visible-in-full-screen
+    
+    fix/video controls not visible in full screen
+
+[33mcommit 24341ccb51ab8a57dfb0ab2adb7b2465064b01c9[m
+Merge: baf13be e953897
+Author: Punyakrit Singh Makhni <67222925+punyakrit@users.noreply.github.com>
+Date:   Mon May 13 05:21:53 2024 +0530
+
+    Merge branch 'code100x:main' into main
+
+[33mcommit f40ffc498cc6197be3124fe608d7916805226066[m
+Author: Akash kumar kumawat <113286019+Akash1000x@users.noreply.github.com>
+Date:   Mon May 13 04:49:50 2024 +0530
+
+    fix/video controls not visible in full screen
+
+[33mcommit e95389726d2d78d90a647acbeb6f45dc1e68a670[m
+Merge: 2024b15 15227af
+Author: Kirat <harkirat96@gmail.com>
+Date:   Mon May 13 03:53:22 2024 +0530
+
+    Merge pull request #311 from nimit9/fix/animation-card-history
+    
+    fix: skeleton for history page
+
+[33mcommit 2024b15abcb1e2e2a0daf31effd87f4f01bda85f[m
+Merge: f419064 f9bc836
+Author: Kirat <harkirat96@gmail.com>
+Date:   Mon May 13 03:49:52 2024 +0530
+
+    Merge pull request #451 from haddercone/session-log
+    
+    removed session log from console
+
+[33mcommit f419064f77901fec56a33cfeeebf4138eb4464fa[m
+Merge: 7e71a13 4b5da3b
+Author: Kirat <harkirat96@gmail.com>
+Date:   Mon May 13 03:35:00 2024 +0530
+
+    Merge pull request #517 from avdhoot-hadke/fix/issue-515/time-duration-themes
+    
+    fix: #515 add text colour to time duration
+
+[33mcommit 7e71a13047afcc460285c0dd22fda60b8a9d35c1[m
+Merge: 73563d8 e41e635
+Author: Kirat <harkirat96@gmail.com>
+Date:   Mon May 13 03:32:52 2024 +0530
+
+    Merge pull request #479 from Akash1000x/revert-474-fix/sidebar-mobile-ux
+    
+    Revert "fix: sidebar update for mobile ux"
+
+[33mcommit baf13be5bb11bb061b0554c0169441eefbf74f57[m
+Author: Punyakrit <punyakritsinghmakhni@gmail.com>
+Date:   Mon May 13 03:29:06 2024 +0530
+
+    overflow ui fix
+
+[33mcommit 73563d8ca3860b6ff07571eecb4ebe79fcc0ae0f[m
+Merge: 7f93f33 b771ff8
+Author: Kirat <harkirat96@gmail.com>
+Date:   Mon May 13 03:28:32 2024 +0530
+
+    Merge pull request #481 from Rajgupta36/Feature_Video_Autoplay_on_Hover
+    
+    Added Feature video autoplay on hover #480
+
+[33mcommit 7f93f33090eca58e73905ff0eddf6d0355e8befb[m
+Merge: d372843 040f874
+Author: Kirat <harkirat96@gmail.com>
+Date:   Mon May 13 03:26:28 2024 +0530
+
+    Merge pull request #505 from VishruthVS/main
+    
+    Adjusted ChevronRight(icon) color based on theme on landing-page
+
+[33mcommit d3728439b2c285cd4616a619e429a1b2e98f1e80[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Mon May 13 03:20:29 2024 +0530
+
+    fixed bookmarkts
+
+[33mcommit 51a3c06ca63b7f065909d6d9f30810c9568eb9a0[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Mon May 13 03:15:11 2024 +0530
+
+    Fixed bookmarks
+
+[33mcommit 2292d9cf38539d9a508bd10b1c0213f82f886def[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Mon May 13 03:05:13 2024 +0530
+
+    removed sharp
+
+[33mcommit ce556564db2dc12d97db07f331e728905c1c31e3[m
+Merge: 2f319c5 bf05949
+Author: Kirat <harkirat96@gmail.com>
+Date:   Mon May 13 02:51:57 2024 +0530
+
+    Merge pull request #319 from nimit9/feat/user-profile-menu
+    
+    feat: user profile dropdown
+
+[33mcommit bf05949be02d259776343d14fd8ab6ae95ce7cf3[m
+Merge: e7de18c 2f319c5
+Author: Kirat <harkirat96@gmail.com>
+Date:   Mon May 13 02:49:36 2024 +0530
+
+    Merge branch 'main' into feat/user-profile-menu
+
+[33mcommit 2f319c5782395b9192c98c049fd5d3bd3f233df5[m
+Merge: 0c7a71b 904d02d
+Author: Kirat <harkirat96@gmail.com>
+Date:   Mon May 13 02:38:53 2024 +0530
+
+    Merge pull request #495 from mumin-khan/chore--better-search-results
+    
+    chore: increase min char match length
+
+[33mcommit 0c7a71b779f5cb7c651ec2335d7640b7b635602f[m
+Merge: 12ae36f 61dba0f
+Author: Kirat <harkirat96@gmail.com>
+Date:   Mon May 13 02:36:50 2024 +0530
+
+    Merge pull request #494 from shuaibu-shehu/ssa/fix
+    
+    shortcut key for increasing/decreasing vol
+
+[33mcommit 12ae36f516c7047441bc810bead4d39e06699b10[m
+Merge: bd91594 7715f6c
+Author: Kirat <harkirat96@gmail.com>
+Date:   Mon May 13 02:32:02 2024 +0530
+
+    Merge pull request #482 from vikaspatil0021/new-video-player
+    
+    New video player Controls
+
+[33mcommit bd915949776abc2fdd1582226fc568fef87ae00f[m
+Merge: a90e49f 1fc1faf
+Author: Kirat <harkirat96@gmail.com>
+Date:   Mon May 13 02:30:08 2024 +0530
+
+    Merge pull request #491 from shetty456/main
+    
+    resovle migration content in readme
+
+[33mcommit 1fc1fafc46269a3979ae055668941bdc57e78394[m
+Merge: 497d780 a90e49f
+Author: Kirat <harkirat96@gmail.com>
+Date:   Mon May 13 02:29:58 2024 +0530
+
+    Merge branch 'main' into main
+
+[33mcommit a90e49fab1fc06fc0cd3dd7eda6e05e271770b14[m
+Merge: 4faf90a 1c19998
+Author: Kirat <harkirat96@gmail.com>
+Date:   Mon May 13 02:28:19 2024 +0530
+
+    Merge pull request #536 from iamnithishraja/nithish/improved-docker
+    
+    fixed docker hot reaload on windows
+
+[33mcommit 4faf90a3f8561a76094f0446350a34d3ac20f545[m
+Merge: aaa3799 d453eb0
+Author: Kirat <harkirat96@gmail.com>
+Date:   Mon May 13 02:25:13 2024 +0530
+
+    Merge pull request #553 from kethesainikhil/feature/inHouseError
+    
+    InHouse Error Page Introuduced
+
+[33mcommit aaa3799669977bcfe2aa47c7815fb589f39525df[m
+Merge: 278e2c2 e8ec954
+Author: Kirat <harkirat96@gmail.com>
+Date:   Mon May 13 02:24:45 2024 +0530
+
+    Merge pull request #508 from CodeTorso/feature/improved-theme-toggler
+    
+    theme toggler simplified
+
+[33mcommit 278e2c25c421e50d83ab6075dbf8464404247fde[m
+Merge: 46338bf a1d7761
+Author: Kirat <harkirat96@gmail.com>
+Date:   Mon May 13 02:20:40 2024 +0530
+
+    Merge pull request #543 from himanshugupta2168/comment/filter-bug
+    
+    fixed the comment filter issue
+
+[33mcommit a1d7761140a72f84ad84ed9183e72b9ca4fe909e[m
+Merge: b871024 46338bf
+Author: Kirat <harkirat96@gmail.com>
+Date:   Mon May 13 02:20:34 2024 +0530
+
+    Merge branch 'main' into comment/filter-bug
+
+[33mcommit 46338bfe0c30954f27747057680488700d19886d[m
+Merge: ef6436e eea291f
+Author: Kirat <harkirat96@gmail.com>
+Date:   Mon May 13 02:16:29 2024 +0530
+
+    Merge pull request #512 from prateekkumaroriginal/patch-1
+    
+    Fix issue #511
+
+[33mcommit ef6436e9b0a02417fee68a2edbc9f1da1a335a15[m
+Merge: 051db4d fbe7a04
+Author: Kirat <harkirat96@gmail.com>
+Date:   Mon May 13 02:14:39 2024 +0530
+
+    Merge pull request #488 from bikaxh01/enhance/signin_page
+    
+    BugFixed_signIn_form/fixed_Toast
+
+[33mcommit fbe7a0434ff6211e63622cd706c26cfe3025dc0b[m
+Merge: 32ee84f 051db4d
+Author: Kirat <harkirat96@gmail.com>
+Date:   Mon May 13 02:14:34 2024 +0530
+
+    Merge branch 'main' into enhance/signin_page
+
+[33mcommit 051db4d2be855f993df6bf1ffeb42bfb2e2fd5ea[m
+Merge: 92db970 621d286
+Author: Kirat <harkirat96@gmail.com>
+Date:   Mon May 13 02:10:45 2024 +0530
+
+    Merge pull request #516 from rathoreyuvraj19/feature/bug510
+    
+    Fixed bug #510
+
+[33mcommit 92db970fe5d636d3b6c672d349a810f890025bda[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Mon May 13 02:00:22 2024 +0530
+
+    got rid of canvas library
+
+[33mcommit 0d3f37a46cc2f18b0bcca03dfee59e020ed16a22[m
+Merge: c9eac54 d01ca2f
+Author: Kirat <harkirat96@gmail.com>
+Date:   Mon May 13 02:00:10 2024 +0530
+
+    Merge pull request #578 from code100x/revert-564-canva-docker-update
+    
+    Revert "update docker file fixing error in 'RUN npm install' caused by canvas package"
+
+[33mcommit d01ca2f98592907bcc0f2ad710523788ae0b8d92[m
+Author: Kirat <harkirat96@gmail.com>
+Date:   Mon May 13 02:00:03 2024 +0530
+
+    Revert "update docker file fixing error in 'RUN npm install' caused by canvas package"
+
+[33mcommit c9eac54e48ed386a8bd741e0fe20db4e6c6705ed[m
+Merge: 92df7f2 4a00a10
+Author: Kirat <harkirat96@gmail.com>
+Date:   Mon May 13 01:57:26 2024 +0530
+
+    Merge pull request #564 from Arup20MA20010/canva-docker-update
+    
+    update docker file fixing error in 'RUN npm install' caused by canvas package
+
+[33mcommit 92df7f26175bb3411a5b5cb64fbdb39e35637c67[m
+Merge: 875caca 7d92552
+Author: Kirat <harkirat96@gmail.com>
+Date:   Mon May 13 01:57:08 2024 +0530
+
+    Merge pull request #525 from Ameerjafar/Ameerjafar-patch-1
+    
+    FIXING #524 ERROR
+
+[33mcommit 875caca739950cc17e1e88704bdd7517c11d466d[m
+Merge: 9db413a d55703c
+Author: Kirat <harkirat96@gmail.com>
+Date:   Mon May 13 01:52:40 2024 +0530
+
+    Merge pull request #493 from hxdy-1/Adds-validation-on-API-routes
+    
+    Added request input validation on API routes
+
+[33mcommit 9db413a274f1b76ee648a62132602564318fbf98[m
+Merge: ecf286e b761439
+Author: Kirat <harkirat96@gmail.com>
+Date:   Mon May 13 01:52:23 2024 +0530
+
+    Merge pull request #475 from vijaysingh2219/main
+    
+    Implementing Next.js Link Component in Sidebar
+
+[33mcommit ecf286ef057a52b55dacd00f6b9794ac2dc36184[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Sun May 12 23:28:34 2024 +0530
+
+    Fixed sidebar
+
+[33mcommit 9d537982091711fcf903b81cb5237ca18d648671[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Sun May 12 23:22:25 2024 +0530
+
+    Updated cert
+
+[33mcommit 00f0c2f58f85a24bde5b011be98b5ff8cbd6e93e[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Sun May 12 23:16:12 2024 +0530
+
+    Fixed Cert layout
+
+[33mcommit f804b3eb314dfa98a41749b83dc08eab3fd8a066[m
+Merge: e91505a 4396829
+Author: Kirat <harkirat96@gmail.com>
+Date:   Sun May 12 23:15:32 2024 +0530
+
+    Merge pull request #573 from ssk090/feat/navbar-loader
+    
+    feat: added navbar loader
+
+[33mcommit e91505ab0757758b614a2b91b1473fd8487b9b85[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Sun May 12 23:09:48 2024 +0530
+
+    Fixes cert
+
+[33mcommit 439682937735181895aa9f5b25697e4dbfb92afb[m
+Author: ssk090 <shivanandasai.38@gmail.com>
+Date:   Sun May 12 23:08:04 2024 +0530
+
+    feat: added navbar loader
+
+[33mcommit db82971c02def6c8800092b67c396f78db222d26[m
+Merge: 8b567c6 6699e8c
+Author: Kirat <harkirat96@gmail.com>
+Date:   Sun May 12 22:44:17 2024 +0530
+
+    Merge pull request #554 from Gautam-Hegde/refact/certgen
+    
+    feat: generate and verify certificate on frontend
+
+[33mcommit 8b567c6663e40ac5e3b275fb8f8bbdc9d221f339[m
+Merge: a653737 5e0429e
+Author: Kirat <harkirat96@gmail.com>
+Date:   Sun May 12 13:43:23 2024 +0530
+
+    Merge pull request #436 from siinghd/qa
+    
+    feat: introducing Qs&As, reddit like tiny platform
+
+[33mcommit 4a00a108f74bb2f9ec48ddbd87c2f3c3129df9d4[m
+Author: Arup20MA20010 <baralarup1430@gmail.com>
+Date:   Sat May 11 16:15:08 2024 +0530
+
+    update docker file fixing error in 'RUN npm install' caused by canvas
+
+[33mcommit 5e0429ee98c0818991f74baaf84280fe21789491[m
+Author: Harpreet Singh <szinghh@gmail.com>
+Date:   Fri May 10 12:41:52 2024 +0200
+
+    fix: build, there were some type problems
+
+[33mcommit 7647ff33e735cc84cf49f22e84afac29ea3ca4cb[m
+Author: Harpreet Singh <szinghh@gmail.com>
+Date:   Thu May 9 19:19:06 2024 +0200
+
+    fix: fix linting
+
+[33mcommit 76500072f714c2f50d1da41b382ebec115b55396[m
+Merge: dd4c995 e45a8b7
+Author: Harpreet Singh <szinghh@gmail.com>
+Date:   Thu May 9 18:59:27 2024 +0200
+
+    Merge branch 'qa' of https://github.com/siinghd/cmsv1 into qa
+    merge qa
+
+[33mcommit dd4c995525938373282230b0e651119f06a2de6f[m
+Author: Harpreet Singh <szinghh@gmail.com>
+Date:   Thu May 9 18:59:02 2024 +0200
+
+    feat: added disable for qa, redirect from serverside
+
+[33mcommit e45a8b730f70f123b7dd1eb83b1ffd54009ea8c3[m
+Merge: 111f310 a653737
+Author: Singh <38940603+siinghd@users.noreply.github.com>
+Date:   Thu May 9 10:30:17 2024 +0200
+
+    Merge branch 'main' into qa
+
+[33mcommit d453eb034f0f8a70154f1b2d5df3ce573609e5ee[m
+Author: kethe sai nikhil <nikhilkethe007@gmail.com>
+Date:   Thu May 9 10:52:15 2024 +0530
+
+    appropriate error added
+
+[33mcommit 44f7cc15d636484c7e299e3e6a72228eb52b8bba[m
+Author: kethe sai nikhil <nikhilkethe007@gmail.com>
+Date:   Thu May 9 02:57:04 2024 +0530
+
+    Error title added to the page
+
+[33mcommit 6699e8c51763e32914c233e0341338a436b0caa6[m
+Author: Gautam-Hegde <gautamatjob@protonmail.com>
+Date:   Thu May 9 00:33:38 2024 +0530
+
+    feat: gen certificate on frontend
+
+[33mcommit 676f648845e5c306a4629c93ffaed315876131be[m
+Author: kethe sai nikhil <nikhilkethe007@gmail.com>
+Date:   Wed May 8 12:39:46 2024 +0530
+
+    InHouse Error Page
+
+[33mcommit a6537378f8004786c7a60767b5d36a5c7ac4a1bb[m
+Merge: 62df681 61816f4
+Author: Kirat <harkirat96@gmail.com>
+Date:   Tue May 7 16:46:18 2024 +0530
+
+    Merge pull request #537 from kushaltolia/features/TypesFixInAuth
+    
+    fixed the any type with appropriate types in auth.ts
+
+[33mcommit 62df6819b4ee3e9991f577dc71407baea81eeb87[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Tue May 7 16:38:06 2024 +0530
+
+    Updated cert
+
+[33mcommit a6a4bab3ed409895dfb8bb7f1183b713962bf097[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Tue May 7 15:20:28 2024 +0530
+
+    revert tailwind config
+
+[33mcommit 160969e04c1e107929da3a714b99ae82d8d66c84[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Tue May 7 15:05:31 2024 +0530
+
+    Updated readme
+
+[33mcommit 12cd7be3c4a3664697a422816b689fcd3a801abf[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Tue May 7 13:04:14 2024 +0530
+
+    Restricted certs to certain course
+
+[33mcommit c1168ae770aa3cb899fe0e0a3bf3cba7cda6a05c[m
+Merge: 1663101 e74b44d
+Author: Kirat <harkirat96@gmail.com>
+Date:   Tue May 7 14:16:35 2024 +0700
+
+    Merge pull request #487 from dhruvilmehta/certificate
+    
+    Added certificate download and verification
+
+[33mcommit b871024fef4a7b56ca5f163dd1e80d9dedc1c208[m
+Author: himanshu2168.be21@chitkara.edu.in <himanshu2168.be21@chitkara.edu.in>
+Date:   Tue May 7 12:41:42 2024 +0530
+
+    fixed the commentfilter issue
+
+[33mcommit 61816f436f1eab884ae95b7b4876e109c6cbe920[m
+Author: Kushal Atolia <kushalatolia@Kushals-MacBook-Air.local>
+Date:   Mon May 6 01:46:57 2024 +0530
+
+    fixed the any type with appropriate types in auth.ts
+
+[33mcommit 1c1999864e68eceee44bad480abc6aa6ef9a4189[m
+Author: iamnithishraja <153272518+iamnithishraja@users.noreply.github.com>
+Date:   Sun May 5 19:14:54 2024 +0530
+
+    Update next.config.js
+
+[33mcommit 23b5255a819c77d08dad6784873cb840e1f3bad8[m
+Author: iamnithishraja <153272518+iamnithishraja@users.noreply.github.com>
+Date:   Sun May 5 19:05:23 2024 +0530
+
+    fixed docker hot reaload on windows
+
+[33mcommit 87c93b92f8cfcc9ce90d84d7b3f98c2ea4797731[m
+Merge: e5b3670 1663101
+Author: Sheninth Jr <129896101+sheninthjr@users.noreply.github.com>
+Date:   Sat May 4 21:20:06 2024 +0530
+
+    Merge branch 'main' into sheninthjr/storybook
+
+[33mcommit 7d925521213ab170708af9378704b494d47af369[m
+Author: Ameer jafar <105500361+Ameerjafar@users.noreply.github.com>
+Date:   Sat May 4 08:41:44 2024 +0530
+
+    FIXING #524 ERROR
+    
+    when setting up the project locally the prisma:migrate:dev is not present in package.json only prisma:mirgrate is present.
+
+[33mcommit 4b5da3b938b258df4ed4554886b3b8a645296cf5[m
+Author: Avdhoot Hadke <avdhoothadke@gmail.com>
+Date:   Thu May 2 00:12:07 2024 +0530
+
+    fix: #515 add text color to time duration
+
+[33mcommit 621d286f19aa05295c8cf8a0e123c8a27903fe67[m
+Author: Yuvraj Singh Rathore <rathore.yuvraj19@gmail.com>
+Date:   Wed May 1 23:56:15 2024 +0530
+
+    Fixed bug #510
+
+[33mcommit eea291fb9f73fd801125265403a5109a45a783ad[m
+Author: Prateek Kumar <89418989+prateekkumaroriginal@users.noreply.github.com>
+Date:   Wed May 1 01:13:38 2024 +0530
+
+    Fix issue #511
+    
+    Fixes issue in #511 . The request being sent was trimming the end trailing spaces. So, start checking by trimming the trailing spaces in the searchTerm on the page itself.
+
+[33mcommit e8ec954876f3f50905e39de8f3c94613e692e6b0[m
+Author: codetorso <pruthvirajthinks@gmail.com>
+Date:   Tue Apr 30 15:54:37 2024 +0530
+
+    theme toggler simplified
+
+[33mcommit e74b44dc3526e4992dadcc9f83ef9840bfb1ce35[m
+Author: Dhruvil Mehta <68022411+dhruvilmehta@users.noreply.github.com>
+Date:   Mon Apr 29 15:12:22 2024 -0700
+
+    Merged generate PDF/PNG logic into 1 file
+
+[33mcommit 040f8741aae2b4bdb7e7bdd0f25fa3787dda07dc[m
+Author: VishruthVS <vishruthvs2003@gmail.com>
+Date:   Tue Apr 30 01:39:16 2024 +0530
+
+    Adjusted ChevronRight(icon) color based on theme on landing-page
+
+[33mcommit be1b267d6915f00e5445e7ade522f20b73ea9380[m
+Author: Krish <prathamrajsri2003@gmail.com>
+Date:   Sun Apr 28 14:36:52 2024 +0530
+
+    fixed refresh-db
+
+[33mcommit c37e5d0febaa2fcbbdfcc7fc9e5367dfcb16b58c[m
+Author: Abhishek Sharma <asharma991@outlook.com>
+Date:   Sun Apr 28 10:52:36 2024 +0530
+
+    add stopPropagation
+
+[33mcommit 3effa0e6e2161f14272399b51836f102d39c515f[m
+Merge: 68a0ec8 1663101
+Author: Abhishek Sharma <asharma991@outlook.com>
+Date:   Sun Apr 28 10:50:35 2024 +0530
+
+    Merge branch 'main' of https://github.com/asharma991/cms into caption-toggle-fix
+
+[33mcommit 904d02d2c74e00480ac903d5a814c153b00df193[m
+Author: mumin-khan <muminkhan2000@gmail.com>
+Date:   Sat Apr 27 15:02:26 2024 +0530
+
+    chore: increase min char match length
+
+[33mcommit 61dba0f2a01c2c3f9a88948f3230020ef674683b[m
+Author: shuaibu-shehu <shuaibushehukalifa@gmail.com>
+Date:   Fri Apr 26 18:09:35 2024 +0530
+
+    shortcut key for increasing/decreasing vol
+
+[33mcommit 3cf284b40ee87b99897916efb91ddb161e673f05[m
+Author: Dhruvil Mehta <68022411+dhruvilmehta@users.noreply.github.com>
+Date:   Fri Apr 26 01:07:02 2024 -0700
+
+    Added certificate verification page
+
+[33mcommit d55703c6be40af2144e9072dc8878a6b4ac9cb2f[m
+Author: hady <hadimomin02@gmail.com>
+Date:   Thu Apr 25 18:40:51 2024 +0530
+
+    Added req input validation on API routes
+
+[33mcommit 497d78035d7ac866a28a6b5c6e244764fcb1b51a[m
+Author: Sunil Hanamshetty <64653515+shetty456@users.noreply.github.com>
+Date:   Thu Apr 25 13:12:00 2024 +0530
+
+    resovle migration content in readme
+
+[33mcommit 32ee84f9b76b57b88dbe17b6d550b951512c7b11[m
+Author: Bikash Mishra <mishrabikash202@gmail.com>
+Date:   Wed Apr 24 09:11:18 2024 +0530
+
+    disable_button
+
+[33mcommit 7b030f210c30b792162f47e4fd3ac5b0b5ea052f[m
+Author: Bikash Mishra <mishrabikash202@gmail.com>
+Date:   Wed Apr 24 08:57:43 2024 +0530
+
+    fixed Toast/enhance signIn page
+
+[33mcommit 3f858630cced14c57ca497c2e1ccfe0dddecb900[m
+Author: Dhruvil Mehta <68022411+dhruvilmehta@users.noreply.github.com>
+Date:   Tue Apr 23 17:28:08 2024 -0700
+
+    Added pdf download certificate feature
+
+[33mcommit 7715f6cbc7a8c9feb857ea1990f845860ad5b8db[m
+Author: Vikas Patil <112180774+vikaspatil0021@users.noreply.github.com>
+Date:   Mon Apr 22 18:34:11 2024 +0000
+
+    minor alignment issue
+
+[33mcommit b771ff82ea879fbde75ad7bac5aadc0dce08a9b7[m
+Author: Rajgupta36 <raj.gupta369@outlook.com>
+Date:   Tue Apr 23 00:03:52 2024 +0530
+
+    updated server action
+
+[33mcommit dcd0154da15fb96bbcf23dd4ae7d467eec11a250[m
+Author: Rajgupta36 <raj.gupta369@outlook.com>
+Date:   Mon Apr 22 23:44:04 2024 +0530
+
+    added feature
+
+[33mcommit b9de92c5680ece3f8ab974cb4181176a76dd4aac[m
+Author: Vikas Patil <112180774+vikaspatil0021@users.noreply.github.com>
+Date:   Mon Apr 22 18:13:57 2024 +0000
+
+    included necessary functions from videoplayer2
+
+[33mcommit e41e635e336a64b7f9b2bc06f83f205f1372f062[m
+Author: Akash kumar kumawat <113286019+Akash1000x@users.noreply.github.com>
+Date:   Mon Apr 22 22:46:57 2024 +0530
+
+    Revert "fix: sidebar update for mobile ux"
+
+[33mcommit ba3981b45f1b56d28b815d4090f0de3a50c4e7da[m
+Author: Vikas Patil <112180774+vikaspatil0021@users.noreply.github.com>
+Date:   Mon Apr 22 17:15:54 2024 +0000
+
+    fixed some issues player issues
+
+[33mcommit 1df829a94deea3045b5accd0bca40e4458f69d9e[m
+Merge: aff17ff 1663101
+Author: Vikas Patil <112180774+vikaspatil0021@users.noreply.github.com>
+Date:   Mon Apr 22 21:52:04 2024 +0530
+
+    Merge branch 'code100x:main' into new-video-player
+
+[33mcommit aff17ff15c660219ff45d6361f05a581bce5e580[m
+Author: Vikas Patil <112180774+vikaspatil0021@users.noreply.github.com>
+Date:   Mon Apr 22 13:31:39 2024 +0000
+
+    fixed the captions issue
+
+[33mcommit 5526f12312d0cffa31d21691a847c31039993047[m
+Author: Vikas Patil <112180774+vikaspatil0021@users.noreply.github.com>
+Date:   Mon Apr 22 12:08:24 2024 +0000
+
+    quality selector done
+
+[33mcommit 111f3102b312f42fccae379d06c52068857e2f92[m
+Author: Harpreet Singh <szinghh@gmail.com>
+Date:   Mon Apr 22 10:25:14 2024 +0200
+
+    fix: sync package-lock
+
+[33mcommit 7ab80b8f613602ab22d31b23a66cc98234734188[m
+Author: Harpreet Singh <szinghh@gmail.com>
+Date:   Mon Apr 22 10:23:38 2024 +0200
+
+    fix: sync main
+
+[33mcommit 64fc8946759dcc280ef9926c61b07bc67917398a[m
+Merge: df6b4dd ff3d9c2
+Author: Harpreet Singh <szinghh@gmail.com>
+Date:   Mon Apr 22 10:22:53 2024 +0200
+
+    Merge branch 'main' of https://github.com/siinghd/cmsv1 into qa
+    pull main
+
+[33mcommit ff3d9c2ead18f4903682423e059222985906c1d4[m
+Merge: 46819e3 1663101
+Author: Singh <38940603+siinghd@users.noreply.github.com>
+Date:   Mon Apr 22 10:22:43 2024 +0200
+
+    Merge branch 'code100x:main' into main
+
+[33mcommit df6b4dd3867676c9a01aa3817318abc0f9a9e1b9[m
+Author: Harpreet Singh <szinghh@gmail.com>
+Date:   Mon Apr 22 10:21:15 2024 +0200
+
+    fix: sync package-lock and yarn with main
+
+[33mcommit e5b3670adb026c8ef220b19eeeb7ec4b5a2faa5a[m
+Author: sheninthjr <sheninthjr23@gmail.com>
+Date:   Mon Apr 22 13:39:06 2024 +0530
+
+    StoryBook is separated from the root folder
+
+[33mcommit b0fad7c38a8ac13b1a642d3ea931fa52dd339fa8[m
+Author: Rituraj <77140528+rituraj00@users.noreply.github.com>
+Date:   Mon Apr 22 11:52:51 2024 +0530
+
+    Update README.md
+
+[33mcommit 50718f2d6a445e40b17445d68bd7484eebf0303c[m
+Merge: fd82ad6 1663101
+Author: Rituraj <77140528+rituraj00@users.noreply.github.com>
+Date:   Mon Apr 22 11:49:48 2024 +0530
+
+    Merge branch 'main' into main
+
+[33mcommit 166310190fa5f31218b40aeb844b767e1575daae[m
+Merge: d1f49fb d7a6952
+Author: Kirat <harkirat96@gmail.com>
+Date:   Mon Apr 22 05:15:13 2024 +0530
+
+    Merge pull request #474 from ivinayakg/fix/sidebar-mobile-ux
+    
+    fix: sidebar update for mobile ux
+
+[33mcommit b7614393c4a5d8568f068eecd0d20b3bda1f8255[m
+Author: Vijay <74645268+vijaysingh2219@users.noreply.github.com>
+Date:   Mon Apr 22 03:50:40 2024 +0530
+
+    reduce diff lines
+
+[33mcommit 3d3e132c10083b4b497a5ca4935023a1dacf2dc6[m
+Author: Vijay <74645268+vijaysingh2219@users.noreply.github.com>
+Date:   Mon Apr 22 03:23:02 2024 +0530
+
+    Fixed the issue with the previous code
+
+[33mcommit f4e162a2cfd1ce41f59c68d8bd984e95c4b9becf[m
+Merge: b59046d d1f49fb
+Author: Kirat <harkirat96@gmail.com>
+Date:   Mon Apr 22 03:09:41 2024 +0530
+
+    Merge branch 'main' into main
+
+[33mcommit d1f49fb954602cb1871c309f32194f6db5eadd85[m
+Merge: 3c54b1e f87fcd2
+Author: Kirat <harkirat96@gmail.com>
+Date:   Mon Apr 22 03:07:26 2024 +0530
+
+    Merge pull request #416 from hegdeadithyak/main
+    
+    feature:Favicon
+
+[33mcommit 3c54b1e10429095e7addc1f8bbb3865e4b96d571[m
+Merge: ccfce23 8c8cb14
+Author: Kirat <harkirat96@gmail.com>
+Date:   Mon Apr 22 03:06:51 2024 +0530
+
+    Merge pull request #445 from Akash1000x/fix/login-page-input-box
+    
+    fix: Login Page Password Visibility Toggle Alignment Issue
+
+[33mcommit ccfce23f5734b7f0360840d8562985584b14d26a[m
+Merge: 29c5989 ec5cea3
+Author: Kirat <harkirat96@gmail.com>
+Date:   Mon Apr 22 03:04:34 2024 +0530
+
+    Merge pull request #417 from shubham1091/code-improvement
+    
+    Code improvement
+
+[33mcommit ec5cea370f9f2b8b605bb54809e32fe4faaf780c[m
+Merge: 8681f69 29c5989
+Author: Kirat <harkirat96@gmail.com>
+Date:   Mon Apr 22 03:03:25 2024 +0530
+
+    Merge branch 'main' into code-improvement
+
+[33mcommit 29c59899018309d633b37c8f51273c5bfc77eff5[m
+Merge: e905c71 0e56833
+Author: Kirat <harkirat96@gmail.com>
+Date:   Mon Apr 22 02:57:15 2024 +0530
+
+    Merge pull request #258 from haddercone/patch-2
+    
+    Added highlighting for current active content on the sidebar
+
+[33mcommit b59046dc75e1000ba6c2325a6481bc12a74df1fa[m
+Author: Vijay <74645268+vijaysingh2219@users.noreply.github.com>
+Date:   Mon Apr 22 02:36:15 2024 +0530
+
+    Update navigation for the courses content
+
+[33mcommit d7a6952764a0d776852fbadc27d236064f7edb12[m
+Author: Vinayak Goyal <73058928+ivinayakg@users.noreply.github.com>
+Date:   Mon Apr 22 01:04:52 2024 +0530
+
+    fix: sidebar update for mobile ux
+
+[33mcommit edf17362120c04a76a75cb19f6c5c77834e9987f[m
+Author: Vikas Patil <112180774+vikaspatil0021@users.noreply.github.com>
+Date:   Sun Apr 21 11:29:00 2024 +0000
+
+    skip-duration back & next by 15 sec
+
+[33mcommit acec9a7be5041ac1117c89e78484597a37ddce79[m
+Author: Vikas Patil <112180774+vikaspatil0021@users.noreply.github.com>
+Date:   Sun Apr 21 05:20:58 2024 +0000
+
+    finally segments done :-}
+
+[33mcommit cc8221686406581dc87010a810b8156790eaa0be[m
+Merge: 0d7961d e905c71
+Author: Vikas Patil <112180774+vikaspatil0021@users.noreply.github.com>
+Date:   Sun Apr 21 10:11:39 2024 +0530
+
+    Merge branch 'code100x:main' into new-video-player
+
+[33mcommit 8e8b9ef924cafd7537d9b10a5ad223ecb188a937[m
+Merge: 6611459 46819e3
+Author: Harpreet Singh <szinghh@gmail.com>
+Date:   Sat Apr 20 20:29:43 2024 +0200
+
+    fix: merge conflicts with yarn.lock
+
+[33mcommit 46819e338093c82e9cf921e9b0da00fa6f4c6ed6[m
+Merge: 6c2de27 e905c71
+Author: Singh <38940603+siinghd@users.noreply.github.com>
+Date:   Sat Apr 20 20:28:40 2024 +0200
+
+    Merge branch 'code100x:main' into main
+
+[33mcommit e905c71eacf9d99f68db802b24b7b3a924ae27f1[m
+Merge: 68b9b84 cd5a114
+Author: Kirat <harkirat96@gmail.com>
+Date:   Sat Apr 20 21:41:04 2024 +0530
+
+    Merge pull request #461 from VK-RED/youtube-support
+    
+    feat: add Youtube Renderer in VideoPlayer
+
+[33mcommit 68b9b84fe6775ea6a315e9b6ac2f99cc26c817b3[m
+Merge: d62a6ff d3cde4a
+Author: Kirat <harkirat96@gmail.com>
+Date:   Sat Apr 20 21:37:58 2024 +0530
+
+    Merge pull request #423 from mayankgb/main
+    
+    downloading notes now working
+
+[33mcommit 0d7961d47aa874987e089d0eb66ee0e542fdbc84[m
+Merge: f93d964 d62a6ff
+Author: Vikas Patil <112180774+vikaspatil0021@users.noreply.github.com>
+Date:   Sat Apr 20 20:15:01 2024 +0530
+
+    Merge branch 'code100x:main' into new-video-player
+
+[33mcommit f93d964d15781888d64b8ed5ba53d17cde787b18[m
+Author: Vikas Patil <112180774+vikaspatil0021@users.noreply.github.com>
+Date:   Sat Apr 20 14:44:07 2024 +0000
+
+    added subtitle handler
+
+[33mcommit d62a6ffed33181284ff0985c797b40fb51859ced[m
+Merge: a13e99f fa0ed20
+Author: Kirat <harkirat96@gmail.com>
+Date:   Sat Apr 20 19:00:55 2024 +0530
+
+    Merge pull request #459 from hxdy-1/main
+    
+    fix margins between slides and view all chapters button
+
+[33mcommit 6d1fc78636db67f61096b850951443ee24e54b24[m
+Author: sheninthjr <sheninthjr23@gmail.com>
+Date:   Sat Apr 20 12:21:18 2024 +0530
+
+    Story Book initialized for CourseCard
+
+[33mcommit 57817ff56e2c7b110cc2c4158cd989f393cca20c[m
+Author: Vikas Patil <112180774+vikaspatil0021@users.noreply.github.com>
+Date:   Fri Apr 19 12:34:10 2024 +0000
+
+    play-pause screen
+
+[33mcommit b3506c5dc4502093405c718f82733bca4b431c71[m
+Author: Vikas Patil <112180774+vikaspatil0021@users.noreply.github.com>
+Date:   Fri Apr 19 11:57:56 2024 +0000
+
+    fullscreen and miniplayer
+
+[33mcommit 5b17140f04d5172d64c16b88219ca603788e4de7[m
+Author: Vikas Patil <112180774+vikaspatil0021@users.noreply.github.com>
+Date:   Fri Apr 19 07:22:11 2024 +0000
+
+    improved code -> options
+
+[33mcommit a8483965c203e5d84288d1e61ef6d1f1857e9450[m
+Author: Vikas Patil <112180774+vikaspatil0021@users.noreply.github.com>
+Date:   Fri Apr 19 06:27:44 2024 +0000
+
+    new player controls and update videoplayer.tsx
+
+[33mcommit 9ecd612f8a692781bf03444c9a6ee714f6fd3482[m
+Author: Vikas Patil <112180774+vikaspatil0021@users.noreply.github.com>
+Date:   Fri Apr 19 06:19:01 2024 +0000
+
+    icons for new video player
+
+[33mcommit fa0ed2097c7d2d65a5d125ffd812e876ec81f185[m
+Author: hady <hadimomin02@gmail.com>
+Date:   Thu Apr 18 20:48:28 2024 +0530
+
+    Revert "add custom scrollbar"
+    
+    This reverts commit 5e0e4f48e8c114dd5ebc9693b64e8447432d0521.
+
+[33mcommit 5e0e4f48e8c114dd5ebc9693b64e8447432d0521[m
+Author: hady <hadimomin02@gmail.com>
+Date:   Thu Apr 18 20:21:24 2024 +0530
+
+    add custom scrollbar
+
+[33mcommit cd5a11498dc4b0ae24132234aca7ffae635b56cc[m
+Author: VK-RED <vishnukumart96@gmail.com>
+Date:   Thu Apr 18 19:17:55 2024 +0530
+
+    feat: add Youtube Renderer
+
+[33mcommit 8c7900da18c80a755f05e317c36da130e1af706e[m
+Author: hady <hadimomin02@gmail.com>
+Date:   Thu Apr 18 16:15:56 2024 +0530
+
+    fix margins between slides and view all chapters button
+
+[33mcommit 8681f69a62a28cc439bbd160d09e42518f39d74d[m
+Author: shubham <shubhamverma1091@gmail.com>
+Date:   Wed Apr 17 20:10:42 2024 +0530
+
+    resolved conflicts
+
+[33mcommit 0f3bba45966bc5d71161803399a8a81423e3b56d[m
+Merge: 66fe6be a13e99f
+Author: shubham <96609435+shubham1091@users.noreply.github.com>
+Date:   Wed Apr 17 20:01:50 2024 +0530
+
+    Merge branch 'main' into code-improvement
+
+[33mcommit f9bc836a5ab746e38f28f915ffe8bd62e60dd98b[m
+Author: Robin Singh <44robin.rs@gmail.com>
+Date:   Wed Apr 17 09:40:22 2024 +0530
+
+    removed session log from console
+
+[33mcommit e7de18cbb293643a31462673d8f989d4fb76c9aa[m
+Merge: dbdd5aa a13e99f
+Author: Nimit Haria <nimitharia007@gmail.com>
+Date:   Wed Apr 17 03:46:29 2024 +0530
+
+    Merge branch 'main' of github.com:nimit9/cms-new into feat/user-profile-menu
+
+[33mcommit 8c8cb1422f4330c8d2ca8c15c30581bba7f11ff2[m
+Author: Akash kumar kumawat <kumawatap63@gmail.com>
+Date:   Wed Apr 17 03:44:14 2024 +0530
+
+    Fixed login page input box
+
+[33mcommit a13e99fc395c5eeaae41a1399339c86c2f4e6ce8[m
+Merge: 7ff5d5f bd52023
+Author: Kirat <harkirat96@gmail.com>
+Date:   Tue Apr 16 21:35:16 2024 +0530
+
+    Merge pull request #411 from VK-RED/main
+    
+    add prisma:docker script in dev:docker
+
+[33mcommit 66114597cbda4680e6d4c0812cc7c1bffe607ad1[m
+Author: Harpreet Singh <szinghh@gmail.com>
+Date:   Tue Apr 16 15:35:41 2024 +0200
+
+    fix: fix build, pulled main
+
+[33mcommit eda2aa6b29179a04d5cd0417123c92aad75fb285[m
+Merge: 513195c 6c2de27
+Author: Harpreet Singh <szinghh@gmail.com>
+Date:   Tue Apr 16 15:31:48 2024 +0200
+
+    Merge branch 'main' of https://github.com/siinghd/cmsv1 into qa
+    pull main, build fix
+
+[33mcommit 6c2de2741347a872c9d4721fae6ecc4c1079510b[m
+Merge: 5342a68 7ff5d5f
+Author: Singh <38940603+siinghd@users.noreply.github.com>
+Date:   Tue Apr 16 15:31:22 2024 +0200
+
+    Merge branch 'code100x:main' into main
+
+[33mcommit 513195cc8f3551b28ff9497a77f0278adf11d561[m
+Author: Harpreet Singh <szinghh@gmail.com>
+Date:   Tue Apr 16 15:29:17 2024 +0200
+
+    feat: reddit like discussion platform
+
+[33mcommit 7ff5d5f776bed9b21accfffc87d2a674071eddf6[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Tue Apr 16 18:23:16 2024 +0530
+
+    fixed build
+
+[33mcommit 3646f33d3ad6134d90db1cf4fb319157309ca36a[m
+Merge: 39d6168 6fdd4c6
+Author: Kirat <harkirat96@gmail.com>
+Date:   Tue Apr 16 18:15:37 2024 +0530
+
+    Merge pull request #352 from alexbennycodes/main
+    
+    #348 fixed rerender of sidebar
+
+[33mcommit 39d6168e267e1da84d8f61a4a3f7cfb32debec40[m
+Merge: a44a0b6 405e4a4
+Author: Kirat <harkirat96@gmail.com>
+Date:   Tue Apr 16 16:27:57 2024 +0530
+
+    Merge pull request #408 from VK-RED/dev
+    
+    hit checkUserEmailForPurchase in refreshDB only in prod
+
+[33mcommit fd82ad6ca128275da50bded8cab054c661819833[m
+Merge: 40a414d a44a0b6
+Author: Rituraj <77140528+rituraj00@users.noreply.github.com>
+Date:   Mon Apr 15 21:30:54 2024 +0530
+
+    Merge branch 'code100x:main' into main
+
+[33mcommit d3cde4ab495b5873b5389cd94dbe9ab91ff430e2[m
+Author: MAYANK AGRAWAL <mayk03jun@gmail.com>
+Date:   Mon Apr 15 19:55:08 2024 +0530
+
+    downloading now working
+
+[33mcommit 66fe6be69844111d9efafc86edfbd8a9a91ea7ad[m
+Merge: 4a20952 a44a0b6
+Author: shubham <96609435+shubham1091@users.noreply.github.com>
+Date:   Mon Apr 15 01:39:06 2024 +0530
+
+    Merge branch 'main' into code-improvement
+
+[33mcommit f87fcd2eb9a021b7683f2fe6c10a31b3edf9efc4[m
+Author: hegdeadithyak <hegdeadithyak@gmail.com>
+Date:   Mon Apr 15 01:33:25 2024 +0530
+
+    Added Favicon
+
+[33mcommit 4a209521168a8d405f414b316a34948cc3bf7e13[m
+Author: shubham <shubhamverma1091@gmail.com>
+Date:   Mon Apr 15 01:28:14 2024 +0530
+
+    modified readme for code check guidline
+
+[33mcommit b175ddd9a75877d17807426a22805eb500a22289[m
+Author: shubham <shubhamverma1091@gmail.com>
+Date:   Mon Apr 15 00:48:03 2024 +0530
+
+    some minor code improvement
+    
+    added public folder as '@public' path for ease of use
+    
+    removed white border from harkirat image
+    
+    devided seed file into small functions and better email address
+    
+    modified the readme for better setup instructions and added contribuitor showcase
+
+[33mcommit a44a0b6461107ca971f545f0a06a5e709bf298f8[m
+Merge: db5efe1 11777cd
+Author: Kirat <harkirat96@gmail.com>
+Date:   Sun Apr 14 22:28:00 2024 +0530
+
+    Merge pull request #351 from ezhil56x/ci
+    
+    ci: improve ci
+
+[33mcommit bd52023f14b63700133a86b01b0d7a0470257bd6[m
+Author: VK-RED <vishnukumart96@gmail.com>
+Date:   Sun Apr 14 19:18:17 2024 +0530
+
+    add prisma:docker script in dev:docker
+
+[33mcommit db5efe1126a31d7d3726383774aaee06595e2201[m
+Merge: 7daeab9 e996f87
+Author: Kirat <harkirat96@gmail.com>
+Date:   Sun Apr 14 19:04:27 2024 +0530
+
+    Merge pull request #399 from VK-RED/main
+    
+    Fix studio command when running the project with docker.
+
+[33mcommit 405e4a414541ab094298500871f5267ff833cfc6[m
+Author: VK-RED <vishnukumart96@gmail.com>
+Date:   Sun Apr 14 18:45:36 2024 +0530
+
+    Run refreshDB only in prod
+
+[33mcommit d80af7f40611b614a22ddd9cf7b3267fc4e082b4[m
+Author: Krish <prathamrajsri2003@gmail.com>
+Date:   Sun Apr 14 15:49:29 2024 +0530
+
+    fixed typeError
+
+[33mcommit 41caee3c36d7914c7d5eb0ad6d916e8195792bd9[m
+Author: VK-RED <vishnukumart96@gmail.com>
+Date:   Sun Apr 14 12:01:57 2024 +0530
+
+    hit checkUserEmailForPurchase in refreshDB only in prod
+
+[33mcommit e996f8798cfc169bfbd89006d13ac972dc6b9ffb[m
+Author: VK-RED <vishnukumart96@gmail.com>
+Date:   Sat Apr 13 11:39:12 2024 +0530
+
+    Add studio:docker script
+
+[33mcommit 1d1393f719b7d968359d1933ee06f68967b5511d[m
+Author: VK-RED <vishnukumart96@gmail.com>
+Date:   Sat Apr 13 11:38:46 2024 +0530
+
+    Update dev:docker script with studio
+
+[33mcommit 9690054cf660a380b864fe2acd05de1e53433f24[m
+Author: VK-RED <vishnukumart96@gmail.com>
+Date:   Sat Apr 13 11:38:04 2024 +0530
+
+    add 5555 port for routing
+
+[33mcommit a590ad0efcd1efe3effbe6dcc27454086816eb6d[m
+Author: Robin Singh <44robin.rs@gmail.com>
+Date:   Fri Apr 12 22:43:21 2024 +0530
+
+    revert yarn.lock changes
+
+[33mcommit b59f5f6c28524bf9cd08ebb727519a92deb5cc68[m
+Author: Robin Singh <44robin.rs@gmail.com>
+Date:   Fri Apr 12 22:40:51 2024 +0530
+
+    removed tsx dependency
+
+[33mcommit dd4ca70fe9e2758d9f9657d8981a8e80c9fdbd7b[m
+Author: Robin Singh <44robin.rs@gmail.com>
+Date:   Fri Apr 12 21:54:17 2024 +0530
+
+    removed lock file cahnges
+
+[33mcommit 6faabc10265b8a5cf93d591ad2f3cad1e79ab273[m
+Author: Robin Singh <44robin.rs@gmail.com>
+Date:   Fri Apr 12 21:08:46 2024 +0530
+
+    rm dummy data
+
+[33mcommit 40a414d84e582ecfc64982d63925d2b4e567e755[m
+Merge: 0b3f860 7daeab9
+Author: Rituraj <77140528+rituraj00@users.noreply.github.com>
+Date:   Fri Apr 12 21:04:24 2024 +0530
+
+    Merge branch 'code100x:main' into main
+
+[33mcommit bce8d86dd2fac1be0e3648b4ba35057438ee2c69[m
+Author: Robin Singh <44robin.rs@gmail.com>
+Date:   Fri Apr 12 21:02:21 2024 +0530
+
+    fix: added script for video  update
+
+[33mcommit 5342a6861c0a8c8a78937bd138883a25dc77cfe6[m
+Merge: 1e9ac1a 7daeab9
+Author: Singh <38940603+siinghd@users.noreply.github.com>
+Date:   Fri Apr 12 14:37:18 2024 +0200
+
+    Merge branch 'code100x:main' into main
+
+[33mcommit 7daeab9262204a6f8c56ee5a906b75c5b77ce533[m
+Merge: be9a83e 71818fd
+Author: Kirat <harkirat96@gmail.com>
+Date:   Fri Apr 12 17:02:57 2024 +0530
+
+    Merge pull request #391 from nishantdotcom/main
+    
+    FIXES : #388
+
+[33mcommit be9a83e8cb18561aaab0b0b4c43469a964a11beb[m
+Merge: 6997f7e c847988
+Author: Kirat <harkirat96@gmail.com>
+Date:   Fri Apr 12 17:00:56 2024 +0530
+
+    Merge pull request #341 from mvp5464/tick/percentage
+    
+    green-tick and percentage complete added
+
+[33mcommit c8479881de4a25946abf149938464e033de4a3f4[m
+Merge: 2c1056a 6997f7e
+Author: Kirat <harkirat96@gmail.com>
+Date:   Fri Apr 12 17:00:25 2024 +0530
+
+    Merge branch 'main' into tick/percentage
+
+[33mcommit 6997f7e12d9c45b2b02bee5f28bc7ef56167002b[m
+Merge: 7b2ff0d 6346704
+Author: Kirat <harkirat96@gmail.com>
+Date:   Fri Apr 12 16:58:58 2024 +0530
+
+    Merge pull request #368 from Aayuslad/bugFixingBranch
+    
+    Fix: Keybindings Interference Between Video Player and Comments
+
+[33mcommit 71818fdca5fc283a8bece5c5ac1036fe55db4764[m
+Merge: cb02ad1 7b2ff0d
+Author: nishantdotcom <nishantsingh1308@gmail.com>
+Date:   Fri Apr 12 16:47:54 2024 +0530
+
+    Merge branch 'main' of https://github.com/nishantdotcom/cms
+
+[33mcommit cb02ad14a85be55431d11ac6c22c7062711a8ce1[m
+Author: nishantdotcom <nishantsingh1308@gmail.com>
+Date:   Fri Apr 12 16:46:05 2024 +0530
+
+    Fix :#388
+
+[33mcommit 7b2ff0d3355323cec57e40537abd20ae7255aad4[m
+Merge: 099a601 08d66ec
+Author: Kirat <harkirat96@gmail.com>
+Date:   Fri Apr 12 16:27:07 2024 +0530
+
+    Merge pull request #331 from mvp5464/my/branch
+    
+    Video duration added on thumbnail (as seen in youtube)
+
+[33mcommit 0b3f8604d86e2cdb94c1d65bf315adf2e23856c1[m
+Author: rituraj00 <rituraj171926@gmail.com>
+Date:   Thu Apr 11 21:37:36 2024 +0530
+
+    updated docker-compose.yml file and adding instruction in README to avoid db container permission issue
+
+[33mcommit 099a60175b5e9de36244b940a39804011239a23d[m
+Merge: 612fa7f a9e2ecb
+Author: Kirat <harkirat96@gmail.com>
+Date:   Thu Apr 11 18:44:04 2024 +0530
+
+    Merge pull request #309 from nimit9/fix/history-carousel
+    
+    fixed: left arrow not visible on watch history carousel
+
+[33mcommit 63467047cc9707c6d900d1046cdb3fa396ebed5f[m
+Author: aayush <aayushlad058@gmail.com>
+Date:   Thu Apr 11 16:18:40 2024 +0530
+
+    Fix: Keybindings Interference Between Video Player and Comments
+
+[33mcommit 6fdd4c66af69e171cd361dd70ed583d8a4deca2e[m
+Author: Alex <alexbenny2811@gmail.com>
+Date:   Tue Apr 9 23:30:02 2024 +0530
+
+    fix: width of sidebar fixed to 300px
+
+[33mcommit eef4b935a47c6a8d962e3f73fa12a355110b8cab[m
+Author: Alex <alexbenny2811@gmail.com>
+Date:   Tue Apr 9 23:10:53 2024 +0530
+
+    fix: fixed the re rendering of sidebar when user switches between videos
+
+[33mcommit 11777cd2a9e161fc703fa62dd02ad696546549df[m
+Author: Ezhil Shanmugham <ezhil930@gmail.com>
+Date:   Tue Apr 9 21:50:44 2024 +0530
+
+    ci: improve ci
+
+[33mcommit 08d66ec3ba886af03697c42473784599d2e1c435[m
+Author: mvking5464 <mvking5464@gmail.com>
+Date:   Mon Apr 8 19:39:19 2024 +0530
+
+    remove green tick
+
+[33mcommit 2c1056a26428b2c9abb3f4ad26b4b5acd73a0d70[m
+Author: mvking5464 <mvking5464@gmail.com>
+Date:   Mon Apr 8 18:15:33 2024 +0530
+
+    green-tick and percentage complete added
+
+[33mcommit 92d29307475881102d1b955dc7d722136072272e[m
+Author: mvking5464 <mvking5464@gmail.com>
+Date:   Fri Apr 5 10:56:58 2024 +0530
+
+    video duration added
+
+[33mcommit 68a0ec87b692e97053563a83d1b6cb59f2862381[m
+Author: Abhishek Sharma <asharma991@outlook.com>
+Date:   Wed Apr 3 02:14:16 2024 +0530
+
+    fix: add exact check for language and kind, referring docs
+
+[33mcommit 0e568336d98e2b12586610be5c45b773a5803ead[m
+Merge: f92144f 8df6a89
+Author: Robin Singh <44robin.rs@gmail.com>
+Date:   Tue Apr 2 19:02:30 2024 +0530
+
+    Merge remote-tracking branch 'origin/patch-2' into patch-2
+
+[33mcommit f92144f561a9d2af4b461ff99d2254c3d1f9d682[m
+Author: Robin Singh <44robin.rs@gmail.com>
+Date:   Tue Apr 2 18:51:36 2024 +0530
+
+    removed unwanted code
+    
+    recoil is not required for course and content id  state management, since sidebar is re-rendering every time the page reloads. We can simply fetch the values from the url itself.
+
+[33mcommit dbdd5aaf3318e154c02adfeb321131751a2a58b6[m
+Author: Nimit Haria <nimitharia007@gmail.com>
+Date:   Tue Apr 2 18:48:43 2024 +0530
+
+    feat: user profile dropdown
+
+[33mcommit 612fa7f5415f157a642acea475059a2b72d0ba36[m
+Merge: 9157047 8d255f4
+Author: Kirat <harkirat96@gmail.com>
+Date:   Tue Apr 2 15:37:14 2024 +0530
+
+    Merge pull request #244 from aryanprince/chore/fixed-eslint-config
+    
+    fix: Fixed ESLint styling rules overriding Prettier styling rules
+
+[33mcommit 8df6a89f9766ebfe944d3e6d7a5192d313440e07[m
+Merge: 1789440 9157047
+Author: Robin Singh <32171406+haddercone@users.noreply.github.com>
+Date:   Tue Apr 2 10:52:06 2024 +0530
+
+    Merge branch 'main' into patch-2
+
+[33mcommit 15227af9c5bb551f7460bddf92a791ef54781d36[m
+Author: Nimit Haria <nimitharia007@gmail.com>
+Date:   Tue Apr 2 01:34:10 2024 +0530
+
+    fixed css
+
+[33mcommit 6a571f32acbb5a9b8ed9fc5d62ce76df2208ad7e[m
+Author: Nimit Haria <nimitharia007@gmail.com>
+Date:   Tue Apr 2 01:24:36 2024 +0530
+
+    fix: added proper animated loading screen for history page
+
+[33mcommit 9157047417f131503566c8ac46c2e6af812fa7e5[m
+Merge: 02773ba a067e5e
+Author: Kirat <harkirat96@gmail.com>
+Date:   Tue Apr 2 01:02:45 2024 +0530
+
+    Merge pull request #303 from devsargam/fix/dev-mode
+    
+    fix(dev): improve local development experience
+
+[33mcommit a9e2ecbf42ee89c90d2d591dab8077705a03910c[m
+Author: Nimit Haria <nimitharia007@gmail.com>
+Date:   Tue Apr 2 01:01:10 2024 +0530
+
+    fixed: left arrow not visible on watch history carousel
+
+[33mcommit 02773ba4af26d2a97d349dd81f2153dcf6ba4f72[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Tue Apr 2 00:30:13 2024 +0530
+
+    fix build
+
+[33mcommit 6f76ffe5ac52cc17a37dab4c585d83d47a99ca8c[m
+Merge: ea9d635 f305e57
+Author: Kirat <harkirat96@gmail.com>
+Date:   Tue Apr 2 00:24:20 2024 +0530
+
+    Merge pull request #308 from code100x/hkirat/fixes
+    
+    UI fixes
+
+[33mcommit f305e573bed5341e7eb6a49e27009bbff9f9e9b0[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Tue Apr 2 00:23:00 2024 +0530
+
+    make searchbar smaller
+
+[33mcommit ea9d635469bce6cf07a99fdced07d1fb96f953fe[m
+Merge: f76479a d518045
+Author: Kirat <harkirat96@gmail.com>
+Date:   Tue Apr 2 00:11:16 2024 +0530
+
+    Merge pull request #253 from nimit9/feat/user-watch-history
+    
+    feat: users can now see their watch history
+
+[33mcommit d518045a3e8f67e4b0ed72d38a7937cd437dda63[m
+Author: Nimit Haria <nimitharia007@gmail.com>
+Date:   Mon Apr 1 22:50:57 2024 +0530
+
+    modifed package.json
+
+[33mcommit 922f0cc2170a85439e458ade1a0229d7b9ddd559[m
+Author: Nimit Haria <nimitharia007@gmail.com>
+Date:   Mon Apr 1 22:48:46 2024 +0530
+
+    fixed merged conflicts
+
+[33mcommit 92176a54b3afa70e3d4f0f74d3ccd7e0c9b2f713[m
+Merge: d12b5cb f76479a
+Author: Nimit Haria <nimitharia007@gmail.com>
+Date:   Mon Apr 1 22:30:17 2024 +0530
+
+    Merge branch 'main' of github.com:nimit9/cms-new into feat/user-watch-history
+
+[33mcommit f76479a546f5ec88b4860c34d348397d8688696a[m
+Merge: d49cb3e 3fdc5c6
+Author: Kirat <harkirat96@gmail.com>
+Date:   Mon Apr 1 22:18:19 2024 +0530
+
+    Merge pull request #298 from asharma991/toggle-captions
+    
+    feat: add subtitle toggle like yt
+
+[33mcommit d49cb3edeacfa59ed52df506920db12852cfc48c[m
+Merge: 0657286 3e581ca
+Author: Kirat <harkirat96@gmail.com>
+Date:   Mon Apr 1 22:17:58 2024 +0530
+
+    Merge pull request #300 from shaarifg/fix/sonner-taost-#299
+    
+    added dismiss method sonner toast to close it on click
+
+[33mcommit 065728613951620f3688e75ce6db2996c33a0fd9[m
+Merge: 24d422f 20e344b
+Author: Kirat <harkirat96@gmail.com>
+Date:   Mon Apr 1 22:16:50 2024 +0530
+
+    Merge pull request #281 from nimit9/feat/video-search
+    
+    Feat/video search
+
+[33mcommit 24d422fd7c1870a10411c8f0c997454a2b354073[m
+Merge: 5026715 f5a8082
+Author: Kirat <harkirat96@gmail.com>
+Date:   Mon Apr 1 22:14:41 2024 +0530
+
+    Merge pull request #288 from dhruvilmehta/videorefresh
+    
+    fix: video refreshes after clicking on Mark as Complete/Incomplete
+
+[33mcommit a067e5eadf9fcfde5b2540fb5341b2823879cb50[m
+Author: Sargam <sargampoudel100@gmail.com>
+Date:   Mon Apr 1 21:50:27 2024 +0530
+
+    Update layout.tsx
+
+[33mcommit 20e344b7fb127e4fd1194f544b210d333b0e96a8[m
+Merge: 6feb8ab 5026715
+Author: Kirat <harkirat96@gmail.com>
+Date:   Mon Apr 1 21:38:57 2024 +0530
+
+    Merge branch 'main' into feat/video-search
+
+[33mcommit 5026715dda78900c03da81eb949410c05e320bcc[m
+Merge: 4755eae d0d839b
+Author: Kirat <harkirat96@gmail.com>
+Date:   Mon Apr 1 21:26:19 2024 +0530
+
+    Merge pull request #291 from pkmanas22/fix-bug-responsiveness-290
+    
+     fixed: [bug] Responsiveness in course items #290
+
+[33mcommit d0d839badadbadeff4762ff6377e943744a6e911[m
+Merge: b95f0f0 4755eae
+Author: Kirat <harkirat96@gmail.com>
+Date:   Mon Apr 1 21:26:14 2024 +0530
+
+    Merge branch 'main' into fix-bug-responsiveness-290
+
+[33mcommit 4755eae6c092fadf603ae82c1e6c44cc06f4d095[m
+Merge: 219fb7d 0b018b2
+Author: Kirat <harkirat96@gmail.com>
+Date:   Mon Apr 1 21:24:32 2024 +0530
+
+    Merge pull request #289 from amanbairagi30/breadcrumbs-feat
+    
+    Feat : Introducing Breadcrumbs for Enhanced Course Navigation and better UX.
+
+[33mcommit 219fb7dd47371b170e696194d4e5359c4fac46a3[m
+Merge: be5b6b4 a2ebf9b
+Author: Kirat <harkirat96@gmail.com>
+Date:   Mon Apr 1 21:23:15 2024 +0530
+
+    Merge pull request #301 from Deepak1649/FullScreenBug
+    
+    [SOL]  Arrow keys don't work after toggling the Fullscreen unless clicked on the video again. #262
+
+[33mcommit be5b6b46d5536090aa33d1355e0adc4a253439f6[m
+Merge: e92ebe3 959712b
+Author: Kirat <harkirat96@gmail.com>
+Date:   Mon Apr 1 21:22:39 2024 +0530
+
+    Merge pull request #292 from mumin-khan/fix-multiple-instances-of-singleton
+    
+    fixed multiple instances of singleton
+
+[33mcommit e92ebe374da81ebd53cf464731fd79428599d570[m
+Merge: 7dba999 e49737d
+Author: Kirat <harkirat96@gmail.com>
+Date:   Mon Apr 1 21:13:28 2024 +0530
+
+    Merge pull request #245 from nimit9/feat/bookmarks
+    
+    Feat/bookmarks
+
+[33mcommit 7dba99933d3cc3f719ae3db37470aeeb1d32c017[m
+Merge: 76a0a4b e5b7041
+Author: Kirat <harkirat96@gmail.com>
+Date:   Mon Apr 1 21:08:16 2024 +0530
+
+    Merge pull request #294 from ssk090/shiv/128/enable-comments-with-hyperlinks
+    
+    feat: Added Comments with Hyperlinks
+
+[33mcommit ec02cfac2eecf610cbdd9c2e98b891f8f5310127[m
+Author: devsargam <sargampoudel100@gmail.com>
+Date:   Mon Apr 1 02:11:59 2024 +0530
+
+    fix: admin enabled in dev mode
+
+[33mcommit 0cc2fa5150c01a736fc64406c756bcac056e2398[m
+Author: devsargam <sargampoudel100@gmail.com>
+Date:   Sun Mar 31 21:58:35 2024 +0530
+
+    small fix
+
+[33mcommit 9b9786459e722023f9d1b8d3fbbfe40751dac12f[m
+Author: devsargam <sargampoudel100@gmail.com>
+Date:   Sun Mar 31 21:45:30 2024 +0530
+
+    fix types
+
+[33mcommit 00b842a1a0d3b3eaf662ff2296c650f8996f225e[m
+Author: devsargam <sargampoudel100@gmail.com>
+Date:   Sun Mar 31 21:36:06 2024 +0530
+
+    fix(prisma): improve the seed command
+
+[33mcommit 3405f9f515b0cd1c41a61cddb0034e2fe91d26b7[m
+Author: devsargam <sargampoudel100@gmail.com>
+Date:   Sun Mar 31 21:24:14 2024 +0530
+
+    fix(dev): improve local development experience
+
+[33mcommit a2ebf9bc1e1a72454c1a5d310d495886144c9775[m
+Author: deepak <bk1649.h@gmail.com>
+Date:   Sun Mar 31 18:43:34 2024 +0530
+
+    FixedVideoBug
+
+[33mcommit 3e581caa1f9cbf445b58fb7c50dd681fe8aa2cf3[m
+Author: shaarifg <ermohdsharif@gmail.com>
+Date:   Sun Mar 31 18:09:10 2024 +0530
+
+    added dismiss method sonner toast to close it on click
+
+[33mcommit 3fdc5c6104a4d3415c474f9e8824a4c0e57ef234[m
+Author: Abhishek Sharma <asharma991@outlook.com>
+Date:   Sun Mar 31 01:38:44 2024 +0530
+
+    feat: add subtitle toggle like yt
+
+[33mcommit e5b70410a5bf614feb37175eb7d730e92dc4d59a[m
+Author: shivananda sai <shivanandasai.38@gmail.com>
+Date:   Sat Mar 30 14:12:49 2024 +0530
+
+    feat: Added Comments with Hyperlinks
+
+[33mcommit 959712be89a1d98e8188c3d15b4605012fef2044[m
+Author: mumin-khan <muminkhan2000@gmail.com>
+Date:   Sat Mar 30 11:29:14 2024 +0530
+
+    fixed multiple instances of singleton
+
+[33mcommit b95f0f0567d2c91fd1a38faf94b58c4e8b5f2f12[m
+Author: Manas Kumar Pradhan <pkmanas22@gmail.com>
+Date:   Sat Mar 30 03:11:02 2024 +0530
+
+     fix/290: [bug] course responsiveness
+
+[33mcommit 0b018b20055441f944c4d04311137755d57f675b[m
+Author: Aman Kumar Bairagi <amanbairagi1089@gmail.com>
+Date:   Fri Mar 29 12:31:39 2024 +0530
+
+    Feat : Added the breadcrumbs over the course content which makes the navigation easier and UX better. Closes #282
+
+[33mcommit f5a8082abffca539320530a9347444e2878089c0[m
+Author: Dhruvil Mehta <68022411+dhruvilmehta@users.noreply.github.com>
+Date:   Thu Mar 28 18:10:31 2024 -0700
+
+    fix: video don't refresh after clicking on Mark as Complete/Incomplete
+
+[33mcommit 76a0a4b06f15515f91342fcc7e8bce6c36ae921d[m
+Merge: 7d8f6b7 734a5e3
+Author: Kirat <harkirat96@gmail.com>
+Date:   Fri Mar 29 02:28:13 2024 +0530
+
+    Merge pull request #255 from devsargam/ref/seo
+    
+    chore: Improve site's metadata and optimise images
+
+[33mcommit e49737d08f9333cb5c0ff7832fabb941a3736220[m
+Merge: d9393ae 7d8f6b7
+Author: Nimit Haria <nimitharia007@gmail.com>
+Date:   Fri Mar 29 02:21:00 2024 +0530
+
+    Merge branch 'main' of github.com:nimit9/cms-new into feat/bookmarks
+
+[33mcommit 734a5e3e6159ca60e3b893f531b5ffcc442183cf[m
+Author: Sargam <sargampoudel100@gmail.com>
+Date:   Fri Mar 29 02:20:09 2024 +0530
+
+    small fix
+
+[33mcommit 23eac707f9ae3d0b907dc2a24f3c704842d72a2d[m
+Merge: 79f82c0 7d8f6b7
+Author: Sargam <sargampoudel100@gmail.com>
+Date:   Fri Mar 29 02:17:42 2024 +0530
+
+    Merge branch 'main' into ref/seo
+
+[33mcommit 7d8f6b717277afc997683995b2482e64e1dfbba2[m
+Merge: f15b8f6 ede891b
+Author: Kirat <harkirat96@gmail.com>
+Date:   Fri Mar 29 02:14:23 2024 +0530
+
+    Merge pull request #254 from devsargam/chore/issue-pr-template
+    
+    feat: setup issue & pr template
+
+[33mcommit f15b8f68e65cb57e5923f73410e11e93c23e4947[m
+Merge: c90b67f fc5cccf
+Author: Kirat <harkirat96@gmail.com>
+Date:   Fri Mar 29 02:12:01 2024 +0530
+
+    Merge pull request #274 from vijaysingh2219/main
+    
+    Improve keyboard navigation functionality to video player component
+
+[33mcommit c90b67f1d27dbcb4b9d4abb20019c488f7fdb6fe[m
+Merge: c20e36f a78058e
+Author: Kirat <harkirat96@gmail.com>
+Date:   Fri Mar 29 02:10:30 2024 +0530
+
+    Merge pull request #286 from nimit9/feat/notes-download
+    
+    feat: downloading notes
+
+[33mcommit a78058e251465f6dbe405812eb1948497fdf2721[m
+Author: Nimit Haria <nimitharia007@gmail.com>
+Date:   Fri Mar 29 02:00:11 2024 +0530
+
+    fix: added print: tailwind classes to hide appbar and footer while printing
+
+[33mcommit 7c3917a2ff043b79f02d443545de7a6149c0e05b[m
+Author: Nimit Haria <nimitharia007@gmail.com>
+Date:   Fri Mar 29 01:28:09 2024 +0530
+
+    feat: printing notion notes
+
+[33mcommit 6feb8abce7d16288984ce53e64b87103594ac07a[m
+Author: Nimit Haria <nimitharia007@gmail.com>
+Date:   Wed Mar 27 14:01:46 2024 +0530
+
+    fix: video url click wasn't working
+
+[33mcommit a84a75476ec4c2e14d3aa1044ab6ca881b1c2ba3[m
+Author: Nimit Haria <nimitharia007@gmail.com>
+Date:   Wed Mar 27 12:56:39 2024 +0530
+
+    feat: added video search
+
+[33mcommit c20e36f8cd57a1d8b66adaa7ee295528243fd467[m
+Merge: 919a4b3 62d0572
+Author: Kirat <harkirat96@gmail.com>
+Date:   Wed Mar 27 04:16:51 2024 +0530
+
+    Merge pull request #235 from krishhh16/main
+    
+    closes #212
+
+[33mcommit 919a4b312c9a7523caf8c585700573d8d143c872[m
+Merge: a326fef a9e6d45
+Author: Kirat <harkirat96@gmail.com>
+Date:   Wed Mar 27 04:07:25 2024 +0530
+
+    Merge pull request #184 from Rash-Hit/fix-dropdown-menu-component-modal-behaviour
+    
+    fix-dropdown-menu-component-modal-behaviour
+
+[33mcommit a326fef91913e10425013e16495228c7ae8200e2[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Wed Mar 27 03:21:12 2024 +0530
+
+    Fixed refresh db
+
+[33mcommit e9586091bab8cd1559bd0cf551a12de8e252c104[m
+Merge: c5c720c 48493ce
+Author: Kirat <harkirat96@gmail.com>
+Date:   Tue Mar 26 04:35:13 2024 +0530
+
+    Merge pull request #275 from devsargam/fix/edge-case
+    
+    fix: the edge case problem
+
+[33mcommit 48493ce9d864008e4c1b14b9d6cce0dbd9079383[m
+Author: devsargam <sargampoudel100@gmail.com>
+Date:   Tue Mar 26 03:41:27 2024 +0530
+
+    feat: setup refresh option
+
+[33mcommit fc5cccf823b36a1a350db80c7281b3a45083d9c6[m
+Author: Vijay <74645268+vijaysingh2219@users.noreply.github.com>
+Date:   Tue Mar 26 03:27:09 2024 +0530
+
+    feat: Improve keyboard navigation functionality to video player component
+    
+    - Added support for the following keys:
+    - 'R' key restarts playback from the beginning.
+    - 'M' key toggles mute/unmute functionality.
+    - 'K' key toggles play/pause functionality.
+    - 'J' key seeks backward by 10 seconds multiplied by the playback rate.
+    - 'L' key seeks forward by 10 seconds multiplied by the playback rate.
+
+[33mcommit 4333d9a2db66e91699f19260076f293cd8da4b85[m
+Author: devsargam <sargampoudel100@gmail.com>
+Date:   Tue Mar 26 01:54:28 2024 +0530
+
+    feat: checkpoint 1
+
+[33mcommit d9393ae85bde1a6f1495fa8cb90fbd71f612620c[m
+Merge: 8afdf73 c5c720c
+Author: Nimit Haria <nimitharia007@gmail.com>
+Date:   Sun Mar 24 23:34:50 2024 +0530
+
+    Merge branch 'main' of github.com:nimit9/cms-new into feat/bookmarks
+
+[33mcommit d12b5cbdf2719e90be48fe828649c297e1d77b5c[m
+Author: Nimit Haria <nimitharia007@gmail.com>
+Date:   Sun Mar 24 20:19:19 2024 +0530
+
+    added support for previous year as well
+
+[33mcommit 3fc35d2846572bb138a42d5bc70d06a1add931e0[m
+Author: Nimit Haria <nimitharia007@gmail.com>
+Date:   Sun Mar 24 19:54:43 2024 +0530
+
+    revert seed.ts which was added by git add .
+
+[33mcommit 9bf512cce3ab0cb38c1ce922f7c6472762aaf5aa[m
+Author: Nimit Haria <nimitharia007@gmail.com>
+Date:   Sun Mar 24 19:50:48 2024 +0530
+
+    taking duration from videometadata table
+
+[33mcommit 14e04d72b5ccd5b5469a1969dbb45040dbf03932[m
+Merge: d14337b c5c720c
+Author: Nimit Haria <nimitharia007@gmail.com>
+Date:   Sun Mar 24 19:00:14 2024 +0530
+
+    Merge branch 'main' of github.com:nimit9/cms-new into feat/user-watch-history
+
+[33mcommit 62d057215b744bf87418a5e54f3b1bbe5f63fc45[m
+Merge: 445505c c5c720c
+Author: Krishh <148282517+krishhh16@users.noreply.github.com>
+Date:   Sun Mar 24 17:44:19 2024 +0530
+
+    Merge branch 'code100x:main' into main
+
+[33mcommit c5c720cd71adff7ada1e2bb6f89f43f38667208d[m
+Merge: 128f8c2 971b386
+Author: Kirat <harkirat96@gmail.com>
+Date:   Sun Mar 24 17:32:17 2024 +0530
+
+    Merge pull request #271 from nimit9/fix/notion-code-block-rendering
+    
+    Fix/notion code block rendering
+
+[33mcommit 971b3866a67589d1caffc08c06cc9704d9b8d201[m
+Merge: 6f66461 128f8c2
+Author: Nimit Haria <nimitharia007@gmail.com>
+Date:   Sun Mar 24 16:32:23 2024 +0530
+
+    Merge branch 'main' of github.com:nimit9/cms-new into fix/notion-code-block-rendering
+
+[33mcommit 6f66461c64cdea0bc722394b5819b55b5a5f01f1[m
+Author: Nimit Haria <nimitharia007@gmail.com>
+Date:   Sun Mar 24 16:28:08 2024 +0530
+
+    fixed notion code block not rendering
+
+[33mcommit a9e6d45c2a296bd6fb7c3b86a8435c1e36532772[m
+Merge: 6bc09d7 128f8c2
+Author: Anubhav Jain <anubhavjain.jain0@gmail.com>
+Date:   Sun Mar 24 14:43:09 2024 +0530
+
+    Merge branch 'main' into fix-dropdown-menu-component-modal-behaviour
+
+[33mcommit 128f8c2f38737f696cdb5e95c1924ac2c4cdabe4[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Sat Mar 23 23:13:30 2024 +0530
+
+    Fixed cache
+
+[33mcommit 685325474045e73536e726bea099b457a3141c56[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Sat Mar 23 23:10:21 2024 +0530
+
+    Updated courses
+
+[33mcommit e3973c6dada1260b5a9c3d71b746b2158ae02729[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Sat Mar 23 23:06:46 2024 +0530
+
+    Added open courses
+
+[33mcommit cb060cf02849a68b574039a6ee4cca0d81af4d5a[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Sat Mar 23 23:02:30 2024 +0530
+
+    Updated purchases
+
+[33mcommit e8a1e0cba09510c1fb2a5955a60fdfdd238fcc7c[m
+Merge: 8125ae2 3cf5f61
+Author: Kirat <harkirat96@gmail.com>
+Date:   Sat Mar 23 21:59:06 2024 +0530
+
+    Merge pull request #264 from devsargam/hotfix
+    
+    fix: cources from db
+
+[33mcommit 3cf5f61cf8c64e1ec7bfb73e890e62e1a946417a[m
+Author: devsargam <sargampoudel100@gmail.com>
+Date:   Sat Mar 23 21:34:27 2024 +0530
+
+    fix: cources from db
+
+[33mcommit 17894407dd0c855442c9478e944c55e53b1c0885[m
+Author: Robin Singh <44robin.rs@gmail.com>
+Date:   Fri Mar 22 16:35:18 2024 +0530
+
+    added highlighting for currently active content on the sidebar
+
+[33mcommit 79f82c0cad5bd4f6874c26845112a1731df831ca[m
+Author: devsargam <sargampoudel100@gmail.com>
+Date:   Fri Mar 22 02:36:03 2024 +0530
+
+    fix: refactor repeated strings
+
+[33mcommit 6da2f2f48f15bd5422c55afb6dd64a10bd1830a2[m
+Author: devsargam <sargampoudel100@gmail.com>
+Date:   Fri Mar 22 02:13:10 2024 +0530
+
+    chore: add `sharp` for optimized images during build
+
+[33mcommit a86e82662771c2a10f4511286ea915d67fa6bc68[m
+Author: devsargam <sargampoudel100@gmail.com>
+Date:   Fri Mar 22 02:10:27 2024 +0530
+
+    refactor: improve site metadata
+
+[33mcommit ede891bacdd49e2a97cd23517a297caad51e84a4[m
+Author: devsargam <sargampoudel100@gmail.com>
+Date:   Thu Mar 21 23:50:03 2024 +0530
+
+    chore: add pr templte
+
+[33mcommit 4ea082f1feb2d88a1c5660e64eaa017a6ded28d3[m
+Author: devsargam <sargampoudel100@gmail.com>
+Date:   Thu Mar 21 23:49:46 2024 +0530
+
+    chore: add issue templte
+
+[33mcommit d14337b026ffcbff74b169281530ae5273e4edd1[m
+Author: Nimit Haria <nimitharia007@gmail.com>
+Date:   Thu Mar 21 04:56:17 2024 +0530
+
+    feat: users can now see their watch history
+
+[33mcommit 8afdf73863f1647aaa77bebe4b185de829ca1e95[m
+Author: Nimit Haria <nimitharia007@gmail.com>
+Date:   Wed Mar 20 19:30:07 2024 +0530
+
+    removed test migration as isPinned migration is already added
+
+[33mcommit c5e248b9c438ea9ea96b05927189edc114300eea[m
+Merge: 456e43a 8125ae2
+Author: Nimit Haria <nimitharia007@gmail.com>
+Date:   Wed Mar 20 14:44:36 2024 +0530
+
+    Merge branch 'main' into feat/bookmarks
+
+[33mcommit 8125ae2b609a6cccb978e0d03ef968ccd8d2ae6f[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Wed Mar 20 00:58:04 2024 +0530
+
+    fixed build
+
+[33mcommit 102042639b11efb8d1a679d5ca10400fc388b461[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Wed Mar 20 00:46:33 2024 +0530
+
+    Cache pw in db
+
+[33mcommit 7fabcc47a2580e6a6833dc6235a0126eec1b0564[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Wed Mar 20 00:27:19 2024 +0530
+
+    updated auth
+
+[33mcommit 456e43a1f97218867da2b834fa373cd9f3a6f7a5[m
+Merge: 0c10aaf 77d7ef4
+Author: Nimit Haria <nimitharia007@gmail.com>
+Date:   Tue Mar 19 06:32:13 2024 +0530
+
+    Merge branch 'feat/bookmarks' of github.com:nimit9/cms-new into feat/bookmarks
+
+[33mcommit 0c10aaf095f8bc12528f3ee21c9f96c3cea62f91[m
+Merge: 9858a1b b7d1ca4
+Author: Nimit Haria <nimitharia007@gmail.com>
+Date:   Tue Mar 19 05:08:36 2024 +0530
+
+    Merge branch 'main' of github.com:nimit9/cms-new into feat/bookmarks
+    
+    reverted seed.ts
+    
+    css changes
+
+[33mcommit 9858a1b0a7c2c8070d87658687a54a27d2c1abef[m
+Merge: 85dcda9 86274f2
+Author: Nimit Haria <nimitharia007@gmail.com>
+Date:   Mon Mar 18 03:38:52 2024 +0530
+
+    Merge branch 'main' of github.com:nimit9/cms-new into feat/bookmarks
+    
+    moved bookmark components in their folder
+    
+    added isPineed missed migration by hsingh
+    
+    rearranged bookmark data fetching and view
+    
+    made edit bookmark separate and some finishing touches
+    
+    changed bookmark from timestamp to video
+
+[33mcommit 77d7ef4bfa5558ea359c35129c9d5d0139766b70[m
+Author: Nimit Haria <nimitharia007@gmail.com>
+Date:   Tue Mar 19 06:16:40 2024 +0530
+
+    css changes
+
+[33mcommit 086504213ae3c6b1b1d7efc48bcf449c3a723de2[m
+Author: Nimit Haria <nimitharia007@gmail.com>
+Date:   Tue Mar 19 05:10:28 2024 +0530
+
+    reverted seed.ts
+
+[33mcommit 05afa368b87dcb23cf1d3bf621d2c755827b7cc6[m
+Merge: d462566 b7d1ca4
+Author: Nimit Haria <nimitharia007@gmail.com>
+Date:   Tue Mar 19 05:08:36 2024 +0530
+
+    Merge branch 'main' of github.com:nimit9/cms-new into feat/bookmarks
+
+[33mcommit d462566c6f4e9de9248a4479087a828b8cfd6e9c[m
+Author: Nimit Haria <nimitharia007@gmail.com>
+Date:   Tue Mar 19 05:07:05 2024 +0530
+
+    changed bookmark from timestamp to video
+
+[33mcommit 8d255f42b064856124ca0b33ccda5b660ca472d1[m
+Author: Aryan Prince <aryanprincesanty@icloud.com>
+Date:   Tue Mar 19 00:35:27 2024 +0300
+
+    fix: Fixed ESLint styling rules overriding issues
+
+[33mcommit b7d1ca4fab02becfc6efb7abf4f53f44379a5096[m
+Merge: 86274f2 8be6c14
+Author: Kirat <harkirat96@gmail.com>
+Date:   Mon Mar 18 23:06:25 2024 +0530
+
+    Merge pull request #240 from aryanprince/fix/deprecated-lucide-icons
+    
+    fix: Updated deprecated Lucide brand icons
+
+[33mcommit 8be6c14697d44124a597dd570aaa98af49e3ad9e[m
+Author: Aryan Prince <aryanprincesanty@icloud.com>
+Date:   Mon Mar 18 13:48:07 2024 +0300
+
+    fix: updated deprecated lucide brand icons
+
+[33mcommit 5b487939e5fa76a1bee529ad6d470d8503595591[m
+Author: Nimit Haria <nimitharia007@gmail.com>
+Date:   Mon Mar 18 05:37:30 2024 +0530
+
+    made edit bookmark separate and some finishing touches
+
+[33mcommit 358bdae3abbc306f771ec033d72b0fdf524e2201[m
+Author: Nimit Haria <nimitharia007@gmail.com>
+Date:   Mon Mar 18 04:13:51 2024 +0530
+
+    rearranged bookmark data fetching and view
+
+[33mcommit 6ee4c8daef4ee6514753ccc9894cfd2745ec5a83[m
+Author: Nimit Haria <nimitharia007@gmail.com>
+Date:   Mon Mar 18 04:00:10 2024 +0530
+
+    added isPineed missed migration by hsingh
+
+[33mcommit cdeeaab88867cf3b27bdf43c1a1d691acd204aa0[m
+Author: Nimit Haria <nimitharia007@gmail.com>
+Date:   Mon Mar 18 03:43:01 2024 +0530
+
+    moved bookmark components in their folder
+
+[33mcommit 1f288e4ebc1782ad8399617f6dc1eca3e6c71cd4[m
+Merge: 85dcda9 86274f2
+Author: Nimit Haria <nimitharia007@gmail.com>
+Date:   Mon Mar 18 03:38:52 2024 +0530
+
+    Merge branch 'main' of github.com:nimit9/cms-new into feat/bookmarks
+
+[33mcommit 85dcda958fccc197e24a20591e0b12b64a521bc3[m
+Author: Nimit Haria <nimitharia007@gmail.com>
+Date:   Mon Mar 18 03:37:14 2024 +0530
+
+    added Bookmark Feature
+
+[33mcommit 445505cb6532d65585bfe2a545611b3b057f5d23[m
+Author: krishhh16 <krishh16@yahoo.com>
+Date:   Sun Mar 17 15:30:10 2024 +0530
+
+    closes #212
+
+[33mcommit 86274f2c198a59f0aab33e0f58ed5b09c0e5048b[m
+Merge: 11ffbba 20a12ad
+Author: Kirat <harkirat96@gmail.com>
+Date:   Sun Mar 17 14:11:16 2024 +0530
+
+    Merge pull request #220 from dhruvilmehta/videoplayer
+    
+    Only Videoplayer gets re-rendered when video quality is changed and the whole page doesn't get reloaded.
+
+[33mcommit 11ffbbadc6c7639ddb5203fb4d5f792e8c6fcd96[m
+Merge: d3f6c1f e9fda14
+Author: Kirat <harkirat96@gmail.com>
+Date:   Sun Mar 17 13:37:45 2024 +0530
+
+    Merge pull request #213 from punyakrit/UpdateAppbar
+    
+    appbar modified
+
+[33mcommit d3f6c1f5b94c9f7e483ce38fd45b1c0edd80260e[m
+Merge: 9e490c5 fe498e0
+Author: Kirat <harkirat96@gmail.com>
+Date:   Sun Mar 17 13:24:30 2024 +0530
+
+    Merge pull request #226 from Vishesh-Pandey/feat/hold-t-for-2x-speed
+    
+    feat/ holding key T will run video at 2x
+
+[33mcommit 9e490c5c8025562560dc3a34ba52eb0e76fa7404[m
+Merge: f120438 c0b9a9b
+Author: Kirat <harkirat96@gmail.com>
+Date:   Sun Mar 17 13:21:55 2024 +0530
+
+    Merge pull request #231 from devsargam/role-based-admin-page
+    
+    feat: setup admin routes to be admin only
+
+[33mcommit f12043811c292c261d264868db6dd920bc34a6fd[m
+Merge: c052bf9 023f11e
+Author: Kirat <harkirat96@gmail.com>
+Date:   Sun Mar 17 13:20:38 2024 +0530
+
+    Merge pull request #206 from prasanth7890/main
+    
+    fix: #187 - adjusted sidebar height
+
+[33mcommit c052bf92e16a3fd0f484779aec1973607a193c06[m
+Merge: 132db11 eb8081d
+Author: Kirat <harkirat96@gmail.com>
+Date:   Sun Mar 17 13:17:40 2024 +0530
+
+    Merge pull request #182 from aadeshkulkarni/fix/docker-compose-depends-on
+    
+    fix: docker compose up failing on localhost
+
+[33mcommit 132db11a86f788fa1697d8b8f3d2816a661a8927[m
+Merge: aa6a5d0 6b0325e
+Author: Kirat <harkirat96@gmail.com>
+Date:   Sun Mar 17 13:16:23 2024 +0530
+
+    Merge pull request #170 from siinghd/comments/role
+    
+    Fix/Feat: comment counters, actions based on role, pinned comment
+
+[33mcommit aa6a5d0857d9bd5d23b4994ef377b4e0e4f89271[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Sun Mar 17 10:47:42 2024 +0530
+
+    cache user endpoint
+
+[33mcommit 1222a462fa2694741971b659d1f899f9909bb367[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Sun Mar 17 03:33:29 2024 +0530
+
+    more type
+
+[33mcommit 4ea0699422405283be4b7cb477352cc29d524880[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Sun Mar 17 03:32:13 2024 +0530
+
+    Fixed type
+
+[33mcommit c0b9a9b33ec10ce86efe223feec334f96c2d4a2f[m
+Author: devsargam <sargampoudel100@gmail.com>
+Date:   Sat Mar 16 04:42:48 2024 +0530
+
+    feat: setup admin routes to be admin only
+
+[33mcommit fe498e0035def928050b28609016c47465ded74e[m
+Author: Vishesh Pandey <visheshpandey24@gmail.com>
+Date:   Fri Mar 15 15:15:38 2024 +0000
+
+    feat/ holding key T will run video at 2x
+
+[33mcommit 20a12ade682c2d523080d6647e2d977519df81db[m
+Author: Dhruvil Mehta <68022411+dhruvilmehta@users.noreply.github.com>
+Date:   Thu Mar 14 00:56:34 2024 -0700
+
+    Page do not reload  when Quality is changed for the video
+
+[33mcommit 023f11e21f9964efe56d3d1bbdf7636b70d88218[m
+Merge: 21c70fe 2bf6062
+Author: prasanth7890 <59390943+prasanth7890@users.noreply.github.com>
+Date:   Tue Mar 12 21:58:39 2024 +0530
+
+    Merge branch 'code100x:main' into main
+
+[33mcommit 1e9ac1a56d41027646e9b7f2afbfcba877dd05be[m
+Merge: 2bf6062 6b0325e
+Author: Singh <38940603+siinghd@users.noreply.github.com>
+Date:   Tue Mar 12 21:03:39 2024 +0530
+
+    Merge pull request #7 from siinghd/comments/role
+    
+    Comments/role
+
+[33mcommit 6b0325e6aeddb10759049b6241d5cbad22ba2122[m
+Merge: 98aa22c 2bf6062
+Author: Singh <38940603+siinghd@users.noreply.github.com>
+Date:   Tue Mar 12 20:56:35 2024 +0530
+
+    Merge branch 'main' into comments/role
+
+[33mcommit 98aa22ca278b8521a1ee7a774385e57802444ce0[m
+Author: Harpreet Singh <szinghh@gmail.com>
+Date:   Tue Mar 12 20:50:00 2024 +0530
+
+    removed console.log
+
+[33mcommit e9fda14ebcd2d522eff604a45d3eb0493baa5434[m
+Author: Punyakrit <punyakritsinghmakhni@gmail.com>
+Date:   Tue Mar 12 12:57:33 2024 +0530
+
+    appbar modified
+
+[33mcommit 2bf606225cb34c3a2bb21c23e293efde48e2be6e[m
+Merge: 0c6962a 83f4777
+Author: Kirat <harkirat96@gmail.com>
+Date:   Tue Mar 12 12:21:16 2024 +0530
+
+    Merge pull request #191 from nirban07/favicon
+    
+    updates favicon
+
+[33mcommit 0c6962a73626ee76bda78e86c574bdd7dc4e1ff8[m
+Merge: 1240968 0942ed8
+Author: Kirat <harkirat96@gmail.com>
+Date:   Tue Mar 12 12:20:29 2024 +0530
+
+    Merge pull request #193 from Neon-20/main
+    
+    fix: added the borders in cmment and made it look decent, padding and all.
+
+[33mcommit 1240968c02d5e9f9cab0e2195d085c4d2313f70d[m
+Merge: f4fc6f8 7c42cd4
+Author: Kirat <harkirat96@gmail.com>
+Date:   Tue Mar 12 12:19:17 2024 +0530
+
+    Merge pull request #208 from adexh/main
+    
+    #195 Used cache in the API calls
+
+[33mcommit 0942ed8a1824f8a1051eb8f260c8856a0c018a7e[m
+Merge: 9b79dee f4fc6f8
+Author: Pranav Rajveer <rajveer23pr@gmail.com>
+Date:   Tue Mar 12 11:28:05 2024 +0530
+
+    Merge branch 'code100x:main' into main
+
+[33mcommit eb8081d99ca98b4b33605c022ddd6d8278b5e6de[m
+Author: Aadesh Kulkarni <aadeshkulkarni@Aadeshs-MacBook-Pro.local>
+Date:   Tue Mar 12 09:53:45 2024 +0530
+
+    fix: docker-compose db healthcheck variables
+
+[33mcommit 7c42cd481a2161699f470d5c8550ed4b679bb936[m
+Merge: ed1964a f4fc6f8
+Author: Adesh Tamrakar <adesht@outlook.com>
+Date:   Tue Mar 12 08:36:18 2024 +0530
+
+    Merge branch 'code100x:main' into main
+
+[33mcommit ed1964a9422c7415ba65053d3411fccb6f106135[m
+Author: Adesh Tamrakar <adesht@outlook.com>
+Date:   Tue Mar 12 08:03:10 2024 +0530
+
+    Removed the LOCAL_CMS Logic in cache as requested
+
+[33mcommit 21c70feea10ec067aa327168946cddc653a004a9[m
+Author: prasanth7890 <maryratnamp@gmail.com>
+Date:   Tue Mar 12 00:55:16 2024 +0530
+
+    added sidebar utility
+
+[33mcommit f4fc6f873dc6f43736cde890c23b7b69f9117f45[m
+Merge: df42d3a e7edb1e
+Author: Kirat <harkirat96@gmail.com>
+Date:   Tue Mar 12 00:33:34 2024 +0530
+
+    Merge pull request #178 from aadeshkulkarni/bugfix/chapters-light-mode
+    
+    ui-fix: Visibility issue for highlighted chapter in Light mode
+
+[33mcommit df42d3a0ec42c4f08bb0e282e4cc5778cf9536a3[m
+Merge: 160c60d 628552d
+Author: Kirat <harkirat96@gmail.com>
+Date:   Tue Mar 12 00:32:05 2024 +0530
+
+    Merge pull request #207 from dyaipayan22/feat/db-seed-and-reset-script
+    
+    #115 Created DB seed and reset scripts
+
+[33mcommit 160c60dee498bfc4b385df4e9e09beda8ac9003f[m
+Merge: c029acf a69e655
+Author: Kirat <harkirat96@gmail.com>
+Date:   Tue Mar 12 00:30:01 2024 +0530
+
+    Merge pull request #197 from himanshuxmehra/issue-194
+    
+    fix #194: null check for token on user endpoint
+
+[33mcommit 8103e88ae7eee1ded4fbdf53684f1f99ee30efcd[m
+Author: Adesh Tamrakar <adesht@outlook.com>
+Date:   Mon Mar 11 23:33:45 2024 +0530
+
+    Used cache in the API calls
+
+[33mcommit 628552d81dc98e15a62fe76dcbcf100982bd091c[m
+Author: Dyaipayan Ghosh <115914025+dyaipayan22@users.noreply.github.com>
+Date:   Mon Mar 11 22:52:17 2024 +0530
+
+    Added data seeding info in README.md
+
+[33mcommit 8918949efb4b57e627e56381255e19f3f0618426[m
+Author: prasanth7890 <maryratnamp@gmail.com>
+Date:   Mon Mar 11 22:48:55 2024 +0530
+
+    updated
+
+[33mcommit 9166749ccb4bf544e13d4e55e70b358269ec613f[m
+Author: prasanth7890 <maryratnamp@gmail.com>
+Date:   Mon Mar 11 22:41:56 2024 +0530
+
+    fix: #187 - adjusted sidebar height
+
+[33mcommit d482ab94256db90922084814b5db04949e43d809[m
+Author: dyaipayan <dev.dyaipayan@gmail.com>
+Date:   Mon Mar 11 22:12:25 2024 +0530
+
+    modified seed data
+
+[33mcommit c029acf7451817b5426d55c5a763b7939036fb62[m
+Merge: 97482fd 924c392
+Author: Kirat <harkirat96@gmail.com>
+Date:   Mon Mar 11 21:22:38 2024 +0530
+
+    Merge pull request #199 from TanmayDhobale/patch-2
+    
+    Feature: Dynamic Cache Entry Expiry
+
+[33mcommit 91c8bdc08a351c27b959915b1f48eb481817f3a8[m
+Author: dyaipayan <dev.dyaipayan@gmail.com>
+Date:   Mon Mar 11 20:48:12 2024 +0530
+
+    modified seed
+
+[33mcommit 924c3923eb079c90d4d42421f6e57d8b6df06d30[m
+Author: tanmay4l <89733575+TanmayDhobale@users.noreply.github.com>
+Date:   Mon Mar 11 20:43:00 2024 +0530
+
+    Removed the unnecessary else after return as per the linting suggestion.
+
+[33mcommit 5b304fd4ecf6a143192ae846a66577772093db95[m
+Author: dyaipayan <dev.dyaipayan@gmail.com>
+Date:   Mon Mar 11 20:39:33 2024 +0530
+
+    added seed and reset scripts
+
+[33mcommit 14569ceda5f4f851fac7f4702d75177ae212394d[m
+Author: tanmay4l <89733575+TanmayDhobale@users.noreply.github.com>
+Date:   Mon Mar 11 20:30:45 2024 +0530
+
+    Updated  Cache.ts
+
+[33mcommit 0ca1de14150944fa95c4a9a17458e19c8e115eb1[m
+Author: dyaipayan <dev.dyaipayan@gmail.com>
+Date:   Mon Mar 11 20:11:29 2024 +0530
+
+    added seed file
+
+[33mcommit 463d834d0c98b8d3c5490b1fc126282405aa758f[m
+Author: tanmay4l <89733575+TanmayDhobale@users.noreply.github.com>
+Date:   Mon Mar 11 20:09:29 2024 +0530
+
+    Cache utility with dynamic entry expiry
+
+[33mcommit a69e655df75883d2c91bf0c56f8e1319932edaec[m
+Author: himanshuxmehra <himanshu24mehra@gmail.com>
+Date:   Mon Mar 11 19:52:34 2024 +0530
+
+    fix #194: null check on user endpoint
+
+[33mcommit 9b79dee098078b17b8f292d024d4c23ed084d565[m
+Merge: 41d160d 97482fd
+Author: Pranav Rajveer <rajveer23pr@gmail.com>
+Date:   Mon Mar 11 15:12:30 2024 +0530
+
+    Merge branch 'main' into main
+
+[33mcommit 41d160dca9abb6652f3e5adf0e7ace3f481f6148[m
+Author: Pranav Rajveer <rajveer23pr@gmail.com>
+Date:   Mon Mar 11 14:36:14 2024 +0530
+
+    fix: added the borders and made it look decent, padding and all.
+
+[33mcommit 83f4777af09198693389936d1036974e50085683[m
+Author: nirban07 <nirban012@gmail.com>
+Date:   Mon Mar 11 10:48:36 2024 +0530
+
+    updates favicon
+
+[33mcommit 97482fd37441666691de667a19c01ac50f9a581d[m
+Merge: a3874d7 9a1f3b9
+Author: Kirat <harkirat96@gmail.com>
+Date:   Mon Mar 11 00:43:05 2024 +0530
+
+    Merge pull request #186 from Anand-Munjuluri/main
+    
+    Change the visibility of comment box in light mode
+
+[33mcommit 9a1f3b9597678266d04c7fc55a0c9b556198e12f[m
+Author: Anand Munjuluri <munjulurianand@gmail.com>
+Date:   Sun Mar 10 23:10:14 2024 +0530
+
+    Update CommentInputForm.tsx
+
+[33mcommit a3874d707e3ef1a3ecf7d8f7b60b5a4dbeb62809[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Sun Mar 10 22:20:10 2024 +0530
+
+    Updated div
+
+[33mcommit 645d86ce8feb8d455fe4800572ca04987d76cc0e[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Sun Mar 10 22:15:22 2024 +0530
+
+    lint
+
+[33mcommit 6bc09d7cc11e2009092f45efc2aadc5ed28937e9[m
+Author: Anubhav Jain <anubhavjain.jain0@gmail.com>
+Date:   Sun Mar 10 19:23:44 2024 +0530
+
+    --lint-fix--
+
+[33mcommit a471945766c432d0b5e3b0715fcd86e43208c892[m
+Author: Anubhav Jain <anubhavjain.jain0@gmail.com>
+Date:   Sun Mar 10 19:06:07 2024 +0530
+
+    fix-dropdown-menu-component-modal-behaviour
+
+[33mcommit b45f3c1ba10ec6001f083c691ba73dc4bbee0119[m
+Author: Aadesh Kulkarni <aadeshkulkarni@Aadeshs-MacBook-Pro.local>
+Date:   Sun Mar 10 17:55:05 2024 +0530
+
+    fix: docker compose depends on fix
+
+[33mcommit e7edb1e3d91197d794f9d4ae4b004517ab2593ce[m
+Author: Aadesh Kulkarni <aadeshkulkarni@Aadeshs-MacBook-Pro.local>
+Date:   Sun Mar 10 14:49:18 2024 +0530
+
+    ui-fix: highlighted chapter bg and text clash in light mode
+
+[33mcommit 8cf912cc7a3a76585777f13747be1f2c52efbd03[m
+Merge: 10be3e5 a2b6327
+Author: Kirat <harkirat96@gmail.com>
+Date:   Sun Mar 10 12:39:16 2024 +0530
+
+    Merge pull request #168 from devsargam/spacing
+    
+    fix: overflow issue #167
+
+[33mcommit 10be3e5ab0f7cd3cab317edce0122c06964097e0[m
+Merge: 06c5929 94dd6af
+Author: Kirat <harkirat96@gmail.com>
+Date:   Sun Mar 10 12:38:45 2024 +0530
+
+    Merge pull request #166 from Rash-Hit/fix-Too-much-space-b/w-video-and-comments
+    
+    --fix-too-much-space-b/w-video-and-comments
+
+[33mcommit 06c5929ead83acf8f07832ba226ef4c16dabf283[m
+Merge: 1c317fe 562dd5d
+Author: Kirat <harkirat96@gmail.com>
+Date:   Sun Mar 10 12:38:23 2024 +0530
+
+    Merge pull request #163 from geekyharsh05/enhance/ts-type-inference
+    
+    fix: resolve JSX type warning
+
+[33mcommit 1c317fe998539dbeb1062ee5903cb6f2a3c01e0a[m
+Merge: 2b4c25b 68e67cc
+Author: Kirat <harkirat96@gmail.com>
+Date:   Sun Mar 10 12:37:05 2024 +0530
+
+    Merge pull request #143 from Aryam2121/patch-3
+    
+    Update nav-menu.tsx
+
+[33mcommit 68e67ccfdc590af456f6976eb1989d812de38516[m
+Merge: 8de4855 2b4c25b
+Author: Kirat <harkirat96@gmail.com>
+Date:   Sun Mar 10 12:36:52 2024 +0530
+
+    Merge branch 'main' into patch-3
+
+[33mcommit 2b4c25b48dc144f8a7f0590a8a8383e63d61c770[m
+Merge: 2937904 acd2820
+Author: Kirat <harkirat96@gmail.com>
+Date:   Sun Mar 10 12:35:15 2024 +0530
+
+    Merge pull request #173 from Rash-Hit/CI-pipeline-should-fail-on-PR-if-lint-fails
+    
+    fix-ci pipeline should fail on PR if lint fails - #172
+
+[33mcommit acd28207b2bcbe82c77552bd0ea314d0f17103a8[m
+Author: Anubhav Jain <anubhavjain.jain0@gmail.com>
+Date:   Sun Mar 10 00:33:10 2024 +0530
+
+    fix-ci pipeline should fail on PR if lint fails - #172
+    
+     # Fail the job if `lint:check` exits with a non-zero code
+
+[33mcommit 293790488159c4501267ca8485a5b032ece20644[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Sat Mar 9 23:56:25 2024 +0530
+
+    fixed lint
+
+[33mcommit c89eec73c4e0f63f631c2945be0b1ce80944fde1[m
+Author: Harpreet Singh <szinghh@gmail.com>
+Date:   Sat Mar 9 12:07:20 2024 +0530
+
+    Fix/Feat: comment counters, actions based on role
+
+[33mcommit a2b6327dcc65689336e2beb029e6d6578dc1c2fd[m
+Author: devsargam <sargampoudel100@gmail.com>
+Date:   Fri Mar 8 13:08:51 2024 +0530
+
+    fix: overflow issue #167
+
+[33mcommit 94dd6afcbc8d60bd27c95cd44ad718b5dcaf17f9[m
+Author: Anubhav Jain <anubhavjain.jain0@gmail.com>
+Date:   Fri Mar 8 12:42:16 2024 +0530
+
+    --fix-too-much-space-b/w-video-and-comments
+    
+    By removing few extra br's we can fix this issue
+    
+    And because , we are using this component at one place .. there is no need to cross check this component at other places
+
+[33mcommit a25a53cbc49bd9c45c76659bfe1e2a2bb65c4829[m
+Merge: 80570f4 6d98b92
+Author: Kirat <harkirat96@gmail.com>
+Date:   Thu Mar 7 12:27:37 2024 +0530
+
+    Merge pull request #158 from Rash-Hit/complete-percentage-count-issue
+    
+    fixed-the-percentage-count-issue-in-course-card-component
+
+[33mcommit 6d98b92d014f826220c525212dd1d8ccc93b5fcf[m
+Author: Anubhav Jain <anubhavjain.jain0@gmail.com>
+Date:   Thu Mar 7 07:34:51 2024 +0530
+
+    -changing-db-query-for-videos-not-hidden-and-reverting-logic
+
+[33mcommit 5b09a1039d6c3f7aceccd07bfcf72574599b1e75[m
+Merge: af668f1 80570f4
+Author: Anubhav Jain <anubhavjain.jain0@gmail.com>
+Date:   Thu Mar 7 07:03:01 2024 +0530
+
+    Merge branch 'main' into complete-percentage-count-issue
+
+[33mcommit 562dd5dee4e57da973c12ba40daf4e87bfa589dc[m
+Author: geekyharsh05 <hp424805@gmail.com>
+Date:   Thu Mar 7 00:05:36 2024 +0530
+
+    fix: resolve JSX type warning
+
+[33mcommit 80570f4600c256dbc6dd2462e48b224ab226769d[m
+Merge: e9cb06a 8bf02d5
+Author: Kirat <harkirat96@gmail.com>
+Date:   Wed Mar 6 23:38:42 2024 +0530
+
+    Merge pull request #157 from akshayK2021/master
+    
+    Inconsistent Text Alignment in Sidebar(Mobile) Fix
+
+[33mcommit e9cb06acb81ce3f2128eecc976d3a5db3037d56a[m
+Merge: 7a63114 7161ca0
+Author: Kirat <harkirat96@gmail.com>
+Date:   Wed Mar 6 23:32:48 2024 +0530
+
+    Merge pull request #141 from Abishek-Newar/main
+    
+    issues with light mode fixed
+
+[33mcommit 7a63114a24de68f0f260815e158421ec4706accb[m
+Merge: 0b98937 a131274
+Author: Kirat <harkirat96@gmail.com>
+Date:   Wed Mar 6 23:06:08 2024 +0530
+
+    Merge pull request #153 from devsargam/main
+    
+    fix: video player being responsive in all sizes (#144)
+
+[33mcommit 0b989370efe20b64780cb371f2a9be1f0d4c934a[m
+Merge: 1151506 e7014d8
+Author: Kirat <harkirat96@gmail.com>
+Date:   Wed Mar 6 21:02:31 2024 +0530
+
+    Merge pull request #134 from Maawan/main
+    
+    fix : User token authentication issue (#124) and pressing enter on the signin page should sign the user #123
+
+[33mcommit 115150680b54cf3c9ff7904fd05dbc61e154b4ec[m
+Merge: 6718986 37c4cd8
+Author: Kirat <harkirat96@gmail.com>
+Date:   Wed Mar 6 21:02:00 2024 +0530
+
+    Merge pull request #149 from arjunpotter17/main
+    
+    added z index to fix navbar overlap
+
+[33mcommit af668f14bcab0d75399b1d8d749878bdf953c0d3[m
+Author: Anubhav Jain <anubhavjain.jain0@gmail.com>
+Date:   Tue Mar 5 18:57:36 2024 +0530
+
+    fixed-the-percentage-count-issue-in-course-card-component
+    
+    By  applying a check for hidden files , i have resolved this issue
+
+[33mcommit 8bf02d58a673ca160343b45674ad3ad6da5e6c8d[m
+Author: akshayk <akshaykawadse15@gmail.com>
+Date:   Tue Mar 5 17:52:31 2024 +0530
+
+    Inconsistent Text Alignment in Sidebar(Mobile) Fix
+
+[33mcommit 6718986947a772f16258c60615816e0654a974e4[m
+Merge: 85a289c 53e6220
+Author: Kirat <harkirat96@gmail.com>
+Date:   Tue Mar 5 14:44:46 2024 +0530
+
+    Merge pull request #151 from akshayK2021/second
+    
+    Theme overlap with notes fixed
+
+[33mcommit 85a289c11e4350f97d95ecc7665657aa663164d1[m
+Merge: 41193cd 1784480
+Author: Kirat <harkirat96@gmail.com>
+Date:   Tue Mar 5 14:37:13 2024 +0530
+
+    Merge pull request #148 from akshayK2021/master
+    
+    Overlapping Timestamp fix
+
+[33mcommit 41193cdf592991488f8128bf7a180f09fd5f579f[m
+Merge: 13cf592 a95f23a
+Author: Kirat <harkirat96@gmail.com>
+Date:   Tue Mar 5 14:35:31 2024 +0530
+
+    Merge pull request #154 from siinghd/rolesv
+    
+    Introducing simple role based access
+
+[33mcommit a95f23a52e8f25cb402cf96a2b24360a6431417a[m
+Author: Harpreet Singh <szinghh@gmail.com>
+Date:   Mon Mar 4 20:46:28 2024 +0530
+
+    role based access
+
+[33mcommit a131274606a04956edfc9691c4e8b416cbf00763[m
+Author: devsargam <sargampoudel100@gmail.com>
+Date:   Mon Mar 4 19:44:07 2024 +0530
+
+    fix: video player being responsive in all sizes (#144)
+
+[33mcommit 53e6220af29ba52f88f79272a4228bba038ff6d2[m
+Author: akshayk <akshaykawadse15@gmail.com>
+Date:   Mon Mar 4 18:12:11 2024 +0530
+
+    Theme overlap with notes fixed
+
+[33mcommit 13cf5928a4158b8002265d84a16b61c32c8631a9[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Mon Mar 4 11:58:13 2024 +0530
+
+    added prisma command
+
+[33mcommit 37c4cd8e56ba159a407d33665acf496e03d8ce63[m
+Author: Arjun <arjunpotter17@gmail.com>
+Date:   Mon Mar 4 09:45:41 2024 +0530
+
+    added z index to fix navbar overlap
+
+[33mcommit 17844809ee32e0a4e3bab0c29269a04928ca7198[m
+Author: akshayk <akshaykawadse15@gmail.com>
+Date:   Mon Mar 4 01:04:28 2024 +0530
+
+    Overlapping Timestamp fix
+
+[33mcommit 91989110109c6d8c89fb55ddcfdd1e5178e37a65[m
+Merge: 1a7f6ca af5c5d8
+Author: Kirat <harkirat96@gmail.com>
+Date:   Sun Mar 3 23:14:55 2024 +0530
+
+    Merge pull request #147 from Pratham271/Chapters
+    
+    Added the light mode changes
+
+[33mcommit af5c5d83c322bb0cf894889a2fda10641f09ed55[m
+Author: Pratham271 <chauhanpratham22@gmail.com>
+Date:   Sun Mar 3 13:21:44 2024 +0530
+
+    Added the light mode changes
+
+[33mcommit 1a7f6ca788fe98c765130f9b292c0795008a17de[m
+Merge: e311839 d3a5c19
+Author: Kirat <harkirat96@gmail.com>
+Date:   Sun Mar 3 11:55:06 2024 +0530
+
+    Merge pull request #140 from sanjeevs9/updated-footer
+    
+    I fixed the footer part earlier; it was all in a column for the small…
+
+[33mcommit 8de4855eb0c406b6d183a258f2410d0cbe15dd65[m
+Author: Aryaman Gupta <144788392+Aryam2121@users.noreply.github.com>
+Date:   Sun Mar 3 11:40:17 2024 +0530
+
+    Update nav-menu.tsx
+    
+     I've changed the text color to black (text-black) to ensure visibility in light mode. #141
+
+[33mcommit 7161ca0f8cc9b262d5ec60f4cb714aa75209db87[m
+Author: abishejk1872 <abisheknewar15@gmail.com>
+Date:   Sun Mar 3 01:13:35 2024 +0530
+
+    issues with light mode fixed
+
+[33mcommit d3a5c19c37ab99c49129309e62b6068d94646e43[m
+Author: sanjeevs9 <sanjeev.19kr@gmail.com>
+Date:   Sat Mar 2 23:46:11 2024 +0530
+
+    I fixed the footer part earlier; it was all in a column for the small and middle screens.
+
+[33mcommit e7014d882b6ac3ba6bf1b9445002c3351fb49e2c[m
+Merge: 5c238ea e311839
+Author: Maawan Ahmad <40340661+Maawan@users.noreply.github.com>
+Date:   Sat Mar 2 21:07:35 2024 +0530
+
+    Merge branch 'main' into main
+
+[33mcommit e311839ae92c582918f4f11bf6da8057e98d535d[m
+Merge: 580868e eab762b
+Author: Kirat <harkirat96@gmail.com>
+Date:   Sat Mar 2 15:40:58 2024 +0530
+
+    Merge pull request #127 from abhirajthakur/admin_ui_change
+    
+    fix: Enhance Admin UI
+
+[33mcommit 580868ebfe3be5a11eb31561fdd2610ba7179905[m
+Merge: e509831 dffc74c
+Author: Kirat <harkirat96@gmail.com>
+Date:   Sat Mar 2 15:23:46 2024 +0530
+
+    Merge pull request #122 from devsargam/feat/setup-docker
+    
+    Feat: setup docker
+
+[33mcommit e509831cb079c821149989b0afe4c26c96e525e2[m
+Merge: d93c853 a28b4e8
+Author: Kirat <harkirat96@gmail.com>
+Date:   Sat Mar 2 15:22:59 2024 +0530
+
+    Merge pull request #137 from Aryam2121/patch-2
+    
+    Update LoginGate.tsx
+
+[33mcommit eab762b1bae7355e8220c04bdb534475373edf6b[m
+Merge: 4ea031d d93c853
+Author: Abhiraj Thakur <abhirajthakur124@gmail.com>
+Date:   Fri Mar 1 21:16:44 2024 +0530
+
+    Merge branch 'code100x:main' into admin_ui_change
+
+[33mcommit 4ea031d189acf2840c52de188975a76adb80b2d8[m
+Merge: f50e9a2 8511f7d
+Author: Abhiraj Thakur <abhirajthakur124@gmail.com>
+Date:   Fri Mar 1 21:09:05 2024 +0530
+
+    Resolving Merge conflicts
+
+[33mcommit d93c853d89181298e79499ab71faf8f99d884257[m
+Merge: 861ca0d 478929f
+Author: Kirat <harkirat96@gmail.com>
+Date:   Fri Mar 1 11:00:58 2024 +0530
+
+    Merge pull request #120 from HusainModiwala/fix/able-to-login-without-credentials
+    
+    fix: able to login without credentials (signin field validation missing)
+
+[33mcommit 861ca0d6d9f17fffc8657178b592ecce239e3768[m
+Merge: 8511f7d 4c1c5bf
+Author: Kirat <harkirat96@gmail.com>
+Date:   Fri Mar 1 10:57:45 2024 +0530
+
+    Merge pull request #133 from MangaByteCoder/main
+    
+    Feat: Scrollable Comment Section
+
+[33mcommit a28b4e8c635bec05b76bb8e75ac296bf56749789[m
+Author: Aryaman Gupta <144788392+Aryam2121@users.noreply.github.com>
+Date:   Thu Feb 29 22:44:37 2024 +0530
+
+    Update LoginGate.tsx
+    
+    Removed unnecessary justify-center flex classes by using text-center for centering text.
+    Moved the sign-in logic into a separate function (handleSignIn) for better readability.
+    Combined the two div elements into one, using mb-4 for margin-bottom spacing.
+    Cleaned up the code for better organization and readability.
+
+[33mcommit dffc74caeb718cc015ba077bab35d4210e992c89[m
+Author: devsargam <sargampoudel100@gmail.com>
+Date:   Thu Feb 29 17:00:44 2024 +0530
+
+    fix: improve docker quality
+
+[33mcommit f1d6c512cfa0fe169df0ce47ee42e0e421cd5b6b[m
+Merge: 2d93bbd 8511f7d
+Author: Sargam <sargampoudel100@gmail.com>
+Date:   Thu Feb 29 16:44:01 2024 +0530
+
+    Merge branch 'main' into feat/setup-docker
+
+[33mcommit 5c238ea9cd39c2b605be73124fa4564a3c903798[m
+Author: Mohd Mawan Ahmad <maawan18@gmail.com>
+Date:   Thu Feb 29 14:17:42 2024 +0530
+
+    Added signin on enter press functionality
+
+[33mcommit 1f8da6bfbe18555a3c1f8cbdf9bba605e57c0be9[m
+Author: Mohd Mawan Ahmad <maawan18@gmail.com>
+Date:   Thu Feb 29 14:13:38 2024 +0530
+
+    Corrected NEXT_PUBLIC_BASE_URL_LOCAL from 8000 to 3000 port
+
+[33mcommit 4c1c5bf052c2a1c7d737f2afec77e4f65dccbd76[m
+Author: MangaByteCoder <160803937+MangaByteCoder@users.noreply.github.com>
+Date:   Thu Feb 29 12:55:45 2024 +0530
+
+    Made Comment Section Scrollable
+
+[33mcommit 8511f7d78d53b11b566e67f64f4f8d7ef137cbdc[m
+Merge: 6330d57 b4cc8f0
+Author: Kirat <harkirat96@gmail.com>
+Date:   Thu Feb 29 10:26:30 2024 +0530
+
+    Merge pull request #121 from devsargam/fix/migration
+    
+    fix: add missed migration by hshingh
+
+[33mcommit 6330d57be69643f2b22bcdb4e0f88c1fe72613e9[m
+Merge: ea852bf faa296b
+Author: Kirat <harkirat96@gmail.com>
+Date:   Thu Feb 29 09:59:30 2024 +0530
+
+    Merge pull request #117 from devsargam/main
+    
+    feat: Enhance the Admin UI
+
+[33mcommit f50e9a2c4d586a3baa5e77c830902d0cbacb8c3f[m
+Author: Abhiraj Thakur <abhirajthakur124@gmail.com>
+Date:   Wed Feb 28 13:29:39 2024 +0530
+
+    fix: Enhance Admin UI
+
+[33mcommit 2d93bbd4ee5063ea8b3a05d5c1b0b8cc5aa99662[m
+Author: devsargam <sargampoudel100@gmail.com>
+Date:   Tue Feb 27 21:08:51 2024 +0530
+
+    fix: add .dockerignore
+
+[33mcommit 41c5eca75e13119db3d6786a7cda9c94171ae423[m
+Author: devsargam <sargampoudel100@gmail.com>
+Date:   Tue Feb 27 11:26:07 2024 +0530
+
+    fix: add .env.example
+
+[33mcommit dc8da43f4b300e0dfe273087f9463e860542fe71[m
+Author: devsargam <sargampoudel100@gmail.com>
+Date:   Tue Feb 27 04:20:08 2024 +0530
+
+    feat: setup docker with compose
+
+[33mcommit 457df498b1c3083838f4e80349373c1994c0418f[m
+Author: devsargam <sargampoudel100@gmail.com>
+Date:   Tue Feb 27 04:14:07 2024 +0530
+
+    fix: add missed migration by hshingh
+
+[33mcommit 978995251e18674591a3ffa2ff19b745699aabee[m
+Author: devsargam <sargampoudel100@gmail.com>
+Date:   Tue Feb 27 03:48:55 2024 +0530
+
+    fix: add missed migration by hshingh
+
+[33mcommit b4cc8f03f9f6f6cf694c67bd64040f1c6f6e784f[m
+Author: devsargam <sargampoudel100@gmail.com>
+Date:   Tue Feb 27 03:40:39 2024 +0530
+
+    fix: add missed migration by hshingh
+
+[33mcommit faa296b5990b665e69a24b3aa03024e1c1552aa6[m
+Merge: ce8da97 ea852bf
+Author: Sargam Poudel <sargampoudel100@gmail.com>
+Date:   Tue Feb 27 01:37:41 2024 +0530
+
+    Merge branch 'code100x:main' into main
+
+[33mcommit 478929f13ec6ace6287430ae10b07e2240437a1f[m
+Author: HusainModiwala <hussainmodiwala@gmail.com>
+Date:   Mon Feb 26 16:27:42 2024 +0530
+
+    fix: able to login without credentials (signin field validation missing)
+
+[33mcommit ea852bf7508c8b2140cc6e60fdccb3252c558d0e[m
+Merge: 4f2c2b7 43cb7ec
+Author: Kirat <harkirat96@gmail.com>
+Date:   Mon Feb 26 10:28:57 2024 +0100
+
+    Merge pull request #119 from siinghd/session
+    
+    FEAT: single session/login
+
+[33mcommit 43cb7ec4656a037289344b21cc18db2b829119c8[m
+Author: Harpreet Singh <szinghh@gmail.com>
+Date:   Mon Feb 26 14:40:04 2024 +0530
+
+    added ui changes
+
+[33mcommit de241a5976776d7128854d6724ea66990d41a2d4[m
+Author: Harpreet Singh <szinghh@gmail.com>
+Date:   Mon Feb 26 11:58:39 2024 +0530
+
+    added admin part
+
+[33mcommit 2bdb2f1fe3521bd37644190136f276c2b3207de1[m
+Author: Harpreet Singh <szinghh@gmail.com>
+Date:   Mon Feb 26 10:45:05 2024 +0530
+
+    use the already JWT SERCRET in the env
+
+[33mcommit 89230ce14ee124fee59292008b566f8134dcc496[m
+Author: Harpreet Singh <szinghh@gmail.com>
+Date:   Mon Feb 26 10:13:45 2024 +0530
+
+    FEAT:single session/login
+
+[33mcommit ce8da971d7dfc3c030f49a509de15c97403f3234[m
+Author: devsargam <sargampoudel100@gmail.com>
+Date:   Sun Feb 25 22:47:52 2024 +0530
+
+    fix: typo on /admin
+
+[33mcommit 062dace04289a7fadc7dd7083a03d5be6bf9e60b[m
+Author: Harpreet Singh <szinghh@gmail.com>
+Date:   Sun Feb 25 21:58:17 2024 +0530
+
+    init single session
+
+[33mcommit 0287ba12a98975779e9e3f12fa2e5c9cd3e3cba8[m
+Author: devsargam <sargampoudel100@gmail.com>
+Date:   Sun Feb 25 21:51:42 2024 +0530
+
+    fix: improve content admin UI
+
+[33mcommit 45085609dfcc7ee5447d03e2cd5ac30846a41db2[m
+Author: devsargam <sargampoudel100@gmail.com>
+Date:   Sun Feb 25 21:35:55 2024 +0530
+
+    fix: update admin/discord page
+
+[33mcommit 9e72d052c238ffe5dab0e9b31a1e328aabdfc809[m
+Author: devsargam <sargampoudel100@gmail.com>
+Date:   Sun Feb 25 21:19:40 2024 +0530
+
+    fix: add toast for warning in admin
+
+[33mcommit a5d14ee2b82a11c7d7e45f3c64e580f3d31394ba[m
+Author: devsargam <sargampoudel100@gmail.com>
+Date:   Sun Feb 25 21:00:00 2024 +0530
+
+    fix: improve ui for /admin & /admin/userflags
+
+[33mcommit 4f2c2b7f7b3e7c08433037901955fc518d7ea812[m
+Merge: 0313b08 57aca65
+Author: Kirat <harkirat96@gmail.com>
+Date:   Sun Feb 25 12:48:13 2024 +0100
+
+    Merge pull request #113 from C0dewithLokesh/fix/overflow-card-Homepage
+    
+    fix Overflow course card inssue on Homepage
+
+[33mcommit 57aca65c5022faa411d6b920ae545d1eee500555[m
+Author: C0dewithLokesh <lokeshkaushik2243@gmail.com>
+Date:   Sun Feb 25 17:10:39 2024 +0530
+
+    overflow fix in tnc and Privacy Policy Page
+
+[33mcommit 7ba3034fed9e7e8e3faa78572e230b5a5e353793[m
+Author: C0dewithLokesh <lokeshkaushik2243@gmail.com>
+Date:   Sun Feb 25 16:50:03 2024 +0530
+
+    fix course card overflow
+
+[33mcommit 0313b085fee911d415a4e173214fd13e8b0a1406[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Sun Feb 25 07:51:40 2024 +0100
+
+    Added changes from #106
+
+[33mcommit 4c0cc494dab0a2b91f8ad023b43a9aa13b0e63a2[m
+Merge: 0ca181a fb4bae0
+Author: Kirat <harkirat96@gmail.com>
+Date:   Sun Feb 25 07:18:53 2024 +0100
+
+    Merge pull request #105 from siinghd/chapter
+    
+    fix segments parser supports hourly syntax
+
+[33mcommit 0ca181afcf9e36fae3edb672dea7c6edd96687b2[m
+Merge: 7262289 bb69aa2
+Author: Kirat <harkirat96@gmail.com>
+Date:   Sun Feb 25 07:17:35 2024 +0100
+
+    Merge pull request #107 from shreyas0924/side-scroll
+    
+    Fixes #92 : Side scroll individually and hidden scrollbar
+
+[33mcommit 7262289ba73d9999e1e924729106436246f6b342[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Fri Feb 23 15:31:00 2024 +0100
+
+    fallbacks
+
+[33mcommit bb69aa24539b52b63a07da5859cacfc1cef8e49e[m
+Author: shreyas0924 <shreyasp0924@gmail.com>
+Date:   Thu Feb 22 21:38:38 2024 +0530
+
+    Fix: Side scroll individually and hidden scrollbar
+
+[33mcommit aeeeb4e50c0daf5c8360c8ffbaf493e20992bca6[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Thu Feb 22 12:35:58 2024 +0100
+
+    increase timeout period
+
+[33mcommit 0709a09c2e3674525c5179a7f3f32b094f03d458[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Thu Feb 22 08:28:14 2024 +0100
+
+    removed purchase logic
+
+[33mcommit c6247415a85a62a46a517662cb5c026f148a48b0[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Thu Feb 22 08:20:51 2024 +0100
+
+    Added logout button
+
+[33mcommit fb4bae0eaf79f79bc0f2c414a6a8d8812265d034[m
+Author: Harpreet Singh <szinghh@gmail.com>
+Date:   Thu Feb 22 10:15:34 2024 +0530
+
+    fix segments parser supports hours
+
+[33mcommit 09c5b96435a387c46a8cd081ed62ab956b8c4b28[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Thu Feb 22 00:24:26 2024 +0100
+
+    logo update
+
+[33mcommit 15b0af830e72127a387386e9e71d848f7086443f[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Wed Feb 21 23:42:46 2024 +0100
+
+    Added experimental flag
+
+[33mcommit 86975d3690b812ff872b82a6df9088a12251fd8f[m
+Merge: afb32d2 7fb6c70
+Author: Kirat <harkirat96@gmail.com>
+Date:   Wed Feb 21 06:59:13 2024 +0100
+
+    Merge pull request #98 from siinghd/main
+    
+    Fix/feat: Reply comments appearing in all comments
+
+[33mcommit 7fb6c7072068e9c520b4af2c38d9cd94c06d1aa9[m
+Merge: f69419b 10568d4
+Author: Singh <38940603+siinghd@users.noreply.github.com>
+Date:   Tue Feb 20 22:56:42 2024 +0100
+
+    Merge pull request #5 from siinghd/fix/nested-comments
+    
+    Fix/nested comments
+
+[33mcommit 10568d423f332488632f3f451f26b25d6b47f151[m
+Author: Harpreet Singh <szinghh@gmail.com>
+Date:   Tue Feb 20 14:29:54 2024 +0100
+
+    feat: added delete btn for the user
+
+[33mcommit 870119515e82f417fc8c090c4b5490237489918a[m
+Author: Harpreet Singh <szinghh@gmail.com>
+Date:   Tue Feb 20 14:15:34 2024 +0100
+
+    fix: nested comments, added filters
+
+[33mcommit 32b76ba7894a45199848ef36a44238c03271a113[m
+Author: Harpreet Singh <szinghh@gmail.com>
+Date:   Tue Feb 20 13:32:54 2024 +0100
+
+    fix: nested comments, added filters
+
+[33mcommit 1b8337662a7e5e856cb30281a4682f1a30177940[m
+Author: Harpreet Singh <szinghh@gmail.com>
+Date:   Tue Feb 20 13:08:34 2024 +0100
+
+    fix: nested comments, added filters
+
+[33mcommit bf6ee833934b8099651e6672a801475892f0c14f[m
+Author: Harpreet Singh <szinghh@gmail.com>
+Date:   Tue Feb 20 11:58:12 2024 +0100
+
+    fix: nested comments
+
+[33mcommit 1bd42f74c17f7af1428ff0477f675f51cb243619[m
+Author: Harpreet Singh <szinghh@gmail.com>
+Date:   Wed Feb 14 18:19:37 2024 +0100
+
+    Improvements: VideoPlayer added quality btn,skipbtns +15 -15
+
+[33mcommit f69419b218ada9ea71812d0beaa20ff25e59cbe0[m
+Merge: 00d6aa0 c5639ae
+Author: Singh <38940603+siinghd@users.noreply.github.com>
+Date:   Tue Feb 20 22:49:19 2024 +0100
+
+    Merge pull request #4 from siinghd/fix/nested-comments
+    
+    Fix/nested comments
+
+[33mcommit c5639aef87082335b00fc65f4c39ea5808d71140[m
+Merge: e148838 afb32d2
+Author: Harpreet Singh <szinghh@gmail.com>
+Date:   Tue Feb 20 22:46:58 2024 +0100
+
+    Merge remote-tracking branch 'upstream/main' into fix/nested-comments
+    merge upstream
+
+[33mcommit 00d6aa06c8098d9adc47d0bd9bf78409fd6c14f1[m
+Merge: 396442f e148838
+Author: Singh <38940603+siinghd@users.noreply.github.com>
+Date:   Tue Feb 20 14:43:42 2024 +0100
+
+    Merge pull request #3 from siinghd/fix/nested-comments
+    
+    Fix/nested comments
+
+[33mcommit e148838e51e1580410b8ea19056a4478551d1681[m
+Author: Harpreet Singh <szinghh@gmail.com>
+Date:   Tue Feb 20 14:29:54 2024 +0100
+
+    feat: added delete btn for the user
+
+[33mcommit 6f18c61ca5962163975da5a282a100d497b107e6[m
+Author: Harpreet Singh <szinghh@gmail.com>
+Date:   Tue Feb 20 14:15:34 2024 +0100
+
+    fix: nested comments, added filters
+
+[33mcommit d5560d7b65029227257f0f1a8a867e58fad869dd[m
+Author: Harpreet Singh <szinghh@gmail.com>
+Date:   Tue Feb 20 13:32:54 2024 +0100
+
+    fix: nested comments, added filters
+
+[33mcommit 0b2da4d6ed05ceeb0feb74915d42c752c1c75618[m
+Author: Harpreet Singh <szinghh@gmail.com>
+Date:   Tue Feb 20 13:08:34 2024 +0100
+
+    fix: nested comments, added filters
+
+[33mcommit a75045150bcfa9fe37d3d5f8b7459d3b11b4351f[m
+Author: Harpreet Singh <szinghh@gmail.com>
+Date:   Tue Feb 20 11:58:12 2024 +0100
+
+    fix: nested comments
+
+[33mcommit afb32d2d423230d6ac2dfa116810e9cd9782adcd[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Mon Feb 19 21:41:04 2024 +0100
+
+    fixed types
+
+[33mcommit aedb59d20b0e444a8b6f27a7976dd39f3cf2a97f[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Mon Feb 19 19:58:40 2024 +0100
+
+    revert gate
+
+[33mcommit 9b85fcf16efea070c7a06964f5666ee2448e5d5f[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Mon Feb 19 09:48:16 2024 +0100
+
+    added gate
+
+[33mcommit 396442f53818c2e272ab6365cc80dfd6c7a1eb2c[m
+Merge: 4034cd9 742bd3e
+Author: Singh <38940603+siinghd@users.noreply.github.com>
+Date:   Wed Feb 14 18:21:21 2024 +0100
+
+    Merge pull request #2 from siinghd/improvements/videoplayer
+    
+    Improvements: VideoPlayer added quality btn,skipbtns +15 -15
+
+[33mcommit 742bd3ebc08b244ae2f4035e98c3703a2300fad8[m
+Author: Harpreet Singh <szinghh@gmail.com>
+Date:   Wed Feb 14 18:19:37 2024 +0100
+
+    Improvements: VideoPlayer added quality btn,skipbtns +15 -15
+
+[33mcommit 4034cd9fe1fc310b49c0b4eaa53b61ed9723f821[m
+Merge: 02560fc 1058277
+Author: Singh <38940603+siinghd@users.noreply.github.com>
+Date:   Sat Feb 10 00:56:47 2024 +0100
+
+    Merge branch 'code100x:main' into main
+
+[33mcommit 1058277d9badcf7c5b615b00635c52595dc623bc[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Sat Feb 10 05:15:24 2024 +0530
+
+    Fixed migrations
+
+[33mcommit fd244a791fd9ddb39f97478a9961f13ddaa0c1bc[m
+Merge: eecd4c7 f7f95b4
+Author: Kirat <harkirat96@gmail.com>
+Date:   Sat Feb 10 05:03:05 2024 +0530
+
+    Merge pull request #88 from siinghd/comments/hsingh
+    
+    Fix deploy error
+
+[33mcommit 02560fcb0320cffc4c172f8665746170a5a4ac71[m
+Merge: eecd4c7 f7f95b4
+Author: Singh <38940603+siinghd@users.noreply.github.com>
+Date:   Sat Feb 10 00:14:28 2024 +0100
+
+    Merge pull request #1 from siinghd/comments/hsingh
+    
+    Comments/hsingh
+
+[33mcommit f7f95b4e4e814771a6d632bc7971b84ff7ea10ae[m
+Author: Harpreet Singh <szinghh@gmail.com>
+Date:   Sat Feb 10 00:13:39 2024 +0100
+
+    Possible build fix related to sharp version 0.33.2
+
+[33mcommit 3606a7b5e3dd84c4ccd3c57b364d6e637a7d1534[m
+Author: Harpreet Singh <szinghh@gmail.com>
+Date:   Sat Feb 10 00:13:24 2024 +0100
+
+    Possible build fix related to sharp version 0.33.2
+
+[33mcommit eecd4c722d2741f4650601b534adede490649f41[m
+Merge: 162e7f3 05a41f8
+Author: Kirat <harkirat96@gmail.com>
+Date:   Sat Feb 10 04:30:05 2024 +0530
+
+    Merge pull request #75 from shivamshahi07/fix/social-hover
+    
+    fix:socialhover in footer
+
+[33mcommit 162e7f3c23c37c82761f2cdb4a2dbd3bce2e04ef[m
+Merge: 244d053 809ea58
+Author: Kirat <harkirat96@gmail.com>
+Date:   Sat Feb 10 04:22:29 2024 +0530
+
+    Merge pull request #80 from siinghd/comments/hsingh
+    
+    Feature: added comments, added people can comment chapters, some improvements
+
+[33mcommit 809ea58e060724b5fcc7a0a5fe840750c04737eb[m
+Author: Harpreet Singh <szinghh@gmail.com>
+Date:   Fri Feb 9 23:36:12 2024 +0100
+
+    added admin part to approve comments
+
+[33mcommit 244d053bdec99e0b68b226bcb2de5221a3787a5f[m
+Author: Kirat <harkirat96@gmail.com>
+Date:   Sat Feb 10 02:29:14 2024 +0530
+
+    Update ContentRenderer.tsx
+
+[33mcommit 43726e85bd195096d2e6db46922b7ea8710ad1b6[m
+Author: Kirat <harkirat96@gmail.com>
+Date:   Sat Feb 10 02:27:42 2024 +0530
+
+    Update ContentRenderer.tsx
+
+[33mcommit 97d4ce5bb66b7c900c78f419f89592987ed999e2[m
+Author: Kirat <harkirat96@gmail.com>
+Date:   Sat Feb 10 02:25:13 2024 +0530
+
+    Update ContentRenderer.tsx
+
+[33mcommit 072a0bcb92985ae3704bec1ae2984d91d985befd[m
+Author: Harpreet Singh <szinghh@gmail.com>
+Date:   Fri Feb 9 14:01:15 2024 +0100
+
+    added scroll false to link
+
+[33mcommit 54fa86e452574bb5a8323dca8a27de757de9602d[m
+Author: Harpreet Singh <szinghh@gmail.com>
+Date:   Thu Feb 8 00:53:23 2024 +0100
+
+    changed lint.yml action to try to fix and not only check
+
+[33mcommit 70e63dcf9c926e452f0e1c87125daab5f86041d6[m
+Author: Harpreet Singh <szinghh@gmail.com>
+Date:   Thu Feb 8 00:17:41 2024 +0100
+
+    Feature: added comments, started people can comment chapter, general improvements
+
+[33mcommit 05a41f82f0cedf8bb0fde5f0f52c5231648742a7[m
+Author: Shivam Shahi <shivam.shahi06@gmail.com>
+Date:   Tue Feb 6 12:57:12 2024 +0530
+
+    fix:socialhover in footer
+
+[33mcommit ca225e4c3a5f912a1116d91a7df96cc63bf2f6e8[m
+Merge: 32ce620 f2e152d
+Author: Kirat <harkirat96@gmail.com>
+Date:   Tue Feb 6 06:20:30 2024 +0530
+
+    Merge pull request #71 from Bloodlycrul/main
+    
+    Updated the login responsive
+
+[33mcommit 32ce620f28ec8d2067dc6a4e070e7ad52653146d[m
+Merge: ebe0ac7 d0ffdb1
+Author: Kirat <harkirat96@gmail.com>
+Date:   Tue Feb 6 06:19:20 2024 +0530
+
+    Merge pull request #69 from shivamshahi07/feat/path-section
+    
+    added daily code section
+
+[33mcommit ebe0ac7c80e9ec5cefd283c6e90c2375dab97231[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Tue Feb 6 01:43:25 2024 +0100
+
+    Made lookups faster by better queries
+
+[33mcommit f2e152da038c203257216a715433b512571346d0[m
+Author: Gaurav Rana <em.gauravrana@gmail.com>
+Date:   Sun Feb 4 16:13:29 2024 +0530
+
+    Updated the login responsive
+
+[33mcommit d0ffdb1a849b25314be73584892c07b4a2d94f37[m
+Author: Shivam Shahi <shivam.shahi06@gmail.com>
+Date:   Sun Feb 4 13:37:08 2024 +0530
+
+    added daily code section
+
+[33mcommit 38c9bb97c03fff8e9280cd6a5c0cb4a90cd18060[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Sun Feb 4 04:03:54 2024 +0100
+
+    fix build
+
+[33mcommit 182d52d39184d3f07c8adb8b6a727a9b96809553[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Sun Feb 4 04:03:17 2024 +0100
+
+    class => className
+
+[33mcommit 4c51d8ee71606556900eb86386106fefe6f9b2e3[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Sun Feb 4 04:02:44 2024 +0100
+
+    Fixed complete logic, added hidden logic
+
+[33mcommit 9095ba8f3ae2347f8cc72a965aa725f9542d0697[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Sun Feb 4 02:32:24 2024 +0100
+
+    Fixed layout
+
+[33mcommit d70659f5de0ecdc80262ac8a42d333d9db3a5b77[m
+Merge: 72516ac f8082e6
+Author: Kirat <harkirat96@gmail.com>
+Date:   Sun Feb 4 07:05:15 2024 +0530
+
+    Merge pull request #64 from nimit9/feat/user-progress
+    
+    Feat/user progress
+
+[33mcommit f8082e6fce0c460cf89b5af935e02d4f523ffd3d[m
+Merge: 5c9404a 72516ac
+Author: Kirat <harkirat96@gmail.com>
+Date:   Sun Feb 4 07:04:51 2024 +0530
+
+    Merge branch 'main' into feat/user-progress
+
+[33mcommit 72516ac3c99a9d25d1f4fca5b39cce9669e2e25b[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Sun Feb 4 02:29:05 2024 +0100
+
+    fixes build
+
+[33mcommit d7dfe6e8ac536c593d929e862aa543db56a933e1[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Sun Feb 4 02:24:10 2024 +0100
+
+    Added hidden field
+
+[33mcommit 0e9ca561cc005db7fe75eacbb37f4ab07c08c4ec[m
+Merge: 76109d1 4eee31c
+Author: Kirat <harkirat96@gmail.com>
+Date:   Sun Feb 4 06:43:30 2024 +0530
+
+    Merge pull request #54 from tanayvaswani/fix/course-card
+    
+    fix: Course Page & Card
+
+[33mcommit 76109d113cf79f5142a3a703f67e7c2dddf34114[m
+Merge: 68538bc 022ada1
+Author: Kirat <harkirat96@gmail.com>
+Date:   Sun Feb 4 06:42:48 2024 +0530
+
+    Merge pull request #50 from dhruvilmehta/videoplayer2
+    
+    Added keyboard functionalities of playback speed and volume control to video
+
+[33mcommit 68538bceb4a46093da3eba7de9aa097497c44cc9[m
+Merge: 886b314 f7f7558
+Author: Kirat <harkirat96@gmail.com>
+Date:   Sun Feb 4 06:41:42 2024 +0530
+
+    Merge pull request #49 from Neon-20/interactivity
+    
+    modified images 2d to 3d , and made them more interactive, also increased readability in dark mode.
+
+[33mcommit 886b314187665a8c4fd2ec8647e1c85f0e36593e[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Sun Feb 4 00:12:12 2024 +0100
+
+    Fixed route
+
+[33mcommit 7b2a95b73c44b9449a172b4490bfba9fba7ab373[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Sat Feb 3 22:27:23 2024 +0100
+
+    segments added optional chaining
+
+[33mcommit 5c9404a8d90e335a0e16d537398c60154ad4b45b[m
+Author: Nimit Haria <nimitharia007@gmail.com>
+Date:   Sat Feb 3 18:03:21 2024 +0530
+
+    fix: linting errors
+
+[33mcommit da78ea7008578b05d43610a598f11390b967db9c[m
+Merge: 34028a2 26259a9
+Author: Nimit Haria <nimitharia007@gmail.com>
+Date:   Sat Feb 3 17:23:11 2024 +0530
+
+    Merge branch 'main' of github.com:nimit9/cms into feat/user-progress
+
+[33mcommit 34028a2c3d9d189a9d4f20f14db9396fb1959ba9[m
+Author: Nimit Haria <nimitharia007@gmail.com>
+Date:   Sat Feb 3 17:16:24 2024 +0530
+
+    feat: added mark as completed feature
+
+[33mcommit 4eee31cd35554025899e8055387cd58aa2575bba[m
+Author: tanayvaswani <vaswani.tanay9@gmail.com>
+Date:   Sat Feb 3 13:03:10 2024 +0530
+
+    feat: Course card
+
+[33mcommit 022ada159fc3529a886c664e90abb39ea87421f0[m
+Author: Dhruvil Mehta <68022411+dhruvilmehta@users.noreply.github.com>
+Date:   Fri Feb 2 22:52:12 2024 -0800
+
+    Added setTimeout Cleanup
+
+[33mcommit f7f75588950674fc7328dff76c5cabf5ce7d344c[m
+Author: Pranav Rajveer <rajveer23pr@gmail.com>
+Date:   Sat Feb 3 10:55:00 2024 +0530
+
+    Remove unwanted files
+
+[33mcommit d419ae69ebe5ca3eed2fe3b81bd5ebaf4746bbf0[m
+Author: Dhruvil Mehta <68022411+dhruvilmehta@users.noreply.github.com>
+Date:   Fri Feb 2 19:26:34 2024 -0800
+
+    Added keyboard functionalities of playback speed and volume control to video
+
+[33mcommit 26259a9efb9a72402c5c1cac2a1adfc493dff52f[m
+Merge: bef4641 15f7dbc
+Author: Kirat <harkirat96@gmail.com>
+Date:   Sat Feb 3 07:05:12 2024 +0530
+
+    Merge pull request #53 from siinghd/quickfix
+    
+    FIX: hamburger flipped, chapter title not visible on white mode, and …
+
+[33mcommit 15f7dbc543ba107ff69646d311869687bb057201[m
+Author: Harpreet Singh <szinghh@gmail.com>
+Date:   Sat Feb 3 00:11:18 2024 +0100
+
+    FIX: hamburger flipped, cahpter title not visible on white mode, and animated on hover cards
+
+[33mcommit bef46416c837a3de95abf3e63ac95760982d749b[m
+Merge: 116bd23 c2d7ef1
+Author: Kirat <harkirat96@gmail.com>
+Date:   Sat Feb 3 04:09:20 2024 +0530
+
+    Merge pull request #46 from siinghd/fixurgent45
+    
+    Fix urgent #45
+
+[33mcommit c2c2e16c24fd53b1c65c33f84f5ec2bec7be4397[m
+Author: Pranav Rajveer <rajveer23pr@gmail.com>
+Date:   Sat Feb 3 02:00:01 2024 +0530
+
+    modified images and made them more interactive and increased readability in dark mode.
+
+[33mcommit c2d7ef1fa425e60fed37c25f23d2fe6c7478973b[m
+Author: Harpreet Singh <szinghh@gmail.com>
+Date:   Fri Feb 2 18:55:40 2024 +0100
+
+    added user redirect to homepage in signin page
+
+[33mcommit d30a52303d95f4a13a0968b73228306f89d946f0[m
+Author: Harpreet Singh <szinghh@gmail.com>
+Date:   Fri Feb 2 18:15:48 2024 +0100
+
+    fix email not reaching backend
+
+[33mcommit 7702735f9f7210f4e39b5585718a0c4194ff4b54[m
+Merge: d2df743 116bd23
+Author: Harpreet Singh <szinghh@gmail.com>
+Date:   Fri Feb 2 18:10:30 2024 +0100
+
+    Merge branch 'main' of github.com:siinghd/cms into fixurgentorigin/main
+    pull from main
+
+[33mcommit 116bd23a88d58a0f33bcf9bd09ec62ce0c4f3791[m
+Merge: e12d2fc 9e57b15
+Author: Kirat <harkirat96@gmail.com>
+Date:   Fri Feb 2 22:09:48 2024 +0530
+
+    Merge pull request #42 from shreyas0924/signin
+    
+    fix: Fixes #22 and #27 by adding custom signin page and show password with shadcn
+
+[33mcommit 9e57b158e6df4347088de97dad876331f3c1eaab[m
+Author: shreyas0924 <shreyasp0924@gmail.com>
+Date:   Fri Feb 2 19:44:28 2024 +0530
+
+    fix: added toast for signin error
+
+[33mcommit 67ca6e06a957dc43c03f3b9ab0326fa6254a9347[m
+Author: shreyas0924 <shreyasp0924@gmail.com>
+Date:   Fri Feb 2 18:19:40 2024 +0530
+
+    fix: Fixes #22 and #27 by adding custom signin page and show password with shadcn
+
+[33mcommit d2df74359f0c604eb7806a4239a982f28dbfbed0[m
+Author: Harpreet Singh <szinghh@gmail.com>
+Date:   Fri Feb 2 03:37:25 2024 +0100
+
+    fixed issue with sticky bar after pull
+
+[33mcommit c6025f9f24486e127a09ce37729a8a4d5f58f907[m
+Merge: 288d26a e12d2fc
+Author: Harpreet Singh <szinghh@gmail.com>
+Date:   Fri Feb 2 03:26:07 2024 +0100
+
+    fixed conflicts
+
+[33mcommit 288d26aa3255e54b2deb4dbacb28052d2a7139d2[m
+Author: Harpreet Singh <szinghh@gmail.com>
+Date:   Fri Feb 2 02:54:47 2024 +0100
+
+    sidebar and hamburger fix
+
+[33mcommit e12d2fcf906ed2bcfe1501bbeb93fbedc9fb8cde[m
+Merge: 4c01cb2 8b4dda8
+Author: Kirat <harkirat96@gmail.com>
+Date:   Fri Feb 2 06:52:51 2024 +0530
+
+    Merge pull request #33 from sahilsuman933/fix-bonked-sidebar
+    
+    [Bugfix] Bonked Sidebar Colors in light mode
+
+[33mcommit 4c01cb2c958071211bf3d878b53cbba1856c0e2e[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Fri Feb 2 02:17:58 2024 +0100
+
+    Fixed logic to do chapters
+
+[33mcommit 8b4dda8d7c95b2ba04a65f0b2f164a82f9c08e8b[m
+Author: Sahil Suman <sahilsuman933@gmail.com>
+Date:   Fri Feb 2 06:26:54 2024 +0530
+
+    fix: bonked sidebar text.
+    
+    Signed-off-by: Sahil Suman <sahilsuman933@gmail.com>
+
+[33mcommit 86a07271afd1debbd2e9476cd443e25650f4ede9[m
+Author: Harpreet Singh <szinghh@gmail.com>
+Date:   Fri Feb 2 01:48:01 2024 +0100
+
+    done #14 #3(this one still need some improvements aka thumbnails), #32. Local build working
+
+[33mcommit fb7c803158ddd102ee22375d2dac29796030f34b[m
+Author: Harpreet Singh <szinghh@gmail.com>
+Date:   Fri Feb 2 01:44:15 2024 +0100
+
+    done #14 #3(this one still need some improvements aka thumbnails), #32. Local build working
+
+[33mcommit 9063ab18bace1194a8dd957c0b3ee25d9188c791[m
+Merge: ae0fb45 ef3c7ee
+Author: Kirat <harkirat96@gmail.com>
+Date:   Fri Feb 2 06:03:08 2024 +0530
+
+    Merge pull request #28 from nimit9/feature/video-chapter-yt
+    
+    Feat: added chapters like YT on video's right
+
+[33mcommit ae0fb458bbe00b8aac25b92813bc6640310cd6d3[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Thu Feb 1 23:54:26 2024 +0100
+
+    Fixed dashboard styles
+
+[33mcommit 05c346da934a1d2dc62cac9c64c0dfdf3a4dd67e[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Thu Feb 1 23:41:43 2024 +0100
+
+    fix purchase
+
+[33mcommit 772f6a6f5325755eee776d81ad79ec9865566536[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Thu Feb 1 23:39:25 2024 +0100
+
+    fixed layout
+
+[33mcommit 1754089f45f6a402b2f10405c74c060665e03945[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Thu Feb 1 23:36:51 2024 +0100
+
+    Fixed height
+
+[33mcommit d55d5ef71fe507919c1219053a8ded4c7104fb39[m
+Merge: 3be9b2d a01a509
+Author: Kirat <harkirat96@gmail.com>
+Date:   Fri Feb 2 04:04:54 2024 +0530
+
+    Merge pull request #30 from tanayvaswani/feat/landing-page
+    
+    feat: Adds Landing page
+
+[33mcommit 3be9b2dd4b79c3bd285ae9e9d9ff4dd1a270f708[m
+Author: Kirat <harkirat96@gmail.com>
+Date:   Thu Feb 1 14:09:10 2024 -0800
+
+    Update .env.example
+
+[33mcommit ef3c7ee1247dd1970ec4e4660d3f26c416af8832[m
+Author: Nimit Haria <nimitharia007@gmail.com>
+Date:   Fri Feb 2 03:35:34 2024 +0530
+
+    added option of toggling between showing chapters
+
+[33mcommit 6bb05690f534a9ae0ba7d7933021ff491f5e6e0b[m
+Merge: 2d63918 a87c64a
+Author: Nimit Haria <nimitharia007@gmail.com>
+Date:   Fri Feb 2 02:59:36 2024 +0530
+
+    Merge branch 'code100x:main' into feature/video-chapter-yt
+
+[33mcommit a01a50988cd8f90919b5be84ea706cc280c920b1[m
+Author: tanayvaswani <vaswani.tanay9@gmail.com>
+Date:   Fri Feb 2 02:57:07 2024 +0530
+
+    fix: typo
+
+[33mcommit 152ae28f36e527ee4fe0854050f65ecc404d55e1[m
+Author: tanayvaswani <vaswani.tanay9@gmail.com>
+Date:   Fri Feb 2 02:48:20 2024 +0530
+
+    fix: utils.ts
+
+[33mcommit 3f07b65c5d4b4ae5e20100a511e3e5ede77194fe[m
+Author: tanayvaswani <vaswani.tanay9@gmail.com>
+Date:   Fri Feb 2 02:36:59 2024 +0530
+
+    chore: text color
+
+[33mcommit 6c707bcb84760b7a5981ee7b74c0774d11dc27c5[m
+Author: tanayvaswani <vaswani.tanay9@gmail.com>
+Date:   Fri Feb 2 02:35:53 2024 +0530
+
+    fix: menu buttons text size
+
+[33mcommit 7a8ff3585c95b012af9f2ac824cc9ef5825b9ef5[m
+Author: tanayvaswani <vaswani.tanay9@gmail.com>
+Date:   Fri Feb 2 02:22:33 2024 +0530
+
+    feat: Landing Page
+
+[33mcommit a87c64a1fb38d4e9d92f4035e285982bdd538d92[m
+Merge: 4f4bad0 b06bdaf
+Author: Kirat <harkirat96@gmail.com>
+Date:   Fri Feb 2 02:21:36 2024 +0530
+
+    Merge pull request #29 from sohamtembhurne/sohamtembhurne/guidelines
+    
+    doc: Add Contributing Guidelines
+
+[33mcommit b80381d305065c7c6f9c9552db305937eb2ac909[m
+Author: tanayvaswani <vaswani.tanay9@gmail.com>
+Date:   Fri Feb 2 01:55:07 2024 +0530
+
+    feat: added policy pages
+
+[33mcommit b2acb742fda963c0fe4e65745dcf6b7a3c342894[m
+Author: tanayvaswani <vaswani.tanay9@gmail.com>
+Date:   Fri Feb 2 01:44:59 2024 +0530
+
+    fix: text in dark mode
+
+[33mcommit b06bdaf97aebf41d2837110f8b7491cffdcda13d[m
+Author: sohamtembhurne <sohamatembhurne@outlook.com>
+Date:   Fri Feb 2 01:18:07 2024 +0530
+
+    doc: add contributing guidelines
+
+[33mcommit 1030dd77437dd9d6fa1ad02783d03a5a9b87c0d0[m
+Author: tanayvaswani <vaswani.tanay9@gmail.com>
+Date:   Thu Feb 1 23:50:32 2024 +0530
+
+    chore: almost done
+
+[33mcommit 2d639186e4d28b1c5b901ae6a5ae2f39a6d33e0f[m
+Merge: a3ba100 4f4bad0
+Author: Nimit Haria <nimitharia007@gmail.com>
+Date:   Thu Feb 1 22:27:03 2024 +0530
+
+    Merge branch 'main' of github.com:nimit9/cms into feature/video-chapter-yt
+
+[33mcommit a3ba10013c8571dd8d77d7011957bebe3431730e[m
+Author: Nimit Haria <nimitharia007@gmail.com>
+Date:   Thu Feb 1 22:22:44 2024 +0530
+
+    added chpaters like YT on video's right
+
+[33mcommit 4f4bad039796b1ae895e1844f707c46cb0a9d444[m
+Merge: 825b5ff ed3f6e0
+Author: Kirat <harkirat96@gmail.com>
+Date:   Thu Feb 1 21:37:45 2024 +0530
+
+    Merge pull request #26 from sahilsuman933/fix-video-full-screen-issue
+    
+    [BugFix] The video doesn't fill the screen in full-screen mode.
+
+[33mcommit ed3f6e02d074ff0f1c44c2862b4d38e88e3a22ea[m
+Author: Sahil Suman <sahilsuman933@gmail.com>
+Date:   Thu Feb 1 21:07:39 2024 +0530
+
+    fix: video full screen issue
+    
+    Signed-off-by: Sahil Suman <sahilsuman933@gmail.com>
+
+[33mcommit 825b5ff4ed36745f086bb737af7659bb9b2952a8[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Thu Feb 1 13:10:33 2024 +0100
+
+    Fix build
+
+[33mcommit 825fb2bef7425f2d0ae88fdcd7aee03f3dc41957[m
+Author: hkirat <harkirat96@gmail.com>
+Date:   Thu Feb 1 13:05:38 2024 +0100
+
+    Wholesale lint
+
+[33mcommit d2845dc4061148991e72679fe225a3b7d57d8bcb[m
+Merge: 10f8d60 ce7e78b
+Author: Kirat <harkirat96@gmail.com>
+Date:   Thu Feb 1 17:12:57 2024 +0530
+
+    Merge pull request #9 from Min2who/lint
+    
+    fix: added linting and formatting
+
+[33mcommit ce7e78b5106c2543e13e777039cd8a033c4fb7f7[m
+Author: Mintu <mintugogoi567@gmail.com>
+Date:   Thu Feb 1 14:49:50 2024 +0530
+
+    minor change
+
+[33mcommit b24ded8b6e436b6d8195b42bcf256ac2db824c53[m
+Author: Mintu <mintugogoi567@gmail.com>
+Date:   Thu Feb 1 10:20:37 2024 +0530
+
+    added husky
+
+[33mcommit df387395cd86e4ac832e189787ce1312482d5fa3[m
+Author: Mintu <mintugogoi567@gmail.com>
+Date:   Thu Feb 1 10:09:40 2024 +0530
+
+    cleanup
+
+[33mcommit 10f4215888c7f58d60ab4c8a5652086d1f3f8af7[m
+Author: Mintu <mintugogoi567@gmail.com>
+Date:   Thu Feb 1 10:03:36 2024 +0530
+
+    added linting and formatting
+
+[33mcommit 10f8d60de5efe5caf48fe7c8f35194b47a292220[m
+Author: hkirat <harkiratsingh@harkirats-mbp.home>
+Date:   Thu Feb 1 04:36:27 2024 +0100
+
+    removed params
+
+[33mcommit 957546d2e4e3afd0946d5314ebe4fc5e5db53145[m
+Author: harkirat singh <harkiratsingh@harkirats-mbp.home>
+Date:   Thu Feb 1 03:42:02 2024 +0100
+
+    Init

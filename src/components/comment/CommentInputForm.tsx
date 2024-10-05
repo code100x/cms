@@ -31,6 +31,12 @@ const CommentInputForm = ({
     const formData = new FormData(e.target as HTMLFormElement);
 
     const content = formData.get('content') as string;
+    const trimmedContent = content.trim();
+
+    if (trimmedContent === '') {
+      toast.error('Comment cannot be empty or whitespace.');
+      return;
+    }
 
     execute({
       content,
