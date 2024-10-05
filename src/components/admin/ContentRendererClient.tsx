@@ -106,7 +106,7 @@ export const ContentRendererClient = ({
               {content.title}
             </h2>
             <div className="flex gap-2">
-              <Link href={'/question?newPost=open'}>
+              <Link href={`/question?newPost=open&videoId=${content.id}&videoTitle=${content.title}`}>
                 <Button className="gap-2">Ask a question</Button>
               </Link>
               <Link href={`/question?videoId=${content.id}`}>

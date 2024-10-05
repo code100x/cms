@@ -44,7 +44,13 @@ export const NewPostDialog = () => {
     if (paramsObject.newPost === 'open') {
       onOpen();
 
-      // Cleanup function to clear the timeout
+      const videoIdFromUrl = paramsObject.videoId as string;
+      const videoTitleFromUrl = paramsObject.videoTitle as string;
+
+      if (videoIdFromUrl && videoTitleFromUrl) {
+        setVideoId(videoIdFromUrl);
+        setVideoTitle(videoTitleFromUrl);
+      }
     } else {
       onClose();
     }
