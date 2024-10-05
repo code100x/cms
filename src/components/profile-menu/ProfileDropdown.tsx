@@ -20,7 +20,6 @@ import {
 } from '@/components/ui/dropdown-menu';
 import ExternalLinks from './ExternalLinks';
 import { signOut } from 'next-auth/react';
-import { SelectTheme } from '../ThemeToggler';
 
 const ProfileDropdown = () => {
   const menuItemLinks = [
@@ -54,9 +53,9 @@ const ProfileDropdown = () => {
   return (
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
-        <div className="flex size-10 cursor-pointer items-center justify-center rounded-full bg-gradient-to-b from-blue-400 to-blue-700">
+        <button className="flex size-10 cursor-pointer items-center justify-center rounded-full bg-gradient-to-b from-blue-400 to-blue-700">
           <User color="white" className="size-4" />
-        </div>
+        </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="z-[99999] m-2 min-w-44 bg-neutral-100 dark:bg-neutral-900">
         <DropdownMenuGroup>
@@ -77,10 +76,6 @@ const ProfileDropdown = () => {
         </DropdownMenuGroup>
 
         <DropdownMenuSeparator />
-
-        <DropdownMenuItem>
-          <SelectTheme text={true} />
-        </DropdownMenuItem>
 
         <DropdownMenuItem
           onClick={() => {

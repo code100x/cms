@@ -20,7 +20,7 @@ const voteHandler = async (
     return { error: 'Unauthorized' };
   }
 
-  const { questionId, answerId, commentId, voteType, currentPath } = data;
+  const { questionId, answerId, commentId, voteType, currentPath, slug } = data;
 
   if (!questionId && !answerId && !commentId) {
     return { error: 'No valid target specified.' };
@@ -142,7 +142,7 @@ const voteHandler = async (
     }
 
     if (currentPath) {
-      revalidatePath(currentPath);
+      revalidatePath(`${currentPath}/${slug}`);
     }
 
     return { data: updatedEntity };
