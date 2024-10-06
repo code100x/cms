@@ -2,6 +2,7 @@
 
 import useColorGenerator from '@/hooks/useColorGenerator';
 import { cn } from '@/lib/utils';
+import { useTheme } from 'next-themes';
 import React, { forwardRef, Ref } from 'react';
 
 interface TagProps extends React.HTMLAttributes<HTMLSpanElement> {
@@ -13,22 +14,24 @@ const Tag = forwardRef(
     { className, name = 'M1000:)', ...props }: TagProps,
     ref: Ref<HTMLSpanElement>,
   ) => {
-    const [backgroundColor, textColor] = useColorGenerator(name);
-
+    const { theme } = useTheme();
+    const [backgroundColor, textColor] = useColorGenerator(
+      name,
+      theme === 'dark' ? true : false,
+    );
     const tagClassName = cn(
-      'inline-flex items-center px-2.5 py-1 rounded-lg text-sm font-semibold',
+      'inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-semibold',
       'transition-colors duration-150 ease-in-out',
       'hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-opacity-50',
-      className
+      className,
     );
-
     return (
       <span
         ref={ref}
         className={tagClassName}
         {...props}
-        style={{ 
-          backgroundColor, 
+        style={{
+          backgroundColor,
           color: textColor,
         }}
         role="status"

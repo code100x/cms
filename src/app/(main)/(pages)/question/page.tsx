@@ -1,7 +1,7 @@
 import { NewPostDialog } from '@/components/NewPostDialog';
 
-import Link from 'next/link';
 import dayjs from 'dayjs';
+import Link from 'next/link';
 
 import { ExtendedQuestion, QuestionQuery } from '@/actions/question/types';
 import Search from '@/components/search';
@@ -15,14 +15,14 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
-import { Button } from '@/components/ui/button';
 import { QueryParams, TabType } from '@/actions/types';
-import { getDisabledFeature, getUpdatedUrl, paginationData } from '@/lib/utils';
-import db from '@/db';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth';
-import PostCard from '@/components/posts/PostCard';
 import Pagination from '@/components/Pagination';
+import PostCard from '@/components/posts/PostCard';
+import { Button } from '@/components/ui/button';
+import db from '@/db';
+import { authOptions } from '@/lib/auth';
+import { getDisabledFeature, getUpdatedUrl, paginationData } from '@/lib/utils';
+import { getServerSession } from 'next-auth';
 import { redirect } from 'next/navigation';
 
 type QuestionsResponse = {
@@ -139,7 +139,7 @@ export default async function QuestionsPage({
   const response = await fetchQuestionsByTabType(searchParams, sessionId!);
   return (
     <>
-      <div className="mx-auto my-16 flex min-h-screen w-full flex-col gap-4">
+      <div className="mx-auto min-h-screen w-full space-y-5 pb-16 pt-8">
         {/* Header */}
         <div className="flex w-full flex-col justify-between gap-2">
           <h1 className="text-4xl font-bold capitalize tracking-tighter md:text-5xl">
@@ -151,13 +151,13 @@ export default async function QuestionsPage({
         </div>
         {/* Next question button */}
         <NewPostDialog />
-        <div className="flex w-full flex-col gap-4">
+        <div className="w-full space-y-5">
           <div className="flex flex-col justify-between gap-4 md:flex-row">
             <Search />
             <div className="flex items-center justify-between gap-2">
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button size={'lg'}>
+                  <Button size={'sm'} className="px-5">
                     <ArrowUpDownIcon className="mr-2 h-4 w-4" />
                     Sort by
                   </Button>
@@ -214,7 +214,7 @@ export default async function QuestionsPage({
                       : 'close',
                 })}
               >
-                <Button size={'lg'} className="gap-2" variant={'branding'}>
+                <Button size={'sm'} className="gap-2 px-5" variant={'branding'}>
                   <Plus className="size-4" /> Ask a Question
                 </Button>
               </Link>

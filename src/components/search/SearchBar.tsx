@@ -1,17 +1,17 @@
 'use client';
-import React, { useCallback, useEffect, useState } from 'react';
 import { TSearchedVideos } from '@/app/api/search/route';
 import { useRouter } from 'next/navigation';
-import VideoSearchCard from './VideoSearchCard';
-import VideoSearchInfo from './VideoSearchInfo';
+import { useCallback, useEffect, useState } from 'react';
 import { toast } from 'sonner';
-import VideoSearchLoading from './VideoSearchLoading';
 import {
   Command,
   CommandDialog,
   CommandInput,
   CommandList,
 } from '../ui/command';
+import VideoSearchCard from './VideoSearchCard';
+import VideoSearchInfo from './VideoSearchInfo';
+import VideoSearchLoading from './VideoSearchLoading';
 
 export function SearchBar() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -117,15 +117,15 @@ export function SearchBar() {
   return (
     <>
       <Command onClick={() => setDialogOpen(true)}>
-        <div className="flex items-center justify-between border-2">
+        <div className="flex h-[45px] min-w-[300px] items-center justify-between rounded-xl border">
           <CommandInput
             placeholder="Search video..."
             value={searchTerm}
             onValueChange={(search) => setSearchTerm(search)}
           />
-          <kbd className="m-1 flex items-center space-x-2 rounded-sm bg-white/15 p-1.5 text-center leading-3">
-            <span className="text-md">⌘</span>{' '}
-            <span className="text-sm">K</span>
+          <kbd className="m-1 flex items-center gap-2 rounded-sm bg-white/15 p-1 px-3 text-center leading-3">
+            <span className="text-sm">⌘</span>
+            <span className="text-base">K</span>
           </kbd>
         </div>
         <CommandList></CommandList>

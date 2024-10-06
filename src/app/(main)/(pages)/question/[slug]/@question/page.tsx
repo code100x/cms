@@ -1,9 +1,8 @@
 import { QueryParams } from '@/actions/types';
-import React from 'react';
-import db from '@/db';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth';
 import PostCard from '@/components/posts/PostCard';
+import db from '@/db';
+import { authOptions } from '@/lib/auth';
+import { getServerSession } from 'next-auth';
 
 const SingleQuestionPage = async ({
   params,

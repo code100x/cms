@@ -1,3 +1,4 @@
+import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -6,16 +7,15 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { ArrowUpDownIcon } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 
-import Link from 'next/link';
-import { Answer } from '@prisma/client';
 import { QueryParams, TabType } from '@/actions/types';
-import { getUpdatedUrl, paginationData } from '@/lib/utils';
-import db from '@/db';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth';
 import PostCard from '@/components/posts/PostCard';
+import db from '@/db';
+import { authOptions } from '@/lib/auth';
+import { getUpdatedUrl, paginationData } from '@/lib/utils';
+import { Answer } from '@prisma/client';
+import { getServerSession } from 'next-auth';
+import Link from 'next/link';
 
 const organizeAnswers = (
   answers: Answer[],
@@ -116,7 +116,7 @@ const SingleAnswerPage = async ({
         </h1>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button className="shrink-0" variant="outline">
+            <Button size={'sm'} className="shrink-0" variant="outline">
               <ArrowUpDownIcon className="mr-2 h-4 w-4" />
               Sort by
             </Button>
@@ -154,7 +154,7 @@ const SingleAnswerPage = async ({
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      <div className="flex flex-col items-center justify-center gap-4 px-4">
+      <div className="flex flex-col items-center justify-center gap-4 border-l-2 pl-2 lg:px-5">
         {answers.map((post: any) => (
           <PostCard
             key={post.id}

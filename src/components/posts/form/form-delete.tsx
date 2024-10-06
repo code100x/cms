@@ -1,14 +1,14 @@
 'use client';
-import React, { useId } from 'react';
-import { useAction } from '@/hooks/useAction';
-import { toast } from 'sonner';
-import { deleteQuestion } from '@/actions/question';
 import { deleteAnswer } from '@/actions/answer';
+import { deleteQuestion } from '@/actions/question';
+import { Button } from '@/components/ui/button';
+import { useAction } from '@/hooks/useAction';
 import { ActionState } from '@/lib/create-safe-action';
-import { useRouter } from 'next/navigation';
 import { Delete } from '@/lib/utils';
 import { Trash2 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { useRouter } from 'next/navigation';
+import React, { useId } from 'react';
+import { toast } from 'sonner';
 interface IVoteFormProps {
   questionId: number | undefined;
   answerId: number | undefined;
