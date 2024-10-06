@@ -5,7 +5,7 @@ import { formatTime } from '@/lib/utils';
 import VideoThumbnail from './videothumbnail';
 import CardComponent from './CardComponent';
 import { motion } from 'framer-motion';
-import React from 'react';
+
 export const ContentCard = ({
   title,
   onClick,
