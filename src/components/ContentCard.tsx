@@ -5,7 +5,7 @@ import { formatTime } from '@/lib/utils';
 import VideoThumbnail from './videothumbnail';
 import CardComponent from './CardComponent';
 import { motion } from 'framer-motion';
-
+import React from 'react';
 export const ContentCard = ({
   title,
   onClick,
@@ -33,7 +33,9 @@ export const ContentCard = ({
       onClick={onClick}
       tabIndex={0}
       role="button"
-      onKeyDown={(e:React.KeyboardEvent) => (['Enter', ' '].includes(e.key) && onClick())}
+      onKeyDown={(e: React.KeyboardEvent) =>
+        ['Enter', ' '].includes(e.key) && onClick()
+      }
       className={`group relative flex h-fit w-full max-w-md cursor-pointer flex-col gap-2 rounded-2xl transition-all duration-300 hover:-translate-y-2`}
     >
       {markAsCompleted && (
