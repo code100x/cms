@@ -4,6 +4,9 @@ Open source repo for app.100xdevs.com
 
 ## Running Locally
 
+> [!NOTE]  
+> This project uses [pnpm](https://pnpm.io/) only as a package manager.
+
 1. Clone the repository:
 
 ```bash
@@ -58,13 +61,19 @@ pnpm install
 pnpm run prisma:migrate
 ```
 
-7. Seed the database:
+7. Generate prisma client
+
+```bash
+pnpm prisma generate
+```
+
+8. Seed the database:
 
 ```bash
 pnpm run db:seed
 ```
 
-8. Start the development server:
+9. Start the development server:
 
 ```bash
 pnpm run dev
