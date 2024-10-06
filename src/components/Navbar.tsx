@@ -8,7 +8,7 @@ import Link from 'next/link';
 import { ArrowLeft, Menu } from 'lucide-react';
 import { Button } from './ui/button';
 import { AppbarAuth } from './AppbarAuth';
-import { SelectTheme } from './ThemeToggler';
+import ThemeToggler from './ThemeToggler';
 import ProfileDropdown from './profile-menu/ProfileDropdown';
 
 export const Navbar = () => {
@@ -85,7 +85,7 @@ export const Navbar = () => {
             variants={navItemVariants}
             custom={1}
           >
-            <SelectTheme text={false} />
+            <ThemeToggler />
             {session?.user && <ProfileDropdown />}
 
             {!session?.user && (
