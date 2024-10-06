@@ -1,6 +1,6 @@
 import { QueryParams } from '@/actions/types';
 import { CourseView } from '@/components/CourseView';
-import { getCourse, getFullCourseContent } from '@/db/course';
+import { getCourse, getFullCourseContent, getNextVideo, getPrevVideo } from '@/db/course';
 import findContentById from '@/lib/find-content-by-id';
 
 export default async function Course({
@@ -20,13 +20,15 @@ export default async function Course({
     fullCourseContent,
     rest.map((x) => parseInt(x, 10)),
   );
-  const nextContent = null; //await getNextVideo(Number(rest[rest.length - 1]))
+  const nextContent = await getNextVideo(Number(rest[rest.length - 1]), (rest.length>1? Number(rest[rest.length-2]):0), Number(courseId));
+  const prevContent = await getPrevVideo(Number(rest[rest.length - 1]), (rest.length>1? Number(rest[rest.length-2]):0), Number(courseId));
 
   return (
     <CourseView
       rest={rest}
       course={course}
       nextContent={nextContent}
+      prevContent={prevContent}
       courseContent={courseContent}
       fullCourseContent={fullCourseContent}
       searchParams={searchParams}
