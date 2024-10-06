@@ -101,7 +101,7 @@ const PostCard: React.FC<IProps> = ({
     <div
       className={`flex w-full cursor-pointer flex-col gap-4 p-3 transition-all duration-300 sm:p-5 ${
         !post.content && !isAnswer
-          ? `rounded-xl bg-neutral-50 hover:-translate-y-2 dark:bg-neutral-900`
+          ? `b rounded-xl border border-gray-200 bg-white hover:-translate-y-2 dark:border-none dark:bg-neutral-900`
           : `rounded-r-xl border-l-2 border-blue-500 bg-primary/5`
       } ${isPending && `animate-pulse duration-700`}`}
       onClick={() => {
@@ -216,10 +216,10 @@ const PostCard: React.FC<IProps> = ({
       </div>
 
       {enableReply && (
-      <form
-        onSubmit={handleSubmit}
-        className="mt-4"
-        onClick={handleEditorClick}
+        <form
+          onSubmit={handleSubmit}
+          className="mt-4"
+          onClick={handleEditorClick}
         >
           <div data-color-mode={theme} className="flex w-full flex-col gap-4">
             <MDEditor
@@ -255,7 +255,8 @@ const PostCard: React.FC<IProps> = ({
                   sessionUser={sessionUser}
                   reply={false}
                   parentAuthorName={post.author.name}
-                  isAnswer={true}                />
+                  isAnswer={true}
+                />
               </div>
             ))}
           </div>
