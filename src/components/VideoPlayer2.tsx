@@ -15,7 +15,6 @@ import './QualitySelectorControllBar';
 import { YoutubeRenderer } from './YoutubeRenderer';
 import { toast } from 'sonner';
 import { createRoot } from 'react-dom/client';
-import { PictureInPicture2 } from 'lucide-react';
 
 // todo correct types
 interface VideoPlayerProps {
@@ -25,6 +24,10 @@ interface VideoPlayerProps {
   subtitles?: string;
   contentId: number;
   onVideoEnd: () => void;
+  onNextVideoClick: () => void;
+  onPrevVideoClick: () => void;
+  isnextContentAvailable: boolean;
+  ispreviousContentAvailable: boolean;
 }
 
 const PLAYBACK_RATES: number[] = [0.5, 1, 1.25, 1.5, 1.75, 2];
@@ -37,6 +40,10 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
   onReady,
   subtitles,
   onVideoEnd,
+  onNextVideoClick,
+  onPrevVideoClick,
+  isnextContentAvailable,
+  ispreviousContentAvailable,
 }) => {
   const videoRef = useRef<HTMLDivElement>(null);
   const playerRef = useRef<Player | null>(null);
@@ -64,32 +71,31 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
     }
   };
 
-  const PipButton = () => (
-    <button
-      onClick={togglePictureInPicture}
-      className="flex items-center justify-center text-white focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:focus:ring-offset-gray-800"
-      type="button"
-      title="Picture-in-Picture"
-    >
-      <span className="absolute inset-0 rounded bg-black bg-opacity-50 opacity-0 transition-opacity duration-200 group-hover:opacity-100"></span>
-      <PictureInPicture2 className="relative z-10 h-5 w-5" />
-      <span className="sr-only">Picture-in-Picture</span>
-    </button>
-  );
-
   const createPipButton = (player: Player) => {
-    const pipButtonContainer = (player as any).controlBar.addChild('button', {
-      clickHandler: (event: any) => {
-        event.preventDefault();
-        event.stopPropagation();
-        togglePictureInPicture();
-      },
-    });
+    const pipButtonContainer = (player as any).controlBar.addChild('button');
 
     const root = createRoot(pipButtonContainer.el());
-    root.render(<PipButton />);
+    root.render(<span className="material-symbols-outlined">picture_in_picture_alt</span>);
 
     return pipButtonContainer;
+  };
+
+  const createNextVideoButton = (player: Player) => {
+    const NextButtonContainer = (player as any).controlBar.addChild('button');
+
+    const root = createRoot(NextButtonContainer.el());
+    root.render(<span className="material-symbols-outlined">skip_next</span>);
+
+    return NextButtonContainer;
+  };
+
+  const createPrevVideoButton = (player: Player) => {
+    const PrevButtonContainer = (player as any).controlBar.addChild('button');
+
+    const root = createRoot(PrevButtonContainer.el());
+    root.render(<span className="material-symbols-outlined">skip_previous</span>);
+
+    return PrevButtonContainer;
   };
 
   useEffect(() => {
@@ -318,6 +324,7 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
       document.removeEventListener('keydown', handleKeyPress);
     };
   }, [player]);
+
   useEffect(() => {
     if (!player) {
       return;
@@ -392,15 +399,38 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
           player.mobileUi(); // mobile ui #https://github.com/mister-ben/videojs-mobile-ui
           player.eme(); // Initialize EME
           player.seekButtons({
-            forward: 15,
-            back: 15,
+            forward: 10,
+            back: 10,
           });
 
+          const controlBar = player.getChild('controlBar');
+          if (isnextContentAvailable) {
+            const nextVideoButton = createNextVideoButton(player);
+            const skipBackwardBtn = controlBar.getChild('skipBackward');
+            controlBar.el().insertBefore(nextVideoButton.el(), skipBackwardBtn.el());
+            nextVideoButton.on('click', (e: any) => {
+              e.preventDefault();
+              e.stopPropagation();
+              onNextVideoClick();
+            });
+          }
+
+          if (ispreviousContentAvailable) {
+            const prevVideoButton = createPrevVideoButton(player);
+            const playButton = controlBar.getChild('playToggle');
+            controlBar.el().insertBefore(prevVideoButton.el(), playButton.el());
+
+            prevVideoButton.on('click', (e: any) => {
+              e.preventDefault();
+              e.stopPropagation();
+              onPrevVideoClick();
+            });
+          }
+          
           player.qualitySelector = setQuality;
           const qualitySelector = player.controlBar.addChild(
             'QualitySelectorControllBar',
           );
-          const controlBar = player.getChild('controlBar');
           const fullscreenToggle = controlBar.getChild('fullscreenToggle');
 
           controlBar
@@ -409,6 +439,12 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
 
           const pipButton = createPipButton(player);
           controlBar.el().insertBefore(pipButton.el(), fullscreenToggle.el());
+
+          pipButton.on('click', (e:any) => {
+            e.preventDefault();
+            e.stopPropagation();
+            togglePictureInPicture();
+          });
 
           setPlayer(player);
           if (options.isComposite) {
