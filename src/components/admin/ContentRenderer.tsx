@@ -126,10 +126,12 @@ export const getMetadata = async (contentId: number) => {
 export const ContentRenderer = async ({
   content,
   nextContent,
-  prevContent,
 }: {
-  nextContent: string | null;
-  prevContent: string | null;
+  nextContent: {
+    id: number;
+    type: string;
+    title: string;
+  } | null;
   content: {
     type: 'video';
     id: number;
@@ -146,7 +148,6 @@ export const ContentRenderer = async ({
     <div>
       <ContentRendererClient
         nextContent={nextContent}
-        prevContent={prevContent}
         metadata={metadata}
         content={content}
       />

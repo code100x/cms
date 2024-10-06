@@ -133,14 +133,19 @@ export async function getCourse(courseId: number) {
   return courses;
 }
 
-export const getNextVideo = async (currentVideoId: number, currentVideoWeek: number, currentVideoCourse: number) => {
-  if (!currentVideoId || !currentVideoWeek || !currentVideoCourse) {
+export const getNextVideo = async (currentVideoId: number) => {
+  if (!currentVideoId) {
     return null;
   }
   const value = await cache.get('getNextVideo', [currentVideoId.toString()]);
   if (value) {
     return value;
   }
+  const currentContent = await db.content.findFirst({
+    where: {
+      id: currentVideoId,
+    },
+  });
 
   const latestContent = await db.content.findFirst({
     orderBy: [
@@ -150,131 +155,15 @@ export const getNextVideo = async (currentVideoId: number, currentVideoWeek: num
     ],
     where: {
       parentId: {
-        equals: currentVideoWeek,
+        equals: currentContent?.parentId,
       },
       id: {
         gt: currentVideoId,
       },
-      type: "video",
     },
   });
-
-  if (!latestContent) {
-    const latestWeek = await db.courseContent.findMany({
-      where: {
-        courseId: currentVideoCourse,
-        contentId: {
-          gt: currentVideoWeek,
-        },
-      },
-      orderBy: {
-        contentId: 'asc',
-      },
-      take: 1,
-    });
-
-    if (latestWeek && latestWeek.length===0) {
-      return null;
-    }
-
-    const latestContent2 = await db.content.findFirst({
-      orderBy: [
-        {
-          id: 'asc',
-        },
-      ],
-      where: {
-        parentId: latestWeek[0].contentId,
-        type: "video",
-      },
-    });
-
-    if (!latestContent2) {
-      return null;
-    }
-
-    const latestcontenturl = `/courses/${currentVideoCourse}/${latestWeek[0].contentId}/${latestContent2?.id}`;
-
-    cache.set('getNextVideo', [currentVideoId.toString()], latestcontenturl);
-    return latestcontenturl;
-  }
-
-  const latestcontenturl = `/courses/${currentVideoCourse}/${currentVideoWeek}/${latestContent.id}`;
-
-  cache.set('getNextVideo', [currentVideoId.toString()], latestcontenturl);
-  return latestcontenturl;
-};
-
-export const getPrevVideo = async (currentVideoId: number, currentVideoWeek: number, currentVideoCourse: number) => {
-  if (!currentVideoId || !currentVideoWeek || !currentVideoCourse) {
-    return null;
-  }
-  const value = await cache.get('getPrevVideo', [currentVideoId.toString()]);
-  if (value) {
-    return value;
-  }
-
-  const latestContent = await db.content.findFirst({
-    orderBy: [
-      {
-        id: 'desc',
-      },
-    ],
-    where: {
-      parentId: {
-        equals: currentVideoWeek,
-      },
-      id: {
-        lt: currentVideoId,
-      },
-      type: "video",
-    },
-  });
-
-  if (!latestContent) {
-    const latestWeek = await db.courseContent.findMany({
-      where: {
-        courseId: currentVideoCourse,
-        contentId: {
-          lt: currentVideoWeek,
-        },
-      },
-      orderBy: {
-        contentId: 'desc',
-      },
-      take: 1,
-    });
-
-    if (latestWeek && latestWeek.length===0) {
-      return null;
-    }
-
-    const latestContent2 = await db.content.findFirst({
-      orderBy: [
-        {
-          id: 'desc',
-        },
-      ],
-      where: {
-        parentId: latestWeek[0].contentId,
-        type: "video"
-      },
-    });
-
-    if (!latestContent2) {
-      return null;
-    }
-
-    const latestcontenturl = `/courses/${currentVideoCourse}/${latestWeek[0].contentId}/${latestContent2?.id}`;
-
-    cache.set('getPrevVideo', [currentVideoId.toString()], latestcontenturl);
-    return latestcontenturl;
-  }
-
-  const latestcontenturl = `/courses/${currentVideoCourse}/${currentVideoWeek}/${latestContent.id}`;
-
-  cache.set('getPrevVideo', [currentVideoId.toString()], latestcontenturl);
-  return latestcontenturl;
+  cache.set('getNextVideo', [currentVideoId.toString()], latestContent);
+  return latestContent;
 };
 
 async function getAllContent(): Promise<

@@ -14,7 +14,6 @@ export const CourseView = ({
   fullCourseContent,
   courseContent,
   nextContent,
-  prevContent,
   searchParams,
   possiblePath,
 }: {
@@ -32,7 +31,6 @@ export const CourseView = ({
   }
   | null;
   nextContent: any;
-  prevContent: any;
   searchParams: QueryParams;
   possiblePath: string;
 }) => {
@@ -58,7 +56,6 @@ export const CourseView = ({
       {!courseContent?.folder && contentType === 'video' ? (
         <ContentRenderer
           nextContent={nextContent}
-          prevContent={prevContent}
           content={{
             thumbnail: courseContent?.value?.thumbnail || '',
             id: courseContent?.value.id || 0,
