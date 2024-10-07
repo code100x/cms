@@ -5,7 +5,13 @@ import useClickOutside from '@/hooks/useClickOutside';
 import { useDebounce } from '@/hooks/useDebounce';
 import { SearchIcon } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { toast } from 'sonner';
 import { Input } from '../ui/input';
 import { CommandMenu } from './CommandMenu';
@@ -145,9 +151,9 @@ export function SearchBar({ onCardClick, isMobile = false }: SearchBarProps) {
     [onCardClick, router],
   );
 
-  const icon = navigator.userAgent.toLowerCase().includes('mac')
-    ? '⌘'
-    : 'Ctrl + ';
+  const icon = useMemo(() => {
+    return navigator.userAgent.toLowerCase().includes('mac') ? '⌘' : 'Ctrl + ';
+  }, []);
 
   return (
     <>
@@ -170,11 +176,17 @@ export function SearchBar({ onCardClick, isMobile = false }: SearchBarProps) {
           }
           aria-label="Search"
         />
-        {state.searchTerm.length === 0 && !isMobile && (
-          <kbd className="pointer-events-none absolute right-3 top-2.5 inline-flex h-5 select-none items-center gap-1 rounded border border-gray-200 bg-gray-100 px-1.5 font-mono text-[10px] font-medium text-gray-600 opacity-100 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 sm:block">
-            <span className="text-xs">{icon}</span>K
-          </kbd>
-        )}
+        {state.searchTerm.length === 0 &&
+          !isMobile &&
+          (icon !== '⌘' ? (
+            <kbd className="pointer-events-none absolute right-3 top-2.5 inline-flex h-5 select-none items-center gap-1 rounded border border-gray-200 bg-gray-100 px-1.5 font-mono text-[10px] font-medium text-gray-600 opacity-100 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 sm:block">
+              <span className="text-xs">{icon}</span>K
+            </kbd>
+          ) : (
+            <kbd className="pointer-events-none absolute right-3 top-2.5 inline-flex h-5 select-none items-center gap-1 rounded border border-gray-200 bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400">
+              <span className="text-lg">{icon}</span>K
+            </kbd>
+          ))}
 
         <SearchResults
           isVisible={
