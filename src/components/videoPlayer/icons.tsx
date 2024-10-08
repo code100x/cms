@@ -100,7 +100,7 @@ export const SkipDurationBackIcon = () => {
       height="20"
       fill="none"
       stroke="currentColor"
-      stroke-width="2"
+      strokeWidth="2"
       stroke-linecap="round"
       stroke-linejoin="round"
     >
@@ -119,7 +119,7 @@ export const SkipDurationNextIcon = () => {
       height="20"
       fill="none"
       stroke="currentColor"
-      stroke-width="2"
+      strokeWidth="2"
       stroke-linecap="round"
       stroke-linejoin="round"
     >
