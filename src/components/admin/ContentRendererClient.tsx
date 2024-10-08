@@ -11,12 +11,10 @@ export const ContentRendererClient = ({
   metadata,
   content,
   nextContent,
+  prevContent,
 }: {
-  nextContent: {
-    id: number;
-    type: string;
-    title: string;
-  } | null;
+  nextContent: string | null;
+  prevContent: string | null;
   metadata: any;
   content: {
     type: 'video';
@@ -71,6 +69,29 @@ export const ContentRendererClient = ({
     setShowChapters((prev) => !prev);
   };
 
+  const handleOnNextVideoClick = () => {
+    if (!nextContent) {
+      router.push('/');
+      return;
+    }
+    router.push(nextContent);
+  };
+
+  const handleOnPrevVideoClick = () => {
+    if (!prevContent) {
+      router.push('/');
+      return;
+    }
+    router.push(prevContent);
+  };
+
+  const handleOnVideoEnd = () => {
+    if (!nextContent) {
+      return null;
+    }
+    router.push(nextContent);
+  };
+
   return (
     <div className="flex w-full flex-col gap-2">
       <div className="flex w-full flex-col">
@@ -98,7 +119,11 @@ export const ContentRendererClient = ({
             responsive: true,
             sources: [source],
           }}
-          onVideoEnd={() => {}}
+          onVideoEnd={handleOnVideoEnd}
+          onNextVideoClick={handleOnNextVideoClick}
+          onPrevVideoClick={handleOnPrevVideoClick}
+          isnextContentAvailable={nextContent?true:false}
+          ispreviousContentAvailable={prevContent?true:false}
         />
         <div className="flex flex-col gap-4 rounded-xl bg-primary/5 p-4">
           <div className="flex w-full flex-col justify-between gap-2 md:flex-row">
@@ -139,21 +164,6 @@ export const ContentRendererClient = ({
             />
           )}
         </div>
-        {nextContent ? (
-          <Button
-            size={'lg'}
-            onClick={() => {
-              const originalPath = window.location.pathname;
-              const parts = originalPath.split('/');
-              parts.pop();
-              parts.push(nextContent.id.toString());
-              const newPath = parts.join('/');
-              router.push(newPath);
-            }}
-          >
-            {nextContent.title}
-          </Button>
-        ) : null}
       </div>
     </div>
   );
