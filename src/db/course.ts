@@ -133,37 +133,36 @@ export async function getCourse(courseId: number) {
   return courses;
 }
 
-export const getNextVideo = async (currentVideoId: number) => {
-  if (!currentVideoId) {
+export const getCourseAllVideos = async (currentCourse: number) => {
+  if (!currentCourse) {
     return null;
   }
-  const value = await cache.get('getNextVideo', [currentVideoId.toString()]);
+  const value = await cache.get('getCourseAllVideos', [String(currentCourse)]);
   if (value) {
     return value;
   }
-  const currentContent = await db.content.findFirst({
-    where: {
-      id: currentVideoId,
+
+  const allVideos = await db.content.findMany({
+    orderBy: {
+      id: 'asc',
     },
+    where: {
+      parent: {
+        courses: {
+          some: {
+            courseId: currentCourse
+          }
+        },
+      },
+      type: "video",
+    }
   });
 
-  const latestContent = await db.content.findFirst({
-    orderBy: [
-      {
-        id: 'asc',
-      },
-    ],
-    where: {
-      parentId: {
-        equals: currentContent?.parentId,
-      },
-      id: {
-        gt: currentVideoId,
-      },
-    },
-  });
-  cache.set('getNextVideo', [currentVideoId.toString()], latestContent);
-  return latestContent;
+  if (!allVideos || allVideos.length<1) {
+    return null;
+  }
+  cache.set('getCourseAllVideos', [String(currentCourse)], allVideos);
+  return allVideos;
 };
 
 async function getAllContent(): Promise<
