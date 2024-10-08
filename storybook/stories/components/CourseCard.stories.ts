@@ -1,15 +1,3 @@
-import { CourseCard } from '@/components/CourseCard';
-import { Meta, StoryObj } from '@storybook/react';
-
-const meta: Meta<typeof CourseCard> = {
-  title: 'CourseCard',
-  component: CourseCard,
-};
-
-export default meta;
-
-type Story = StoryObj<typeof meta>;
-
 export const ButtonColor: Story = {
   args: {
     course: {
@@ -17,7 +5,7 @@ export const ButtonColor: Story = {
       slug: 'course-slug',
       appxCourseId: '1',
       certIssued: false,
-      discordOauthUrl: '',
+      discordOauthUrl: 'https://discord.com/invite/WAaXacK9bh', // Added Discord link
       discordRoleId: 'discord-role-id',
       title: 'Course Title',
       description: 'Course Description',
@@ -37,7 +25,7 @@ export const SmallRoundedCard: Story = {
       id: 1,
       slug: 'course-slug',
       appxCourseId: '1',
-      discordOauthUrl: '',
+      discordOauthUrl: 'https://discord.com/invite/WAaXacK9bh', // Added Discord link
       certIssued: false,
       discordRoleId: 'discord-role-id',
       title: 'Course Title',
@@ -58,8 +46,8 @@ export const MediumRoundedCard: Story = {
       id: 1,
       slug: 'course-slug',
       appxCourseId: '1',
+      discordOauthUrl: 'https://discord.com/invite/WAaXacK9bh', // Added Discord link
       certIssued: false,
-      discordOauthUrl: '',
       discordRoleId: 'discord-role-id',
       title: 'Course Title',
       description: 'Course Description',
@@ -79,9 +67,9 @@ export const LargeRoundedCard: Story = {
       id: 1,
       slug: 'course-slug',
       appxCourseId: '1',
-      discordOauthUrl: '',
-      discordRoleId: 'discord-role-id',
+      discordOauthUrl: 'https://discord.com/invite/WAaXacK9bh', // Added Discord link
       certIssued: false,
+      discordRoleId: 'discord-role-id',
       title: 'Course Title',
       description: 'Course Description',
       imageUrl:
