@@ -42,11 +42,11 @@ const CommentInputForm = ({
     setCommentText('');
   };
   
-  const isAllSpaces = (str: string): boolean => /^\s*$/.test(str);
+  const isAllSpaces = (str: string): boolean => (/^\s*$/).test(str);
 
   const isCommentValid = () => {
     return !isAllSpaces(commentText);
-  }
+  };
 
   // Function to adjust the height of the textarea
   const adjustTextareaHeight = () => {
@@ -58,11 +58,11 @@ const CommentInputForm = ({
 
   useEffect(() => {
     if (!isCommentValid() || isLoading) {
-      setButtonDisabled(true)
+      setButtonDisabled(true);
     } else {
-      setButtonDisabled(false)
+      setButtonDisabled(false);
     }
-  }, [commentText])
+  }, [commentText]);
 
   // Effect to handle the initial and dynamic height adjustment
   useEffect(() => {

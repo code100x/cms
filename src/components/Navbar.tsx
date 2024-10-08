@@ -5,7 +5,7 @@ import { useSession } from 'next-auth/react';
 import { usePathname, useRouter } from 'next/navigation';
 import React, { useState, useCallback, useMemo } from 'react';
 import Link from 'next/link';
-import { ArrowLeft, Menu, Search, X } from 'lucide-react';
+import { ArrowLeft, Menu, X } from 'lucide-react';
 import { Button } from './ui/button';
 import { AppbarAuth } from './AppbarAuth';
 import ThemeToggler from './ThemeToggler';

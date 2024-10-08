@@ -21,9 +21,7 @@ export default function ThemeToggler() {
   };
 
   const toggleTheme = () => {
-    if (!document.startViewTransition) switchTheme();
-
-    document.startViewTransition(switchTheme);
+      switchTheme();
   };
 
   return (
