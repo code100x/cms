@@ -3,33 +3,42 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useSession } from 'next-auth/react';
 import { usePathname, useRouter } from 'next/navigation';
-import { useState } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import Link from 'next/link';
-import { ArrowLeft, Menu } from 'lucide-react';
+import { ArrowLeft, Menu, Search, X } from 'lucide-react';
 import { Button } from './ui/button';
 import { AppbarAuth } from './AppbarAuth';
 import ThemeToggler from './ThemeToggler';
 import ProfileDropdown from './profile-menu/ProfileDropdown';
+import { SearchBar } from './search/SearchBar';
 
 export const Navbar = () => {
   const { data: session } = useSession();
   const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const pathname = usePathname();
-  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
-  const navItemVariants = {
-    hidden: { opacity: 0, y: -20 },
-    visible: (i: number) => ({
-      opacity: 1,
-      y: 0,
-      transition: {
-        delay: i * 0.1,
-        duration: 0.5,
-        ease: [0.43, 0.13, 0.23, 0.96],
-      },
+  // Memoizing the toggleMenu and toggleSearch functions
+  const toggleMenu = useCallback(() => setIsMenuOpen((prev) => !prev), []);
+  const toggleSearch = useCallback(() => setIsSearchOpen((prev) => !prev), []);
+
+  // Memoizing the navItemVariants object
+  const navItemVariants = useMemo(
+    () => ({
+      hidden: { opacity: 0, y: -20 },
+      visible: (i: number) => ({
+        opacity: 1,
+        y: 0,
+        transition: {
+          delay: i * 0.1,
+          duration: 0.5,
+          ease: [0.43, 0.13, 0.23, 0.96],
+        },
+      }),
     }),
-  };
+    [],
+  );
 
   return (
     <AnimatePresence>
@@ -145,6 +154,28 @@ export const Navbar = () => {
           </>
         )}
       </motion.nav>
+
+      {/* Mobile search overlay */}
+      <AnimatePresence>
+        {isSearchOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="fixed inset-0 z-[1000] flex flex-col bg-background p-4 md:hidden"
+          >
+            <div className="mb-4 flex items-center justify-between">
+              <h2 className="text-lg font-semibold">Search</h2>
+
+              <Button variant="ghost" size="icon" onClick={toggleSearch}>
+                <X className="size-6" />
+              </Button>
+            </div>
+
+            <SearchBar onCardClick={toggleSearch} isMobile />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </AnimatePresence>
   );
 };
