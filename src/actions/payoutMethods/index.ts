@@ -21,7 +21,6 @@ import { createSafeAction } from '@/lib/create-safe-action';
 const addUpiHandler = async (
   data: InputTypeCreateUpi,
 ): Promise<ReturnTypeCreateUpi> => {
-  console.log(data);
   const session = await getServerSession(authOptions);
 
   if (!session || !session.user.id) {
