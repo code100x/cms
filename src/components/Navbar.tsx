@@ -8,7 +8,7 @@ import Link from 'next/link';
 import { ArrowLeft, Menu, Search, X } from 'lucide-react';
 import { Button } from './ui/button';
 import { AppbarAuth } from './AppbarAuth';
-import { SelectTheme } from './ThemeToggler';
+import ThemeToggler from './ThemeToggler';
 import ProfileDropdown from './profile-menu/ProfileDropdown';
 import { SearchBar } from './search/SearchBar';
 
@@ -94,26 +94,7 @@ export const Navbar = () => {
             variants={navItemVariants}
             custom={1}
           >
-            {session?.user && (
-              <>
-                <div className="hidden md:block">
-                  <SearchBar />
-                </div>
-
-                <div className="md:hidden">
-                  <Button
-                    onClick={toggleSearch}
-                    variant={'ghost'}
-                    size={'icon'}
-                    className="mr-2"
-                  >
-                    <Search className="size-6" />
-                  </Button>
-                </div>
-              </>
-            )}
-
-            <SelectTheme text={false} />
+            <ThemeToggler />
             {session?.user && <ProfileDropdown />}
 
             {!session?.user && (
