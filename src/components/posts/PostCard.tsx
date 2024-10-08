@@ -216,10 +216,10 @@ const PostCard: React.FC<IProps> = ({
       </div>
 
       {enableReply && (
-      <form
-        onSubmit={handleSubmit}
-        className="mt-4"
-        onClick={handleEditorClick}
+        <form
+          onSubmit={handleSubmit}
+          className="mt-4"
+          onClick={handleEditorClick}
         >
           <div data-color-mode={theme} className="flex w-full flex-col gap-4">
             <MDEditor
@@ -255,7 +255,8 @@ const PostCard: React.FC<IProps> = ({
                   sessionUser={sessionUser}
                   reply={false}
                   parentAuthorName={post.author.name}
-                  isAnswer={true}                />
+                  isAnswer={true}
+                />
               </div>
             ))}
           </div>
