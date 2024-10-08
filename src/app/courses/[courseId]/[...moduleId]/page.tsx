@@ -1,6 +1,6 @@
 import { QueryParams } from '@/actions/types';
 import { CourseView } from '@/components/CourseView';
-import { getCourse, getFullCourseContent, getNextVideo, getPrevVideo } from '@/db/course';
+import { getCourse, getCourseAllVideos, getFullCourseContent } from '@/db/course';
 import findContentById from '@/lib/find-content-by-id';
 
 export default async function Course({
@@ -20,15 +20,29 @@ export default async function Course({
     fullCourseContent,
     rest.map((x) => parseInt(x, 10)),
   );
-  const nextContent = await getNextVideo(Number(rest[rest.length - 1]), (rest.length>1? Number(rest[rest.length-2]):0), Number(courseId));
-  const prevContent = await getPrevVideo(Number(rest[rest.length - 1]), (rest.length>1? Number(rest[rest.length-2]):0), Number(courseId));
+
+  const CurrentCourseAllVideos = await getCourseAllVideos(Number(courseId));
+  const nextContent = CurrentCourseAllVideos.find((video: any) => {
+    return video.id > Number(rest[rest.length - 1]);
+  });
+  const prevContent = (() => {
+    for (let i = CurrentCourseAllVideos.length - 1; i >= 0; i--) {
+      if (CurrentCourseAllVideos[i].id < Number(rest[rest.length - 1])) {
+        return CurrentCourseAllVideos[i];
+      }
+    }
+    return null;
+  })();
+
+  const nextContentUrl = (nextContent ? `/courses/${courseId}/${nextContent.parentId}/${nextContent.id}` : null);
+  const prevContentUrl = (prevContent ? `/courses/${courseId}/${prevContent.parentId}/${prevContent.id}` : null);
 
   return (
     <CourseView
       rest={rest}
       course={course}
-      nextContent={nextContent}
-      prevContent={prevContent}
+      nextContent={nextContentUrl}
+      prevContent={prevContentUrl}
       courseContent={courseContent}
       fullCourseContent={fullCourseContent}
       searchParams={searchParams}
