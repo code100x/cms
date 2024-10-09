@@ -1,4 +1,5 @@
 'use client';
+
 import useColorGenerator from '@/hooks/useColorGenerator';
 import { cn } from '@/lib/utils';
 import React, { forwardRef, Ref } from 'react';
@@ -15,8 +16,10 @@ const Tag = forwardRef(
     const [backgroundColor, textColor] = useColorGenerator(name);
 
     const tagClassName = cn(
-      'px-4  rounded-xl py-1 text-[12px] cursor-pointer mr-1',
-      className,
+      'inline-flex items-center px-2.5 py-1 rounded-lg text-sm font-semibold',
+      'transition-colors duration-150 ease-in-out',
+      'hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-opacity-50',
+      className
     );
 
     return (
@@ -24,7 +27,12 @@ const Tag = forwardRef(
         ref={ref}
         className={tagClassName}
         {...props}
-        style={{ backgroundColor, color: textColor }}
+        style={{ 
+          backgroundColor, 
+          color: textColor,
+        }}
+        role="status"
+        aria-label={`Tag: ${name}`}
       >
         {name}
       </span>

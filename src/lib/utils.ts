@@ -366,3 +366,5 @@ export const getDisabledFeature = (feature: string): boolean => {
     .split(',')
     .includes(feature);
 };
+
+export type CourseContentType = 'folder' | 'video' | 'notion'

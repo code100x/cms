@@ -1,17 +1,17 @@
 FROM node:20-alpine AS build
 
 WORKDIR /usr/src/app
-ARG DATABASE_URL 
+ARG DATABASE_URL
+ENV DATABASE_URL=${DATABASE_URL}
 
 COPY . .
 
 RUN npm install -g pnpm && \
   pnpm install && \
   pnpm add sharp && \
-  pnpm run build && \
-  DATABASE_URL=$DATABASE_URL pnpm dlx prisma generate 
+  pnpm run build
 
-
+RUN DATABASE_URL=${DATABASE_URL} pnpm dlx prisma generate
 
 FROM node:20-alpine AS run
 
@@ -25,7 +25,7 @@ COPY --from=build --chown=1001:1001 usr/src/app/.next/static ./.next/static
 COPY --from=build --chown=1001:1001 usr/src/app/public ./public
 
 ENV NODE_ENV production
-ENV PORT 3000 
+ENV PORT 3000
 ENV HOSTNAME "0.0.0.0"
 
 CMD [ "node", "server.js" ]
