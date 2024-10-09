@@ -226,6 +226,7 @@ export const NewPostDialog = () => {
                   <SearchBar
                     onCardClick={handleSearch}
                     shouldRedirect={false}
+                    disableCmdK={true}
                   />
                 )}
 
