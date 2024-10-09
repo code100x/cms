@@ -15,6 +15,13 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@/components/ui/tabs";
+
 import { Button } from '@/components/ui/button';
 import { QueryParams, TabType } from '@/actions/types';
 import { getDisabledFeature, getUpdatedUrl, paginationData } from '@/lib/utils';
@@ -24,6 +31,7 @@ import { authOptions } from '@/lib/auth';
 import PostCard from '@/components/posts/PostCard';
 import Pagination from '@/components/Pagination';
 import { redirect } from 'next/navigation';
+import SearchQuestionByVideo from '@/components/search/SearchQuestionByVideo';
 
 type QuestionsResponse = {
   data: ExtendedQuestion[] | null;
@@ -164,8 +172,21 @@ export default async function QuestionsPage({
         {/* Next question button */}
         <NewPostDialog />
         <div className="flex w-full flex-col gap-4">
-          <div className="flex flex-col justify-between gap-4 md:flex-row">
-            <Search />
+          <div className="flex flex-col md:flex-row justify-between gap-4 items-end">
+            <Tabs defaultValue="searchQuestion" className="w-full md:w-[400px]">
+              <TabsList className='mb-1 bg-primary/5'>
+                <TabsTrigger value="searchQuestion">Search by question</TabsTrigger>
+                <TabsTrigger value="searchVideo">Search by video</TabsTrigger>
+              </TabsList>
+              <TabsContent value="searchQuestion">
+                <div className="flex flex-col justify-between gap-4 md:flex-row">
+                  <Search />
+                </div>
+              </TabsContent>
+              <TabsContent value="searchVideo">
+                <SearchQuestionByVideo />
+              </TabsContent>
+            </Tabs>
             <div className="flex items-center justify-between gap-2">
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
