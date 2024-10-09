@@ -182,38 +182,45 @@ const PostCard: React.FC<IProps> = ({
         </div>
       )}
 
-      <div className="flex flex-wrap items-center gap-2">
-        <VoteForm
-          upvotes={post.upvotes}
-          downvotes={post.downvotes}
-          questionId={isAnswer ? undefined : post.id}
-          answerId={isAnswer ? post.id : undefined}
-          key={post.id}
-          votesArr={post.votes || []}
-          slug={isExtendedQuestion(post) ? post.slug : ''}
-        />
-        {reply && (
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={(e) => {
-              e.stopPropagation();
-              setEnableReply((prev) => !prev);
-            }}
-            className="text-xs sm:text-sm"
-          >
-            <Reply className="mr-1 size-4" />
-            {enableReply ? 'Close' : 'Reply'}
-          </Button>
-        )}
-        {!isAnswer && (
-          <p className="text-xs tracking-tight text-primary/70 sm:text-sm">
-            • {formatNumber(post.totalanswers)}{' '}
-            {post.totalanswers === 1 ? 'reply' : 'replies'}
-          </p>
+      <div className="flex flex-wrap items-center gap-4">
+        <div className="flex flex-row items-center gap-2">
+          <VoteForm
+            upvotes={post.upvotes}
+            downvotes={post.downvotes}
+            questionId={isAnswer ? undefined : post.id}
+            answerId={isAnswer ? post.id : undefined}
+            key={post.id}
+            votesArr={post.votes || []}
+            slug={isExtendedQuestion(post) ? post.slug : ''}
+          />
+          {reply && (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={(e) => {
+                e.stopPropagation();
+                setEnableReply((prev) => !prev);
+              }}
+              className="text-xs sm:text-sm"
+            >
+              <Reply className="mr-1 size-4" />
+              {enableReply ? 'Close' : 'Reply'}
+            </Button>
+          )}
+          {!isAnswer && (
+            <p className="text-xs tracking-tight text-primary/70 sm:text-sm">
+              • {formatNumber(post.totalanswers)}{' '}
+              {post.totalanswers === 1 ? 'reply' : 'replies'}
+            </p>
+          )}
+        </div>
+        {post.video && (
+          <div className="flex items-center gap-2 sm:ml-auto sm:gap-2 md:ml-0 lg:ml-auto">
+            <Tag name={`lecture:${post.video.id}`} />
+            <Tag name={`${post.video.title}`} />
+          </div>
         )}
       </div>
-
       {enableReply && (
         <form
           onSubmit={handleSubmit}

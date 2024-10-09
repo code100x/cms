@@ -18,12 +18,12 @@ const Search = () => {
     router.push(getUpdatedUrl(path, paramsObj, { search }));
   };
   return (
-    <div className="relative flex h-10 w-full items-center md:w-[300px] lg:w-[400px] xl:w-[500px]">
-      <SearchIcon className="absolute left-5 top-1/2 h-4 w-4 -translate-y-1/2 transform text-gray-500" />
+    <div className="relative flex h-10 w-full items-center md:w-[300px] lg:w-[400px] xl:w-[500px] gap-2">
+      <SearchIcon className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-primary/80" />
       <Input
         aria-label="Search Input"
         className="focus:ring-none rounded-lg border-none bg-primary/5 px-10 text-base focus:outline-none"
-        placeholder="Search..."
+        placeholder="Search by question"
         type="search"
         value={search}
         onChange={(e) => setSearch(e.target.value)}

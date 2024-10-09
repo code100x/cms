@@ -3,7 +3,7 @@
 import { TSearchedVideos } from '@/app/api/search/route';
 import useClickOutside from '@/hooks/useClickOutside';
 import { useDebounce } from '@/hooks/useDebounce';
-import { SearchIcon } from 'lucide-react';
+import { SearchIcon, X } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import React, {
   useCallback,
@@ -16,13 +16,25 @@ import { toast } from 'sonner';
 import { Input } from '../ui/input';
 import { CommandMenu } from './CommandMenu';
 import { SearchResults } from './SearchResults';
+import VideoSearchInfo from './VideoSearchInfo';
+import VideoSearchLoading from './VideoSearchLoading';
+import VideoSearchCard from './VideoSearchCard';
 
 interface SearchBarProps {
-  onCardClick?: () => void;
+  onCardClick?: (videoUrl: string, videoId: number, videoTitle:string) => void;
   isMobile?: boolean;
+  shouldRedirect?: boolean;
+  disableCmdK?: boolean;
+  placeholder?: string;
 }
 
-export function SearchBar({ onCardClick, isMobile = false }: SearchBarProps) {
+export function SearchBar({
+  onCardClick,
+  isMobile = false,
+  shouldRedirect = true,
+  disableCmdK = false,
+  placeholder = 'Search for videos...',
+}: SearchBarProps) {
   const [state, setState] = useState({
     open: false,
     searchTerm: '',
@@ -81,6 +93,94 @@ export function SearchBar({ onCardClick, isMobile = false }: SearchBarProps) {
     }
   }, [debouncedCommandSearchTerm, fetchData]);
 
+  const handleCardClick = useCallback(
+    (videoUrl: string, videoId: number, videoTitle: string) => {
+      if (onCardClick) {
+        onCardClick(videoUrl, videoId, videoTitle);
+      }
+      setState((prev) => ({ ...prev, searchTerm: '', commandSearchTerm: '' }));
+      if (shouldRedirect) {
+        router.push(videoUrl);
+      }
+    },
+    [onCardClick, router],
+  );
+
+  const renderSearchResults = () => {
+    if (state.searchTerm.length < 3) {
+      return (
+        <VideoSearchInfo text="Please enter at least 3 characters to search" />
+      );
+    } else if (state.loading) {
+      return <VideoSearchLoading />;
+    } else if (!state.searchedVideos || state.searchedVideos.length === 0) {
+      return <VideoSearchInfo text="No videos found" />;
+    }
+    return state.searchedVideos.map((video, index) => (
+      <div
+        className={` ${index === state.selectedIndex && 'bg-blue-600/10 text-blue-600'}`}
+      >
+        <VideoSearchCard
+          key={video.id}
+          video={video}
+          onCardClick={handleCardClick}
+        />
+      </div>
+    ));
+  };
+
+  if (disableCmdK) {
+    const ref = useRef<HTMLDivElement>(null);
+    const searchInputRef = useRef<HTMLInputElement>(null);
+    const [isInputFocused, setIsInputFocused] = useState<boolean>(false);
+
+    useClickOutside(ref, () => {
+      setIsInputFocused(false);
+    });
+
+    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+      setState((prev) => ({ ...prev, searchTerm: event.target.value }));
+    };
+
+    const handleClearInput = () => {
+      setState((prev) => ({ ...prev, searchTerm: '' }));
+      if (searchInputRef.current) {
+        searchInputRef.current.focus();
+      }
+    };
+
+    return (
+      <div
+        className="relative flex h-10 w-full items-center lg:w-[32vw]"
+        ref={ref}
+      >
+        {/* Search Input Bar */}
+        <SearchIcon className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-primary/80" />
+        <Input
+          placeholder={placeholder}
+          className="focus:ring-none rounded-lg border-none bg-primary/5 px-10 text-base focus:outline-none"
+          value={state.searchTerm}
+          onChange={handleInputChange}
+          onFocus={() => setIsInputFocused(true)}
+          ref={searchInputRef}
+        />
+        {state.searchTerm.length > 0 && (
+          <X
+            className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 transform cursor-pointer"
+            onClick={handleClearInput}
+          />
+        )}
+
+        {/* Search Results */}
+        {isInputFocused && state.searchTerm.length > 0 && (
+          <div className="absolute top-12 z-30 max-h-[40vh] w-full overflow-y-auto rounded-lg border-2 bg-background p-2 shadow-lg">
+            {renderSearchResults()}
+          </div>
+        )}
+      </div>
+    );
+  }
+
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
       if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
@@ -138,17 +238,6 @@ export function SearchBar({ onCardClick, isMobile = false }: SearchBarProps) {
       setState((prev) => ({ ...prev, searchTerm: event.target.value }));
     },
     [],
-  );
-
-  const handleCardClick = useCallback(
-    (videoUrl: string) => {
-      if (onCardClick) {
-        onCardClick();
-      }
-      setState((prev) => ({ ...prev, searchTerm: '', commandSearchTerm: '' }));
-      router.push(videoUrl);
-    },
-    [onCardClick, router],
   );
 
   const icon = useMemo(() => {
