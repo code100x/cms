@@ -5,12 +5,7 @@ import { formatTime } from '@/lib/utils';
 import VideoThumbnail from './videothumbnail';
 import CardComponent from './CardComponent';
 import { motion } from 'framer-motion';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from './ui/tooltip';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/tooltip';
 import React from 'react';
 
 export const ContentCard = ({
@@ -45,9 +40,7 @@ export const ContentCard = ({
             onClick={onClick}
             tabIndex={0}
             role="button"
-            onKeyDown={(e: React.KeyboardEvent) =>
-              ['Enter', ' '].includes(e.key) && onClick()
-            }
+            onKeyDown={(e: React.KeyboardEvent) => (['Enter', ' '].includes(e.key) && onClick())}
             className={`group relative flex h-fit w-full max-w-md cursor-pointer flex-col gap-2 rounded-2xl transition-all duration-300 hover:-translate-y-2`}
           >
             {markAsCompleted && (
@@ -64,9 +57,7 @@ export const ContentCard = ({
               <div className="relative overflow-hidden rounded-md">
                 <CardComponent
                   title={title}
-                  contentDuration={
-                    contentDuration && formatTime(contentDuration)
-                  }
+                  contentDuration={contentDuration && formatTime(contentDuration)}
                   type={type}
                 />
                 {!!videoProgressPercent && (
@@ -85,9 +76,9 @@ export const ContentCard = ({
                   title={title}
                   contentId={contentId ?? 0}
                   imageUrl=""
-                  // imageUrl={
-                  //   'https://d2szwvl7yo497w.cloudfront.net/courseThumbnails/video.png'
-                  // }
+                // imageUrl={
+                //   'https://d2szwvl7yo497w.cloudfront.net/courseThumbnails/video.png'
+                // }
                 />
               </div>
             )}
@@ -107,12 +98,11 @@ export const ContentCard = ({
             </div>
           </motion.div>
         </TooltipTrigger>
-        {Array.isArray(weeklyContentTitles) &&
-          weeklyContentTitles?.length > 0 && (
-            <TooltipContent sideOffset={16}>
-              {weeklyContentTitles?.map((title) => <p>{title}</p>)}
-            </TooltipContent>
-          )}
+        {
+          Array.isArray(weeklyContentTitles) && weeklyContentTitles?.length > 0 && <TooltipContent sideOffset={16}>
+            {weeklyContentTitles?.map((title) => <p>{title}</p>)}
+          </TooltipContent>
+        }
       </Tooltip>
     </TooltipProvider>
   );
