@@ -1,5 +1,6 @@
 import { TSearchedVideos } from '@/app/api/search/route';
 import { Play } from 'lucide-react';
+import Link from 'next/link';
 import React from 'react';
 
 interface VideoSearchCardProps {
@@ -17,7 +18,8 @@ const VideoSearchCard: React.FC<VideoSearchCardProps> = ({
     const videoUrl = `/courses/${courseId}/${parentId}/${videoId}`;
 
     return (
-      <div
+      <Link
+        href={videoUrl}
         className="flex cursor-pointer items-center gap-3 rounded-md px-3 py-2 hover:bg-blue-600/10 hover:text-blue-600"
         onClick={() =>
           onCardClick && onCardClick(videoUrl, videoId, videoTitle)
@@ -27,7 +29,7 @@ const VideoSearchCard: React.FC<VideoSearchCardProps> = ({
         <span className="w-4/5 truncate font-medium capitalize">
           {video.title}
         </span>
-      </div>
+      </Link>
     );
   }
 
