@@ -5,7 +5,7 @@ import { useSession } from 'next-auth/react';
 import { usePathname, useRouter } from 'next/navigation';
 import React, { useState, useCallback, useMemo } from 'react';
 import Link from 'next/link';
-import { ArrowLeft, Menu, X } from 'lucide-react';
+import { ArrowLeft, Menu, Search, X } from 'lucide-react';
 import { Button } from './ui/button';
 import { AppbarAuth } from './AppbarAuth';
 import ThemeToggler from './ThemeToggler';
@@ -94,6 +94,25 @@ export const Navbar = () => {
             variants={navItemVariants}
             custom={1}
           >
+            {/* Search Bar */}
+            {session?.user && (
+              <>
+                <div className="hidden md:block">
+                  <SearchBar />
+                </div>
+                <div className="md:hidden">
+                  <Button
+                    onClick={toggleSearch}
+                    variant={'ghost'}
+                    size={'icon'}
+                    className="mr-2"
+                  >
+                    <Search className="size-6" />
+                  </Button>
+                </div>
+              </>
+            )}
+
             <ThemeToggler />
             {session?.user && <ProfileDropdown />}
 
