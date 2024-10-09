@@ -71,6 +71,17 @@ export const ContentRendererClient = ({
     setShowChapters((prev) => !prev);
   };
 
+  const triggerNextContent = () => {
+    const originalPath = window.location.pathname;
+    const parts = originalPath.split('/');
+    parts.pop();
+    if (nextContent) {
+      parts.push(nextContent.id.toString());
+    }
+    const newPath = parts.join('/');
+    router.push(newPath);
+  };
+
   return (
     <div className="flex w-full flex-col gap-2">
       <div className="flex w-full flex-col">
@@ -98,7 +109,7 @@ export const ContentRendererClient = ({
             responsive: true,
             sources: [source],
           }}
-          onVideoEnd={() => {}}
+          onVideoEnd={() => triggerNextContent()}
         />
         <div className="flex flex-col gap-4 rounded-xl bg-primary/5 p-4">
           <div className="flex w-full flex-col justify-between gap-2 md:flex-row">
@@ -140,19 +151,11 @@ export const ContentRendererClient = ({
           )}
         </div>
         {nextContent ? (
-          <Button
-            size={'lg'}
-            onClick={() => {
-              const originalPath = window.location.pathname;
-              const parts = originalPath.split('/');
-              parts.pop();
-              parts.push(nextContent.id.toString());
-              const newPath = parts.join('/');
-              router.push(newPath);
-            }}
-          >
-            {nextContent.title}
-          </Button>
+          <div className="ml-auto mt-2">
+            <Button size={'lg'} onClick={() => triggerNextContent()}>
+              {nextContent.title}
+            </Button>
+          </div>
         ) : null}
       </div>
     </div>
