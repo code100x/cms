@@ -21,7 +21,7 @@ import VideoSearchLoading from './VideoSearchLoading';
 import VideoSearchCard from './VideoSearchCard';
 
 interface SearchBarProps {
-  onCardClick?: () => void;
+  onCardClick?: (videoUrl: string, videoId: number, videoTitle:string) => void;
   isMobile?: boolean;
   shouldRedirect?: boolean;
   disableCmdK?: boolean;
@@ -92,6 +92,19 @@ export function SearchBar({
       setState((prev) => ({ ...prev, searchedVideos: null }));
     }
   }, [debouncedCommandSearchTerm, fetchData]);
+
+  const handleCardClick = useCallback(
+    (videoUrl: string, videoId: number, videoTitle: string) => {
+      if (onCardClick) {
+        onCardClick(videoUrl, videoId, videoTitle);
+      }
+      setState((prev) => ({ ...prev, searchTerm: '', commandSearchTerm: '' }));
+      if (shouldRedirect) {
+        router.push(videoUrl);
+      }
+    },
+    [onCardClick, router],
+  );
 
   const renderSearchResults = () => {
     if (state.searchTerm.length < 3) {
@@ -225,19 +238,6 @@ export function SearchBar({
       setState((prev) => ({ ...prev, searchTerm: event.target.value }));
     },
     [],
-  );
-
-  const handleCardClick = useCallback(
-    (videoUrl: string) => {
-      if (onCardClick) {
-        onCardClick();
-      }
-      setState((prev) => ({ ...prev, searchTerm: '', commandSearchTerm: '' }));
-      if (shouldRedirect) {
-        router.push(videoUrl);
-      }
-    },
-    [onCardClick, router],
   );
 
   const icon = useMemo(() => {
