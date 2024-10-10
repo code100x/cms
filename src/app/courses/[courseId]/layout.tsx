@@ -1,5 +1,5 @@
 import { QueryParams } from '@/actions/types';
-import { Sidebar } from '@/components/Sidebar';
+import SidebarProvider from '@/components/SidebarProvider';
 import { getFullCourseContent } from '@/db/course';
 import { authOptions } from '@/lib/auth';
 import { getPurchases } from '@/utiles/appx';
@@ -49,8 +49,12 @@ const Layout = async ({
 
   return (
     <div className="relative flex min-h-screen flex-col py-24">
-      <Sidebar fullCourseContent={fullCourseContent} courseId={courseId} />
-      {children}
+      <SidebarProvider
+        fullCourseContent={fullCourseContent}
+        courseId={courseId}
+      >
+        {children}
+      </SidebarProvider>
     </div>
   );
 };
