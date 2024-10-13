@@ -137,15 +137,21 @@ export const getNextVideo = async (currentVideoId: number) => {
   if (!currentVideoId) {
     return null;
   }
+
   const value = await cache.get('getNextVideo', [currentVideoId.toString()]);
   if (value) {
     return value;
   }
+
   const currentContent = await db.content.findFirst({
     where: {
       id: currentVideoId,
     },
   });
+
+  if (!currentContent) {
+    return null;
+  }
 
   const latestContent = await db.content.findFirst({
     orderBy: [
@@ -162,7 +168,33 @@ export const getNextVideo = async (currentVideoId: number) => {
       },
     },
   });
-  cache.set('getNextVideo', [currentVideoId.toString()], latestContent);
+
+  if (!latestContent) {
+    const nextWeek = await db.content.findFirst({
+      orderBy: [
+        {
+          id: 'asc',
+        },
+      ],
+      where: {
+        parentId: {
+          gt: currentContent.parentId ?? 0,
+        },
+        id: {
+          gt: currentVideoId,
+        },
+      },
+    });
+
+    if (nextWeek) {
+      await cache.set('getNextVideo', [currentVideoId.toString()], nextWeek);
+    }
+    return nextWeek;
+  }
+
+  if (latestContent) {
+    await cache.set('getNextVideo', [currentVideoId.toString()], latestContent);
+  }
   return latestContent;
 };
 

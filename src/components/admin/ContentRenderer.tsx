@@ -129,6 +129,7 @@ export const ContentRenderer = async ({
 }: {
   nextContent: {
     id: number;
+    parentId: number;
     type: string;
     title: string;
   } | null;
