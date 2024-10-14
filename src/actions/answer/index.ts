@@ -58,8 +58,8 @@ const createAnswerHandler = async (
       return answer;
     });
 
-    revalidatePath(`/questions/${result.id}`);
-    revalidatePath(`/questions`);
+    revalidatePath(`/question/${result.id}`);
+    revalidatePath(`/question`);
 
     return { data: result };
   } catch (error) {
@@ -99,8 +99,8 @@ const updateAnswerHandler = async (
         content, // Update content
       },
     });
-    revalidatePath(`/questions/${answerId}`);
-    revalidatePath(`/questions`);
+    revalidatePath(`/question/${answerId}`);
+    revalidatePath(`/question`);
     return { data: updatedAnswer };
   } catch (error) {
     console.error(error);
@@ -174,8 +174,8 @@ const deleteAnswerHandler = async (
       await prisma.answer.delete({ where: { id: answerId } });
     });
 
-    revalidatePath(`/questions/${answerId}`);
-    revalidatePath(`/questions`);
+    revalidatePath(`/question/${answerId}`);
+    revalidatePath(`/question`);
 
     return {
       data: { message: 'Answer and all nested answers deleted successfully' },

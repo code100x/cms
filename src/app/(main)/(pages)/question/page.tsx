@@ -5,7 +5,7 @@ import dayjs from 'dayjs';
 
 import { ExtendedQuestion, QuestionQuery } from '@/actions/question/types';
 import Search from '@/components/search';
-import { ArrowUpDownIcon } from 'lucide-react';
+import { ArrowUpDownIcon, Plus } from 'lucide-react';
 
 import {
   DropdownMenu,
@@ -139,108 +139,107 @@ export default async function QuestionsPage({
   const response = await fetchQuestionsByTabType(searchParams, sessionId!);
   return (
     <>
-      <div className="flex h-screen flex-col">
+      <div className="mx-auto my-16 flex min-h-screen w-full flex-col gap-4">
         {/* Header */}
-        <div className="flex items-center justify-between p-5">
-          <h1 className="bg-background/6 top-0 flex items-center text-3xl backdrop-blur-lg">
+        <div className="flex w-full flex-col justify-between gap-2">
+          <h1 className="text-4xl font-bold capitalize tracking-tighter md:text-5xl">
             Questions
           </h1>
-
-          <Search />
+          <p className="text-primary/80 md:text-lg">
+            Please maintain a respectful and civil tone in all interactions.
+          </p>
         </div>
+        {/* Next question button */}
+        <NewPostDialog />
+        <div className="flex w-full flex-col gap-4">
+          <div className="flex flex-col justify-between gap-4 md:flex-row">
+            <Search />
+            <div className="flex items-center justify-between gap-2">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button size={'lg'}>
+                    <ArrowUpDownIcon className="mr-2 h-4 w-4" />
+                    Sort by
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="start" className="w-[200px]">
+                  <DropdownMenuRadioGroup value={tabType}>
+                    <Link
+                      className="py-2"
+                      href={getUpdatedUrl('/question', searchParams, {
+                        tabtype: TabType.mq,
+                      })}
+                    >
+                      <DropdownMenuRadioItem value={TabType.mq}>
+                        Your questions
+                      </DropdownMenuRadioItem>
+                    </Link>
 
-        {/* Content Area */}
-        <div className="flex-1 overflow-y-auto pb-20">
-          {/* Next question button */}
-          <NewPostDialog />
+                    <Link
+                      href={getUpdatedUrl('/question', searchParams, {
+                        tabtype: TabType.mu,
+                      })}
+                    >
+                      <DropdownMenuRadioItem value={TabType.mu}>
+                        Most Voted
+                      </DropdownMenuRadioItem>
+                    </Link>
+                    <Link
+                      href={getUpdatedUrl(`/question`, searchParams, {
+                        tabtype: TabType.md,
+                      })}
+                    >
+                      <DropdownMenuRadioItem value={TabType.md}>
+                        Most Down Voted
+                      </DropdownMenuRadioItem>
+                    </Link>
+                    <Link
+                      href={getUpdatedUrl('/question', searchParams, {
+                        tabtype: TabType.mr,
+                      })}
+                    >
+                      <DropdownMenuRadioItem value={TabType.mr}>
+                        Most Recent
+                      </DropdownMenuRadioItem>
+                    </Link>
+                  </DropdownMenuRadioGroup>
+                </DropdownMenuContent>
+              </DropdownMenu>
 
-          <div className="mx-auto md:p-10 xl:mx-[15%]">
-            <div className="flex-col items-center justify-center p-4 dark:text-white">
-              <div className="flex items-center justify-between">
-                <div className="px-16">
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button className="shrink-0" variant="outline">
-                        <ArrowUpDownIcon className="mr-2 h-4 w-4" />
-                        Sort by
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end" className="w-[200px]">
-                      <DropdownMenuRadioGroup value={tabType}>
-                        <Link
-                          className="py-2"
-                          href={getUpdatedUrl('/question', searchParams, {
-                            tabtype: TabType.mq,
-                          })}
-                        >
-                          <DropdownMenuRadioItem value={TabType.mq}>
-                            Your questions
-                          </DropdownMenuRadioItem>
-                        </Link>
-
-                        <Link
-                          href={getUpdatedUrl('/question', searchParams, {
-                            tabtype: TabType.mu,
-                          })}
-                        >
-                          <DropdownMenuRadioItem value={TabType.mu}>
-                            Most Voted
-                          </DropdownMenuRadioItem>
-                        </Link>
-                        <Link
-                          href={getUpdatedUrl(`/question`, searchParams, {
-                            tabtype: TabType.md,
-                          })}
-                        >
-                          <DropdownMenuRadioItem value={TabType.md}>
-                            Most Down Voted
-                          </DropdownMenuRadioItem>
-                        </Link>
-                        <Link
-                          href={getUpdatedUrl('/question', searchParams, {
-                            tabtype: TabType.mr,
-                          })}
-                        >
-                          <DropdownMenuRadioItem value={TabType.mr}>
-                            Most Recent
-                          </DropdownMenuRadioItem>
-                        </Link>
-                      </DropdownMenuRadioGroup>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </div>
-                <Link
-                  className="mb-2 me-2 rounded-lg bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-gradient-to-br"
-                  href={getUpdatedUrl('/question', searchParams, {
-                    newPost:
-                      searchParams.newPost === 'close' || !searchParams.newPost
-                        ? 'open'
-                        : 'close',
-                  })}
-                >
-                  New Question
-                </Link>
-              </div>
-
-              {/* Chat */}
-              <div className="m-auto w-full">
-                <div className="w-full space-y-4">
-                  {response?.data?.map((post) => (
-                    <PostCard
-                      post={post}
-                      sessionUser={session?.user}
-                      key={post.id}
-                      isAnswer={false}
-                      questionId={post.id}
-                      enableLink={true}
-                      reply={false}
-                    />
-                  ))}
-                </div>
-              </div>
+              <Link
+                href={getUpdatedUrl('/question', searchParams, {
+                  newPost:
+                    searchParams.newPost === 'close' || !searchParams.newPost
+                      ? 'open'
+                      : 'close',
+                })}
+              >
+                <Button size={'lg'} className="gap-2" variant={'branding'}>
+                  <Plus className="size-4" /> Ask a Question
+                </Button>
+              </Link>
             </div>
-            <Pagination dataLength={response?.data?.length || 0} />
           </div>
+          {/* Chat */}
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            {response?.data?.map((post) => (
+              <PostCard
+                post={post}
+                sessionUser={session?.user}
+                key={post.id}
+                isAnswer={false}
+                questionId={post.id}
+                enableLink={true}
+                reply={false}
+              />
+            ))}
+          </div>
+          {
+            //@ts-ignore
+            response?.data?.length > 10 && (
+              <Pagination dataLength={response?.data?.length || 0} />
+            )
+          }
         </div>
       </div>
     </>

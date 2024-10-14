@@ -31,7 +31,6 @@ export const MyCourses = async () => {
   return (
     <>
       <Courses courses={purchases} />
-      {/*       <RefreshDb refreshDb={refreshDb} /> */}
     </>
   );
 };

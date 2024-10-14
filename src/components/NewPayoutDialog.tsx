@@ -1,5 +1,4 @@
 'use client';
-import { X } from 'lucide-react';
 import { Input } from './ui/input';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -11,6 +10,12 @@ import { toast } from 'sonner';
 import { useAction } from '@/hooks/useAction';
 import { useState } from 'react';
 import { Loader } from './Loader';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
 
 interface DialogProps {
   isOpen: boolean;
@@ -81,46 +86,38 @@ export default function NewPayoutDialog({
           throw new Error('Invalid method');
       }
     } catch (error) {
+      setIsLoading(false);
       console.error(error);
       toast.error('An unexpected error occured');
     }
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50">
-      <div className="relative w-5/6 rounded-lg bg-white p-8 shadow-lg dark:bg-[#1F2937] sm:w-2/3 md:w-1/3">
-        <h2 className="mb-4 text-center text-xl font-semibold">
-          Add {title} address
-        </h2>
-        <button
-          className="absolute right-2 top-2 text-gray-500 hover:text-gray-700"
-          onClick={onClose}
-        >
-          <X className="h-5 w-5" />
-        </button>
-        <div>
-          <form
-            onSubmit={handleSubmit(onSubmit)}
-            className="flex w-full justify-center"
-          >
-            <div className="flex flex-col">
+    <>
+      <Dialog open={isOpen} onOpenChange={onClose}>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>Add {title} Address</DialogTitle>
+          </DialogHeader>
+          <form onSubmit={handleSubmit(onSubmit)} className="grid gap-4 py-4">
+            <div className="flex flex-col gap-4">
               <Input
-                className="w-52P sm:w-60"
                 placeholder={`Enter your ${title} address`}
                 {...register(fieldName)}
+                className="p-4"
               />
               {errors[fieldName] && (
-                <p className="ml-1 mt-2 text-sm text-red-500">
+                <p className="text-sm text-red-500">
                   {errors[fieldName]?.message}
                 </p>
               )}
+              <Button type="submit" disabled={isLoading}>
+                {isLoading ? <Loader /> : 'Add'}
+              </Button>
             </div>
-            <Button type="submit" className="mx-2 w-16 dark:text-white">
-              {isLoading ? <Loader /> : 'Add'}
-            </Button>
           </form>
-        </div>
-      </div>
-    </div>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 }

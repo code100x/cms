@@ -4,6 +4,7 @@ import BookmarkButton from './bookmark/BookmarkButton';
 import { formatTime } from '@/lib/utils';
 import VideoThumbnail from './videothumbnail';
 import CardComponent from './CardComponent';
+import { motion } from 'framer-motion';
 
 export const ContentCard = ({
   title,
@@ -11,7 +12,6 @@ export const ContentCard = ({
   markAsCompleted,
   type,
   videoProgressPercent,
-  hoverExpand = true,
   bookmark,
   contentId,
   contentDuration,
@@ -24,16 +24,14 @@ export const ContentCard = ({
   markAsCompleted?: boolean;
   percentComplete?: number | null;
   videoProgressPercent?: number;
-  hoverExpand?: boolean;
   bookmark?: Bookmark | null;
   contentDuration?: number;
+  uploadDate?: string;
 }) => {
-  // let image ;
-  // image = ""
   return (
-    <div
+    <motion.div
       onClick={onClick}
-      className={`relative cursor-pointer rounded-2xl border border-gray-700/50 duration-200 ease-in group${hoverExpand ? ' ' : ''} `}
+      className={`group relative flex h-fit w-full max-w-md cursor-pointer flex-col gap-2 rounded-2xl transition-all duration-300 hover:-translate-y-2`}
     >
       {markAsCompleted && (
         <div className="absolute right-2 top-2 z-10">
@@ -41,8 +39,8 @@ export const ContentCard = ({
         </div>
       )}
       {type === 'video' && (
-        <div className="text-blue-900g absolute bottom-12 right-2 z-10 rounded-md bg-zinc-900 p-1 px-2 font-semibold text-white">
-          {contentDuration && formatTime(contentDuration)}
+        <div className="absolute bottom-12 right-2 z-10 rounded-md p-2 font-semibold text-white">
+          <Play className="size-6" />
         </div>
       )}
       {type !== 'video' && (
@@ -63,7 +61,7 @@ export const ContentCard = ({
         </div>
       )}
       {type === 'video' && (
-        <div className="relative overflow-hidden rounded-md">
+        <div className="relative overflow-hidden">
           <VideoThumbnail
             title={title}
             contentId={contentId ?? 0}
@@ -74,31 +72,20 @@ export const ContentCard = ({
           />
         </div>
       )}
-
-      {bookmark !== undefined && contentId && (
-        <div className="absolute left-1 top-4">
+      <div className="flex items-center justify-between gap-4">
+        <h3 className="w-full truncate text-xl font-bold capitalize tracking-tighter md:text-2xl">
+          {title}
+        </h3>
+        {bookmark !== undefined && contentId && (
           <BookmarkButton
             bookmark={bookmark}
             contentId={contentId}
-            size={28}
-            align="start"
-            side="bottom"
+            size={24}
+            align="end"
+            side="top"
           />
-        </div>
-      )}
-      <div className="flex items-center justify-between p-4">
-        <div className="space-y-2">
-          <h3 className="text-bold text-lg tracking-normal">{title}</h3>
-          <h4 className="text-bold text-sm tracking-normal text-[#64748B]">
-            Posted on: 10 Aug 2024
-          </h4>
-        </div>
-        <div className="hidden rounded-full border border-gray-700/60 p-4 lg:block">
-          <div className="rounded-full border border-[#64748b] p-2">
-            <Play size={15} color="#64748b" />
-          </div>
-        </div>
+        )}
       </div>
-    </div>
+    </motion.div>
   );
 };

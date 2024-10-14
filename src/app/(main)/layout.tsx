@@ -1,6 +1,5 @@
-import React from 'react';
-import { MenuOptions as Sidebar } from '@/components/sidebar/index';
 import { Appbar } from '@/components/Appbar';
+import React from 'react';
 
 interface Props {
   children: React.ReactNode;
@@ -8,12 +7,9 @@ interface Props {
 
 export default (props: Props) => {
   return (
-    <div className="flex h-screen overflow-hidden">
-      <Sidebar />
-      <div className="w-full">
-        <Appbar className="border-b p-4 pb-2" />
-        {props.children}
-      </div>
+    <div className="flex min-h-screen w-full">
+      <Appbar />
+      <div className="wrapper w-full">{props.children}</div>
     </div>
   );
 };
