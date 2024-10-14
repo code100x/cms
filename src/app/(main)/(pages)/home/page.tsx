@@ -14,10 +14,12 @@ export default async function MyCoursesPage() {
   const currentHour = new Date().getHours();
 
   // Determine the appropriate greeting based on the time of day
-  let greeting = 'Good Morning';
-  if (currentHour >= 12 && currentHour < 18) {
+  let greeting;
+  if (currentHour >= 5 && currentHour < 12) {
+    greeting = 'Good Morning';
+  } else if (currentHour >= 12 && currentHour < 18) {
     greeting = 'Good Afternoon';
-  } else if (currentHour >= 18 || currentHour < 5) {
+  } else {
     greeting = 'Good Evening';
   }
 
