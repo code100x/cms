@@ -34,19 +34,22 @@ export const FolderView = ({
     );
   }
   let updatedRoute = `/courses/${courseId}`;
+  let level=false;
   for (let i = 0; i < rest.length; i++) {
     updatedRoute += `/${rest[i]}`;
+    level=true;
   }
   // why? because we have to reset the segments or they will be visible always after a video
 
   return (
     <div>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+
         {courseContent.map((content) => {
           const videoProgressPercent =
             content.type === 'video' &&
-            content.videoFullDuration &&
-            content.duration
+              content.videoFullDuration &&
+              content.duration
               ? (content.duration / content.videoFullDuration) * 100
               : 0;
           return (
@@ -68,6 +71,17 @@ export const FolderView = ({
             />
           );
         })}
+        {
+          !level ?
+          <ContentCard
+          type={'folder'}
+          title={'All Notes'}
+          image={''}
+          onClick={() => {
+            router.push(`${updatedRoute}/notes`);
+          }}
+        />: null
+        }
       </div>
     </div>
   );
