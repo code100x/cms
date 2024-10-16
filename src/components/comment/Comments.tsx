@@ -18,6 +18,7 @@ import {
   ChevronDownIcon,
   MoreVerticalIcon,
   Reply,
+  ChevronUp,
 } from 'lucide-react';
 import TimeCodeComment from './TimeCodeComment';
 import {
@@ -34,8 +35,20 @@ import { authOptions } from '@/lib/auth';
 import { getServerSession } from 'next-auth';
 import CommentPinForm from './CommentPinForm';
 import CommentApproveForm from './CommentApproveForm';
+import Script from 'next/script';
 dayjs.extend(relativeTime);
 
+const BackToTopButton = () => {
+  return (
+    <Button
+      id="back-to-top-button"
+      className="fixed bottom-4 right-4 rounded-full p-2 hidden"
+      aria-label="Back to top"
+    >
+      <ChevronUp className="size-6" />
+    </Button>
+  );
+};
 const Comments = async ({
   content,
   searchParams,
@@ -65,7 +78,7 @@ const Comments = async ({
   const modifiedSearchParams = { ...searchParams };
   delete modifiedSearchParams.parentId;
   return (
-    <div className="flex w-full flex-col gap-8">
+    <div className="flex w-full flex-col gap-8 relative">
       <div className="flex flex-col gap-4">
         {data.parentComment && (
           <Link
@@ -83,7 +96,7 @@ const Comments = async ({
         )}
         <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
           <h2
-            className={`text-xl font-bold tracking-tighter text-primary md:text-2xl`}
+            className={`text-xl font-bold taracking-tighter text-primary md:text-2xl`}
           >
             {!data.parentComment
               ? `${content.commentCount} ${content.commentCount === 1 ? 'Comment' : 'Comments'}`
@@ -244,37 +257,37 @@ const Comments = async ({
                     {(session.user.id.toString() ===
                       (c as ExtendedComment).userId.toString() ||
                       session.user.role === ROLES.ADMIN) && (
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <MoreVerticalIcon className="size-6" />
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent>
-                          {(session.user.id.toString() ===
-                            (c as ExtendedComment).userId.toString() ||
-                            session.user.role === ROLES.ADMIN) && (
-                            <DropdownMenuItem>
-                              <CommentDeleteForm commentId={c.id} />
-                            </DropdownMenuItem>
-                          )}
-                          {session.user.role === ROLES.ADMIN && (
-                            <DropdownMenuItem>
-                              <CommentPinForm
-                                commentId={c.id}
-                                contentId={c.contentId}
-                              />
-                            </DropdownMenuItem>
-                          )}
-                          {session.user.role === ROLES.ADMIN && (
-                            <DropdownMenuItem>
-                              <CommentApproveForm
-                                commentId={c.id}
-                                contentId={c.contentId}
-                              />
-                            </DropdownMenuItem>
-                          )}
-                        </DropdownMenuContent>
-                      </DropdownMenu>
-                    )}
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <MoreVerticalIcon className="size-6" />
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent>
+                            {(session.user.id.toString() ===
+                              (c as ExtendedComment).userId.toString() ||
+                              session.user.role === ROLES.ADMIN) && (
+                                <DropdownMenuItem>
+                                  <CommentDeleteForm commentId={c.id} />
+                                </DropdownMenuItem>
+                              )}
+                            {session.user.role === ROLES.ADMIN && (
+                              <DropdownMenuItem>
+                                <CommentPinForm
+                                  commentId={c.id}
+                                  contentId={c.contentId}
+                                />
+                              </DropdownMenuItem>
+                            )}
+                            {session.user.role === ROLES.ADMIN && (
+                              <DropdownMenuItem>
+                                <CommentApproveForm
+                                  commentId={c.id}
+                                  contentId={c.contentId}
+                                />
+                              </DropdownMenuItem>
+                            )}
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      )}
                   </div>
 
                   <TimeCodeComment
@@ -317,9 +330,33 @@ const Comments = async ({
           ))}
         </div>
       </div>
-      <div>{/* <Pagination dataLength={data.comments.length} /> */}</div>
+      <BackToTopButton />
+      <Script id="back-to-top-script" strategy="afterInteractive">
+        {`
+          function toggleBackToTopButton() {
+            const button = document.getElementById('back-to-top-button');
+            if (window.pageYOffset > 300) {
+              button.classList.remove('hidden');
+            } else {
+              button.classList.add('hidden');
+            }
+          }
+
+          function scrollToTop() {
+            window.scrollTo({
+              top: 0,
+              behavior: 'smooth'
+            });
+          }
+
+          window.addEventListener('scroll', toggleBackToTopButton);
+          document.getElementById('back-to-top-button').addEventListener('click', scrollToTop);
+        `}
+      </Script>
     </div>
   );
 };
+
+
 
 export default Comments;
