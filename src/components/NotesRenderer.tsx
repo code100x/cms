@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import { NotionRenderer } from '@/components/NotionRenderer';
 import { useState, useEffect } from 'react';
@@ -12,11 +12,11 @@ export default function NotesRenderer({
   params: { courseId: string; notesId: string[] };
   fullCourseContent: any[];
 }) {
-  const [currPage, setCurrPage] = useState<string>(params.notesId[1]);
+  const currPage = params.notesId[1];
   const [prevPage, setPrevPage] = useState<string>('');
   const [nextPage, setNextPage] = useState<string>('');
   const [notionIds, setNotionIds] = useState<[number, number][]>([]);
-  const [isValid, setIsValid ] = useState<boolean>(true);
+  const [isValid, setIsValid] = useState<boolean>(true);
   const router = useRouter();
 
   const courseId = params.courseId;
@@ -27,8 +27,8 @@ export default function NotesRenderer({
         const notionIds = await findNotionIds(fullCourseContent);
         setNotionIds(notionIds);
         updateNavigationIndices(notionIds);
-        let validity = notionIds.some((id)=> id[1] === Number(currPage)); 
-        if(!validity){
+        const validity = notionIds.some((id) => id[1] === Number(currPage)); 
+        if (!validity) {
           setIsValid(false);
         }  
       } catch (error) {
@@ -45,10 +45,9 @@ export default function NotesRenderer({
     }
   }, [currPage, notionIds]);
 
-
   function updateNavigationIndices(notionIds: [number, number][]) {
     const currentIndex = notionIds.findIndex(
-      ([parentId, id]) => id === Number(currPage)
+      ([, id]) => id === Number(currPage)
     );
 
     if (currentIndex >= 0) {
@@ -61,7 +60,7 @@ export default function NotesRenderer({
   }
 
   function findNotionIds(content: any[]): [number, number][] {
-    let notionIds: [number, number][] = [];
+    const notionIds: [number, number][] = [];
     function traverse(items: any[]) {
       for (const item of items) {
         if (item.type === 'folder') {
@@ -80,10 +79,9 @@ export default function NotesRenderer({
     return notionIds;
   }
 
-
   const onNext = () => {
     const currentIndex = notionIds.findIndex(
-      ([parentId, id]) => id === Number(currPage)
+      ([, id]) => id === Number(currPage)
     );
 
     if (currentIndex < notionIds.length - 1) {
@@ -94,7 +92,7 @@ export default function NotesRenderer({
 
   const onPrev = () => {
     const currentIndex = notionIds.findIndex(
-      ([parentId, id]) => id === Number(currPage)
+      ([, id]) => id === Number(currPage)
     );
 
     if (currentIndex > 0) {
@@ -114,7 +112,6 @@ export default function NotesRenderer({
     }
   };
   
-
   return (
     <div>
       <div className='flex p-2 w-full justify-between'>

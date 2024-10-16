@@ -5,7 +5,6 @@ import { FullCourseContent } from '@/db/course';
 import { useEffect, useState, useCallback, useMemo } from 'react';
 import Link from 'next/link';
 
-
 export function NotesView({
   courseId,
   fullCourseContent,

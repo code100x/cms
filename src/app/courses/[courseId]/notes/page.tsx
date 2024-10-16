@@ -2,8 +2,7 @@ import { QueryParams } from '@/actions/types';
 import { getFullCourseContent } from '@/db/course';
 import { NotesView } from '@/components/NotesView';
 
-
-export default async function Notes ({
+export default async function Notes({
   params,
 
 }: {
@@ -20,6 +19,4 @@ export default async function Notes ({
       <NotesView fullCourseContent={fullCourseContent} courseId={courseId} />
     </div>
   );
-};
-
-
+}
