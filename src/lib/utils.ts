@@ -3,7 +3,7 @@ import { CommentType, Prisma } from '@prisma/client';
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import Player from 'video.js/dist/types/player';
-
+import { Bookmark } from '@prisma/client';
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
@@ -367,4 +367,47 @@ export const getDisabledFeature = (feature: string): boolean => {
     .includes(feature);
 };
 
-export type CourseContentType = 'folder' | 'video' | 'notion'
+export type CourseContentType = 'folder' | 'video' | 'notion';
+
+export type courseContent = {
+  type: CourseContentType;
+  title: string;
+  image: string;
+  id: number;
+  markAsCompleted: boolean;
+  percentComplete: number | null;
+  videoFullDuration?: number;
+  duration?: number;
+  bookmark: Bookmark | null;
+  weeklyContentTitles?: string[];
+};
+
+export function getFilteredContent(
+  courseContent: courseContent[],
+  filter: string,
+): courseContent[] {
+  if (filter === 'all' || filter === '' || courseContent[0]?.type === 'folder')
+    //Hoping no folder has recursive folders
+    return courseContent;
+
+  if (filter === 'watched')
+    return courseContent?.filter(
+      (content) => content?.markAsCompleted === true,
+    );
+
+  if (filter === 'watching')
+    return courseContent?.filter(
+      (content) =>
+        content?.markAsCompleted === false &&
+        content?.duration !== null &&
+        content?.duration !== 0,
+    );
+
+  if (filter === 'unwatched')
+    return courseContent?.filter(
+      (content) =>
+        content?.markAsCompleted === false && content?.duration === 0,
+    );
+
+  return [];
+}
