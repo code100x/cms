@@ -10,10 +10,10 @@ async function checkUserCollectionAccess(userId: string, collectionId: string) {
           course: {
             purchasedBy: {
               some: {
-                userId: userId,
+                userId,
               },
             },
-          }, 
+          },
         },
       },
     },
@@ -31,11 +31,17 @@ export async function GET(
     if (!user) {
       return NextResponse.json({ message: 'User not found' }, { status: 401 });
     }
-    
+
     const { collectionId } = params;
-    const userHasCollectionAccess = await checkUserCollectionAccess(user.id, collectionId);
+    const userHasCollectionAccess = await checkUserCollectionAccess(
+      user.id,
+      collectionId,
+    );
     if (!userHasCollectionAccess) {
-      return NextResponse.json({ message: 'User does not have access to this collection' }, { status: 403 });
+      return NextResponse.json(
+        { message: 'User does not have access to this collection' },
+        { status: 403 },
+      );
     }
     const collectionData = await db.content.findMany({
       where: {

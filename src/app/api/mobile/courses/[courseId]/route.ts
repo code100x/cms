@@ -6,7 +6,7 @@ async function checkUserCourseAccess(userId: string, courseId: string) {
     where: {
       purchasedBy: {
         some: {
-          userId: userId,
+          userId,
         },
       },
       id: parseInt(courseId, 10),
@@ -15,7 +15,6 @@ async function checkUserCourseAccess(userId: string, courseId: string) {
 
   return userCourse !== null;
 }
-
 
 export async function GET(
   request: NextRequest,

@@ -10,7 +10,7 @@ async function checkUserContentAccess(userId: string, contentId: string) {
           course: {
             purchasedBy: {
               some: {
-                userId: userId,
+                userId,
               },
             },
           },
@@ -21,13 +21,19 @@ async function checkUserContentAccess(userId: string, contentId: string) {
   return userContent !== null;
 }
 
-export async function GET(req : NextRequest,{ params }: { params: { contentId: string } }) {
+export async function GET(
+  req: NextRequest,
+  { params }: { params: { contentId: string } },
+) {
   try {
     const { contentId } = params;
     const user = JSON.parse(req.headers.get('g') || '');
     const userContentAccess = await checkUserContentAccess(user.id, contentId);
     if (!userContentAccess) {
-      return NextResponse.json({ message: 'User does not have access to this content' }, { status: 403 });
+      return NextResponse.json(
+        { message: 'User does not have access to this content' },
+        { status: 403 },
+      );
     }
     const contents = await db.content.findUnique({
       where: {
