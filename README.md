@@ -35,7 +35,7 @@ chmod +x setup.h
 
 # Traditional Docker Setup
 
-1. (Optional) Start a PostgreSQL database using Docker:
+   (Optional) Start a PostgreSQL database using Docker:
 
 ```bash
 docker run -d \
@@ -59,39 +59,32 @@ postgres
 
    - Copy `.env.example` and rename it to `.env`.
 
-   - Configure the `DATABASE_URL` with your PostgreSQL connection string.
 
-The connection URL for this setup will be:
-
-```
-DATABASE_URL=postgresql://myuser:mypassword@localhost:5432/mydatabase?schema=public
-```
-
-5. Install dependencies:
+2. Install dependencies:
 
 ```bash
 pnpm install
 ```
 
-6. Run database migrations:
+3. Run database migrations:
 
 ```bash
 pnpm run prisma:migrate
 ```
 
-7. Generate prisma client
+4. Generate prisma client
 
 ```bash
 pnpm prisma generate
 ```
 
-8. Seed the database:
+5. Seed the database:
 
 ```bash
 pnpm run db:seed
 ```
 
-9. Start the development server:
+6. Start the development server:
 
 ```bash
 pnpm run dev
