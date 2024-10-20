@@ -9,7 +9,7 @@ import {
 } from '@/components/ui/accordion';
 import { Play, File, X, Menu } from 'lucide-react';
 import { FullCourseContent } from '@/db/course';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { sidebarOpen as sidebarOpenAtom } from '@/store/atoms/sidebar';
 import { useEffect, useState, useCallback, useMemo } from 'react';
 import { handleMarkAsCompleted } from '@/lib/utils';
@@ -17,7 +17,8 @@ import BookmarkButton from './bookmark/BookmarkButton';
 import Link from 'next/link';
 import { Button } from './ui/button';
 import { AnimatePresence, motion } from 'framer-motion';
-
+import { FilterContent } from './FilterContent';
+import { selectFilter } from '@/store/atoms/filterContent';
 const sidebarVariants = {
   open: {
     width: '100%',
@@ -47,7 +48,9 @@ export function Sidebar({
   >([]);
   const sidebarRef = useRef<HTMLDivElement | null>(null);
   const buttonRef = useRef<HTMLButtonElement | null>(null);
+  const filterRef = useRef<HTMLDivElement | null>(null);
   const closeSidebar = () => setSidebarOpen(false);
+  const currentfilter = useRecoilValue(selectFilter);
 
   const findPathToContent = useCallback(
     (
@@ -77,7 +80,8 @@ export function Sidebar({
       if (
         sidebarRef.current &&
         !sidebarRef.current.contains(event.target as Node) &&
-        !buttonRef.current?.contains(event.target as Node)
+        !buttonRef.current?.contains(event.target as Node) &&
+        !filterRef.current?.contains(event.target as Node)
       ) {
         closeSidebar();
       }
@@ -133,7 +137,6 @@ export function Sidebar({
     (contents: FullCourseContent[]) => {
       return contents.map((content) => {
         const isActiveContent = currentActiveContentIds?.includes(content.id);
-
         if (content.children && content.children.length > 0) {
           return (
             <AccordionItem
@@ -152,32 +155,35 @@ export function Sidebar({
         }
 
         return (
-          <Link
-            key={content.id}
-            href={navigateToContent(content.id) || '#'}
-            className={`flex w-full cursor-pointer items-center rounded-md p-4 tracking-tight hover:bg-primary/10 ${isActiveContent ? 'bg-primary/10' : ''}`}
-          >
-            <div className="flex w-full items-center justify-between gap-2">
-              <div className="flex items-center gap-2">
-                <div className="flex gap-2">
-                  <Check content={content} />
-                  {content.type === 'video' && <Play className="size-4" />}
-                  {content.type === 'notion' && <File className="size-4" />}
+          (content.type === 'notion' ||
+            filterContent(currentfilter, content)) && (
+            <Link
+              key={content.id}
+              href={navigateToContent(content.id) || '#'}
+              className={`flex w-full cursor-pointer items-center rounded-md p-4 tracking-tight hover:bg-primary/10 ${isActiveContent ? 'bg-primary/10' : ''}`}
+            >
+              <div className="flex w-full items-center justify-between gap-2">
+                <div className="flex items-center gap-2">
+                  <div className="flex gap-2">
+                    <Check content={content} />
+                    {content.type === 'video' && <Play className="size-4" />}
+                    {content.type === 'notion' && <File className="size-4" />}
+                  </div>
+                  <div className="break-words text-base">{content.title}</div>
                 </div>
-                <div className="break-words text-base">{content.title}</div>
+                {content.type === 'video' && (
+                  <BookmarkButton
+                    bookmark={content.bookmark ?? null}
+                    contentId={content.id}
+                  />
+                )}
               </div>
-              {content.type === 'video' && (
-                <BookmarkButton
-                  bookmark={content.bookmark ?? null}
-                  contentId={content.id}
-                />
-              )}
-            </div>
-          </Link>
+            </Link>
+          )
         );
       });
     },
-    [currentActiveContentIds, navigateToContent],
+    [currentActiveContentIds, navigateToContent, currentfilter],
   );
 
   const memoizedContent = useMemo(
@@ -206,9 +212,15 @@ export function Sidebar({
             variants={sidebarVariants}
             className="fixed right-0 top-0 z-[99999] flex h-screen w-full flex-col gap-4 overflow-y-auto rounded-r-lg border-l border-primary/10 bg-neutral-50 dark:bg-neutral-900 md:max-w-[30vw]"
           >
-            <div className="sticky top-0 z-10 flex items-center justify-between border-b border-primary/10 bg-neutral-50 p-5 dark:bg-neutral-900">              <h4 className="text-xl font-bold tracking-tighter text-primary lg:text-2xl">
+            <div className="sticky top-0 z-10 flex items-center justify-between border-b border-primary/10 bg-neutral-50 p-5 dark:bg-neutral-900">
+              {' '}
+              <h4 className="text-xl font-bold tracking-tighter text-primary lg:text-2xl">
                 Course Content
               </h4>
+              <FilterContent
+                className="bg-gray-400 text-black"
+                ref={filterRef}
+              />
               <Button
                 variant="ghost"
                 size="icon"
@@ -251,4 +263,26 @@ function Check({ content }: { content: any }) {
       className="focus:ring-none h-4 w-4 rounded-md border-primary/10"
     />
   );
+}
+
+function filterContent(filter: string, content: FullCourseContent) {
+  if (filter === 'all' || filter === '') {
+    return true;
+  }
+  if (filter === 'watched') {
+    return content.videoProgress?.markAsCompleted;
+  }
+  if (filter === 'watching') {
+    return (
+      content.videoProgress?.markAsCompleted === false &&
+      content.videoProgress?.duration !== null &&
+      content.videoProgress?.duration !== 0
+    );
+  }
+  if (filter === 'unwatched') {
+    return (
+      content.videoProgress?.markAsCompleted === false &&
+      content.videoProgress?.duration === 0
+    );
+  }
 }

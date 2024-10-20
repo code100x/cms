@@ -11,6 +11,7 @@ import { FileText, Video } from 'lucide-react';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { Label } from '../ui/label';
+import { toast } from 'sonner';
 
 export const UpdateVideoClient = ({
   content,
@@ -122,18 +123,26 @@ export const UpdateVideoClient = ({
                 <Button
                   className="my-4 w-full rounded p-2 font-bold text-white lg:w-[20%]"
                   onClick={async () => {
-                    await axios.post('/api/admin/updatecontent', {
-                      adminPassword,
-                      contentId: content.id,
-                      updates: {
-                        video_360p: link360,
-                        video_720p: link720,
-                        video_1080p: link1080,
-                        video_360p_mp4: link360_mp4,
-                        video_720p_mp4: link720_mp4,
-                        video_1080p_mp4: link1080_mp4,
+                    const response = await axios.post(
+                      '/api/admin/updatecontent',
+                      {
+                        adminPassword,
+                        contentId: content.id,
+                        updates: {
+                          video_360p: link360,
+                          video_720p: link720,
+                          video_1080p: link1080,
+                          video_360p_mp4: link360_mp4,
+                          video_720p_mp4: link720_mp4,
+                          video_1080p_mp4: link1080_mp4,
+                        },
                       },
-                    });
+                    );
+                    if (response.status === 200) {
+                      toast.success('Updated successfully');
+                    } else {
+                      toast.error('Something went wrong');
+                    }
                   }}
                 >
                   Update
