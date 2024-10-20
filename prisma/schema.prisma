@@ -160,6 +160,7 @@ model User {
   upiIds            UpiId[]         @relation("UserUpiIds")
   solanaAddresses   SolanaAddress[] @relation("UserSolanaAddresses")
   githubUser        GitHubLink?     @relation("UserGithub")
+  bounties BountySubmission[]
 }
 
 model GitHubLink {
@@ -321,6 +322,21 @@ model Event {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+model BountySubmission {
+  id        String   @id @default(uuid())
+  prLink    String
+  paymentMethod String
+  status    String   @default("pending")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  amount    Float    @default(0)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+
+  @@unique([userId, prLink])
+}
+
 
 enum VoteType {
   UPVOTE
