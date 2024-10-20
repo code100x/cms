@@ -27,7 +27,7 @@ cd cms
 
 ```
 # Gives permission to execute a setup file
-chmod +x setup.h
+chmod +x setup.sh
 
 # Runs the setup script file
 ./setup.h
