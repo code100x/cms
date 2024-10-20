@@ -38,8 +38,8 @@ export const CourseView = ({
     ? 'folder'
     : courseContent?.value.type;
   return (
-    <div className="flex w-full flex-col gap-8 pb-16 pt-8 xl:pt-[9px]">
-      <div className="flex flex-col gap-4 xl:pt-2">
+    <div className="flex w-full flex-col gap-8 pb-16 pt-8 xl:pt-[9px] relative">
+      <div className="flex flex-col gap-4 xl:pt-2 sticky z-10 top-[120px] py-2 bg-background">
         <BreadCrumbComponent
           course={course}
           contentType={contentType}
