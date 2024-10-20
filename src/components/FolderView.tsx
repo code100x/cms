@@ -29,7 +29,6 @@ export const FolderView = ({
   }
   // why? because we have to reset the segments or they will be visible always after a video
 
-  console.log('allcourseContent', courseContent);
   const currentfilter = useRecoilValue(selectFilter);
 
   const filteredCourseContent = getFilteredContent(

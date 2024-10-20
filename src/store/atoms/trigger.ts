@@ -1,8 +1,8 @@
 import { atom } from 'recoil';
 
-export const trigger = atom<string>({
+export const trigger = atom<boolean>({
   key: 'trigger',
-  default: 'start',
+  default: false,
 });
 
-//why? because we need to trigger a re-render when we add a new course.
+//why? because we need to trigger a re-render when we add a new course and couldn't make a context api for it.

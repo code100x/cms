@@ -3,7 +3,7 @@ import { useRouter } from 'next/navigation';
 import { ContentCard } from '../ContentCard';
 import { RefreshCw } from 'lucide-react';
 import { useRecoilState } from 'recoil';
-import { trigger } from '../../store/atoms/trigger';
+import { trigger } from '@/store/atoms/trigger';
 
 export const AdminCourseContent = ({
   courseContent,
@@ -26,7 +26,10 @@ export const AdminCourseContent = ({
     updatedRoute += `/${rest[i]}`;
   }
   const handleClick = () => {
-    setTrigger((prev) => (prev ? 'let say its true again' : '')); // trigger a re-render, this is a hack
+    setTrigger(false); // trigger a re-render, this is a hack
+    setTimeout(() => {
+      setTrigger(true);
+    }, 10000);
   };
 
   return (

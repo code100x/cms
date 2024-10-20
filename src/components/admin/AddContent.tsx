@@ -83,7 +83,7 @@ export const AddContent = ({
     if (response.status === 200) {
       // handle success if needed
       toast.success(responseData.message);
-      setTrigger('let say its true'); // why? trigger a re-render, this is a hack
+      setTrigger((prev) => !prev); // why? trigger a re-render, this is a hack
     } else {
       // handle error if needed
       toast.error(responseData.message || 'Something went wrong');
