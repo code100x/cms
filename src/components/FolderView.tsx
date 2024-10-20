@@ -29,6 +29,7 @@ export const FolderView = ({
   }
   // why? because we have to reset the segments or they will be visible always after a video
 
+  console.log('allcourseContent', courseContent);
   const currentfilter = useRecoilValue(selectFilter);
 
   const filteredCourseContent = getFilteredContent(
@@ -45,7 +46,8 @@ export const FolderView = ({
             content.videoFullDuration &&
             content.duration
               ? (content.duration / content.videoFullDuration) * 100
-              : 0;
+              : content.percentComplete || 0;
+
           return (
             <ContentCard
               type={content.type}

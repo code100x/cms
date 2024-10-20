@@ -386,17 +386,29 @@ export function getFilteredContent(
   courseContent: courseContent[],
   filter: string,
 ): courseContent[] {
-  if (filter === 'all' || filter === '' || courseContent[0]?.type === 'folder')
-    //Hoping no folder has recursive folders
-    return courseContent;
+  const courseContentWithPercentComplete = courseContent.map((content) => {
+    if (content.type === 'video' && content.videoFullDuration) {
+      const videoProgressPercent = content.duration
+        ? (content.duration / content.videoFullDuration) * 100
+        : 0;
+      return { ...content, percentComplete: videoProgressPercent };
+    }
+    if (content.type === 'folder' && content.percentComplete === 100) {
+      return { ...content, markAsCompleted: true };
+    }
+    return content;
+  });
+
+  if (filter === 'all' || filter === '')
+    return courseContentWithPercentComplete;
 
   if (filter === 'watched')
-    return courseContent?.filter(
+    return courseContentWithPercentComplete?.filter(
       (content) => content?.markAsCompleted === true,
     );
 
   if (filter === 'watching')
-    return courseContent?.filter(
+    return courseContentWithPercentComplete?.filter(
       (content) =>
         content?.markAsCompleted === false &&
         content?.duration !== null &&
@@ -404,7 +416,7 @@ export function getFilteredContent(
     );
 
   if (filter === 'unwatched')
-    return courseContent?.filter(
+    return courseContentWithPercentComplete?.filter(
       (content) =>
         content?.markAsCompleted === false && content?.duration === 0,
     );
