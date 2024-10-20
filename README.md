@@ -18,8 +18,24 @@ git clone https://github.com/code100x/cms.git
 ```bash
 cd cms
 ```
+# Instant Docker Setup
 
-3. (Optional) Start a PostgreSQL database using Docker:
+> [!NOTE]  
+> Your Docker Demon should be online
+
+1. Running Script for Instant setup
+
+```
+# Gives permission to execute a setup file
+chmod +x setup.h
+
+# Runs the setup script file
+./setup.h
+```
+
+# Traditional Docker Setup
+
+1. (Optional) Start a PostgreSQL database using Docker:
 
 ```bash
 docker run -d \
@@ -35,19 +51,21 @@ docker run -d \
 -p 5432:5432 \
 
 postgres
-```
+``` 
+
+
+
+1. Create a .env file:
+
+   - Copy `.env.example` and rename it to `.env`.
+
+   - Configure the `DATABASE_URL` with your PostgreSQL connection string.
 
 The connection URL for this setup will be:
 
 ```
 DATABASE_URL=postgresql://myuser:mypassword@localhost:5432/mydatabase?schema=public
 ```
-
-4. Create a .env file:
-
-   - Copy `.env.example` and rename it to `.env`.
-
-   - Configure the `DATABASE_URL` with your PostgreSQL connection string.
 
 5. Install dependencies:
 
