@@ -18,6 +18,7 @@ import { getUpdatedUrl, searchParamsToObject } from '@/lib/utils';
 import { FormPostInput } from './posts/form/form-input';
 import { FormPostErrors } from './posts/form/form-errors';
 import { X } from 'lucide-react';
+import { SearchBar } from './search/SearchBar';
 
 export const NewPostDialog = () => {
   const { theme } = useTheme();
@@ -29,6 +30,8 @@ export const NewPostDialog = () => {
   const tagInputRef = useRef<HTMLInputElement | null>(null);
   const [value, setValue] = useState<string>('**Hello world!!!**');
   const [tags, setTags] = useState<string[]>([]);
+  const [videoId, setVideoId] = useState<string>('');
+  const [videoTitle, setVideoTitle] = useState<string>('');
   const containerRef = useRef<HTMLDivElement>(null);
   const { ref, onOpen, onClose } = useModal();
   const handleMarkdownChange = (newValue?: string) => {
@@ -40,8 +43,6 @@ export const NewPostDialog = () => {
     let timeoutId: any;
     if (paramsObject.newPost === 'open') {
       onOpen();
-
-      // Cleanup function to clear the timeout
     } else {
       onClose();
     }
@@ -50,11 +51,20 @@ export const NewPostDialog = () => {
     };
   }, [onClose, onOpen, paramsObject.newPost]);
 
+  useEffect(() => {
+    if (paramsObject.newPost === 'open') {
+      setVideoId(paramsObject.videoId as string);
+      setVideoTitle(paramsObject.videoTitle as string);
+    }
+  }, [paramsObject.newPost, paramsObject.videoId, paramsObject.videoTitle]);
+
   const { execute, fieldErrors, setFieldErrors } = useAction(createQuestion, {
     onSuccess: (data) => {
       toast.success(`Question "${data.title}" created`);
       formRef?.current?.reset();
       setValue('');
+      setVideoId('');
+      setVideoTitle('');
       router.push(`/question/${data.slug}`);
       setTags([]);
       handleOnCloseClick();
@@ -76,10 +86,12 @@ export const NewPostDialog = () => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const title = formData.get('title');
+    const videoId = formData.get('videoId');
     execute({
       title: title?.toString() || '',
       content: value,
       tags,
+      videoId: videoId ? parseInt(videoId.toString(), 10) : undefined,
     });
   };
 
@@ -100,6 +112,19 @@ export const NewPostDialog = () => {
 
   const removeTag = (tag: string) => {
     setTags(tags.filter((t) => t !== tag));
+  };
+
+  const handleSearch = (
+    videoUrl?: string,
+    videoId?: number,
+    videoTitle?: string,
+  ) => {
+    if (videoUrl && videoId && videoTitle) {
+      setVideoId(videoId.toString());
+      setVideoTitle(videoTitle);
+    } else {
+      toast.error('Something went wrong while selecting the video');
+    }
   };
 
   return (
@@ -175,6 +200,49 @@ export const NewPostDialog = () => {
                     ref={tagInputRef}
                   />
                 </div>
+              </div>
+              <div className="flex w-full flex-col gap-2">
+                <h3 className="wmde-markdown-var text-lg font-bold tracking-tighter">
+                  Link to a video
+                </h3>
+
+                {videoId ? (
+                  <div className="flex w-full items-center gap-2">
+                    <FormPostInput
+                      id="videoTitle"
+                      placeholder="Select a video from the search"
+                      value={videoTitle}
+                      errors={fieldErrors}
+                      className="w-full"
+                      disabled={true}
+                    />
+                    <Button
+                      type="button"
+                      className="flex-shrink-0"
+                      onClick={() => {
+                        setVideoId('');
+                        setVideoTitle('');
+                      }}
+                    >
+                      Clear
+                    </Button>
+                  </div>
+                ) : (
+                  <SearchBar
+                    onCardClick={handleSearch}
+                    shouldRedirect={false}
+                    disableCmdK={true}
+                  />
+                )}
+
+                {videoId && (
+                  <FormPostInput
+                    id="videoId"
+                    value={videoId}
+                    errors={fieldErrors}
+                    type="hidden"
+                  />
+                )}
               </div>
 
               <div

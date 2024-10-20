@@ -10,7 +10,7 @@ interface SearchResultsProps {
   loading: boolean;
   searchedVideos: TSearchedVideos[] | null;
   selectedIndex: number;
-  onCardClick: (videoUrl: string) => void;
+  onCardClick: (videoUrl: string, videoId: number, videoTitle: string) => void;
 }
 
 export function SearchResults({
