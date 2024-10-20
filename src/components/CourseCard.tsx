@@ -84,11 +84,3 @@ export const CourseCard = ({
     </div>
   );
 };
-
-export const CourseSkeleton = () => {
-  return (
-    <div className="animate-pulse">
-      <div className="h-64 rounded-md bg-primary/10"></div>
-    </div>
-  );
-};
