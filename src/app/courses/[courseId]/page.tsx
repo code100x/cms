@@ -17,12 +17,14 @@ export default async function Course({
   const courseContent = findContentById(fullCourseContent, []);
 
   const nextContent = null;
+  const prevContent = null;
 
   return (
     <CourseView
       rest={[]}
       course={course}
       nextContent={nextContent}
+      prevContent={prevContent}
       courseContent={courseContent}
       fullCourseContent={fullCourseContent}
       searchParams={searchParams}
