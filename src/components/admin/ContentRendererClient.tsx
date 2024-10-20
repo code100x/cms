@@ -71,6 +71,21 @@ export const ContentRendererClient = ({
     setShowChapters((prev) => !prev);
   };
 
+  const toggleNextVideo = async () => {
+    // console.log("Video Completed : ContentRendererClient.tsx");
+    // /courses/1/1/3  : /{courses}/{courseId}/{moduleId}/{contentid}
+    const originalPath = window.location.pathname;
+    const parts = originalPath.split('/');
+    parts.pop();
+    if (nextContent?.id) {
+      parts.push(nextContent.id.toString());
+
+      const newPath = parts.join('/');
+      // console.log('\n Next Content :', nextContent, newPath);
+      router.push(newPath);
+    }
+  };
+
   return (
     <div className="flex w-full flex-col gap-2">
       <div className="flex w-full flex-col">
@@ -98,7 +113,7 @@ export const ContentRendererClient = ({
             responsive: true,
             sources: [source],
           }}
-          onVideoEnd={() => {}}
+          onVideoEnd={() => toggleNextVideo()}
         />
         <div className="flex flex-col gap-4 rounded-xl bg-primary/5 p-4">
           <div className="flex w-full flex-col justify-between gap-2 md:flex-row">
@@ -151,7 +166,7 @@ export const ContentRendererClient = ({
               router.push(newPath);
             }}
           >
-            {nextContent.title}
+            <span className="underline">Next Video</span> : {nextContent.title}
           </Button>
         ) : null}
       </div>
