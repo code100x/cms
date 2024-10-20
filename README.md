@@ -35,7 +35,7 @@ chmod +x setup.sh
 
 # Traditional Docker Setup
 
-   (Optional) Start a PostgreSQL database using Docker:
+(Optional) Start a PostgreSQL database using Docker:
 
 ```bash
 docker run -d \
