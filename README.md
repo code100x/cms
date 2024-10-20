@@ -18,8 +18,24 @@ git clone https://github.com/code100x/cms.git
 ```bash
 cd cms
 ```
+# Instant Docker Setup
 
-3. (Optional) Start a PostgreSQL database using Docker:
+> [!NOTE]  
+> Your Docker Demon should be online
+
+1. Running Script for Instant setup
+
+```
+# Gives permission to execute a setup file
+chmod +x setup.sh
+
+# Runs the setup script file
+./setup.sh
+```
+
+# Traditional Docker Setup
+
+(Optional) Start a PostgreSQL database using Docker:
 
 ```bash
 docker run -d \
@@ -35,45 +51,40 @@ docker run -d \
 -p 5432:5432 \
 
 postgres
-```
+``` 
 
-The connection URL for this setup will be:
 
-```
-DATABASE_URL=postgresql://myuser:mypassword@localhost:5432/mydatabase?schema=public
-```
 
-4. Create a .env file:
+1. Create a .env file:
 
    - Copy `.env.example` and rename it to `.env`.
 
-   - Configure the `DATABASE_URL` with your PostgreSQL connection string.
 
-5. Install dependencies:
+2. Install dependencies:
 
 ```bash
 pnpm install
 ```
 
-6. Run database migrations:
+3. Run database migrations:
 
 ```bash
 pnpm run prisma:migrate
 ```
 
-7. Generate prisma client
+4. Generate prisma client
 
 ```bash
 pnpm prisma generate
 ```
 
-8. Seed the database:
+5. Seed the database:
 
 ```bash
 pnpm run db:seed
 ```
 
-9. Start the development server:
+6. Start the development server:
 
 ```bash
 pnpm run dev
