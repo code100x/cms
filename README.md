@@ -30,7 +30,7 @@ cd cms
 chmod +x setup.sh
 
 # Runs the setup script file
-./setup.h
+./setup.sh
 ```
 
 # Traditional Docker Setup
