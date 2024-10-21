@@ -14,6 +14,7 @@ export const ContentRendererClient = ({
 }: {
   nextContent: {
     id: number;
+    parentId: number;
     type: string;
     title: string;
   } | null;
@@ -71,6 +72,10 @@ export const ContentRendererClient = ({
     setShowChapters((prev) => !prev);
   };
 
+  const truncateTitle = (title: string, maxLength: number) => {
+    return title.length > maxLength ? `${title.slice(0, maxLength)}...` : title;
+  };
+
   return (
     <div className="flex w-full flex-col gap-2">
       <div className="flex w-full flex-col">
@@ -98,7 +103,20 @@ export const ContentRendererClient = ({
             responsive: true,
             sources: [source],
           }}
-          onVideoEnd={() => {}}
+          onVideoEnd={() => {
+            if (nextContent) {
+              const originalPath = window.location.pathname;
+              const parts = originalPath.split('/');
+              parts.pop();
+              if (nextContent.parentId > parseInt(parts[2], 10)) {
+                parts.pop();
+                parts.push(nextContent.parentId.toString());
+              }
+              parts.push(nextContent.id.toString());
+              const newPath = parts.join('/');
+              router.push(newPath);
+            }
+          }}
         />
         <div className="flex flex-col gap-4 rounded-xl bg-primary/5 p-4">
           <div className="flex w-full flex-col justify-between gap-2 md:flex-row">
@@ -140,20 +158,37 @@ export const ContentRendererClient = ({
           )}
         </div>
         {nextContent ? (
+          <div className="group relative ml-auto mt-2">
           <Button
             size={'lg'}
             onClick={() => {
-              const originalPath = window.location.pathname;
-              const parts = originalPath.split('/');
-              parts.pop();
-              parts.push(nextContent.id.toString());
-              const newPath = parts.join('/');
-              router.push(newPath);
+              if (nextContent) {
+                const originalPath = window.location.pathname;
+                const parts = originalPath.split('/');
+                parts.pop();
+                if (nextContent.parentId > parseInt(parts[2], 10)) {
+                  parts.pop();
+                  parts.push(nextContent.parentId.toString());
+                }
+                parts.push(nextContent.id.toString());
+                const newPath = parts.join('/');
+                router.push(newPath);
+              }
             }}
+            className="relative"
           >
-            {nextContent.title}
+            Next
           </Button>
-        ) : null}
+
+          <span className="absolute bottom-full left-1/2 z-10 mb-2 hidden w-max -translate-x-1/2 transform whitespace-nowrap rounded bg-gray-700 px-2 py-1 text-sm text-white group-hover:block">
+            {truncateTitle(nextContent.title, 50)}
+          </span>
+        </div>
+      ) : (
+        <div className="m-2 flex justify-center font-semibold">
+          Last video of the course
+        </div>
+      )}
       </div>
     </div>
   );
