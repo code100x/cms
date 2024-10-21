@@ -164,7 +164,17 @@ export function Sidebar({
                   {content.type === 'video' && <Play className="size-4" />}
                   {content.type === 'notion' && <File className="size-4" />}
                 </div>
-                <div className="break-words text-base">{content.title}</div>
+                <div className="flex flex-col">
+                  <div className="break-words text-base">{content.title}</div>
+                  {content.type === 'video' && (
+                    <div className="w-full text-xs">
+                      {content.VideoMetadata?.duration
+                        ? `${Math.floor(content.VideoMetadata.duration / 60) > 0 ? `${Math.floor(content.VideoMetadata.duration / 60)} hr` : ''} 
+    ${Math.floor(content.VideoMetadata.duration % 60) > 0 ? ` ${Math.floor(content.VideoMetadata.duration % 60)} min` : ''}`.trim()
+                        : ''}
+                    </div>
+                  )}
+                </div>
               </div>
               {content.type === 'video' && (
                 <BookmarkButton
