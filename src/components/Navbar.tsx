@@ -175,7 +175,6 @@ export const Navbar = () => {
       </motion.nav>
 
       {/* Mobile search overlay */}
-      <AnimatePresence>
         {isSearchOpen && (
           <motion.div
             initial={{ opacity: 0, y: -20 }}
@@ -194,7 +193,6 @@ export const Navbar = () => {
             <SearchBar onCardClick={toggleSearch} isMobile />
           </motion.div>
         )}
-      </AnimatePresence>
     </AnimatePresence>
   );
 };
