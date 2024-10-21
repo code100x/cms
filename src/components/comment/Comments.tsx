@@ -18,6 +18,7 @@ import {
   ChevronDownIcon,
   MoreVerticalIcon,
   Reply,
+  ChevronUp
 } from 'lucide-react';
 import TimeCodeComment from './TimeCodeComment';
 import {
