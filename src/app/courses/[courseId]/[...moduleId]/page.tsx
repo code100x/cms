@@ -1,6 +1,6 @@
 import { QueryParams } from '@/actions/types';
 import { CourseView } from '@/components/CourseView';
-import { getCourse, getFullCourseContent } from '@/db/course';
+import { getCourse, getFullCourseContent, getNextVideo } from '@/db/course';
 import findContentById from '@/lib/find-content-by-id';
 
 export default async function Course({
@@ -20,7 +20,10 @@ export default async function Course({
     fullCourseContent,
     rest.map((x) => parseInt(x, 10)),
   );
-  const nextContent = null; //await getNextVideo(Number(rest[rest.length - 1]))
+  const currentVideoId = rest.length > 0 ? Number(rest[rest.length - 1]) : null;
+  const nextContent = currentVideoId
+    ? await getNextVideo(currentVideoId)
+    : null;
 
   return (
     <CourseView
