@@ -137,12 +137,10 @@ export const getNextVideo = async (currentVideoId: number) => {
   if (!currentVideoId) {
     return null;
   }
-
   const value = await cache.get('getNextVideo', [currentVideoId.toString()]);
   if (value) {
     return value;
   }
-
   const currentContent = await db.content.findFirst({
     where: {
       id: currentVideoId,
@@ -152,7 +150,6 @@ export const getNextVideo = async (currentVideoId: number) => {
   if (!currentContent) {
     return null;
   }
-
   const latestContent = await db.content.findFirst({
     orderBy: [
       {

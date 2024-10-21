@@ -85,7 +85,6 @@ export default function Courses() {
         <Cuboid size={18} />
         <h2 className="text-md font-bold">View Content</h2>
       </section>
-
       <Accordion
         defaultValue="add-new-course"
         className="rounded-2xl border-2 p-4"
@@ -222,14 +221,13 @@ export default function Courses() {
                         <FormField
                           control={form.control}
                           name="appxCourseId"
-                          render={({ field }: { field: any }) => (
+                          render={() => (
                             <FormItem>
                               <FormLabel>app x course id</FormLabel>
                               <FormControl>
                                 <Input
                                   className="h-12 px-3"
                                   placeholder="Enter the appx course ID"
-                                  {...field}
                                 />
                               </FormControl>
                               <FormMessage />
