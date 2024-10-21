@@ -92,6 +92,52 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
     return pipButtonContainer;
   };
 
+  // Fetch previously saved captions setting from localStorage
+  useEffect(() => {
+    if (!player) return;
+
+    const savedCaptionSetting = localStorage.getItem('captionSetting');
+
+    if (savedCaptionSetting && player) {
+      const tracks = player.textTracks();
+
+      for (let i = 0; i < tracks.length; i++) {
+        const track = tracks[i];
+
+        if (track) {
+          track.mode =
+            savedCaptionSetting === 'showing' ? 'showing' : 'disabled';
+        }
+      }
+    }
+  }, [player]);
+
+  useEffect(() => {
+    if (!player) return;
+
+    const handleTrackChange = () => {
+      const tracks = player.textTracks();
+      for (let i = 0; i < tracks.length; i++) {
+        const track = tracks[i];
+        if (track.kind === 'subtitles' && track.language === 'en') {
+          // Save the mode to localStorage when it changes
+          track.addEventListener('modechange', () => {
+            localStorage.setItem('captionSetting', track.mode);
+          });
+        }
+      }
+    };
+
+    handleTrackChange();
+    return () => {
+      const tracks = player.textTracks();
+      for (let i = 0; i < tracks.length; i++) {
+        const track = tracks[i];
+        track.removeEventListener('modechange', handleTrackChange);
+      }
+    };
+  }, [player]);
+
   useEffect(() => {
     const t = searchParams.get('timestamp');
     if (contentId && player && !t) {
@@ -255,11 +301,8 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
             const track = tracks[i];
 
             if (track.kind === 'subtitles' && track.language === 'en') {
-              if (track.mode === 'hidden') {
-                track.mode = 'showing';
-              } else {
-                track.mode = 'hidden';
-              }
+              if (track.mode === 'disabled') track.mode = 'showing';
+              else track.mode = 'disabled';
             }
           }
           event.stopPropagation();
