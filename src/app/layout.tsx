@@ -33,9 +33,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         )}
       >
         <GoogleAnalytics />
-        <NextTopLoader 
-          showSpinner={false} 
-        />
+        <NextTopLoader showSpinner={false} />
         <Providers>
           <Navbar />
           {children}
