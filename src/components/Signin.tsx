@@ -177,10 +177,10 @@ const Signin = () => {
           type: 'spring',
           damping: 10,
         }}
-        className="flex w-full flex-col justify-between gap-12 rounded-2xl bg-primary/5 p-8 md:max-w-[30vw]"
+        className="flex w-full flex-col justify-between gap-12 rounded-2xl bg-primary/5 p-8 sm:max-w-[26rem]"
       >
         <div className="flex flex-col text-center">
-          <h2 className="text-3xl font-semibold tracking-tighter md:text-4xl">
+          <h2 className="text-3xl font-semibold tracking-tighter xl:text-4xl">
             Welcome to{' '}
             <span className="bg-gradient-to-b from-blue-400 to-blue-700 bg-clip-text pr-1 font-black tracking-tighter text-transparent">
               100xDevs
