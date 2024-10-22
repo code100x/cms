@@ -4,6 +4,7 @@ import { ContentCard } from '../ContentCard';
 import { RefreshCw } from 'lucide-react';
 import { useRecoilState } from 'recoil';
 import { trigger } from '@/store/atoms/trigger';
+import { useEffect } from 'react';
 
 export const AdminCourseContent = ({
   courseContent,
@@ -26,21 +27,28 @@ export const AdminCourseContent = ({
     updatedRoute += `/${rest[i]}`;
   }
   const handleClick = () => {
-    setTrigger(false); // trigger a re-render, this is a hack
-    setTimeout(() => {
-      setTrigger(true);
-    }, 10000);
+    setTrigger((prev) => prev + 1); // trigger a re-render, this is a hack
   };
+
+  useEffect(() => {
+    console.log('triggerRender', triggerRender);
+    if (triggerRender) {
+      console.log('refreshing');
+      setTimeout(() => {
+        router.refresh();
+        setTrigger(0);
+      }, 500);
+    }
+  }, [triggerRender]);
 
   return (
     <div>
-      {triggerRender && (
+      {
         <div className="flex-start gap=2 flex space-x-2">
           <span>Reload</span>
           <RefreshCw className="mb-6 cursor-pointer" onClick={handleClick} />
         </div>
-        //why this? well, we need to use the trigger somewhere to re-render the component
-      )}
+      }
 
       <div className="mx-auto grid cursor-pointer grid-cols-1 justify-between gap-4 md:grid-cols-2 lg:grid-cols-3">
         {courseContent?.map(

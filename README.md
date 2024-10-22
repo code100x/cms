@@ -63,7 +63,7 @@ pnpm install
 3. Run database migrations:
 
 ```bash
-pnpm run prisma:migrate
+pnpm prisma:migrate
 ```
 
 4. Generate prisma client
@@ -75,13 +75,13 @@ pnpm prisma generate
 5. Seed the database:
 
 ```bash
-pnpm run db:seed
+pnpm db:seed
 ```
 
 6. Start the development server:
 
 ```bash
-pnpm run dev
+pnpm dev
 ```
 
 ## Usage

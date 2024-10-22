@@ -75,15 +75,13 @@ export const AddContent = ({
         'Content-Type': 'application/json',
       },
     });
+    const responseData = await response.json();
     setLoading(false);
     console.log(response);
-    const responseData = await response.json();
-    console.log(responseData);
-
     if (response.status === 200) {
       // handle success if needed
       toast.success(responseData.message);
-      setTrigger((prev) => !prev); // why? trigger a re-render, this is a hack
+      setTrigger((prev) => prev + 1); // why? trigger a re-render, this is a hack
     } else {
       // handle error if needed
       toast.error(responseData.message || 'Something went wrong');

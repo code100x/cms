@@ -45,10 +45,16 @@ export const UpdateVideoClient = ({
         type="single"
         collapsible
       >
+        <AccordionItem value="title">
+          <div className="flex justify-center p-6 font-mono lg:text-3xl">
+            {content.title}
+          </div>
+        </AccordionItem>
         <AccordionItem value="m3u8-mp4">
           <AccordionTrigger className="p-6 text-lg font-bold lg:text-2xl">
             <div className="flex flex-col gap-4">
-              <Video size={40} /> M3U8 and MP4 Links
+              <Video size={40} />
+              M3U8 and MP4 Links
             </div>
           </AccordionTrigger>
           <AccordionContent>
