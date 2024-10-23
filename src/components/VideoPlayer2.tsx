@@ -15,6 +15,7 @@ import './QualitySelectorControllBar';
 import { YoutubeRenderer } from './YoutubeRenderer';
 import { toast } from 'sonner';
 import { createRoot } from 'react-dom/client';
+import { SkipForward, SkipBack, PictureInPicture2 } from 'lucide-react';
 
 // todo correct types
 interface VideoPlayerProps {
@@ -75,7 +76,11 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
     const pipButtonContainer = (player as any).controlBar.addChild('button');
 
     const root = createRoot(pipButtonContainer.el());
-    root.render(<span className="material-symbols-outlined">picture_in_picture_alt</span>);
+    root.render(
+      <div className='flex justify-center items-center'>
+        <PictureInPicture2 size={16} strokeWidth={3.0}/>
+      </div>
+    );
 
     return pipButtonContainer;
   };
@@ -83,14 +88,22 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
   const createNextVideoButton = (player: Player) => {
     const NextButtonContainer = (player as any).controlBar.addChild('button');
     const root = createRoot(NextButtonContainer.el());
-    root.render(<span className="material-symbols-outlined">skip_next</span>);
+    root.render(
+      <div className='flex items-center justify-center'>
+        <SkipForward size={16} strokeWidth={3.0} />
+      </div>
+    );
     return NextButtonContainer;
   };
 
   const createPrevVideoButton = (player: Player) => {
     const PrevButtonContainer = (player as any).controlBar.addChild('button');
     const root = createRoot(PrevButtonContainer.el());
-    root.render(<span className="material-symbols-outlined">skip_previous</span>);
+    root.render(
+      <div className='flex items-center justify-center'>
+        <SkipBack size={16} strokeWidth={3.0}/>
+      </div>
+    );
     return PrevButtonContainer;
   };
 
@@ -433,6 +446,11 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
 
           const pipButton = createPipButton(player);
           controlBar.el().insertBefore(pipButton.el(), fullscreenToggle.el());
+          // pipButton.on('click', (e: any) => {
+          //   e.preventDefault();
+          //   e.stopPropagation();
+          //   togglePictureInPicture();
+          // });
 
           pipButton.on('click', (e:any) => {
             e.preventDefault();
