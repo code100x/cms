@@ -21,15 +21,15 @@ export const CourseView = ({
   rest: string[];
   course: any;
   courseContent:
-  | {
-    folder: true;
-    value: ChildCourseContent[];
-  }
-  | {
-    folder: false;
-    value: ChildCourseContent;
-  }
-  | null;
+    | {
+        folder: true;
+        value: ChildCourseContent[];
+      }
+    | {
+        folder: false;
+        value: ChildCourseContent;
+      }
+    | null;
   nextContent: any;
   searchParams: QueryParams;
   possiblePath: string;
@@ -50,9 +50,11 @@ export const CourseView = ({
       </div>
 
       {!courseContent?.folder && courseContent?.value.type === 'notion' ? (
-        <NotionRenderer id={courseContent?.value?.id?.toString()} />
+        <NotionRenderer
+          id={courseContent?.value?.id?.toString()}
+          courseId={courseContent.value.id}
+        />
       ) : null}
-
       {!courseContent?.folder && contentType === 'video' ? (
         <ContentRenderer
           nextContent={nextContent}
@@ -68,7 +70,6 @@ export const CourseView = ({
           }}
         />
       ) : null}
-
       {!courseContent?.folder &&
         (contentType === 'video' || contentType === 'notion') && (
           <Comments
@@ -82,7 +83,6 @@ export const CourseView = ({
             searchParams={searchParams}
           />
         )}
-
       {courseContent?.folder ? (
         <FolderView
           rest={rest}

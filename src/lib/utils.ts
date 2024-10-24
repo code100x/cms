@@ -3,7 +3,7 @@ import { CommentType, Prisma } from '@prisma/client';
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import Player from 'video.js/dist/types/player';
-
+import { Bookmark } from '@prisma/client';
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
@@ -367,4 +367,62 @@ export const getDisabledFeature = (feature: string): boolean => {
     .includes(feature);
 };
 
-export type CourseContentType = 'folder' | 'video' | 'notion'
+export type CourseContentType = 'folder' | 'video' | 'notion';
+
+export type courseContent = {
+  type: CourseContentType;
+  title: string;
+  image: string;
+  id: number;
+  markAsCompleted: boolean;
+  percentComplete: number | null;
+  videoFullDuration?: number;
+  duration?: number;
+  bookmark: Bookmark | null;
+  weeklyContentTitles?: string[];
+};
+
+export function getFilteredContent(
+  courseContent: courseContent[],
+  filter: string,
+): courseContent[] {
+  const courseContentWithPercentComplete = courseContent.map((content) => {
+    if (content.type === 'video' && content.videoFullDuration) {
+      const videoProgressPercent = content.duration
+        ? (content.duration / content.videoFullDuration) * 100
+        : 0;
+      return { ...content, percentComplete: videoProgressPercent };
+    }
+    if (content.type === 'folder' && content.percentComplete === 100) {
+      return { ...content, markAsCompleted: true };
+    }
+    return content;
+  });
+
+  if (filter === 'all' || filter === '')
+    return courseContentWithPercentComplete;
+
+  if (filter === 'watched')
+    return courseContentWithPercentComplete?.filter(
+      (content) => content?.markAsCompleted === true,
+    );
+
+  if (filter === 'watching')
+    return courseContentWithPercentComplete?.filter(
+      (content) =>
+        (content?.markAsCompleted === false &&
+          content?.duration !== null &&
+          content?.duration !== 0) ||
+        (content?.percentComplete &&
+          content?.percentComplete > 0 &&
+          content?.percentComplete < 100),
+    );
+
+  if (filter === 'unwatched')
+    return courseContentWithPercentComplete?.filter(
+      (content) =>
+        content?.markAsCompleted === false && content?.duration === 0,
+    );
+
+  return [];
+}

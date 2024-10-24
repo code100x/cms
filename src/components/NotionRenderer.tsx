@@ -23,9 +23,16 @@ import { Loader } from './Loader';
 // import { Download } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import CodeBlock from './CodeBlock';
+import { handleMarkAsCompleted } from '@/lib/utils';
 
 // Week-4-1-647987d9b1894c54ba5c822978377910
-export const NotionRenderer = ({ id }: { id: string }) => {
+export const NotionRenderer = ({
+  id,
+  courseId,
+}: {
+  id: string;
+  courseId: number;
+}) => {
   const { resolvedTheme } = useTheme();
 
   const [data, setData] = useState(null);
@@ -37,6 +44,10 @@ export const NotionRenderer = ({ id }: { id: string }) => {
 
   useEffect(() => {
     main();
+
+    return () => {
+      handleMarkAsCompleted(true, courseId);
+    };
   }, [id]);
 
   if (!data) {
