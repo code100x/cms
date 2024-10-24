@@ -65,7 +65,7 @@ const ContentForm = ({ courseId, courseContent }: ChapterFormProps) => {
         thumbnail: '',
         title: data.title,
         courseId,
-        adminPassword: 'ADMIN_SECRET',
+        adminPassword: data.adminPassword,
       });
 
       if (res.status === 200) {

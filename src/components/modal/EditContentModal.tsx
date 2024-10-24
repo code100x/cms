@@ -1,8 +1,5 @@
-import React, { useState } from 'react';
-import {
-  SubmitHandler,
-  UseFormHandleSubmit,
-} from 'react-hook-form';
+import React, { useEffect, useState } from 'react';
+import { SubmitHandler, UseFormHandleSubmit } from 'react-hook-form';
 import { EyeIcon, EyeOffIcon } from 'lucide-react';
 import { AddVideosMetadata } from '@/components/admin/AddContent';
 import { AddNotionMetadata } from '@/components/admin/AddNotionMetadata';
@@ -15,6 +12,8 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
+import { Switch } from '@/components/ui/switch';
+import { Label } from '@/components/ui/label';
 
 interface EditContentModalProps {
   isOpen: boolean;
@@ -34,16 +33,22 @@ const EditContentModal = ({
   register,
   contentType,
   handleSubmit,
-  setValue
+  setValue,
 }: EditContentModalProps) => {
   if (!isOpen) return null;
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
+  const [isDiscordChecked, setIsDiscordChecked] = useState(false);
   const togglePasswordVisibility = () => setIsPasswordVisible((p) => !p);
+
+  useEffect(() => {
+    setValue('discordChecked', isDiscordChecked);
+  },[isDiscordChecked]);
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent>
         <DialogHeader className="flex flex-col items-center justify-center gap-y-2">
-          <DialogTitle className='uppercase'>{` ${actionType === 'create' ? 'Add New' : 'Edit'} ${contentType === 'video' ? 'Video' : 'Notion'}`}</DialogTitle>
+          <DialogTitle className="uppercase">{` ${actionType === 'create' ? 'Add New' : 'Edit'} ${contentType === 'video' ? 'Video' : 'Notion'}`}</DialogTitle>
           <DialogDescription>
             Please enter the title and metadata for the new {contentType}.
           </DialogDescription>
@@ -71,13 +76,22 @@ const EditContentModal = ({
             )}
             <div className="w-full">
               {contentType === 'video' && (
-                <AddVideosMetadata setValue={setValue}/>
+                <AddVideosMetadata setValue={setValue} />
               )}
               {contentType === 'notion' && (
                 <AddNotionMetadata register={register} />
               )}
             </div>
-
+            <div className="flex w-full rounded-lg border p-2 items-center justify-between">
+              <span>
+              <Label htmlFor="airplane-mode">
+                  Send notification to discord
+                </Label>
+              </span>
+                <div>
+                  <Switch id="airplane-mode" onCheckedChange={() => setIsDiscordChecked(p => !p)}/>
+                </div>
+            </div>
             <div className="flex w-full rounded-lg border">
               <Input
                 id="password"

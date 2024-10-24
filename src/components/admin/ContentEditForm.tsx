@@ -39,7 +39,7 @@ const ContentEditForm = ({
       title: content?.title ?? '',
       description: content?.description ?? '',
       thumbnail: content?.thumbnail ?? '',
-      adminSecret: ''
+      adminSecret: '',
     },
   });
 
@@ -91,7 +91,9 @@ const ContentEditForm = ({
         <Card className="border-2 bg-background">
           <CardHeader>
             <div className="flex justify-between">
-              <CardTitle className='bg-gradient-to-b from-blue-400 to-blue-700 bg-clip-text text-transparent'>Edit the content details</CardTitle>
+              <CardTitle className="bg-gradient-to-b from-blue-400 to-blue-700 bg-clip-text text-transparent">
+                Edit the content details
+              </CardTitle>
               {!isDisabled ? (
                 <Button
                   className="bg-red-500 hover:bg-red-700 dark:text-white"

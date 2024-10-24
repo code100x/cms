@@ -23,7 +23,8 @@ const ContentMetaDataSchema = z.object({
   adminPassword: z.string().min(1),
   thumbnail: z.string(),
   notionId: z.string().optional(),
-  videoMetadata: z.object({})
+  videoMetadata: z.object({}),
+  discordChecked: z.boolean().default(false).optional()
 });
 export type ContentMetaDataType = z.infer<typeof ContentMetaDataSchema>;
 
@@ -112,12 +113,13 @@ const UploadContentForm = ({
           adminPassword: data.adminPassword,
           metadata: metaData,
           selectedContentId,
+          discordChecked: data?.discordChecked
         },
       });
 
       if (res.status === 200) {
         setIsCreating(false);
-        toast.success(`${contentType} Content Updated Successfully`);
+        toast.success(`${contentType.charAt(0).toUpperCase() + contentType?.slice(1)} content updated successfully`);
         setIsModalOpen(false);
       }
       router.refresh();
@@ -127,6 +129,7 @@ const UploadContentForm = ({
       }
     } finally {
       setValue('adminPassword', '');
+      setValue('notionId', '');
     }
   };
 
