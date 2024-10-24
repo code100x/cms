@@ -13,7 +13,6 @@ export default async function Course({
   const courseId = params.courseId;
   const course = await getCourse(parseInt(courseId, 10));
   const fullCourseContent = await getFullCourseContent(parseInt(courseId, 10));
-
   const courseContent = findContentById(fullCourseContent, []);
 
   const nextContent = null;
