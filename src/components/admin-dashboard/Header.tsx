@@ -15,7 +15,7 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
         {title}
       </h1>
       <Button
-        className="mt-2 rounded-md bg-blue-500 px-4 py-2 dark:text-white hover:bg-blue-600"
+        className="mt-2 rounded-md px-4 py-2 bg-gradient-to-b from-blue-400 to-blue-700 dark:text-white"
         onClick={() => setIsModalOpen(true)}
       >
         + Add new {title.toLocaleLowerCase()}

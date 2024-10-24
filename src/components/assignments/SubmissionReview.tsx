@@ -222,7 +222,7 @@ const SubmissionReview: React.FC<SubmissionReviewProps> = ({ submission }) => {
                   </p>
                 )}
               </div>
-              <Button className="" type="submit" variant={'default'}>
+              <Button className="bg-gradient-to-b from-blue-400 to-blue-700 dark:text-white" type="submit" variant={'default'}>
                 {disableField ? 'Submitted' : 'Submit'}
               </Button>
             </form>

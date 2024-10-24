@@ -15,18 +15,25 @@ const Assignments: React.FC<AssignmentsProps> = ({ assignments }) => {
   const handleTabChange = (tab: string) => {
     setActiveTab(tab);
     const currentDate = new Date();
+    currentDate.setHours(0,0,0,0);
     if (tab === 'Scheduled') {
       setActiveAssignments(
         assignments.filter(
-          (assignment: Assignment) =>
-            new Date(assignment.dueDate) > currentDate,
+          (assignment: Assignment) => {
+            const dueDate = new Date(assignment.dueDate);
+            dueDate.setHours(0, 0, 0,0);
+            return dueDate >= currentDate;
+          }
         ),
       );
     } else {
       setActiveAssignments(
         assignments.filter(
-          (assignment: Assignment) =>
-            new Date(assignment.dueDate) < currentDate,
+          (assignment: Assignment) => {
+            const dueDate = new Date(assignment?.dueDate);
+            dueDate.setHours(0, 0, 0, 0);
+            return dueDate < currentDate;
+          }
         ),
       );
     }

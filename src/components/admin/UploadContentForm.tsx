@@ -1,8 +1,8 @@
 'use client';
 import React, { useState } from 'react';
 import axios from 'axios';
-import { PlusCircle } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { PlusCircle } from 'lucide-react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import z from 'zod';
@@ -50,6 +50,7 @@ const UploadContentForm = ({
     setIsModalOpen((p) => !p);
     setValue('title', '');
     setValue('thumbnail', '');
+    setValue('notionId', '');
   };
   const toggleModal = (id?: string, isEditVideo?: boolean) => {
     setActionType('edit');

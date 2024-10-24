@@ -162,7 +162,7 @@ const AddAssignment: React.FC<AddAssignmentProps> = ({
                   <ErrorMessage>{errors?.adminSecret?.message}</ErrorMessage>
                 )}
               </div>
-              <Button type="submit" variant={'default'}>
+              <Button type="submit" variant={'default'} className='bg-gradient-to-b from-blue-400 to-blue-700 dark:text-white'>
                 {assignment ? 'Update' : 'Create'}
               </Button>
             </form>

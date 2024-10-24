@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import {
   ColumnDef,
   flexRender,
@@ -12,12 +13,14 @@ import {
   ColumnFiltersState,
   getFilteredRowModel
 } from "@tanstack/react-table";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Input } from "@/components/ui/input";
 import {
   Table,
   TableBody,
@@ -26,9 +29,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Button } from "../ui/button";
-import { useState } from "react";
-import { Input } from "../ui/input";
 
 interface CourseTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -132,7 +132,7 @@ export function CourseTable<TData, TValue>({
                 data-state={row.getIsSelected() && "selected"}
               >
                 {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id}>
+                  <TableCell key={cell.id} className="pl-8">
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </TableCell>
                 ))}

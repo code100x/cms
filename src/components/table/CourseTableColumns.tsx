@@ -22,6 +22,7 @@ export const courseTableColumns: ColumnDef<any>[] = [
         }
         onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
         aria-label="Select all"
+        className="ml-4"
       />
     ),
     cell: ({ row }) => (
@@ -40,6 +41,7 @@ export const courseTableColumns: ColumnDef<any>[] = [
       return (
         <Button
           variant="ghost"
+          className=""
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Id
@@ -54,6 +56,7 @@ export const courseTableColumns: ColumnDef<any>[] = [
       return (
         <Button
           variant="ghost"
+          className=""
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Title

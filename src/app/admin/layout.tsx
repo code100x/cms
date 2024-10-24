@@ -15,9 +15,9 @@ export default async function AdminLayout({
 
   if (process.env.LOCAL_CMS_PROVIDER) {
     return (
-      <div className="mt-[4.5rem] flex h-[calc(100vh-36px-4rem)] max-h-full">
-        <AdminSideBarWithToggle />
-        <main className="h-full w-full overflow-y-auto">{children}</main>
+      <div className="mt-[4.5rem] flex max-h-full min-h-screen">
+          <AdminSideBarWithToggle />
+        <main className="min-h-screen w-full overflow-y-auto">{children}</main>
       </div>
     );
   }
@@ -29,7 +29,7 @@ export default async function AdminLayout({
   return (
     <div className="mt-[4.5rem] flex h-[calc(100vh-36px-4rem)] max-h-full">
       <AdminSideBarWithToggle />
-      <main className="h-full w-full overflow-y-auto">{children}</main>
+      <main className="min-h-screen w-full overflow-y-auto">{children}</main>
     </div>
   );
 }

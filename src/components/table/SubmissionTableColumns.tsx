@@ -120,11 +120,15 @@ export const submissionTableColumns: ColumnDef<any>[] = [
       },
       cell: ({ row }) => {
         const { submittedAt, assignment: { dueDate, dueTime } } = row.original;
+
         const submittedDate = format(submittedAt, 'yyyy-MM-dd');
-        const submittedTime = format(submittedAt, 'hh:mm aa');
+        const submittedTime = format(submittedAt, 'HH:mm');
+
         const isLateDate = new Date(submittedDate) > new Date(dueDate);
         const isLateTime = submittedTime > dueTime;
-        const isLate = isLateDate && isLateTime;
+
+        const isLate = isLateDate || isLateTime;
+  
         return (
           <div className="text-left font-medium">
             {isLate ? (

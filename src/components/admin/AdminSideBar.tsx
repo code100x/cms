@@ -33,7 +33,7 @@ const routes = [
 
 const AdminSideBar = ({isCollapsed}:{isCollapsed?: boolean}) => {
   return (
-    <div className="overlfow-y-auto flex h-full flex-col border-r pt-4 shadow-sm">
+    <div className="overlfow-y-auto flex min-h-screen flex-col border-r pt-4 shadow-sm">
       <div className="flex w-full flex-col">
         {routes.map((route) => {
           return (
