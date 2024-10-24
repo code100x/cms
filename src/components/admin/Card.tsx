@@ -19,7 +19,7 @@ const AdminCard = ({ title, count, link, src, footer }: AdminCardProps) => {
           width={40}
           height={40}
           alt=""
-          className="rounded dark:bg-[#717D86] p-2 border border-black transition-transform duration-300 ease-in hover:scale-110"
+          className="rounded dark:bg-[#4998e8] p-2 border border-black transition-transform duration-300 ease-in hover:scale-110"
         />
       </div>
       <div className="w-10 rounded-full p-3">

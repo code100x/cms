@@ -51,7 +51,8 @@ export async function getSubmissionsByAssignmentId (assignmentId: number) {
     },
     include: {
       user: true,
-      course: true
+      course: true,
+      assignment: true
     }
   });
   cache.set('getSubmissionsByAssignmentId', [assignmentId.toString()], submissions);

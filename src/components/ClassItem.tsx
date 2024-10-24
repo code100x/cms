@@ -7,7 +7,6 @@ import { Button } from '@/components/ui/button';
 const ClassItem = ({ classData }: any) => {
     const { title, course: { title: courseTitle }, date, startTime, endTime, meetingLink } = classData;
     const isPast = new Date(date) < new Date();
-    console.log(' isPast : ', isPast);
     const parsedStartTime = convertTo12HourFormat(startTime);
     const parsedEndTime = convertTo12HourFormat(endTime);
     return (
