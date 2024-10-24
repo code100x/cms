@@ -17,7 +17,6 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
-import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
   Accordion,
@@ -25,33 +24,18 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
-import { Cuboid, PackagePlus } from 'lucide-react';
+import { EyeIcon, EyeOff, PackagePlus } from 'lucide-react';
 import { FaDiscord } from 'react-icons/fa';
+import { courseSchema, CourseType } from '@/lib/validation/courseSchema';
 
-const courseSchema = z.object({
-  title: z.string().min(5, {
-    message: 'Title must be at least 5 characters long.',
-  }),
-  imageUrl: z.string().url({
-    message: 'Invalid URL format for imageUrl.',
-  }),
-  description: z.string().min(8, {
-    message: 'Description must be at least of 8 characters long.',
-  }),
-  slug: z.string(),
-  id: z.string(),
-  adminSecret: z.string(),
-  appxCourseId: z.string(),
-  discordRoleId: z.string(),
-});
-
-export default function Courses() {
+export default function CourseCreate() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
   const [email, setEmail] = useState('');
   const [adminPassword, setAdminPassword] = useState('');
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
-  const form = useForm<z.infer<typeof courseSchema>>({
+  const form = useForm<CourseType>({
     resolver: zodResolver(courseSchema),
     defaultValues: {
       title: '',
@@ -65,15 +49,14 @@ export default function Courses() {
     },
   });
 
-  const onSubmit = async (data: z.infer<typeof courseSchema>) => {
+  const onSubmit = async (data: CourseType) => {
     setIsLoading(true);
     try {
       const res = await axios.post('/api/admin/course', data);
       if (res.status === 200) {
-        router.push(`/admin/course/${res?.data?.id}`);
+        router.push(`/admin/course/${res?.data?.data?.id}`);
       }
-      toast('course succesfully created');
-      router.push('/');
+      toast.success('Course succesfully created');
     } catch (error: any) {
       console.log(error);
       toast(error.message);
@@ -83,12 +66,7 @@ export default function Courses() {
   };
 
   return (
-    <div className="wrapper my-16 flex flex-col gap-4">
-      <section className="my-4 flex items-center gap-2 rounded-lg border-2 bg-primary/5 p-4">
-        <Cuboid size={18} />
-        <h2 className="text-md font-bold">View Content</h2>
-      </section>
-
+    <div className="wrapper my-2 flex flex-col gap-4">
       <Accordion
         defaultValue="add-new-course"
         className="rounded-2xl border-2 p-4"
@@ -207,23 +185,6 @@ export default function Courses() {
                         />
                         <FormField
                           control={form.control}
-                          name="adminSecret"
-                          render={({ field }: { field: any }) => (
-                            <FormItem>
-                              <FormLabel>Admin Secret</FormLabel>
-                              <FormControl>
-                                <Input
-                                  className="h-12 px-3"
-                                  placeholder="Enter the Admin Secret"
-                                  {...field}
-                                />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                        <FormField
-                          control={form.control}
                           name="appxCourseId"
                           render={({ field }: { field: any }) => (
                             <FormItem>
@@ -252,6 +213,40 @@ export default function Courses() {
                                 />
                               </FormControl>
                               <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                        <FormField
+                          control={form.control}
+                          name="adminSecret"
+                          render={({ field }: { field: any }) => (
+                            <FormItem className="col-span-1 lg:col-span-2">
+                              <FormLabel>Admin Secret</FormLabel>
+                              <FormControl>
+                                <div className="flex w-full rounded-lg border">
+                                  <Input
+                                    className="h-12 px-3"
+                                    type={
+                                      isPasswordVisible ? 'text' : 'password'
+                                    }
+                                    placeholder="••••••••"
+                                    {...field}
+                                  />
+                                  <button
+                                    onClick={() =>
+                                      setIsPasswordVisible((p) => !p)
+                                    }
+                                    type="button"
+                                    className="ml-2 mr-2 text-gray-600"
+                                  >
+                                    {isPasswordVisible ? (
+                                      <EyeIcon />
+                                    ) : (
+                                      <EyeOff />
+                                    )}
+                                  </button>
+                                </div>
+                              </FormControl>
                             </FormItem>
                           )}
                         />
