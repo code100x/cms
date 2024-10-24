@@ -1,12 +1,12 @@
-import React from 'react';
-import { Bookmark } from '@prisma/client';
-import { formatTime } from '@/lib/utils';
-import { motion } from 'framer-motion';
 import { CheckCircle2, Play } from 'lucide-react';
+import { Bookmark } from '@prisma/client';
 import BookmarkButton from './bookmark/BookmarkButton';
+import { formatTime } from '@/lib/utils';
 import VideoThumbnail from './videothumbnail';
 import CardComponent from './CardComponent';
+import { motion } from 'framer-motion';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/tooltip';
+import React from 'react';
 
 export const ContentCard = ({
   title,
