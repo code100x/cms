@@ -25,6 +25,10 @@ interface VideoProps {
   videoJsOptions: any;
   contentId: number;
   onVideoEnd: () => void;
+  onNextVideoClick: () => void;
+  onPrevVideoClick: () => void;
+  isnextContentAvailable: boolean;
+  ispreviousContentAvailable: boolean;
 }
 
 export const VideoPlayerSegment: FunctionComponent<VideoProps> = ({
@@ -34,6 +38,10 @@ export const VideoPlayerSegment: FunctionComponent<VideoProps> = ({
   segments,
   videoJsOptions,
   onVideoEnd,
+  onNextVideoClick,
+  onPrevVideoClick,
+  isnextContentAvailable,
+  ispreviousContentAvailable,
 }) => {
   const playerRef = useRef<Player | null>(null);
 
@@ -103,6 +111,10 @@ export const VideoPlayerSegment: FunctionComponent<VideoProps> = ({
           options={videoJsOptions}
           onVideoEnd={onVideoEnd}
           onReady={handlePlayerReady}
+          onNextVideoClick={onNextVideoClick}
+          onPrevVideoClick={onPrevVideoClick}
+          isnextContentAvailable={isnextContentAvailable}
+          ispreviousContentAvailable={ispreviousContentAvailable}
         />
       </div>
     </div>
