@@ -94,7 +94,7 @@ const ClassAssignmentCard: React.FC<ClassAssignmentCardProps> = ({ data, type })
           </p>
         </div>
       </div>
-      <div className="flex flex-col gap-y-2 border-b py-2 pb-3">
+      <div className="flex flex-col gap-y-2 border-b py-2 pb-6">
         <p>Last updated at</p>
         <span className="flex font-semibold">
           <p className="mr-2 mt-2 text-sm text-gray-400">

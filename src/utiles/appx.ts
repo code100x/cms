@@ -263,7 +263,8 @@ export async function getAssignments(courseIds: Array<number>) {
       course: {
         select: {
           title: true,
-          id: true
+          id: true,
+          submissions: true
         },
       }
     },

@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import AssignmentList from '@/components/assignments/AssignmentList';
 
-const StudentAssignment = ({ assignments, completedAssignments }: any) => {
+const StudentAssignment = ({ assignments, completedAssignments, dueAssignments }: any) => {
   const [activeTab, setActiveTab] = useState('1');
   const tabs = [
     { id: '1', label: 'Forth coming' },
@@ -11,14 +11,13 @@ const StudentAssignment = ({ assignments, completedAssignments }: any) => {
   ];
   const currentDate = new Date();
   const activeAssignments = assignments?.filter((item:any) => new Date(item.dueDate) > currentDate);
-  const pastAssignments = assignments?.filter((item:any) => new Date(item.dueDate) <= currentDate);
 
   const renderTabContent  = (activeTab: string) => {
     switch (activeTab) {
       case '1':
         return <AssignmentList assignments={activeAssignments} />;
       case '2':
-        return <AssignmentList assignments={pastAssignments} />;
+        return <AssignmentList assignments={dueAssignments} />;
       case '3':
         return <AssignmentList assignments={completedAssignments} />;
     }

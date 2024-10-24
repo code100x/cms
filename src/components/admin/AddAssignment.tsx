@@ -4,7 +4,6 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
 import { EyeIcon, EyeOffIcon } from 'lucide-react';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
@@ -18,35 +17,14 @@ import {
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import ErrorMessage from '@/components/error/ErrorMessage';
-
-const AssignmentSchema = z.object({
-  title: z.string().refine((val) => val.trim() !== '', {
-    message: 'Title is required',
-  }),
-  description: z.string().refine((val) => val.trim() !== '', {
-    message: 'Description is required',
-  }),
-  course: z.string().refine((val) => val.trim() !== '', {
-    message: 'Course is required',
-  }),
-  dueDate: z.string().refine((val) => val.trim() !== '', {
-    message: 'Due date is required',
-  }),
-  dueTime: z.string().refine((val) => val.trim() !== '', {
-    message: 'Due time is required',
-  }),
-  adminSecret: z.string().refine((val) => val.trim() !== '', {
-    message: 'Admin secret is required',
-  }),
-});
-
-type AssignmentType = z.infer<typeof AssignmentSchema>;
+import { AssignmentSchema, AssignmentType } from '@/lib/validation/assignmentSchema';
 
 interface AddAssignmentProps {
   isModalOpen: boolean;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   assignment?: any;
 }
+
 const AddAssignment: React.FC<AddAssignmentProps> = ({
   isModalOpen,
   setIsModalOpen,
@@ -64,7 +42,7 @@ const AddAssignment: React.FC<AddAssignmentProps> = ({
   } = useForm<AssignmentType>({
     resolver: zodResolver(AssignmentSchema),
   });
-  console.log(' assignment : ', assignment);
+
   useEffect(() => {
     if (assignment) {
       setValue('title', assignment?.title);
@@ -73,7 +51,7 @@ const AddAssignment: React.FC<AddAssignmentProps> = ({
       setValue('dueDate', assignment?.dueDate);
       setValue('dueTime', assignment?.dueTime);
     }
-  }, [assignment, setValue]);
+  }, [assignment]);
 
   const onSubmit = async (data: AssignmentType) => {
     try {
@@ -139,6 +117,7 @@ const AddAssignment: React.FC<AddAssignmentProps> = ({
 
               <div className="flex gap-x-2">
                 <div>
+                  <p className='text-sm dark:text-gray-400'>Due date</p>
                   <Input
                     className="dueDate font-medium"
                     type="date"
@@ -151,6 +130,7 @@ const AddAssignment: React.FC<AddAssignmentProps> = ({
                 </div>
 
                 <div>
+                <p className='text-sm dark:text-gray-400'>Due time</p>
                   <Input
                     className="dueTime font-medium"
                     type="time"
@@ -167,7 +147,7 @@ const AddAssignment: React.FC<AddAssignmentProps> = ({
                   <Input
                     className="adminSecret font-medium"
                     type={isPasswordVisible ? 'text' : 'password'}
-                    placeholder="••••••••"
+                    placeholder="Admin secret"
                     {...register('adminSecret')}
                   />
                   <button

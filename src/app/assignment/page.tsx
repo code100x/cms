@@ -16,6 +16,7 @@ const AssignmentPage = async () => {
     }));
     return {purchases, completedAssignments};
   };
+  
   const {purchases, completedAssignments} = await getCourses();
   if (purchases.type === 'error') {
     throw new Error('Ratelimited by appx please try again later');
@@ -23,9 +24,11 @@ const AssignmentPage = async () => {
   const courses = purchases?.courses;
   const courseIds = courses?.map(course => course.id);
   const assignments = await getAssignments(courseIds);
+  const pastDueAssignments = assignments?.filter((assignment:any) => !completedAssignments?.some((completed:any) => completed.id === assignment.id));
+
   return (
     <div>
-      <StudentAssignment assignments={assignments} completedAssignments={completedAssignments} />
+      <StudentAssignment assignments={assignments} dueAssignments={pastDueAssignments} completedAssignments={completedAssignments} />
     </div>
   );
 };

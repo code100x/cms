@@ -83,7 +83,7 @@ const SubmissionReview: React.FC<SubmissionReviewProps> = ({ submission }) => {
   const isLateTime = dueTime < submittedTime;
   const isLateSubmission = isLateDate && isLateTime;
   return (
-    <div className="m-2 flex max-w-xl flex-col gap-y-4 rounded-lg border shadow-md">
+    <div className="m-2 flex w-full flex-col gap-y-4 rounded-lg border shadow-md">
       <div className="flex max-w-xl flex-col">
         <div className="flex justify-between border-b p-6 pb-2">
           <div className="flex flex-col justify-between gap-y-2">

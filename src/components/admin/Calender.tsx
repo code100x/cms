@@ -58,14 +58,14 @@ const AdminCalender = ({classes}: any) => {
   }
 
   return (
-    <div className="">
+    <div>
       <AddClass
         isOpen={showModal}
         date={date}
         setIsModalOpen={setShowModal}
         classData={clickedEvent}
       />
-      <div className="grid grid-cols-10 p-20">
+      <div className="w-full p-10">
         <div className="col-span-8">
           <FullCalendar
             plugins={[dayGridPlugin, interactionPlugin, timeGridPlugin]}

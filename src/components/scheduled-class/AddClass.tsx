@@ -1,3 +1,4 @@
+'use client';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { EyeIcon, EyeOffIcon } from 'lucide-react';
@@ -23,7 +24,7 @@ const AddClassSchema = z.object({
   }),
   description: z.string().optional(),
   course: z.string().refine((val) => val.trim() !== '', {
-    message: 'Course is required'
+    message: 'Course is required',
   }),
   date: z.string().refine((val) => val.trim() !== '', {
     message: 'Scheduled date is required',
@@ -51,10 +52,16 @@ interface AddClassProps {
   classData?: any;
 }
 
-const AddClass = ({ isOpen, date, setIsModalOpen, classData }: AddClassProps) => {
+const AddClass = ({
+  isOpen,
+  date,
+  setIsModalOpen,
+  classData,
+}: AddClassProps) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
   const [action, setAction] = useState('create');
   const handleClose = () => setIsModalOpen(false);
+  const formattedDate = date && format(date, 'yyyy-MM-dd');
   const {
     register,
     handleSubmit,
@@ -63,10 +70,8 @@ const AddClass = ({ isOpen, date, setIsModalOpen, classData }: AddClassProps) =>
     formState: { errors },
   } = useForm<AddClasstype>({
     resolver: zodResolver(AddClassSchema),
-    defaultValues: {
-      date: date ? format(date, 'yyyy-MM-dd') : ''
-    }
   });
+
   const onSubmit: SubmitHandler<AddClasstype> = async (data: AddClasstype) => {
     try {
       let res;
@@ -76,7 +81,9 @@ const AddClass = ({ isOpen, date, setIsModalOpen, classData }: AddClassProps) =>
         res = await axios.put(`/api/admin/class/${classData.id}`, data);
       }
       if (res?.status === 200) {
-        toast.success(`Class ${action === 'create' ? 'created' : 'updated'} successfully`);
+        toast.success(
+          `Class ${action === 'create' ? 'created' : 'updated'} successfully`,
+        );
       } else {
         toast.error('Something went wrong');
       }
@@ -101,11 +108,20 @@ const AddClass = ({ isOpen, date, setIsModalOpen, classData }: AddClassProps) =>
       setAction('edit');
     }
   }, [classData]);
+
+  useEffect(() => {
+    if (formattedDate) {
+      setValue('date', formattedDate!);
+    }
+  }, [formattedDate]);
+
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
       <DialogContent>
         <DialogHeader className="flex flex-col items-center justify-center gap-y-2">
-          <DialogTitle className='border-b pb-2 w-full text-center'>SCHEDULE CLASS</DialogTitle>
+          <DialogTitle className="w-full border-b pb-2 text-center">
+            SCHEDULE CLASS
+          </DialogTitle>
           <DialogDescription>Fill the class details</DialogDescription>
         </DialogHeader>
         <div className="mt-2 w-full">
@@ -152,36 +168,45 @@ const AddClass = ({ isOpen, date, setIsModalOpen, classData }: AddClassProps) =>
             </div>
 
             <div className="flex w-full gap-x-2">
-              <div className='w-full'>
-                <Input
-                  className="schedule date font-medium"
-                  type="date"
-                  placeholder="Date"
-                  {...register('date')}
-                />
-                {errors?.date && (
-                  <ErrorMessage>{errors?.date?.message}</ErrorMessage>
-                )}
+              <div className="w-full">
+                <div>
+                  <p className='text-sm dark:text-gray-400'>Schedule</p>
+                  <Input
+                    className="schedule date font-medium"
+                    type="date"
+                    placeholder="Date"
+                    {...register('date')}
+                  />
+                  {errors?.date && (
+                    <ErrorMessage>{errors?.date?.message}</ErrorMessage>
+                  )}
+                </div>
               </div>
-              <div className='w-full'>
-                <Input
-                  aria-label="Time"
-                  type="time"
-                  {...register('startTime')}
-                />
-                {errors?.startTime && (
-                  <ErrorMessage>{errors?.startTime?.message}</ErrorMessage>
-                )}
+              <div className="w-full">
+                <div>
+                  <p className='text-sm dark:text-gray-400'>From</p>
+                  <Input
+                    aria-label="Time"
+                    type="time"
+                    {...register('startTime')}
+                  />
+                  {errors?.startTime && (
+                    <ErrorMessage>{errors?.startTime?.message}</ErrorMessage>
+                  )}
+                </div>
               </div>
-              <div className='w-full'>
-                <Input
-                  aria-label="Time"
-                  type="time"
-                  {...register('endTime')}
-                />
-                {errors?.endTime && (
-                  <ErrorMessage>{errors?.endTime?.message}</ErrorMessage>
-                )}
+              <div className="w-full">
+                <div>
+                  <p className='text-sm dark:text-gray-400'>To</p>
+                  <Input
+                    aria-label="Time"
+                    type="time"
+                    {...register('endTime')}
+                  />
+                  {errors?.endTime && (
+                    <ErrorMessage>{errors?.endTime?.message}</ErrorMessage>
+                  )}
+                </div>
               </div>
             </div>
             <div className="w-full">
@@ -201,7 +226,7 @@ const AddClass = ({ isOpen, date, setIsModalOpen, classData }: AddClassProps) =>
                   id="password"
                   className="border-0"
                   type={isPasswordVisible ? 'text' : 'password'}
-                  placeholder="••••••••"
+                  placeholder="Admin secret"
                   {...register('adminSecret')}
                 />
                 <button
@@ -221,7 +246,9 @@ const AddClass = ({ isOpen, date, setIsModalOpen, classData }: AddClassProps) =>
               <Button variant="destructive" onClick={handleClose}>
                 Cancel
               </Button>
-              <Button type="submit">{action === 'create' ? 'Create' : 'Edit'}</Button>
+              <Button type="submit">
+                {action === 'create' ? 'Create' : 'Edit'}
+              </Button>
             </div>
           </form>
         </div>
