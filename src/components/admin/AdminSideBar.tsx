@@ -1,12 +1,52 @@
+'use client';
 import React from 'react';
-import AdminSideBarRoutes from './AdminSideBarRoutes';
+import { Layout, Home, Calendar, Book, Radio } from 'lucide-react';
+import SideBarItems from './SideBarItems';
 
-const AdminSideBar = () => {
+const routes = [
+  {
+    icon: Home,
+    label: 'Home',
+    href: '/admin',
+  },
+  {
+    icon: Layout,
+    label: 'Manage',
+    href: '/admin/course',
+  },
+  {
+    icon: Radio,
+    label: 'Schedule',
+    href: '/admin/schedule',
+  },
+  {
+    icon: Calendar,
+    label: 'Calendar',
+    href: '/admin/calendar',
+  },
+  {
+    icon: Book,
+    label: 'Assignment',
+    href: '/admin/assignment',
+  },
+];
+
+const AdminSideBar = ({isCollapsed}:{isCollapsed?: boolean}) => {
   return (
-    <div className='h-full border-r flex flex-col overlfow-y-auto shadow-sm pt-4'>
-        <div className='flex flex-col w-full'>
-            <AdminSideBarRoutes />
-        </div>
+    <div className="overlfow-y-auto flex h-full flex-col border-r pt-4 shadow-sm">
+      <div className="flex w-full flex-col">
+        {routes.map((route) => {
+          return (
+            <SideBarItems
+              key={route.href}
+              label={route.label}
+              href={route.href}
+              icon={route.icon}
+              isCollapsed={isCollapsed}
+            />
+          );
+        })}
+      </div>
     </div>
   );
 };
