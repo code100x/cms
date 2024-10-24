@@ -18,6 +18,7 @@ import {
   ChevronDownIcon,
   MoreVerticalIcon,
   Reply,
+  ChevronUp,
 } from 'lucide-react';
 import TimeCodeComment from './TimeCodeComment';
 import {
@@ -34,8 +35,20 @@ import { authOptions } from '@/lib/auth';
 import { getServerSession } from 'next-auth';
 import CommentPinForm from './CommentPinForm';
 import CommentApproveForm from './CommentApproveForm';
-dayjs.extend(relativeTime);
+import Script from 'next/script';
 
+dayjs.extend(relativeTime);
+const BackToTopButton = () => {
+  return (
+    <Button
+      id="back-to-top-button"
+      className="fixed bottom-4 right-4 hidden rounded-full p-2"
+      aria-label="Back to top"
+    >
+      <ChevronUp className="size-6" />
+    </Button>
+  );
+};
 const Comments = async ({
   content,
   searchParams,
@@ -65,7 +78,7 @@ const Comments = async ({
   const modifiedSearchParams = { ...searchParams };
   delete modifiedSearchParams.parentId;
   return (
-    <div className="flex w-full flex-col gap-8">
+    <div className="relative flex w-full flex-col gap-8">
       <div className="flex flex-col gap-4">
         {data.parentComment && (
           <Link
@@ -317,7 +330,29 @@ const Comments = async ({
           ))}
         </div>
       </div>
-      <div>{/* <Pagination dataLength={data.comments.length} /> */}</div>
+      <BackToTopButton />
+      <Script id="back-to-top-script" strategy="afterInteractive">
+        {`
+          function toggleBackToTopButton() {
+            const button = document.getElementById('back-to-top-button');
+            if (window.pageYOffset > 300) {
+              button.classList.remove('hidden');
+            } else {
+              button.classList.add('hidden');
+            }
+          }
+
+          function scrollToTop() {
+            window.scrollTo({
+              top: 0,
+              behavior: 'smooth'
+            });
+          }
+
+          window.addEventListener('scroll', toggleBackToTopButton);
+          document.getElementById('back-to-top-button').addEventListener('click', scrollToTop);
+        `}
+      </Script>
     </div>
   );
 };
