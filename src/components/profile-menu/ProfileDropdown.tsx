@@ -9,6 +9,7 @@ import {
   Bookmark,
   History,
   MessageSquare,
+  BookOpenText,
 } from 'lucide-react';
 import {
   DropdownMenu,
@@ -47,6 +48,11 @@ const ProfileDropdown = () => {
       href: '/calendar',
       icon: <Calendar className="size-4" />,
       label: 'Calendar',
+    },
+    {
+      href: '/classes',
+      icon: <BookOpenText className="size-4" />,
+      label: 'Classes',
     },
   ];
 

@@ -11,6 +11,7 @@ import { AppbarAuth } from './AppbarAuth';
 import ThemeToggler from './ThemeToggler';
 import ProfileDropdown from './profile-menu/ProfileDropdown';
 import { SearchBar } from './search/SearchBar';
+import MobileSideBar from './admin/MobileSideBar';
 
 export const Navbar = () => {
   const { data: session } = useSession();
@@ -61,6 +62,7 @@ export const Navbar = () => {
             variants={navItemVariants}
             custom={0}
           >
+            <MobileSideBar />
             {session?.user && pathname !== '/home' && (
               <Button
                 onClick={() => router.back()}

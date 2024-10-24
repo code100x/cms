@@ -59,7 +59,7 @@ export const CourseCard = ({
             View Course
           </Button>
 
-          {course.certIssued ? (
+          {!course.certIssued ? (
             <Button
               variant="link"
               size={'lg'}

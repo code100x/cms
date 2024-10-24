@@ -1,0 +1,4 @@
+-- AlterTable
+ALTER TABLE "Content" ADD COLUMN     "isFree" BOOLEAN NOT NULL DEFAULT false,
+ADD COLUMN     "isPublished" BOOLEAN NOT NULL DEFAULT false,
+ADD COLUMN     "position" INTEGER NOT NULL DEFAULT 0;

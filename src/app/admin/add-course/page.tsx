@@ -68,7 +68,10 @@ export default function Courses() {
   const onSubmit = async (data: z.infer<typeof courseSchema>) => {
     setIsLoading(true);
     try {
-      await axios.post('/api/admin/course', data);
+      const res = await axios.post('/api/admin/course', data);
+      if (res.status === 200) {
+        router.push(`/admin/course/${res?.data?.id}`);
+      }
       toast('course succesfully created');
       router.push('/');
     } catch (error: any) {

@@ -13,7 +13,7 @@ export const SelectCourse = ({ courses }: { courses: Course[] }) => {
           //@ts-ignore
           course={course}
           onClick={() => {
-            router.push(`/admin/content/${course.id}`);
+            router.push(`/admin/course/${course.id}`);
           }}
           key={course.id}
         />

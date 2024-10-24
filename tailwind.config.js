@@ -15,10 +15,21 @@ module.exports = {
       padding: '2rem',
     },
     extend: {
+      boxShadow: {
+        'concave-light': 'inset 6px 6px 16px rgba(209,205,199,0.5), inset -6px -6px 16px rgba(255,255,255,0.5)',
+        'concave-dark': 'inset 6px 6px 16px rgba(22,22,22,0.6), inset -6px -6px 16px rgba(44,44,46,0.5)',
+        neumorphic: '1px 1px 4px rgba(209, 205, 199, 0.5), -1px -1px 4px rgba(255, 255, 255, 0.5)',
+        'neumorphic-dark': '1px 1px 4px rgb(113, 125, 134), -1px -1px 1px rgb(113, 125, 134)',
+      },
       screens: {
         semi: '1140px',
       },
       colors: {
+        'dark-concave': '#0000',
+        'custom-dark': '#0A0B0C',
+        'custom-light': '#EFEFEF',
+        'custom-dark-opacity': 'rgba(12, 35, 64, 0.2)',
+        'custom-container-dark-opacity': 'rgba(12, 35, 64, 0.2)',
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
@@ -52,6 +63,9 @@ module.exports = {
           DEFAULT: 'hsl(var(--card))',
           foreground: 'hsl(var(--card-foreground))',
         },
+      },
+      borderColor: {
+        customborder: 'rgba(255, 255, 255, 0.2)',
       },
       borderRadius: {
         lg: 'var(--radius)',
@@ -92,5 +106,5 @@ module.exports = {
       },
     },
   },
-  plugins: [require('tailwindcss-animate')],
+  plugins: [require('tailwindcss-animate'), require('tailwindcss-textshadow')],
 };

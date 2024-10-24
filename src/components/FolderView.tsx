@@ -4,6 +4,7 @@ import { ContentCard } from './ContentCard';
 import { Bookmark } from '@prisma/client';
 import { CourseContentType } from '@/lib/utils';
 
+type ContentType = 'folder' | 'video' | 'notion';
 export const FolderView = ({
   courseContent,
   courseId,
@@ -25,7 +26,12 @@ export const FolderView = ({
   }[];
 }) => {
   const router = useRouter();
-
+  const contentOrder: { [key in ContentType]: number } = { folder: 1, video: 2, notion: 3 };
+  const sortedCourseContents = courseContent
+    ?.filter(({ type }: { type: ContentType }) => ['folder', 'video', 'notion'].includes(type))
+    .sort((a: any, b: any) => {
+      return contentOrder[a.type as ContentType] - contentOrder[b.type as ContentType] || a.position - b.position;
+    });
   if (!courseContent?.length) {
     return (
       <div className="mt-64 flex">
@@ -41,8 +47,9 @@ export const FolderView = ({
 
   return (
     <div>
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {courseContent.map((content) => {
+      <div></div>
+      <div className="mx-auto grid max-w-screen-xl cursor-pointer grid-cols-1 justify-between gap-5 p-4 md:grid-cols-3">
+        {sortedCourseContents.map((content) => {
           const videoProgressPercent =
             content.type === 'video' &&
             content.videoFullDuration &&
