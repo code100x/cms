@@ -8,7 +8,7 @@ interface SideBarItemsProps {
   label: string;
   href: string;
   icon: LucideIcon;
-  isCollapsed: boolean;
+  isCollapsed?: boolean;
 }
 const SideBarItems = ({
   label,
