@@ -12,6 +12,7 @@ import { FormPostErrors } from './form-errors';
 interface FormInputProps {
   id: string;
   label?: string;
+  value?: string;
   type?: string;
   placeholder?: string;
   required?: boolean;
@@ -28,6 +29,7 @@ export const FormPostInput = forwardRef<HTMLInputElement, FormInputProps>(
     {
       id,
       label,
+      value,
       type,
       placeholder,
       required,
@@ -61,6 +63,7 @@ export const FormPostInput = forwardRef<HTMLInputElement, FormInputProps>(
             name={id}
             id={id}
             onKeyUp={onKeyUp}
+            value={value}
             placeholder={placeholder}
             type={type}
             disabled={pending || disabled}
