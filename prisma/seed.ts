@@ -107,43 +107,55 @@ async function seedCourses() {
 }
 
 async function seedContent() {
-  const folderData = {
+  const folderData = [{
     type: 'folder',
     title: 'week 1',
     hidden: false,
     thumbnail:
       'https://appx-recordings.s3.ap-south-1.amazonaws.com/drm/100x/images/week-1.jpg',
     commentsCount: 0,
-  };
+  }, {
+      type: 'folder',
+      title: 'week 2',
+      hidden: false,
+      thumbnail:
+        'https://appx-recordings.s3.ap-south-1.amazonaws.com/drm/100x/images/week-1.jpg',
+      commentsCount: 0,
+    }];
 
   try {
-    const createdFolder = await db.content.create({ data: folderData });
+    const createdFolder = await db.content.createMany({ data: folderData });
     console.log('Created folder:', createdFolder);
-    const folderId = createdFolder.id;
+    
+    const folderId = await db.content.findMany({});
 
-    const contentData = [
-      {
+    const contentData = [];
+
+    for (let j = 0; j < 2; j++) {
+      contentData.push({
         type: 'notion',
-        title: 'Notes for week 1',
+        title: `Notes for week ${j + 1}`,
         hidden: false,
         thumbnail:
           'https://appx-recordings.s3.ap-south-1.amazonaws.com/drm/100x/images/notes.png',
-        parentId: folderId,
+        parentId: folderId[j].id,
         commentsCount: 0,
-      },
-      {
-        type: 'video',
-        title: 'test video for week 1',
-        hidden: false,
-        thumbnail:
-          'https://appx-recordings.s3.ap-south-1.amazonaws.com/drm/100x/images/week-1-orientation.jpg',
-        parentId: folderId,
-        commentsCount: 0,
-      },
-    ];
+      });
 
+      for (let i = 1; i <= 4; i++) {
+        contentData.push({
+          type: 'video',
+          title: `test video ${i} for week ${j + 1}`,
+          hidden: false,
+          thumbnail:
+            'https://appx-recordings.s3.ap-south-1.amazonaws.com/drm/100x/images/week-1-orientation.jpg',
+          parentId: folderId[j].id,
+          commentsCount: 0,
+        });
+      }
+    }
     const createdContent = await db.content.createMany({ data: contentData });
-    console.log('Created content:', createdContent);
+    console.log(createdContent);
   } catch (error) {
     console.error('Error seeding content:', error);
     throw error;
@@ -152,11 +164,14 @@ async function seedContent() {
 
 async function seedCourseContent() {
   try {
-    await db.courseContent.create({
-      data: {
+    await db.courseContent.createMany({
+      data: [{
         courseId: 1,
         contentId: 1,
-      },
+      }, {
+        courseId: 1,
+        contentId: 2,
+      }],
     });
   } catch (error) {
     console.error('Error seeding course content:', error);
@@ -181,10 +196,21 @@ async function seedNotionMetadata() {
 
 async function seedVideoMetadata() {
   try {
-    await db.videoMetadata.create({
-      data: {
-        id: 1,
-        contentId: 3,
+    const contents = await db.content.findMany({
+      where: { 
+        type: "video"
+      },
+      select: {
+        id: true
+      }
+    });
+
+    const metadata: any[] = [];
+
+    contents.forEach((value, key) => {
+      metadata.push({
+        id: key,
+        contentId: value.id,
         video_1080p_mp4_1: 'https://www.w3schools.com/html/mov_bbb.mp4',
         video_1080p_mp4_2: 'https://www.w3schools.com/html/mov_bbb.mp4',
         video_1080p_mp4_3: 'https://www.w3schools.com/html/mov_bbb.mp4',
@@ -211,7 +237,11 @@ async function seedVideoMetadata() {
         video_360p_4: 'https://www.w3schools.com/html/mov_bbb.mp4',
         slides:
           'https://appx-recordings.s3.ap-south-1.amazonaws.com/drm/100x/slides/Loops%2C+callbacks.pdf',
-      },
+      });
+    });
+
+    await db.videoMetadata.createMany({
+      data: metadata,
     });
   } catch (error) {
     console.error('Error seeding video metadata:', error);

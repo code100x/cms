@@ -11,8 +11,14 @@ export const ContentRendererClient = ({
   metadata,
   content,
   nextContent,
+  prevContent,
 }: {
   nextContent: {
+    id: number;
+    type: string;
+    title: string;
+  } | null;
+  prevContent: {
     id: number;
     type: string;
     title: string;
@@ -98,7 +104,7 @@ export const ContentRendererClient = ({
             responsive: true,
             sources: [source],
           }}
-          onVideoEnd={() => {}}
+          onVideoEnd={() => { }}
         />
         <div className="flex flex-col gap-4 rounded-xl bg-primary/5 p-4">
           <div className="flex w-full flex-col justify-between gap-2 md:flex-row">
@@ -139,21 +145,62 @@ export const ContentRendererClient = ({
             />
           )}
         </div>
-        {nextContent ? (
-          <Button
-            size={'lg'}
-            onClick={() => {
-              const originalPath = window.location.pathname;
-              const parts = originalPath.split('/');
-              parts.pop();
-              parts.push(nextContent.id.toString());
-              const newPath = parts.join('/');
-              router.push(newPath);
-            }}
-          >
-            {nextContent.title}
-          </Button>
-        ) : null}
+        <div className="flex justify-between">
+          {prevContent ? (
+            <Button
+              size={'lg'}
+              className='w-1/6 text-md mt-2'
+              onClick={() => {
+                const originalPath = window.location.pathname;
+                const parts = originalPath.split('/');
+                parts.pop();
+                parts.push(prevContent.id.toString());
+                const newPath = parts.join('/');
+                router.push(newPath);
+              }}
+            >
+              {/* {prevContent.title}  */}
+              <div className="flex">
+                <div>
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 15.75 3 12m0 0 3.75-3.75M3 12h18" />
+                  </svg>
+                </div>
+                <div className='mx-2'>
+                  Play Prev
+                </div>
+              </div>
+            </Button>
+          ) : null}
+
+          {nextContent ? (
+            <Button
+              size={'lg'}
+              className='w-1/6 text-md mt-2'
+              onClick={() => {
+                const originalPath = window.location.pathname;
+                const parts = originalPath.split('/');
+                parts.pop();
+                parts.push(nextContent.id.toString());
+                const newPath = parts.join('/');
+                router.push(newPath);
+              }}
+            >
+              {/* {nextContent.title}  */}
+              <div className="flex">
+                <div className='mx-2'>
+                  Play Next
+                </div>
+                <div>
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3" />
+                  </svg>
+                </div>
+              </div>
+
+            </Button>
+          ) : null}
+        </div>
       </div>
     </div>
   );

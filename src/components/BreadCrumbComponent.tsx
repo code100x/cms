@@ -56,7 +56,7 @@ export default function BreadCrumbComponent({
   }, [rest, fullCourseContent, courseContent, contentType]);
 
   return (
-    <>
+    <div className='flex justify-between'>
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
@@ -121,6 +121,6 @@ export default function BreadCrumbComponent({
           })}
         </BreadcrumbList>
       </Breadcrumb>
-    </>
+    </div>
   );
 }
