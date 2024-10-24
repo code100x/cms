@@ -16,6 +16,7 @@ export const menuOptions = [
   { id: 3, name: 'Bookmarks', Component: Bookmark, href: '/bookmark' },
   { id: 4, name: 'Questions', Component: MessageSquare, href: '/question' },
   { id: 5, name: 'Watch History', Component: History, href: '/watch-history' },
+  { id: 6, name: 'Upcoming Classes', Component: History, href: '/classes'}
 ];
 
 //Added Eventlistener 

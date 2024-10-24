@@ -70,7 +70,8 @@ export const CourseCard = ({
             <PlayCircle className="w-4 h-4 mr-2" />
             View Course
           </Button>
-          {course.certIssued ? (
+
+          {!course.certIssued ? (
             <Button
               variant="outline"
               size={'lg'}

@@ -16,7 +16,7 @@ export default function ExternalLinks() {
       label: 'Cohort 2',
     },
     {
-      href: 'https://github.com/100xdevs-cohort-3/assignments',
+      href: '/assignment',
       label: 'Cohort 3',
     },
   ];

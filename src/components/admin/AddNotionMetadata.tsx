@@ -1,26 +1,17 @@
-import { useEffect, useState } from 'react';
-import { Input } from '../ui/input';
+import { Input } from '@/components/ui/input';
 
 export function AddNotionMetadata({
-  onChange,
+  register
 }: {
-  onChange: (metadata: any) => void;
+  register?: any;
 }) {
-  const [id, setId] = useState('');
-
-  useEffect(() => {
-    onChange({ notionId: id });
-  }, [id]);
-
   return (
     <div className="py-2">
       <Input
         className="text-black dark:text-white"
         type="text"
         placeholder="Notion id"
-        onChange={async (e) => {
-          setId(e.target.value);
-        }}
+        {...register('notionId')}
       />
     </div>
   );

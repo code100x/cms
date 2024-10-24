@@ -1,16 +1,12 @@
-import { CheckCircle2, Play } from 'lucide-react';
+import React from 'react';
 import { Bookmark } from '@prisma/client';
+import { formatTime } from '@/lib/utils';
+import { motion } from 'framer-motion';
+import { CheckCircle2, Play } from 'lucide-react';
 import BookmarkButton from './bookmark/BookmarkButton';
 import VideoThumbnail from './videothumbnail';
 import CardComponent from './CardComponent';
-import { motion } from 'framer-motion';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from './ui/tooltip';
-import React from 'react';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/tooltip';
 
 export const ContentCard = ({
   title,
@@ -36,14 +32,6 @@ export const ContentCard = ({
   uploadDate?: string;
   weeklyContentTitles?: string[];
 }) => {
-  // const formattedDate = createdAt?.toLocaleDateString('en-GB', {
-  //   day: '2-digit',
-  //   month: 'long',
-  //   year: 'numeric',
-  // });
-  // let image ;
-  // image = ""
-
   return (
     <TooltipProvider delayDuration={0}>
       <Tooltip>
