@@ -11,6 +11,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
+import { Badge } from "../ui/badge";
 
 export const submissionTableColumns: ColumnDef<any>[] = [
     {
@@ -94,8 +95,45 @@ export const submissionTableColumns: ColumnDef<any>[] = [
       },
       cell: ({ row }) => {
         const { submittedAt } = row.original;
-        const time = format(new Date(submittedAt), 'hh:mm a');
+        const time = format(new Date(submittedAt), 'hh:mm aa');
         return <div className="text-left font-medium">{time}</div>;
+      },
+      sortingFn: (rowA, rowB) => {
+        const dateA = new Date(rowA.original.submittedAt);
+        const dateB = new Date(rowB.original.submittedAt);
+        return dateA.getTime() - dateB.getTime();
+      }
+    },
+    {
+      accessorKey: "submission",
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+            className="pl-0"
+          >
+            Submitted in
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          </Button>
+        );
+      },
+      cell: ({ row }) => {
+        const { submittedAt, assignment: { dueDate, dueTime } } = row.original;
+        const submittedDate = format(submittedAt, 'yyyy-MM-dd');
+        const submittedTime = format(submittedAt, 'hh:mm aa');
+        const isLateDate = new Date(submittedDate) > new Date(dueDate);
+        const isLateTime = submittedTime > dueTime;
+        const isLate = isLateDate && isLateTime;
+        return (
+          <div className="text-left font-medium">
+            {isLate ? (
+              <Badge className="bg-red-500">Late Submission</Badge>
+            ) : (
+              <Badge className="bg-green-500">On Time</Badge>
+            )}
+          </div>
+        );
       },
       sortingFn: (rowA, rowB) => {
         const dateA = new Date(rowA.original.submittedAt);
