@@ -16,6 +16,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
+import { AddNotionMetadata } from './AddNotionMetadata';
 
 // TODO: remove AddContent
 
@@ -255,7 +256,8 @@ const VARIANTS = 1;
 export function AddVideosMetadata({
   setValue
 }: {
-  setValue?: any
+  setValue?: any;
+  onChange?: any;
 }) {
   const [metadataGlobal, setMetadata] = useState({} as any);
   

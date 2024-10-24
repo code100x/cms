@@ -4,6 +4,7 @@ export function AddNotionMetadata({
   register
 }: {
   register?: any;
+  onChange?: any;
 }) {
   return (
     <div className="py-2">
