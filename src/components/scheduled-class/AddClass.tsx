@@ -1,10 +1,12 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { format } from 'date-fns';
 import { EyeIcon, EyeOffIcon } from 'lucide-react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'sonner';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { addClassSchema, AddClasstype } from '@/lib/validation/classes';
 import { Button } from '@/components/ui/button';
 import ErrorMessage from '@/components/error/ErrorMessage';
 import {
@@ -15,8 +17,6 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
-import { format } from 'date-fns';
-import { addClassSchema, AddClasstype } from '@/lib/validation/classes';
 
 interface AddClassProps {
   date?: Date;
