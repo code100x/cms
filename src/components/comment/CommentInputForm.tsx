@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button } from '../ui/button';
 import { useAction } from '@/hooks/useAction';
 import { createMessage } from '@/actions/comment';
@@ -15,6 +15,8 @@ const CommentInputForm = ({
   parentId?: number | undefined;
 }) => {
   const currentPath = usePathname();
+  const [isButtonDisabled, setButtonDisabled] = useState(true);
+  const [commentText, setCommentText] = useState('');
   const formRef = React.useRef<HTMLFormElement>(null);
   const textareaRef = React.useRef<HTMLTextAreaElement>(null);
   const { execute, isLoading, fieldErrors } = useAction(createMessage, {
@@ -29,7 +31,6 @@ const CommentInputForm = ({
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.target as HTMLFormElement);
-
     const content = formData.get('content') as string;
 
     execute({
@@ -38,6 +39,13 @@ const CommentInputForm = ({
       parentId,
       currentPath,
     });
+    setCommentText('');
+  };
+  
+  const isAllSpaces = (str: string): boolean => (/^\s*$/).test(str);
+
+  const isCommentValid = () => {
+    return !isAllSpaces(commentText);
   };
 
   // Function to adjust the height of the textarea
@@ -47,6 +55,14 @@ const CommentInputForm = ({
       textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`; // Set the height based on scroll height
     }
   };
+
+  useEffect(() => {
+    if (!isCommentValid() || isLoading) {
+      setButtonDisabled(true);
+    } else {
+      setButtonDisabled(false);
+    }
+  }, [commentText]);
 
   // Effect to handle the initial and dynamic height adjustment
   useEffect(() => {
@@ -78,9 +94,6 @@ const CommentInputForm = ({
     };
   }, []);
 
-  const handleTextChange = () => {
-    adjustTextareaHeight();
-  };
   return (
     <form
       className="flex flex-col gap-4 rounded-xl"
@@ -90,15 +103,21 @@ const CommentInputForm = ({
       <textarea
         ref={textareaRef}
         id="content"
+        rows = {1}
         name="content"
         className="w-full resize-none border-b border-primary/25 bg-transparent p-4 focus:outline-none focus:ring-0"
         placeholder={parentId ? 'Add a reply...' : 'Add a comment...'}
-        onChange={handleTextChange} // Adjust height on text change
+        onChange={(e) => {
+          adjustTextareaHeight();
+          setCommentText(e.target.value);
+        }} // Adjust height on text change
       />
       <FormErrors id="content" errors={fieldErrors} />
-      <Button type="submit" disabled={isLoading} className="w-fit">
+
+      <Button type="submit" disabled={isButtonDisabled} className="w-fit">
         {parentId ? 'Reply' : 'Comment'}
       </Button>
+
     </form>
   );
 };

@@ -64,7 +64,7 @@ const CommentVoteForm: React.FC<CommentVoteFormProps> = ({
     }
 
     toast.promise(
-      execute({ voteType: newVoteType, commentId, currentPath }),
+      execute({ voteType: newVoteType, commentId, currentPath, slug: '' }),
       toastMessage,
     );
   };
