@@ -441,7 +441,7 @@ export async function getContentById(contentId: number) {
   return content;
 }
 
-export async function getAllCourseTitle () {
+export async function getFullCourseTitle () {
   const coursesTitle = await db.course.findMany({
     select: {
       title: true
