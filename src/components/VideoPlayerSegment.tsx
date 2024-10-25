@@ -25,6 +25,16 @@ interface VideoProps {
   videoJsOptions: any;
   contentId: number;
   onVideoEnd: () => void;
+  nextContent: {
+    id: number;
+    type: string;
+    title: string;
+  } | null;
+  prevContent: {
+    id: number;
+    type: string;
+    title: string;
+  } | null;
 }
 
 export const VideoPlayerSegment: FunctionComponent<VideoProps> = ({
@@ -34,6 +44,8 @@ export const VideoPlayerSegment: FunctionComponent<VideoProps> = ({
   segments,
   videoJsOptions,
   onVideoEnd,
+  nextContent,
+  prevContent,
 }) => {
   const playerRef = useRef<Player | null>(null);
 
@@ -103,6 +115,8 @@ export const VideoPlayerSegment: FunctionComponent<VideoProps> = ({
           options={videoJsOptions}
           onVideoEnd={onVideoEnd}
           onReady={handlePlayerReady}
+          nextContent={nextContent}
+          prevContent={prevContent}
         />
       </div>
     </div>

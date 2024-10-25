@@ -11,8 +11,14 @@ export const ContentRendererClient = ({
   metadata,
   content,
   nextContent,
+  prevContent,
 }: {
   nextContent: {
+    id: number;
+    type: string;
+    title: string;
+  } | null;
+  prevContent: {
     id: number;
     type: string;
     title: string;
@@ -72,8 +78,6 @@ export const ContentRendererClient = ({
   };
 
   const toggleNextVideo = async () => {
-    // console.log("Video Completed : ContentRendererClient.tsx");
-    // /courses/1/1/3  : /{courses}/{courseId}/{moduleId}/{contentid}
     const originalPath = window.location.pathname;
     const parts = originalPath.split('/');
     parts.pop();
@@ -81,7 +85,6 @@ export const ContentRendererClient = ({
       parts.push(nextContent.id.toString());
 
       const newPath = parts.join('/');
-      // console.log('\n Next Content :', nextContent, newPath);
       router.push(newPath);
     }
   };
@@ -113,7 +116,9 @@ export const ContentRendererClient = ({
             responsive: true,
             sources: [source],
           }}
-          onVideoEnd={() => toggleNextVideo()}
+          onVideoEnd={() => nextContent && toggleNextVideo()} // call only if next content is available
+          nextContent={nextContent}
+          prevContent={prevContent}
         />
         <div className="flex flex-col gap-4 rounded-xl bg-primary/5 p-4">
           <div className="flex w-full flex-col justify-between gap-2 md:flex-row">
@@ -154,7 +159,7 @@ export const ContentRendererClient = ({
             />
           )}
         </div>
-        {nextContent ? (
+        {/* {nextContent ? (
           <Button
             size={'lg'}
             onClick={() => {
@@ -166,9 +171,9 @@ export const ContentRendererClient = ({
               router.push(newPath);
             }}
           >
-            <span className="underline">Next Video</span> : {nextContent.title}
+            {nextContent.title}
           </Button>
-        ) : null}
+        ) : null} */}
       </div>
     </div>
   );

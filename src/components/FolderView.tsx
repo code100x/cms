@@ -22,7 +22,6 @@ export const FolderView = ({
     bookmark: Bookmark | null;
   }[];
 }) => {
-  // console.log("course content", courseContent);
   const router = useRouter();
 
   if (!courseContent?.length) {

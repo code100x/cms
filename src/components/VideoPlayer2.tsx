@@ -10,9 +10,12 @@ import 'videojs-mobile-ui';
 import 'videojs-sprite-thumbnails';
 import 'videojs-seek-buttons';
 import { handleMarkAsCompleted } from '@/lib/utils';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 import './QualitySelectorControllBar';
 import { YoutubeRenderer } from './YoutubeRenderer';
+import { toast } from 'sonner';
+import { createRoot } from 'react-dom/client';
+import { ChevronFirst, ChevronLast, PictureInPicture2 } from 'lucide-react';
 
 // todo correct types
 interface VideoPlayerProps {
@@ -22,6 +25,8 @@ interface VideoPlayerProps {
   subtitles?: string;
   contentId: number;
   onVideoEnd: () => void;
+  nextContent: any;
+  prevContent: any;
 }
 
 const PLAYBACK_RATES: number[] = [0.5, 1, 1.25, 1.5, 1.75, 2];
@@ -34,12 +39,156 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
   onReady,
   subtitles,
   onVideoEnd,
+  nextContent,
+  prevContent,
 }) => {
   const videoRef = useRef<HTMLDivElement>(null);
   const playerRef = useRef<Player | null>(null);
   const [player, setPlayer] = useState<any>(null);
   const searchParams = useSearchParams();
   const vidUrl = options.sources[0].src;
+  const router = useRouter();
+
+  const togglePictureInPicture = async () => {
+    try {
+      if (document.pictureInPictureElement) {
+        await document.exitPictureInPicture();
+      } else if (document.pictureInPictureEnabled && playerRef.current) {
+        playerRef.current.requestPictureInPicture();
+      }
+    } catch (error) {
+      // Ignore specific errors that might occur during normal operation
+      if (
+        error instanceof Error &&
+        error.name !== 'NotAllowedError' &&
+        error.name !== 'NotSupportedError'
+      ) {
+        console.error('Failed to toggle Picture-in-Picture mode:', error);
+        toast.error('Failed to toggle Picture-in-Picture mode.');
+      }
+    }
+  };
+
+  const togglePrevVideo = () => {
+    const originalPath = window.location.pathname;
+    const parts = originalPath.split('/');
+    parts.pop();
+    console.log(prevContent);
+    if (prevContent?.id && prevContent.type === 'video') {
+      parts.push(prevContent.id.toString());
+
+      const newPath = parts.join('/');
+      router.push(newPath);
+    }
+  };
+  const toggleNextVideo = () => {
+    const originalPath = window.location.pathname;
+    const parts = originalPath.split('/');
+    parts.pop();
+    if (nextContent?.id && nextContent.type === 'video') {
+      parts.push(nextContent.id.toString());
+
+      const newPath = parts.join('/');
+      router.push(newPath);
+    }
+  };
+  const PlayPrevVideoButton = () => {
+    const isDisabled = !prevContent || prevContent.type !== 'video';
+    return (
+      <button
+        onClick={togglePrevVideo}
+        className={`flex items-center justify-center text-white focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:focus:ring-offset-gray-800 ${
+          isDisabled ? 'cursor-not-allowed opacity-50' : ''
+        }`}
+        type="button"
+        title="Prev-Item"
+        disabled={isDisabled}
+      >
+        <span className="absolute inset-0 rounded bg-black bg-opacity-50 opacity-0 transition-opacity duration-200 group-hover:opacity-100"></span>
+        <ChevronFirst className="relative z-10 h-4 w-4" />
+        <span className="sr-only">Prev-Item</span>
+      </button>
+    );
+  };
+
+  const createPlayPrevVideoButton = (player: Player) => {
+    const prevVideoButtonContainer = (player as any).controlBar.addChild(
+      'button',
+      {
+        clickHandler: () => {
+          togglePrevVideo();
+        },
+      },
+    );
+
+    const root = createRoot(prevVideoButtonContainer.el());
+    root.render(<PlayPrevVideoButton />);
+
+    return prevVideoButtonContainer;
+  };
+
+  const PlayNextVideoButton = () => {
+    const isDisabled = !nextContent || nextContent.type !== 'video';
+    return (
+      <button
+        onClick={toggleNextVideo}
+        className={`flex items-center justify-center text-white focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:focus:ring-offset-gray-800 ${
+          isDisabled ? 'cursor-not-allowed opacity-50' : ''
+        }`}
+        type="button"
+        title="Next-Item"
+        disabled={isDisabled}
+      >
+        <span className="absolute inset-0 rounded bg-black bg-opacity-50 opacity-0 transition-opacity duration-200 group-hover:opacity-100"></span>
+        <ChevronLast className="relative z-10 h-4 w-4" />
+        <span className="sr-only">Next-Item</span>
+      </button>
+    );
+  };
+
+  const createPlayNextVideoButton = (player: Player) => {
+    const nextVideoButtonContainer = (player as any).controlBar.addChild(
+      'button',
+      {
+        clickHandler: () => {
+          toggleNextVideo();
+        },
+      },
+    );
+
+    const root = createRoot(nextVideoButtonContainer.el());
+    root.render(<PlayNextVideoButton />);
+
+    return nextVideoButtonContainer;
+  };
+
+  const PipButton = () => (
+    <button
+      onClick={togglePictureInPicture}
+      className="flex items-center justify-center text-white focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:focus:ring-offset-gray-800"
+      type="button"
+      title="Picture-in-Picture"
+    >
+      <span className="absolute inset-0 rounded bg-black bg-opacity-50 opacity-0 transition-opacity duration-200 group-hover:opacity-100"></span>
+      <PictureInPicture2 className="relative z-10 h-5 w-5" />
+      <span className="sr-only">Picture-in-Picture</span>
+    </button>
+  );
+
+  const createPipButton = (player: Player) => {
+    const pipButtonContainer = (player as any).controlBar.addChild('button', {
+      clickHandler: (event: any) => {
+        event.preventDefault();
+        event.stopPropagation();
+        togglePictureInPicture();
+      },
+    });
+
+    const root = createRoot(pipButtonContainer.el());
+    root.render(<PipButton />);
+
+    return pipButtonContainer;
+  };
 
   useEffect(() => {
     const t = searchParams.get('timestamp');
@@ -347,10 +496,28 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
           );
           const controlBar = player.getChild('controlBar');
           const fullscreenToggle = controlBar.getChild('fullscreenToggle');
-
           controlBar
             .el()
             .insertBefore(qualitySelector.el(), fullscreenToggle.el());
+
+          const playToggle = controlBar.getChild('playToggle');
+
+          const pipButton = createPipButton(player);
+          controlBar.el().insertBefore(pipButton.el(), fullscreenToggle.el());
+
+          const playPrevVideoButton = createPlayPrevVideoButton(player);
+          controlBar
+            .el()
+            .insertBefore(playPrevVideoButton.el(), playToggle.el());
+
+          const playNextVideoButton = createPlayNextVideoButton(player);
+          controlBar
+            .el()
+            .insertBefore(
+              playNextVideoButton.el(),
+              playToggle.el().nextSibling,
+            );
+
           setPlayer(player);
           if (options.isComposite) {
             player.spriteThumbnails({
