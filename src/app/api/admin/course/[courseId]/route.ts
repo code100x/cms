@@ -1,6 +1,6 @@
 import db from '@/db';
 import { getCourse } from '@/db/course';
-import { courseEditSchema } from '@/lib/validation/courseSchema';
+import { courseEditSchema } from '@/lib/validation/course';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function PATCH(

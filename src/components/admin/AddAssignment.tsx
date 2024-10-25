@@ -17,7 +17,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import ErrorMessage from '@/components/error/ErrorMessage';
-import { AssignmentSchema, AssignmentType } from '@/lib/validation/assignmentSchema';
+import { assignmentSchema, AssignmentType } from '@/lib/validation/assignment';
 
 interface AddAssignmentProps {
   isModalOpen: boolean;
@@ -40,7 +40,7 @@ const AddAssignment: React.FC<AddAssignmentProps> = ({
     setValue,
     formState: { errors },
   } = useForm<AssignmentType>({
-    resolver: zodResolver(AssignmentSchema),
+    resolver: zodResolver(assignmentSchema),
   });
 
   useEffect(() => {

@@ -18,8 +18,6 @@ import {
 } from '@/components/ui/dialog';
 import { AddNotionMetadata } from './AddNotionMetadata';
 
-// TODO: remove AddContent
-
 export const AddContent = ({
   rest,
   courseId,

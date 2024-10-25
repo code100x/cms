@@ -17,7 +17,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { ContentEditSchema, ContentEditType } from '@/lib/validation/contentSchema';
+import { contentEditSchema, ContentEditType } from '@/lib/validation/content';
 import UploadContentForm from './UploadContentForm';
 
 interface ContentEditFormProps {
@@ -34,7 +34,7 @@ const ContentEditForm = ({
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
   const form = useForm<ContentEditType>({
-    resolver: zodResolver(ContentEditSchema),
+    resolver: zodResolver(contentEditSchema),
     defaultValues: {
       title: content?.title ?? '',
       description: content?.description ?? '',

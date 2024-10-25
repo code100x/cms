@@ -26,7 +26,7 @@ import {
 } from '@/components/ui/accordion';
 import { EyeIcon, EyeOff, PackagePlus } from 'lucide-react';
 import { FaDiscord } from 'react-icons/fa';
-import { courseSchema, CourseType } from '@/lib/validation/courseSchema';
+import { courseSchema, CourseType } from '@/lib/validation/course';
 
 export default function CourseCreate() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
