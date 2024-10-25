@@ -5,6 +5,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { EyeIcon, EyeOff, Pencil } from 'lucide-react';
 import { toast } from 'sonner';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { contentEditSchema, ContentEditType } from '@/lib/validation/content';
+import UploadContentForm from '@/components/admin/UploadContentForm';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
@@ -17,8 +19,6 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { contentEditSchema, ContentEditType } from '@/lib/validation/content';
-import UploadContentForm from './UploadContentForm';
 
 interface ContentEditFormProps {
   content: any;
@@ -32,6 +32,27 @@ const ContentEditForm = ({
 }: ContentEditFormProps) => {
   const [isDisabled, setIsDisabled] = useState(true);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+
+  const videoContent = content?.children
+    ?.filter((item: any) => item.type === 'video')
+    .sort((a: any, b: any) => a.position - b.position);
+
+  const notionContent = content?.children
+    ?.filter((item: any) => item.type === 'notion')
+    .sort((a: any, b: any) => a.position - b.position);
+
+  const contents = [
+    {
+      id: '1',
+      contentType: 'video',
+      content: videoContent,
+    },
+    {
+      id: '2',
+      contentType: 'notion',
+      content: notionContent,
+    },
+  ];
 
   const form = useForm<ContentEditType>({
     resolver: zodResolver(contentEditSchema),
@@ -66,25 +87,7 @@ const ContentEditForm = ({
       setIsDisabled(true);
     }
   };
-  const videoContent = content?.children
-    ?.filter((item: any) => item.type === 'video')
-    .sort((a: any, b: any) => a.position - b.position);
-  const notionContent = content?.children
-    ?.filter((item: any) => item.type === 'notion')
-    .sort((a: any, b: any) => a.position - b.position);
-  const contents = [
-    {
-      id: '1',
-      contentType: 'video',
-      content: videoContent,
-    },
-    {
-      id: '2',
-      contentType: 'notion',
-      content: notionContent,
-    },
-  ];
-
+  
   return (
     <div className="grid w-full grid-cols-1 lg:grid-cols-7">
       <div className="col-span-1 w-full p-4 lg:col-span-7">

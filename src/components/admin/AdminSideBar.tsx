@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import { Layout, Home, Calendar, Book, Radio } from 'lucide-react';
-import SideBarItems from './SideBarItems';
+import SideBarItems from '@/components/admin/SideBarItems';
 
 const routes = [
   {

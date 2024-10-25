@@ -1,16 +1,16 @@
 'use client';
 
+import { useState } from 'react';
+import { EyeIcon, EyeOffIcon } from 'lucide-react';
+import { SubmitHandler, UseFormHandleSubmit, UseFormRegister } from 'react-hook-form';
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import { useState } from 'react';
-import { SubmitHandler, UseFormHandleSubmit, UseFormRegister } from 'react-hook-form';
-import { Button } from '../ui/button';
-import { EyeIcon, EyeOffIcon } from 'lucide-react';
-import { Input } from '../ui/input';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 
 interface AdminPasswordModalProps {
   isOpen: boolean;
@@ -27,8 +27,6 @@ interface AdminPasswordModalProps {
       adminPassword: string;
     }
   >;
-  actionType?: "Publish" | "UnPublish" | "Delete" | 'Create';
-  formType: 'content' | 'course';
 }
 
 const AdminPasswordModal = ({
@@ -37,8 +35,6 @@ const AdminPasswordModal = ({
   onSubmit,
   register,
   handleSubmit,
-  actionType,
-  formType
 }: AdminPasswordModalProps) => {
   if (!isOpen) return null;
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
@@ -47,7 +43,7 @@ const AdminPasswordModal = ({
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent>
         <DialogHeader className="flex flex-col items-center justify-center gap-y-2">
-          <DialogTitle>{ `Are you sure want to ${actionType} the ${formType}`}</DialogTitle>
+          <DialogTitle>{ `Are you sure want to create the content`}</DialogTitle>
         </DialogHeader>
         <div className="mt-2">
           <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col items-center justify-center gap-y-2 w-full'>

@@ -15,7 +15,7 @@ const AssignmentList = ({ assignments }: any) => {
 
   return (
     <div className="space-y-4">
-      { assignments?.length > 0 ? (
+      {assignments?.length > 0 ? (
         Object.entries(groupedAssignments).map(([date, assignments]: any) => (
           <div key={date} className="mt-4 py-2">
             <h4 className="p-2 text-xl font-bold dark:text-gray-200">{date}</h4>

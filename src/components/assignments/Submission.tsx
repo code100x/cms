@@ -1,23 +1,15 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
 import axios from 'axios';
-import { toast } from 'sonner';
 import { format, parse } from 'date-fns';
+import { useForm } from 'react-hook-form';
 import { Pencil } from 'lucide-react';
+import { toast } from 'sonner';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { formatDate } from '@/utiles/date';
+import { submissionSchema, SubmissionType } from '@/lib/validation/submission';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { formatDate } from '@/utiles/date';
-
-const SubmissionSchema = z.object({
-  githubLink: z.string().url('Invalid url'),
-  twitterPostLink: z.string().optional(),
-  deploymentLink: z.string().optional(),
-});
-
-type SubmissionType = z.infer<typeof SubmissionSchema>;
 
 const Submission = ({ assignment, userId, submittedData }: any) => {
   const [disableField, setDisableField] = useState(false);
@@ -28,8 +20,9 @@ const Submission = ({ assignment, userId, submittedData }: any) => {
     setValue,
     formState: { errors },
   } = useForm<SubmissionType>({
-    resolver: zodResolver(SubmissionSchema),
+    resolver: zodResolver(submissionSchema),
   });
+  const parsedDueTime = parse(assignment.dueTime, 'HH:mm', new Date());
 
   useEffect(() => {
     if (submittedData) {
@@ -74,7 +67,6 @@ const Submission = ({ assignment, userId, submittedData }: any) => {
       console.log(error);
     }
   };
-  const parsedDueTime = parse(assignment.dueTime, 'HH:mm', new Date());
 
   const handlEdit = () => {
     setDisableField(false);

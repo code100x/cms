@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
-import { cn } from '@/lib/utils';
 import { Search } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 interface TabProps {
   tabs: string[];
@@ -21,9 +21,9 @@ const Tab: React.FC<TabProps> = ({
   return (
     <div className="my-4 flex justify-between space-x-4">
       <div>
-        {tabs.map((tab) => (
+        {tabs.map((tab, i) => (
           <button
-            key={tab}
+            key={`${i}-${tab}`}
             className={`px-4 py-2 ${activeTab === tab ? 'border-b border-blue-700 text-black dark:text-white' : ''}`}
             onClick={() => onTabChange(tab)}
           >

@@ -31,9 +31,17 @@ const ContentForm = ({ courseId, courseContent }: ChapterFormProps) => {
   const toggleModal = () => setIsModalOpen((p) => !p);
   const handleEdit = () => setIsCreating((p) => !p);
   const router = useRouter();
+  const { register, handleSubmit, reset } = useForm<CourseTitleType>({
+    defaultValues: {
+      title: '',
+      adminPassword: ''
+    },
+  });
+
   const onEdit = (contentId: string) => {
     router.push(`/admin/course/${courseId}/content/${contentId}`);
   };
+
   const onReorder = async (updatedData: { id: string; position: number }[]) => {
     try {
       const res = await axios.put(`/api/admin/content/reorder`, {
@@ -49,12 +57,6 @@ const ContentForm = ({ courseId, courseContent }: ChapterFormProps) => {
     }
   };
 
-  const { register, handleSubmit, reset } = useForm<CourseTitleType>({
-    defaultValues: {
-      title: '',
-      adminPassword: ''
-    },
-  });
   const onSubmit: SubmitHandler<CourseTitleType> = async (
     data: CourseTitleType,
   ) => {
@@ -92,8 +94,6 @@ const ContentForm = ({ courseId, courseContent }: ChapterFormProps) => {
           onSubmit={onSubmit}
           register={register}
           handleSubmit={handleSubmit}
-          actionType={"Create"}
-          formType={"content"}
         />
       )}
       <div id="chapter-header" className="flex justify-between p-2">

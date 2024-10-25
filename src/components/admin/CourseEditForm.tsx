@@ -34,6 +34,7 @@ const CourseEditForm = ({
 }: CourseEditProps) => {
   const [isDisabled, setIsDisabled] = useState(true);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+
   const form = useForm<CourseEditType>({
     resolver: zodResolver(courseEditSchema),
     defaultValues: {
@@ -45,6 +46,7 @@ const CourseEditForm = ({
       discordRoleId: course?.discordRoleId,
     },
   });
+
   const onSubmit: SubmitHandler<CourseEditType> = async (
     data: CourseEditType,
   ) => {
