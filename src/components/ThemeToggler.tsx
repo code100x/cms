@@ -1,33 +1,38 @@
 'use client';
 
-import * as React from 'react';
 import { Moon, Sun } from 'lucide-react';
 import { useTheme } from 'next-themes';
+import { Button } from './ui/button';
 
-export function SelectTheme({ text }: { text?: boolean }) {
-  const { setTheme, theme } = useTheme();
+export default function ThemeToggler() {
+  const { theme, setTheme } = useTheme();
+
+  const switchTheme = () => {
+    switch (theme) {
+      case 'light':
+        setTheme('dark');
+        break;
+      case 'dark':
+        setTheme('light');
+        break;
+      default:
+        break;
+    }
+  };
+
+  const toggleTheme = () => {
+      switchTheme();
+  };
+
   return (
-    <>
-      {text === false ? (
-        <div
-          className={`flex items-center gap-2 rounded-lg p-3 text-center transition-all duration-300 hover:bg-blue-600/5 hover:text-blue-500`}
-          onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
-        >
-          <Sun className="size-6 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-          <Moon className="absolute size-6 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-        </div>
-      ) : (
-        <div
-          className={`flex items-center gap-2 rounded-lg text-center transition-all duration-300 hover:bg-blue-600/5 hover:text-blue-500`}
-          onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
-        >
-          <Sun className="size-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-          <Moon className="absolute size-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-          <span className="text-base">
-            {theme === 'light' ? 'Dark' : 'Light'} Mode
-          </span>
-        </div>
-      )}
-    </>
+    <Button
+      onClick={toggleTheme}
+      size="icon"
+      className="group rounded-lg border-none bg-transparent shadow-none hover:bg-blue-600/5"
+    >
+      <Moon className="absolute size-6 rotate-90 scale-0 transition-all group-hover:text-blue-500 dark:rotate-0 dark:scale-100 dark:text-white" />
+      <Sun className="size-6 rotate-0 scale-100 text-black transition-all group-hover:text-blue-500 dark:-rotate-90 dark:scale-0" />
+      <span className="sr-only">Toggle theme</span>
+    </Button>
   );
 }

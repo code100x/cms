@@ -60,6 +60,10 @@ const PostCard: React.FC<IProps> = ({
     }
   };
 
+  const handleEditorClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+  };
+
   const router = useRouter();
 
   const [isPending, startTransition] = useTransition();
@@ -95,11 +99,10 @@ const PostCard: React.FC<IProps> = ({
 
   return (
     <div
-      className={`flex w-full cursor-pointer flex-col gap-4 p-3 transition-all duration-300 sm:p-5 ${
-        !post.content && !isAnswer
-          ? `rounded-xl bg-neutral-50 hover:-translate-y-2 dark:bg-neutral-900`
-          : `rounded-r-xl border-l-2 border-blue-500 bg-primary/5`
-      } ${isPending && `animate-pulse duration-700`}`}
+      className={`flex w-full cursor-pointer flex-col gap-4 p-3 transition-all duration-300 sm:p-5 ${!post.content && !isAnswer
+        ? `rounded-xl bg-neutral-50 shadow-lg hover:-translate-y-2 dark:bg-neutral-900`
+        : `rounded-r-xl border-l-2 border-blue-500 bg-primary/5`
+        } ${isPending && `animate-pulse duration-700`}`}
       onClick={() => {
         startTransition(() => {
           if (isExtendedQuestion(post)) {
@@ -128,12 +131,12 @@ const PostCard: React.FC<IProps> = ({
         </div>
         {(sessionUser?.role === ROLES.ADMIN ||
           post?.author?.id === sessionUser?.id) && (
-          <DeleteForm
-            key={post.id}
-            questionId={!isAnswer ? post.id : undefined}
-            answerId={isAnswer ? post.id : undefined}
-          />
-        )}
+            <DeleteForm
+              key={post.id}
+              questionId={!isAnswer ? post.id : undefined}
+              answerId={isAnswer ? post.id : undefined}
+            />
+          )}
       </div>
 
       {parentAuthorName && isAnswer && (
@@ -187,12 +190,16 @@ const PostCard: React.FC<IProps> = ({
           answerId={isAnswer ? post.id : undefined}
           key={post.id}
           votesArr={post.votes || []}
+          slug={isExtendedQuestion(post) ? post.slug : ''}
         />
         {reply && (
           <Button
             variant="outline"
             size="sm"
-            onClick={() => setEnableReply((prev) => !prev)}
+            onClick={(e) => {
+              e.stopPropagation();
+              setEnableReply((prev) => !prev);
+            }}
             className="text-xs sm:text-sm"
           >
             <Reply className="mr-1 size-4" />
@@ -208,7 +215,11 @@ const PostCard: React.FC<IProps> = ({
       </div>
 
       {enableReply && (
-        <form onSubmit={handleSubmit} className="mt-4">
+        <form
+          onSubmit={handleSubmit}
+          className="mt-4"
+          onClick={handleEditorClick}
+        >
           <div data-color-mode={theme} className="flex w-full flex-col gap-4">
             <MDEditor
               className="markdown-editor-default-font text-sm sm:text-base"
@@ -243,8 +254,7 @@ const PostCard: React.FC<IProps> = ({
                   sessionUser={sessionUser}
                   reply={false}
                   parentAuthorName={post.author.name}
-                  isAnswer={true}
-                />
+                  isAnswer={true} />
               </div>
             ))}
           </div>

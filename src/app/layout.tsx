@@ -24,15 +24,18 @@ export const metadata: Metadata = siteConfig;
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html suppressHydrationWarning={true} lang="en">
       <body
+        suppressHydrationWarning={true}
         className={cn(
           'min-h-screen bg-background font-satoshi antialiased',
           satoshi.variable,
         )}
       >
         <GoogleAnalytics />
-        <NextTopLoader />
+        <NextTopLoader 
+          showSpinner={false} 
+        />
         <Providers>
           <Navbar />
           {children}
