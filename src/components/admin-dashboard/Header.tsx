@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import AddAssignment from '@/components/admin/AddAssignment';
-import AddClass from '../scheduled-class/AddClass';
+import AddClass from '@/components/scheduled-class/AddClass';
 
 interface HeaderProps {
   title: string;

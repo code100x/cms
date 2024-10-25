@@ -7,7 +7,7 @@ import interactionPlugin, {
 } from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import { EventSourceInput } from '@fullcalendar/core/index.js';
-import AddClass from '../scheduled-class/AddClass';
+import AddClass from '@/components/scheduled-class/AddClass';
 
 interface Event {
   title: string;

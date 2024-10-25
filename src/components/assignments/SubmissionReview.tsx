@@ -1,29 +1,21 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import { Button } from '../ui/button';
-import { Input } from '../ui/input';
-import { z } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import { format, parse } from 'date-fns';
-import { formatDate } from '@/utiles/date';
-import Link from 'next/link';
-import { EyeIcon, EyeOff, Github, Pencil, Radio, Twitter } from 'lucide-react';
 import axios from 'axios';
+import { format, parse } from 'date-fns';
+import { EyeIcon, EyeOff, Github, Pencil, Radio, Twitter } from 'lucide-react';
+import Link from 'next/link';
+import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
-import { Textarea } from '../ui/textarea';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { formatDate } from '@/utiles/date';
+import { submissionReviewSchema, SubmissionReviewType } from '@/lib/validation/submission';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 
 interface SubmissionReviewProps {
   submission: any;
 }
-
-const SubmissionReviewSchema = z.object({
-  bounty: z.string().optional(),
-  feedback: z.string().optional(),
-  adminSecret: z.string(),
-});
-
-type SubmissionReviewType = z.infer<typeof SubmissionReviewSchema>;
 
 const SubmissionReview: React.FC<SubmissionReviewProps> = ({ submission }) => {
   const [disableField, setDisableField] = useState(false);
@@ -34,7 +26,7 @@ const SubmissionReview: React.FC<SubmissionReviewProps> = ({ submission }) => {
     setValue,
     formState: { errors },
   } = useForm<SubmissionReviewType>({
-    resolver: zodResolver(SubmissionReviewSchema),
+    resolver: zodResolver(submissionReviewSchema),
   });
 
   useEffect(() => {

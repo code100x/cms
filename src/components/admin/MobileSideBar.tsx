@@ -1,3 +1,4 @@
+'use client';
 import React from 'react';
 import {
     Sheet,
@@ -5,7 +6,7 @@ import {
     SheetContent
 } from "@/components/ui/sheet";
 import { Menu } from 'lucide-react';
-import AdminSideBar from './AdminSideBar';
+import AdminSideBar from '@/components/admin/AdminSideBar';
 
 const MobileSideBar = () => {
   return (
