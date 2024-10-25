@@ -35,50 +35,50 @@ function getExtraCourses(currentCourses: Course[], allCourses: Course[]) {
 
   // We break down parent courses into child courses
   // for eg, (web dev + devops) breaks down to web dev and devops
-  if (hasCohort3) {
-    const userCourses = [...initialCourses];
+  if (!hasCohort3) return initialCourses;
 
-    let hasWebDev = false;
-    let hasDevOps = false;
-    let hasWeb3 = false;
-    if (currentCourses.find((x) => x.id === 8)) {
-      hasWebDev = true;
-      hasDevOps = true;
-      hasWeb3 = true;
-    }
+  const userCourses = [...initialCourses];
 
-    if (currentCourses.find((x) => x.id === 9)) {
-      hasWebDev = true;
-      hasDevOps = true;
-    }
-
-    if (currentCourses.find((x) => x.id === 10)) {
-      hasWeb3 = true;
-    }
-
-    if (currentCourses.find((x) => x.id === 11)) {
-      hasWebDev = true;
-    }
-
-    if (currentCourses.find((x) => x.id === 12)) {
-      hasDevOps = true;
-    }
-
-    if (hasWebDev) {
-      userCourses.push(allCourses.find((x) => x.id === 14)!);
-    }
-
-    if (hasDevOps) {
-      userCourses.push(allCourses.find((x) => x.id === 15)!);
-    }
-
-    if (hasWeb3) {
-      userCourses.push(allCourses.find((x) => x.id === 13)!);
-    }
-
-    return userCourses;
+  let hasWebDev = false;
+  let hasDevOps = false;
+  let hasWeb3 = false;
+  if (currentCourses.find((x) => x.id === 8)) {
+    hasWebDev = true;
+    hasDevOps = true;
+    hasWeb3 = true;
   }
-  return initialCourses;
+
+  if (currentCourses.find((x) => x.id === 9)) {
+    hasWebDev = true;
+    hasDevOps = true;
+  }
+
+  if (currentCourses.find((x) => x.id === 10)) {
+    hasWeb3 = true;
+  }
+
+  if (currentCourses.find((x) => x.id === 11)) {
+    hasWebDev = true;
+  }
+
+  if (currentCourses.find((x) => x.id === 12)) {
+    hasDevOps = true;
+  }
+
+  if (hasWebDev) {
+    userCourses.push(allCourses.find((x) => x.id === 14)!);
+  }
+
+  if (hasDevOps) {
+    userCourses.push(allCourses.find((x) => x.id === 15)!);
+  }
+
+  if (hasWeb3) {
+    userCourses.push(allCourses.find((x) => x.id === 13)!);
+    userCourses.push(allCourses.find((x) => x.id === 20)!);
+  }
+
+  return userCourses;
 }
 
 interface CoursesError {
