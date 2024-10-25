@@ -17,7 +17,6 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
-import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
   Accordion,
@@ -27,23 +26,7 @@ import {
 } from '@/components/ui/accordion';
 import { Cuboid, PackagePlus } from 'lucide-react';
 import { FaDiscord } from 'react-icons/fa';
-
-const courseSchema = z.object({
-  title: z.string().min(5, {
-    message: 'Title must be at least 5 characters long.',
-  }),
-  imageUrl: z.string().url({
-    message: 'Invalid URL format for imageUrl.',
-  }),
-  description: z.string().min(8, {
-    message: 'Description must be at least of 8 characters long.',
-  }),
-  slug: z.string(),
-  id: z.string(),
-  adminSecret: z.string(),
-  appxCourseId: z.string(),
-  discordRoleId: z.string(),
-});
+import { courseSchema, CourseType } from '@/lib/validation/course';
 
 export default function Courses() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -51,7 +34,7 @@ export default function Courses() {
   const [email, setEmail] = useState('');
   const [adminPassword, setAdminPassword] = useState('');
 
-  const form = useForm<z.infer<typeof courseSchema>>({
+  const form = useForm<CourseType>({
     resolver: zodResolver(courseSchema),
     defaultValues: {
       title: '',
@@ -65,7 +48,7 @@ export default function Courses() {
     },
   });
 
-  const onSubmit = async (data: z.infer<typeof courseSchema>) => {
+  const onSubmit = async (data: CourseType) => {
     setIsLoading(true);
     try {
       const res = await axios.post('/api/admin/course', data);

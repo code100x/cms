@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const AssignmentSchema = z.object({
+export const assignmentSchema = z.object({
   title: z.string().refine((val) => val.trim() !== '', {
     message: 'Title is required',
   }),
@@ -21,4 +21,4 @@ export const AssignmentSchema = z.object({
   }),
 });
 
-export type AssignmentType = z.infer<typeof AssignmentSchema>;
+export type AssignmentType = z.infer<typeof assignmentSchema>;

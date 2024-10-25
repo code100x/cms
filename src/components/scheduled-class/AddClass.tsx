@@ -5,7 +5,6 @@ import { EyeIcon, EyeOffIcon } from 'lucide-react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'sonner';
-import { z } from 'zod';
 import { Button } from '@/components/ui/button';
 import ErrorMessage from '@/components/error/ErrorMessage';
 import {
@@ -17,33 +16,7 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { format } from 'date-fns';
-
-const AddClassSchema = z.object({
-  title: z.string().refine((val) => val.trim() !== '', {
-    message: 'Class title is required',
-  }),
-  description: z.string().optional(),
-  course: z.string().refine((val) => val.trim() !== '', {
-    message: 'Course is required',
-  }),
-  date: z.string().refine((val) => val.trim() !== '', {
-    message: 'Scheduled date is required',
-  }),
-  startTime: z.string().refine((val) => val.trim() !== '', {
-    message: 'Start time is required',
-  }),
-  endTime: z.string().refine((val) => val.trim() !== '', {
-    message: 'End time is required',
-  }),
-  meetingLink: z.string().refine((val) => val.trim() !== '', {
-    message: 'Meeting link is required',
-  }),
-  adminSecret: z.string().refine((val) => val.trim() !== '', {
-    message: 'Admin secret is required',
-  }),
-});
-
-type AddClasstype = z.infer<typeof AddClassSchema>;
+import { addClassSchema, AddClasstype } from '@/lib/validation/classes';
 
 interface AddClassProps {
   date?: Date;
@@ -69,7 +42,7 @@ const AddClass = ({
     reset,
     formState: { errors },
   } = useForm<AddClasstype>({
-    resolver: zodResolver(AddClassSchema),
+    resolver: zodResolver(addClassSchema),
   });
 
   const onSubmit: SubmitHandler<AddClasstype> = async (data: AddClasstype) => {

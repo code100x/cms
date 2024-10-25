@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { courseEditSchema, CourseEditType } from '@/lib/validation/courseSchema';
+import { courseEditSchema, CourseEditType } from '@/lib/validation/course';
 import { EyeIcon, EyeOff, Pencil } from 'lucide-react';
 import { toast } from 'sonner';
 import { Course } from '@prisma/client';
@@ -23,7 +23,7 @@ import { Textarea } from '@/components/ui/textarea';
 
 interface CourseEditProps {
   course: Course;
-  courseContent: any; // TODO: add type for course content
+  courseContent: any;
   courseId: number;
 }
 
