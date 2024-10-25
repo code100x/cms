@@ -60,7 +60,7 @@ const ClassAssignmentCard: React.FC<ClassAssignmentCardProps> = ({ data, type })
       </div>
       <div className="flex w-full border-b border-t pb-6 pt-6">
         <div className="flex w-2/5 flex-col gap-y-4 border-r">
-          <p>Due date</p>
+          <p>{type === 'assignment' ? 'Due date' : 'Scheduled at'}</p>
           <p className="flex items-center text-xs font-semibold text-gray-400">
             {type === 'assignment' && 'dueDate' in data && (
               <>
@@ -75,7 +75,7 @@ const ClassAssignmentCard: React.FC<ClassAssignmentCardProps> = ({ data, type })
           </p>
         </div>
         <div className="ml-4 flex w-3/5 flex-col gap-y-4">
-          <p>Due time</p>
+          <p>{type === 'assignment' ? 'Due time' : 'Timing'}</p>
           <p className="flex items-center text-xs font-semibold text-gray-400">
             {type === 'assignment' && 'dueTime' in data && (
               <>
