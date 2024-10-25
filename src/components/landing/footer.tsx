@@ -1,5 +1,11 @@
 import Link from 'next/link';
 import { Separator } from '../ui/separator';
+import {
+  GitHubLogo,
+  InstaLogo,
+  XLogo,
+  YtLogo,
+} from '../../../public/footer-logos/all-logos';
 
 const Footer = () => {
   return (
@@ -32,105 +38,43 @@ const Footer = () => {
                 Follow us
               </h4>
               <div className="flex gap-4">
+
+                {/* X Button */}
                 <Link
                   target="_blank"
-                  href={'https://twitter.com/kirat_tw'}
+                  href={'https://x.com/kirat_tw'}
                   className="rounded-lg bg-blue-500/10 p-2 text-primary"
                 >
-                  <svg
-                    viewBox="-0.5 -0.5 16 16"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="size-6 transition-all duration-300 hover:text-blue-600"
-                  >
-                    <path
-                      d="M11.133375000000001 14.11 1.2831875000000001 1.445375c-0.23112500000000002 -0.2970625 -0.019375 -0.73 0.35700000000000004 -0.73h1.869375c0.1395625 0 0.2713125 0.0644375 0.35700000000000004 0.17462499999999997l9.85025 12.6645625c0.23112500000000002 0.2971875 0.019375 0.7300625 -0.35700000000000004 0.7300625h-1.8693125c-0.139625 0 -0.271375 -0.0644375 -0.357125 -0.17462499999999997Z"
-                      stroke="currentColor"
-                      strokeWidth="1"
-                    ></path>
-                    <path
-                      d="M13.530750000000001 0.7153750000000001 1.46925 14.284625"
-                      stroke="currentColor"
-                      strokeLinecap="round"
-                      strokeWidth="1"
-                    ></path>
-                  </svg>
+                  <XLogo />
                 </Link>
+
+                {/* Instagram Button */}
                 <Link
                   target="_blank"
                   href={'https://www.instagram.com/kirat_ins/'}
                   className="rounded-lg bg-blue-500/10 p-2 text-primary"
                 >
-                  <svg
-                    viewBox="-0.5 -0.5 16 16"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="size-6 transition-all duration-300 hover:text-blue-600"
-                  >
-                    <path
-                      d="M7.5 10.515375c1.6653125 0 3.015375 -1.3500625 3.015375 -3.015375 0 -1.665375 -1.3500625 -3.015375 -3.015375 -3.015375 -1.665375 0 -3.015375 1.35 -3.015375 3.015375 0 1.6653125 1.35 3.015375 3.015375 3.015375Z"
-                      stroke="currentColor"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="1"
-                    ></path>
-                    <path
-                      d="M0.7153750000000001 10.515375V4.484624999999999c0 -2.0816875 1.6875624999999999 -3.76925 3.76925 -3.76925h6.03075c2.0816875 0 3.76925 1.6875624999999999 3.76925 3.76925v6.03075c0 2.0816875 -1.6875624999999999 3.76925 -3.76925 3.76925H4.484624999999999c-2.0816875 0 -3.76925 -1.6875624999999999 -3.76925 -3.76925Z"
-                      stroke="currentColor"
-                      strokeWidth="1"
-                    ></path>
-                    <path
-                      d="m11.646125000000001 3.361375 0.0075625 -0.008375"
-                      stroke="currentColor"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="1"
-                    ></path>
-                  </svg>
+                  <InstaLogo />
                 </Link>
+
+                {/* YT Button */}
                 <Link
                   target="_blank"
                   href={'https://www.youtube.com/@harkirat1'}
                   className="rounded-lg bg-blue-500/10 p-2 text-primary"
                 >
-                  <svg
-                    viewBox="-0.5 -0.5 16 16"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="size-6 transition-all duration-300 hover:text-blue-600"
-                  >
-                    <path
-                      d="m8.867437500000001 7.5000625 -2.3930000000000002 1.3674374999999999V6.132625000000001l2.3930000000000002 1.3674374999999999Z"
-                      fill="currentColor"
-                      stroke="currentColor"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="1"
-                    ></path>
-                    <path
-                      d="M0.6628125 7.98375v-0.9675c0 -1.9796250000000002 0 -2.9694375 0.6190625000000001 -3.6063125 0.619125 -0.6368125 1.5938125 -0.6644375 3.5431875 -0.7195625 0.92375 -0.026125 1.8673125 -0.0448125 2.6749374999999995 -0.0448125s1.7511875 0.0186875 2.6749374999999995 0.0448125c1.9493125 0.055125 2.9240625 0.0826875 3.5431875 0.7195625s0.6190625000000001 1.6266875 0.6190625000000001 3.6063125v0.9675c0 1.9795625000000001 0 2.9694375 -0.6190625000000001 3.6062499999999997 -0.619125 0.636875 -1.59375 0.6644375 -3.543125 0.719625 -0.9238124999999999 0.026125 -1.867375 0.0448125 -2.6750000000000003 0.0448125s-1.75125 -0.0186875 -2.6750000000000003 -0.0448125c-1.9493125 -0.0551875 -2.924 -0.08274999999999999 -3.543125 -0.719625 -0.6190625000000001 -0.6368125 -0.6190625000000001 -1.6266249999999998 -0.6190625000000001 -3.6062499999999997Z"
-                      stroke="currentColor"
-                      strokeWidth="1"
-                    ></path>
-                  </svg>
+                  <YtLogo />
                 </Link>
+
+                {/* Github Button */}
                 <Link
                   target="_blank"
                   href={'https://github.com/code100x'}
                   className="rounded-lg bg-blue-500/10 p-2 text-primary"
                 >
-                  <svg
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="size-6 transition-all duration-300 hover:text-gray-500"
-                  >
-                    <path
-                      d="M12 .297C5.373.297 0 5.67 0 12.297c0 5.303 3.438 9.8 8.207 11.387.6.113.82-.26.82-.577 0-.285-.01-1.04-.015-2.04-3.338.728-4.042-1.612-4.042-1.612-.547-1.387-1.334-1.756-1.334-1.756-1.09-.746.082-.731.082-.731 1.205.084 1.84 1.237 1.84 1.237 1.07 1.833 2.81 1.304 3.495.997.107-.775.418-1.304.762-1.605-2.665-.304-5.466-1.332-5.466-5.93 0-1.31.467-2.381 1.236-3.221-.124-.304-.536-1.527.117-3.18 0 0 1.01-.324 3.31 1.23.96-.267 1.985-.4 3.005-.404 1.02.004 2.045.137 3.006.404 2.297-1.555 3.305-1.23 3.305-1.23.655 1.653.244 2.876.12 3.18.77.84 1.235 1.911 1.235 3.221 0 4.61-2.805 5.623-5.475 5.92.43.373.81 1.1.81 2.216 0 1.6-.014 2.894-.014 3.286 0 .32.22.694.825.576C20.565 22.092 24 17.597 24 12.297 24 5.67 18.627.297 12 .297z"
-                      fill="currentColor"
-                    ></path>
-                  </svg>
+                  <GitHubLogo />
                 </Link>
+                
               </div>
             </div>
           </div>

@@ -13,7 +13,7 @@ export const Greeting = () => {
   } else if (currentHour >= 17 && currentHour <= 20) {
     greeting = 'Good Evening';
   } else {
-    greeting = 'Surprise to see you here!';
+    greeting = 'Happy to see you back!';
   }
 
   return greeting;
