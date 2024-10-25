@@ -107,7 +107,8 @@ const ClassAssignmentCard: React.FC<ClassAssignmentCardProps> = ({ data, type })
       </div>
       <div className='flex flex-col gap-y-4'>
         <Button
-          className="mt-2 w-full rounded-md px-4 py-2 transition-colors duration-200 bg-gradient-to-b from-blue-400 to-blue-700 dark:text-white"
+          variant={'branding'}
+          className="mt-2"
           onClick={() => setIsModalOpen(true)}
         >
           View Details
@@ -115,7 +116,8 @@ const ClassAssignmentCard: React.FC<ClassAssignmentCardProps> = ({ data, type })
         <div>
           {type === 'assignment' && (
             <Button
-              className="w-full rounded-md px-4 py-2 transition-colors duration-200 bg-gradient-to-b from-blue-400 to-blue-700 dark:text-white"
+              variant={'branding'}
+              className="w-full"
               onClick={() => router.push(`/admin/assignment/${data.id}`)}
             >
               View Submissions
@@ -123,7 +125,8 @@ const ClassAssignmentCard: React.FC<ClassAssignmentCardProps> = ({ data, type })
           )}
           {type === 'class' && 'meetingLink' in data && (
             <Button
-              className="w-full rounded-md px-4 py-2 transition-colors duration-200 bg-gradient-to-b from-blue-400 to-blue-700 dark:text-white"
+              variant={'branding'}
+              className="w-full"
               onClick={() =>
                 window.open(`https://${data.meetingLink}`, '_blank')
               }

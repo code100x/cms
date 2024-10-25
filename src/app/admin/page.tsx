@@ -87,7 +87,7 @@ const AdminPage = async () => {
         </div>
         <Link href="/admin/course/add-course">
           {' '}
-          <Button className='bg-gradient-to-b from-blue-400 to-blue-700 hover:bg-blue-900'>
+          <Button variant={'branding'}>
             {' '}
             <PlusCircle className="mr-2 h-4 w-4 text-white" />
             <p className='text-white'>New course</p>
