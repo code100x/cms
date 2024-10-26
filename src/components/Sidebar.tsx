@@ -204,7 +204,7 @@ export function Sidebar({
             ref={sidebarRef}
             exit="closed"
             variants={sidebarVariants}
-            className="fixed right-0 top-[72px] z-[99999] flex h-screen w-full flex-col gap-4 overflow-y-auto rounded-r-lg border-l border-primary/10 bg-neutral-50 dark:bg-neutral-900 md:max-w-[30vw]"
+            className="fixed right-0 top-[72px] z-[99999] flex h-[calc(100vh-72px-72px)] w-full flex-col gap-4 overflow-y-auto rounded-r-lg border-l border-primary/10 bg-neutral-50 dark:bg-neutral-900 md:max-w-[30vw] 2xl:h-screen"
           >
             <div className="sticky top-0 z-10 flex items-center justify-between border-b border-primary/10 bg-neutral-50 p-5 dark:bg-neutral-900">
               <h4 className="text-xl font-bold tracking-tighter text-primary lg:text-2xl">
