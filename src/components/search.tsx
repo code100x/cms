@@ -7,7 +7,7 @@ import { Input } from './ui/input';
 import { Button } from './ui/button';
 import { getUpdatedUrl, searchParamsToObject } from '@/lib/utils';
 
-const Search = () => {
+const Search = ({ autoFocus }: { autoFocus: boolean }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [search, setSearch] = useState('');
@@ -18,7 +18,7 @@ const Search = () => {
     router.push(getUpdatedUrl(path, paramsObj, { search }));
   };
   return (
-    <div className="relative flex h-10 w-full items-center md:w-[300px] lg:w-[400px] xl:w-[500px]">
+    <div className="relative flex h-10 w-full items-center gap-5 md:w-[300px] lg:w-[400px] xl:w-[500px]">
       <SearchIcon className="absolute left-5 top-1/2 h-4 w-4 -translate-y-1/2 transform text-gray-500" />
       <Input
         aria-label="Search Input"
@@ -27,6 +27,7 @@ const Search = () => {
         type="search"
         value={search}
         onChange={(e) => setSearch(e.target.value)}
+        autoFocus={autoFocus}
       />
       <input type="submit" hidden />
       <Button size={'sm'} type="submit" onClick={handleSearch}>

@@ -153,7 +153,7 @@ export default async function QuestionsPage({
         <NewPostDialog />
         <div className="flex w-full flex-col gap-4">
           <div className="flex flex-col justify-between gap-4 md:flex-row">
-            <Search />
+            <Search autoFocus={true} />
             <div className="flex items-center justify-between gap-2">
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
