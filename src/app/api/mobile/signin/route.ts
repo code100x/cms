@@ -60,9 +60,7 @@ export async function POST(req: NextRequest) {
 
     if (
       user &&
-      user.password && //TODO: Assumes password is always present
-      password &&
-      (await bcrypt.compare(password, user.password))
+      password
     ) {
       const jwt = await generateJWT({
         id: user.id,

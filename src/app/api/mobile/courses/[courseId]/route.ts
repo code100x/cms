@@ -1,20 +1,6 @@
 import db from '@/db';
 import { NextResponse, NextRequest } from 'next/server';
-
-async function checkUserCourseAccess(userId: string, courseId: string) {
-  const userCourse = await db.course.findFirst({
-    where: {
-      purchasedBy: {
-        some: {
-          userId,
-        },
-      },
-      id: parseInt(courseId, 10),
-    },
-  });
-
-  return userCourse !== null;
-}
+import { checkUserCourse } from '@/app/api/mobile/utils/courseUtil';
 
 export async function GET(
   request: NextRequest,
@@ -24,7 +10,7 @@ export async function GET(
     const user: { id: string } = JSON.parse(request.headers.get('g') || '');
     const { courseId } = params;
 
-    const userCourseAccess = await checkUserCourseAccess(user.id, courseId);
+    const userCourseAccess = await checkUserCourse(user.id, courseId);
     if (!userCourseAccess) {
       return NextResponse.json(
         { message: 'User does not have access to this course' },
