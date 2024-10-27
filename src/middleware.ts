@@ -1,6 +1,7 @@
-import { NextRequestWithAuth, withAuth } from 'next-auth/middleware';
+import { NextRequestWithAuth } from 'next-auth/middleware';
 import { NextResponse, NextRequest } from 'next/server';
 import { jwtVerify, importJWK, JWTPayload } from 'jose';
+import { getToken } from 'next-auth/jwt';
 
 export const config = {
   matcher: ['/courses/:path*', '/api/mobile/:path*'],
@@ -55,12 +56,15 @@ export const withMobileAuth = async (req: RequestWithUser) => {
   });
 };
 
-export default withAuth(async (req) => {
+const withAuth = async (req: NextRequestWithAuth) => {
   if (process.env.LOCAL_CMS_PROVIDER) return;
-  const token = req.nextauth.token;
+
+  const token = await getToken({ req });
+
   if (!token) {
     return NextResponse.redirect(new URL('/invalidsession', req.url));
   }
+
   const user = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL_LOCAL}/api/user?token=${token.jwtToken}`,
   );
@@ -69,12 +73,14 @@ export default withAuth(async (req) => {
   if (!json.user) {
     return NextResponse.redirect(new URL('/invalidsession', req.url));
   }
-});
+};
 
-export function middleware(req: NextRequestWithAuth) {
+export async function middleware(req: NextRequestWithAuth) {
   const { pathname } = req.nextUrl;
   if (pathname.startsWith('/api/mobile')) {
     return withMobileAuth(req);
   }
-  return withAuth(req);
+  return await withAuth(req);
 }
+
+export default withAuth;
