@@ -1,12 +1,14 @@
 import db from '@/db';
 import { NextResponse, NextRequest } from 'next/server';
 
-async function checkUserCourseAccess(userId: string, courseId: string) {
+async function checkUserCourseAccess(user: any, courseId: string) {
   const userCourse = await db.course.findFirst({
     where: {
       purchasedBy: {
         some: {
-          userId,
+          user: {
+            email: user.email,
+          },
         },
       },
       id: parseInt(courseId, 10),
@@ -21,10 +23,10 @@ export async function GET(
   { params }: { params: { courseId: string } },
 ) {
   try {
-    const user: { id: string } = JSON.parse(request.headers.get('g') || '');
+    const user = JSON.parse(request.headers.get('g') || '');
     const { courseId } = params;
 
-    const userCourseAccess = await checkUserCourseAccess(user.id, courseId);
+    const userCourseAccess = await checkUserCourseAccess(user, courseId);
     if (!userCourseAccess) {
       return NextResponse.json(
         { message: 'User does not have access to this course' },
@@ -33,7 +35,11 @@ export async function GET(
     }
     const folderContents = await db.content.findMany({
       where: {
-        id: parseInt(courseId, 10),
+        courses: {
+          some: {
+            courseId: parseInt(courseId, 10),
+          },
+        },
         type: 'folder',
       },
     });
