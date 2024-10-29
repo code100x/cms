@@ -199,7 +199,15 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
           player.currentTime(player.currentTime() + 5);
           event.stopPropagation();
           break;
+        case 'Numpad6': // Right arrow for seeking forward 5 seconds
+          player.currentTime(player.currentTime() + 5);
+          event.stopPropagation();
+          break;
         case 'ArrowLeft': // Left arrow for seeking backward 5 seconds
+          player.currentTime(player.currentTime() - 5);
+          event.stopPropagation();
+          break;
+        case 'Numpad4': // Left arrow for seeking backward 5 seconds
           player.currentTime(player.currentTime() - 5);
           event.stopPropagation();
           break;
@@ -208,7 +216,17 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
           player.volume(player.volume() + 0.1);
           event.stopPropagation();
           break;
+        case 'Numpad8': // Arrow up for increasing volume
+          event.preventDefault();
+          player.volume(player.volume() + 0.1);
+          event.stopPropagation();
+          break;
         case 'ArrowDown': // Arow dowwn for decreasing volume
+          event.preventDefault();
+          player.volume(player.volume() - 0.1);
+          event.stopPropagation();
+          break;
+        case 'Numpad2': // Arow dowwn for decreasing volume
           event.preventDefault();
           player.volume(player.volume() - 0.1);
           event.stopPropagation();
