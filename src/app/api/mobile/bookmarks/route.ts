@@ -12,6 +12,24 @@ export async function GET(req: NextRequest) {
       where: {
         userId,
       },
+      include: {
+        content: {
+          include: {
+            parent: {
+              select: {
+                id: true,
+                courses: true,
+              },
+            },
+            courses: {
+              select: {
+                courseId: true,
+                contentId: true,
+              },
+            },
+          },
+        },
+      },
       orderBy: {
         createdAt: 'desc',
       },
