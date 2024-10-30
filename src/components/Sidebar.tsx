@@ -142,15 +142,21 @@ export function Sidebar({
 
   useEffect(() => {
     if (sidebarOpen && activeItemRef.current) {
-      activeItemRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      activeItemRef.current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center',
+      });
       // focus on the active item
       if (activeItemRef.current instanceof HTMLAnchorElement) {
         activeItemRef.current.focus();
       } else if (activeItemRef.current instanceof HTMLDivElement) {
         // check for the first focusable element and focus on it
-        const firstFocusableElement = activeItemRef.current.querySelector('button, a');
+        const firstFocusableElement =
+          activeItemRef.current.querySelector('button, a');
         if (firstFocusableElement) {
-          (firstFocusableElement as HTMLButtonElement | HTMLAnchorElement).focus();
+          (
+            firstFocusableElement as HTMLButtonElement | HTMLAnchorElement
+          ).focus();
         }
       }
     }
@@ -167,7 +173,11 @@ export function Sidebar({
               key={content.id}
               value={`item-${content.id}`}
               className={`rounded-md border-none ${isActiveContent ? 'bg-primary/5' : ''}`}
-              ref={isActiveContent ? (activeItemRef as React.RefObject<HTMLDivElement>) : null}
+              ref={
+                isActiveContent
+                  ? (activeItemRef as React.RefObject<HTMLDivElement>)
+                  : null
+              }
             >
               <AccordionTrigger className="rounded-md px-4 text-lg font-medium capitalize">
                 {content.title}
@@ -184,7 +194,11 @@ export function Sidebar({
             key={content.id}
             href={navigateToContent(content.id) || '#'}
             className={`flex w-full cursor-pointer items-center rounded-md p-4 tracking-tight hover:bg-primary/10 ${isActiveContent ? 'bg-primary/10' : ''}`}
-            ref={isActiveContent ? (activeItemRef as React.RefObject<HTMLAnchorElement>) : null}
+            ref={
+              isActiveContent
+                ? (activeItemRef as React.RefObject<HTMLAnchorElement>)
+                : null
+            }
           >
             <div className="flex w-full items-center justify-between gap-2">
               <div className="flex items-center gap-2">
@@ -215,7 +229,7 @@ export function Sidebar({
   );
 
   return (
-    <div className='sticky top-[72px] z-20 bg-background py-2'>
+    <div className="sticky top-[72px] z-20 bg-background py-2">
       <Button
         ref={buttonRef}
         onClick={() => setSidebarOpen((s) => !s)}
@@ -235,7 +249,9 @@ export function Sidebar({
             variants={sidebarVariants}
             className="fixed right-0 top-0 z-[99999] flex h-screen w-full flex-col gap-4 overflow-y-auto rounded-r-lg border-l border-primary/10 bg-neutral-50 dark:bg-neutral-900 md:max-w-[30vw]"
           >
-            <div className="sticky top-0 z-10 flex items-center justify-between border-b border-primary/10 bg-neutral-50 p-5 dark:bg-neutral-900">              <h4 className="text-xl font-bold tracking-tighter text-primary lg:text-2xl">
+            <div className="sticky top-0 z-10 flex items-center justify-between border-b border-primary/10 bg-neutral-50 p-5 dark:bg-neutral-900">
+              {' '}
+              <h4 className="text-xl font-bold tracking-tighter text-primary lg:text-2xl">
                 Course Content
               </h4>
               <Button
@@ -246,7 +262,11 @@ export function Sidebar({
                 <X className="size-5" />
               </Button>
             </div>
-            <Accordion type="multiple" defaultValue={currentActiveContentIds.map(num => `item-${num}`)} className="w-full px-4 capitalize">
+            <Accordion
+              type="multiple"
+              defaultValue={currentActiveContentIds.map((num) => `item-${num}`)}
+              className="w-full px-4 capitalize"
+            >
               {memoizedContent}
             </Accordion>
           </motion.div>
