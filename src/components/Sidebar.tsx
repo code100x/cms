@@ -186,11 +186,11 @@ export function Sidebar({
   );
 
   return (
-    <div className="sticky top-[55px] z-20 bg-background bg-red-300 py-2">
+    <div className="sticky top-[55px] z-20 bg-background py-2">
       <Button
         ref={buttonRef}
         onClick={() => setSidebarOpen((s) => !s)}
-        className="w-fit gap-2"
+        className="w-fit gap-2 transition-all duration-200 active:scale-95"
       >
         {sidebarOpen ? <X className="size-5" /> : <Menu className="size-5" />}
         <span>{sidebarOpen ? 'Hide Contents' : 'Show Contents'}</span>
