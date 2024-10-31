@@ -57,7 +57,7 @@ export default function BreadCrumbComponent({
 
   return (
     <>
-      <Breadcrumb className="">
+      <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
             <BreadcrumbLink className="text-sm text-blue-600" asChild>
