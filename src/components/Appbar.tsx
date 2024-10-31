@@ -9,7 +9,7 @@ import {
 } from 'lucide-react';
 import { SidebarItems } from './ui/sidebar-items';
 import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion } from 'framer-motion';Cannot find module 'lucide-react' or its corresponding type declarations.
 
 export const menuOptions = [
   { id: 1, name: 'Home', Component: Home, href: '/home' },
@@ -18,22 +18,30 @@ export const menuOptions = [
   { id: 5, name: 'Watch History', Component: History, href: '/watch-history' },
 ];
 
-// Custom hook for media query
-const useMediaQuery = (query: string) => {
-  const [matches, setMatches] = useState(false);
+//Added Eventlistener 
+const useMediaQuery = (query: string): boolean => {
+  const [matches, setMatches] = useState<boolean>(false);
 
   useEffect(() => {
     const media = window.matchMedia(query);
-    if (media.matches !== matches) {
-      setMatches(media.matches);
-    }
-    const listener = () => setMatches(media.matches);
-    media.addListener(listener);
-    return () => media.removeListener(listener);
-  }, [matches, query]);
+    const listener = (e: MediaQueryListEvent) => setMatches(e.matches);
+
+    // Use addEventListener instead of addListener
+    media.addEventListener("change", listener);
+    
+    // Set the initial match state
+    setMatches(media.matches);
+
+    // Cleanup function to remove the event listener
+    return () => {
+      media.removeEventListener("change", listener);
+    };
+  }, [query]);
 
   return matches;
 };
+
+export default useMediaQuery;
 
 export const Appbar = () => {
   const [isCollapsed, setIsCollapsed] = useState(true);
