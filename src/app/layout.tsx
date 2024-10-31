@@ -9,6 +9,7 @@ import { siteConfig } from '@/config/site-config';
 import { Toaster } from 'sonner';
 import { Navbar } from '@/components/Navbar';
 import NextTopLoader from 'nextjs-toploader';
+import { Appbar } from '@/components/Appbar';
 
 const satoshi = localFont({
   display: 'swap',
@@ -38,7 +39,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         />
         <Providers>
           <Navbar />
-          {children}
+          <Appbar />
+          <main className="pt-16 pb-20 2xl:pt-24 2xl:pb-0">{children}</main>
           <Toaster richColors />
         </Providers>
       </body>

@@ -48,9 +48,11 @@ const Layout = async ({
   const fullCourseContent = await getFullCourseContent(parseInt(courseId, 10));
 
   return (
-    <div className="relative flex min-h-screen flex-col py-24">
+    <div className="relative flex min-h-screen flex-col pt-16 pb-20 2xl:pt-24 2xl:pb-0">
       <Sidebar fullCourseContent={fullCourseContent} courseId={courseId} />
-      {children}
+      <div className="px-4 md:px-8 lg:px-12">
+        {children}
+      </div>
     </div>
   );
 };
