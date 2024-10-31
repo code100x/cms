@@ -18,9 +18,6 @@ import 'prismjs/themes/prism-tomorrow.css';
 // used for rendering equations (optional)
 import 'katex/dist/katex.min.css';
 import { Loader } from './Loader';
-// import Link from 'next/link';
-// import { Button } from './ui/button';
-// import { Download } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import CodeBlock from './CodeBlock';
 
@@ -45,12 +42,6 @@ export const NotionRenderer = ({ id }: { id: string }) => {
 
   return (
     <div>
-      {/* <Link href={`/pdf/${id}`} target="_blank">
-        <Button size={'lg'} className="gap-2">
-          Download
-          <Download className="size-4" />
-        </Button>
-      </Link> */}
       <div>
         <style>
           {`

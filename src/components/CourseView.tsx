@@ -46,6 +46,7 @@ export const CourseView = ({
           courseContent={courseContent}
           fullCourseContent={fullCourseContent}
           rest={rest}
+          isNotion={!courseContent?.folder && courseContent?.value.type === 'notion'}
         />
       </div>
 
