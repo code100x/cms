@@ -51,7 +51,7 @@ export const Navbar = () => {
           damping: 10,
           stiffness: 100,
         }}
-        className="fixed top-0 z-[999] w-full border-b border-primary/10 bg-background"
+        className="fixed top-0 z-[1] w-full border-b border-primary/10 bg-background"
       >
         <div className="wrapper flex w-full items-center justify-between p-3">
           <motion.div
