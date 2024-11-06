@@ -36,7 +36,7 @@ export const privacyPolicyContent = [
   {
     id: 8,
     description:
-      'Website refers to harkirat.classx.co.in, accessible fromharkirat.classx.co.in Service refers to the Website. Country refers to: Uttar Pradesh, India Service Provider means any natural or legal person who processes the data on behalf of the Company. It refers to third-party companies or individuals employed by the Company to facilitate the Service, to provide the Service on behalf of the Company, to perform services related to the Service or to assist the Company in analyzing how the Service is used. Third-party Social Media Service refers to any website or any social network website through which a User can log in or create an account to use the Service.',
+      'Website refers to harkirat.classx.co.in, accessible from harkirat.classx.co.in Service refers to the Website. Country refers to: Uttar Pradesh, India Service Provider means any natural or legal person who processes the data on behalf of the Company. It refers to third-party companies or individuals employed by the Company to facilitate the Service, to provide the Service on behalf of the Company, to perform services related to the Service or to assist the Company in analyzing how the Service is used. Third-party Social Media Service refers to any website or any social network website through which a User can log in or create an account to use the Service.',
   },
   {
     id: 9,
@@ -56,7 +56,7 @@ export const privacyPolicyContent = [
   {
     id: 12,
     description:
-      'Email address First name and last name Phone number Usage Data Usage Data Usage Data is collected automatically when using the Service.',
+      'Email address, First name, Last name, Phone number & Usage Data is collected automatically when using the Service.',
   },
   {
     id: 13,
@@ -76,7 +76,7 @@ export const privacyPolicyContent = [
   {
     id: 16,
     description:
-      'Tracking Technologies and Cookies We use Cookies and similar tracking technologies to track the activity on Our Service and store certain information. Tracking technologies used are beacons, tags, and scripts to collect and track information and to improve and analyze Our Service.',
+      'Tracking Technologies and Cookies: We use Cookies and similar tracking technologies to track the activity on Our Service and store certain information. Tracking technologies used are beacons, tags, and scripts to collect and track information and to improve and analyze Our Service.',
   },
   {
     id: 17,
@@ -96,7 +96,7 @@ export const privacyPolicyContent = [
   {
     id: 20,
     description:
-      'Necessary / Essential CookiesType: Session CookiesAdministered by: UsPurpose: These Cookies are essential to provide You with services available through the Website and to enable You to use some of its features. They help to authenticate users and prevent fraudulent use of user accounts. Without these Cookies, the services that You have asked for cannot be provided, and We only use these Cookies to provide You with those services. Cookies Policy / Notice Acceptance CookiesType: Persistent CookiesAdministered by: UsPurpose: These Cookies identify if users have accepted the use of cookies on the Website. Functionality CookiesType: Persistent CookiesAdministered by: UsPurpose: These Cookies allow us to remember choices You make when You use the Website, such as remembering your login details or language preference. The purpose of these Cookies is to provide You with a more personal experience and to avoid You having to re-enter your preferences every time You use the Website. For more information about the cookies we use and your choices regarding cookies, please visit our Cookies Policy.',
+      'Necessary / Essential Cookies Type, Session Cookies are Administered by Us. Purpose: These Cookies are essential to provide You with services available through the Website and to enable You to use some of its features. They help to authenticate users and prevent fraudulent use of user accounts. Without these Cookies, the services that You have asked for cannot be provided, and We only use these Cookies to provide You with those services. Cookies Policy / Notice Acceptance Cookies Type: Persistent Cookies Administered by: Us Purpose: These Cookies identify if users have accepted the use of cookies on the Website. Functionality Cookies Type: Persistent Cookies Administered by: Us Purpose: These Cookies allow us to remember choices You make when You use the Website, such as remembering your login details or language preference. The purpose of these Cookies is to provide You with a more personal experience and to avoid You having to re-enter your preferences every time You use the Website. For more information about the cookies we use and your choices regarding cookies, please visit our Cookies Policy.',
   },
   {
     id: 21,
@@ -206,7 +206,7 @@ export const privacyPolicyContent = [
   {
     id: 42,
     description:
-      'Changes to this Privacy Policy We may update our Privacy Policy from time to time. We will notify You of any changes by posting the new Privacy Policy on this page.',
+      'Changes to this Privacy Policy: We may update our Privacy Policy from time to time. We will notify You of any changes by posting the new Privacy Policy on this page.',
   },
   {
     id: 43,
