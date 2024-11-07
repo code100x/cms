@@ -11,6 +11,9 @@ import { AppbarAuth } from './AppbarAuth';
 import ThemeToggler from './ThemeToggler';
 import ProfileDropdown from './profile-menu/ProfileDropdown';
 import { SearchBar } from './search/SearchBar';
+import { Sidebar } from '@/components/Sidebar';
+import { useRecoilValue } from 'recoil';
+import { courseIdAtom, fullCourseContentAtom } from '@/store/atoms';
 
 export const Navbar = () => {
   const { data: session } = useSession();
@@ -40,6 +43,9 @@ export const Navbar = () => {
     [],
   );
 
+  const courseId = useRecoilValue(courseIdAtom);
+  const fullCourseContent = useRecoilValue(fullCourseContentAtom);
+
   return (
     <>
       <motion.nav
@@ -53,7 +59,7 @@ export const Navbar = () => {
         }}
         className="fixed top-0 z-[999] w-full border-b border-primary/10 bg-background"
       >
-        <div className="wrapper flex w-full items-center justify-between p-3">
+        <div className="wrapper-small flex w-full items-center justify-between">
           <motion.div
             className="flex items-center gap-4"
             initial="hidden"
@@ -71,6 +77,7 @@ export const Navbar = () => {
                 <ArrowLeft className="size-6" />
               </Button>
             )}
+            {courseId && fullCourseContent && <Sidebar/>}
             <Link href={'/'} className="flex items-center gap-2">
               <img
                 src={

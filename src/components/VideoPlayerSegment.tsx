@@ -1,5 +1,5 @@
 'use client';
-import React, { FunctionComponent, useRef } from 'react';
+import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
 import { VideoPlayer } from '@/components/VideoPlayer2';
 import {
   createSegmentMarkersWithoutDuration,

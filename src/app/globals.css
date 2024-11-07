@@ -219,6 +219,10 @@
     @apply h-full w-full max-w-7xl px-4 py-4 md:px-12 lg:mx-auto xl:max-w-[90rem];
   }
 
+  .wrapper-small {
+    @apply h-full w-full max-w-7xl px-4 py-1 md:px-10 lg:mx-auto xl:max-w-[90rem];
+  }
+
   .flex-center {
     @apply flex items-center justify-center;
   }

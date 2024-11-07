@@ -9,7 +9,7 @@ import {
 } from '@/components/ui/accordion';
 import { Play, File, X, Menu } from 'lucide-react';
 import { FullCourseContent } from '@/db/course';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { sidebarOpen as sidebarOpenAtom } from '@/store/atoms/sidebar';
 import { useEffect, useState, useCallback, useMemo } from 'react';
 import { handleMarkAsCompleted } from '@/lib/utils';
@@ -17,6 +17,7 @@ import BookmarkButton from './bookmark/BookmarkButton';
 import Link from 'next/link';
 import { Button } from './ui/button';
 import { AnimatePresence, motion } from 'framer-motion';
+import { courseIdAtom, fullCourseContentAtom } from '@/store/atoms';
 
 const sidebarVariants = {
   open: {
@@ -33,13 +34,7 @@ const sidebarVariants = {
   },
 };
 
-export function Sidebar({
-  courseId,
-  fullCourseContent,
-}: {
-  fullCourseContent: FullCourseContent[];
-  courseId: string;
-}) {
+export function Sidebar() {
   const pathName = usePathname();
   const [sidebarOpen, setSidebarOpen] = useRecoilState(sidebarOpenAtom);
   const [currentActiveContentIds, setCurrentActiveContentIds] = useState<
@@ -49,6 +44,13 @@ export function Sidebar({
   const buttonRef = useRef<HTMLButtonElement | null>(null);
   const closeSidebar = () => setSidebarOpen(false);
 
+  const courseId = useRecoilValue(courseIdAtom);
+  const fullCourseContent = useRecoilValue(fullCourseContentAtom);
+  
+  if (!courseId || !fullCourseContent) {
+    return <></>;
+  }
+  
   const findPathToContent = useCallback(
     (
       contents: FullCourseContent[],
@@ -191,9 +193,9 @@ export function Sidebar({
         ref={buttonRef}
         onClick={() => setSidebarOpen((s) => !s)}
         className="w-fit gap-2"
+        size='sm'
       >
         {sidebarOpen ? <X className="size-5" /> : <Menu className="size-5" />}
-        <span>{sidebarOpen ? 'Hide Contents' : 'Show Contents'}</span>
       </Button>
       <AnimatePresence>
         {sidebarOpen && (
@@ -206,11 +208,10 @@ export function Sidebar({
             variants={sidebarVariants}
             className="fixed right-0 top-0 z-[99999] flex h-screen w-full flex-col gap-4 overflow-y-auto rounded-r-lg border-l border-primary/10 bg-neutral-50 dark:bg-neutral-900 md:max-w-[30vw]"
           >
-            <div className="sticky top-0 pt-20 z-10 flex items-center justify-between border-b border-primary/10 bg-neutral-50 p-5 dark:bg-neutral-900">  
-             {''}
-               <h4 className="text-xl font-bold tracking-tighter text-primary lg:text-2xl">
+            <div className="sticky top-0 z-10 flex items-center justify-between border-b border-primary/10 bg-neutral-50 p-[10px] dark:bg-neutral-900">              
+              <h3 className="text-l font-bold tracking-tighter text-primary lg:text-xl">
                 Course Content
-              </h4>
+              </h3>
               <Button
                 variant="ghost"
                 size="icon"

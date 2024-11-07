@@ -1,3 +1,4 @@
+// 'use client';
 import { QueryParams } from '@/actions/types';
 import { Sidebar } from '@/components/Sidebar';
 import { getFullCourseContent } from '@/db/course';
@@ -6,10 +7,13 @@ import { getPurchases } from '@/utiles/appx';
 import { getServerSession } from 'next-auth';
 import { redirect } from 'next/navigation';
 import { toast } from 'sonner';
+import { RecoilCourseInfo } from '@/components/RecoilCourseInfo';
+// import { useRecoilState } from 'recoil';
+// import { courseIdAtom } from '@/store/atoms';
 
 type CheckAccessReturn = 'yes' | 'no' | 'error';
 
-const checkAccess = async (courseId: string): Promise<CheckAccessReturn> => {
+export const checkAccess = async (courseId: string): Promise<CheckAccessReturn> => {    // export checkAccess
   const session = await getServerSession(authOptions);
 
   if (!session?.user) {
@@ -48,8 +52,8 @@ const Layout = async ({
   const fullCourseContent = await getFullCourseContent(parseInt(courseId, 10));
 
   return (
-    <div className="relative flex min-h-screen flex-col py-24">
-      <Sidebar fullCourseContent={fullCourseContent} courseId={courseId} />
+    <div className="relative flex min-h-screen flex-col py-10">
+      <RecoilCourseInfo fullCourseContent={fullCourseContent} courseId={courseId}/>
       {children}
     </div>
   );

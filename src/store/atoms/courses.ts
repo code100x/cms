@@ -1,3 +1,4 @@
+import { FullCourseContent } from '@/db/course';
 import axios from 'axios';
 import { atom, selector } from 'recoil';
 
@@ -27,4 +28,15 @@ const coursesSelector = selector({
 export const coursesAtom = atom<Course[]>({
   key: 'coursesAtom',
   default: coursesSelector,
+});
+
+export const courseIdAtom = atom<string | null>({
+  key: 'courseIdAtom',
+  default: null,
+});
+
+// Added default null value instead of placeholder because it will cause API call to fail when check mark is clicked from UI
+export const fullCourseContentAtom = atom<FullCourseContent[]|null>({
+  key: 'fullCourseContentAtom',
+  default: null
 });

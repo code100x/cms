@@ -53,6 +53,8 @@ export const Appbar = () => {
     collapsed: { width: '4vw' },
   };
 
+  // comment out         <div className="flex items-center justify-around border
+
   return (
     <>
       {/* Desktop Sidebar */}
