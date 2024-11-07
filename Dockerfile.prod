@@ -1,31 +1,33 @@
+# Build stage
 FROM node:20-alpine AS build
 
 WORKDIR /usr/src/app
 ARG DATABASE_URL
-ENV DATABASE_URL=${DATABASE_URL}
 
+# Install pnpm and dependencies
+RUN npm install -g pnpm
+COPY package.json pnpm-lock.yaml ./
+RUN pnpm install && pnpm add sharp
 COPY . .
 
-RUN npm install -g pnpm && \
-  pnpm install && \
-  pnpm add sharp && \
-  pnpm run build
-
+# Generate Prisma client and build the app
 RUN DATABASE_URL=${DATABASE_URL} pnpm dlx prisma generate
+RUN pnpm run build
 
+# Run stage with non-root user
 FROM node:20-alpine AS run
 
-RUN mkdir /.npm && chown -R 1001:1001 /.npm
-
-USER 1001:1001
+# Set up non-root user environment and permissions
+RUN adduser -D appuser && mkdir /.npm && chown -R appuser /.npm
+USER appuser
 WORKDIR /usr/src/app
 
-COPY --from=build --chown=1001:1001 usr/src/app/.next/standalone ./
-COPY --from=build --chown=1001:1001 usr/src/app/.next/static ./.next/static
-COPY --from=build --chown=1001:1001 usr/src/app/public ./public
+# Copy files from build stage
+COPY --from=build /usr/src/app/.next/standalone ./
+COPY --from=build /usr/src/app/.next/static ./.next/static
+COPY --from=build /usr/src/app/public ./public
 
 ENV NODE_ENV production
-ENV PORT 3000
-ENV HOSTNAME "0.0.0.0"
+EXPOSE 3000
 
 CMD [ "node", "server.js" ]
