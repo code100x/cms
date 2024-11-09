@@ -2,18 +2,19 @@ import db from '@/db';
 import { NextResponse, NextRequest } from 'next/server';
 
 async function checkUserCourseAccess(userId: string, courseId: string) {
-  const userCourse = await db.course.findFirst({
+  const purchasedUsers = await db.course.findFirst({
     where: {
+      id: parseInt(courseId, 10),
       purchasedBy: {
         some: {
           userId,
         },
       },
-      id: parseInt(courseId, 10),
     },
   });
+  console.log('purchasedUsers: ', purchasedUsers);
 
-  return userCourse !== null;
+  return purchasedUsers !== null;
 }
 
 export async function GET(
@@ -31,10 +32,9 @@ export async function GET(
         { status: 403 },
       );
     }
-    const folderContents = await db.content.findMany({
+    const folderContents = await db.course.findMany({
       where: {
         id: parseInt(courseId, 10),
-        type: 'folder',
       },
     });
 
