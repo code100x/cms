@@ -1,4 +1,3 @@
-// 'use client';
 import { QueryParams } from '@/actions/types';
 import { Sidebar } from '@/components/Sidebar';
 import { getFullCourseContent } from '@/db/course';
@@ -8,8 +7,6 @@ import { getServerSession } from 'next-auth';
 import { redirect } from 'next/navigation';
 import { toast } from 'sonner';
 import { RecoilCourseInfo } from '@/components/RecoilCourseInfo';
-// import { useRecoilState } from 'recoil';
-// import { courseIdAtom } from '@/store/atoms';
 
 type CheckAccessReturn = 'yes' | 'no' | 'error';
 
