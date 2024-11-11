@@ -5,7 +5,7 @@ export $(grep -v '^#' .env.test | xargs)
        -e POSTGRES_USER=postgres \
        -e POSTGRES_PASSWORD=postgres \
        -e POSTGRES_DB=cms \
-       -p 5432:5432 \
+       -p 5434:5434 \
        postgres
 echo '🟡 - Waiting for database to be ready...'
 $DIR/wait-for-it.sh "${DATABASE_URL}" -- echo '🟢 - Database is ready!'

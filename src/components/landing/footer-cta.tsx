@@ -31,14 +31,14 @@ const FooterCTA = () => {
       >
         <div className="flex flex-col justify-end gap-4">
           <div className="flex flex-col gap-2 md:w-[70%]">
-            <h3 className="text-3xl font-bold tracking-tighter text-white md:text-4xl">
+            <h3 className="text-3xl font-bold tracking-tighter text-white md:text-4xl font-mono animate-bounce">
               Every developer deserves to be a great engineer, a{' '}
               <span className="font-extrabold tracking-tighter">
                 100xEngineer!
               </span>
             </h3>
 
-            <p className="text-lg font-medium text-white/80 md:text-xl">
+            <p className="text-lg font-medium text-white/80 md:text-xl ">
               Give yourself the power you deserve with a 100xdevs today!
             </p>
           </div>
@@ -52,9 +52,9 @@ const FooterCTA = () => {
               <Button
                 size={'lg'}
                 variant={'default'}
-                className="flex w-full items-center gap-2 md:w-fit"
+                className="flex w-full items-center gap-2 md:w-fit hover:bg-slate-300  hover:border-blue-900 hover:text-black"
               >
-                <Download className="size-4" />
+                <Download className="size-5" />
                 Download App
               </Button>
             </Link>
@@ -65,7 +65,7 @@ const FooterCTA = () => {
               <Button
                 size={'lg'}
                 variant={'secondary'}
-                className="flex w-full items-center gap-2 md:w-fit"
+                className="flex w-full items-center gap-2 md:w-fit  hover:bg-slate-300  hover:border-blue-800 hover:text-black"
               >
                 <Sparkles className="size-4" />
                 Join Now

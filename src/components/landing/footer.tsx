@@ -6,6 +6,7 @@ import {
   XLogo,
   YtLogo,
 } from '../../../public/footer-logos/all-logos';
+import { SiDiscord, SiTelegram } from '@icons-pack/react-simple-icons';
 
 const Footer = () => {
   return (
@@ -25,7 +26,7 @@ const Footer = () => {
                 className="size-16 rounded-full"
               />
               <div className="flex flex-col">
-                <span className="bg-gradient-to-b from-blue-400 to-blue-700 bg-clip-text pr-1 text-4xl font-extrabold tracking-tighter text-transparent">
+                <span className="bg-gradient-to-b from-blue-400 to-blue-700 bg-clip-text pr-1 text-4xl font-extrabold tracking-tighter text-transparent ">
                   100xDevs
                 </span>
                 <p className="text-lg leading-none tracking-tight text-primary">
@@ -34,8 +35,8 @@ const Footer = () => {
               </div>
             </Link>
             <div className="flex flex-col gap-2">
-              <h4 className="font-semibold tracking-tight text-foreground">
-                Follow us
+              <h4 className="font-semibold tracking-tight text-foreground font-mono text-2xl text-orange-500">
+               follow-Us 
               </h4>
               <div className="flex gap-4">
 
@@ -74,6 +75,22 @@ const Footer = () => {
                 >
                   <GitHubLogo />
                 </Link>
+
+                {/*Discord */}
+                <Link
+                  target="_blank"
+                  href={"https://discord.com/invite/WAaXacK9bht"}
+                  className="rounded-lg bg-blue-700/10 p-2 text-primary" >
+                  <SiDiscord/>
+                </Link>
+
+               {/*Telegram-icon */}
+                 <Link
+                  target="_blank"
+                  href={'https://t.me/kirat_internal_group'}
+                  className="rounded-lg bg-blue-600/10 p-2  text-primary " >
+                  <SiTelegram/> 
+                  </Link>
                 
               </div>
             </div>
@@ -86,7 +103,7 @@ const Footer = () => {
               <Link
                 href={'https://projects.100xdevs.com'}
                 target="_blank"
-                className="text-foreground/75 transition-all duration-300 hover:text-blue-600"
+                className="text-foreground/75 transition-all duration-300 hover:text-blue-600 hover:text-xl"
               >
                 Projects
               </Link>
@@ -94,32 +111,32 @@ const Footer = () => {
               <Link
                 href={'https://report-100xdevs.vercel.app/'}
                 target="_blank"
-                className="text-foreground/75 transition-all duration-300 hover:text-blue-600"
+                className="text-foreground/75 transition-all duration-300 hover:text-blue-600 hover:text-xl hover:font-mono"
               >
                 Report
               </Link>
             </div>
           </div>
           <div className="flex flex-col gap-2">
-            <h4 className="text-lg tracking-tighter text-primary">
+            <h4 className="text-lg tracking-tighter text-primary font-extrabold">
               100x Legal
             </h4>
             <div className="flex flex-col gap-1 text-lg tracking-tighter">
               <Link
                 href={'/tnc'}
-                className="text-foreground/75 transition-all duration-300 hover:text-blue-600"
+                className="text-foreground/75 transition-all duration-300 hover:text-blue-600 text-sm hover:text-xl font-mono"
               >
                 Terms & Conditions
               </Link>
               <Link
                 href={'/privacy-policy'}
-                className="text-foreground/75 transition-all duration-300 hover:text-blue-600"
+                className="text-foreground/75 transition-all duration-300 hover:text-blue-600 text-sm hover:text-xl font-mono"
               >
                 Privacy Policy
               </Link>
               <Link
                 href={'/refund'}
-                className="text-foreground/75 transition-all duration-300 hover:text-blue-600"
+                className="text-foreground/75  transition-all duration-300 hover:text-blue-600 text-sm hover:text-xl font-mono"
               >
                 Refund & Cancellation
               </Link>
