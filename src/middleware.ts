@@ -2,6 +2,7 @@ import { NextRequestWithAuth, withAuth } from 'next-auth/middleware';
 import { NextResponse, NextRequest } from 'next/server';
 import { jwtVerify, importJWK, JWTPayload } from 'jose';
 
+
 export const config = {
   matcher: ['/courses/:path*', '/api/mobile/:path*'],
 };
