@@ -476,7 +476,7 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
   }
 
   return (
-    <div data-vjs-player className="mx-auto">
+    <div data-vjs-player className="mx-auto" style={{ width: '100%', height: 'auto', maxWidth: '1020px'}}>
       <div ref={videoRef} />
     </div>
   );
