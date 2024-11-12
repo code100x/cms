@@ -63,7 +63,7 @@ export async function GET(
       );
     }
 
-    const courseData = await db.course.findFirst({
+    const courseData = await db.content.findMany({
       where: {
         id: parseInt(courseId, 10),
       },
