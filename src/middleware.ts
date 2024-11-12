@@ -116,7 +116,6 @@ export default withAuth(
     },
   },
 );
-=======
 export default withAuth(async (req) => {
   if (process.env.LOCAL_CMS_PROVIDER) return;
   const token = req.nextauth.token;
@@ -140,4 +139,3 @@ export function middleware(req: NextRequestWithAuth) {
   }
   return withAuth(req);
 }
-main
