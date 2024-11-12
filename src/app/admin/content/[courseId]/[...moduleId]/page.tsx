@@ -41,13 +41,15 @@ export default async function UpdateCourseContent({
   }
 
   return (
-    <main className="wrapper flex max-w-screen-xl flex-col justify-between gap-8">
-      <div className="flex w-full flex-col justify-between gap-2">
+    <main className="wrapper flex max-w-screen-xl flex-col gap-28">
+      <div className="flex w-full flex-col justify-between gap-2 rounded-lg border-2 bg-primary/5 p-4">
         <h1 className="text-3xl font-bold md:text-4xl">Content</h1>
         <p className="text-xl capitalize">{course?.title}</p>
       </div>
 
       <AddContent
+        rest={rest}
+        courseTitle={course?.title}
         courseId={parseInt(courseId, 10)}
         parentContentId={parseFloat(rest[rest.length - 1])}
       />

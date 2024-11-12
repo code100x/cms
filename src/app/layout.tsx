@@ -8,6 +8,8 @@ import { GoogleAnalytics } from '@/components/analytics/GoogleAnalytics';
 import { siteConfig } from '@/config/site-config';
 import { Toaster } from 'sonner';
 import { Navbar } from '@/components/Navbar';
+import NextTopLoader from 'nextjs-toploader';
+import OfflineNotification from '@/components/OfflineNavigator';
 
 const satoshi = localFont({
   display: 'swap',
@@ -23,16 +25,21 @@ export const metadata: Metadata = siteConfig;
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html suppressHydrationWarning={true} lang="en">
       <body
+        suppressHydrationWarning={true}
         className={cn(
           'min-h-screen bg-background font-satoshi antialiased',
           satoshi.variable,
         )}
       >
         <GoogleAnalytics />
+        <NextTopLoader
+          showSpinner={false}
+        />
         <Providers>
           <Navbar />
+          <OfflineNotification />
           {children}
           <Toaster richColors />
         </Providers>

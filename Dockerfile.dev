@@ -2,14 +2,15 @@ FROM node:20-alpine
 
 WORKDIR /usr/src/app
 
-COPY package.json package-lock.json ./
+COPY package.json pnpm-lock.yaml ./
 COPY prisma ./prisma
 
-RUN  npm install
+RUN npm i pnpm -g
+
+RUN pnpm install
 
 COPY . .
 
 EXPOSE 3000
 
-CMD ["npm", "run", "dev:docker"]
-
+CMD ["pnpm", "dev:docker"]

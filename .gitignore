@@ -5,6 +5,7 @@
 /.pnp
 .pnp.js
 .yarn/install-state.gz
+bun.lockb
 
 # docker volume
 /postgres-data/
@@ -33,6 +34,10 @@ yarn-error.log*
 
 # vercel
 .vercel
+
+#vs-code (debug config)
+.vscode
+launch.json
 
 # typescript
 *.tsbuildinfo

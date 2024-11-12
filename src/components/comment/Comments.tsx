@@ -144,7 +144,7 @@ const Comments = async ({
                   <span>
                     {searchParams.type === CommentType.INTRO
                       ? CommentType.INTRO
-                      : 'All comments' || 'All comments'}
+                      : 'All comments'}
                   </span>
                   <ChevronDownIcon className="h-4 w-4" />
                 </Button>
@@ -217,7 +217,7 @@ const Comments = async ({
           parentId={data?.parentComment?.id}
         />
       </div>
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-4 break-all">
         <div className="grid grid-cols-1 gap-6">
           {data.comments.map((c) => (
             <div className="flex w-full items-start gap-4" key={c.id}>
@@ -241,36 +241,40 @@ const Comments = async ({
                       )}
                     </div>
 
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <MoreVerticalIcon className="size-6" />
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent>
-                        {(session.user.id.toString() ===
-                          (c as ExtendedComment).userId.toString() ||
-                          session.user.role === ROLES.ADMIN) && (
-                          <DropdownMenuItem>
-                            <CommentDeleteForm commentId={c.id} />
-                          </DropdownMenuItem>
-                        )}
-                        {session.user.role === ROLES.ADMIN && (
-                          <DropdownMenuItem>
-                            <CommentPinForm
-                              commentId={c.id}
-                              contentId={c.contentId}
-                            />
-                          </DropdownMenuItem>
-                        )}
-                        {session.user.role === ROLES.ADMIN && (
-                          <DropdownMenuItem>
-                            <CommentApproveForm
-                              commentId={c.id}
-                              contentId={c.contentId}
-                            />
-                          </DropdownMenuItem>
-                        )}
-                      </DropdownMenuContent>
-                    </DropdownMenu>
+                    {(session.user.id.toString() ===
+                      (c as ExtendedComment).userId.toString() ||
+                      session.user.role === ROLES.ADMIN) && (
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <MoreVerticalIcon className="size-6" />
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent>
+                          {(session.user.id.toString() ===
+                            (c as ExtendedComment).userId.toString() ||
+                            session.user.role === ROLES.ADMIN) && (
+                            <DropdownMenuItem>
+                              <CommentDeleteForm commentId={c.id} />
+                            </DropdownMenuItem>
+                          )}
+                          {session.user.role === ROLES.ADMIN && (
+                            <DropdownMenuItem>
+                              <CommentPinForm
+                                commentId={c.id}
+                                contentId={c.contentId}
+                              />
+                            </DropdownMenuItem>
+                          )}
+                          {session.user.role === ROLES.ADMIN && (
+                            <DropdownMenuItem>
+                              <CommentApproveForm
+                                commentId={c.id}
+                                contentId={c.contentId}
+                              />
+                            </DropdownMenuItem>
+                          )}
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    )}
                   </div>
 
                   <TimeCodeComment

@@ -69,20 +69,22 @@ export const Appbar = () => {
         className="fixed left-0 top-0 z-[999] hidden h-full flex-col border-r border-primary/10 bg-background dark:bg-background 2xl:flex"
       >
         <div className="flex h-full flex-col gap-4">
-          <div className="flex w-full items-center border-b border-primary/10 p-4">
-            {!isCollapsed && (
-              <>
+          <div className="flex w-full items-center border-b border-primary/10 px-2 py-4">
+            <div>
+              <motion.button
+                onClick={toggleCollapse}
+                className="ml-auto flex items-center rounded-lg p-3 text-center transition-all duration-300 hover:bg-blue-600/5 hover:text-blue-500"
+              >
+                {isCollapsed ? <SidebarOpen /> : <SidebarClose />}
+              </motion.button>
+            </div>
+            <div>
+              {!isCollapsed && (
                 <h3 className="text-xl font-bold tracking-tighter text-primary lg:text-2xl">
                   Menu
                 </h3>
-              </>
-            )}
-            <motion.button
-              onClick={toggleCollapse}
-              className="ml-auto flex items-center rounded-lg p-3 text-center transition-all duration-300 hover:bg-blue-600/5 hover:text-blue-500"
-            >
-              {isCollapsed ? <SidebarOpen /> : <SidebarClose />}
-            </motion.button>
+              )}
+            </div>
           </div>
           <div className="flex flex-col gap-8 p-2">
             <SidebarItems items={menuOptions} isCollapsed={isCollapsed} />

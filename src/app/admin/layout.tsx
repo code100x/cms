@@ -14,12 +14,20 @@ export default async function AdminLayout({
   }
 
   if (process.env.LOCAL_CMS_PROVIDER) {
-    return <>{children}</>;
+    return (
+      <div className="my-[6rem] h-[calc(100vh-36px-4rem)] max-h-full">
+        {children}
+      </div>
+    );
   }
 
   if (!process.env.ADMINS?.split(',').includes(session.user.email!)) {
     return notFound();
   }
 
-  return <div className="flex min-h-screen">{children}</div>;
+  return (
+    <div className="mt-[6rem] flex h-[calc(100vh-36px-4rem)] max-h-full">
+      {children}
+    </div>
+  );
 }

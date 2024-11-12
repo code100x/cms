@@ -129,10 +129,9 @@
 }
 .vjs-quality-selector .vjs-custom-dropup-menu li {
   padding: 0.5rem 1rem;
-  color: #fff;
 }
 .vjs-quality-selector .vjs-custom-dropup-menu li:hover {
-  background: #444;
+  border-radius: inherit;
 }
 
 /* Custom Tooltip Styling */
@@ -229,6 +228,18 @@
   }
 }
 
+@layer utilities {
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .no-scrollbar::-webkit-scrollbar {
+      display: none;
+  }
+ /* Hide scrollbar for IE, Edge and Firefox */
+  .no-scrollbar {
+      -ms-overflow-style: none;  /* IE and Edge */
+      scrollbar-width: none;  /* Firefox */
+}
+}
+
 .markdown-editor-default-font {
   font-family: inherit !important;
 }
@@ -294,5 +305,54 @@
 @media (max-width: 640px) {
   .notion-renderer .notion-page {
     padding: 0.5rem !important;
+  }
+}
+
+/* Smooth scrollbar */
+
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #020817;
+  border-radius: 15px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #2a2e3a;
+  border-radius: 15px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+::view-transition-group(root) {
+  animation-timing-function: var(--expo-out);
+}
+
+::view-transition-new(root) {
+  mask: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"><defs><filter id="blur"><feGaussianBlur stdDeviation="2"/></filter></defs><circle cx="0" cy="0" r="18" fill="white" filter="url(%23blur)"/></svg>')
+    top left / 0 no-repeat;
+  mask-origin: content-box;
+  animation: scale 1s;
+  transform-origin: top left;
+}
+
+::view-transition-old(root),
+.dark::view-transition-old(root) {
+  animation: scale 1s;
+  transform-origin: top left;
+  z-index: -1;
+}
+
+@keyframes scale {
+  to {
+    mask-size: 350vmax;
   }
 }

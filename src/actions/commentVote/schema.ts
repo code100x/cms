@@ -7,4 +7,5 @@ export const VoteHandleSchema = z.object({
   answerId: z.number().optional(),
   voteType: z.nativeEnum(VoteType),
   currentPath: z.string(),
+  slug: z.string(),
 });
