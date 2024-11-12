@@ -41,7 +41,7 @@ export const Navbar = () => {
   );
 
   return (
-    <AnimatePresence>
+    <>
       <motion.nav
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -143,35 +143,33 @@ export const Navbar = () => {
         </div>
 
         {/* Mobile menu */}
-        {!session?.user && (
-          <>
-            {isMenuOpen && (
+        <AnimatePresence>
+          {!session?.user && isMenuOpen && (
+            <motion.div
+              className="bg-background p-4 md:hidden"
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+            >
               <motion.div
-                className="bg-background p-4 md:hidden"
+                className="flex gap-2"
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
               >
-                <motion.div
-                  className="flex gap-2"
-                  initial={{ opacity: 0, y: -20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                >
-                  <AppbarAuth />
+                <AppbarAuth />
                   <Button variant={'branding'} className="w-full">
-                    <Link
+                  <Link
                       href={'https://harkirat.classx.co.in/new-courses'}
-                      target="_blank"
-                    >
-                      Join now
-                    </Link>
-                  </Button>
-                </motion.div>
+                    target="_blank"
+                  >
+                    Join now
+                  </Link>
+                </Button>
               </motion.div>
-            )}
-          </>
-        )}
+            </motion.div>
+          )}
+        </AnimatePresence>
       </motion.nav>
 
       {/* Mobile search overlay */}
@@ -195,6 +193,6 @@ export const Navbar = () => {
           </motion.div>
         )}
       </AnimatePresence>
-    </AnimatePresence>
+    </>
   );
 };
