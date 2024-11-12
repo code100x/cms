@@ -1,12 +1,14 @@
 import db from '@/db';
 import { NextRequest, NextResponse } from 'next/server';
+import { getExtraCourses } from '../../route';
 
 async function checkUserCollectionAccess(
   userId: string,
   collectionId: string,
   courseId: string,
 ) {
-  const purchasedUsers = await db.course.findFirst({
+  // First check if user has directly purchased the course
+  const purchasedCourse = await db.course.findFirst({
     where: {
       id: parseInt(courseId, 10),
       purchasedBy: {
@@ -16,8 +18,31 @@ async function checkUserCollectionAccess(
       },
     },
   });
-  console.log('purchasedUsers: ', purchasedUsers);
-  return purchasedUsers !== null;
+
+  if (purchasedCourse) {
+    return true;
+  }
+
+  // If not directly purchased, check if user has access through extra courses logic
+  const purchasedCourses = await db.course.findMany({
+    where: {
+      purchasedBy: {
+        some: {
+          userId,
+        },
+      },
+    },
+  });
+
+  const allCourses = await db.course.findMany();
+  const extraCourses = getExtraCourses(purchasedCourses, allCourses);
+
+  // Check if the requested course is in the extra courses
+  const hasAccess = extraCourses.some(
+    (course) => course.id === parseInt(courseId, 10),
+  );
+
+  return hasAccess;
 }
 
 export async function GET(
@@ -26,6 +51,7 @@ export async function GET(
 ) {
   try {
     const user = JSON.parse(request.headers.get('g') || '');
+
     if (!user) {
       return NextResponse.json({ message: 'User not found' }, { status: 401 });
     }
@@ -47,6 +73,14 @@ export async function GET(
         parentId: parseInt(collectionId, 10),
       },
     });
+
+    if (!collectionData) {
+      return NextResponse.json(
+        { message: 'Collection not found' },
+        { status: 404 },
+      );
+    }
+
     return NextResponse.json({
       message: 'Collection Data fetched successfully',
       data: collectionData,

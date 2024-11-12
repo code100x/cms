@@ -4,7 +4,7 @@ import { Course } from '@/store/atoms';
 
 const COHORT_3_PARENT_COURSES = [8, 9, 10, 11, 12];
 
-function getExtraCourses(
+export function getExtraCourses(
   currentCourses: Course[],
   allCourses: Course[],
 ): Course[] {

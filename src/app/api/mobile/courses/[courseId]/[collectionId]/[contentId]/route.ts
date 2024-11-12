@@ -1,12 +1,14 @@
 import db from '@/db';
 import { NextRequest, NextResponse } from 'next/server';
+import { getExtraCourses } from '../../../route';
 
 async function checkUserContentAccess(
   userId: string,
   collectionId: string,
   courseId: string,
 ) {
-  const purchasedUsers = await db.course.findFirst({
+  // First check if user has directly purchased the course
+  const purchasedCourse = await db.course.findFirst({
     where: {
       id: parseInt(courseId, 10),
       purchasedBy: {
@@ -16,8 +18,32 @@ async function checkUserContentAccess(
       },
     },
   });
-  console.log('purchasedUsers: ', purchasedUsers);
 
+  if (!purchasedCourse) {
+    // If not directly purchased, check if user has access through extra courses logic
+    const purchasedCourses = await db.course.findMany({
+      where: {
+        purchasedBy: {
+          some: {
+            userId,
+          },
+        },
+      },
+    });
+
+    const allCourses = await db.course.findMany();
+    const extraCourses = getExtraCourses(purchasedCourses, allCourses);
+
+    const hasAccess = extraCourses.some(
+      (course) => course.id === parseInt(courseId, 10),
+    );
+
+    if (!hasAccess) {
+      return false;
+    }
+  }
+
+  // Verify that the collection belongs to the course
   const checkCourse = await db.content.findFirst({
     where: {
       id: parseInt(collectionId, 10),
@@ -28,13 +54,8 @@ async function checkUserContentAccess(
       },
     },
   });
-  console.log('checkCourse: ', checkCourse);
 
-  if (!checkCourse) {
-    return false;
-  }
-
-  return purchasedUsers !== null;
+  return checkCourse !== null;
 }
 
 export async function GET(
