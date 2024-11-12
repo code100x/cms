@@ -1,6 +1,5 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { AddNotionMetadata } from './AddNotionMetadata';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { Label } from '@/components/ui/label';
@@ -15,6 +14,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
+import { AddNotionMetadata } from './AddNotionMetadata';
 
 export const AddContent = ({
   rest,
@@ -88,7 +88,7 @@ export const AddContent = ({
 
   return (
     <div className="grid grid-cols-1 gap-4 rounded-xl border-2 p-6 lg:grid-cols-7">
-      <aside className="col-span-1 flex flex-col gap-8 lg:col-span-3">
+      <aside className="col-span-1 flex flex-col gap-8 lg:col-span-4">
         <div>Select the Content Mode</div>
 
         <RadioGroup
@@ -167,7 +167,7 @@ export const AddContent = ({
           Notion
         </Button>
       </div> */}
-      <div className="col-span-1 grid grid-cols-1 gap-4 lg:col-span-4">
+      <div className="col-span-1 grid grid-cols-1 gap-4 lg:col-span-3">
         <Input
           type="text"
           placeholder="Title"
@@ -201,16 +201,18 @@ export const AddContent = ({
 };
 
 const VARIANTS = 1;
-function AddVideosMetadata({
-  onChange,
+export function AddVideosMetadata({
+  setValue
 }: {
-  onChange: (metadata: any) => void;
+  setValue?: any;
+  onChange?: any;
 }) {
   const [metadataGlobal, setMetadata] = useState({} as any);
-
+  
   useEffect(() => {
-    onChange(metadataGlobal);
+    setValue('videoMetadata', metadataGlobal);
   }, [metadataGlobal]);
+
   return (
     <div>
       {[...Array(VARIANTS)].map((_, i) => (
@@ -229,7 +231,7 @@ function AddVideosMetadata({
   );
 }
 
-function AddVideoMetadata({ onChange }: { onChange: (metadata: any) => void }) {
+export function AddVideoMetadata({ onChange }: { onChange: (metadata: any) => void}) {
   const [video_1080p, setVideo_1080p] = useState('');
   const [video_720p, setVideo_720p] = useState('');
   const [video_360p, setVideo_360p] = useState('');

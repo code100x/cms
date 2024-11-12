@@ -7,7 +7,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
-import { Play, File, X, Menu } from 'lucide-react';
+import { X, Menu } from 'lucide-react';
 import { FullCourseContent } from '@/db/course';
 import { useRecoilState } from 'recoil';
 import { sidebarOpen as sidebarOpenAtom } from '@/store/atoms/sidebar';
@@ -159,12 +159,10 @@ export function Sidebar({
           >
             <div className="flex w-full items-center justify-between gap-2">
               <div className="flex items-center gap-2">
-                <div className="flex gap-2">
-                  <Check content={content} />
-                  {content.type === 'video' && <Play className="size-4" />}
-                  {content.type === 'notion' && <File className="size-4" />}
-                </div>
-                <div className="break-words text-base">{content.title}</div>
+                <Check content={content} />
+                {renderContent(content?.children?.filter((item) => item.type === 'video').sort((a,b) => a.position - b.position) ?? [])}
+                {renderContent(content?.children?.filter((item) => item.type === 'notion').sort((a,b) => a.position - b.position) ?? [])}
+                <div className="truncate text-base">{content.title}</div>
               </div>
               {content.type === 'video' && (
                 <BookmarkButton
