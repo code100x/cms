@@ -356,18 +356,6 @@
     mask-size: 350vmax;
   }
 }
-.vjs-text-track {
-  color: #000000; /* Black text */
-  background-color: rgba(
-    255,
-    255,
-    255,
-    0.8
-  ); /* Light, semi-transparent background */
-  font-size: 1.2em;
-  padding: 4px 8px;
-  border-radius: 4px;
-}
 
 select {
   background-color: #000;
