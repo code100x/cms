@@ -92,15 +92,13 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
     return pipButtonContainer;
   };
 
-  // Fetch previously saved captions setting from localStorage
   useEffect(() => {
     if (!player) return;
 
     const savedCaptionSetting = localStorage.getItem('captionSetting');
+    const tracks = player.textTracks();
 
     if (savedCaptionSetting && player) {
-      const tracks = player.textTracks();
-
       for (let i = 0; i < tracks.length; i++) {
         const track = tracks[i];
 
@@ -110,17 +108,11 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
         }
       }
     }
-  }, [player]);
-
-  useEffect(() => {
-    if (!player) return;
 
     const handleTrackChange = () => {
-      const tracks = player.textTracks();
       for (let i = 0; i < tracks.length; i++) {
         const track = tracks[i];
         if (track.kind === 'subtitles' && track.language === 'en') {
-          // Save the mode to localStorage when it changes
           track.addEventListener('modechange', () => {
             localStorage.setItem('captionSetting', track.mode);
           });
@@ -130,7 +122,6 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
 
     handleTrackChange();
     return () => {
-      const tracks = player.textTracks();
       for (let i = 0; i < tracks.length; i++) {
         const track = tracks[i];
         track.removeEventListener('modechange', handleTrackChange);
@@ -361,6 +352,7 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
       document.removeEventListener('keydown', handleKeyPress);
     };
   }, [player]);
+
   useEffect(() => {
     if (!player) {
       return;
