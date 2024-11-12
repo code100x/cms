@@ -186,7 +186,7 @@ export function Sidebar({
   );
 
   return (
-    <div className='sticky top-[72px] z-20 bg-background py-2'>
+    <div className="sticky top-[72px] z-20 bg-background py-2">
       <Button
         ref={buttonRef}
         onClick={() => setSidebarOpen((s) => !s)}
@@ -219,7 +219,7 @@ export function Sidebar({
                 <X className="size-5" />
               </Button>
             </div>
-            <Accordion type="multiple" className="w-full px-4 capitalize">
+            <Accordion type="multiple" className="w-full px-4 pb-20 capitalize">
               {memoizedContent}
             </Accordion>
           </motion.div>
