@@ -58,7 +58,7 @@ postgres
 1. Create a .env file:
 
    - Copy `.env.example` and rename it to `.env`.
-
+   - Make changes to the DATABASE_URL in `.env` file as per the configuration.
 
 2. Install dependencies:
 
