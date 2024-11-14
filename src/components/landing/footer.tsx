@@ -29,7 +29,7 @@ const Footer = () => {
                 <span className="bg-gradient-to-b from-blue-400 to-blue-700 bg-clip-text pr-1 text-4xl font-extrabold tracking-tighter text-transparent ">
                   100xDevs
                 </span>
-                <p className="text-lg leading-none tracking-tight text-primary">
+                <p className="text-lg leading-none tracking-tight text-primary font-mono ">
                   because 10x ain't enough.
                 </p>
               </div>
@@ -81,6 +81,7 @@ const Footer = () => {
                   target="_blank"
                   href={"https://discord.com/invite/WAaXacK9bht"}
                   className="rounded-lg bg-blue-700/10 p-2 text-primary" >
+
                   <SiDiscord/>
                 </Link>
 
@@ -96,7 +97,7 @@ const Footer = () => {
             </div>
           </div>
           <div className="flex flex-col gap-2">
-            <h4 className="text-lg tracking-tighter text-primary">
+            <h4 className="text-lg tracking-tighter text-primary font-extrabold">
               100x Links
             </h4>
             <div className="flex flex-col gap-1 text-lg tracking-tighter">

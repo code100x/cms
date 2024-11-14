@@ -85,7 +85,7 @@ const ProfileDropdown = () => {
           <span
             className={`flex items-center gap-2 text-base transition-all duration-300 hover:text-red-500`}
           >
-            <LogOut className="size-4" />
+            <LogOut className="size-4 hover:bg-blue-500 focus:border border-solid" />
             Logout
           </span>
         </DropdownMenuItem>

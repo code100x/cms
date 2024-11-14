@@ -126,7 +126,7 @@ export const Navbar = () => {
                 >
                   <Menu className="size-6" />
                 </Button>
-                <div className="hidden items-center gap-2 md:flex">
+                <div className="hidden items-center gap-2 md:flex ">
                   <AppbarAuth />
                   <Button variant={'branding'}>
                     <Link

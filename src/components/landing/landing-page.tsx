@@ -49,15 +49,15 @@ export default function LandingPage() {
             <span className="w-fit bg-gradient-to-b from-blue-400 to-blue-700 bg-clip-text pr-1.5 text-center text-transparent md:mb-4">
               100xDevs,
             </span>{' '}
-            <span className="bg-gradient-to-b from-primary/90 to-primary/60 bg-clip-text py-1 text-transparent">
+            <span className="bg-gradient-to-b from-primary/90 to-primary/60 bg-clip-text py-1 text-transparent ">
               because 10x ain&apos;t enough!
             </span>
           </h1>
 
-          <p className="mx-auto text-center text-lg font-medium tracking-tight text-primary/80 md:text-xl">
+          <p className="mx-auto text-center text-lg font-medium tracking-tight text-primary/80 md:text-xl font-mono">
             A beginner-friendly platform for mastering programming skills.
           </p>
-        </motion.div>
+        </motion.div> 
         {/* CTA Buttons */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
