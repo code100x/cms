@@ -6,7 +6,6 @@ import { Button } from './ui/button';
 import { Card, CardContent } from "@/components/ui/card";
 import { motion } from "framer-motion";
 import { MessageCircle, PlayCircle } from "lucide-react";
-import { title } from 'process';
 import style from 'styled-jsx/style';
 
 export const CourseCard = ({
