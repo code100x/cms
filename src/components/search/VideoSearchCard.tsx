@@ -2,6 +2,12 @@ import { TSearchedVideos } from '@/app/api/search/route';
 import { Play } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '../ui/tooltip';
 
 interface VideoSearchCardProps {
   video: TSearchedVideos;
@@ -28,13 +34,22 @@ const VideoSearchCard: React.FC<VideoSearchCardProps> = ({
     return (
       <Link
         href={videoUrl}
-        className="flex cursor-pointer items-center gap-3 rounded-md px-3 py-2 hover:bg-blue-600/10 hover:text-blue-600"
+        className="group relative flex cursor-pointer items-center gap-3 rounded-md px-3 py-2 hover:bg-blue-600/10 hover:text-blue-600"
         onClick={handleClick}
       >
         <Play className="size-4" />
-        <span className="w-4/5 truncate font-medium capitalize">
-          {video.title}
-        </span>
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <span className="w-4/5 truncate font-medium capitalize">
+                {video.title}
+              </span>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>{video.title}</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
       </Link>
     );
   }
