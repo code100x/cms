@@ -22,6 +22,11 @@ const PrivacyPolicyPage = () => {
         <h1 className="mx-auto mb-8 w-full text-center text-4xl font-extrabold tracking-tighter text-primary md:mb-12 md:text-5xl">
           Privacy Policy
         </h1>
+        <div className="mx-auto text-center text-lg font-medium text-foreground/70">
+          Last Updated At:{' '}
+          <span className="text-primary">November 2, 2024</span>
+        </div>
+        <br />
         <div className="mx-auto max-w-3xl">
           {privacyPolicyContent.map((item) => (
             <motion.div

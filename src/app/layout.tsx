@@ -9,6 +9,7 @@ import { siteConfig } from '@/config/site-config';
 import { Toaster } from 'sonner';
 import { Navbar } from '@/components/Navbar';
 import NextTopLoader from 'nextjs-toploader';
+import OfflineNotification from '@/components/OfflineNavigator';
 
 const satoshi = localFont({
   display: 'swap',
@@ -33,11 +34,12 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         )}
       >
         <GoogleAnalytics />
-        <NextTopLoader 
-          showSpinner={false} 
+        <NextTopLoader
+          showSpinner={false}
         />
         <Providers>
           <Navbar />
+          <OfflineNotification />
           {children}
           <Toaster richColors />
         </Providers>
