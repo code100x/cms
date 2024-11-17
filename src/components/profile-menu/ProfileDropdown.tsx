@@ -4,6 +4,7 @@ import Link from 'next/link';
 import {
   CreditCard,
   Calendar,
+  CircleDollarSign,
   User,
   LogOut,
   Bookmark,
@@ -42,6 +43,11 @@ const ProfileDropdown = () => {
       href: '/payout-methods',
       icon: <CreditCard className="size-4" />,
       label: 'Payout Methods',
+    },
+    {
+      href: '/bounty',
+      icon: <CircleDollarSign className="size-4" />,
+      label: 'Bounty',
     },
     {
       href: '/calendar',
