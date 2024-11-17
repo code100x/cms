@@ -53,10 +53,6 @@ export default function PaymentMethodsDropdown({
 
   useEffect(() => {
     fetchPayoutMethods();
-  }, []);
-
-  useEffect(() => {
-    fetchPayoutMethods();
   }, [isPayoutDialogOpen]);
 
   return (

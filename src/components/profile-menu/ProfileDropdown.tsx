@@ -47,7 +47,7 @@ const ProfileDropdown = () => {
     },
     {
       href: '/bounty',
-      icon: <CircleDollarSign className="mr-2 h-4 w-4" />,
+      icon: <CircleDollarSign className="size-4" />,
       label: 'Bounty',
     },
     {

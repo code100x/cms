@@ -11,18 +11,19 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 export default function Page() {
   const [isBountyDialogOpen, setIsBountyDialogOpen] = useState<boolean>(false);
-  const [upiAddresses, setUpiAddresses] = useState<UpiId[] | undefined>([]);
-  const [solanaAddresses, setSolanaAddresses] = useState<
-    SolanaAddress[] | undefined
-  >([]);
+  const [upiAddresses, setUpiAddresses] = useState<UpiId[]>([]);
+  const [solanaAddresses, setSolanaAddresses] = useState<SolanaAddress[]>([]);
   const [bounties, setBounties] = useState<BountySubmission[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const fetchPayoutMethods = async () => {
     const result = await getPayoutMethods();
+    if (result.error) {
+      return;
+    }
     if (result) {
-      setUpiAddresses(result.upiIds);
-      setSolanaAddresses(result.solanaAddresses);
+      setUpiAddresses(result.upiIds!);
+      setSolanaAddresses(result.solanaAddresses!);
       setIsLoading(false);
     }
   };
