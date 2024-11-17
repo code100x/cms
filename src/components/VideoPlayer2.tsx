@@ -311,7 +311,7 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
         player.playbackRate(1);
       }
     };
-    document.addEventListener('keydown', handleKeyPress);
+    document.addEventListener('keydown', handleKeyPress, {capture: true});
     document.addEventListener('keyup', handleKeyUp);
     // Cleanup function
     return () => {
