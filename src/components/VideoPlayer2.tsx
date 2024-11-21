@@ -25,6 +25,7 @@ interface VideoPlayerProps {
   onReady?: (player: Player) => void;
   subtitles?: string;
   contentId: number;
+  appxVideoId?: string;
   onVideoEnd: () => void;
 }
 
@@ -38,6 +39,7 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
   onReady,
   subtitles,
   onVideoEnd,
+  appxVideoId,
 }) => {
   const videoRef = useRef<HTMLDivElement>(null);
   const playerRef = useRef<Player | null>(null);
@@ -472,17 +474,11 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
     return regex.test(url);
   };
 
-  const isAppxEncryptedVideo = (url: string) => {
-    return url.startsWith('https://player.akamai.net.in/secure-player');
-  };
-
   if (isYoutubeUrl(vidUrl)) return <YoutubeRenderer url={vidUrl} />;
 
   //TODO: Figure out how to get the courseId
-  if (isAppxEncryptedVideo(vidUrl))
-    return (
-      <AppxVideoPlayer courseId={'courseId'} videoId={contentId.toString()} />
-    );
+  if (appxVideoId)
+    return <AppxVideoPlayer courseId={'14'} videoId={appxVideoId} />;
 
   return (
     <div

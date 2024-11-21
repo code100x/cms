@@ -79,6 +79,7 @@ export const ContentRendererClient = ({
           contentId={content.id}
           subtitles={metadata.subtitles}
           thumbnails={[]}
+          appxVideoId={metadata.appxVideoId}
           segments={metadata?.segments || []}
           videoJsOptions={{
             playbackrates: [0.5, 1, 1.25, 1.5, 1.75, 2],

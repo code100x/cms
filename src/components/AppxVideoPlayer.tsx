@@ -1,6 +1,9 @@
-"use client";
-import { GetAppxVideoPlayerUrl } from "@/actions/user";
-import { useEffect, useState } from "react";
+'use client';
+import { GetAppxVideoPlayerUrl } from '@/actions/user';
+import { signOut } from 'next-auth/react';
+import { useEffect, useRef, useState } from 'react';
+import { Button } from 'react-day-picker';
+import { toast } from 'sonner';
 
 export const AppxVideoPlayer = ({
   courseId,
@@ -9,28 +12,31 @@ export const AppxVideoPlayer = ({
   courseId: string;
   videoId: string;
 }) => {
-  const [url, setUrl] = useState("");
+  const [url, setUrl] = useState('');
+  const doneRef = useRef(false);
 
   useEffect(() => {
     (async () => {
+      if (doneRef.current) return;
+      doneRef.current = true;
       try {
-        const videoUrl = await GetAppxVideoPlayerUrl(courseId, videoId)
-        setUrl(videoUrl)
+        const videoUrl = await GetAppxVideoPlayerUrl(courseId, videoId);
+        setUrl(videoUrl);
       } catch {
-        if (window === undefined) return;
-        location.href = '/api/auth/signin';
+        toast.info('This is a new type of video player', {
+          description: 'Please relogin to continue',
+          action: {
+            label: 'Relogin',
+            onClick: () => signOut(),
+          },
+        });
       }
     })();
-  }, [])
+  }, []);
 
   if (!url.length) {
     return <p>Loading...</p>;
   }
 
-  return (
-    <iframe
-      src={url}
-      className="w-[80vw] h-[80vh] rounded-lg"
-    ></iframe>
-  );
-}
+  return <iframe src={url} className="h-[80vh] w-[80vw] rounded-lg"></iframe>;
+};
