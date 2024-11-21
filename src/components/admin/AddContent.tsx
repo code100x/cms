@@ -46,7 +46,7 @@ export const AddContent = ({
   const [loading, setLoading] = useState<boolean>(false);
 
   const getLabelClassName = (value: string) => {
-    return `flex gap-6 p-6 rounded-lg items-center space-x-2 ${
+    return `flex gap-1 p-4 rounded-lg items-center space-x-2 ${
       type === value ? 'border-[3px] border-blue-500' : 'border-[3px]'
     }`;
   };
@@ -61,6 +61,7 @@ export const AddContent = ({
         title,
         courseId,
         parentContentId,
+        //* Metadata will be list of resolutions for normal videos and appxVideoId for appx videos
         metadata,
         adminPassword,
         courseTitle,
@@ -88,17 +89,21 @@ export const AddContent = ({
 
   return (
     <div className="grid grid-cols-1 gap-4 rounded-xl border-2 p-6 lg:grid-cols-7">
-      <aside className="col-span-1 flex flex-col gap-8 lg:col-span-3">
+      <aside className="col-span-1 flex w-full flex-col gap-8 lg:col-span-3">
         <div>Select the Content Mode</div>
 
         <RadioGroup
-          className="flex-warp no-scrollbar flex max-w-full items-start gap-4 overflow-auto"
+          className="flex max-w-full flex-wrap items-start gap-2"
           value={type}
           onValueChange={(value) => {
             setType(value);
             setMetadata({});
           }}
         >
+          <Label htmlFor="appx" className={getLabelClassName('appx')}>
+            <RadioGroupItem value="appx" id="appx" />
+            <span>Appx</span>
+          </Label>
           <Label htmlFor="video" className={getLabelClassName('video')}>
             <RadioGroupItem value="video" id="video" />
             <span>Video</span>
@@ -187,6 +192,7 @@ export const AddContent = ({
           className="h-14"
         />
         {type === 'video' && <AddVideosMetadata onChange={setMetadata} />}
+        {type === 'appx' && <AddAppxVideoMetadata onChange={setMetadata} />}
         {type === 'notion' && <AddNotionMetadata onChange={setMetadata} />}
         <Button
           onClick={handleContentSubmit}
@@ -199,6 +205,23 @@ export const AddContent = ({
     </div>
   );
 };
+
+function AddAppxVideoMetadata({
+  onChange,
+}: {
+  onChange: (metadata: any) => void;
+}) {
+  return (
+    <div>
+      <Input
+        type="text"
+        placeholder="Appx Video Id"
+        onChange={(e) => onChange({ appxVideoId: e.target.value })}
+        className="h-14"
+      />
+    </div>
+  );
+}
 
 const VARIANTS = 1;
 function AddVideosMetadata({

@@ -16,6 +16,7 @@ import { YoutubeRenderer } from './YoutubeRenderer';
 import { toast } from 'sonner';
 import { createRoot } from 'react-dom/client';
 import { PictureInPicture2 } from 'lucide-react';
+import { AppxVideoPlayer } from './AppxVideoPlayer';
 
 // todo correct types
 interface VideoPlayerProps {
@@ -311,7 +312,7 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
         player.playbackRate(1);
       }
     };
-    document.addEventListener('keydown', handleKeyPress, {capture: true});
+    document.addEventListener('keydown', handleKeyPress, { capture: true });
     document.addEventListener('keyup', handleKeyUp);
     // Cleanup function
     return () => {
@@ -471,12 +472,23 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
     return regex.test(url);
   };
 
-  if (isYoutubeUrl(vidUrl)) {
-    return <YoutubeRenderer url={vidUrl} />;
-  }
+  const isAppxEncryptedVideo = (url: string) => {
+    return url.startsWith('https://player.akamai.net.in/secure-player');
+  };
+
+  if (isYoutubeUrl(vidUrl)) return <YoutubeRenderer url={vidUrl} />;
+
+  //TODO: Figure out how to get the courseId
+  if (isAppxEncryptedVideo(vidUrl))
+    return (
+      <AppxVideoPlayer courseId={'courseId'} videoId={contentId.toString()} />
+    );
 
   return (
-    <div data-vjs-player style={{ maxWidth: '850px',  margin: '0 auto', width: '100%' }}>
+    <div
+      data-vjs-player
+      style={{ maxWidth: '850px', margin: '0 auto', width: '100%' }}
+    >
       <div ref={videoRef} style={{ width: '100%', height: 'auto' }} />
     </div>
   );

@@ -12,6 +12,7 @@ interface AppxSigninResponse {
     userid: string;
     name: string;
     username?: string;
+    token: string;
   } | null;
 }
 
@@ -56,12 +57,12 @@ async function validateUser(
 ): Promise<
   | { data: null }
   | {
-      data: {
-        name: string;
-        userid: string;
-        token: string;
-      };
-    }
+    data: {
+      name: string;
+      userid: string;
+      token: string;
+    };
+  }
 > {
   if (process.env.LOCAL_CMS_PROVIDER) {
     if (password === '123456') {
@@ -136,12 +137,14 @@ export const authOptions = {
               password: true,
               id: true,
               name: true,
+              appxAuthToken: true,
             },
           });
           if (
             userDb &&
             userDb.password &&
-            (await bcrypt.compare(credentials.password, userDb.password))
+            (await bcrypt.compare(credentials.password, userDb.password)) &&
+            userDb?.appxAuthToken
           ) {
             const jwt = await generateJWT({
               id: userDb.id,
@@ -184,6 +187,7 @@ export const authOptions = {
                   email: credentials.username,
                   token: jwt,
                   password: hashedPassword,
+                  appxAuthToken: user.data.token,
                 },
                 update: {
                   id: user.data.userid,
@@ -191,6 +195,7 @@ export const authOptions = {
                   email: credentials.username,
                   token: jwt,
                   password: hashedPassword,
+                  appxAuthToken: user.data.token,
                 },
               });
             } catch (e) {
