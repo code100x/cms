@@ -16,6 +16,7 @@ import { YoutubeRenderer } from './YoutubeRenderer';
 import { toast } from 'sonner';
 import { createRoot } from 'react-dom/client';
 import { PictureInPicture2 } from 'lucide-react';
+import { AppxVideoPlayer } from './AppxVideoPlayer';
 
 // todo correct types
 interface VideoPlayerProps {
@@ -24,6 +25,7 @@ interface VideoPlayerProps {
   onReady?: (player: Player) => void;
   subtitles?: string;
   contentId: number;
+  appxVideoId?: string;
   onVideoEnd: () => void;
 }
 
@@ -37,6 +39,7 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
   onReady,
   subtitles,
   onVideoEnd,
+  appxVideoId,
 }) => {
   const videoRef = useRef<HTMLDivElement>(null);
   const playerRef = useRef<Player | null>(null);
@@ -311,7 +314,7 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
         player.playbackRate(1);
       }
     };
-    document.addEventListener('keydown', handleKeyPress, {capture: true});
+    document.addEventListener('keydown', handleKeyPress, { capture: true });
     document.addEventListener('keyup', handleKeyUp);
     // Cleanup function
     return () => {
@@ -471,12 +474,17 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
     return regex.test(url);
   };
 
-  if (isYoutubeUrl(vidUrl)) {
-    return <YoutubeRenderer url={vidUrl} />;
-  }
+  if (isYoutubeUrl(vidUrl)) return <YoutubeRenderer url={vidUrl} />;
+
+  //TODO: Figure out how to get the courseId
+  if (appxVideoId)
+    return <AppxVideoPlayer courseId={'14'} videoId={appxVideoId} />;
 
   return (
-    <div data-vjs-player style={{ maxWidth: '850px',  margin: '0 auto', width: '100%' }}>
+    <div
+      data-vjs-player
+      style={{ maxWidth: '850px', margin: '0 auto', width: '100%' }}
+    >
       <div ref={videoRef} style={{ width: '100%', height: 'auto' }} />
     </div>
   );

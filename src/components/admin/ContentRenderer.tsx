@@ -37,6 +37,7 @@ export const getMetadata = async (contentId: number) => {
       contentId,
     },
   });
+
   if (!metadata) {
     return null;
   }
@@ -85,6 +86,7 @@ export const getMetadata = async (contentId: number) => {
     slides: metadata['slides'],
     segments: metadata['segments'],
     thumbnails: metadata['thumbnail_mosiac_url'],
+    appxVideoId: metadata['appxVideoId'],
   };
 
   if (user?.bunnyProxyEnabled) {
@@ -102,6 +104,7 @@ export const getMetadata = async (contentId: number) => {
     slides: metadata['slides'],
     segments: metadata['segments'],
     thumbnails: metadata['thumbnail_mosiac_url'],
+    appxVideoId: metadata['appxVideoId'],
   };
 
   const isHighestQualityUrlAccessible = await isUrlAccessible(mainUrls['1080']);
