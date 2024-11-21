@@ -46,6 +46,8 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
   const [player, setPlayer] = useState<any>(null);
   const searchParams = useSearchParams();
   const vidUrl = options.sources[0].src;
+  const href = window.location.href;
+  const courseId = href.split('/')[4];
 
   const togglePictureInPicture = async () => {
     try {
@@ -476,9 +478,8 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
 
   if (isYoutubeUrl(vidUrl)) return <YoutubeRenderer url={vidUrl} />;
 
-  //TODO: Figure out how to get the courseId
   if (appxVideoId)
-    return <AppxVideoPlayer courseId={'14'} videoId={appxVideoId} />;
+    return <AppxVideoPlayer courseId={courseId} videoId={appxVideoId} />;
 
   return (
     <div
