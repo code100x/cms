@@ -79,7 +79,7 @@ export const POST = async (req: NextRequest) => {
 
   const content = await db.content.create({
     data: {
-      type,
+      type: type === 'appx' ? 'video' : type,
       title,
       parentId: parentContentId,
       thumbnail,
