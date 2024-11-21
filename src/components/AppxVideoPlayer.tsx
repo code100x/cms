@@ -2,7 +2,6 @@
 import { GetAppxVideoPlayerUrl } from '@/actions/user';
 import { signOut } from 'next-auth/react';
 import { useEffect, useRef, useState } from 'react';
-import { Button } from 'react-day-picker';
 import { toast } from 'sonner';
 
 export const AppxVideoPlayer = ({
