@@ -19,7 +19,7 @@ export const CourseCard = ({
   const percentage = course.totalVideos !== undefined ? Math.ceil(((course.totalVideosWatched ?? 0) / course?.totalVideos) * 100) : 0;
 
   return (
-    <Card className="w-full max-w-sm overflow-hidden transition-all hover:shadow-lg cursor-pointer" onClick={onClick}>
+    <Card className="w-full max-w-sm overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:border-primary/30 hover:shadow-lg cursor-pointer" onClick={onClick}>
       <div className="relative aspect-video overflow-hidden">
         <img
           alt={course.title}
