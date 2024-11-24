@@ -3,7 +3,7 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import { VideoPlayerSegment } from '@/components/VideoPlayerSegment';
 import VideoContentChapters from '../VideoContentChapters';
 import { ChevronDown, ChevronUp } from 'lucide-react';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Button } from '../ui/button';
 import Link from 'next/link';
 
@@ -25,6 +25,7 @@ export const ContentRendererClient = ({
     thumbnail: string;
     description: string;
     markAsCompleted: boolean;
+    courseId: string;
   };
 }) => {
   const [showChapters, setShowChapters] = useState(
@@ -66,6 +67,44 @@ export const ContentRendererClient = ({
       type: 'video/mp4',
     };
   }, [mpdUrl]);
+
+  const addToRecentlyPlayed = () => {
+    if (!content) return;
+
+    const recentlyPlayed =
+      JSON.parse(localStorage.getItem('recentlyplayed')!) || null;
+
+    if (!recentlyPlayed) {
+      localStorage.setItem('recentlyplayed', JSON.stringify([content]));
+    } else {
+      const checkCourseExists = recentlyPlayed.find(
+        (item: any) => item.courseId === content.courseId,
+      );
+
+      if (!checkCourseExists) {
+        localStorage.setItem(
+          'recentlyplayed',
+          JSON.stringify([
+            ...JSON.parse(localStorage.getItem('recentlyplayed')!),
+            content,
+          ]),
+        );
+      } else {
+        const playBackCourse = recentlyPlayed.filter(
+          (item: any) => item.courseId !== content.courseId,
+        );
+
+        localStorage.setItem(
+          'recentlyplayed',
+          JSON.stringify([...playBackCourse, content]),
+        );
+      }
+    }
+  };
+
+  useEffect(() => {
+    addToRecentlyPlayed();
+  }, [content]);
 
   const toggleShowChapters = () => {
     setShowChapters((prev) => !prev);

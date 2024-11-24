@@ -6,6 +6,7 @@ import { getFolderPercentCompleted } from '@/lib/utils';
 import { QueryParams } from '@/actions/types';
 import BreadCrumbComponent from './BreadCrumbComponent';
 import Comments from './comment/Comments';
+import { ContinueWatchingButton } from './ContinueWatchingButton';
 // import { Sidebar } from './Sidebar';
 
 export const CourseView = ({
@@ -21,15 +22,15 @@ export const CourseView = ({
   rest: string[];
   course: any;
   courseContent:
-  | {
-    folder: true;
-    value: ChildCourseContent[];
-  }
-  | {
-    folder: false;
-    value: ChildCourseContent;
-  }
-  | null;
+    | {
+        folder: true;
+        value: ChildCourseContent[];
+      }
+    | {
+        folder: false;
+        value: ChildCourseContent;
+      }
+    | null;
   nextContent: any;
   searchParams: QueryParams;
   possiblePath: string;
@@ -37,9 +38,10 @@ export const CourseView = ({
   const contentType = courseContent?.folder
     ? 'folder'
     : courseContent?.value.type;
+
   return (
-    <div className="flex w-full flex-col gap-8 pb-16 pt-8 xl:pt-[9px] relative">
-      <div className="flex flex-col gap-4 xl:pt-2 sticky z-10 top-[120px] py-2 bg-background">
+    <div className="relative flex w-full flex-col gap-8 pb-16 pt-8 xl:pt-[9px]">
+      <div className="sticky top-[120px] z-10 flex flex-col gap-4 bg-background py-2 xl:pt-2">
         <BreadCrumbComponent
           course={course}
           contentType={contentType}
@@ -48,6 +50,10 @@ export const CourseView = ({
           rest={rest}
         />
       </div>
+
+      {contentType === 'folder' && (
+        <ContinueWatchingButton courseId={course.id} />
+      )}
 
       {!courseContent?.folder && courseContent?.value.type === 'notion' ? (
         <NotionRenderer id={courseContent?.value?.id?.toString()} />
@@ -65,6 +71,8 @@ export const CourseView = ({
             markAsCompleted:
               courseContent?.value?.videoProgress?.markAsCompleted || false,
             bookmark: courseContent?.value.bookmark || null,
+            parentId: courseContent?.value.parentId,
+            courseId: course.id,
           }}
         />
       ) : null}

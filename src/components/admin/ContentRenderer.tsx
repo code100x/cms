@@ -144,6 +144,8 @@ export const ContentRenderer = async ({
     slides?: string;
     markAsCompleted: boolean;
     bookmark: Bookmark | null;
+    courseId: string;
+    parentId:any
   };
 }) => {
   const metadata = await getMetadata(content.id);
