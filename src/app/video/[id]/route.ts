@@ -1,4 +1,5 @@
 import { authOptions } from '@/lib/auth';
+import handleManifest from '@/utiles/manifest';
 import axios from 'axios';
 import { getServerSession } from 'next-auth';
 import { NextRequest, NextResponse } from 'next/server';
@@ -26,12 +27,14 @@ export const GET = async (
       },
     );
 
+    const manifestContent = handleManifest(response.data);
+
     // Set the correct content type for m3u8 files
     const headers = new Headers();
     headers.set('Content-Type', 'application/vnd.apple.mpegurl');
 
     // Return the m3u8 content directly
-    return new NextResponse(response.data, {
+    return new NextResponse(manifestContent, {
       status: 200,
       headers,
     });

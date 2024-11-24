@@ -482,10 +482,7 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
     return <AppxVideoPlayer courseId={courseId} videoId={appxVideoId} />;
 
   return (
-    <div
-      data-vjs-player
-      style={{ maxWidth: '850px', margin: '0 auto', width: '100%' }}
-    >
+    <div data-vjs-player style={{ margin: '0 auto', width: '100%' }}>
       <div ref={videoRef} style={{ width: '100%', height: 'auto' }} />
     </div>
   );

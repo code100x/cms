@@ -1,6 +1,6 @@
 'use client';
-import React, { FunctionComponent, useRef } from 'react';
-import { VideoPlayer } from '@/components/VideoPlayer2';
+import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
+import VideoPlayer3 from '@/components/VideoPlayer3';
 import {
   createSegmentMarkersWithoutDuration,
   getCurrentSegmentName,
@@ -8,6 +8,7 @@ import {
 import Player from 'video.js/dist/types/player';
 
 import { Segment } from '@/lib/utils';
+import VideoPlayer from './VideoPlayer2';
 
 export interface Thumbnail {
   public_id: string;
@@ -38,6 +39,7 @@ export const VideoPlayerSegment: FunctionComponent<VideoProps> = ({
   appxVideoId,
 }) => {
   const playerRef = useRef<Player | null>(null);
+  const [currentOrigin, setCurrentOrigin] = useState('');
 
   const thumbnailPreviewRef = useRef<HTMLDivElement>(null);
 
@@ -90,6 +92,14 @@ export const VideoPlayerSegment: FunctionComponent<VideoProps> = ({
     overrideUpdateTime(player);
   };
 
+  const vidSource: string = videoJsOptions.sources[0].src;
+
+  useEffect(() => {
+    if (window.location.origin) {
+      setCurrentOrigin(window.location.origin);
+    }
+  }, [window.location]);
+
   return (
     <div className="mb-6">
       <div className="relative flex-1">
@@ -98,15 +108,20 @@ export const VideoPlayerSegment: FunctionComponent<VideoProps> = ({
           ref={thumbnailPreviewRef}
           className="pointer-events-none absolute z-10 hidden h-[180px] w-[320px] bg-cover bg-no-repeat"
         />
-        <VideoPlayer
-          setQuality={setQuality}
-          contentId={contentId}
-          subtitles={subtitles}
-          options={videoJsOptions}
-          appxVideoId={appxVideoId}
-          onVideoEnd={onVideoEnd}
-          onReady={handlePlayerReady}
-        />
+        {currentOrigin.length > 1 &&
+        vidSource.startsWith(currentOrigin + '/video/') ? (
+          <VideoPlayer3 options={videoJsOptions} />
+        ) : (
+          <VideoPlayer
+            setQuality={setQuality}
+            contentId={contentId}
+            subtitles={subtitles}
+            options={videoJsOptions}
+            appxVideoId={appxVideoId}
+            onVideoEnd={onVideoEnd}
+            onReady={handlePlayerReady}
+          />
+        )}
       </div>
     </div>
   );

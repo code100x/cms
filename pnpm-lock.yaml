@@ -23,6 +23,9 @@ importers:
       '@icons-pack/react-simple-icons':
         specifier: ^9.4.0
         version: 9.7.0(react@18.3.1)
+      '@mehul-srivastava/hls.js':
+        specifier: ^1.0.0
+        version: 1.0.0
       '@prisma/client':
         specifier: ^5.18.0
         version: 5.18.0(prisma@5.18.0)
@@ -1465,6 +1468,9 @@ packages:
     peerDependencies:
       '@types/react': '>=16'
       react: '>=16'
+
+  '@mehul-srivastava/hls.js@1.0.0':
+    resolution: {integrity: sha512-pk/LXG/Y/aS0ulXtIxbe4ojCySsk3qhFt/sK9rwUFMaIx4vYuDCJ8TF62hzhGiLvNkIEevfMbHqLzXrb0+OyoA==}
 
   '@next/env@14.0.2':
     resolution: {integrity: sha512-HAW1sljizEaduEOes/m84oUqeIDAUYBR1CDwu2tobNlNDFP3cSm9d6QsOsGeNlIppU1p/p1+bWbYCbvwjFiceA==}
@@ -8781,6 +8787,8 @@ snapshots:
       '@types/mdx': 2.0.13
       '@types/react': 18.3.3
       react: 18.3.1
+
+  '@mehul-srivastava/hls.js@1.0.0': {}
 
   '@next/env@14.0.2': {}
 
