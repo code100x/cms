@@ -32,7 +32,7 @@ export async function GET() {
   }
 
   return NextResponse.json({
-    message: 'found data successsfully',
+    message: 'found data successfully',
     data: githubData,
     success: 'true',
   });
