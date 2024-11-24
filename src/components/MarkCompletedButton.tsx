@@ -49,13 +49,3 @@ export const MarkCompletedButton = ({
     </TooltipProvider>
   );
 };
-
-// <button
-//   className="flex w-fit rounded-lg border border-gray-200 bg-white px-6 py-2 text-primary/70 transition-all hover:border-green-500 hover:bg-green-200/40 hover:text-green-500 focus-visible:ring-gray-300 dark:border-gray-800 dark:bg-gray-950 dark:hover:border-green-700 dark:hover:bg-green-800/30 dark:hover:text-green-500 dark:focus-visible:ring-gray-700"
-//   onClick={handleMarkAsCompleted}
-// >
-//   <h1 className="flex items-center gap-2 text-sm font-semibold capitalize">
-//     Mark Completed
-//     <IoCheckmarkDoneOutline size={20} />
-//   </h1>
-// </button>
