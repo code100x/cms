@@ -6,6 +6,7 @@ import { getFolderPercentCompleted } from '@/lib/utils';
 import { QueryParams } from '@/actions/types';
 import BreadCrumbComponent from './BreadCrumbComponent';
 import Comments from './comment/Comments';
+import { MarkCompletedButton } from './MarkCompletedButton';
 // import { Sidebar } from './Sidebar';
 
 export const CourseView = ({
@@ -38,8 +39,8 @@ export const CourseView = ({
     ? 'folder'
     : courseContent?.value.type;
   return (
-    <div className="flex w-full flex-col gap-8 pb-16 pt-8 xl:pt-[9px] relative">
-      <div className="flex flex-col gap-4 xl:pt-2 sticky z-10 top-[120px] py-2 bg-background">
+    <div className="relative flex w-full flex-col gap-8 pb-16 pt-8 xl:pt-[9px]">
+      <div className="sticky top-[120px] z-10 flex items-center justify-between gap-4 bg-background py-2 xl:pt-2">
         <BreadCrumbComponent
           course={course}
           contentType={contentType}
@@ -47,6 +48,16 @@ export const CourseView = ({
           fullCourseContent={fullCourseContent}
           rest={rest}
         />
+        {!courseContent?.folder && 
+        ['notion', 'video'].includes(courseContent?.value?.type ?? '') && (
+          <MarkCompletedButton
+            courseContent={{
+              id: courseContent?.value?.id || 0,
+              markAsCompleted: courseContent?.value?.videoProgress?.markAsCompleted ?? false,
+              type: courseContent?.value?.type ?? '',
+            }}
+          />
+        )}
       </div>
 
       {!courseContent?.folder && courseContent?.value.type === 'notion' ? (
