@@ -2,7 +2,7 @@
 
 import { motion, AnimatePresence } from 'framer-motion';
 import { useSession } from 'next-auth/react';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import React, { useState, useCallback, useMemo, useEffect } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Menu, Search, X } from 'lucide-react';
