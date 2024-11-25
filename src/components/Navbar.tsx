@@ -16,7 +16,6 @@ const scrollPositions = new Map<string, number>();
 
 export const Navbar = () => {
   const { data: session } = useSession();
-  const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const pathname = usePathname();
