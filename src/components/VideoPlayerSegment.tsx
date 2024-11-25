@@ -106,6 +106,7 @@ export const VideoPlayerSegment: FunctionComponent<VideoProps> = ({
           appxVideoId={appxVideoId}
           onVideoEnd={onVideoEnd}
           onReady={handlePlayerReady}
+          className="w-full h-auto max-w-full max-h-full"
         />
       </div>
     </div>

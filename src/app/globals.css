@@ -356,3 +356,19 @@
     mask-size: 350vmax;
   }
 }
+
+/* Ensure the video player is fully responsive for different screen sizes */
+.video-js {
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+/* Handle the video frame's width and height correctly */
+.video-frame {
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+}

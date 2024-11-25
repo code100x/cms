@@ -484,7 +484,7 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
   return (
     <div
       data-vjs-player
-      style={{ maxWidth: '850px', margin: '0 auto', width: '100%' }}
+      style={{ width: '100%', height: 'auto' }}
     >
       <div ref={videoRef} style={{ width: '100%', height: 'auto' }} />
     </div>
