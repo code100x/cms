@@ -18,6 +18,7 @@ git clone https://github.com/code100x/cms.git
 ```bash
 cd cms
 ```
+
 # Instant Docker Setup
 
 > [!NOTE]  
@@ -51,14 +52,11 @@ docker run -d \
 -p 5432:5432 \
 
 postgres
-``` 
-
-
+```
 
 1. Create a .env file:
 
    - Copy `.env.example` and rename it to `.env`.
-
 
 2. Install dependencies:
 
