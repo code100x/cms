@@ -162,6 +162,22 @@ export const handleMarkAsCompleted = async (
   });
   return await response.json();
 };
+export const handleMarkNotesAsCompleted = async (
+  isCompleted: boolean,
+  contentId: number,
+) => {
+  const response = await fetch('/api/notesProgress', {
+    body: JSON.stringify({
+      isCompleted,
+      contentId,
+    }),
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+  return await response.json();
+};
 
 export const getFolderPercentCompleted = (childrenContent: any) => {
   if (childrenContent && childrenContent.length > 0) {

@@ -44,6 +44,7 @@ model Content {
   parentId         Int?
   parent           Content?        @relation("ContentToContent", fields: [parentId], references: [id])
   videoProgress    VideoProgress[]
+  notesProgress    NotesProgress[]
   children         Content[]       @relation("ContentToContent")
   courses          CourseContent[]
   createdAt        DateTime        @default(now())
@@ -146,6 +147,7 @@ model User {
   sessions          Session[]
   purchases         UserPurchases[]
   videoProgress     VideoProgress[]
+  notesProgress     NotesProgress[]
   comments          Comment[]
   votes             Vote[]
   discordConnect    DiscordConnect?
@@ -223,6 +225,17 @@ model VideoProgress {
   updatedAt        DateTime @default(now()) @updatedAt
 
   @@unique([contentId, userId])
+}
+
+model NotesProgress {
+  id          Int     @id @default(autoincrement())
+  userId      String
+  contentId   Int
+  user        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  content     Content @relation(fields: [contentId], references: [id], onDelete: Cascade)
+  isCompleted Boolean @default(false)
+
+  @@unique([userId, contentId])
 }
 
 model Bookmark {

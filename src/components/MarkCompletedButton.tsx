@@ -1,5 +1,5 @@
 'use client';
-import { handleMarkAsCompleted } from '@/lib/utils';
+import { handleMarkAsCompleted, handleMarkNotesAsCompleted } from '@/lib/utils';
 import { CheckCircle2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/tooltip';
@@ -8,6 +8,7 @@ type CourseContent = {
   id: number;
   markAsCompleted: boolean;
   type: string;
+  notesProgress: boolean;
 };
 
 export const MarkCompletedButton = ({
@@ -15,9 +16,17 @@ export const MarkCompletedButton = ({
 }: {
     courseContent: CourseContent;
 }) => {
-  const { id, markAsCompleted, type } = courseContent;
-  const [completed, setCompleted] = useState(markAsCompleted);
-
+  const { id, markAsCompleted, type, notesProgress } = courseContent;
+  let contentCompletionStatus = false;
+  if (type === 'notion') {
+    contentCompletionStatus = notesProgress;
+    console.log("Notes :", notesProgress);
+  } else if (type === 'video') {
+    contentCompletionStatus = markAsCompleted;
+    console.log("Video :", markAsCompleted);
+  }
+  const [completed, setCompleted] = useState(contentCompletionStatus);
+  // console.log(courseContent);
   const toggleCompletion = () => {
     setCompleted((prev : boolean) => !prev);
   };
@@ -25,6 +34,8 @@ export const MarkCompletedButton = ({
   useEffect(() => {
     if (type === 'video') {
       handleMarkAsCompleted(completed, id);
+    } else if (type === 'notion') {
+      handleMarkNotesAsCompleted(completed, id);
     }
   },[completed, toggleCompletion]);
   return (

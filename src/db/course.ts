@@ -250,20 +250,38 @@ export function getVideoProgressForUser(
   });
 }
 
+export function getNotionNotesProgressForUser(
+  userId: string,
+  isCompleted?: boolean,
+) {
+  return db.notesProgress.findMany({
+    where: {
+      userId,
+      ...(isCompleted !== undefined && { isCompleted }),
+    },
+  });
+}
+
 interface VideoProgress {
   duration: number | null;
   markAsCompleted?: boolean;
   videoFullDuration: number | null;
 }
 
+interface NotesProgress {
+  isCompleted?: boolean;
+}
+
 export type ChildCourseContent = {
   videoProgress: VideoProgress | null;
+  notesProgress: NotesProgress | null;
   bookmark?: Bookmark;
 } & ContentWithMetadata;
 
 export type FullCourseContent = {
   children?: ChildCourseContent[];
   videoProgress: VideoProgress | null;
+  notesProgress: NotesProgress | null;
   bookmark?: Bookmark;
 } & ContentWithMetadata;
 
@@ -285,6 +303,7 @@ export const getFullCourseContent = async (
   const contents = await getAllContent();
   const courseContent = await getRootCourseContent(courseId);
   const videoProgress = await getVideoProgressForUser(session?.user?.id);
+  const notesProgress = await getNotionNotesProgressForUser(session?.user?.id);
   const bookmarkData = await getBookmarkData();
   const contentMap = new Map<string, FullCourseContent>(
     contents.map((content: any) => [
@@ -302,6 +321,14 @@ export const getFullCourseContent = async (
                   (x) => x.contentId === content.id,
                 )?.markAsCompleted,
                 videoFullDuration: content.VideoMetadata?.duration,
+              }
+            : null,
+        notesProgress:
+          content.type === 'notion'
+            ? {
+                isCompleted: notesProgress.find(
+                  (x) => x.contentId === content.id,
+                )?.isCompleted ?? false,
               }
             : null,
       },
