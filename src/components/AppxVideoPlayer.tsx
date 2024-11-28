@@ -39,3 +39,4 @@ export const AppxVideoPlayer = ({
 
   return <iframe src={url} className="h-[80vh] w-[80vw] rounded-lg"></iframe>;
 };
+

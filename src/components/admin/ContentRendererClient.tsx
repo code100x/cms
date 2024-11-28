@@ -19,7 +19,7 @@ export const ContentRendererClient = ({
   } | null;
   metadata: any;
   content: {
-    type: 'video';
+    type: 'video' | 'appx';
     id: number;
     title: string;
     thumbnail: string;

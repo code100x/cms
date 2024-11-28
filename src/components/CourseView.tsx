@@ -37,6 +37,7 @@ export const CourseView = ({
   const contentType = courseContent?.folder
     ? 'folder'
     : courseContent?.value.type;
+
   return (
     <div className="flex w-full flex-col gap-8 pb-16 pt-8 xl:pt-[9px] relative">
       <div className="flex flex-col gap-4 xl:pt-2 sticky z-10 top-[120px] py-2 bg-background">
@@ -53,7 +54,7 @@ export const CourseView = ({
         <NotionRenderer id={courseContent?.value?.id?.toString()} />
       ) : null}
 
-      {!courseContent?.folder && contentType === 'video' ? (
+      {!courseContent?.folder && (contentType === 'video' || contentType === 'appx') ? (
         <ContentRenderer
           nextContent={nextContent}
           content={{

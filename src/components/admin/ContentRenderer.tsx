@@ -136,7 +136,7 @@ export const ContentRenderer = async ({
     title: string;
   } | null;
   content: {
-    type: 'video';
+    type: 'video' | 'appx';
     id: number;
     title: string;
     description: string;
