@@ -106,7 +106,6 @@ export const CourseView = ({
             } else if (x.type === 'video') {
               contentCompletionStatus = x.videoProgress.markAsCompleted;
             }
-            console.log("map");
 
             return ({
             title: x?.title || '',

@@ -38,7 +38,6 @@ export const FolderView = ({
     updatedRoute += `/${rest[i]}`;
   }
   // why? because we have to reset the segments or they will be visible always after a video
-  console.log(courseContent);
   return (
     <div>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">

@@ -20,13 +20,10 @@ export const MarkCompletedButton = ({
   let contentCompletionStatus = false;
   if (type === 'notion') {
     contentCompletionStatus = notesProgress;
-    console.log("Notes :", notesProgress);
   } else if (type === 'video') {
     contentCompletionStatus = markAsCompleted;
-    console.log("Video :", markAsCompleted);
   }
   const [completed, setCompleted] = useState(contentCompletionStatus);
-  // console.log(courseContent);
   const toggleCompletion = () => {
     setCompleted((prev : boolean) => !prev);
   };

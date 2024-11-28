@@ -49,22 +49,5 @@ export async function POST(req: NextRequest) {
     });
   }
   
-  // const updatedRecord = await db.notesProgress.upsert({
-  //   where: {
-  //     contentId_userId: {
-  //       contentId: Number(contentId),
-  //       userId: session.user.id,
-  //     },
-  //   },
-  //   create: {
-  //     contentId: Number(contentId),
-  //     userId: session.user.id,
-  //     isCompleted,
-  //   },
-  //   update: {
-  //     isCompleted,
-  //   },
-  // });
-
   return NextResponse.json(updatedRecord);
 }
