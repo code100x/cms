@@ -23,7 +23,12 @@ jobs:
       - name: Set up kubectl
         uses: azure/setup-kubectl@v1
         with:
-          kubeconfig: ${{ secrets.KUBE_POSTGRES_CONFIG }}
+          version: 'latest'
+      
+      - name: Set KUBECONFIG environment variable
+        run: echo "$KUBE_POSTGRES_CONFIG" > $HOME/.kube/config
+        env:
+          KUBE_POSTGRES_CONFIG: ${{ secrets.KUBE_POSTGRES_CONFIG }}
 
       # Proxy the database (use kubectl port-forward or other mechanisms)
       - name: Proxy Database using Kubernetes
