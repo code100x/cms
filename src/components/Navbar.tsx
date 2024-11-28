@@ -2,8 +2,8 @@
 
 import { motion, AnimatePresence } from 'framer-motion';
 import { useSession } from 'next-auth/react';
-import { usePathname, useRouter } from 'next/navigation';
-import React, { useState, useCallback, useMemo } from 'react';
+import { usePathname } from 'next/navigation';
+import React, { useState, useCallback, useMemo, useEffect } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Menu, Search, X } from 'lucide-react';
 import { Button } from './ui/button';
@@ -12,9 +12,13 @@ import ThemeToggler from './ThemeToggler';
 import ProfileDropdown from './profile-menu/ProfileDropdown';
 import { SearchBar } from './search/SearchBar';
 
+//global map data structure to store scroll position
+
+const scrollPositions = new Map<string, number>();
+
 export const Navbar = () => {
   const { data: session } = useSession();
-  const router = useRouter();
+  
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const pathname = usePathname();
@@ -40,6 +44,33 @@ export const Navbar = () => {
     [],
   );
 
+  // Save scroll position when leaving a page
+  useEffect(() => {
+    const handleScroll = () => {
+      scrollPositions.set(pathname, window.scrollY);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [pathname]);
+
+  // Custom back navigation with scroll position restoration
+
+  const handleBack = useCallback(() => {
+    scrollPositions.set(pathname, window.scrollY);
+
+    // Use window.history to go back
+    window.history.back();
+
+    // Restore scroll position after a short delay to ensure the page has loaded
+    setTimeout(() => {
+      const previousPath = window.location.pathname;
+      const savedPosition = scrollPositions.get(previousPath) || 0;
+      window.scrollTo(0, savedPosition);
+    }, 100);
+  }, [pathname]);
+
   return (
     <>
       <motion.nav
@@ -63,7 +94,7 @@ export const Navbar = () => {
           >
             {session?.user && pathname !== '/home' && (
               <Button
-                onClick={() => router.back()}
+                onClick={handleBack}
                 variant={'ghost'}
                 size={'icon'}
                 className="flex items-center gap-2"
@@ -158,9 +189,9 @@ export const Navbar = () => {
                 exit={{ opacity: 0, y: -20 }}
               >
                 <AppbarAuth />
-                  <Button variant={'branding'} className="w-full">
+                <Button variant={'branding'} className="w-full">
                   <Link
-                      href={'https://harkirat.classx.co.in/new-courses'}
+                    href={'https://harkirat.classx.co.in/new-courses'}
                     target="_blank"
                   >
                     Join now
