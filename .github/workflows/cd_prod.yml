@@ -33,7 +33,7 @@ jobs:
       # Proxy the database (use kubectl port-forward or other mechanisms)
       - name: Proxy Database using Kubernetes
         run: |
-          kubectl port-forward svc/postgres 5432:5432 -n postgres 
+          kubectl port-forward svc/postgres 5432:5432 -n postgres &
           sleep 5
 
       - name: Build and push
