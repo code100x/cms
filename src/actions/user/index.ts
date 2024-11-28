@@ -56,7 +56,7 @@ export const GetAppxAuthToken = async (): Promise<GetAppxAuthTokenResponse> => {
   return user;
 };
 
-export const GetAppxVideoPlayerUrl = async (courseId: string, videoId: string): Promise<string> => {
+export const GetAppxVideoPlayerUrl = async (courseId: string | number, videoId: string): Promise<string> => {
   const { name, email, appxAuthToken, appxUserId } = await GetAppxAuthToken();
   const url = `${process.env.APPX_BASE_API}/get/fetchVideoDetailsById?course_id=${courseId}&video_id=${videoId}&ytflag=${1}&folder_wise_course=${1}`;
 

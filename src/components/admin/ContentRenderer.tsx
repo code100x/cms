@@ -3,6 +3,7 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { ContentRendererClient } from './ContentRendererClient';
 import { Bookmark } from '@prisma/client';
+import { GetAppxVideoPlayerUrl } from '@/actions/user';
 
 function bunnyUrl(url?: string) {
   if (!url) return '';
@@ -144,12 +145,20 @@ export const ContentRenderer = async ({
     slides?: string;
     markAsCompleted: boolean;
     bookmark: Bookmark | null;
+    AppXVideoId?: string;
   };
 }) => {
   const metadata = await getMetadata(content.id);
+  let AppXVideoUrl = null;
+
+  if (metadata?.appxVideoId !== null) {
+    AppXVideoUrl = await GetAppxVideoPlayerUrl(content.id, metadata.appxVideoId);
+  }
+
   return (
     <div>
       <ContentRendererClient
+        AppXVideoUrl={AppXVideoUrl}
         nextContent={nextContent}
         metadata={metadata}
         content={content}

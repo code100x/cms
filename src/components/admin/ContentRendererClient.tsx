@@ -11,6 +11,7 @@ export const ContentRendererClient = ({
   metadata,
   content,
   nextContent,
+  AppXVideoUrl,
 }: {
   nextContent: {
     id: number;
@@ -26,6 +27,7 @@ export const ContentRendererClient = ({
     description: string;
     markAsCompleted: boolean;
   };
+  AppXVideoUrl?: string;
 }) => {
   const [showChapters, setShowChapters] = useState(
     metadata?.segments?.length > 0,
@@ -36,7 +38,7 @@ export const ContentRendererClient = ({
 
   //@ts-ignore
   const [quality, setQuality] = useState<string>(
-    searchParams.get('quality') ?? '1080',
+    searchParams?.get('quality') ?? '1080',
   );
 
   if (!metadata) {
@@ -106,11 +108,18 @@ export const ContentRendererClient = ({
             <h2 className="line-clamp-2 text-wrap text-2xl font-extrabold capitalize tracking-tight text-primary md:text-3xl">
               {content.title}
             </h2>
-            {metadata.slides ? (
-              <Link href={metadata.slides} target="_blank">
-                <Button className="gap-2">Lecture Slides</Button>
-              </Link>
-            ) : null}
+            <div>
+              {metadata.slides ? (
+                <Link href={metadata.slides} target="_blank">
+                  <Button className="gap-2">Lecture Slides</Button>
+                </Link>
+              ) : null}
+              {metadata.appxVideoId !== null && AppXVideoUrl && (
+                <Link href={AppXVideoUrl} target="_blank">
+                  <Button className="gap-2">View on AppX</Button>
+                </Link>
+              )}
+            </div>
           </div>
 
           {!showChapters && metadata.segments?.length > 0 && (
