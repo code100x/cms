@@ -46,8 +46,12 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
   const [player, setPlayer] = useState<any>(null);
   const searchParams = useSearchParams();
   const vidUrl = options.sources[0].src;
-  const href = window.location.href;
-  const courseId = href.split('/')[4];
+  let href: string | null = null;
+  let courseId: string | null = null;
+  if (typeof window !== 'undefined') {
+    href = window.location.href;
+    courseId = href.split('/')[4];
+  }
 
   const togglePictureInPicture = async () => {
     try {
@@ -478,7 +482,7 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
 
   if (isYoutubeUrl(vidUrl)) return <YoutubeRenderer url={vidUrl} />;
 
-  if (appxVideoId)
+  if (appxVideoId && typeof window !== 'undefined' && courseId)
     return <AppxVideoPlayer courseId={courseId} videoId={appxVideoId} />;
 
   return (
