@@ -26,7 +26,7 @@ jobs:
           version: 'latest'
       
       - name: Set KUBECONFIG environment variable
-        run: echo "$KUBE_POSTGRES_CONFIG" > $HOME/.kube/config
+        run: mkdir $HOME/.kube && echo $KUBE_POSTGRES_CONFIG | base64 -d > $HOME/.kube/config
         env:
           KUBE_POSTGRES_CONFIG: ${{ secrets.KUBE_POSTGRES_CONFIG }}
 
