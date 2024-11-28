@@ -19,6 +19,18 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
+      # Set up Kubernetes CLI and configure access
+      - name: Set up kubectl
+        uses: azure/setup-kubectl@v1
+        with:
+          kubeconfig: ${{ secrets.KUBE_POSTGRES_CONFIG }}
+
+      # Proxy the database (use kubectl port-forward or other mechanisms)
+      - name: Proxy Database using Kubernetes
+        run: |
+          kubectl port-forward svc/postgres 5432:5432 -n postgres 
+          sleep 5
+
       - name: Build and push
         uses: docker/build-push-action@v4
         with:
