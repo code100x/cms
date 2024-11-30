@@ -51,7 +51,7 @@ export function SearchResults({
     <div
       className={`absolute ${
         isMobile ? 'top-full' : 'top-12'
-      } z-30 max-h-[40vh] w-full rounded-lg border-2 bg-background p-2 shadow-lg`}
+      } z-30 max-h-[40vh] w-full overflow-y-scroll rounded-lg border-2 bg-background p-2 shadow-lg`}
     >
       {renderSearchResults()}
     </div>
