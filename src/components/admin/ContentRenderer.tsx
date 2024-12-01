@@ -145,10 +145,11 @@ export const ContentRenderer = async ({
     slides?: string;
     markAsCompleted: boolean;
     bookmark: Bookmark | null;
+    courseId: string;
   };
 }) => {
   const metadata = await getMetadata(content.id);
-  const appxCourseId = await getAppxCourseId();
+  const appxCourseId = await getAppxCourseId(content.courseId);
   if (!appxCourseId) {
     return <div>Loading...</div>;
   }

@@ -218,9 +218,9 @@ export async function getPurchases(email: string): Promise<CoursesResponse> {
   }
 }
 
-export async function getAppxCourseId() {
+export async function getAppxCourseId(courseId: string) {
   const session = await getServerSession(authOptions);
-  const parentCourses = await prisma.userPurchases.findFirst({
+  const parentCourses = await prisma.userPurchases.findMany({
     where: {
       courseId: {
         in: COHORT_3_PARENT_COURSES,
@@ -234,5 +234,18 @@ export async function getAppxCourseId() {
       courseId: 'asc'
     }
   });
-  return parentCourses?.course.appxCourseId || null;
+
+  const CMS_APPX_COURSE_MAP: Record<string, string[]> = {
+    13: ["8", "10"],
+    14: ["8", "9", "11"],
+    15: ["8", "9", "12"]
+  };
+
+  let appxCourseId: string | null = null;
+  parentCourses.forEach((pc => {
+    if (CMS_APPX_COURSE_MAP[courseId].includes(pc.courseId.toString())) {
+      appxCourseId = pc.course.appxCourseId;
+    }
+  }));
+  return appxCourseId;
 }
