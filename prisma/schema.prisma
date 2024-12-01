@@ -88,6 +88,7 @@ model VideoMetadata {
   id                         Int             @id @default(autoincrement())
   contentId                  Int
   appxVideoId                String?
+  appxVideoJSON              Json?
   video_1080p_mp4_1          String? // Link to 1080p mp4 quality video variant 1
   video_1080p_mp4_2          String? // Link to 1080p mp4 quality video variant 2
   video_1080p_mp4_3          String? // Link to 1080p mp4 quality video variant 3

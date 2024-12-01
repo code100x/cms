@@ -46,14 +46,39 @@ export const AddContent = ({
   const [loading, setLoading] = useState<boolean>(false);
 
   const getLabelClassName = (value: string) => {
-    return `flex gap-1 p-4 rounded-lg items-center space-x-2 ${
-      type === value ? 'border-[3px] border-blue-500' : 'border-[3px]'
-    }`;
+    return `flex gap-1 p-4 rounded-lg items-center space-x-2 ${type === value ? 'border-[3px] border-blue-500' : 'border-[3px]'
+      }`;
+  };
+
+  const formatInputJSON = (value: string) => {
+    const valWithout = value.replaceAll("\\", "").slice(1, -1);
+    if (valWithout[0] === "{") {
+      return valWithout;
+    }
+    return valWithout.slice(1, -1);
+  };
+
+  const validateJSON = (value: string) => {
+    try {
+      JSON.parse(value);
+      return true;
+    } catch (error) {
+      return false;
+    }
   };
 
   const handleContentSubmit = async () => {
     setLoading(true);
-    console.log(courseTitle);
+    if (type === "appx") {
+      //@ts-ignore
+      metadata.appxVideoJSON = formatInputJSON(metadata.appxVideoJSON);
+      //@ts-ignore
+      if (!validateJSON(metadata.appxVideoJSON)) {
+        toast.error("Invalid JSON");
+        setLoading(false);
+        return;
+      }
+    }
     const response = await fetch('/api/admin/content', {
       body: JSON.stringify({
         type,
@@ -74,13 +99,12 @@ export const AddContent = ({
       },
     });
     setLoading(false);
-    console.log(response);
     const responseData = await response.json();
-    console.log(responseData);
 
     if (response.status === 200) {
       // handle success if needed
       toast.success(responseData.message);
+      setMetadata({});
     } else {
       // handle error if needed
       toast.error(responseData.message || 'Something went wrong');
@@ -215,8 +239,8 @@ function AddAppxVideoMetadata({
     <div>
       <Input
         type="text"
-        placeholder="Appx Video Id"
-        onChange={(e) => onChange({ appxVideoId: e.target.value })}
+        placeholder="Appx Video JSON"
+        onChange={(e) => onChange({ appxVideoJSON: JSON.stringify(e.target.value) })}
         className="h-14"
       />
     </div>

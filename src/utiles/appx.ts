@@ -13,6 +13,11 @@ import { refreshDbInternal } from '@/actions/refresh-db';
 
 const LOCAL_CMS_PROVIDER = process.env.LOCAL_CMS_PROVIDER;
 const COHORT_3_PARENT_COURSES = [8, 9, 10, 11, 12];
+// 8 -> Web + Devops + Web3
+// 9 -> Web + Devops
+// 10 -> Web3
+// 11 -> Web
+// 12 -> Devops
 
 export const APPX_COURSE_IDS = [1, 2, 3, 8, 9, 10, 11, 12];
 
@@ -211,4 +216,36 @@ export async function getPurchases(email: string): Promise<CoursesResponse> {
       message: 'Ratelimited via appx',
     };
   }
+}
+
+export async function getAppxCourseId(courseId: string) {
+  const session = await getServerSession(authOptions);
+  const parentCourses = await prisma.userPurchases.findMany({
+    where: {
+      courseId: {
+        in: COHORT_3_PARENT_COURSES,
+      },
+      userId: session?.user?.id,
+    },
+    include: {
+      course: true,
+    },
+    orderBy: {
+      courseId: 'asc'
+    }
+  });
+
+  const CMS_APPX_COURSE_MAP: Record<string, string[]> = {
+    13: ["8", "10"],
+    14: ["8", "9", "11"],
+    15: ["8", "9", "12"]
+  };
+
+  let appxCourseId: string | null = null;
+  parentCourses.forEach((pc => {
+    if (CMS_APPX_COURSE_MAP[courseId].includes(pc.courseId.toString())) {
+      appxCourseId = pc.course.appxCourseId;
+    }
+  }));
+  return appxCourseId;
 }

@@ -26,6 +26,7 @@ interface VideoPlayerProps {
   subtitles?: string;
   contentId: number;
   appxVideoId?: string;
+  appxCourseId?: string;
   onVideoEnd: () => void;
 }
 
@@ -40,18 +41,13 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
   subtitles,
   onVideoEnd,
   appxVideoId,
+  appxCourseId
 }) => {
   const videoRef = useRef<HTMLDivElement>(null);
   const playerRef = useRef<Player | null>(null);
   const [player, setPlayer] = useState<any>(null);
   const searchParams = useSearchParams();
   const vidUrl = options.sources[0].src;
-  let href: string | null = null;
-  let courseId: string | null = null;
-  if (typeof window !== 'undefined') {
-    href = window.location.href;
-    courseId = href.split('/')[4];
-  }
 
   const togglePictureInPicture = async () => {
     try {
@@ -482,8 +478,8 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
 
   if (isYoutubeUrl(vidUrl)) return <YoutubeRenderer url={vidUrl} />;
 
-  if (appxVideoId && typeof window !== 'undefined' && courseId)
-    return <AppxVideoPlayer courseId={courseId} videoId={appxVideoId} />;
+  if (appxVideoId && typeof window !== 'undefined' && appxCourseId)
+    return <AppxVideoPlayer courseId={appxCourseId} videoId={appxVideoId} />;
 
   return (
     <div

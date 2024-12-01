@@ -60,19 +60,6 @@ export const POST = async (req: NextRequest) => {
     discordChecked: boolean;
   } = await req.json();
 
-  console.log({
-    type,
-    thumbnail,
-    title,
-    courseId,
-    parentContentId,
-    metadata,
-    adminPassword,
-    courseTitle,
-    rest,
-    discordChecked,
-  });
-
   if (adminPassword !== process.env.ADMIN_SECRET) {
     return NextResponse.json({}, { status: 403 });
   }
@@ -113,7 +100,7 @@ export const POST = async (req: NextRequest) => {
   } else if (type === 'appx') {
     await db.videoMetadata.create({
       data: {
-        appxVideoId: metadata.appxVideoId,
+        appxVideoJSON: JSON.parse(metadata.appxVideoJSON),
         contentId: content.id,
       },
     });
@@ -181,7 +168,6 @@ export const POST = async (req: NextRequest) => {
       mediaId: content.id,
     };
 
-    console.log(data);
     await sendUpdateToDiscord(data);
   }
 
