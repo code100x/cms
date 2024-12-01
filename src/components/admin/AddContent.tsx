@@ -72,12 +72,12 @@ export const AddContent = ({
     if (type === "appx") {
       //@ts-ignore
       metadata.appxVideoJSON = formatInputJSON(metadata.appxVideoJSON);
-    }
-    //@ts-ignore
-    if (!validateJSON(metadata.appxVideoJSON)) {
-      toast.error("Invalid JSON");
-      setLoading(false);
-      return;
+      //@ts-ignore
+      if (!validateJSON(metadata.appxVideoJSON)) {
+        toast.error("Invalid JSON");
+        setLoading(false);
+        return;
+      }
     }
     const response = await fetch('/api/admin/content', {
       body: JSON.stringify({
