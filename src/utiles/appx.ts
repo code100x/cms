@@ -13,6 +13,11 @@ import { refreshDbInternal } from '@/actions/refresh-db';
 
 const LOCAL_CMS_PROVIDER = process.env.LOCAL_CMS_PROVIDER;
 const COHORT_3_PARENT_COURSES = [8, 9, 10, 11, 12];
+// 8 -> Web + Devops + Web3
+// 9 -> Web + Devops
+// 10 -> Web3
+// 11 -> Web
+// 12 -> Devops
 
 export const APPX_COURSE_IDS = [1, 2, 3, 8, 9, 10, 11, 12];
 
@@ -211,4 +216,23 @@ export async function getPurchases(email: string): Promise<CoursesResponse> {
       message: 'Ratelimited via appx',
     };
   }
+}
+
+export async function getAppxCourseId() {
+  const session = await getServerSession(authOptions);
+  const parentCourses = await prisma.userPurchases.findFirst({
+    where: {
+      courseId: {
+        in: COHORT_3_PARENT_COURSES,
+      },
+      userId: session?.user?.id,
+    },
+    include: {
+      course: true,
+    },
+    orderBy: {
+      courseId: 'asc'
+    }
+  });
+  return parentCourses?.course.appxCourseId || null;
 }

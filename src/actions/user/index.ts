@@ -70,13 +70,9 @@ export const GetAppxVideoPlayerUrl = async (courseId: string, videoId: string): 
       'User-Id': appxUserId,
     },
   };
-  console.log(config);
-  console.log(url);
 
   const res = await axios.request(config);
   const { video_player_token, video_player_url } = res.data.data;
-  console.log(video_player_token);
-  console.log(video_player_url);
   const full_video_url = `${video_player_url}${video_player_token}&watermark=${name}%0A${email}`;
   return full_video_url;
 };

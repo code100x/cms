@@ -25,6 +25,8 @@ export const ContentRendererClient = ({
     thumbnail: string;
     description: string;
     markAsCompleted: boolean;
+    appxVideoId?: string;
+    appxCourseId?: string;
   };
 }) => {
   const [showChapters, setShowChapters] = useState(
@@ -79,7 +81,8 @@ export const ContentRendererClient = ({
           contentId={content.id}
           subtitles={metadata.subtitles}
           thumbnails={[]}
-          appxVideoId={metadata.appxVideoId}
+          appxVideoId={content.appxVideoId}
+          appxCourseId={content.appxCourseId}
           segments={metadata?.segments || []}
           videoJsOptions={{
             playbackrates: [0.5, 1, 1.25, 1.5, 1.75, 2],
@@ -99,7 +102,7 @@ export const ContentRendererClient = ({
             responsive: true,
             sources: [source],
           }}
-          onVideoEnd={() => {}}
+          onVideoEnd={() => { }}
         />
         <div className="flex flex-col gap-4 rounded-xl bg-primary/5 p-4">
           <div className="flex w-full flex-col justify-between gap-2 md:flex-row">

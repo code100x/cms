@@ -46,9 +46,8 @@ export const AddContent = ({
   const [loading, setLoading] = useState<boolean>(false);
 
   const getLabelClassName = (value: string) => {
-    return `flex gap-1 p-4 rounded-lg items-center space-x-2 ${
-      type === value ? 'border-[3px] border-blue-500' : 'border-[3px]'
-    }`;
+    return `flex gap-1 p-4 rounded-lg items-center space-x-2 ${type === value ? 'border-[3px] border-blue-500' : 'border-[3px]'
+      }`;
   };
 
   const handleContentSubmit = async () => {
@@ -215,8 +214,8 @@ function AddAppxVideoMetadata({
     <div>
       <Input
         type="text"
-        placeholder="Appx Video Id"
-        onChange={(e) => onChange({ appxVideoId: e.target.value })}
+        placeholder="Appx Video JSON"
+        onChange={(e) => onChange({ appxVideoJSON: JSON.stringify(e.target.value) })}
         className="h-14"
       />
     </div>

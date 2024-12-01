@@ -113,7 +113,7 @@ export const POST = async (req: NextRequest) => {
   } else if (type === 'appx') {
     await db.videoMetadata.create({
       data: {
-        appxVideoId: metadata.appxVideoId,
+        appxVideoJSON: metadata.appxVideoJSON,
         contentId: content.id,
       },
     });

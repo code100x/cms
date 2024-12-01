@@ -76,7 +76,7 @@ async function validateUser(
     }
     return { data: null };
   }
-  const url = 'https://harkiratapi.classx.co.in/post/userLogin';
+  const url = `${process.env.APPX_BASE_API}/post/userLogin`;
   const headers = {
     'Client-Service': process.env.APPX_CLIENT_SERVICE || '',
     'Auth-Key': process.env.APPX_AUTH_KEY || '',
