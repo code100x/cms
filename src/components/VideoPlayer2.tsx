@@ -41,7 +41,7 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
   subtitles,
   onVideoEnd,
   appxVideoId,
-  appxCourseId
+  appxCourseId,
 }) => {
   const videoRef = useRef<HTMLDivElement>(null);
   const playerRef = useRef<Player | null>(null);
@@ -484,7 +484,7 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
   return (
     <div
       data-vjs-player
-      style={{ maxWidth: '850px', margin: '0 auto', width: '100%' }}
+      style={{ maxWidth: '1350px', margin: '0 auto', width: '100%' }}
     >
       <div ref={videoRef} style={{ width: '100%', height: 'auto' }} />
     </div>
