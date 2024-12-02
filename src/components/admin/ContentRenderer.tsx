@@ -149,12 +149,11 @@ export const ContentRenderer = async ({
   };
 }) => {
   const metadata = await getMetadata(content.id);
-  const appxCourseId = await getAppxCourseId(content.courseId);
-  if (!appxCourseId) {
-    return <div>Loading...</div>;
-  }
-  //@ts-ignore
-  const appxVideoId: string = metadata?.appxVideoJSON[appxCourseId];
+  const result = await getAppxCourseId(content.courseId);
+  const appxCourseId = typeof result !== 'string' ? '' : result;
+
+  // @ts-ignore
+  const appxVideoId: string = metadata?.appxVideoJSON?.[appxCourseId] ?? '';
 
   return (
     <div>

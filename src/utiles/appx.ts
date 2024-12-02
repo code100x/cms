@@ -231,21 +231,22 @@ export async function getAppxCourseId(courseId: string) {
       course: true,
     },
     orderBy: {
-      courseId: 'asc'
-    }
+      courseId: 'asc',
+    },
   });
 
   const CMS_APPX_COURSE_MAP: Record<string, string[]> = {
-    13: ["8", "10"],
-    14: ["8", "9", "11"],
-    15: ["8", "9", "12"]
+    13: ['8', '10'],
+    14: ['8', '9', '11'],
+    15: ['8', '9', '12'],
   };
 
   let appxCourseId: string | null = null;
-  parentCourses.forEach((pc => {
-    if (CMS_APPX_COURSE_MAP[courseId].includes(pc.courseId.toString())) {
+  if (!CMS_APPX_COURSE_MAP[courseId]) return '';
+  parentCourses.forEach((pc) => {
+    if (CMS_APPX_COURSE_MAP[courseId]?.includes(pc.courseId.toString())) {
       appxCourseId = pc.course.appxCourseId;
     }
-  }));
+  });
   return appxCourseId;
 }
