@@ -21,15 +21,15 @@ export const CourseView = ({
   rest: string[];
   course: any;
   courseContent:
-  | {
-    folder: true;
-    value: ChildCourseContent[];
-  }
-  | {
-    folder: false;
-    value: ChildCourseContent;
-  }
-  | null;
+    | {
+        folder: true;
+        value: ChildCourseContent[];
+      }
+    | {
+        folder: false;
+        value: ChildCourseContent;
+      }
+    | null;
   nextContent: any;
   searchParams: QueryParams;
   possiblePath: string;
@@ -39,8 +39,8 @@ export const CourseView = ({
     : courseContent?.value.type;
 
   return (
-    <div className="flex w-full flex-col gap-8 pb-16 pt-8 xl:pt-[9px] relative">
-      <div className="flex flex-col gap-4 xl:pt-2 sticky z-10 top-[120px] py-2 bg-background">
+    <div className="relative flex w-full flex-col gap-8 pb-16 pt-8 xl:pt-[9px]">
+      <div className="sticky top-[90px] z-10 flex flex-col gap-4 bg-background py-2 xl:pt-2">
         <BreadCrumbComponent
           course={course}
           contentType={contentType}
