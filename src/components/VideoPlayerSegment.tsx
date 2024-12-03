@@ -9,7 +9,7 @@ import Player from 'video.js/dist/types/player';
 
 import { Segment } from '@/lib/utils';
 
-export interface Thumbnail {
+interface Thumbnail {
   public_id: string;
   version: number;
   url: string;
