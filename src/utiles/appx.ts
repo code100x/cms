@@ -13,6 +13,11 @@ import { refreshDbInternal } from '@/actions/refresh-db';
 
 const LOCAL_CMS_PROVIDER = process.env.LOCAL_CMS_PROVIDER;
 const COHORT_3_PARENT_COURSES = [8, 9, 10, 11, 12];
+// 8 -> Web + Devops + Web3
+// 9 -> Web + Devops
+// 10 -> Web3
+// 11 -> Web
+// 12 -> Devops
 
 export const APPX_COURSE_IDS = [1, 2, 3, 8, 9, 10, 11, 12];
 
@@ -35,50 +40,50 @@ function getExtraCourses(currentCourses: Course[], allCourses: Course[]) {
 
   // We break down parent courses into child courses
   // for eg, (web dev + devops) breaks down to web dev and devops
-  if (hasCohort3) {
-    const userCourses = [...initialCourses];
+  if (!hasCohort3) return initialCourses;
 
-    let hasWebDev = false;
-    let hasDevOps = false;
-    let hasWeb3 = false;
-    if (currentCourses.find((x) => x.id === 8)) {
-      hasWebDev = true;
-      hasDevOps = true;
-      hasWeb3 = true;
-    }
+  const userCourses = [...initialCourses];
 
-    if (currentCourses.find((x) => x.id === 9)) {
-      hasWebDev = true;
-      hasDevOps = true;
-    }
-
-    if (currentCourses.find((x) => x.id === 10)) {
-      hasWeb3 = true;
-    }
-
-    if (currentCourses.find((x) => x.id === 11)) {
-      hasWebDev = true;
-    }
-
-    if (currentCourses.find((x) => x.id === 12)) {
-      hasDevOps = true;
-    }
-
-    if (hasWebDev) {
-      userCourses.push(allCourses.find((x) => x.id === 14)!);
-    }
-
-    if (hasDevOps) {
-      userCourses.push(allCourses.find((x) => x.id === 15)!);
-    }
-
-    if (hasWeb3) {
-      userCourses.push(allCourses.find((x) => x.id === 13)!);
-    }
-
-    return userCourses;
+  let hasWebDev = false;
+  let hasDevOps = false;
+  let hasWeb3 = false;
+  if (currentCourses.find((x) => x.id === 8)) {
+    hasWebDev = true;
+    hasDevOps = true;
+    hasWeb3 = true;
   }
-  return initialCourses;
+
+  if (currentCourses.find((x) => x.id === 9)) {
+    hasWebDev = true;
+    hasDevOps = true;
+  }
+
+  if (currentCourses.find((x) => x.id === 10)) {
+    hasWeb3 = true;
+  }
+
+  if (currentCourses.find((x) => x.id === 11)) {
+    hasWebDev = true;
+  }
+
+  if (currentCourses.find((x) => x.id === 12)) {
+    hasDevOps = true;
+  }
+
+  if (hasWebDev) {
+    userCourses.push(allCourses.find((x) => x.id === 14)!);
+  }
+
+  if (hasDevOps) {
+    userCourses.push(allCourses.find((x) => x.id === 15)!);
+  }
+
+  if (hasWeb3) {
+    userCourses.push(allCourses.find((x) => x.id === 13)!);
+    userCourses.push(allCourses.find((x) => x.id === 20)!);
+  }
+
+  return userCourses;
 }
 
 interface CoursesError {
@@ -211,4 +216,37 @@ export async function getPurchases(email: string): Promise<CoursesResponse> {
       message: 'Ratelimited via appx',
     };
   }
+}
+
+export async function getAppxCourseId(courseId: string) {
+  const session = await getServerSession(authOptions);
+  const parentCourses = await prisma.userPurchases.findMany({
+    where: {
+      courseId: {
+        in: COHORT_3_PARENT_COURSES,
+      },
+      userId: session?.user?.id,
+    },
+    include: {
+      course: true,
+    },
+    orderBy: {
+      courseId: 'asc',
+    },
+  });
+
+  const CMS_APPX_COURSE_MAP: Record<string, string[]> = {
+    13: ['8', '10'],
+    14: ['8', '9', '11'],
+    15: ['8', '9', '12'],
+  };
+
+  let appxCourseId: string | null = null;
+  if (!CMS_APPX_COURSE_MAP[courseId]) return '';
+  parentCourses.forEach((pc) => {
+    if (CMS_APPX_COURSE_MAP[courseId]?.includes(pc.courseId.toString())) {
+      appxCourseId = pc.course.appxCourseId;
+    }
+  });
+  return appxCourseId;
 }

@@ -5,7 +5,7 @@ const TITLE =
 const DESCRIPTION =
   'This is an initiative by Harkirat Singh to personally mentor folks in the field of Programming. Join him in his first course on Full Stack development with a heavy focus on Open source projects to learn programming practically.';
 
-const PREVIEW_IMAGE_URL = 'https://app.100xdevs/banner-img.jpeg';
+const PREVIEW_IMAGE_URL = 'https://app.100xdevs.com/api/og/home';
 const ALT_TITLE =
   '100xdevs - Take your programming skills from 0 to 100 with Harkirat Singh';
 const BASE_URL = 'https://app.100xdevs.com';
