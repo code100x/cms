@@ -3,6 +3,7 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { ContentRendererClient } from './ContentRendererClient';
 import { Bookmark } from '@prisma/client';
+import { getAppxCourseId } from '@/utiles/appx';
 
 function bunnyUrl(url?: string) {
   if (!url) return '';
@@ -37,6 +38,7 @@ export const getMetadata = async (contentId: number) => {
       contentId,
     },
   });
+
   if (!metadata) {
     return null;
   }
@@ -85,6 +87,7 @@ export const getMetadata = async (contentId: number) => {
     slides: metadata['slides'],
     segments: metadata['segments'],
     thumbnails: metadata['thumbnail_mosiac_url'],
+    appxVideoJSON: metadata['appxVideoJSON'],
   };
 
   if (user?.bunnyProxyEnabled) {
@@ -102,6 +105,7 @@ export const getMetadata = async (contentId: number) => {
     slides: metadata['slides'],
     segments: metadata['segments'],
     thumbnails: metadata['thumbnail_mosiac_url'],
+    appxVideoJSON: metadata['appxVideoJSON'],
   };
 
   const isHighestQualityUrlAccessible = await isUrlAccessible(mainUrls['1080']);
@@ -133,7 +137,7 @@ export const ContentRenderer = async ({
     title: string;
   } | null;
   content: {
-    type: 'video';
+    type: 'video' | 'appx';
     id: number;
     title: string;
     description: string;
@@ -141,15 +145,22 @@ export const ContentRenderer = async ({
     slides?: string;
     markAsCompleted: boolean;
     bookmark: Bookmark | null;
+    courseId: string;
   };
 }) => {
   const metadata = await getMetadata(content.id);
+  const result = await getAppxCourseId(content.courseId);
+  const appxCourseId = typeof result !== 'string' ? '' : result;
+
+  // @ts-ignore
+  const appxVideoId: string = metadata?.appxVideoJSON?.[appxCourseId] ?? '';
+
   return (
     <div>
       <ContentRendererClient
         nextContent={nextContent}
         metadata={metadata}
-        content={content}
+        content={{ ...content, appxVideoId, appxCourseId }}
       />
     </div>
   );

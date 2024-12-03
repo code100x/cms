@@ -24,6 +24,8 @@ interface VideoProps {
   subtitles: string;
   videoJsOptions: any;
   contentId: number;
+  appxVideoId?: string;
+  appxCourseId?: string;
   onVideoEnd: () => void;
 }
 
@@ -34,6 +36,8 @@ export const VideoPlayerSegment: FunctionComponent<VideoProps> = ({
   segments,
   videoJsOptions,
   onVideoEnd,
+  appxVideoId,
+  appxCourseId
 }) => {
   const playerRef = useRef<Player | null>(null);
 
@@ -50,7 +54,7 @@ export const VideoPlayerSegment: FunctionComponent<VideoProps> = ({
       if (mouseTimeDisplay) {
         const timeTooltip: any = mouseTimeDisplay.getChild('timeTooltip');
         if (timeTooltip) {
-          timeTooltip.update = function (
+          timeTooltip.update = function(
             seekBarRect: any,
             seekBarPoint: any,
             time: string,
@@ -101,6 +105,8 @@ export const VideoPlayerSegment: FunctionComponent<VideoProps> = ({
           contentId={contentId}
           subtitles={subtitles}
           options={videoJsOptions}
+          appxVideoId={appxVideoId}
+          appxCourseId={appxCourseId}
           onVideoEnd={onVideoEnd}
           onReady={handlePlayerReady}
         />

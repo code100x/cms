@@ -87,6 +87,8 @@ model NotionMetadata {
 model VideoMetadata {
   id                         Int             @id @default(autoincrement())
   contentId                  Int
+  appxVideoId                String?
+  appxVideoJSON              Json?
   video_1080p_mp4_1          String? // Link to 1080p mp4 quality video variant 1
   video_1080p_mp4_2          String? // Link to 1080p mp4 quality video variant 2
   video_1080p_mp4_3          String? // Link to 1080p mp4 quality video variant 3
@@ -138,9 +140,9 @@ model Session {
 }
 
 model User {
-  id                String          @id @default(cuid())
+  id                String             @id @default(cuid())
   name              String?
-  email             String?         @unique
+  email             String?            @unique
   token             String?
   sessions          Session[]
   purchases         UserPurchases[]
@@ -148,18 +150,20 @@ model User {
   comments          Comment[]
   votes             Vote[]
   discordConnect    DiscordConnect?
-  disableDrm        Boolean         @default(false)
-  bunnyProxyEnabled Boolean         @default(false)
+  disableDrm        Boolean            @default(false)
+  bunnyProxyEnabled Boolean            @default(false)
   bookmarks         Bookmark[]
   password          String?
   appxUserId        String?
   appxUsername      String?
+  appxAuthToken     String?
   questions         Question[]
   answers           Answer[]
   certificate       Certificate[]
-  upiIds            UpiId[]         @relation("UserUpiIds")
-  solanaAddresses   SolanaAddress[] @relation("UserSolanaAddresses")
-  githubUser        GitHubLink?     @relation("UserGithub")
+  upiIds            UpiId[]            @relation("UserUpiIds")
+  solanaAddresses   SolanaAddress[]    @relation("UserSolanaAddresses")
+  githubUser        GitHubLink?        @relation("UserGithub")
+  bounties          BountySubmission[]
 }
 
 model GitHubLink {
@@ -322,6 +326,20 @@ model Event {
   updatedAt DateTime @updatedAt
 }
 
+model BountySubmission {
+  id            String   @id @default(uuid())
+  prLink        String
+  paymentMethod String
+  status        String   @default("pending")
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  amount        Float    @default(0)
+  userId        String
+  user          User     @relation(fields: [userId], references: [id])
+
+  @@unique([userId, prLink])
+}
+
 enum VoteType {
   UPVOTE
   DOWNVOTE
@@ -343,4 +361,3 @@ enum MigrationStatus {
   MIGRATED
   MIGRATION_ERROR
 }
-

@@ -46,14 +46,39 @@ export const AddContent = ({
   const [loading, setLoading] = useState<boolean>(false);
 
   const getLabelClassName = (value: string) => {
-    return `flex gap-6 p-6 rounded-lg items-center space-x-2 ${
-      type === value ? 'border-[3px] border-blue-500' : 'border-[3px]'
-    }`;
+    return `flex gap-1 p-4 rounded-lg items-center space-x-2 ${type === value ? 'border-[3px] border-blue-500' : 'border-[3px]'
+      }`;
+  };
+
+  const formatInputJSON = (value: string) => {
+    const valWithout = value.replaceAll("\\", "").slice(1, -1);
+    if (valWithout[0] === "{") {
+      return valWithout;
+    }
+    return valWithout.slice(1, -1);
+  };
+
+  const validateJSON = (value: string) => {
+    try {
+      JSON.parse(value);
+      return true;
+    } catch (error) {
+      return false;
+    }
   };
 
   const handleContentSubmit = async () => {
     setLoading(true);
-    console.log(courseTitle);
+    if (type === "appx") {
+      //@ts-ignore
+      metadata.appxVideoJSON = formatInputJSON(metadata.appxVideoJSON);
+      //@ts-ignore
+      if (!validateJSON(metadata.appxVideoJSON)) {
+        toast.error("Invalid JSON");
+        setLoading(false);
+        return;
+      }
+    }
     const response = await fetch('/api/admin/content', {
       body: JSON.stringify({
         type,
@@ -61,6 +86,7 @@ export const AddContent = ({
         title,
         courseId,
         parentContentId,
+        //* Metadata will be list of resolutions for normal videos and appxVideoId for appx videos
         metadata,
         adminPassword,
         courseTitle,
@@ -73,13 +99,12 @@ export const AddContent = ({
       },
     });
     setLoading(false);
-    console.log(response);
     const responseData = await response.json();
-    console.log(responseData);
 
     if (response.status === 200) {
       // handle success if needed
       toast.success(responseData.message);
+      setMetadata({});
     } else {
       // handle error if needed
       toast.error(responseData.message || 'Something went wrong');
@@ -88,17 +113,21 @@ export const AddContent = ({
 
   return (
     <div className="grid grid-cols-1 gap-4 rounded-xl border-2 p-6 lg:grid-cols-7">
-      <aside className="col-span-1 flex flex-col gap-8 lg:col-span-3">
+      <aside className="col-span-1 flex w-full flex-col gap-8 lg:col-span-3">
         <div>Select the Content Mode</div>
 
         <RadioGroup
-          className="flex-warp no-scrollbar flex max-w-full items-start gap-4 overflow-auto"
+          className="flex max-w-full flex-wrap items-start gap-2"
           value={type}
           onValueChange={(value) => {
             setType(value);
             setMetadata({});
           }}
         >
+          <Label htmlFor="appx" className={getLabelClassName('appx')}>
+            <RadioGroupItem value="appx" id="appx" />
+            <span>Appx</span>
+          </Label>
           <Label htmlFor="video" className={getLabelClassName('video')}>
             <RadioGroupItem value="video" id="video" />
             <span>Video</span>
@@ -187,6 +216,7 @@ export const AddContent = ({
           className="h-14"
         />
         {type === 'video' && <AddVideosMetadata onChange={setMetadata} />}
+        {type === 'appx' && <AddAppxVideoMetadata onChange={setMetadata} />}
         {type === 'notion' && <AddNotionMetadata onChange={setMetadata} />}
         <Button
           onClick={handleContentSubmit}
@@ -199,6 +229,23 @@ export const AddContent = ({
     </div>
   );
 };
+
+function AddAppxVideoMetadata({
+  onChange,
+}: {
+  onChange: (metadata: any) => void;
+}) {
+  return (
+    <div>
+      <Input
+        type="text"
+        placeholder="Appx Video JSON"
+        onChange={(e) => onChange({ appxVideoJSON: JSON.stringify(e.target.value) })}
+        className="h-14"
+      />
+    </div>
+  );
+}
 
 const VARIANTS = 1;
 function AddVideosMetadata({

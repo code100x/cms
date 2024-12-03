@@ -5,7 +5,7 @@ const CertificatePage = async () => {
   const certificates = await getCertificates();
 
   return (
-    <section className="flex w-full flex-wrap items-center justify-center">
+    <section className="flex w-full flex-wrap mt-20 items-center justify-center">
       {certificates?.map(({ cert, course, user }) => (
         <CertificateComponent
           certificateId={cert.id}
