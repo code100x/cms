@@ -233,7 +233,7 @@ export function Sidebar({
       <Button
         ref={buttonRef}
         onClick={() => setSidebarOpen((s) => !s)}
-        className="w-fit gap-2"
+        className="w-fit gap-2 transition-all duration-200 active:scale-95"
       >
         {sidebarOpen ? <X className="size-5" /> : <Menu className="size-5" />}
         <span>{sidebarOpen ? 'Hide Contents' : 'Show Contents'}</span>

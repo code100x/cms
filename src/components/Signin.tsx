@@ -218,6 +218,7 @@ const Signin = () => {
                         ref={(listItem) =>
                           (suggestionRefs.current[index] = listItem!)
                         }
+                        onMouseDown={() => handleSuggestionClick(domain)}
                         onClick={() => handleSuggestionClick(domain)}
                         className={`relative flex w-full cursor-default select-none items-center rounded-sm p-2 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 ${
                           focusedIndex === index

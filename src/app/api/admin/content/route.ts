@@ -48,7 +48,7 @@ export const POST = async (req: NextRequest) => {
     rest,
     discordChecked,
   }: {
-    type: 'video' | 'folder' | 'notion';
+    type: 'video' | 'folder' | 'notion' | 'appx';
     thumbnail: string;
     title: string;
     courseId: number;
@@ -60,26 +60,13 @@ export const POST = async (req: NextRequest) => {
     discordChecked: boolean;
   } = await req.json();
 
-  console.log({
-    type,
-    thumbnail,
-    title,
-    courseId,
-    parentContentId,
-    metadata,
-    adminPassword,
-    courseTitle,
-    rest,
-    discordChecked,
-  });
-
   if (adminPassword !== process.env.ADMIN_SECRET) {
     return NextResponse.json({}, { status: 403 });
   }
 
   const content = await db.content.create({
     data: {
-      type,
+      type: type === 'appx' ? 'video' : type,
       title,
       parentId: parentContentId,
       thumbnail,
@@ -110,6 +97,13 @@ export const POST = async (req: NextRequest) => {
         },
       });
     }
+  } else if (type === 'appx') {
+    await db.videoMetadata.create({
+      data: {
+        appxVideoJSON: JSON.parse(metadata.appxVideoJSON),
+        contentId: content.id,
+      },
+    });
   } else if (type === 'video') {
     await db.videoMetadata.create({
       data: {
@@ -156,7 +150,7 @@ export const POST = async (req: NextRequest) => {
       });
     }
   }
-  if (discordChecked && (type === 'notion' || type === 'video')) {
+  if (discordChecked && (type === 'notion' || type === 'video' || type === 'appx')) {
     if (!process.env.NEXT_PUBLIC_DISCORD_WEBHOOK_URL) {
       return NextResponse.json(
         { message: 'Environment variable for discord webhook is not set' },
@@ -174,14 +168,13 @@ export const POST = async (req: NextRequest) => {
       mediaId: content.id,
     };
 
-    console.log(data);
     await sendUpdateToDiscord(data);
   }
 
   return NextResponse.json(
     {
       message:
-        discordChecked && (type === 'notion' || type === 'video')
+        discordChecked && (type === 'notion' || type === 'video' || type === 'appx')
           ? 'Content Added and Discord notification has been sent'
           : 'Content has been added',
     },

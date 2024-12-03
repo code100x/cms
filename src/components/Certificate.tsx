@@ -79,7 +79,7 @@ export const CertificateComponent = ({
   };
 
   return (
-    <Card className="w-500 my-4" key={course.id}>
+    <Card className="w-500 my-4 pt-8" key={course.id}>
       <CardContent className="flex justify-center">
         {certificateImageUrl ? (
           <img
