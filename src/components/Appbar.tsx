@@ -49,7 +49,7 @@ export const Appbar = () => {
   const toggleCollapse = () => setIsCollapsed(!isCollapsed);
 
   const sidebarVariants = {
-    expanded: { width: '12vw' },
+    expanded: { width: '20vw' },
     collapsed: { width: '4vw' },
   };
 
@@ -66,7 +66,7 @@ export const Appbar = () => {
           stiffness: 200,
           damping: 20,
         }}
-        className="fixed left-0 top-0 z-[999] hidden h-full flex-col border-r border-primary/10 bg-background dark:bg-background 2xl:flex"
+        className="fixed left-0 top-0 z-[999] hidden h-full flex-col border-r border-primary/10 bg-background dark:bg-background lg:flex"
       >
         <div className="flex h-full flex-col gap-4">
           <div className="flex w-full items-center border-b border-primary/10 px-2 py-4">
@@ -97,7 +97,7 @@ export const Appbar = () => {
         initial={{ y: 100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.3, ease: 'easeInOut' }}
-        className="fixed bottom-0 left-0 right-0 z-[999] 2xl:hidden"
+        className="fixed bottom-0 left-0 right-0 z-[999] lg:hidden"
       >
         <div className="flex items-center justify-around border-t border-primary/10 bg-background p-4 shadow-xl">
           <SidebarItems items={menuOptions} isCollapsed={!isMediumToXL} />
