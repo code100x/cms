@@ -73,6 +73,8 @@ export const GetAppxVideoPlayerUrl = async (courseId: string, videoId: string): 
 
   const res = await axios.request(config);
   const { video_player_token, video_player_url } = res.data.data;
-  const full_video_url = `${video_player_url}${video_player_token}&watermark=${name}%0A${email}`;
+  const parsed_url = new URL(video_player_url);
+  parsed_url.searchParams.delete('isMobile');
+  const full_video_url = `${parsed_url.toString()}${video_player_token}&watermark=${name}%0A${email}`;
   return full_video_url;
 };
