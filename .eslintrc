@@ -18,6 +18,7 @@ extends:
 parserOptions:
   ecmaVersion: 2018
 
+
 rules:
   # Ignore Rules
   strict: 0
@@ -84,7 +85,7 @@ rules:
   computed-property-spacing: [2, never]
   space-in-parens: [2, never]
   space-unary-ops: [2, {words: true, nonwords: false}]
-  wrap-regex: 2
+  wrap-regex: off
   linebreak-style: 0
   semi: [2, always]
   arrow-spacing: [2, {before: true, after: true}]
