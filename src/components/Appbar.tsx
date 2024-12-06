@@ -9,7 +9,7 @@ import {
 } from 'lucide-react';
 import { SidebarItems } from './ui/sidebar-items';
 import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';Cannot find module 'lucide-react' or its corresponding type declarations.
+import { motion } from 'framer-motion';
 
 export const menuOptions = [
   { id: 1, name: 'Home', Component: Home, href: '/home' },
