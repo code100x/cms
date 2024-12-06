@@ -42,7 +42,7 @@ const CommentInputForm = ({
     setCommentText('');
   };
 
-  const isAllSpaces = (str: string): boolean => /^\s*$/.test(str);
+  const isAllSpaces = (str: string): boolean => (/^\s*$/).test(str);
 
   const isCommentValid = () => {
     return !isAllSpaces(commentText);
