@@ -217,8 +217,8 @@ export function Sidebar({
                   />
                 )}
               </div>
-            </Link>
-          )
+            </div>
+          </Link>
         );
       });
     },
@@ -271,7 +271,7 @@ export function Sidebar({
             <Accordion
               type="multiple"
               defaultValue={currentActiveContentIds.map((num) => `item-${num}`)}
-              className="w-full px-4 capitalize pb-24"
+              className="w-full px-4 pb-24 capitalize"
             >
               {memoizedContent}
             </Accordion>
@@ -306,26 +306,4 @@ function Check({ content }: { content: any }) {
       className="focus:ring-none h-4 w-4 rounded-md border-primary/10"
     />
   );
-}
-
-function filterContent(filter: string, content: FullCourseContent) {
-  if (filter === 'all' || filter === '') {
-    return true;
-  }
-  if (filter === 'watched') {
-    return content.videoProgress?.markAsCompleted;
-  }
-  if (filter === 'watching') {
-    return (
-      content.videoProgress?.markAsCompleted === false &&
-      content.videoProgress?.duration !== null &&
-      content.videoProgress?.duration !== 0
-    );
-  }
-  if (filter === 'unwatched') {
-    return (
-      content.videoProgress?.markAsCompleted === false &&
-      content.videoProgress?.duration === 0
-    );
-  }
 }
