@@ -80,6 +80,7 @@ export async function middleware(req: NextRequestWithAuth) {
   if (pathname.startsWith('/api/mobile')) {
     return withMobileAuth(req);
   }
+  console.log('pathname', pathname);
   return await withAuth(req);
 }
 
