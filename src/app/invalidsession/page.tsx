@@ -7,15 +7,18 @@ import { toast } from 'sonner';
 
 const page = () => {
   useEffect(() => {
-    signOut({
-      callbackUrl: '/signin',
-    });
-    toast('Too many devices connected. Logging out!', {
-      action: {
-        label: 'Close',
-        onClick: () => toast.dismiss(),
-      },
-    });
+    (async () => {
+      toast('Too many devices connected. Logging out!', {
+        action: {
+          label: 'Close',
+          onClick: () => toast.dismiss(),
+        },
+      });
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      await signOut({
+        callbackUrl: '/signin',
+      });
+    })();
   }, []);
 
   return (
