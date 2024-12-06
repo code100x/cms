@@ -4,7 +4,7 @@ import { jwtVerify, importJWK, JWTPayload } from 'jose';
 import { getToken } from 'next-auth/jwt';
 
 export const config = {
-  matcher: ['/courses/:path*', '/api/mobile/:path*', '/home'],
+  matcher: ['/courses/:path*', '/api/mobile/:path*', '/home', '/bounty'],
 };
 
 interface RequestWithUser extends NextRequest {
