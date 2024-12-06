@@ -66,7 +66,7 @@ export const Appbar = () => {
           stiffness: 200,
           damping: 20,
         }}
-        className="fixed left-0 top-0 z-[999] hidden h-full flex-col border-r border-primary/10 bg-background dark:bg-background lg:flex"
+        className="fixed left-0 top-0 z-[999] hidden h-full flex-col border-r border-primary/10 bg-background dark:bg-background lg:flex min-w-16"
       >
         <div className="flex h-full flex-col gap-4">
           <div className="flex w-full items-center border-b border-primary/10 px-2 py-4">
