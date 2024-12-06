@@ -7,6 +7,8 @@ import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { FaDiscord } from 'react-icons/fa';
 import { toast } from 'sonner';
+import { useSetRecoilState } from 'recoil';
+import { trigger } from '@/store/atoms/trigger';
 import {
   Dialog,
   DialogContent,
@@ -33,6 +35,7 @@ export const AddContent = ({
   const [metadata, setMetadata] = useState({});
   const [discordChecked, setDiscordChecked] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const setTrigger = useSetRecoilState(trigger);
 
   const handleDiscordClick = () => {
     setIsModalOpen(true);
@@ -98,12 +101,12 @@ export const AddContent = ({
         'Content-Type': 'application/json',
       },
     });
-    setLoading(false);
     const responseData = await response.json();
-
+    setLoading(false);
     if (response.status === 200) {
       // handle success if needed
       toast.success(responseData.message);
+      setTrigger((prev) => prev + 1); // why? trigger a re-render, this is a hack
       setMetadata({});
     } else {
       // handle error if needed

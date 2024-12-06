@@ -1,8 +1,9 @@
 'use client';
 import { useRouter } from 'next/navigation';
 import { ContentCard } from './ContentCard';
-import { Bookmark } from '@prisma/client';
-import { CourseContentType } from '@/lib/utils';
+import { courseContent, getFilteredContent } from '@/lib/utils';
+import { useRecoilValue } from 'recoil';
+import { selectFilter } from '@/store/atoms/filterContent';
 
 export const FolderView = ({
   courseContent,
@@ -11,18 +12,7 @@ export const FolderView = ({
 }: {
   courseId: number;
   rest: string[];
-  courseContent: {
-    type: CourseContentType;
-    title: string;
-    image: string;
-    id: number;
-    markAsCompleted: boolean;
-    percentComplete: number | null;
-    videoFullDuration?: number;
-    duration?: number;
-    bookmark: Bookmark | null;
-    weeklyContentTitles?: string[];
-  }[];
+  courseContent: courseContent[];
 }) => {
   const router = useRouter();
 
@@ -39,16 +29,24 @@ export const FolderView = ({
   }
   // why? because we have to reset the segments or they will be visible always after a video
 
+  const currentfilter = useRecoilValue(selectFilter);
+
+  const filteredCourseContent = getFilteredContent(
+    courseContent,
+    currentfilter,
+  );
+
   return (
     <div>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {courseContent.map((content) => {
+        {filteredCourseContent.map((content) => {
           const videoProgressPercent =
             content.type === 'video' &&
               content.videoFullDuration &&
               content.duration
               ? (content.duration / content.videoFullDuration) * 100
-              : 0;
+              : content.percentComplete || 0;
+
           return (
             <ContentCard
               type={content.type}

@@ -11,6 +11,7 @@ import { FileText, Video } from 'lucide-react';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { Label } from '../ui/label';
+import { toast } from 'sonner';
 
 export const UpdateVideoClient = ({
   content,
@@ -44,10 +45,16 @@ export const UpdateVideoClient = ({
         type="single"
         collapsible
       >
+        <AccordionItem value="title">
+          <div className="flex justify-center p-6 font-mono lg:text-3xl">
+            {content.title}
+          </div>
+        </AccordionItem>
         <AccordionItem value="m3u8-mp4">
           <AccordionTrigger className="p-6 text-lg font-bold lg:text-2xl">
             <div className="flex flex-col gap-4">
-              <Video size={40} /> M3U8 and MP4 Links
+              <Video size={40} />
+              M3U8 and MP4 Links
             </div>
           </AccordionTrigger>
           <AccordionContent>
@@ -122,18 +129,26 @@ export const UpdateVideoClient = ({
                 <Button
                   className="my-4 w-full rounded p-2 font-bold text-white lg:w-[20%]"
                   onClick={async () => {
-                    await axios.post('/api/admin/updatecontent', {
-                      adminPassword,
-                      contentId: content.id,
-                      updates: {
-                        video_360p: link360,
-                        video_720p: link720,
-                        video_1080p: link1080,
-                        video_360p_mp4: link360_mp4,
-                        video_720p_mp4: link720_mp4,
-                        video_1080p_mp4: link1080_mp4,
+                    const response = await axios.post(
+                      '/api/admin/updatecontent',
+                      {
+                        adminPassword,
+                        contentId: content.id,
+                        updates: {
+                          video_360p: link360,
+                          video_720p: link720,
+                          video_1080p: link1080,
+                          video_360p_mp4: link360_mp4,
+                          video_720p_mp4: link720_mp4,
+                          video_1080p_mp4: link1080_mp4,
+                        },
                       },
-                    });
+                    );
+                    if (response.status === 200) {
+                      toast.success('Updated successfully');
+                    } else {
+                      toast.error('Something went wrong');
+                    }
                   }}
                 >
                   Update
