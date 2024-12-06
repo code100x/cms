@@ -367,4 +367,4 @@ export const getDisabledFeature = (feature: string): boolean => {
     .includes(feature);
 };
 
-export type CourseContentType = 'folder' | 'video' | 'notion'
+export type CourseContentType = 'folder' | 'video' | 'notion';

@@ -265,7 +265,7 @@ export function Sidebar({
             <Accordion
               type="multiple"
               defaultValue={currentActiveContentIds.map((num) => `item-${num}`)}
-              className="w-full px-4 capitalize pb-24"
+              className="w-full px-4 pb-24 capitalize"
             >
               {memoizedContent}
             </Accordion>

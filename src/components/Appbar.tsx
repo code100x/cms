@@ -18,7 +18,7 @@ export const menuOptions = [
   { id: 5, name: 'Watch History', Component: History, href: '/watch-history' },
 ];
 
-//Added Eventlistener 
+//Added Eventlistener
 const useMediaQuery = (query: string): boolean => {
   const [matches, setMatches] = useState<boolean>(false);
 
@@ -27,14 +27,14 @@ const useMediaQuery = (query: string): boolean => {
     const listener = (e: MediaQueryListEvent) => setMatches(e.matches);
 
     // Use addEventListener instead of addListener
-    media.addEventListener("change", listener);
-    
+    media.addEventListener('change', listener);
+
     // Set the initial match state
     setMatches(media.matches);
 
     // Cleanup function to remove the event listener
     return () => {
-      media.removeEventListener("change", listener);
+      media.removeEventListener('change', listener);
     };
   }, [query]);
 
@@ -74,10 +74,10 @@ export const Appbar = () => {
           stiffness: 200,
           damping: 20,
         }}
-        className="fixed left-0 top-0 z-[999] hidden h-full flex-col border-r border-primary/10 bg-background dark:bg-background lg:flex min-w-16"
+        className="fixed left-0 top-0 z-[999] hidden h-full min-w-16 flex-col border-r border-primary/10 bg-background dark:bg-background lg:flex"
       >
         <div className="flex h-full flex-col gap-4">
-          <div className="flex w-full items-center border-b border-primary/10 px-2 py-4">
+          <div className="flex w-full items-center border-b border-primary/10 px-2 py-3">
             <div>
               <motion.button
                 onClick={toggleCollapse}

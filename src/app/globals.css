@@ -216,7 +216,7 @@
 
 @layer utilities {
   .wrapper {
-    @apply h-full w-full max-w-7xl px-4 py-4 md:px-12 lg:px-20 lg:mx-auto xl:max-w-[90rem];
+    @apply h-full w-full max-w-7xl px-4 py-4 md:px-12 lg:mx-auto lg:px-20 xl:max-w-[90rem];
   }
 
   .flex-center {
@@ -231,13 +231,13 @@
 @layer utilities {
   /* Hide scrollbar for Chrome, Safari and Opera */
   .no-scrollbar::-webkit-scrollbar {
-      display: none;
+    display: none;
   }
- /* Hide scrollbar for IE, Edge and Firefox */
+  /* Hide scrollbar for IE, Edge and Firefox */
   .no-scrollbar {
-      -ms-overflow-style: none;  /* IE and Edge */
-      scrollbar-width: none;  /* Firefox */
-}
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
 }
 
 .markdown-editor-default-font {

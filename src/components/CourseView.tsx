@@ -54,7 +54,8 @@ export const CourseView = ({
         <NotionRenderer id={courseContent?.value?.id?.toString()} />
       ) : null}
 
-      {!courseContent?.folder && (contentType === 'video' || contentType === 'appx') ? (
+      {!courseContent?.folder &&
+      (contentType === 'video' || contentType === 'appx') ? (
         <ContentRenderer
           nextContent={nextContent}
           content={{

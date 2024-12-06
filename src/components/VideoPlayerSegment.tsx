@@ -37,7 +37,7 @@ export const VideoPlayerSegment: FunctionComponent<VideoProps> = ({
   videoJsOptions,
   onVideoEnd,
   appxVideoId,
-  appxCourseId
+  appxCourseId,
 }) => {
   const playerRef = useRef<Player | null>(null);
 
@@ -54,7 +54,7 @@ export const VideoPlayerSegment: FunctionComponent<VideoProps> = ({
       if (mouseTimeDisplay) {
         const timeTooltip: any = mouseTimeDisplay.getChild('timeTooltip');
         if (timeTooltip) {
-          timeTooltip.update = function(
+          timeTooltip.update = function (
             seekBarRect: any,
             seekBarPoint: any,
             time: string,

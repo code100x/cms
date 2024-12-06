@@ -36,9 +36,11 @@ export const AppxVideoPlayer = ({
   if (!url.length) {
     return <p>Loading...</p>;
   }
-  return <iframe
-    src={url}
-    className="h-[80vh] w-[80vw] rounded-lg"
-    allowFullScreen
-  ></iframe >;
+  return (
+    <iframe
+      src={url}
+      className="h-[80vh] w-[80vw] rounded-lg"
+      allowFullScreen
+    ></iframe>
+  );
 };
