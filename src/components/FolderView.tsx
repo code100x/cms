@@ -42,8 +42,8 @@ export const FolderView = ({
         {filteredCourseContent.map((content) => {
           const videoProgressPercent =
             content.type === 'video' &&
-            content.videoFullDuration &&
-            content.duration
+              content.videoFullDuration &&
+              content.duration
               ? (content.duration / content.videoFullDuration) * 100
               : content.percentComplete || 0;
 
