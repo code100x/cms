@@ -203,19 +203,29 @@ export function Sidebar({
                 : null
             }
           >
-            <div className="flex w-full items-center justify-between gap-2">
-              <div className="flex items-center gap-2">
-                <div className="flex gap-2">
-                  {content.type === 'video' && <Check content={content} />}
-                  {content.type === 'video' && <Play className="size-4" />}
-                  {content.type === 'notion' && <File className="size-4" />}
+            <div className="flex w-full items-center justify-between gap-2 ">
+              <div className="flex items-center gap-2 w-full">
+                <div className="flex gap-2 w-full text-base ">
+                  {content.type === 'video' && <div className='flex gap-2 items-center justify-between w-full'>
+                    <div className='felx flex gap-2 items-center '>
+                      <Check content={content} />
+                      <div className='w-4'><Play className="size-4" /></div>
+                      <p className='break-words font-semibold'>{content.title}</p>
+                    </div>
+                    <div>
+                      {content.type === 'video' && (
+                        <BookmarkButton
+                          bookmark={content.bookmark ?? null}
+                          contentId={content.id}
+                        />
+                      )}
+                    </div>
+                  </div>}
+                  {content.type === 'notion' && <div className='flex gap-2 items-center'> 
+                    <div className='w-4'><File className="size-4" /></div>
+                    <p className='break-words'>{content.title}</p>
+                  </div>}
                 </div>
-                {content.type === 'video' && (
-                  <BookmarkButton
-                    bookmark={content.bookmark ?? null}
-                    contentId={content.id}
-                  />
-                )}
               </div>
             </div>
           </Link>

@@ -57,7 +57,7 @@ export const FilterContent = forwardRef<HTMLDivElement, FilterContentProps>(
                   <CommandItem
                     key={filters.value}
                     value={filters.value}
-                    className={`px-4 ${props.className || ''}`}
+                    className={`px-4 mb-2 mx-1 ${props.className || ''}`}
                     onSelect={(currentValue) => {
                       setValue(currentValue === value ? '' : currentValue);
                       setOpen(false);
