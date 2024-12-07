@@ -119,8 +119,9 @@ button.rbc-input::-moz-focus-inner {
   min-width: 200px;
 }
 .rbc-btn-group {
-  display: inline-block;
-  white-space: nowrap;
+  display:flex;
+  flex-direction: row;
+  gap: 0.5rem;
 }
 .rbc-btn-group > button:first-child:not(:last-child) {
   border-top-right-radius: 0;
