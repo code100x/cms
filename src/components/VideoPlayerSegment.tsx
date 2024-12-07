@@ -98,7 +98,7 @@ export const VideoPlayerSegment: FunctionComponent<VideoProps> = ({
         <div
           id="thumbnail-preview"
           ref={thumbnailPreviewRef}
-          className="pointer-events-none absolute z-10 hidden h-[180px] w-[320px] bg-cover bg-no-repeat"
+          className="pointer-events-none absolute z-10 hidden h-full w-full bg-cover bg-no-repeat"
         />
         <VideoPlayer
           setQuality={setQuality}
