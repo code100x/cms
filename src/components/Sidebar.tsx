@@ -108,7 +108,7 @@ export function Sidebar({
     const courseUrlRegex = /\/courses\/\d+((?:\/\d+)+)/;
 
     if (urlRegex.test(pathName)) {
-      const matchArray = pathName.match(courseUrlRegex);
+      const matchArray = pathName?.match(courseUrlRegex);
       if (matchArray) {
         const currentUrlContentId = Number(matchArray[1].split('/')[1]);
         const pathArray = findPathToContent(
@@ -210,14 +210,16 @@ export function Sidebar({
                   {content.type === 'video' && <Play className="size-4" />}
                   {content.type === 'notion' && <File className="size-4" />}
                 </div>
+              <div>{content?.title}</div>
+                </div>
                 {content.type === 'video' && (
                   <BookmarkButton
                     bookmark={content.bookmark ?? null}
                     contentId={content.id}
-                  />
-                )}
-              </div>
+              />
+            )}
             </div>
+
           </Link>
         );
       });
