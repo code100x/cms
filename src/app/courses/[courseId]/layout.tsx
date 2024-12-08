@@ -49,11 +49,11 @@ const Layout = async ({
   const fullCourseContent = await getFullCourseContent(parseInt(courseId, 10));
   return (
     <div className="relative flex min-h-screen flex-col py-24">
-      <div className="flex justify-between">
+      <div className="flex justify-between items-center">
         <div className="2/3">
           <Sidebar fullCourseContent={fullCourseContent} courseId={courseId} />
         </div>
-        <div className="w-1/3">
+        <div>
           <FilterContent />
         </div>
       </div>

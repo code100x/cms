@@ -231,7 +231,7 @@ export function Sidebar({
   );
 
   return (
-    <div className="sticky top-[72px] z-20 bg-background py-2">
+    <div className="sticky top-[72px] z-20 py-2">
       <Button
         ref={buttonRef}
         onClick={() => setSidebarOpen((s) => !s)}
@@ -271,7 +271,7 @@ export function Sidebar({
             <Accordion
               type="multiple"
               defaultValue={currentActiveContentIds.map((num) => `item-${num}`)}
-              className="w-full px-4 pb-24 capitalize"
+              className="w-full px-4 pb-40 capitalize"
             >
               {memoizedContent}
             </Accordion>
