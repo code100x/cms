@@ -204,11 +204,20 @@ export function Sidebar({
             }
           >
             <div className="flex w-full items-center justify-between gap-2">
-              <div className="flex items-center gap-2">
+              <div className="flex items-center w-full gap-2">
                 <div className="flex gap-2">
                   {content.type === 'video' && <Check content={content} />}
                   {content.type === 'video' && <Play className="size-4" />}
                   {content.type === 'notion' && <File className="size-4" />}
+                </div>
+                <div className="relative w-[70%] overflow-hidden">
+                  <div
+                    className="w-full whitespace-nowrap transition-transform ease-linear hover:animate-content-scroll group"
+                  >
+                    <span className="truncate group-hover:overflow-visible group-hover:whitespace-nowrap group-hover:text-clip">
+                      {content.title}
+                    </span>
+                  </div>
                 </div>
                 {content.type === 'video' && (
                   <BookmarkButton
@@ -219,6 +228,7 @@ export function Sidebar({
               </div>
             </div>
           </Link>
+
         );
       });
     },
@@ -249,7 +259,7 @@ export function Sidebar({
             ref={sidebarRef}
             exit="closed"
             variants={sidebarVariants}
-            className="fixed right-0 top-[64px] z-[99999] flex h-screen w-full flex-col gap-4 overflow-y-auto rounded-r-lg border-l border-primary/10 bg-neutral-50 dark:bg-neutral-900 md:max-w-[30vw]"
+            className="fixed right-0 top-[64px] z-[99999] flex h-screen w-full flex-col gap-4 overflow-y-auto rounded-r-lg border-l border-primary/10 bg-neutral-50 dark:bg-neutral-900 md:max-w-[50vw] lg:max-w-[35vw]"
           >
             <div className="sticky top-0 z-10 flex items-center justify-between border-b border-primary/10 bg-neutral-50 p-5 dark:bg-neutral-900">
               {' '}
