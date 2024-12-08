@@ -3,6 +3,7 @@ import { Segment, formatTime } from '@/lib/utils';
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import videojs from 'video.js';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/tooltip';
 
 const chaptersVariants = {
   open: {
@@ -66,20 +67,29 @@ const VideoContentChapters = ({
         <div className="flex w-full flex-wrap gap-2">
           {(segments as Segment[])?.map(({ start, end, title }, index) => {
             return (
-              <div key={`${index}-${start}${end}${title}`}>
-                <div
-                  className={`flex max-w-64 cursor-pointer items-center justify-between gap-2 rounded-lg p-4 transition-all duration-300 hover:bg-primary/10 ${currentTime >= start && currentTime < end ? 'bg-blue-500/10' : 'bg-primary/5'}`}
-                  onClick={() => {
-                    player.currentTime(start);
-                    player.play();
-                  }}
-                >
-                  <p className="truncate font-medium tracking-tight">{title}</p>
-                  <span className="rounded-full bg-blue-500/20 px-2 py-1 font-medium text-blue-500">
-                    {formatTime(start)}
-                  </span>
-                </div>
-              </div>
+              <TooltipProvider>
+                <Tooltip>
+                  <div key={`${index}-${start}${end}${title}`}>
+                    <div
+                      className={`flex max-w-64 cursor-pointer items-center justify-between gap-2 rounded-lg p-4 transition-all duration-300 hover:bg-primary/10 ${currentTime >= start && currentTime < end ? 'bg-blue-500/10' : 'bg-primary/5'}`}
+                      onClick={() => {
+                        player.currentTime(start);
+                        player.play();
+                      }}
+                    >
+                      <TooltipTrigger asChild>
+                        <p className="truncate font-medium tracking-tight">{title}</p>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>{title}</p>
+                      </TooltipContent>
+                      <span className="rounded-full bg-blue-500/20 px-2 py-1 font-medium text-blue-500">
+                        {formatTime(start)}
+                      </span>
+                    </div>
+                  </div>
+                </Tooltip>
+              </TooltipProvider>
             );
           })}
         </div>
