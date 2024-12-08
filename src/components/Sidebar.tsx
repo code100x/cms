@@ -231,7 +231,7 @@ export function Sidebar({
   );
 
   return (
-    <div className="sticky top-[72px] z-20 bg-background py-2">
+    <div className="sticky top-[72px] z-20 py-2">
       <Button
         ref={buttonRef}
         onClick={() => setSidebarOpen((s) => !s)}
