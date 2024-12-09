@@ -77,7 +77,7 @@ export default function PaymentMethodsDropdown({
       {isDropdownOpen && (
         <div className="w-full px-2 py-8 sm:px-0">
           <div className="mb-8">
-            <div className="flex w-[90vw] justify-between">
+            <div className="flex justify-between">
               <p className="py-2 font-semibold">UPI Addresses</p>
               {upiAddresses && upiAddresses.length < 2 && (
                 <Button
@@ -93,7 +93,7 @@ export default function PaymentMethodsDropdown({
                 </Button>
               )}
             </div>
-            <div className="flex w-[90vw] flex-col sm:w-3/6">
+            <div className="flex flex-col">
               {upiAddresses && upiAddresses.length !== 0 ? (
                 upiAddresses?.map((upi) => (
                   <div
@@ -120,7 +120,7 @@ export default function PaymentMethodsDropdown({
           </div>
 
           <div>
-            <div className="flex w-[90vw] justify-between">
+            <div className="flex justify-between">
               <p className="py-2 font-semibold">Solana Addresses</p>
               {solanaAddresses && solanaAddresses.length < 2 && (
                 <Button
@@ -136,7 +136,7 @@ export default function PaymentMethodsDropdown({
                 </Button>
               )}
             </div>
-            <div className="flex w-[90vw] flex-col sm:w-3/6">
+            <div className="flex flex-col">
               {solanaAddresses?.length !== 0 ? (
                 solanaAddresses?.map((sol) => (
                   <div
