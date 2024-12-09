@@ -4,6 +4,8 @@ import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import Player from 'video.js/dist/types/player';
 import { Bookmark } from '@prisma/client';
+import FingerprintJS from '@fingerprintjs/fingerprintjs';
+
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
@@ -426,3 +428,17 @@ export function getFilteredContent(
 
   return [];
 }
+
+export const generateFingerprint = async (): Promise<string> => {
+  try {
+    const fp = await FingerprintJS.load();
+    const result = await fp.get();
+    const fingerprint: string = result.visitorId; 
+    
+    return fingerprint;
+  } catch (error) {
+    console.error("Error generating fingerprint:", error);
+    throw new Error("Failed to generate fingerprint");
+  }
+};
+
