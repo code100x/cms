@@ -9,14 +9,15 @@ import 'videojs-seek-buttons/dist/videojs-seek-buttons.css';
 import 'videojs-mobile-ui';
 import 'videojs-sprite-thumbnails';
 import 'videojs-seek-buttons';
-import { handleMarkAsCompleted } from '@/lib/utils';
-import { useSearchParams } from 'next/navigation';
+import { generateFingerprint, handleMarkAsCompleted } from '@/lib/utils';
+import { useRouter, useSearchParams } from 'next/navigation';
 import './QualitySelectorControllBar';
 import { YoutubeRenderer } from './YoutubeRenderer';
 import { toast } from 'sonner';
 import { createRoot } from 'react-dom/client';
 import { PictureInPicture2 } from 'lucide-react';
 import { AppxVideoPlayer } from './AppxVideoPlayer';
+import { validateFingerPrint } from '@/actions/deviceFingerprintValidation';
 
 // todo correct types
 interface VideoPlayerProps {
@@ -46,6 +47,7 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
   const videoRef = useRef<HTMLDivElement>(null);
   const playerRef = useRef<Player | null>(null);
   const [player, setPlayer] = useState<any>(null);
+  const router = useRouter();
   const searchParams = useSearchParams();
   const vidUrl = options.sources[0].src;
 
@@ -133,6 +135,35 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
       }
     };
   }, [player]);
+
+  useEffect(() => {
+    let timer: any;
+    const checkFingerprint = async () => {
+      try {
+        const fingerprint: string = await generateFingerprint();  
+        timer = setInterval(async () => {
+          try {
+            await validateFingerPrint(fingerprint);  
+          } catch (error) {
+            console.error('Fingerprint validation failed:', error);
+            router.push('/invalidsession');
+          }
+        }, 1000 * 60 * 2); 
+
+        return () => timer;
+      } catch (error) {
+        console.error('Error during fingerprint generation or validation:', error);
+      }
+    };
+
+    checkFingerprint();
+
+    return () => {
+      if (timer) {
+        clearInterval(timer);
+      }
+    };
+  }, []);
 
   useEffect(() => {
     const t = searchParams.get('timestamp');

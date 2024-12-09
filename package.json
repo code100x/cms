@@ -24,6 +24,7 @@
     "studio": "prisma studio"
   },
   "dependencies": {
+    "@fingerprintjs/fingerprintjs": "^4.5.1",
     "@hookform/resolvers": "^3.6.0",
     "@icons-pack/react-simple-icons": "^9.4.0",
     "@prisma/client": "^5.18.0",
