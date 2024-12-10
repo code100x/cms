@@ -191,7 +191,7 @@ export function Sidebar({
             </AccordionItem>
           );
         }
-
+        
         return (
           <Link
             key={content.id}
@@ -204,18 +204,23 @@ export function Sidebar({
             }
           >
             <div className="flex w-full items-center justify-between gap-2">
-              <div className="flex items-center gap-2">
-                <div className="flex gap-2">
-                  {content.type === 'video' && <Check content={content} />}
-                  {content.type === 'video' && <Play className="size-4" />}
-                  {content.type === 'notion' && <File className="size-4" />}
+              <div className="flex items-center justify-between gap-2 w-full">
+                <div className='flex w-full gap-2 items-center'>
+                  <div className="flex gap-2">
+                    {content.type === 'video' && <Check content={content} />}
+                    {content.type === 'video' && <Play className="size-4" />}
+                    {content.type === 'notion' && <File className="size-4" />}
+                  </div>
+                  <div>{content.title}</div>
                 </div>
-                {content.type === 'video' && (
-                  <BookmarkButton
-                    bookmark={content.bookmark ?? null}
-                    contentId={content.id}
-                  />
-                )}
+                <div>
+                  {content.type === 'video' && (
+                    <BookmarkButton
+                      bookmark={content.bookmark ?? null}
+                      contentId={content.id}
+                    />
+                  )}
+                </div>
               </div>
             </div>
           </Link>
@@ -303,7 +308,7 @@ function Check({ content }: { content: any }) {
       onChange={() => {}} // Controlled component
       onClick={handleCheck}
       type="checkbox"
-      className="focus:ring-none h-4 w-4 rounded-md border-primary/10"
+      className="focus:ring-none h-4 w-4 rounded-md border-primary/10 cursor-pointer"
     />
   );
 }
