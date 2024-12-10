@@ -196,7 +196,7 @@ export function Sidebar({
           <Link
             key={content.id}
             href={navigateToContent(content.id) || '#'}
-            className={`flex w-full cursor-pointer items-center rounded-md px-4 ${content.type==='video' ? "py-2" : "py-4"} tracking-tight hover:bg-primary/10 ${isActiveContent ? 'bg-primary/10' : ''}`}
+            className={`flex w-full cursor-pointer items-center rounded-md p-4 tracking-tight hover:bg-primary/10 ${isActiveContent ? 'bg-primary/10' : ''}`}
             ref={
               isActiveContent
                 ? (activeItemRef as React.RefObject<HTMLAnchorElement>)
