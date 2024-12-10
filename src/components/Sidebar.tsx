@@ -210,13 +210,14 @@ export function Sidebar({
                   {content.type === 'video' && <Play className="size-4" />}
                   {content.type === 'notion' && <File className="size-4" />}
                 </div>
-                {content.type === 'video' && (
-                  <BookmarkButton
-                    bookmark={content.bookmark ?? null}
-                    contentId={content.id}
-                  />
-                )}
+                <div className="break-words text-base">{content.title}</div>
               </div>
+              {content.type === 'video' && (
+                <BookmarkButton
+                  bookmark={content.bookmark ?? null}
+                  contentId={content.id}
+                />
+              )}
             </div>
           </Link>
         );
@@ -256,17 +257,19 @@ export function Sidebar({
               <h4 className="text-xl font-bold tracking-tighter text-primary lg:text-2xl">
                 Course Content
               </h4>
-              <FilterContent
-                className="bg-gray-400 text-black"
-                ref={filterRef}
-              />
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => setSidebarOpen(false)}
-              >
-                <X className="size-5" />
-              </Button>
+              <div className='flex items-center gap-4'>
+                <FilterContent
+                  className="bg-gray-400 text-black"
+                  ref={filterRef}
+                />
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => setSidebarOpen(false)}
+                >
+                  <X className="size-5" />
+                </Button>
+              </div>
             </div>
             <Accordion
               type="multiple"
