@@ -196,7 +196,7 @@ export function Sidebar({
           <Link
             key={content.id}
             href={navigateToContent(content.id) || '#'}
-            className={`flex w-full cursor-pointer items-center rounded-md p-4 tracking-tight hover:bg-primary/10 ${isActiveContent ? 'bg-primary/10' : ''}`}
+            className={`flex w-full cursor-pointer items-center rounded-md px-4 ${content.type==='video' ? "py-2" : "py-4"} tracking-tight hover:bg-primary/10 ${isActiveContent ? 'bg-primary/10' : ''}`}
             ref={
               isActiveContent
                 ? (activeItemRef as React.RefObject<HTMLAnchorElement>)
@@ -210,13 +210,14 @@ export function Sidebar({
                   {content.type === 'video' && <Play className="size-4" />}
                   {content.type === 'notion' && <File className="size-4" />}
                 </div>
-                {content.type === 'video' && (
-                  <BookmarkButton
-                    bookmark={content.bookmark ?? null}
-                    contentId={content.id}
-                  />
-                )}
+                <div className="break-words text-base">{content.title}</div>
               </div>
+              {content.type === 'video' && (
+                <BookmarkButton
+                  bookmark={content.bookmark ?? null}
+                  contentId={content.id}
+                />
+              )}
             </div>
           </Link>
         );
@@ -256,17 +257,19 @@ export function Sidebar({
               <h4 className="text-xl font-bold tracking-tighter text-primary lg:text-2xl">
                 Course Content
               </h4>
-              <FilterContent
-                className="bg-gray-400 text-black"
-                ref={filterRef}
-              />
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => setSidebarOpen(false)}
-              >
-                <X className="size-5" />
-              </Button>
+              <div className='flex items-center gap-4'>
+                <FilterContent
+                  className="bg-gray-400 text-black"
+                  ref={filterRef}
+                />
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => setSidebarOpen(false)}
+                >
+                  <X className="size-5" />
+                </Button>
+              </div>
             </div>
             <Accordion
               type="multiple"
