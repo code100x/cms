@@ -38,7 +38,7 @@ export const AppxVideoPlayer = ({
   }
   return <iframe
     src={url}
-    className="h-[80vh] w-[80vw] rounded-lg"
+    className="w-full rounded-lg aspect-video"
     allowFullScreen
   ></iframe >;
 };
