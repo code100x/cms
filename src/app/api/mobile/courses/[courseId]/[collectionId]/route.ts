@@ -1,41 +1,66 @@
 import db from '@/db';
 import { NextRequest, NextResponse } from 'next/server';
+import { getExtraCourses } from '../../route';
 
-async function checkUserCollectionAccess(userId: string, collectionId: string) {
-  const userCollection = await db.content.findFirst({
+async function checkUserCollectionAccess(
+  userId: string,
+  collectionId: string,
+  courseId: string,
+) {
+  // First check if user has directly purchased the course
+  const purchasedCourse = await db.course.findFirst({
     where: {
-      id: parseInt(collectionId, 10),
-      courses: {
+      id: parseInt(courseId, 10),
+      purchasedBy: {
         some: {
-          course: {
-            purchasedBy: {
-              some: {
-                userId,
-              },
-            },
-          },
+          userId,
         },
       },
     },
   });
 
-  return userCollection !== null;
+  if (purchasedCourse) {
+    return true;
+  }
+
+  // If not directly purchased, check if user has access through extra courses logic
+  const purchasedCourses = await db.course.findMany({
+    where: {
+      purchasedBy: {
+        some: {
+          userId,
+        },
+      },
+    },
+  });
+
+  const allCourses = await db.course.findMany();
+  const extraCourses = getExtraCourses(purchasedCourses, allCourses);
+
+  // Check if the requested course is in the extra courses
+  const hasAccess = extraCourses.some(
+    (course) => course.id === parseInt(courseId, 10),
+  );
+
+  return hasAccess;
 }
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { collectionId: string } },
+  { params }: { params: { collectionId: string; courseId: string } },
 ) {
   try {
     const user = JSON.parse(request.headers.get('g') || '');
+
     if (!user) {
       return NextResponse.json({ message: 'User not found' }, { status: 401 });
     }
 
-    const { collectionId } = params;
+    const { collectionId, courseId } = params;
     const userHasCollectionAccess = await checkUserCollectionAccess(
       user.id,
       collectionId,
+      courseId,
     );
     if (!userHasCollectionAccess) {
       return NextResponse.json(
@@ -48,6 +73,14 @@ export async function GET(
         parentId: parseInt(collectionId, 10),
       },
     });
+
+    if (!collectionData) {
+      return NextResponse.json(
+        { message: 'Collection not found' },
+        { status: 404 },
+      );
+    }
+
     return NextResponse.json({
       message: 'Collection Data fetched successfully',
       data: collectionData,
