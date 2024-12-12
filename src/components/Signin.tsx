@@ -151,6 +151,7 @@ const Signin = () => {
 
   // Handle clicks outside the dropdown
   useEffect(() => {
+    // Handle clicks outside the dropdown
     const handleClickOutside = (event: MouseEvent) => {
       if (
         dropdownRef.current &&
@@ -159,12 +160,30 @@ const Signin = () => {
         setSuggestedDomains([]);
       }
     };
-
-    document.addEventListener('mousedown', handleClickOutside);
+  
+    // Check for autofill on component mount
+    const checkAutofill = () => {
+      const emailField = document.getElementById('email') as HTMLInputElement;
+      const passwordField = document.getElementById('password') as HTMLInputElement;
+  
+      if (emailField?.value) {
+        email.current = emailField.value;
+        setRequiredError((prevState) => ({ ...prevState, emailReq: false }));
+      }
+  
+      if (passwordField?.value) {
+        password.current = passwordField.value;
+        setRequiredError((prevState) => ({ ...prevState, passReq: false }));
+      }
+    };
+      document.addEventListener('mousedown', handleClickOutside);
+      const autofillTimeout = setTimeout(checkAutofill, 100);
+  
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
+      clearTimeout(autofillTimeout); 
     };
-  }, []);
+  }, []);  
 
   return (
     <section className="wrapper relative flex min-h-screen items-center justify-center overflow-hidden antialiased">
@@ -201,6 +220,7 @@ const Signin = () => {
                 placeholder="name@email.com"
                 value={email.current}
                 onChange={handleEmailChange}
+                onInput={handleEmailChange}
                 onKeyDown={handleKeyDown}
                 onBlur={() => setSuggestedDomains([])} // Hide suggestions on blur
               />
