@@ -60,7 +60,7 @@ export default function BreadCrumbComponent({
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
-            <BreadcrumbLink className="text-sm text-blue-600" asChild>
+            <BreadcrumbLink className="text-blue-600" asChild>
               <Link href={'/'}>
                 <Home className="size-4" />
               </Link>
@@ -72,7 +72,7 @@ export default function BreadCrumbComponent({
               <BreadcrumbLink className="text-blue-600" asChild>
                 <Link
                   href={`/courses/${course.id}`}
-                  className="text-sm font-semibold capitalize text-primary/60"
+                  className="text-xs font-semibold capitalize text-primary/60"
                 >
                   {course.title}
                 </Link>

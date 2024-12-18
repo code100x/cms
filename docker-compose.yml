@@ -11,9 +11,8 @@ services:
       - NEXT_WEBPACK_USEPOLLING=1
     ports:
       - '3000:3000'
-      - '5555:5555'
     volumes:
-      # - .:/usr/src/app
+      - .:/usr/src/app
       - /usr/src/app/.next
       - /usr/src/app/node_modules
     depends_on:
@@ -35,7 +34,7 @@ services:
     healthcheck:
       test: [ 'CMD-SHELL', 'pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}' ]
       interval: 10s
-      timeout: 5s
+      timeout: 10s
       retries: 5
 
 volumes:
