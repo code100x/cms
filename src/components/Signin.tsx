@@ -50,7 +50,7 @@ const Signin = () => {
     }));
 
     // Check if the input is a phone number
-    const phoneNumberRegex = /^[0-9]{10}$/;
+    const phoneNumberRegex = /^(0|91)?[6-9][0-9]{9}$/;
     if (phoneNumberRegex.test(value)) {
       setSuggestedDomains([]); // Clear suggestions for phone numbers
       return;
