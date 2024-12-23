@@ -53,7 +53,7 @@ const Layout = async ({
         <div className="2/3">
           <Sidebar fullCourseContent={fullCourseContent} courseId={courseId} />
         </div>
-        <div className="w-1/3">
+        <div className="w-1/3 flex justify-end">
           <FilterContent />
         </div>
       </div>
