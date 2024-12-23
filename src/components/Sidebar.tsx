@@ -17,8 +17,6 @@ import BookmarkButton from './bookmark/BookmarkButton';
 import Link from 'next/link';
 import { Button } from './ui/button';
 import { AnimatePresence, motion } from 'framer-motion';
-import { FilterContent } from './FilterContent';
-import { selectFilter } from '@/store/atoms/filterContent';
 const sidebarVariants = {
   open: {
     width: '100%',
@@ -50,7 +48,6 @@ export function Sidebar({
   const buttonRef = useRef<HTMLButtonElement | null>(null);
   const filterRef = useRef<HTMLDivElement | null>(null);
   const closeSidebar = () => setSidebarOpen(false);
-  const currentfilter = useRecoilValue(selectFilter);
 
   const findPathToContent = useCallback(
     (
@@ -225,7 +222,7 @@ export function Sidebar({
         );
       });
     },
-    [currentActiveContentIds, navigateToContent, currentfilter],
+    [currentActiveContentIds, navigateToContent],
   );
 
   const memoizedContent = useMemo(
@@ -234,7 +231,7 @@ export function Sidebar({
   );
 
   return (
-    <div className="sticky top-[72px] z-20 py-2">
+    <div className="sticky top-[72px] z-20 pt-1">
       <Button
         ref={buttonRef}
         onClick={() => setSidebarOpen((s) => !s)}
@@ -259,10 +256,6 @@ export function Sidebar({
               <h4 className="text-xl font-bold tracking-tighter text-primary lg:text-2xl">
                 Course Content
               </h4>
-              <FilterContent
-                className="bg-gray-400 text-black"
-                ref={filterRef}
-              />
               <Button
                 variant="ghost"
                 size="icon"
