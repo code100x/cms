@@ -101,6 +101,7 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
     if (!player) return;
 
     const savedCaptionSetting = localStorage.getItem('captionSetting');
+    const savedvolumeLevel = localStorage.getItem('volumeLevel');
     const tracks = player.textTracks();
 
     if (savedCaptionSetting && player) {
@@ -114,6 +115,14 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
       }
     }
 
+    if (savedvolumeLevel) {
+      player.volume(parseFloat(savedvolumeLevel).toFixed(2));
+    } else {
+      const defaultVolume = 1;
+      player.volume(defaultVolume);
+      localStorage.setItem('volumeLevel', defaultVolume.toString());
+    }
+
     const handleTrackChange = () => {
       for (let i = 0; i < tracks.length; i++) {
         const track = tracks[i];
@@ -125,12 +134,25 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
       }
     };
 
+    const handleVolumeChange = () => {
+      const updateVolume = () => {
+        localStorage.setItem('volumeLevel', player.volume().toFixed(2).toString());
+      };
+      player.on('volumechange', updateVolume);
+      return () => {
+        player.off('volumechange', updateVolume);
+      };
+    };
+
+    const detachVolumeChange = handleVolumeChange();
     handleTrackChange();
+
     return () => {
       for (let i = 0; i < tracks.length; i++) {
         const track = tracks[i];
         track.removeEventListener('modechange', handleTrackChange);
       }
+      detachVolumeChange();
     };
   }, [player]);
 
@@ -207,6 +229,7 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
               );
             }, 1000);
             player.volume(VOLUME_LEVELS[newIndexUp]);
+            localStorage.setItem('volumeLevel', player.volume().toFixed(2));
             event.stopPropagation();
             break;
           case 'ArrowDown': // Decrease volume
@@ -220,6 +243,7 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
               );
             }, 1000);
             player.volume(VOLUME_LEVELS[newIndexDown]);
+            localStorage.setItem('volumeLevel', player.volume().toFixed(2));
             event.stopPropagation();
             break;
         }
@@ -248,11 +272,13 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
         case 'ArrowUp': // Arrow up for increasing volume
           event.preventDefault();
           player.volume(player.volume() + 0.1);
+          localStorage.setItem('volumeLevel', player.volume().toFixed(2));
           event.stopPropagation();
           break;
         case 'ArrowDown': // Arow dowwn for decreasing volume
           event.preventDefault();
           player.volume(player.volume() - 0.1);
+          localStorage.setItem('volumeLevel', player.volume().toFixed(2));
           event.stopPropagation();
           break;
         case 'KeyF': // F key for fullscreen
