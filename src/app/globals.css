@@ -140,6 +140,7 @@
   color: #fff !important;
   border-radius: 0.25rem;
   padding: 0.25rem 0.5rem;
+  transform: translate(0, 200%);
 }
 
 /* Responsive Control Bar */
@@ -182,7 +183,6 @@
   border-radius: 0.25rem;
   padding: 0.25rem;
 }
-
 .timeline-segments {
   position: relative;
   left: 0;
