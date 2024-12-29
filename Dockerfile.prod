@@ -4,6 +4,11 @@ WORKDIR /usr/src/app
 ARG DATABASE_URL
 ENV DATABASE_URL=${DATABASE_URL}
 
+RUN set -ex; \
+    apk update; \
+    apk add --no-cache \
+    openssl
+
 COPY . .
 
 RUN npm install -g pnpm && \
@@ -14,6 +19,10 @@ RUN npm install -g pnpm && \
 RUN DATABASE_URL=${DATABASE_URL} pnpm dlx prisma@5.18.0 generate
 
 FROM node:20-alpine AS run
+RUN set -ex; \
+    apk update; \
+    apk add --no-cache \
+    openssl
 
 RUN mkdir /.npm && chown -R 1001:1001 /.npm
 
