@@ -11,7 +11,7 @@ RUN npm install -g pnpm && \
   pnpm add sharp && \
   pnpm run build
 
-RUN DATABASE_URL=${DATABASE_URL} pnpm dlx prisma generate
+RUN DATABASE_URL=${DATABASE_URL} pnpm dlx prisma@5.18.0 generate
 
 FROM node:20-alpine AS run
 
