@@ -362,6 +362,28 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
     if (!player) {
       return;
     }
+    const volumeIcon = player.controlBar?.volumePanel?.el();
+    if (volumeIcon) {
+        const handleWheel = (event: WheelEvent) => {
+          event.preventDefault();
+
+          const delta = event.deltaY > 0 ? -0.1 : 0.1;
+          const newVolume = Math.min(1, Math.max(0, player.volume() + delta));
+          player.volume(newVolume);
+        };
+
+        volumeIcon.addEventListener("wheel", handleWheel);
+
+        return () => {
+          volumeIcon.removeEventListener("wheel", handleWheel);
+        };
+    }
+  },[player]);
+
+  useEffect(() => {
+    if (!player) {
+      return;
+    }
     let interval = 0;
     const handleVideoProgress = () => {
       if (!player) {
