@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation';
 import React, { useRef, useState, useEffect } from 'react';
 import { toast } from 'sonner';
 import { motion } from 'framer-motion';
+import { EnhancedLoader } from './ui/EnhancedLoader';
 
 const emailDomains = [
   'gmail.com',
@@ -31,6 +32,8 @@ const Signin = () => {
   const passwordRef = useRef<HTMLInputElement>(null);
   const suggestionRefs = useRef<HTMLLIElement[]>([]);
   const dropdownRef = useRef<HTMLUListElement>(null);
+  const emailRef = useRef<HTMLInputElement>(null);
+  const [loading, setLoading] = useState<boolean>(false);
 
   function togglePasswordVisibility() {
     setIsPasswordVisible((prevState: any) => !prevState);
@@ -110,6 +113,7 @@ const Signin = () => {
 
   const handleSubmit = async (e?: React.FormEvent<HTMLButtonElement>) => {
     const loadId = toast.loading('Signing in...');
+    setLoading(true);
     if (e) {
       e.preventDefault();
     }
@@ -122,7 +126,7 @@ const Signin = () => {
       toast.dismiss(loadId);
       return;
     }
-    setCheckingPassword(true);
+    setCheckingPassword(true);  
     const res = await signIn('credentials', {
       username: email.current,
       password: password.current,
@@ -146,10 +150,10 @@ const Signin = () => {
         toast.error('oops something went wrong..!');
       }
       setCheckingPassword(false);
+      setLoading(false);
     }
   };
 
-  // Handle clicks outside the dropdown
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -158,8 +162,10 @@ const Signin = () => {
       ) {
         setSuggestedDomains([]);
       }
-    };
-
+    }  
+    if(email.current === ''){
+      emailRef?.current?.focus();
+    }
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
@@ -198,11 +204,12 @@ const Signin = () => {
                 className="focus:ring-none border-none bg-primary/5 focus:outline-none"
                 name="email"
                 id="email"
+                ref={emailRef}
                 placeholder="name@email.com"
                 value={email.current}
                 onChange={handleEmailChange}
                 onKeyDown={handleKeyDown}
-                onBlur={() => setSuggestedDomains([])} // Hide suggestions on blur
+                onBlur={() => setSuggestedDomains([])}
               />
               {email.current && suggestedDomains.length > 0 && (
                 <ul
@@ -246,6 +253,11 @@ const Signin = () => {
                   type={isPasswordVisible ? 'text' : 'password'}
                   id="password"
                   placeholder="••••••••"
+                  style={{
+                    appearance: 'none', 
+                    WebkitAppearance: 'none',
+                    MozAppearance: 'none'
+                  }}
                   ref={passwordRef}
                   onChange={(e) => {
                     setRequiredError((prevState) => ({
@@ -311,10 +323,11 @@ const Signin = () => {
           <Button
             size={'lg'}
             variant={'branding'}
-            disabled={!email.current || !password.current || checkingPassword}
+            disabled={!email.current || !password.current || checkingPassword || loading}
+            aria-label='Logging in'
             onClick={handleSubmit}
           >
-            Login
+            {loading ? <EnhancedLoader /> : 'Login'}
           </Button>
         </div>
       </motion.div>
@@ -324,3 +337,4 @@ const Signin = () => {
 };
 
 export default Signin;
+
