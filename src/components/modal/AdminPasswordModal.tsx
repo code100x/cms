@@ -1,0 +1,87 @@
+'use client';
+
+import { useState } from 'react';
+import { EyeIcon, EyeOffIcon } from 'lucide-react';
+import { SubmitHandler, UseFormHandleSubmit, UseFormRegister } from 'react-hook-form';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+
+interface AdminPasswordModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onSubmit: SubmitHandler<any>;
+  register: UseFormRegister<{
+    adminPassword: string;
+  }>;
+  handleSubmit: UseFormHandleSubmit<
+    {
+      adminPassword: string;
+    },
+    {
+      adminPassword: string;
+    }
+  >;
+}
+
+const AdminPasswordModal = ({
+  isOpen,
+  onClose,
+  onSubmit,
+  register,
+  handleSubmit,
+}: AdminPasswordModalProps) => {
+  if (!isOpen) return null;
+  const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
+  const togglePasswordVisibility = () => setIsPasswordVisible((p) => !p);
+  return (
+    <Dialog open={isOpen} onOpenChange={onClose}>
+      <DialogContent>
+        <DialogHeader className="flex flex-col items-center justify-center gap-y-2">
+          <DialogTitle>{ `Are you sure want to create the content`}</DialogTitle>
+        </DialogHeader>
+        <div className="mt-2">
+          <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col items-center justify-center gap-y-2 w-full'>
+          <label htmlFor="">Admin Password</label>
+            <div className="flex rounded-lg border w-full">
+              <Input
+                id="password"
+                className="border-0"
+                type={isPasswordVisible ? 'text' : 'password'}
+                placeholder="••••••••"
+                {...register('adminPassword')}
+                onKeyDown={async (e) => {
+                  if (e.key === 'Enter') {
+                    setIsPasswordVisible(false);
+                    handleSubmit(onSubmit);
+                  }
+                }}
+              />
+              <button
+                type="button"
+                className="ml-2 mr-2 text-gray-600"
+                onClick={togglePasswordVisibility}
+              >
+                {isPasswordVisible ? <EyeIcon /> : <EyeOffIcon />}
+              </button>
+            </div>
+
+            <div className="mt-4 flex items-center justify-center gap-x-2">
+              <Button variant="destructive" onClick={onClose}>
+                Cancel
+              </Button>
+              <Button type="submit">Submit</Button>
+            </div>
+          </form>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+};
+
+export default AdminPasswordModal;

@@ -63,13 +63,24 @@ export const POST = async (req: NextRequest) => {
   if (adminPassword !== process.env.ADMIN_SECRET) {
     return NextResponse.json({}, { status: 403 });
   }
-
+  const maxPositionContent = await db.content.findFirst({
+    where: {
+      parentId: parentContentId,
+      type,
+    },
+    orderBy: {
+      position: 'desc',
+    },
+  });
+  const maxPosition = maxPositionContent ? maxPositionContent.position : 0;
+  const newPosition = maxPosition + 1;
   const content = await db.content.create({
     data: {
       type: type === 'appx' ? 'video' : type,
       title,
       parentId: parentContentId,
       thumbnail,
+      position: newPosition
     },
   });
 
@@ -167,7 +178,6 @@ export const POST = async (req: NextRequest) => {
       currFolderId: parseInt(rest[0], 10),
       mediaId: content.id,
     };
-
     await sendUpdateToDiscord(data);
   }
 
@@ -181,3 +191,60 @@ export const POST = async (req: NextRequest) => {
     { status: 200 },
   );
 };
+
+export async function PATCH(
+  req: Request
+) {
+  console.log('calling patch request');
+  const {
+    type,
+    thumbnail,
+    title,
+    contentId,
+    description,
+    metadata,
+    adminSecret,
+  }: {
+    type: 'video' | 'folder' | 'notion';
+    thumbnail: string;
+    title: string;
+    description: string;
+    courseId: number;
+    contentId: number;
+    metadata: any;
+    adminSecret: string;
+  } = await req.json();
+  console.log(type,
+    thumbnail,
+    title,
+    contentId,
+    description,
+    metadata,
+    adminSecret);
+  if (adminSecret !== process.env.ADMIN_SECRET) {
+    return NextResponse.json({}, { status: 403 });
+  }
+  
+  try {
+    const content = await db.content.findUnique({
+      where: { id: contentId }
+    });
+
+    if (!content) {
+      return NextResponse.json({error: "No Content found"}, {status: 404});
+    }
+
+    const response = await db.content.update({
+      where: { id: contentId },
+      data: {
+        title,
+        description,
+        thumbnail
+      },
+    });
+    return NextResponse.json({status: 201, data: response});
+  } catch (error) {
+    console.log(error);
+    return NextResponse.json({error});
+  }
+}

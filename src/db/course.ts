@@ -124,10 +124,10 @@ export async function getCourse(courseId: number) {
     return value;
   }
 
-  const courses = db.course.findFirst({
+  const courses = db.course.findUnique({
     where: {
       id: courseId,
-    },
+    }
   });
   cache.set('getCourse', [courseId.toString()], courses);
   return courses;
@@ -175,6 +175,7 @@ async function getAllContent(): Promise<
     thumbnail: string | null;
     parentId: number | null;
     createdAt: Date;
+    position: number; 
     VideoMetadata: {
       duration: number | null;
     } | null;
@@ -195,6 +196,9 @@ async function getAllContent(): Promise<
         },
       },
     },
+    orderBy: {
+      position: "asc"
+    }
   });
   cache.set('getAllContent', [], allContent);
 
@@ -212,6 +216,7 @@ interface ContentWithMetadata {
   VideoMetadata?: {
     duration: number | null;
   } | null;
+  position: number;
 }
 
 async function getRootCourseContent(courseId: number): Promise<
@@ -311,7 +316,7 @@ export const getFullCourseContent = async (
   const rootContents: FullCourseContent[] = [];
 
   contents
-    .sort((a, b) => (a.id < b.id ? -1 : 1))
+    .sort((a, b) => (a.position < b.position ? -1 : 1))
     .forEach((content: any) => {
       if (content.parentId) {
         contentMap
@@ -415,3 +420,32 @@ export const getCurrentContentType = async (
 
   return content.type;
 };
+
+export async function getContentById(contentId: number) {
+  const value = await cache.get('getContentById', [contentId.toString()]);
+  if (value) return value;
+  const content = await db.content.findFirst({
+    where: {
+        id: contentId
+    },
+    include: {
+      children: {
+        include: {
+          NotionMetadata: true,
+          VideoMetadata: true
+        }
+      },
+    }
+  });
+  cache.set('getContentById', [contentId.toString()], content);
+  return content;
+}
+
+export async function getFullCourseTitle () {
+  const coursesTitle = await db.course.findMany({
+    select: {
+      title: true
+    }
+  });
+  return coursesTitle;
+}

@@ -8,6 +8,38 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Assignment {
+  id              Int            @id @default(autoincrement())
+  courseId        Int?   
+  title           String
+  description     String
+  dueDate         String
+  dueTime         String
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+  submission      Submission[]
+  course          Course?         @relation(fields: [courseId], references: [id])
+}
+
+model Submission {
+  id              Int             @id @default(autoincrement())
+  assignmentId    Int         
+  userId          String      
+  courseId        Int
+  githubLink      String?     
+  twitterPost     String?   
+  deploymentLink  String?
+  submitted       Boolean        @default(false)  
+  submittedAt     DateTime       @default(now())
+  bounty          String?
+  feedback        String?     
+  updatedAt       DateTime       @updatedAt
+
+  course          Course         @relation(fields: [courseId], references: [id])
+  assignment      Assignment     @relation(fields: [assignmentId], references: [id])
+  user            User           @relation(fields: [userId], references: [id])
+}
+
 model Course {
   id              Int             @id @default(autoincrement())
   appxCourseId    String
@@ -22,6 +54,9 @@ model Course {
   purchasedBy     UserPurchases[]
   certificate     Certificate[]
   certIssued      Boolean         @default(false)
+  assignments   Assignment[]
+  submissions   Submission[]
+  class         Class[]
 }
 
 model UserPurchases {
@@ -53,6 +88,7 @@ model Content {
   comments         Comment[]
   commentsCount    Int             @default(0)
   bookmark         Bookmark[]
+  position         Int  @default(0)
 }
 
 model CourseContent {
@@ -73,6 +109,22 @@ model Certificate {
   courseId Int
 
   @@unique([userId, courseId])
+}
+
+model Class {
+  id            Int     @id @default(autoincrement())
+  title         String 
+  description   String
+  date          String
+  startTime     String
+  endTime       String
+  meetingLink   String
+
+  courseId      Int
+  course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @default(now())
 }
 
 model NotionMetadata {
@@ -164,6 +216,7 @@ model User {
   solanaAddresses   SolanaAddress[]    @relation("UserSolanaAddresses")
   githubUser        GitHubLink?        @relation("UserGithub")
   bounties          BountySubmission[]
+  submissions       Submission[]
 }
 
 model GitHubLink {

@@ -356,3 +356,22 @@
     mask-size: 350vmax;
   }
 }
+
+.custom-button {
+  background: linear-gradient(to right, #1d4ed8 50%, rgba(12, 35, 64, 0) 0%);
+  background-size: 200% 100%;
+  background-position: right bottom;
+  transition: all 0.5s ease-out;
+}
+
+.custom-button:hover {
+  background-position: left bottom;
+}
+
+.custom-text {
+  transition: all 0.2s ease-out;
+}
+
+.custom-text:hover {
+  color: white;
+}

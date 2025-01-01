@@ -10,6 +10,7 @@ import { cache } from '@/db/Cache';
 import prisma from '@/db';
 import { checkUserEmailForPurchase } from './appx-check-mail';
 import { refreshDbInternal } from '@/actions/refresh-db';
+import db from '@/db';
 
 const LOCAL_CMS_PROVIDER = process.env.LOCAL_CMS_PROVIDER;
 const COHORT_3_PARENT_COURSES = [8, 9, 10, 11, 12];
@@ -249,4 +250,25 @@ export async function getAppxCourseId(courseId: string) {
     }
   });
   return appxCourseId;
+}
+
+export async function getAssignments(courseIds: Array<number>) {
+  const assignments = await db.assignment.findMany({
+    where: {
+      courseId: {
+        in: courseIds
+      }
+    },
+    include: {
+      course: {
+        select: {
+          title: true,
+          id: true,
+          submissions: true
+        },
+      }
+    },
+  });
+
+  return assignments;
 }
