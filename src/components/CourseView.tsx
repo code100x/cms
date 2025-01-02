@@ -40,7 +40,7 @@ export const CourseView = ({
 
   return (
     <div className="relative flex z-0 w-full flex-col gap-8 pb-16 pt-8 xl:pt-[9px]">
-      <div className="sticky top-[72px] z-10 bg-background py-2 xl:pt-2">
+      <div className="sticky top-[72px] z-[1000] bg-background py-2 xl:pt-2">
         <BreadCrumbComponent
           course={course}
           contentType={contentType}
