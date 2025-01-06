@@ -3,6 +3,7 @@ import db from '@/db';
 import { authOptions } from '@/lib/auth';
 import axios from 'axios';
 import { getServerSession } from 'next-auth';
+import FingerprintJS from '@fingerprintjs/fingerprintjs';
 
 export const logoutUser = async (email: string, adminPassword: string) => {
   if (adminPassword !== process.env.ADMIN_SECRET) {
@@ -77,4 +78,27 @@ export const GetAppxVideoPlayerUrl = async (courseId: string, videoId: string): 
   parsed_url.searchParams.delete('isMobile');
   const full_video_url = `${parsed_url.toString()}${video_player_token}&watermark=${name}%0A${email}`;
   return full_video_url;
+};
+
+export const storeDeviceDetails = async () => {
+  const session = await getServerSession(authOptions);
+  if (!session || !session.user) throw new Error("User is not logged in");
+
+  const fp = await FingerprintJS.load();
+  const result = await fp.get();
+
+  const deviceDetails = {
+    visitorId: result.visitorId,
+    userAgent: navigator.userAgent,
+    screenResolution: `${window.screen.width}x${window.screen.height}`,
+  };
+
+  await db.user.update({
+    where: {
+      email: session.user.email,
+    },
+    data: {
+      deviceDetails: JSON.stringify(deviceDetails),
+    },
+  });
 };

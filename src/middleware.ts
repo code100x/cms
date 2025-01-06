@@ -11,6 +11,7 @@ interface RequestWithUser extends NextRequest {
   user?: {
     id: string;
     email: string;
+    ip: string; // Added IP address to user
   };
 }
 
@@ -71,6 +72,12 @@ const withAuth = async (req: NextRequestWithAuth) => {
 
   const json = await user.json();
   if (!json.user) {
+    return NextResponse.redirect(new URL('/invalidsession', req.url));
+  }
+
+  // Check if the IP address matches
+  const ip = req.headers.get('x-forwarded-for') || req.connection.remoteAddress;
+  if (json.user.ip !== ip) {
     return NextResponse.redirect(new URL('/invalidsession', req.url));
   }
 };

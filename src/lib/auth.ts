@@ -24,12 +24,14 @@ export interface session extends Session {
     role: string;
     email: string;
     name: string;
+    ip: string; // Added IP address to session user
   };
 }
 
 interface token extends JWT {
   uid: string;
   jwtToken: string;
+  ip: string; // Added IP address to token
 }
 
 interface user {
@@ -37,6 +39,7 @@ interface user {
   name: string;
   email: string;
   token: string;
+  ip: string; // Added IP address to user
 }
 
 const generateJWT = async (payload: JWTPayload) => {
@@ -119,8 +122,10 @@ export const authOptions = {
         username: { label: 'email', type: 'text', placeholder: '' },
         password: { label: 'password', type: 'password', placeholder: '' },
       },
-      async authorize(credentials: any) {
+      async authorize(credentials: any, req: any) {
         try {
+          const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress; // Get user's IP address
+
           if (process.env.LOCAL_CMS_PROVIDER) {
             return {
               id: '1',
@@ -128,6 +133,7 @@ export const authOptions = {
               email: 'test@gmail.com',
               token: await generateJWT({
                 id: '1',
+                ip, // Include IP address in JWT payload
               }),
             };
           }
@@ -152,6 +158,7 @@ export const authOptions = {
           ) {
             const jwt = await generateJWT({
               id: userDb.id,
+              ip, // Include IP address in JWT payload
             });
             await db.user.update({
               where: {
@@ -167,6 +174,7 @@ export const authOptions = {
               name: userDb.name,
               email: credentials.username,
               token: jwt,
+              ip, // Include IP address in user object
             };
           }
           console.log('not in db');
@@ -177,6 +185,7 @@ export const authOptions = {
 
           const jwt = await generateJWT({
             id: user.data?.userid,
+            ip, // Include IP address in JWT payload
           });
 
           if (user.data) {
@@ -192,6 +201,7 @@ export const authOptions = {
                   token: jwt,
                   password: hashedPassword,
                   appxAuthToken: user.data.token,
+                  ip, // Include IP address in user object
                 },
                 update: {
                   id: user.data.userid,
@@ -200,6 +210,7 @@ export const authOptions = {
                   token: jwt,
                   password: hashedPassword,
                   appxAuthToken: user.data.token,
+                  ip, // Include IP address in user object
                 },
               });
             } catch (e) {
@@ -211,6 +222,7 @@ export const authOptions = {
               name: user.data.name,
               email: credentials.username,
               token: jwt,
+              ip, // Include IP address in user object
             };
           }
 
@@ -235,6 +247,7 @@ export const authOptions = {
         )
           ? 'admin'
           : 'user';
+        newSession.user.ip = token.ip as string; // Include IP address in session user
       }
       return newSession!;
     },
@@ -244,6 +257,7 @@ export const authOptions = {
       if (user) {
         newToken.uid = user.id;
         newToken.jwtToken = (user as user).token;
+        newToken.ip = (user as user).ip; // Include IP address in token
       }
       return newToken;
     },
