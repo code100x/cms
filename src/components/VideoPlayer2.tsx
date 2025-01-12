@@ -38,7 +38,6 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
   options,
   contentId,
   onReady,
-  subtitles,
   onVideoEnd,
   appxVideoId,
   appxCourseId,
@@ -411,16 +410,6 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
     if (!playerRef.current && videoRef.current) {
       const videoElement = document.createElement('video-js');
       videoElement.classList.add('vjs-big-play-centered');
-      if (subtitles) {
-        const subtitlesEl = document.createElement('track');
-        subtitlesEl.setAttribute('kind', 'subtitles');
-
-        subtitlesEl.setAttribute('label', 'English');
-        subtitlesEl.setAttribute('srcLang', 'en');
-        subtitlesEl.setAttribute('src', subtitles);
-
-        videoElement.append(subtitlesEl);
-      }
       videoRef.current.appendChild(videoElement);
       const player: any = (playerRef.current = videojs(
         videoElement,
