@@ -356,3 +356,7 @@
     mask-size: 350vmax;
   }
 }
+
+.vjs-text-track-cue {
+  display: none !important;
+}
