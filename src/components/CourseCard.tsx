@@ -6,6 +6,9 @@ import { Button } from './ui/button';
 import { Card, CardContent } from "@/components/ui/card";
 import { motion } from "framer-motion";
 import { MessageCircle, PlayCircle } from "lucide-react";
+import { TbPinned } from "react-icons/tb";
+import { TbPinnedFilled } from "react-icons/tb";
+import { useState } from 'react';
 
 export const CourseCard = ({
   course,
@@ -15,12 +18,26 @@ export const CourseCard = ({
   onClick: () => void;
 }) => {
   const router = useRouter();
+  const [pinnedCourse, setPinnedCourse] = useState<boolean>(false);
+
   const imageUrl = course.imageUrl ? course.imageUrl : 'banner_placeholder.png';
   const percentage = course.totalVideos !== undefined ? Math.ceil(((course.totalVideosWatched ?? 0) / course?.totalVideos) * 100) : 0;
 
   return (
     <Card className="w-full max-w-sm overflow-hidden transition-all hover:shadow-lg cursor-pointer" onClick={onClick}>
       <div className="relative aspect-video overflow-hidden">
+        <div
+          className="absolute right-5 top-5 z-50"
+          onClick={(e) => {
+            e.stopPropagation();
+            setPinnedCourse(p => !p);
+          }}
+        >
+          {
+            pinnedCourse ? <TbPinnedFilled color="white" size="2rem" /> : <TbPinned color="white" size="2rem" />
+          }
+        </div>
+
         <img
           alt={course.title}
           className="object-cover w-full h-full transition-transform hover:scale-105"
