@@ -16,6 +16,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
+import { usePathname } from 'next/navigation';
 
 const allFilters = [
   { value: 'all', label: 'ALL' },
@@ -29,7 +30,14 @@ type FilterContentProps = {
   className?: string;
 };
 
-export const FilterContent = forwardRef<HTMLDivElement, FilterContentProps>(
+const FilterWrapper = () => {
+  const pathname = usePathname();
+  const hideFilter = pathname.split('/').length > 4;
+
+  return hideFilter ? null : <FilterContent />;
+};
+
+const FilterContent = forwardRef<HTMLDivElement, FilterContentProps>(
   (props, ref) => {
     const [open, setOpen] = useState(false);
     const [value, setValue] = useRecoilState(selectFilter);
@@ -80,3 +88,5 @@ export const FilterContent = forwardRef<HTMLDivElement, FilterContentProps>(
     );
   },
 );
+
+export default FilterWrapper;
