@@ -1,5 +1,5 @@
 import { QueryParams } from '@/actions/types';
-import FilterWrapper from '@/components/FilterContent';
+import FilterContainer from '@/components/FilterContainer';
 import { Sidebar } from '@/components/Sidebar';
 import { getFullCourseContent } from '@/db/course';
 import { authOptions } from '@/lib/auth';
@@ -54,7 +54,7 @@ const Layout = async ({
           <Sidebar fullCourseContent={fullCourseContent} courseId={courseId} />
         </div>
         <div>
-          <FilterWrapper />
+          <FilterContainer />
         </div>
       </div>
 
