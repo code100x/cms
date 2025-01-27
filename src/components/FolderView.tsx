@@ -16,6 +16,7 @@ export const FolderView = ({
 }) => {
   const router = useRouter();
 
+
   if (!courseContent?.length) {
     return (
       <div className="mt-64 flex">
@@ -23,19 +24,25 @@ export const FolderView = ({
       </div>
     );
   }
-  let updatedRoute = `/courses/${courseId}`;
-  for (let i = 0; i < rest.length; i++) {
-    updatedRoute += `/${rest[i]}`;
-  }
-  // why? because we have to reset the segments or they will be visible always after a video
-
   const currentfilter = useRecoilValue(selectFilter);
-
   const filteredCourseContent = getFilteredContent(
     courseContent,
     currentfilter,
   );
-
+  if (!filteredCourseContent?.length) {
+    return (
+        <div className="mt-60 flex">
+            <div className="m-auto text-gray-500 text-xl">
+                No {currentfilter} content found in this section.
+            </div>
+        </div>
+    );
+}
+let updatedRoute = `/courses/${courseId}`;
+  for (let i = 0; i < rest.length; i++) {
+    updatedRoute += `/${rest[i]}`;
+  }
+  // why? because we have to reset the segments or they will be visible always after a video
   return (
     <div>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
