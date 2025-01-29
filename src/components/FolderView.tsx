@@ -37,7 +37,7 @@ export const FolderView = ({
   );
 
   if (filteredCourseContent?.length === 0) {
-    const filterMessages: Record<string, string> = {
+    const filterMessages = {
       watched: "You haven't completed any content in this section yet.",
       watching: "No content currently in progress.",
       unwatched: "No new content available to watch.",
