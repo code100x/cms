@@ -22,7 +22,6 @@ model Course {
   purchasedBy     UserPurchases[]
   certificate     Certificate[]
   certIssued      Boolean         @default(false)
-  PinnedCourses   PinnedCourses[]
 }
 
 model UserPurchases {
@@ -165,17 +164,6 @@ model User {
   solanaAddresses   SolanaAddress[]    @relation("UserSolanaAddresses")
   githubUser        GitHubLink?        @relation("UserGithub")
   bounties          BountySubmission[]
-  PinnedCourses     PinnedCourses[]
-}
-
-model PinnedCourses {
-  userId   String
-  courseId Int
-
-  user   User   @relation(fields: [userId], references: [id])
-  course Course @relation(fields: [courseId], references: [id])
-
-  @@id([userId, courseId])
 }
 
 model GitHubLink {
