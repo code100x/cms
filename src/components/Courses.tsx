@@ -8,16 +8,21 @@ import { refreshDb } from '@/actions/refresh-db';
 import { useSession } from 'next-auth/react';
 import { toast } from 'sonner';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export const Courses = ({ courses }: { courses: Course[] }) => {
-  const [pinnedCourseIds, setPinnedCourseIds] = useState<number[]>(() => {
-    const stored = localStorage.getItem('pinnedCourses');
-    return stored ? JSON.parse(stored) : [];
-  });
+  const [pinnedCourseIds, setPinnedCourseIds] = useState<number[]>([]);
   const session = useSession();
 
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const stored = localStorage.getItem('pinnedCourses');
+      setPinnedCourseIds(stored ? JSON.parse(stored) : []);
+    }
+  }, []);
+
   const togglePin = (courseId: number) => {
+    if (typeof window === 'undefined') return;
     setPinnedCourseIds(prev => {
       const newPinned = prev.includes(courseId)
         ? prev.filter(id => id !== courseId)
