@@ -17,8 +17,8 @@ export const CourseCard = ({
 }: {
   course: Course;
   onClick: () => void;
-  isPinned: boolean;
-  onPinToggle: () => void;
+  isPinned?: boolean;
+  onPinToggle?: () => void;
 }) => {
   const router = useRouter();
 
