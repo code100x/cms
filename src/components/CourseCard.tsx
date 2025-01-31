@@ -8,17 +8,19 @@ import { motion } from "framer-motion";
 import { MessageCircle, PlayCircle } from "lucide-react";
 import { TbPinned } from "react-icons/tb";
 import { TbPinnedFilled } from "react-icons/tb";
-import { useState } from 'react';
 
 export const CourseCard = ({
   course,
   onClick,
+  isPinned,
+  onPinToggle,
 }: {
   course: Course;
   onClick: () => void;
+  isPinned: boolean;
+  onPinToggle: () => void;
 }) => {
   const router = useRouter();
-  const [pinnedCourse, setPinnedCourse] = useState<boolean>(false);
 
   const imageUrl = course.imageUrl ? course.imageUrl : 'banner_placeholder.png';
   const percentage = course.totalVideos !== undefined ? Math.ceil(((course.totalVideosWatched ?? 0) / course?.totalVideos) * 100) : 0;
@@ -30,11 +32,11 @@ export const CourseCard = ({
           className="absolute right-5 top-5 z-50"
           onClick={(e) => {
             e.stopPropagation();
-            setPinnedCourse(p => !p);
+            onPinToggle();
           }}
         >
           {
-            pinnedCourse ? <TbPinnedFilled color="white" size="2rem" /> : <TbPinned color="white" size="2rem" />
+            isPinned ? <TbPinnedFilled color="white" size="2rem" /> : <TbPinned color="white" size="2rem" />
           }
         </div>
 

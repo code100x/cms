@@ -8,9 +8,32 @@ import { refreshDb } from '@/actions/refresh-db';
 import { useSession } from 'next-auth/react';
 import { toast } from 'sonner';
 import Link from 'next/link';
+import { useState } from 'react';
 
 export const Courses = ({ courses }: { courses: Course[] }) => {
+  const [pinnedCourseIds, setPinnedCourseIds] = useState<number[]>(() => {
+    const stored = localStorage.getItem('pinnedCourses');
+    return stored ? JSON.parse(stored) : [];
+  });
   const session = useSession();
+
+  const togglePin = (courseId: number) => {
+    setPinnedCourseIds(prev => {
+      const newPinned = prev.includes(courseId)
+        ? prev.filter(id => id !== courseId)
+        : [...prev, courseId];
+      localStorage.setItem('pinnedCourses', JSON.stringify(newPinned));
+      return newPinned;
+    });
+  };
+
+  const sortedCourses = [...courses].sort((a: Course, b: Course) : any => {
+    if (!pinnedCourseIds) return;
+    const aPinned = pinnedCourseIds.includes(a.id);
+    const bPinned = pinnedCourseIds.includes(b.id);
+    if (aPinned === bPinned) return 0;
+    return -1;
+  });
 
   const handleClick = async () => {
     // @ts-ignore
@@ -24,10 +47,12 @@ export const Courses = ({ courses }: { courses: Course[] }) => {
   const router = useRouter();
   return (
     <section className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-      {courses?.map((course) => (
+      {sortedCourses?.map((course) => (
         <CourseCard
           key={course.id}
           course={course}
+          isPinned={pinnedCourseIds.includes(course.id)}
+          onPinToggle={() => togglePin(course.id)}
           onClick={() => {
             if (
               course.title.includes('Machine Learning') ||
