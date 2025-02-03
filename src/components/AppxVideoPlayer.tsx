@@ -40,5 +40,16 @@ export const AppxVideoPlayer = ({
     src={url}
     className="w-full rounded-lg aspect-video"
     allowFullScreen
+    onDoubleClick={(e) => {           // Full screen on double click
+      if (e.currentTarget.requestFullscreen) {
+        e.currentTarget.requestFullscreen();
+      } else if (e.currentTarget.mozRequestFullScreen) { // Firefox
+        e.currentTarget.mozRequestFullScreen();
+      } else if (e.currentTarget.webkitRequestFullscreen) { // Chrome, Safari, and Opera
+        e.currentTarget.webkitRequestFullscreen();
+      } else if (e.currentTarget.msRequestFullscreen) { // IE/Edge
+        e.currentTarget.msRequestFullscreen();
+      }
+    }}
   ></iframe >;
 };
