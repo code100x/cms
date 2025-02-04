@@ -182,10 +182,11 @@ export function Sidebar({
                   : null
               }
             >
-              <AccordionTrigger className="rounded-md px-4 text-lg font-medium capitalize">
+              <AccordionTrigger className="rounded-md px-4 text-xl font-bold capitalize">
                 {content.title}
               </AccordionTrigger>
-              <AccordionContent className="flex flex-col gap-1 px-2 pb-2">
+
+              <AccordionContent className="flex flex-col text-lg gap-1 pb-2">
                 {renderContent(content.children)}
               </AccordionContent>
             </AccordionItem>
@@ -196,7 +197,7 @@ export function Sidebar({
           <Link
             key={content.id}
             href={navigateToContent(content.id) || '#'}
-            className={`flex w-full cursor-pointer items-center rounded-md p-4 tracking-tight hover:bg-primary/10 ${isActiveContent ? 'bg-primary/10' : ''}`}
+            className={`flex w-full text-md cursor-pointer items-center rounded-md p-4 tracking-tight hover:bg-primary/10 ${isActiveContent ? 'bg-primary/10' : ''}`}
             ref={
               isActiveContent
                 ? (activeItemRef as React.RefObject<HTMLAnchorElement>)
@@ -204,22 +205,22 @@ export function Sidebar({
             }
           >
             <div className="flex w-full items-center justify-between gap-2">
-              <div className="flex items-center gap-2">
-                <div className="flex gap-2">
+                <div className="flex gap-2 ">
                   {content.type === 'video' && <Check content={content} />}
                   {content.type === 'video' && <Play className="size-4" />}
                   {content.type === 'notion' && <File className="size-4" />}
                 </div>
-                <div> 
+                <div className='grow'> 
                   {content.title}
                 </div>
                 {content.type === 'video' && (
-                  <BookmarkButton
-                    bookmark={content.bookmark ?? null}
-                    contentId={content.id}
-                  />
+                  <div className='flex-none'>
+                    <BookmarkButton
+                      bookmark={content.bookmark ?? null}
+                      contentId={content.id}
+                    />
+                  </div>
                 )}
-              </div>
             </div>
           </Link>
         );
@@ -274,7 +275,7 @@ export function Sidebar({
             <Accordion
               type="multiple"
               defaultValue={currentActiveContentIds.map((num) => `item-${num}`)}
-              className="w-full px-4 pb-40 capitalize"
+              className="w-full px-2 pb-40 capitalize"
             >
               {memoizedContent}
             </Accordion>
