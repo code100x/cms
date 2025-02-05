@@ -205,22 +205,22 @@ export function Sidebar({
             }
           >
             <div className="flex w-full items-center justify-between gap-2">
-                <div className="flex gap-2 ">
-                  {content.type === 'video' && <Check content={content} />}
-                  {content.type === 'video' && <Play className="size-4" />}
-                  {content.type === 'notion' && <File className="size-4" />}
+              <div className="flex gap-2 ">
+                {content.type === 'video' && <Check content={content} />}
+                {content.type === 'video' && <Play className="size-4" />}
+                {content.type === 'notion' && <File className="size-4" />}
+              </div>
+              <div className='grow'> 
+                {content.title}
+              </div>
+              {content.type === 'video' && (
+                <div className='flex-none'>
+                  <BookmarkButton
+                    bookmark={content.bookmark ?? null}
+                    contentId={content.id}
+                  />
                 </div>
-                <div className='grow'> 
-                  {content.title}
-                </div>
-                {content.type === 'video' && (
-                  <div className='flex-none'>
-                    <BookmarkButton
-                      bookmark={content.bookmark ?? null}
-                      contentId={content.id}
-                    />
-                  </div>
-                )}
+              )}
             </div>
           </Link>
         );
