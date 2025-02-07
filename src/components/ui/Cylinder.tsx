@@ -4,13 +4,10 @@ import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 
 const Cylinder: React.FC = () => {
-  // Load texture from file
   const tex = useTexture('./newcover.png');
 
-  // Create a reference to the mesh; it's typed as THREE.Mesh or null
   const cyl = useRef<THREE.Mesh>(null);
 
-  // Rotate the cylinder on each frame
   useFrame((state, delta) => {
     if (cyl.current) {
       cyl.current.rotation.y += delta;

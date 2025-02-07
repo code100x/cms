@@ -53,8 +53,6 @@ export default function LandingPage() {
           </Button>
             </motion.div>
           </div>
-
-          {/* Right Side: 3D Model */}
           <div
             className="w-1/2 flex items-center justify-center"
             style={{ overflow: 'hidden' }}
@@ -87,18 +85,17 @@ export default function LandingPage() {
       }}
     >
 
-      <div
-        style={{
+      <div style={{
           flex: 1,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
         }}
       >
-        <Canvas style={{ width: '100%', height: '100%' }} camera={cameraProp2}>
-          <ambientLight />
-          <Cylinder />
-        </Canvas>
+          <Canvas style={{ width: '100%', height: '100%' }} camera={cameraProp2}>
+            <ambientLight />
+            <Cylinder />
+          </Canvas>
       </div>
 
       <div
@@ -107,22 +104,33 @@ export default function LandingPage() {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          padding: '2rem',
+          padding: '1rem',
         }}
       >
-        <h2
-          style={{
-            color: '#fff',
-            fontSize: '3rem',
-            textAlign: 'left',
-            lineHeight: 1.2,
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{
+          duration: 0.5,
+          delay: 0.25,
+          type: 'spring',
+          damping: 10,
+          stiffness: 100,
           }}
-          
+          className="max-w-xl"
         >
-          Keep pushing your limits.
-          <br />
-          Code, build, and conquer!
-        </h2>
+            <h1 className="py-2  text-left text-5xl font-extrabold tracking-tighter md:text-6xl xl:text-7xl">
+              <span className="w-fit bg-gradient-to-b from-blue-400 to-blue-700 bg-clip-text pr-1.5 text-transparent">
+              Keep pushing your limit
+              </span>{' '}
+              <span className="bg-gradient-to-b from-primary/90 to-primary/60 bg-clip-text py-1 text-transparent">
+              Code , Build , and Conquer
+              </span>{'-'}
+              <span className="bg-gradient-to-b from-primary/90 to-primary/60 bg-clip-text py-1 text-transparent">
+              Be 100x
+              </span>
+            </h1>
+        </motion.div>
       </div>
     </Link>
       <motion.div

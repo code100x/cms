@@ -7,23 +7,15 @@ const MacContainer: FC = () => {
   // Load the GLTF model and texture.
   const model = useGLTF('./mac.glb') as any;
   const tex = useTexture('./maccover.png') as THREE.Texture;
-
-  // Create a record to store objects by name.
   const mashes: Record<string, THREE.Object3D> = {};
-
-  // Traverse the scene and store each object by its name.
   model.scene.traverse((e:any) => {
     if (e.name) {
       mashes[e.name] = e;
     }
   });
-
-  // Adjust the "screen" object's rotation if it exists.
   if (mashes.screen) {
     mashes.screen.rotation.x = THREE.MathUtils.degToRad(180);
   }
-
-  // For the "matte" object, adjust its material properties.
   if (
     mashes.matte &&
     (mashes.matte as THREE.Mesh).material instanceof THREE.MeshStandardMaterial
@@ -34,13 +26,10 @@ const MacContainer: FC = () => {
     matteMaterial.emissiveIntensity = 0;
     matteMaterial.metalness = 0;
     matteMaterial.roughness = 0;
-    matteMaterial.needsUpdate = true; // Ensure the material updates
+    matteMaterial.needsUpdate = true;
   }
 
-  // Get the scroll data from the hook.
   const data = useScroll();
-
-  // Update the screen rotation on each frame based on scroll offset.
   useFrame(() => {
     if (mashes.screen) {
       mashes.screen.rotation.x = THREE.MathUtils.degToRad(180 - data.offset * 90);
