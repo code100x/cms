@@ -209,9 +209,7 @@ export function Sidebar({
                 {content.type === 'video' && <Play className="size-4" />}
                 {content.type === 'notion' && <File className="size-4" />}
               </div>
-              <div className="grow">
-                {content.title}
-              </div>
+              <div className="grow">{content.title}</div>
               {content.type === 'video' && (
                 <div className="flex-none">
                   <BookmarkButton
