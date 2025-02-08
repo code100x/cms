@@ -13,7 +13,7 @@ const NoBookmark = () => {
         className="size-[40%] min-w-[400px] opacity-90 invert dark:invert-0"
       />
       <h1 className="lg:font-5xl text-center text-2xl font-bold text-black dark:text-white">
-        Well.. You have&apos;nt Bookmarked anything yet....
+      Well, you haven't bookmarked anything yet.
       </h1>
       <p className="text-center text-lg max-sm:text-base sm:w-[400px]">
         💡When you find something you want to save for later, Click the &ldquo;
