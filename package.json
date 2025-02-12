@@ -56,6 +56,7 @@
     "embla-carousel-react": "^8.0.0",
     "framer-motion": "^11.3.28",
     "fuse.js": "^7.0.0",
+    "hammerjs": "^2.0.8",
     "ioredis": "^5.4.1",
     "jose": "^5.2.2",
     "katex": "^0.16.11",
@@ -92,6 +93,7 @@
   "devDependencies": {
     "@testing-library/jest-dom": "^6.4.5",
     "@testing-library/react": "^15.0.7",
+    "@types/hammerjs": "^2.0.46",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-big-calendar": "^1.8.9",

@@ -2,6 +2,7 @@
 import React, { useEffect, useRef, FunctionComponent, useState } from 'react';
 import videojs from 'video.js';
 import Player from 'video.js/dist/types/player';
+import Hammer from 'hammerjs';
 import 'video.js/dist/video-js.css';
 import 'videojs-contrib-eme';
 import 'videojs-mobile-ui/dist/videojs-mobile-ui.css';
@@ -28,6 +29,19 @@ interface VideoPlayerProps {
   appxVideoId?: string;
   appxCourseId?: string;
   onVideoEnd: () => void;
+}
+
+interface TransformState {
+  scale: number;
+  lastScale: number;
+  translateX: number;
+  translateY: number;
+  lastPanX: number;
+  lastPanY: number;
+}
+
+interface ZoomIndicator extends HTMLDivElement {
+  timeoutId?: ReturnType<typeof setTimeout>;
 }
 
 const PLAYBACK_RATES: number[] = [0.5, 1, 1.25, 1.5, 1.75, 2];
@@ -94,6 +108,207 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
     root.render(<PipButton />);
 
     return pipButtonContainer;
+  };
+
+  const setupZoomFeatures = (player: any) => {
+
+    if (typeof window === 'undefined' || typeof document === 'undefined') return;
+  
+    const videoEl = player.el().querySelector('video');
+    const container = player.el();
+    
+    const transformState: TransformState = {
+      scale: 1,
+      lastScale: 1,
+      translateX: 0,
+      translateY: 0,
+      lastPanX: 0,
+      lastPanY: 0
+    };
+  
+    // Zoom indicator
+    const zoomIndicator = document.createElement('div') as ZoomIndicator;
+    zoomIndicator.className = 'vjs-zoom-level';
+    container.appendChild(zoomIndicator);
+  
+    // Optimized boundary calculation with memoization
+    const calculateBoundaries = (() => {
+      let lastDimensions: { width: number; height: number };
+      
+      return () => {
+        const containerRect = container.getBoundingClientRect();
+        const videoAspect = videoEl.videoWidth / videoEl.videoHeight;
+        
+        // returning cached values if dimensions haven't changed
+        if (lastDimensions?.width === containerRect.width && 
+            lastDimensions?.height === containerRect.height) {
+          return lastDimensions;
+        }
+  
+        const containerAspect = containerRect.width / containerRect.height;
+        let actualWidth = containerRect.width;
+        let actualHeight = containerRect.height;
+  
+        actualWidth = containerAspect > videoAspect 
+          ? actualHeight * videoAspect 
+          : actualWidth;
+        actualHeight = containerAspect > videoAspect 
+          ? actualHeight 
+          : actualWidth / videoAspect;
+  
+        lastDimensions = {
+          width: actualWidth,
+          height: actualHeight
+        };
+        
+        return lastDimensions;
+      };
+    })();
+  
+    // Unified gesture handler
+    const handleGestureControl = (e: HammerInput) => {
+      const target = e.srcEvent.target as HTMLElement;
+      const isControlBar = target.closest('.vjs-control-bar');
+      
+      if (!isControlBar && player.isFullscreen()) {
+        e.srcEvent.preventDefault();
+        e.srcEvent.stopPropagation();
+      }
+    };
+  
+    // Configuring Hammer with proper types
+    const hammer = new Hammer.Manager(container, {
+      touchAction: 'none',
+      inputClass: Hammer.TouchInput
+    });
+  
+    hammer.add(new Hammer.Pinch());
+    hammer.add(new Hammer.Pan({ 
+      threshold: 0, 
+      direction: Hammer.DIRECTION_ALL 
+    }));
+  
+    // Optimized transform update with boundary enforcement
+    const updateTransform = () => {
+      const boundaries = calculateBoundaries();
+      const maxX = (boundaries.width * (transformState.scale - 1)) / 2;
+      const maxY = (boundaries.height * (transformState.scale - 1)) / 2;
+  
+      transformState.translateX = Math.min(Math.max(
+        transformState.translateX, 
+        -maxX
+      ), maxX);
+      
+      transformState.translateY = Math.min(Math.max(
+        transformState.translateY, 
+        -maxY
+      ), maxY);
+  
+      videoEl.style.transform = `
+        scale(${transformState.scale})
+        translate3d(
+          ${transformState.translateX / transformState.scale}px,
+          ${transformState.translateY / transformState.scale}px,
+          0
+        )`;
+    };
+  
+    // Unified pinch handler
+    hammer.on('pinchstart pinchmove', (e) => {
+      handleGestureControl(e);
+      
+      if (!player.isFullscreen()) return;
+  
+      if (e.type === 'pinchstart') {
+        transformState.lastScale = transformState.scale;
+        videoEl.classList.add('zoomed');
+        return;
+      }
+  
+      transformState.scale = Math.min(
+        Math.max(transformState.lastScale * e.scale, 1),
+        3
+      );
+      
+      updateTransform();
+      showZoomLevel();
+    });
+  
+    // Unified pan handler
+    hammer.on('panstart panmove', (e) => {
+      handleGestureControl(e);
+      
+      if (transformState.scale <= 1) return;
+  
+      if (e.type === 'panstart') {
+        transformState.lastPanX = e.center.x;
+        transformState.lastPanY = e.center.y;
+        videoEl.style.transition = 'none';
+        return;
+      }
+  
+      const deltaX = e.center.x - transformState.lastPanX;
+      const deltaY = e.center.y - transformState.lastPanY;
+  
+      transformState.translateX += deltaX;
+      transformState.translateY += deltaY;
+  
+      transformState.lastPanX = e.center.x;
+      transformState.lastPanY = e.center.y;
+  
+      updateTransform();
+    });
+  
+    // Optimized zoom indicator
+    const showZoomLevel = () => {
+      zoomIndicator.textContent = `${transformState.scale.toFixed(1)}x`;
+      zoomIndicator.style.opacity = '1';
+      
+      if (zoomIndicator.timeoutId) clearTimeout(zoomIndicator.timeoutId);
+      
+      zoomIndicator.timeoutId = setTimeout(() => {
+        zoomIndicator.style.opacity = '0';
+      }, 1000);
+    };
+  
+    // Reset handler with animation frame
+    const resetZoom = () => {
+      transformState.scale = 1;
+      transformState.translateX = 0;
+      transformState.translateY = 0;
+      
+      requestAnimationFrame(() => {
+        videoEl.style.transition = 'transform 0.3s ease-out';
+        updateTransform();
+        videoEl.classList.remove('zoomed');
+      });
+    };
+  
+    // Adding resize observer for responsive boundaries
+    const resizeObserver = new ResizeObserver(() => {
+      if (player.isFullscreen()) updateTransform();
+    });
+    
+    resizeObserver.observe(container);
+
+    // Reset zoom when exiting fullscreen
+    player.on('fullscreenchange', () => {
+      if (!player.isFullscreen()) {
+        resetZoom();
+      }
+    });
+
+    // Cleanup function
+    const cleanup = () => {
+      resizeObserver.disconnect();
+      hammer.destroy();
+      if (zoomIndicator.timeoutId) clearTimeout(zoomIndicator.timeoutId);
+      container.removeChild(zoomIndicator);
+      resetZoom();
+    };
+  
+    player.on('dispose', cleanup);
+    return cleanup;
   };
 
   useEffect(() => {
@@ -420,6 +635,7 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
         () => {
           player.mobileUi(); // mobile ui #https://github.com/mister-ben/videojs-mobile-ui
           player.eme(); // Initialize EME
+          setupZoomFeatures(player);
           player.seekButtons({
             forward: 15,
             back: 15,
