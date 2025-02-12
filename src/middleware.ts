@@ -14,6 +14,14 @@ interface RequestWithUser extends NextRequest {
   };
 }
 
+export const getClientIP = (req: NextRequest | NextRequestWithAuth): string => {
+  return (
+    req.headers.get('x-forwarded-for')?.split(',')[0] || 
+    req.ip || 
+    '127.0.0.1'
+  );
+};
+
 export const verifyJWT = async (token: string): Promise<JWTPayload | null> => {
   const secret = process.env.JWT_SECRET || '';
 
@@ -29,6 +37,8 @@ export const verifyJWT = async (token: string): Promise<JWTPayload | null> => {
 };
 
 export const withMobileAuth = async (req: RequestWithUser) => {
+  const clientIP = getClientIP(req);
+
   if (req.headers.get('Auth-Key')) {
     return NextResponse.next();
   }
@@ -41,6 +51,12 @@ export const withMobileAuth = async (req: RequestWithUser) => {
   if (!payload) {
     return NextResponse.json({ message: 'Unauthorized' }, { status: 403 });
   }
+
+  if (payload.userIp !== clientIP) {
+    console.warn("IP Mismatch");
+    return NextResponse.json({  message: 'Unauthorized - ip verification Failed',}, { status: 403 }); 
+    }
+
   const newHeaders = new Headers(req.headers);
 
   /**
@@ -65,12 +81,19 @@ const withAuth = async (req: NextRequestWithAuth) => {
     return NextResponse.redirect(new URL('/invalidsession', req.url));
   }
 
+  const clientIP = getClientIP(req);
+
   const user = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL_LOCAL}/api/user?token=${token.jwtToken}`,
   );
 
   const json = await user.json();
   if (!json.user) {
+    return NextResponse.redirect(new URL('/invalidsession', req.url));
+  }
+
+  if (token.userIp !== clientIP) {
+    console.warn("IP Mismatch");
     return NextResponse.redirect(new URL('/invalidsession', req.url));
   }
 };
