@@ -23,7 +23,7 @@ async function submitBountyHandler(data: BountySubmissionData) {
       },
     });
     return { data: bountySubmission };
-  } catch (error: any) {
+  } catch (error: unknown) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       if (error.code === 'P2002') {
         return {
