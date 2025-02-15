@@ -84,6 +84,53 @@
   font-family: inherit !important;
   max-width: 100%;
   background-color: #000; /* Ensure background color matches video content */
+  overflow: hidden !important;
+  transform-style: preserve-3d;
+}
+
+/* Video element styles */
+.video-js .vjs-tech {
+  border-radius: 0.75rem !important;
+  transform-origin: center !important;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transition: transform 0.2s ease-out;
+}
+
+/* Zoomed state styles */
+.video-js .vjs-tech.zoomed {
+  perspective: 1000;
+  -webkit-perspective: 1000;
+  touch-action: none;
+}
+
+/* Zoom level indicator */
+.video-js .vjs-zoom-level {
+  position: absolute;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 14px;
+  opacity: 0;
+  transition: opacity 0.3s;
+  z-index: 2;
+  pointer-events: none;
+  font-family: inherit !important;
+}
+
+.video-js.vjs-fullscreen .vjs-tech {
+  object-fit: contain !important;
+  background-color: black;
+}
+
+.video-js.vjs-fullscreen {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Control Bar Background */
