@@ -258,7 +258,6 @@ export function Sidebar({
                 Course Content
               </h4>
               <FilterContent
-                className="bg-gray-400 text-black"
                 ref={filterRef}
               />
               <Button
