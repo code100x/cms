@@ -47,6 +47,7 @@
     "autoprefixer": "^10.4.20",
     "axios": "^1.6.2",
     "bcrypt": "^5.1.1",
+    "bcryptjs": "^3.0.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "cmdk": "1.0.0",
