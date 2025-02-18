@@ -34,18 +34,28 @@ const VoteForm: React.FC<IVoteFormProps> = ({
       toast.error(error);
     },
   });
+
   const handleVote = (voteType: VoteType) => {
+    const isUpvote = voteType === VoteType.UPVOTE;
+    const isUserVote = userVoted && userVoteVal.voteType === voteType;
+
     toast.promise(
       execute({ voteType, questionId, answerId, currentPath, slug }),
-      voteType === VoteType.DOWNVOTE
+      isUserVote
         ? {
-            loading: 'Downvoting...',
-            success: 'Question has been downvoted.',
+            loading: isUpvote ? 'Removing upvote...' : 'Removing downvote...',
+            success: isUpvote ? 'Upvote removed.' : 'Downvote removed.',
+            error: 'Error',
+          }
+        : isUpvote
+        ? {
+            loading: 'Upvoting...',
+            success: 'Question has been upvoted.',
             error: 'Error',
           }
         : {
-            loading: 'Upvoting...',
-            success: 'Question has been upvoted.',
+            loading: 'Downvoting...',
+            success: 'Question has been downvoted.',
             error: 'Error',
           },
     );

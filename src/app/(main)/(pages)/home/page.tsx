@@ -2,6 +2,7 @@ import { Greeting } from '@/components/Greeting';
 import { MyCourses } from '@/components/MyCourses';
 import { Redirect } from '@/components/Redirect';
 import { getServerSession } from 'next-auth';
+import { ScrollToTopButton } from '@/components/ScrollToTopButton';
 
 export default async function MyCoursesPage() {
   const session = await getServerSession();
@@ -21,6 +22,7 @@ export default async function MyCoursesPage() {
       <div className="flex h-full flex-col gap-4 rounded-2xl py-4">
         <MyCourses />
       </div>
+      <ScrollToTopButton />
     </main>
   );
 }
