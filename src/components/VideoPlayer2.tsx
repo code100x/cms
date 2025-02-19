@@ -255,8 +255,11 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
           event.stopPropagation();
           break;
         case 'KeyF': // F key for fullscreen
-          if (player.isFullscreen_) document.exitFullscreen();
-          else player.requestFullscreen();
+          if (player.isFullscreen()) {
+            player.exitFullscreen();
+          } else {
+            player.requestFullscreen();
+          }
           event.stopPropagation();
           break;
         case 'KeyR': // 'R' key to restart playback from the beginning
