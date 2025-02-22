@@ -17,6 +17,7 @@ import { toast } from 'sonner';
 import { createRoot } from 'react-dom/client';
 import { PictureInPicture2 } from 'lucide-react';
 import { AppxVideoPlayer } from './AppxVideoPlayer';
+import { loadESLint } from 'eslint';
 
 // todo correct types
 interface VideoPlayerProps {
@@ -44,6 +45,7 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
 }) => {
   const videoRef = useRef<HTMLDivElement>(null);
   const playerRef = useRef<Player | null>(null);
+  const progressRef = useRef<NodeJS.Timeout | null>(null);
   const [player, setPlayer] = useState<any>(null);
   const searchParams = useSearchParams();
   const vidUrl = options.sources[0].src;
@@ -452,6 +454,30 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
             if (onReady) {
               onReady(player);
             }
+
+           progressRef.current =  setTimeout(()=>{
+              const savedProgress = localStorage.getItem("videoProgress"+contentId) || null;
+              if(savedProgress){
+              player.currentTime(savedProgress);    
+              }     
+             },200)
+
+           let lastSavedTime = 0;
+       
+           // Save progress every 3 seconds
+           player.on('timeupdate', () => {
+               const currentTime = player.currentTime();
+       
+               if (Math.abs(currentTime - lastSavedTime) >= 3) {
+                   localStorage.setItem('videoProgress'+contentId, currentTime);
+                   lastSavedTime = currentTime;
+               }
+                   if( currentTime >= player.duration()){
+                     localStorage.removeItem("videoProgress"+contentId);
+                   }
+               
+           });
+
           });
           // Focus the video player when toggling fullscreen
           player.on('fullscreenchange', () => {
@@ -467,6 +493,14 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
         player.src(options.sources[0]);
       }
     }
+
+     return () => {
+        if(progressRef.current){
+          clearTimeout(progressRef.current)
+        }
+     }
+
+
   }, [options, onReady]);
 
   useEffect(() => {
