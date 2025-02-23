@@ -1,5 +1,5 @@
 'use client';
-import React, { FunctionComponent, useRef } from 'react';
+import React, { FunctionComponent, useRef, useEffect, useState } from 'react';
 import { VideoPlayer } from '@/components/VideoPlayer2';
 import {
   createSegmentMarkersWithoutDuration,
@@ -40,8 +40,8 @@ export const VideoPlayerSegment: FunctionComponent<VideoProps> = ({
   appxCourseId
 }) => {
   const playerRef = useRef<Player | null>(null);
-
   const thumbnailPreviewRef = useRef<HTMLDivElement>(null);
+  const [isManuallyPaused, setIsManuallyPaused] = useState(false);
 
   const overrideUpdateTime = (player: Player) => {
     const seekBar = player
@@ -65,11 +65,8 @@ export const VideoPlayerSegment: FunctionComponent<VideoProps> = ({
             // Delay the execution to ensure the tooltip width is calculated after the content update
             setTimeout(() => {
               const tooltipWidth = this.el().offsetWidth;
-              // Calculate the offset from the right side
               const rightOffset = tooltipWidth / 2;
               this.el().style.right = `-${rightOffset}px`;
-
-              // Adjust the left style to 'auto' to avoid conflict with the right property
               this.el().style.left = 'auto';
               this.el().style.width = '200px';
               this.el().style.fontSize = '14px';
@@ -85,12 +82,32 @@ export const VideoPlayerSegment: FunctionComponent<VideoProps> = ({
       console.error('SeekBar component not found.');
     }
   };
+
   const handlePlayerReady = async (player: Player) => {
     playerRef.current = player;
 
     createSegmentMarkersWithoutDuration(player, segments);
     overrideUpdateTime(player);
+
+    player.on('pause', () => setIsManuallyPaused(true));
+    player.on('play', () => setIsManuallyPaused(false));
   };
+
+ 
+  useEffect(() => {
+    const handleOnline = () => {
+      if (isManuallyPaused && playerRef.current) {
+        playerRef.current.pause(); 
+      }
+    };
+
+    window.addEventListener('online', handleOnline);
+
+    return () => {
+      window.removeEventListener('online', handleOnline);
+    };
+
+  }, [isManuallyPaused]);
 
   return (
     <div className="mb-6">
