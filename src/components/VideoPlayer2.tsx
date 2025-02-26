@@ -17,6 +17,8 @@ import { toast } from 'sonner';
 import { createRoot } from 'react-dom/client';
 import { PictureInPicture2 } from 'lucide-react';
 import { AppxVideoPlayer } from './AppxVideoPlayer';
+import { useRecoilState } from 'recoil';
+import { pipTrigger } from '@/store/atoms/trigger';
 
 // todo correct types
 interface VideoPlayerProps {
@@ -47,6 +49,7 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
   const [player, setPlayer] = useState<any>(null);
   const searchParams = useSearchParams();
   const vidUrl = options.sources[0].src;
+  const [pip_Trigger, setPip_Trigger] = useRecoilState(pipTrigger);
 
   const togglePictureInPicture = async () => {
     try {
@@ -63,6 +66,7 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
         error.name !== 'NotSupportedError'
       ) {
         console.error('Failed to toggle Picture-in-Picture mode:', error);
+        setPip_Trigger(false);
         toast.error('Failed to toggle Picture-in-Picture mode.');
       }
     }
@@ -144,6 +148,19 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
       );
     }
   }, [contentId, player]);
+
+  useEffect(() => {
+    if (pip_Trigger) {
+      togglePictureInPicture();
+    }
+    const handleLeavePictureInPicture = () => {
+      setPip_Trigger(false);
+    };
+    document.addEventListener('leavepictureinpicture', handleLeavePictureInPicture);
+    return () => {
+      document.removeEventListener('leavepictureinpicture', handleLeavePictureInPicture);
+    };
+  }, [pip_Trigger]);
 
   useEffect(() => {
     if (!player) {
