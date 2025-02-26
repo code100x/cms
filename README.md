@@ -12,6 +12,11 @@ Open source repo for app.100xdevs.com
 ```bash
 git clone https://github.com/code100x/cms.git
 ```
+> If the above command fails due to connection issues, try using the `--depth=1` flag to perform a shallow clone:
+> 
+> ```bash
+> git clone --depth=1 https://github.com/code100x/cms.git
+> ```
 
 2. Navigate to the project directory:
 
@@ -112,6 +117,11 @@ We welcome contributions from the community! There are many ways to contribute t
 git clone https://github.com/<your username>/cms.git
 cd cms
 ```
+> If the above command fails, try using the `--depth=1` flag:
+> 
+> ```bash
+> git clone --depth=1 https://github.com/<your-username>/cms.git
+> ```
 
 3. Create a new branch
 
