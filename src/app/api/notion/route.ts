@@ -10,15 +10,15 @@ export async function GET(req: NextRequest) {
   const contentId: number = parseInt(searchParams.get('id'), 10);
 
   // @ts-ignore
-  const notionIdFromParams: string = searchParams.get('id')?.toString();
-  
-  if (!contentId && notionIdFromParams)  {
+  const notionIdFromParams: string = searchParams.get('notionId')?.toString();
+
+  if (notionIdFromParams) {
     const recordMap = await notion.getPage(notionIdFromParams);
     return NextResponse.json({
       recordMap,
     });
   }
-  
+
   const notionMetadata = await db.notionMetadata.findFirst({
     where: {
       contentId,

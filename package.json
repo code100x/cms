@@ -67,6 +67,7 @@
     "nextjs-toploader": "^1.6.11",
     "notion-client": "^6.16.0",
     "pdf-lib": "^1.17.1",
+    "prettier-plugin-tailwindcss": "^0.6.11",
     "prismjs": "^1.29.0",
     "qs": "^6.13.0",
     "react": "^18",

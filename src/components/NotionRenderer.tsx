@@ -29,16 +29,17 @@ import { handleMarkAsCompleted } from '@/lib/utils';
 export const NotionRenderer = ({
   id,
   courseId,
+  notionId,
 }: {
   id: string;
   courseId?: number;
+  notionId?: string;
 }) => {
   const { resolvedTheme } = useTheme();
 
   const [data, setData] = useState(null);
   async function main() {
-    console.log(id);
-    const res = await fetch(`/api/notion?id=${id}`);
+    const res = await fetch(`/api/notion?id=${id}&notionId=${notionId}`);
     const json = await res.json();
     setData(json.recordMap);
   }
