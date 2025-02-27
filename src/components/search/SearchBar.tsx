@@ -52,6 +52,7 @@ export function SearchBar({ onCardClick, isMobile = false }: SearchBarProps) {
         throw new Error('Network response was not ok');
       }
       const data = await response.json();
+      
       setState((prev) => ({ ...prev, searchedVideos: data, loading: false }));
     } catch (err) {
       toast.error('Something went wrong while searching for videos');
@@ -213,6 +214,7 @@ export function SearchBar({ onCardClick, isMobile = false }: SearchBarProps) {
           loading={state.loading}
           searchedVideos={state.searchedVideos}
           onCardClick={handleCardClick}
+          selectedIndex={state.selectedIndex}
           onClose={() => setState((prev) => ({ ...prev, open: false }))}
         />
       )}
