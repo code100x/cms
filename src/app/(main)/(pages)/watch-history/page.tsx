@@ -90,7 +90,7 @@ async function getWatchHistory() {
       updatedAt: 'desc',
     },
   });
-
+//@ts-ignore
   const filteruserVideoProgress: TWatchHistory[] = userVideoProgress
     .map((videoProgress) => {
       const filteredCourse = videoProgress?.content?.parent?.courses.filter(
