@@ -47,6 +47,8 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
   const [player, setPlayer] = useState<any>(null);
   const searchParams = useSearchParams();
   const vidUrl = options.sources[0].src;
+  const [previousPlaybackRate, setPreviousPlaybackRate] = useState<number>(1);
+  const [isLongPress, setIsLongPress] = useState<boolean>(false);
 
   const togglePictureInPicture = async () => {
     try {
@@ -96,6 +98,71 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
     return pipButtonContainer;
   };
 
+  // Add event listeners for mouse down/up to handle long-press speed change
+  useEffect(() => {
+    if (!player) return;
+
+    let longPressTimer: ReturnType<typeof setTimeout> | null = null;
+
+    const handleMouseDown = (event: MouseEvent) => {
+      event.preventDefault();
+      if (event.button !== 0) return;
+
+      setPreviousPlaybackRate(player.playbackRate());
+
+      longPressTimer = setTimeout(() => {
+        setIsLongPress(true);
+        player.playbackRate(2);
+        toast.info('2x speed activated');
+      }, 500);
+    };
+
+    const handleMouseUp = (event: MouseEvent) => {
+      event.preventDefault();
+
+      if (longPressTimer) {
+        clearTimeout(longPressTimer);
+        longPressTimer = null;
+      }
+
+      if (isLongPress) {
+        player.playbackRate(previousPlaybackRate);
+        setIsLongPress(false);
+        toast.info(`Speed restored to ${previousPlaybackRate}x`);
+      }
+    };
+
+    const handleClick = (event: MouseEvent) => {
+      if (isLongPress) {
+        event.preventDefault();
+        event.stopPropagation();
+        return;
+      }
+      // If not a long press, allow normal click behavior (optional)
+      if (!longPressTimer) {
+        if (player.paused()) {
+          player.play();
+        } else {
+          player.pause();
+        }
+      }
+    };
+
+    const videoElement = player.el();
+    videoElement.addEventListener('mousedown', handleMouseDown);
+    videoElement.addEventListener('mouseup', handleMouseUp);
+    videoElement.addEventListener('mouseleave', handleMouseUp);
+    videoElement.addEventListener('click', handleClick);
+
+    return () => {
+      if (longPressTimer) clearTimeout(longPressTimer);
+      videoElement.removeEventListener('mousedown', handleMouseDown);
+      videoElement.removeEventListener('mouseup', handleMouseUp);
+      videoElement.removeEventListener('mouseleave', handleMouseUp);
+      videoElement.removeEventListener('click', handleClick);
+    };
+  }, [player, previousPlaybackRate, isLongPress]);
+
   useEffect(() => {
     if (!player) return;
 
@@ -144,7 +211,6 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
       );
     }
   }, [contentId, player]);
-
   useEffect(() => {
     if (!player) {
       return;
@@ -195,7 +261,7 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
             player.playbackRate(PLAYBACK_RATES[newIndexComma]);
             event.stopPropagation();
             break;
-          case 'ArrowUp': // Increase volume
+          case 'ArrowUp': // Increase volume (Shift + Up)
             videoRef.current?.children[0].children[6].children[3].classList.add(
               'vjs-hover',
             );
@@ -208,7 +274,7 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
             player.volume(VOLUME_LEVELS[newIndexUp]);
             event.stopPropagation();
             break;
-          case 'ArrowDown': // Decrease volume
+          case 'ArrowDown': // Decrease volume (Shift + Down)
             videoRef.current?.children[0].children[6].children[3].classList.add(
               'vjs-hover',
             );
@@ -244,14 +310,14 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
           player.currentTime(player.currentTime() - 5);
           event.stopPropagation();
           break;
-        case 'ArrowUp': // Arrow up for increasing volume
+        case 'ArrowUp': // Arrow up for increasing volume (without Shift)
           event.preventDefault();
-          player.volume(player.volume() + 0.1);
+          player.volume(Math.min(player.volume() + 0.1, 1.0)); // Cap at 1.0
           event.stopPropagation();
           break;
-        case 'ArrowDown': // Arow dowwn for decreasing volume
+        case 'ArrowDown': // Arrow down for decreasing volume (without Shift)
           event.preventDefault();
-          player.volume(player.volume() - 0.1);
+          player.volume(Math.max(player.volume() - 0.1, 0)); // Floor at 0
           event.stopPropagation();
           break;
         case 'KeyF': // F key for fullscreen
@@ -279,7 +345,7 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
           }
           event.stopPropagation();
           break;
-        case 'KeyJ': // 'J' key for seeking backward 10 seconds multiplied by the playback rate
+          case 'KeyJ': // 'J' key for seeking backward 10 seconds multiplied by the playback rate
           player.currentTime(player.currentTime() - 10 * player.playbackRate());
           event.stopPropagation();
           break;
@@ -294,12 +360,16 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
         case 'KeyC':
           for (let i = 0; i < tracks.length; i++) {
             const track = tracks[i];
-
             if (track.kind === 'subtitles' && track.language === 'en') {
               if (track.mode === 'disabled') track.mode = 'showing';
               else track.mode = 'disabled';
             }
           }
+          event.stopPropagation();
+          break;
+        case 'Digit0': // '0' key to restart video (YouTube-like)
+          player.currentTime(0);
+          if (player.paused()) player.play(); // Ensure it plays after restart
           event.stopPropagation();
           break;
         case 'Digit1':
@@ -338,10 +408,6 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
           player.currentTime(player.duration() * 0.9);
           event.stopPropagation();
           break;
-        case 'Digit0':
-          player.currentTime(0);
-          event.stopPropagation();
-          break;
       }
     };
     const handleKeyUp = (event: any) => {
@@ -354,9 +420,9 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
     // Cleanup function
     return () => {
       document.removeEventListener('keydown', handleKeyPress);
+      document.removeEventListener('keyup', handleKeyUp);
     };
   }, [player]);
-
   useEffect(() => {
     if (!player) {
       return;
@@ -405,6 +471,30 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
       window.clearInterval(interval);
     };
   }, [player, contentId]);
+
+  // Override the default click behavior of the player
+  useEffect(() => {
+    if (!player) return;
+
+    const originalClickHandler = player.handleClick;
+
+    player.handleClick = function (event: MouseEvent) {
+      // If we're in long press mode, prevent the default click behavior
+      if (isLongPress) {
+        event.preventDefault();
+        event.stopPropagation();
+        return;
+      }
+      // Otherwise, call the original handler
+      originalClickHandler.call(player, event);
+    };
+
+    return () => {
+      if (player) {
+        player.handleClick = originalClickHandler;
+      }
+    };
+  }, [player, isLongPress]);
 
   useEffect(() => {
     if (!playerRef.current && videoRef.current) {
