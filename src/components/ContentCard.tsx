@@ -1,3 +1,4 @@
+"use client"
 import { CheckCircle2, Play } from 'lucide-react';
 import { Bookmark } from '@prisma/client';
 import BookmarkButton from './bookmark/BookmarkButton';
@@ -11,7 +12,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from './ui/tooltip';
-import React from 'react';
+import React, { useEffect,useRef } from 'react';
 
 export const ContentCard = ({
   title,
@@ -37,6 +38,28 @@ export const ContentCard = ({
   uploadDate?: string;
   weeklyContentTitles?: string[];
 }) => {
+  const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    const savedScrollY = sessionStorage.getItem("scrollPosition");
+    if (savedScrollY) {
+      window.scrollTo(0, parseInt(savedScrollY, 10));
+    }
+
+    const handleScrollY = () => {
+      if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
+      scrollTimeoutRef.current = setTimeout(() => {
+        sessionStorage.setItem("scrollPosition", window.scrollY.toString());
+      }, 200); // Adjust the delay as needed
+    };
+
+    window.addEventListener("scroll", handleScrollY);
+    return () => {
+      window.removeEventListener("scroll", handleScrollY);
+      if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
+    };
+  }, []);
+
   return (
     <TooltipProvider delayDuration={0}>
       <Tooltip>
