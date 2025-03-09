@@ -29,15 +29,17 @@ import { handleMarkAsCompleted } from '@/lib/utils';
 export const NotionRenderer = ({
   id,
   courseId,
+  notionId,
 }: {
   id: string;
-  courseId: number;
+  courseId?: number;
+  notionId?: string;
 }) => {
   const { resolvedTheme } = useTheme();
 
   const [data, setData] = useState(null);
   async function main() {
-    const res = await fetch(`/api/notion?id=${id}`);
+    const res = await fetch(`/api/notion?id=${id}&notionId=${notionId}`);
     const json = await res.json();
     setData(json.recordMap);
   }
@@ -46,7 +48,9 @@ export const NotionRenderer = ({
     main();
 
     return () => {
-      handleMarkAsCompleted(true, courseId);
+      if (courseId) {
+        handleMarkAsCompleted(true, courseId);
+      }
     };
   }, [id]);
 
