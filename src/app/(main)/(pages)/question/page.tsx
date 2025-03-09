@@ -235,8 +235,8 @@ export default async function QuestionsPage({
             ))}
           </div>
           {
-            //@ts-ignore
-            response?.data?.length > 10 && (
+
+            response?.data && response.data.length > 10 && (
               <Pagination dataLength={response?.data?.length || 0} />
             )
           }
