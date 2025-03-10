@@ -1,4 +1,3 @@
-"use client"
 import { CheckCircle2, Play } from 'lucide-react';
 import { Bookmark } from '@prisma/client';
 import BookmarkButton from './bookmark/BookmarkButton';
@@ -12,7 +11,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from './ui/tooltip';
-import React, { useEffect,useRef } from 'react';
+import React from 'react';
 
 export const ContentCard = ({
   title,
