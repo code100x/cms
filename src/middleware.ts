@@ -28,6 +28,21 @@ export const verifyJWT = async (token: string): Promise<JWTPayload | null> => {
   }
 };
 
+export const withAuth = async (req: NextRequestWithAuth) => {
+  if (req.headers.get('Auth-Key')) {
+    return NextResponse.next();
+  }
+  const token = req.headers.get('Authorization');
+  if (!token) {
+    return NextResponse.json({ message: 'Unauthorized' }, { status: 403 });
+  }
+  const payload = await verifyJWT(token);
+
+  if (!payload) {
+    return NextResponse.json({ message: 'Unauthorized' }, { status: 403 });
+  }
+
+
 export const withMobileAuth = async (req: RequestWithUser) => {
   if (req.headers.get('Auth-Key')) {
     return NextResponse.next();
