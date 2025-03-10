@@ -4,6 +4,9 @@ import { ContentCard } from './ContentCard';
 import { courseContent, getFilteredContent } from '@/lib/utils';
 import { useRecoilValue } from 'recoil';
 import { selectFilter } from '@/store/atoms/filterContent';
+import { useEffect,useRef } from 'react';
+
+type FilterType = "watched" | "watching" | "unwatched" | "all";
 
 export const FolderView = ({
   courseContent,
@@ -14,6 +17,29 @@ export const FolderView = ({
   rest: string[];
   courseContent: courseContent[];
 }) => {
+  const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    if (rest.length == 0) {
+      const savedScrollY = sessionStorage.getItem(`scrollPosition-${courseId}`);
+      if (savedScrollY) {
+        window.scrollTo(0, parseInt(savedScrollY, 10));
+        console.log("scrooliing");
+      }
+      const handleScrollY = () => {
+        if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
+        scrollTimeoutRef.current = setTimeout(() => {
+          sessionStorage.setItem(`scrollPosition-${courseId}`, window.scrollY.toString());
+        }, 200); // Adjust the delay as needed
+      };
+
+      window.addEventListener("scroll", handleScrollY);
+      return () => {
+        window.removeEventListener("scroll", handleScrollY);
+        if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
+      };
+    }
+  }, []);
   const router = useRouter();
 
   if (!courseContent?.length) {
