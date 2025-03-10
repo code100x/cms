@@ -6,8 +6,6 @@ import { useRecoilValue } from 'recoil';
 import { selectFilter } from '@/store/atoms/filterContent';
 import { useEffect,useRef } from 'react';
 
-type FilterType = "watched" | "watching" | "unwatched" | "all";
-
 export const FolderView = ({
   courseContent,
   courseId,
