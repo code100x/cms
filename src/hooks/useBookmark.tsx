@@ -8,7 +8,7 @@ import Link from 'next/link';
 export const useBookmark = (bookmark: Bookmark | null, contentId: number) => {
   const [addedBookmark, setAddedBookmark] = useState<Bookmark | null>(bookmark);
   const [isDisabled, setIsDisabled] = useState(false);
-  
+
   const { execute: executeCreateBookmark } = useAction(createBookmark, {
     onSuccess: (data: Bookmark) => {
       toast(

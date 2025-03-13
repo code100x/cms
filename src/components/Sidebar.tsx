@@ -257,7 +257,7 @@ export function Sidebar({
               <h4 className="text-xl font-bold tracking-tighter text-primary lg:text-2xl">
                 Course Content
               </h4>
-              <div className='flex items-center gap-4'>
+              <div className="flex items-center gap-4">
                 <FilterContent
                   className="bg-gray-400 text-black"
                   ref={filterRef}
