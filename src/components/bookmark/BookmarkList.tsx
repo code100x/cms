@@ -17,7 +17,7 @@ const BookmarkList = ({
   }
   return (
     <>
-      <section className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+      <section className="grid grid-cols-1 gap-4 pt-5 md:grid-cols-2 md:pb-20 lg:grid-cols-3">
         {bookmarkData.map((bookmark) => {
           const {
             contentId,

@@ -15,7 +15,6 @@ export default async function Course({
   const possiblePath = params.moduleId.join('/');
   const course = await getCourse(parseInt(courseId, 10));
   const fullCourseContent = await getFullCourseContent(parseInt(courseId, 10));
-
   const courseContent = findContentById(
     fullCourseContent,
     rest.map((x) => parseInt(x, 10)),
@@ -24,6 +23,7 @@ export default async function Course({
 
   return (
     <CourseView
+      courseId={courseId}
       rest={rest}
       course={course}
       nextContent={nextContent}

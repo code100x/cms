@@ -17,12 +17,14 @@ const BookmarkButton = ({
   size = 20,
   side = 'top',
   align = 'center',
+  className = '',
 }: {
   bookmark: Bookmark | null;
   contentId: number;
   size?: number;
   side?: Side;
   align?: Align;
+  className?: string;
 }) => {
   const { isDisabled, addedBookmark, handleBookmark } = useBookmark(
     bookmark,
@@ -36,7 +38,7 @@ const BookmarkButton = ({
           <Button
             disabled={isDisabled}
             variant="ghost"
-            className="text-primary hover:text-primary"
+            className={`text-primary hover:text-primary ${className}`}
             onClick={handleBookmark}
           >
             <BookmarkIcon

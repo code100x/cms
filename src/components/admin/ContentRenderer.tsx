@@ -156,12 +156,10 @@ export const ContentRenderer = async ({
   const appxVideoId: string = metadata?.appxVideoJSON?.[appxCourseId] ?? '';
 
   return (
-    <div>
-      <ContentRendererClient
-        nextContent={nextContent}
-        metadata={metadata}
-        content={{ ...content, appxVideoId, appxCourseId }}
-      />
-    </div>
+    <ContentRendererClient
+      nextContent={nextContent}
+      metadata={metadata}
+      content={{ ...content, appxVideoId, appxCourseId }}
+    />
   );
 };

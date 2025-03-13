@@ -11,15 +11,9 @@ export type TWatchHistory = VideoProgress & {
 
 export default async function BookmarksPage() {
   const bookmarkData = await getBookmarkDataWithContent();
-
   return (
-    <main className="flex flex-col gap-4 pb-16 pt-8">
-      <div className="flex flex-col justify-between gap-2 md:flex-row">
-        <h1 className="text-wrap text-3xl font-extrabold capitalize tracking-tighter md:text-4xl">
-          Bookmarks
-        </h1>
-      </div>
-      <div className="flex h-full flex-col gap-4 rounded-2xl py-4">
+    <main className="no-scrollbar flex max-h-[calc(100dvh-9rem)] flex-col gap-4 overflow-y-scroll">
+      <div className="flex flex-col gap-4 rounded-2xl">
         <BookmarkView bookmarkData={bookmarkData} />
       </div>
     </main>

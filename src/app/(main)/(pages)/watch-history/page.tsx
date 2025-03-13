@@ -120,15 +120,8 @@ async function getWatchHistory() {
 export default async function WatchHistoryPage() {
   const watchHistory = await getWatchHistory();
   const watchHistoryGroupedByDate = groupByWatchedDate(watchHistory);
-
   return (
-    <div className="mx-auto my-16 flex min-h-screen w-full flex-col gap-4">
-      {/* Header */}
-      <div className="flex w-full flex-col justify-between gap-2">
-        <h1 className="text-4xl font-bold capitalize tracking-tighter md:text-5xl">
-          Watch History
-        </h1>
-      </div>
+    <div className="mx-auto my-16 flex max-h-[calc(100dvh-11rem)] w-full flex-col gap-4">
       {Object.entries(watchHistoryGroupedByDate).map(([date, history]) => {
         return (
           <Fragment key={date}>
