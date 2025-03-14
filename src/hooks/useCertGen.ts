@@ -41,7 +41,7 @@ export function useGenerateCertificate({
     }
 
     generateCertificateAndImage();
-  }, [certificateDetails]);
+  }, []);
 
   async function generateCertificate() {
     try {
