@@ -11,7 +11,7 @@ export default async function MyCoursesPage() {
 
   return (
     <main className="flex flex-col gap-4">
-      <div className="no-scrollbar flex h-full max-h-[calc(100dvh-9rem)] flex-col gap-4 overflow-y-scroll rounded-2xl py-4">
+      <div className="no-scrollbar flex h-full max-h-[calc(100dvh-10rem)] flex-col gap-4 overflow-y-scroll rounded-2xl py-4 pb-24 lg:pb-4">
         <MyCourses />
       </div>
     </main>

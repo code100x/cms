@@ -17,7 +17,7 @@ const Pagination: React.FC<IPagination> = ({ dataLength = 1 }) => {
   const paramsObj = searchParamsToObject(searchParams as any); // build fix (eslint)
   const paginationQ = paginationData(paramsObj);
   return (
-    <div className="flex items-center justify-center space-x-4 pt-3">
+    <div className="flex items-center justify-center space-x-4 py-1">
       {paginationQ.pageNumber > 1 && (
         <Link
           className="flex items-center justify-center space-x-2 rounded-md border border-gray-300 px-4 py-2 dark:border-gray-600 dark:text-gray-300"
@@ -46,12 +46,12 @@ const Pagination: React.FC<IPagination> = ({ dataLength = 1 }) => {
         </Link>
       )}
 
-      <span className="rounded-md bg-gray-200 px-4 py-2 text-gray-700 dark:bg-gray-700 dark:text-gray-300">
+      <span className="rounded-md bg-gray-200 px-2 py-1 text-gray-700 dark:bg-gray-700 dark:text-gray-300 sm:px-4 sm:py-2">
         {paginationQ.pageNumber}
       </span>
       {dataLength >= paginationQ.pageSize && (
         <Link
-          className="flex items-center justify-center space-x-2 rounded-md border border-gray-300 px-4 py-2 dark:border-gray-600 dark:text-gray-300"
+          className="flex items-center justify-center space-x-2 rounded-md border border-gray-300 px-2 py-1 dark:border-gray-600 dark:text-gray-300 sm:px-4 sm:py-2"
           href={getUpdatedUrl(`${path}/`, paramsObj, {
             page: paginationQ.pageNumber + 1,
             limit: paginationQ.pageSize,

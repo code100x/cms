@@ -122,7 +122,7 @@ export default async function WatchHistoryPage() {
   const watchHistoryGroupedByDate = groupByWatchedDate(watchHistory);
   return (
     <div className="no-scrollbar max-h-[calc(100dvh-10rem)] overflow-y-scroll">
-      <div className="mx-auto my-16 flex w-full flex-col gap-4">
+      <div className="mx-auto my-4 flex w-full flex-col gap-4">
         {Object.entries(watchHistoryGroupedByDate).map(([date, history]) => {
           return (
             <Fragment key={date}>

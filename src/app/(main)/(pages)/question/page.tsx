@@ -139,7 +139,7 @@ export default async function QuestionsPage({
   const response = await fetchQuestionsByTabType(searchParams, sessionId!);
   return (
     <>
-      <div className="mx-auto mt-4 flex max-h-[calc(100dvh-14rem)] w-full flex-col gap-4">
+      <div className="mx-auto -mt-1 flex w-full flex-col gap-4 lg:mt-0">
         {/* Header */}
         <div className="flex w-full flex-col justify-between gap-2">
           <p className="text-primary/80 md:text-lg">
@@ -148,7 +148,7 @@ export default async function QuestionsPage({
         </div>
         {/* Next question button */}
         <NewPostDialog />
-        <div className="w-full flex-col gap-4">
+        <div className="flex max-h-[calc(100dvh-15rem)] w-full flex-col gap-2 md:max-h-[calc(100dvh-10rem)]">
           <div className="flex flex-col justify-between gap-4 md:flex-row">
             <Search />
             <div className="flex items-center justify-between gap-2">
@@ -218,7 +218,7 @@ export default async function QuestionsPage({
             </div>
           </div>
           {/* Chat */}
-          <div className="no-scrollbar mt-4 grid max-h-[calc(100dvh-19rem)] grid-cols-1 gap-4 overflow-y-scroll md:grid-cols-2">
+          <div className="no-scrollbar grid flex-1 grid-cols-1 gap-4 overflow-y-scroll md:max-h-[calc(100dvh-25rem)] md:grid-cols-2 lg:max-h-[calc(100dvh-20rem)]">
             {response?.data?.map((post) => (
               <PostCard
                 post={post}
