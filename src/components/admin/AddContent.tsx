@@ -49,13 +49,14 @@ export const AddContent = ({
   const [loading, setLoading] = useState<boolean>(false);
 
   const getLabelClassName = (value: string) => {
-    return `flex gap-1 p-4 rounded-lg items-center space-x-2 ${type === value ? 'border-[3px] border-blue-500' : 'border-[3px]'
-      }`;
+    return `flex gap-1 p-4 rounded-lg items-center space-x-2 ${
+      type === value ? 'border-[3px] border-blue-500' : 'border-[3px]'
+    }`;
   };
 
   const formatInputJSON = (value: string) => {
-    const valWithout = value.replaceAll("\\", "").slice(1, -1);
-    if (valWithout[0] === "{") {
+    const valWithout = value.replaceAll('\\', '').slice(1, -1);
+    if (valWithout[0] === '{') {
       return valWithout;
     }
     return valWithout.slice(1, -1);
@@ -72,12 +73,12 @@ export const AddContent = ({
 
   const handleContentSubmit = async () => {
     setLoading(true);
-    if (type === "appx") {
+    if (type === 'appx') {
       //@ts-ignore
       metadata.appxVideoJSON = formatInputJSON(metadata.appxVideoJSON);
       //@ts-ignore
       if (!validateJSON(metadata.appxVideoJSON)) {
-        toast.error("Invalid JSON");
+        toast.error('Invalid JSON');
         setLoading(false);
         return;
       }
@@ -243,7 +244,9 @@ function AddAppxVideoMetadata({
       <Input
         type="text"
         placeholder="Appx Video JSON"
-        onChange={(e) => onChange({ appxVideoJSON: JSON.stringify(e.target.value) })}
+        onChange={(e) =>
+          onChange({ appxVideoJSON: JSON.stringify(e.target.value) })
+        }
         className="h-14"
       />
     </div>

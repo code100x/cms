@@ -34,11 +34,11 @@ type GetAppxAuthTokenResponse = {
   email: string | null;
   appxAuthToken: string | null;
   appxUserId: string | null;
-}
+};
 
 export const GetAppxAuthToken = async (): Promise<GetAppxAuthTokenResponse> => {
   const session = await getServerSession(authOptions);
-  if (!session || !session.user) throw new Error("User is not logged in");
+  if (!session || !session.user) throw new Error('User is not logged in');
 
   const user = await db.user.findFirst({
     where: {
@@ -48,15 +48,18 @@ export const GetAppxAuthToken = async (): Promise<GetAppxAuthTokenResponse> => {
       name: true,
       email: true,
       appxAuthToken: true,
-      appxUserId: true
-    }
+      appxUserId: true,
+    },
   });
 
-  if (!user || !user.appxAuthToken) throw new Error("User not found");
+  if (!user || !user.appxAuthToken) throw new Error('User not found');
   return user;
 };
 
-export const GetAppxVideoPlayerUrl = async (courseId: string, videoId: string): Promise<string> => {
+export const GetAppxVideoPlayerUrl = async (
+  courseId: string,
+  videoId: string,
+): Promise<string> => {
   const { name, email, appxAuthToken, appxUserId } = await GetAppxAuthToken();
   const url = `${process.env.APPX_BASE_API}/get/fetchVideoDetailsById?course_id=${courseId}&video_id=${videoId}&ytflag=${1}&folder_wise_course=${1}`;
 

@@ -1,7 +1,7 @@
 import db from '@/db';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { JWTPayload, SignJWT, importJWK } from 'jose';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import prisma from '@/db';
 import { NextAuthOptions } from 'next-auth';
 import { Session } from 'next-auth';
@@ -61,12 +61,12 @@ async function validateUser(
 ): Promise<
   | { data: null }
   | {
-    data: {
-      name: string;
-      userid: string;
-      token: string;
-    };
-  }
+      data: {
+        name: string;
+        userid: string;
+        token: string;
+      };
+    }
 > {
   if (process.env.LOCAL_CMS_PROVIDER) {
     if (password === '123456') {

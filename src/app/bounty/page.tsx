@@ -67,8 +67,8 @@ export default function Page() {
 
   return (
     <>
-      <div className="h-max pb-4 transition-colors duration-500 md:p-8 flex flex-col items-center justify-center w-full">
-        <div className="mb-6 flex flex-col items-start justify-center px-4 pt-3 sm:px-8 max-w-[90rem] w-full">
+      <div className="flex h-max w-full flex-col items-center justify-center pb-4 transition-colors duration-500 md:p-8">
+        <div className="mb-6 flex w-full max-w-[90rem] flex-col items-start justify-center px-4 pt-3 sm:px-8">
           <div className="text-2xl text-black transition-colors duration-500 dark:text-white sm:text-3xl">
             <h1 className="mt-20 text-black dark:text-white sm:mt-16">
               Your Bounties

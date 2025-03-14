@@ -158,9 +158,9 @@ export const Navbar = () => {
                 exit={{ opacity: 0, y: -20 }}
               >
                 <AppbarAuth />
-                  <Button variant={'branding'} className="w-full">
+                <Button variant={'branding'} className="w-full">
                   <Link
-                      href={'https://harkirat.classx.co.in/new-courses'}
+                    href={'https://harkirat.classx.co.in/new-courses'}
                     target="_blank"
                   >
                     Join now

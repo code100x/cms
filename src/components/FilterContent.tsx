@@ -4,7 +4,7 @@ import { Check, ChevronsUpDown } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { useRecoilState } from 'recoil';
-import { selectFilter } from '@/store/atoms/filterContent';
+import { selectFilter, FilterType } from '@/store/atoms/filterContent';
 import {
   Command,
   CommandGroup,
@@ -17,11 +17,11 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 
-const allFilters = [
-  { value: 'all', label: 'ALL' },
-  { value: 'unwatched', label: 'Unwatched' },
-  { value: 'watched', label: 'Watched' },
-  { value: 'watching', label: 'Watching' },
+const allFilters: Array<{ value: FilterType; label: string }> = [
+  { value: FilterType.ALL, label: 'ALL' },
+  { value: FilterType.UNWATCHED, label: 'Unwatched' },
+  { value: FilterType.WATCHED, label: 'Watched' },
+  { value: FilterType.WATCHING, label: 'Watching' },
 ];
 
 type FilterContentProps = {
@@ -59,7 +59,7 @@ export const FilterContent = forwardRef<HTMLDivElement, FilterContentProps>(
                     value={filters.value}
                     className={`px-4 ${props.className || ''}`}
                     onSelect={(currentValue) => {
-                      setValue(currentValue === value ? '' : currentValue);
+                      setValue(currentValue as FilterType);
                       setOpen(false);
                     }}
                   >

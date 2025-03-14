@@ -19,7 +19,7 @@ const Tag = forwardRef(
       'inline-flex items-center px-2.5 py-1 rounded-lg text-sm font-semibold',
       'transition-colors duration-150 ease-in-out',
       'hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-opacity-50',
-      className
+      className,
     );
 
     return (
@@ -27,8 +27,8 @@ const Tag = forwardRef(
         ref={ref}
         className={tagClassName}
         {...props}
-        style={{ 
-          backgroundColor, 
+        style={{
+          backgroundColor,
           color: textColor,
         }}
         role="status"

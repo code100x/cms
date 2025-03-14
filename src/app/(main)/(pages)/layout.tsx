@@ -1,16 +1,22 @@
-import React from 'react';
+import Heading from '@/components/Heading';
 import { getServerSession } from 'next-auth';
-import { Redirect } from '@/components/Redirect';
+import { redirect } from 'next/navigation';
+import React from 'react';
 
-interface Props {
+export default async function MainLayout({
+  children,
+}: {
   children: React.ReactNode;
-}
-
-export default async function MainLayout(props: Props) {
+}) {
   const session = await getServerSession();
-
   if (!session?.user) {
-    return <Redirect to={'/'} />;
+    redirect('/');
   }
-  return <div className="w-full py-16">{props.children}</div>;
+
+  return (
+    <div className="w-full overscroll-none pt-16 md:pt-24">
+      <Heading name={session.user.name || ''} />
+      {children}
+    </div>
+  );
 }

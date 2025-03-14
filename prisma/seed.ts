@@ -211,11 +211,11 @@ async function seedVideoMetadata() {
         video_360p_4: 'https://www.w3schools.com/html/mov_bbb.mp4',
         slides:
           'https://appx-recordings.s3.ap-south-1.amazonaws.com/drm/100x/slides/Loops%2C+callbacks.pdf',
-          segments: [
-            { title: "Introduction", start: 0, end: 3 },
-            { title: "Chapter 1", start: 3, end: 7 },
-            { title: "Conclusion", start: 7, end: 10 }
-          ]
+        segments: [
+          { title: 'Introduction', start: 0, end: 3 },
+          { title: 'Chapter 1', start: 3, end: 7 },
+          { title: 'Conclusion', start: 7, end: 10 },
+        ],
       },
     });
   } catch (error) {

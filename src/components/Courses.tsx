@@ -11,7 +11,6 @@ import Link from 'next/link';
 
 export const Courses = ({ courses }: { courses: Course[] }) => {
   const session = useSession();
-
   const handleClick = async () => {
     // @ts-ignore
     const res = await refreshDb({ userId: session.data.user.id });

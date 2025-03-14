@@ -3,6 +3,7 @@
   "singleQuote": true,
   "tabWidth": 2,
   "trailingComma": "all",
+  "arrowParens": "always",
   "plugins": [
     "prettier-plugin-tailwindcss"
   ]

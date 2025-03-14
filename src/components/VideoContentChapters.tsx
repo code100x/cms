@@ -3,7 +3,12 @@ import { Segment, formatTime } from '@/lib/utils';
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import videojs from 'video.js';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/tooltip';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from './ui/tooltip';
 
 const chaptersVariants = {
   open: {
@@ -78,7 +83,9 @@ const VideoContentChapters = ({
                       }}
                     >
                       <TooltipTrigger asChild>
-                        <p className="truncate font-medium tracking-tight">{title}</p>
+                        <p className="truncate font-medium tracking-tight">
+                          {title}
+                        </p>
                       </TooltipTrigger>
                       <TooltipContent>
                         <p>{title}</p>

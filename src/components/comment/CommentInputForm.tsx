@@ -41,8 +41,8 @@ const CommentInputForm = ({
     });
     setCommentText('');
   };
-  
-  const isAllSpaces = (str: string): boolean => (/^\s*$/).test(str);
+
+  const isAllSpaces = (str: string): boolean => /^\s*$/.test(str);
 
   const isCommentValid = () => {
     return !isAllSpaces(commentText);
@@ -103,7 +103,7 @@ const CommentInputForm = ({
       <textarea
         ref={textareaRef}
         id="content"
-        rows = {1}
+        rows={1}
         name="content"
         className="w-full resize-none border-b border-primary/25 bg-transparent p-4 focus:outline-none focus:ring-0"
         placeholder={parentId ? 'Add a reply...' : 'Add a comment...'}
@@ -117,7 +117,6 @@ const CommentInputForm = ({
       <Button type="submit" disabled={isButtonDisabled} className="w-fit">
         {parentId ? 'Reply' : 'Comment'}
       </Button>
-
     </form>
   );
 };

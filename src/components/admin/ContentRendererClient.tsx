@@ -1,11 +1,14 @@
 'use client';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { VideoPlayerSegment } from '@/components/VideoPlayerSegment';
-import VideoContentChapters from '../VideoContentChapters';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import { Button } from '../ui/button';
 import Link from 'next/link';
+import BookmarkButton from '../bookmark/BookmarkButton';
+import { Bookmark } from '@prisma/client';
+import CheckButton from '../CheckButton';
+import VideoContentChapters from '../VideoContentChapters';
 
 export const ContentRendererClient = ({
   metadata,
@@ -25,6 +28,7 @@ export const ContentRendererClient = ({
     thumbnail: string;
     description: string;
     markAsCompleted: boolean;
+    bookmark: Bookmark | null;
     appxVideoId?: string;
     appxCourseId?: string;
   };
@@ -102,18 +106,37 @@ export const ContentRendererClient = ({
             responsive: true,
             sources: [source],
           }}
-          onVideoEnd={() => { }}
+          onVideoEnd={() => {}}
         />
         <div className="flex flex-col gap-4 rounded-xl bg-primary/5 p-4">
           <div className="flex w-full flex-col justify-between gap-2 md:flex-row">
             <h2 className="line-clamp-2 text-wrap text-2xl font-extrabold capitalize tracking-tight text-primary md:text-3xl">
               {content.title}
             </h2>
-            {metadata.slides ? (
-              <Link href={metadata.slides} target="_blank">
-                <Button className="gap-2">Lecture Slides</Button>
-              </Link>
-            ) : null}
+            <div className="flex flex-row items-center justify-between sm:gap-5">
+              <div className="flex">
+                <BookmarkButton
+                  size={28}
+                  bookmark={content.bookmark}
+                  align="end"
+                  side="top"
+                  className="px-2"
+                  contentId={content.id}
+                />
+                <CheckButton
+                  size={28}
+                  align="end"
+                  side="top"
+                  className="px-2"
+                  contentId={content.id}
+                />
+              </div>
+              {metadata.slides ? (
+                <Link href={metadata.slides} target="_blank">
+                  <Button className="gap-2">Lecture Slides</Button>
+                </Link>
+              ) : null}
+            </div>
           </div>
 
           {!showChapters && metadata.segments?.length > 0 && (

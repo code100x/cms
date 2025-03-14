@@ -150,7 +150,10 @@ export const POST = async (req: NextRequest) => {
       });
     }
   }
-  if (discordChecked && (type === 'notion' || type === 'video' || type === 'appx')) {
+  if (
+    discordChecked &&
+    (type === 'notion' || type === 'video' || type === 'appx')
+  ) {
     if (!process.env.NEXT_PUBLIC_DISCORD_WEBHOOK_URL) {
       return NextResponse.json(
         { message: 'Environment variable for discord webhook is not set' },
@@ -174,7 +177,8 @@ export const POST = async (req: NextRequest) => {
   return NextResponse.json(
     {
       message:
-        discordChecked && (type === 'notion' || type === 'video' || type === 'appx')
+        discordChecked &&
+        (type === 'notion' || type === 'video' || type === 'appx')
           ? 'Content Added and Discord notification has been sent'
           : 'Content has been added',
     },

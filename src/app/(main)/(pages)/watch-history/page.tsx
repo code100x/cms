@@ -120,27 +120,22 @@ async function getWatchHistory() {
 export default async function WatchHistoryPage() {
   const watchHistory = await getWatchHistory();
   const watchHistoryGroupedByDate = groupByWatchedDate(watchHistory);
-
   return (
-    <div className="mx-auto my-16 flex min-h-screen w-full flex-col gap-4">
-      {/* Header */}
-      <div className="flex w-full flex-col justify-between gap-2">
-        <h1 className="text-4xl font-bold capitalize tracking-tighter md:text-5xl">
-          Watch History
-        </h1>
+    <div className="no-scrollbar max-h-[calc(100dvh-10rem)] overflow-y-scroll">
+      <div className="mx-auto my-4 flex w-full flex-col gap-4">
+        {Object.entries(watchHistoryGroupedByDate).map(([date, history]) => {
+          return (
+            <Fragment key={date}>
+              <h2 className="text-lg font-medium text-neutral-500 md:text-xl">
+                {date}
+              </h2>
+              <div className="flex h-full flex-col gap-4 rounded-2xl py-4">
+                <WatchHistoryClient history={history} />
+              </div>
+            </Fragment>
+          );
+        })}
       </div>
-      {Object.entries(watchHistoryGroupedByDate).map(([date, history]) => {
-        return (
-          <Fragment key={date}>
-            <h2 className="text-lg font-medium text-neutral-500 md:text-xl">
-              {date}
-            </h2>
-            <div className="flex h-full flex-col gap-4 rounded-2xl py-4">
-              <WatchHistoryClient history={history} />
-            </div>
-          </Fragment>
-        );
-      })}
     </div>
   );
 }

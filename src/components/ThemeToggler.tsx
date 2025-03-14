@@ -21,7 +21,7 @@ export default function ThemeToggler() {
   };
 
   const toggleTheme = () => {
-      switchTheme();
+    switchTheme();
   };
 
   return (

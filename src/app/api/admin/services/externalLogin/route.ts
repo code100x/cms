@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import db from '@/db';
 import { NextRequest, NextResponse } from 'next/server';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 
 const loginSchema = z.object({
   email: z.string(),

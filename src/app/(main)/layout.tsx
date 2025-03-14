@@ -9,7 +9,7 @@ export default (props: Props) => {
   return (
     <div className="flex min-h-screen w-full">
       <Appbar />
-      <div className="wrapper w-full">{props.children}</div>
+      <div className="wrapper w-full overscroll-none">{props.children}</div>
     </div>
   );
 };
