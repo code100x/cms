@@ -1,0 +1,70 @@
+name: Pull Request build+deploy
+
+on:
+  pull_request:
+    types: ['opened', 'edited', 'synchronize']
+    branches:
+      - '**'
+
+jobs:
+  deploy:
+    environment: branch-deploy
+    name: Build and deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+          
+      
+      - name: Set up Docker
+        uses: docker/setup-docker-action@v4
+     
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - name: Setup deployment
+        uses: bobheadxi/deployments@v1
+        id: deployment
+        with:
+          step: start
+          token: ${{ secrets.GITHUB_TOKEN }}
+          env: branch-deploy-${{ github.head_ref }}
+          ref: ${{ github.head_ref }}
+
+      - name: Install dependencies
+        run: ./setup.sh
+      
+      - name: Deploy to Netlify
+        uses: nwtgck/actions-netlify@v3.0
+        with:
+            publish-dir: './next'
+            production-branch: main
+            github-token: ${{ secrets.GITHUB_TOKEN }}
+            deploy-message: "Deploy from GitHub Actions"
+            enable-pull-request-comment: false
+            enable-commit-comment: true
+            overwrites-pull-request-comment: true
+            alias: deploy-preview-${{ github.event.number }}-100xdevs 
+        env:
+            NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+            NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        timeout-minutes: 1
+
+      - name: Update deployment status
+        uses: bobheadxi/deployments@v1
+        if: always()
+        with:
+          step: finish
+          token: ${{ secrets.GITHUB_TOKEN }}
+          status: ${{ job.status }}
+          deployment_id: ${{ steps.deployment.outputs.deployment_id }}
+          logs: ${{ steps.deploy-netlify.outputs.netlify_logs_url }}
+          env_url: ${{ steps.deploy-netlify.outputs.netlify_preview_url }}
