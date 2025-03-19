@@ -1,56 +1,56 @@
-name: Cleanup Old Netlify Deployments
+# name: Cleanup Old Netlify Deployments
 
-on:
-  schedule:
-    # Run at 00:00 UTC every Sunday
-    - cron: '0 0 * * 0'
-  # Optional: Allow manual trigger 
-  workflow_dispatch:
+# on:
+#   schedule:
+#     # Run at 00:00 UTC every Sunday
+#     - cron: '0 0 * * 0'
+#   # Optional: Allow manual trigger 
+#   workflow_dispatch:
 
-jobs:
-  cleanup:
-    name: Cleanup Old Netlify Deployments
-    runs-on: ubuntu-latest
-    steps:
-      - name: Install Netlify CLI
-        run: npm install -g netlify-cli
+# jobs:
+#   cleanup:
+#     name: Cleanup Old Netlify Deployments
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Install Netlify CLI
+#         run: npm install -g netlify-cli
 
-      - name: Authenticate with Netlify
-        run: netlify login --auth ${{ secrets.NETLIFY_AUTH_TOKEN }}
+#       - name: Authenticate with Netlify
+#         run: netlify login --auth ${{ secrets.NETLIFY_AUTH_TOKEN }}
 
-      - name: List and delete old deployments
-        run: |
-          # Get current date in seconds since epoch
-          CURRENT_DATE=$(date +%s)
+#       - name: List and delete old deployments
+#         run: |
+#           # Get current date in seconds since epoch
+#           CURRENT_DATE=$(date +%s)
           
-          # Calculate the cutoff date (60 days ago) in seconds
-          SIXTY_DAYS_IN_SECONDS=$((60 * 24 * 60 * 60))
-          CUTOFF_DATE=$((CURRENT_DATE - SIXTY_DAYS_IN_SECONDS))
+#           # Calculate the cutoff date (60 days ago) in seconds
+#           SIXTY_DAYS_IN_SECONDS=$((60 * 24 * 60 * 60))
+#           CUTOFF_DATE=$((CURRENT_DATE - SIXTY_DAYS_IN_SECONDS))
           
-          echo "Fetching deployments for site ${{ secrets.NETLIFY_SITE_ID }}..."
+#           echo "Fetching deployments for site ${{ secrets.NETLIFY_SITE_ID }}..."
           
-          # List all deployments and filter those older than 60 days
-          DEPLOYMENTS=$(netlify api listSiteDeploys --data "{\"site_id\":\"${{ secrets.NETLIFY_SITE_ID }}\"}")
+#           # List all deployments and filter those older than 60 days
+#           DEPLOYMENTS=$(netlify api listSiteDeploys --data "{\"site_id\":\"${{ secrets.NETLIFY_SITE_ID }}\"}")
           
-          # Process each deployment
-          echo "$DEPLOYMENTS" | jq -c '.[]' | while read -r deploy; do
-            DEPLOY_ID=$(echo "$deploy" | jq -r '.id')
-            CREATED_AT=$(echo "$deploy" | jq -r '.created_at')
+#           # Process each deployment
+#           echo "$DEPLOYMENTS" | jq -c '.[]' | while read -r deploy; do
+#             DEPLOY_ID=$(echo "$deploy" | jq -r '.id')
+#             CREATED_AT=$(echo "$deploy" | jq -r '.created_at')
             
-            # Convert ISO date to seconds since epoch
-            DEPLOY_DATE=$(date -d "$CREATED_AT" +%s)
+#             # Convert ISO date to seconds since epoch
+#             DEPLOY_DATE=$(date -d "$CREATED_AT" +%s)
             
-            # Calculate age in days for logging
-            AGE_DAYS=$(( (CURRENT_DATE - DEPLOY_DATE) / 86400 ))
+#             # Calculate age in days for logging
+#             AGE_DAYS=$(( (CURRENT_DATE - DEPLOY_DATE) / 86400 ))
             
-            # Check if deployment is older than cutoff
-            if [ "$DEPLOY_DATE" -lt "$CUTOFF_DATE" ]; then
-              echo "Deleting deployment $DEPLOY_ID (created $CREATED_AT, $AGE_DAYS days old)"
-              netlify api deleteSiteDeploy --data "{\"site_id\":\"${{ secrets.NETLIFY_SITE_ID }}\",\"deploy_id\":\"$DEPLOY_ID\"}"
-            else
-              echo "Keeping deployment $DEPLOY_ID (created $CREATED_AT, $AGE_DAYS days old)"
-            fi
-          done
-        env:
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+#             # Check if deployment is older than cutoff
+#             if [ "$DEPLOY_DATE" -lt "$CUTOFF_DATE" ]; then
+#               echo "Deleting deployment $DEPLOY_ID (created $CREATED_AT, $AGE_DAYS days old)"
+#               netlify api deleteSiteDeploy --data "{\"site_id\":\"${{ secrets.NETLIFY_SITE_ID }}\",\"deploy_id\":\"$DEPLOY_ID\"}"
+#             else
+#               echo "Keeping deployment $DEPLOY_ID (created $CREATED_AT, $AGE_DAYS days old)"
+#             fi
+#           done
+#         env:
+#           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+#           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
