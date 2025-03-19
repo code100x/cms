@@ -17,6 +17,8 @@ jobs:
         
       - name: Install pnpm
         uses: pnpm/action-setup@v4
+        with:
+          version: 10
       
       - name: Set up Docker
         uses: docker/setup-docker-action@v4
