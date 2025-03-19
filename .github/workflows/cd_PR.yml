@@ -1,16 +1,20 @@
-name: Pull Request build+deploy
+name: Pull Request Preview Deployment
 
 on:
   pull_request:
     types: ['opened', 'edited', 'synchronize']
     branches:
-      - '**'
+    - '**'
+
 
 jobs:
-  deploy:
-    environment: branch-deploy
+    
+  Deploy-PR-Preview:
+    # needs: [Continuous-Integration]
+    # environment: branch-deploy
     name: Build and deploy
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -20,17 +24,13 @@ jobs:
         with:
           version: 10
           
-      
-      - name: Set up Docker
-        uses: docker/setup-docker-action@v4
-     
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: 'pnpm'
 
-      - name: Setup deployment
+      - name: Initialize deployment status
         uses: bobheadxi/deployments@v1
         id: deployment
         with:
@@ -39,24 +39,46 @@ jobs:
           env: branch-deploy-${{ github.head_ref }}
           ref: ${{ github.head_ref }}
 
-      - name: Install dependencies
-        run: ./setup.sh
-      
-      - name: Deploy to Netlify
-        uses: nwtgck/actions-netlify@v3.0
-        with:
-            publish-dir: './next'
-            production-branch: main
-            github-token: ${{ secrets.GITHUB_TOKEN }}
-            deploy-message: "Deploy from GitHub Actions"
-            enable-pull-request-comment: false
-            enable-commit-comment: true
-            overwrites-pull-request-comment: true
-            alias: deploy-preview-${{ github.event.number }}-100xdevs 
+      - name: Install dependencies and build
+        run: |
+          pnpm i -g vercel
+          pnpm install
+        
         env:
-            NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-            NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-        timeout-minutes: 1
+          DATABASE_URL: ${{ secrets.DB_URL }}
+     
+      - name: Deploy to vercel
+        env:
+          DB_URL: ${{ secrets.DB_URL }}
+        run: | 
+          chmod +x ./scripts/set-vercel-env.sh
+          cp .env.example .env
+          sed -i '/^DATABASE_URL=/d' .env
+          echo "DATABASE_URL=${{ secrets.DB_URL }}" >> .env
+          vercel link --yes --project pr-${{ github.event.pull_request.number }}-cms --token ${{ secrets.VERCEL_TOKEN }}
+          
+          sed -i '/^NEXTAUTH_URL=/d' .env
+          echo "NEXTAUTH_URL=https://pr-${{ github.event.pull_request.number }}-cms.vercel.app" >> .env
+
+          if ! vercel env ls --token ${{ secrets.VERCEL_TOKEN }} | grep "DATABASE_URL"; then
+            echo "Setting up Vercel env..."
+            ./scripts/set-vercel-env.sh production ${{ secrets.VERCEL_TOKEN }} https://pr-${{ github.event.pull_request.number }}-cms.vercel.app || echo "Warning: Failed to set up Vercel env, but continuing..."
+          fi
+         
+         
+          vercel build --prod --token ${{ secrets.VERCEL_TOKEN }} --yes
+          vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }} > deployment-url.txt
+          vercel alias `cat deployment-url.txt` pr-${{ github.event.pull_request.number }}-cms  --token ${{ secrets.VERCEL_TOKEN }}
+
+          echo "DEPLOYMENT_URL=$(cat deployment-url.txt)" >> $GITHUB_ENV
+
+      - name: Upload Deployment Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+            name: deployment-url
+            path: |
+              deployment-url.txt
+
 
       - name: Update deployment status
         uses: bobheadxi/deployments@v1
@@ -66,5 +88,55 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           status: ${{ job.status }}
           deployment_id: ${{ steps.deployment.outputs.deployment_id }}
-          logs: ${{ steps.deploy-netlify.outputs.netlify_logs_url }}
-          env_url: ${{ steps.deploy-netlify.outputs.netlify_preview_url }}
+          env_url: https://pr-${{ github.event.pull_request.number }}-cms.vercel.app
+          env: ${{ steps.deployment.outputs.env }}
+
+  
+  Prisma-Migrations:
+            needs: [Deploy-PR-Preview]
+            runs-on: ubuntu-latest
+        
+            steps:
+              - name: Checkout code
+                uses: actions/checkout@v4
+        
+              - name: Check for migration changes
+                id: check-migrations
+                run: |
+                  if git diff --quiet HEAD^ HEAD -- prisma/migrations; then
+                  echo "migrations_changed=false" >> $GITHUB_OUTPUT
+                  else    
+                  echo "migrations_changed=true" >> $GITHUB_OUTPUT
+                  fi
+        
+              - name: Install pnpm
+                if: steps.check-migrations.outputs.migrations_changed == 'true'
+                uses: pnpm/action-setup@v4
+                with:
+                  version: 10
+        
+              - name: Install dependencies and build
+                if: steps.check-migrations.outputs.migrations_changed == 'true'
+                run: |
+                  pnpm i -g vercel
+                  pnpm install
+        
+              - name: Setup Node
+                if: steps.check-migrations.outputs.migrations_changed == 'true'
+                uses: actions/setup-node@v4
+                with:
+                  node-version: 20
+                  cache: 'pnpm'
+        
+              - name: Apply all pending migrations
+                if: steps.check-migrations.outputs.migrations_changed == 'true'
+                env:
+                  DATABASE_URL: ${{ secrets.DB_URL }}
+                run: |
+                  echo "Applying migrations"
+                  pnpm prisma generate
+                  echo "Deploying migrations"
+                  pnpm prisma migrate deploy > migrate.log
+                  echo "Resetting migrations"
+                  pnpm prisma migrate reset --force > reset.log
+                  echo "Migrations applied"
