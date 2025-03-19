@@ -40,7 +40,7 @@ jobs:
 
       - name: Install dependencies
         run: /
-          ./setup.sh
+          setup.sh
       
       - name: Deploy to Netlify
         uses: nwtgck/actions-netlify@v3.0
