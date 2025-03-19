@@ -91,7 +91,6 @@ export const ContentRendererClient = ({
     screenWidth.current = window.innerWidth;
     const minWidth = screenWidth.current * 0.1; // 10% of screen width
     const maxWidth = screenWidth.current * 0.65; // % of screen width
-    const defaultWidth = screenWidth.current * 0.5; // 50% of screen width
 
     // window.addEventListener('touchstart', (e) => {
     //   if (!isResized.current) {
