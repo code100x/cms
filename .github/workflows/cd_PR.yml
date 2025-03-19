@@ -39,7 +39,9 @@ jobs:
           ref: ${{ github.head_ref }}
 
       - name: Install dependencies
-        run: ./setup.sh
+        run: |
+          pnpm install
+          pnpm build
       
       - name: Deploy to Netlify
         uses: nwtgck/actions-netlify@v3.0
