@@ -1,11 +1,15 @@
 'use client';
-import { useSearchParams, useRouter } from 'next/navigation';
 import { VideoPlayerSegment } from '@/components/VideoPlayerSegment';
-import VideoContentChapters from '../VideoContentChapters';
 import { ChevronDown, ChevronUp } from 'lucide-react';
-import { useMemo, useState } from 'react';
-import { Button } from '../ui/button';
 import Link from 'next/link';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { useSetRecoilState } from 'recoil';
+import { pipTrigger } from '@/store/atoms/trigger';
+import { NotionRenderer } from '@/components/NotionRenderer';
+import ResizeBar from '@/components/ResizeBar';
+import { Button } from '@/components/ui/button';
+import VideoContentChapters from '@/components/VideoContentChapters';
 
 export const ContentRendererClient = ({
   metadata,
@@ -32,9 +36,17 @@ export const ContentRendererClient = ({
   const [showChapters, setShowChapters] = useState(
     metadata?.segments?.length > 0,
   );
+
+  const setPipTrigger = useSetRecoilState(pipTrigger);
+
+  const [isDualView, setIsDualView] = useState(false);
+
   const searchParams = useSearchParams();
+  const screenWidth = useRef<number>(1000);
 
   const router = useRouter();
+
+  const [width, setWidth] = useState<number>(screenWidth.current * 0.5);
 
   //@ts-ignore
   const [quality, setQuality] = useState<string>(
@@ -73,46 +85,181 @@ export const ContentRendererClient = ({
     setShowChapters((prev) => !prev);
   };
 
+  const isResized = useRef(false);
+
+  useEffect(() => {
+    screenWidth.current = window.innerWidth;
+    const minWidth = screenWidth.current * 0.1; // 10% of screen width
+    const maxWidth = screenWidth.current * 0.65; // % of screen width
+
+    // window.addEventListener('touchstart', (e) => {
+    //   if (!isResized.current) {
+    //     return;
+    //     }
+
+    //   setWidth((previousWidth) => {
+    //     const newWidth = previousWidth + e.touches[0].clientX;
+
+    //     if (newWidth <= minWidth) {
+    //         setPipTrigger(true);
+    //         return minWidth;
+    //     } else if (newWidth >=maxWidth) {
+    //       setIsDualView(false);
+    //       isResized.current=false;
+    //     }
+
+    //     const isWidthInRange = newWidth >= minWidth && newWidth <= maxWidth;
+
+    //     return isWidthInRange ? newWidth : previousWidth;
+    //     });
+    // });
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!isResized.current) {
+        return;
+      }
+
+      if (e.buttons === 0) {
+        isResized.current = false;
+        return;
+      }
+
+      setWidth((previousWidth) => {
+        const newWidth = previousWidth + e.movementX;
+
+        if (newWidth < minWidth) {
+          setPipTrigger(true);
+          return minWidth + 25;
+        } else if (newWidth >= maxWidth) {
+          setIsDualView(false);
+          isResized.current = false;
+        }
+
+        const isWidthInRange = newWidth >= minWidth && newWidth <= maxWidth;
+
+        return isWidthInRange ? newWidth : previousWidth;
+      });
+    };
+
+    const handleMouseUp = () => {
+      isResized.current = false;
+    };
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mouseup', handleMouseUp);
+
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseup', handleMouseUp);
+      //cleanups
+    };
+  }, []);
+
   return (
     <div className="flex w-full flex-col gap-2">
       <div className="flex w-full flex-col">
-        <VideoPlayerSegment
-          setQuality={setQuality}
-          contentId={content.id}
-          subtitles={metadata.subtitles}
-          thumbnails={[]}
-          appxVideoId={content.appxVideoId}
-          appxCourseId={content.appxCourseId}
-          segments={metadata?.segments || []}
-          videoJsOptions={{
-            playbackrates: [0.5, 1, 1.25, 1.5, 1.75, 2],
-            controls: true,
-            fluid: true,
-            html5: {
-              vhs: {
-                overridenative: true,
-              },
-            },
-            thumbnail: metadata.thumbnail || false, // data.isComposite ? data.thumbnails[0] : null,
-            isComposite: true,
-            height: 720,
-            width: 1280,
-            delta: 30,
-            autoplay: true,
-            responsive: true,
-            sources: [source],
-          }}
-          onVideoEnd={() => { }}
-        />
+        <div className="relative grid h-full w-full min-w-full grid-cols-[max-content_auto] lg:min-h-[70vh]">
+          <div
+            className={`flex h-full w-full min-w-full flex-row`}
+            style={
+              isDualView ? { width: `${width / 16}rem` } : { width: '100%' }
+            }
+          >
+            <div className="w-full lg:w-[1280px]">
+              <VideoPlayerSegment
+                setQuality={setQuality}
+                contentId={content.id}
+                subtitles={metadata.subtitles}
+                thumbnails={[]}
+                appxVideoId={content.appxVideoId}
+                appxCourseId={content.appxCourseId}
+                segments={metadata?.segments || []}
+                videoJsOptions={{
+                  playbackrates: [0.5, 1, 1.25, 1.5, 1.75, 2],
+                  controls: true,
+                  fluid: true,
+                  html5: {
+                    vhs: {
+                      overridenative: true,
+                    },
+                  },
+                  thumbnail: metadata.thumbnail || false, // data.isComposite ? data.thumbnails[0] : null,
+                  aspectRatio: '16:9',
+                  isComposite: true,
+                  height: 720,
+                  width: 1280,
+                  delta: 30,
+                  autoplay: true,
+                  responsive: true,
+                  sources: [source],
+                }}
+                onVideoEnd={() => {}}
+              />
+            </div>
+
+            {isDualView && <ResizeBar isResized={isResized} />}
+          </div>
+          {isDualView && (
+            <div className="flex h-full w-full flex-col">
+              {metadata.slidesType === 'NOT_NOTION' && (
+                <iframe
+                  src="https://projects.100xdevs.com"
+                  name="slides_frame"
+                  className="h-full w-full overflow-hidden"
+                  loading="lazy"
+                ></iframe>
+              )}
+
+              {metadata.slidesType === 'NOTION' && (
+                <NotionRenderer
+                  id={metadata.slides}
+                  notionId={metadata.slides}
+                />
+              )}
+            </div>
+          )}
+        </div>
         <div className="flex flex-col gap-4 rounded-xl bg-primary/5 p-4">
           <div className="flex w-full flex-col justify-between gap-2 md:flex-row">
             <h2 className="line-clamp-2 text-wrap text-2xl font-extrabold capitalize tracking-tight text-primary md:text-3xl">
               {content.title}
             </h2>
             {metadata.slides ? (
-              <Link href={metadata.slides} target="_blank">
-                <Button className="gap-2">Lecture Slides</Button>
-              </Link>
+              <div className="flex gap-2">
+                <Link
+                  href={`${metadata.slidesType === 'NOTION' ? new URL(metadata.slides, 'https://notion.com/') : metadata.slides}`}
+                  target="_blank"
+                >
+                  <Button className="gap-2">Lecture Slides in New Tab</Button>
+                </Link>
+
+                {!isDualView ? (
+                  <>
+                    {metadata.slidesType === 'NOT_NOTION' ? (
+                      <Link href={metadata.slides} target="slides_frame">
+                        <Button
+                          className={'gap-2'}
+                          onClick={() => setIsDualView((view) => !view)}
+                        >
+                          Lecture Slides
+                        </Button>
+                      </Link>
+                    ) : (
+                      <Button
+                        className={'gap-2'}
+                        onClick={() => setIsDualView((view) => !view)}
+                      >
+                        Lecture Slides
+                      </Button>
+                    )}
+                  </>
+                ) : (
+                  <Button
+                    className={'gap-2 bg-red-700 hover:bg-red-800'}
+                    onClick={() => setIsDualView((view) => !view)}
+                  >
+                    Close
+                  </Button>
+                )}
+              </div>
             ) : null}
           </div>
 
