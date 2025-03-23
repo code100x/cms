@@ -44,6 +44,10 @@ interface ZoomIndicator extends HTMLDivElement {
   timeoutId?: ReturnType<typeof setTimeout>;
 }
 
+interface SpeedIndicator extends HTMLDivElement {
+  timeoutId?: ReturnType<typeof setTimeout>;
+}
+
 const PLAYBACK_RATES: number[] = [0.5, 1, 1.25, 1.5, 1.75, 2];
 const VOLUME_LEVELS: number[] = [0, 0.2, 0.4, 0.6, 0.8, 1.0];
 
@@ -111,12 +115,11 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
   };
 
   const setupZoomFeatures = (player: any) => {
-
     if (typeof window === 'undefined' || typeof document === 'undefined') return;
-  
+
     const videoEl = player.el().querySelector('video');
     const container = player.el();
-    
+
     const transformState: TransformState = {
       scale: 1,
       lastScale: 1,
@@ -125,85 +128,85 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
       lastPanX: 0,
       lastPanY: 0
     };
-  
+
     // Zoom indicator
     const zoomIndicator = document.createElement('div') as ZoomIndicator;
     zoomIndicator.className = 'vjs-zoom-level';
     container.appendChild(zoomIndicator);
-  
+
     // Optimized boundary calculation with memoization
     const calculateBoundaries = (() => {
       let lastDimensions: { width: number; height: number };
-      
+
       return () => {
         const containerRect = container.getBoundingClientRect();
         const videoAspect = videoEl.videoWidth / videoEl.videoHeight;
-        
+
         // returning cached values if dimensions haven't changed
-        if (lastDimensions?.width === containerRect.width && 
-            lastDimensions?.height === containerRect.height) {
+        if (lastDimensions?.width === containerRect.width &&
+          lastDimensions?.height === containerRect.height) {
           return lastDimensions;
         }
-  
+
         const containerAspect = containerRect.width / containerRect.height;
         let actualWidth = containerRect.width;
         let actualHeight = containerRect.height;
-  
-        actualWidth = containerAspect > videoAspect 
-          ? actualHeight * videoAspect 
+
+        actualWidth = containerAspect > videoAspect
+          ? actualHeight * videoAspect
           : actualWidth;
-        actualHeight = containerAspect > videoAspect 
-          ? actualHeight 
+        actualHeight = containerAspect > videoAspect
+          ? actualHeight
           : actualWidth / videoAspect;
-  
+
         lastDimensions = {
           width: actualWidth,
           height: actualHeight
         };
-        
+
         return lastDimensions;
       };
     })();
-  
+
     // Unified gesture handler
     const handleGestureControl = (e: HammerInput) => {
       const target = e.srcEvent.target as HTMLElement;
       const isControlBar = target.closest('.vjs-control-bar');
-      
+
       if (!isControlBar && player.isFullscreen()) {
         e.srcEvent.preventDefault();
         e.srcEvent.stopPropagation();
       }
     };
-  
+
     // Configuring Hammer with proper types
     const hammer = new Hammer.Manager(container, {
       touchAction: 'none',
       inputClass: Hammer.TouchInput
     });
-  
+
     hammer.add(new Hammer.Pinch());
-    hammer.add(new Hammer.Pan({ 
-      threshold: 0, 
-      direction: Hammer.DIRECTION_ALL 
+    hammer.add(new Hammer.Pan({
+      threshold: 0,
+      direction: Hammer.DIRECTION_ALL
     }));
-  
+
     // Optimized transform update with boundary enforcement
     const updateTransform = () => {
       const boundaries = calculateBoundaries();
       const maxX = (boundaries.width * (transformState.scale - 1)) / 2;
       const maxY = (boundaries.height * (transformState.scale - 1)) / 2;
-  
+
       transformState.translateX = Math.min(Math.max(
-        transformState.translateX, 
+        transformState.translateX,
         -maxX
       ), maxX);
-      
+
       transformState.translateY = Math.min(Math.max(
-        transformState.translateY, 
+        transformState.translateY,
         -maxY
       ), maxY);
-  
+
       videoEl.style.transform = `
         scale(${transformState.scale})
         translate3d(
@@ -212,83 +215,83 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
           0
         )`;
     };
-  
+
     // Unified pinch handler
     hammer.on('pinchstart pinchmove', (e) => {
       handleGestureControl(e);
-      
+
       if (!player.isFullscreen()) return;
-  
+
       if (e.type === 'pinchstart') {
         transformState.lastScale = transformState.scale;
         videoEl.classList.add('zoomed');
         return;
       }
-  
+
       transformState.scale = Math.min(
         Math.max(transformState.lastScale * e.scale, 1),
         3
       );
-      
+
       updateTransform();
       showZoomLevel();
     });
-  
+
     // Unified pan handler
     hammer.on('panstart panmove', (e) => {
       handleGestureControl(e);
-      
+
       if (transformState.scale <= 1) return;
-  
+
       if (e.type === 'panstart') {
         transformState.lastPanX = e.center.x;
         transformState.lastPanY = e.center.y;
         videoEl.style.transition = 'none';
         return;
       }
-  
+
       const deltaX = e.center.x - transformState.lastPanX;
       const deltaY = e.center.y - transformState.lastPanY;
-  
+
       transformState.translateX += deltaX;
       transformState.translateY += deltaY;
-  
+
       transformState.lastPanX = e.center.x;
       transformState.lastPanY = e.center.y;
-  
+
       updateTransform();
     });
-  
+
     // Optimized zoom indicator
     const showZoomLevel = () => {
       zoomIndicator.textContent = `${transformState.scale.toFixed(1)}x`;
       zoomIndicator.style.opacity = '1';
-      
+
       if (zoomIndicator.timeoutId) clearTimeout(zoomIndicator.timeoutId);
-      
+
       zoomIndicator.timeoutId = setTimeout(() => {
         zoomIndicator.style.opacity = '0';
       }, 1000);
     };
-  
+
     // Reset handler with animation frame
     const resetZoom = () => {
       transformState.scale = 1;
       transformState.translateX = 0;
       transformState.translateY = 0;
-      
+
       requestAnimationFrame(() => {
         videoEl.style.transition = 'transform 0.3s ease-out';
         updateTransform();
         videoEl.classList.remove('zoomed');
       });
     };
-  
+
     // Adding resize observer for responsive boundaries
     const resizeObserver = new ResizeObserver(() => {
       if (player.isFullscreen()) updateTransform();
     });
-    
+
     resizeObserver.observe(container);
 
     // Reset zoom when exiting fullscreen
@@ -306,7 +309,7 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
       container.removeChild(zoomIndicator);
       resetZoom();
     };
-  
+
     player.on('dispose', cleanup);
     return cleanup;
   };
@@ -365,6 +368,38 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
       return;
     }
     let volumeSetTimeout: ReturnType<typeof setInterval> | null = null;
+    let spaceKeyTimeout: ReturnType<typeof setTimeout> | null = null;
+    const LONG_PRESS_DURATION = 500; // 1000ms threshold for long press
+    let previousPlaybackRate: number = 1;
+    // Create speed indicator element
+    const speedIndicator = document.createElement('div') as SpeedIndicator;
+    speedIndicator.className = 'vjs-speed-indicator';
+    speedIndicator.style.cssText = `
+      position: absolute;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: rgba(0, 0, 0, 0.7);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 4px;
+      font-size: 16px;
+      font-weight: bold;
+      z-index: 9999;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+    `;
+    player.el().appendChild(speedIndicator);
+
+    const showSpeedIndicator = (speed: number) => {
+      speedIndicator.textContent = `${speed}x Speed`;
+      speedIndicator.style.opacity = '1';
+    };
+    const hideSpeedIndicator = () => {
+      speedIndicator.style.opacity = '0';
+    };
+
     const handleKeyPress = (event: KeyboardEvent) => {
       const isShiftPressed = event.shiftKey;
       const isModifierPressed = event.metaKey || event.ctrlKey || event.altKey;
@@ -379,9 +414,7 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
       ) {
         return; // Do nothing if the active element is an input or textarea
       }
-      if (event.code === 'KeyT') {
-        player.playbackRate(2);
-      }
+
       if (isShiftPressed) {
         const currentIndexPeriod: number = PLAYBACK_RATES.indexOf(
           player.playbackRate(),
@@ -441,15 +474,22 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
       }
 
       switch (event.code) {
-        case 'Space': // Space bar for play/pause
-          if (player.paused()) {
-            player.play();
-            event.stopPropagation();
-          } else {
-            player.pause();
-            event.stopPropagation();
-          }
+        case 'Space': // Space bar for play/pause and long press for 2x speed
           event.preventDefault();
+          if (player?.spaceTriggered) {
+            break;
+          }
+          player.spaceTriggered = true;
+          player.longPressTriggered = false;
+          // Start a timeout for long press
+          spaceKeyTimeout = setTimeout(() => {
+            previousPlaybackRate = player.playbackRate();
+            if (player.paused()) player.play();
+            player.playbackRate(2);
+            showSpeedIndicator(2);
+            spaceKeyTimeout = null;  // Clear timeout reference
+            player.longPressTriggered = true;
+          }, LONG_PRESS_DURATION);
           break;
         case 'ArrowRight': // Right arrow for seeking forward 5 seconds
           player.currentTime(player.currentTime() + 5);
@@ -559,9 +599,22 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
           break;
       }
     };
-    const handleKeyUp = (event: any) => {
-      if (event.code === 'KeyT') {
-        player.playbackRate(1);
+    const handleKeyUp = (event: KeyboardEvent) => {
+      if (event.code === 'Space') {
+        if (player?.longPressTriggered) {
+          player.longPressTriggered = false;
+          player.spaceTriggered = false;
+          player.playbackRate(previousPlaybackRate);
+          hideSpeedIndicator();
+        } else {
+          spaceKeyTimeout = null;  // Clear timeout reference
+          player.spaceTriggered = false;
+          if (player.paused()) {
+            player.play();
+          } else {
+            player.pause();
+          }
+        }
       }
     };
     document.addEventListener('keydown', handleKeyPress, { capture: true });
@@ -569,6 +622,11 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
     // Cleanup function
     return () => {
       document.removeEventListener('keydown', handleKeyPress);
+      document.removeEventListener('keyup', handleKeyUp);
+      if (speedIndicator.timeoutId) {
+        clearTimeout(speedIndicator.timeoutId);
+      }
+      player.el().removeChild(speedIndicator);
     };
   }, [player]);
 
