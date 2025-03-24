@@ -607,7 +607,10 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
           player.playbackRate(previousPlaybackRate);
           hideSpeedIndicator();
         } else {
-          spaceKeyTimeout = null;  // Clear timeout reference
+          if (spaceKeyTimeout) {
+            clearTimeout(spaceKeyTimeout);
+            spaceKeyTimeout = null;  // Clear timeout reference
+          }
           player.spaceTriggered = false;
           if (player.paused()) {
             player.play();
@@ -623,9 +626,6 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
     return () => {
       document.removeEventListener('keydown', handleKeyPress);
       document.removeEventListener('keyup', handleKeyUp);
-      if (speedIndicator.timeoutId) {
-        clearTimeout(speedIndicator.timeoutId);
-      }
       player.el().removeChild(speedIndicator);
     };
   }, [player]);
