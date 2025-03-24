@@ -1,0 +1,6 @@
+Vercel CLI 41.4.1
+Retrieving project…
+Deploying kitsunekode-manash/cms
+Inspect: https://vercel.com/kitsunekode-manash/cms/14YnZJ5bPtdMcCtpBjZ9jwTBjH8o [3s]
+Preview: https://cms-mfu4ij2mk-kitsunekode-manash.vercel.app [3s]
+Queued
