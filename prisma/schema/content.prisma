@@ -1,0 +1,107 @@
+model Content {
+  id               Int             @id @default(autoincrement())
+  type             String          @default("folder")
+  title            String
+  hidden           Boolean         @default(false)
+  description      String?
+  thumbnail        String?
+  parentId         Int?
+  parent           Content?        @relation("ContentToContent", fields: [parentId], references: [id])
+  videoProgress    VideoProgress[]
+  children         Content[]       @relation("ContentToContent")
+  courses          CourseContent[]
+  createdAt        DateTime        @default(now())
+  VideoMetadata    VideoMetadata?
+  NotionMetadata   NotionMetadata?
+  notionMetadataId Int?
+  comments         Comment[]
+  commentsCount    Int             @default(0)
+  bookmark         Bookmark[]
+}
+
+model CourseContent {
+  course    Course  @relation(fields: [courseId], references: [id])
+  courseId  Int
+  content   Content @relation(fields: [contentId], references: [id])
+  contentId Int
+
+  @@id([courseId, contentId])
+}
+
+model VideoMetadata {
+  id                         Int             @id @default(autoincrement())
+  contentId                  Int
+  appxVideoId                String?
+  appxVideoJSON              Json?
+  video_1080p_mp4_1          String? // Link to 1080p mp4 quality video variant 1
+  video_1080p_mp4_2          String? // Link to 1080p mp4 quality video variant 2
+  video_1080p_mp4_3          String? // Link to 1080p mp4 quality video variant 3
+  video_1080p_mp4_4          String? // Link to 1080p mp4 quality video variant 4
+  video_1080p_1              String? // Link to 1080p quality video variant 1
+  video_1080p_2              String? // Link to 1080p quality video variant 2
+  video_1080p_3              String? // Link to 1080p quality video variant 3
+  video_1080p_4              String? // Link to 1080p quality video variant 4
+  video_720p_mp4_1           String? // Link to 720p mp4 quality video variant 1
+  video_720p_mp4_2           String? // Link to 720p mp4 quality video variant 2
+  video_720p_mp4_3           String? // Link to 720p mp4 quality video variant 3
+  video_720p_mp4_4           String? // Link to 720p mp4 quality video variant 4
+  video_720p_1               String? // Link to 720p quality video variant 1
+  video_720p_2               String? // Link to 720p quality video variant 2
+  video_720p_3               String? // Link to 720p quality video variant 3
+  video_720p_4               String? // Link to 720p quality video variant 4
+  video_360p_mp4_1           String? // Link to 360p mp4 quality video variant 1
+  video_360p_mp4_2           String? // Link to 360p mp4 quality video variant 2
+  video_360p_mp4_3           String? // Link to 360p mp4 quality video variant 3
+  video_360p_mp4_4           String? // Link to 360p mp4 quality video variant 4
+  video_360p_1               String? // Link to 360p quality video variant 1
+  video_360p_2               String? // Link to 360p quality video variant 2
+  video_360p_3               String? // Link to 360p quality video variant 3
+  video_360p_4               String? // Link to 360p quality video variant 4
+  subtitles                  String? // Link to subtitles file
+  subtitle_tried             Int             @default(0) //Count of subtitle transcoding tries
+  segments                   Json?
+  content                    Content         @relation(fields: [contentId], references: [id])
+  slides                     String? // link to slides
+  thumbnail_mosiac_url       String?
+  duration                   Int?
+  migration_status           MigrationStatus @default(NOT_MIGRATED)
+  migration_pickup_time      DateTime?
+  migrated_video_1080p_mp4_1 String?
+  migrated_video_360p_mp4_1  String?
+  migrated_video_720p_mp4_1  String?
+  original_mp4_url           String?
+  transcoded                 Boolean         @default(false)
+
+  @@unique([contentId])
+}
+
+model NotionMetadata {
+  id        Int     @id @default(autoincrement())
+  contentId Int
+  content   Content @relation(fields: [contentId], references: [id])
+  notionId  String
+
+  @@unique([contentId])
+}
+
+model VideoProgress {
+  id               Int      @id @default(autoincrement())
+  userId           String
+  contentId        Int
+  currentTimestamp Int
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  content          Content  @relation(fields: [contentId], references: [id], onDelete: Cascade)
+  markAsCompleted  Boolean  @default(false)
+  updatedAt        DateTime @default(now()) @updatedAt
+
+  @@unique([contentId, userId])
+}
+
+model Bookmark {
+  id        Int      @id @default(autoincrement())
+  userId    String
+  contentId Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  content   Content  @relation(fields: [contentId], references: [id])
+  createdAt DateTime @default(now())
+}
