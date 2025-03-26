@@ -2,36 +2,29 @@ import db from '../src/db';
 
 async function seedUsers() {
   try {
-    await db.user.upsert({
-      where: {
-        id: '1',
-      },
-      create: {
-        id: '1',
-        email: 'testuser@example.com',
-        name: 'Test User 1',
-        disableDrm: false,
-      },
-      update: {},
-    });
+    const users = [
+      { id: '1', email: 'testuser@example.com', name: 'Test User 1', disableDrm: false },
+      { id: '2', email: 'testuser2@example.com', name: 'Test User 2', disableDrm: false },
+    ];
 
-    await db.user.upsert({
-      where: {
-        id: '2',
-      },
-      create: {
-        id: '2',
-        email: 'testuser2@example.com',
-        name: 'Test User 2',
-        disableDrm: false,
-      },
-      update: {},
-    });
+    for (const user of users) {
+      const existingUser = await db.user.findUnique({ where: { id: user.id } });
+
+      if (existingUser) {
+        console.log(`User with ID ${user.id} already exists. Skipping creation.`);
+      } else {
+        await db.user.create({ data: user });
+        console.log(`Created user with ID ${user.id}`);
+      }
+    }
+
+    console.log('User seeding completed.');
   } catch (error) {
     console.error('Error seeding users:', error);
     throw error;
   }
 }
+
 
 async function seedCourses() {
   const courses = [
@@ -117,6 +110,16 @@ async function seedContent() {
   };
 
   try {
+    let existingFolder = await db.content.findFirst({
+      where: { title: folderData.title, type: 'folder' },
+    });
+
+    if (existingFolder) {
+      console.log('Folder already exists:', existingFolder);
+      return;
+    }
+
+    // Create folder
     const createdFolder = await db.content.create({ data: folderData });
     console.log('Created folder:', createdFolder);
     const folderId = createdFolder.id;
@@ -142,7 +145,13 @@ async function seedContent() {
       },
     ];
 
-    const createdContent = await db.content.createMany({ data: contentData });
+    // Insert content using a loop since createMany does not return records
+    const createdContent = await Promise.all(
+      contentData.map(async (content) => {
+        return db.content.create({ data: content });
+      })
+    );
+
     console.log('Created content:', createdContent);
   } catch (error) {
     console.error('Error seeding content:', error);
@@ -150,14 +159,28 @@ async function seedContent() {
   }
 }
 
+
 async function seedCourseContent() {
   try {
+    const existingCourseContent = await db.courseContent.findUnique({
+      where: {
+        courseId_contentId: { courseId: 1, contentId: 1 },
+      },
+    });
+
+    if (existingCourseContent) {
+      console.log('Course content already exists:', existingCourseContent);
+      return;
+    }
+
     await db.courseContent.create({
       data: {
         courseId: 1,
         contentId: 1,
       },
     });
+
+    console.log('Course content seeded successfully');
   } catch (error) {
     console.error('Error seeding course content:', error);
     throw error;
@@ -166,6 +189,15 @@ async function seedCourseContent() {
 
 async function seedNotionMetadata() {
   try {
+    const existingNotionMetadata = await db.notionMetadata.findUnique({
+      where: { id: 1 },
+    });
+
+    if (existingNotionMetadata) {
+      console.log('Notion metadata already exists:', existingNotionMetadata);
+      return;
+    }
+
     await db.notionMetadata.create({
       data: {
         id: 1,
@@ -173,14 +205,26 @@ async function seedNotionMetadata() {
         contentId: 2,
       },
     });
+
+    console.log('Notion metadata seeded successfully');
   } catch (error) {
     console.error('Error seeding Notion metadata:', error);
     throw error;
   }
 }
 
+
 async function seedVideoMetadata() {
   try {
+    const existingVideoMetadata = await db.videoMetadata.findUnique({
+      where: { id: 1 },
+    });
+
+    if (existingVideoMetadata) {
+      console.log('Video metadata already exists:', existingVideoMetadata);
+      return;
+    }
+
     await db.videoMetadata.create({
       data: {
         id: 1,
@@ -209,15 +253,16 @@ async function seedVideoMetadata() {
         video_360p_2: 'https://www.w3schools.com/html/mov_bbb.mp4',
         video_360p_3: 'https://www.w3schools.com/html/mov_bbb.mp4',
         video_360p_4: 'https://www.w3schools.com/html/mov_bbb.mp4',
-        slides:
-          'https://appx-recordings.s3.ap-south-1.amazonaws.com/drm/100x/slides/Loops%2C+callbacks.pdf',
-          segments: [
-            { title: "Introduction", start: 0, end: 3 },
-            { title: "Chapter 1", start: 3, end: 7 },
-            { title: "Conclusion", start: 7, end: 10 }
-          ]
+        slides: 'https://appx-recordings.s3.ap-south-1.amazonaws.com/drm/100x/slides/Loops%2C+callbacks.pdf',
+        segments: [
+          { title: "Introduction", start: 0, end: 3 },
+          { title: "Chapter 1", start: 3, end: 7 },
+          { title: "Conclusion", start: 7, end: 10 }
+        ]
       },
     });
+
+    console.log('Video metadata seeded successfully');
   } catch (error) {
     console.error('Error seeding video metadata:', error);
     throw error;
@@ -226,32 +271,29 @@ async function seedVideoMetadata() {
 
 async function seedPurchases() {
   try {
-    await db.userPurchases.create({
-      data: {
-        userId: '1',
-        courseId: 1,
-      },
-    });
-    await db.userPurchases.create({
-      data: {
-        userId: '2',
-        courseId: 1,
-      },
-    });
-    await db.userPurchases.create({
-      data: {
-        userId: '1',
-        courseId: 2,
-      },
-    });
-    await db.userPurchases.create({
-      data: {
-        userId: '2',
-        courseId: 2,
-      },
-    });
+    const purchases = [
+      { userId: '1', courseId: 1 },
+      { userId: '2', courseId: 1 },
+      { userId: '1', courseId: 2 },
+      { userId: '2', courseId: 2 },
+    ];
+
+    for (const purchase of purchases) {
+      const existingPurchase = await db.userPurchases.findFirst({
+        where: { userId: purchase.userId, courseId: purchase.courseId },
+      });
+
+      if (!existingPurchase) {
+        await db.userPurchases.create({ data: purchase });
+        console.log(`Purchase added for user ${purchase.userId} (Course ${purchase.courseId})`);
+      } else {
+        console.log(`Purchase already exists for user ${purchase.userId} (Course ${purchase.courseId})`);
+      }
+    }
+
+    console.log('Purchase seeding completed');
   } catch (error) {
-    console.error('Error while seeding purchases');
+    console.error('Error while seeding purchases:', error);
     throw error;
   }
 }
@@ -265,24 +307,33 @@ export async function addClassesFromAugustToMay() {
     date <= endDate;
     date.setDate(date.getDate() + 1)
   ) {
+    let title;
     if (date.getDay() === 5) {
-      // Friday
-      await db.event.create({
-        data: {
-          title: 'Web 3 Class',
-          start: new Date(date.setHours(19, 30, 0, 0)),
-          end: new Date(date.setHours(21, 30, 0, 0)),
-        },
-      });
+      title = 'Web 3 Class';
     } else if (date.getDay() === 6 || date.getDay() === 0) {
-      // Saturday or Sunday
+      title = 'WebDevs/DevOps Class';
+    } else {
+      continue;
+    }
+
+    const eventExists = await db.event.findFirst({
+      where: {
+        title,
+        start: new Date(date.setHours(19, 30, 0, 0)),
+      },
+    });
+
+    if (!eventExists) {
       await db.event.create({
         data: {
-          title: 'WebDevs/Devops Class',
+          title,
           start: new Date(date.setHours(19, 30, 0, 0)),
           end: new Date(date.setHours(21, 30, 0, 0)),
         },
       });
+      console.log(`Event added: ${title} on ${date.toISOString().split('T')[0]}`);
+    } else {
+      console.log(`Event already exists: ${title} on ${date.toISOString().split('T')[0]}`);
     }
   }
 }
