@@ -1,0 +1,13 @@
+model BountySubmission {
+  id            String   @id @default(uuid())
+  prLink        String
+  paymentMethod String
+  status        String   @default("pending")
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  amount        Float    @default(0)
+  userId        String
+  user          User     @relation(fields: [userId], references: [id])
+
+  @@unique([userId, prLink])
+}

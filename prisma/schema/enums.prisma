@@ -1,0 +1,21 @@
+enum VoteType {
+  UPVOTE
+  DOWNVOTE
+}
+
+enum PostType {
+  QUESTION
+  ANSWER
+}
+
+enum CommentType {
+  INTRO
+  DEFAULT
+}
+
+enum MigrationStatus {
+  NOT_MIGRATED
+  IN_PROGRESS
+  MIGRATED
+  MIGRATION_ERROR
+}
