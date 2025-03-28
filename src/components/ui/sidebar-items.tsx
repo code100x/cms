@@ -12,6 +12,7 @@ import { usePathname } from 'next/navigation';
 export const SidebarItems = ({
   items,
   isCollapsed,
+  setIsCollapsed,
 }: {
   items: {
     id: number;
@@ -20,6 +21,7 @@ export const SidebarItems = ({
     href: string;
   }[];
   isCollapsed: boolean;
+  setIsCollapsed: (isCollapsed: boolean) => void;
 }) => {
   const pathname = usePathname();
   return (
@@ -32,6 +34,7 @@ export const SidebarItems = ({
               <TooltipTrigger asChild>
                 <Link
                   href={item.href}
+                  onClick={() => setIsCollapsed(true)}
                   className={`flex items-center rounded-lg p-3 text-center transition-all duration-300 ${
                     isActive
                       ? 'bg-blue-600/15 text-blue-500'
