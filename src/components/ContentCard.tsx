@@ -51,12 +51,12 @@ export const ContentCard = ({
             className={`group relative flex h-fit w-full max-w-md cursor-pointer flex-col gap-2 rounded-2xl transition-all duration-300 hover:-translate-y-2`}
           >
             {markAsCompleted && (
-              <div className="absolute right-2 top-2 z-10">
+              <div className="absolute right-2 top-2 z-[9]">
                 <CheckCircle2 color="green" size={30} fill="lightgreen" />
               </div>
             )}
             {type === 'video' && (
-              <div className="absolute bottom-12 right-2 z-10 rounded-md p-2 font-semibold text-white">
+              <div className="absolute bottom-12 right-2 z-[9] rounded-md p-2 font-semibold text-white">
                 <Play className="size-6" />
               </div>
             )}
