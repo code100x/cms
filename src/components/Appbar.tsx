@@ -8,7 +8,7 @@ import {
   SidebarClose,
 } from 'lucide-react';
 import { SidebarItems } from './ui/sidebar-items';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 
 export const menuOptions = [
@@ -49,9 +49,19 @@ export const Appbar = () => {
   const isMediumToXL = useMediaQuery(
     '(min-width: 768px) and (max-width: 1535px)',
   );
+  const sidebarRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setIsMounted(true);
+    const handleClickOutside = (event: MouseEvent) => {
+      if (sidebarRef.current && !sidebarRef.current.contains(event.target as Node)) {
+        setIsCollapsed(true);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };   
   }, []);
 
   const toggleCollapse = () => setIsCollapsed(!isCollapsed);
@@ -65,6 +75,7 @@ export const Appbar = () => {
     <>
       {/* Desktop Sidebar */}
       <motion.nav
+        ref={sidebarRef}
         initial={false}
         animate={isMounted && (isCollapsed ? 'collapsed' : 'expanded')}
         variants={sidebarVariants}
@@ -95,7 +106,7 @@ export const Appbar = () => {
             </div>
           </div>
           <div className="flex flex-col gap-8 p-2">
-            <SidebarItems items={menuOptions} isCollapsed={isCollapsed} />
+            <SidebarItems items={menuOptions} isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed}/>
           </div>
         </div>
       </motion.nav>
@@ -108,7 +119,7 @@ export const Appbar = () => {
         className="fixed bottom-0 left-0 right-0 z-[999] lg:hidden"
       >
         <div className="flex items-center justify-around border-t border-primary/10 bg-background p-4 shadow-xl">
-          <SidebarItems items={menuOptions} isCollapsed={!isMediumToXL} />
+          <SidebarItems items={menuOptions} isCollapsed={!isMediumToXL} setIsCollapsed={setIsCollapsed} />
         </div>
       </motion.nav>
     </>
