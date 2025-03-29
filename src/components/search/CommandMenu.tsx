@@ -25,6 +25,7 @@ import {
 import { signOut } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useCallback, useEffect } from 'react';
+import VideoSearchCard from './VideoSearchCard';
 
 interface CommandMenuProps {
   icon: string;
@@ -33,6 +34,7 @@ interface CommandMenuProps {
   commandSearchTerm: string;
   onCommandSearchTermChange: (value: string) => void;
   loading: boolean;
+  selectedIndex: number;
   searchedVideos: TSearchedVideos[] | null;
   onCardClick: (videoUrl: string) => void;
   onClose: () => void;
@@ -45,6 +47,7 @@ export function CommandMenu({
   commandSearchTerm,
   onCommandSearchTermChange,
   loading,
+  selectedIndex,
   searchedVideos,
   onCardClick,
   onClose,
@@ -99,33 +102,23 @@ export function CommandMenu({
         onValueChange={onCommandSearchTermChange}
       />
       <CommandList>
-        <CommandEmpty>No results found.</CommandEmpty>
-
-        <CommandGroup heading="Videos">
+        <div className='overflow-hidden p-1 text-foreground [&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:py-1.5 [&_[cmdk-group-heading]]:text-xs [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-muted-foreground'>
+          <div cmdk-group-heading="" aria-hidden="true" id=":r15:">videos</div>
           {!loading &&
             searchedVideos &&
             searchedVideos.length > 0 &&
-            searchedVideos.map((video) => (
-              <CommandItem
+            searchedVideos.map((video, index) => (
+              <div
                 key={video.id}
-                onSelect={() => {
-                  if (video.parentId && video.parent?.courses.length) {
-                    const courseId = video.parent.courses[0].courseId;
-                    const videoUrl = `/courses/${courseId}/${video.parentId}/${video.id}`;
-                    onCardClick(videoUrl);
-                    onClose();
-                  }
-                }}
+                className={`${index === selectedIndex ? 'bg-blue-600/10 text-blue-600' : ''}`}
               >
-                <Play className="mr-2 h-4 w-4" />
-                <span className="truncate">{video.title}</span>
-              </CommandItem>
+                <VideoSearchCard video={video} onCardClick={onCardClick} />
+              </div>
             ))}
           {!loading && (!searchedVideos || searchedVideos.length === 0) && (
-            <CommandItem>No videos found</CommandItem>
+            <div className="relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none data-[disabled=true]:pointer-events-none data-[selected='true']:bg-accent data-[selected=true]:text-accent-foreground data-[disabled=true]:opacity-50">No videos found</div>
           )}
-        </CommandGroup>
-
+        </div>
         <CommandSeparator />
 
         <CommandGroup heading="Suggestions">
