@@ -14,6 +14,7 @@ import { sidebarOpen as sidebarOpenAtom } from '@/store/atoms/sidebar';
 import { useEffect, useState, useCallback, useMemo } from 'react';
 import { handleMarkAsCompleted } from '@/lib/utils';
 import BookmarkButton from './bookmark/BookmarkButton';
+import { refreshCourses } from './refreshCourses';
 import Link from 'next/link';
 import { Button } from './ui/button';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -294,6 +295,7 @@ function Check({ content }: { content: any }) {
       const newState = !completed;
       setCompleted(newState);
       await handleMarkAsCompleted(newState, content.id);
+      refreshCourses('/courses/[courseId]','page');
     },
     [completed, content.id],
   );
