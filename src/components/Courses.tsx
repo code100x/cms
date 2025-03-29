@@ -11,10 +11,19 @@ import Link from 'next/link';
 
 export const Courses = ({ courses }: { courses: Course[] }) => {
   const session = useSession();
-
+  const userId: string | undefined = session.data?.user ? (session.data.user as { id: string }).id : undefined;
   const handleClick = async () => {
-    // @ts-ignore
-    const res = await refreshDb({ userId: session.data.user.id });
+
+    if (!userId) {
+      toast.error('User ID is required to refresh the database.');
+      return;
+    }
+    const email: string | undefined = session.data?.user ? (session.data.user as { email: string }).email : undefined;
+    if (!email) {
+      toast.error('User email is required to refresh the database.');
+      return;
+    }
+    const res = await refreshDb({ userId, email });
     if (res.error) {
       toast.error(res.message);
     } else {
