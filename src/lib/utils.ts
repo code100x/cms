@@ -420,8 +420,7 @@ export function getFilteredContent(
 
   if (filter === 'unwatched')
     return courseContentWithPercentComplete?.filter(
-      (content) =>
-        content?.markAsCompleted === false && content?.duration === 0,
+      (content) => content?.markAsCompleted === false && content?.duration === 0 && content?.percentComplete === 0, 
     );
 
   return [];
