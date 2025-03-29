@@ -238,8 +238,11 @@ const createCommentHandler = async (
       revalidatePath(data.currentPath);
     }
     return { data: comment };
-  } catch (error: any) {
-    return { error: error.message || 'Failed to create comment.' };
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      return { error: error.message};
+    }
+    return { error: 'Failed to create comment.' };
   }
 };
 const updateCommentHandler = async (
@@ -452,8 +455,11 @@ const pinCommentHandler = async (
       revalidatePath(currentPath);
     }
     return { data: updatedComment };
-  } catch (error: any) {
-    return { error: error.message || 'Failed to pin comment.' };
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      return { error: error.message};
+    }
+    return { error: 'Failed to pin comment.' };
   }
 };
 
