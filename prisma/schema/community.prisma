@@ -1,0 +1,79 @@
+model Comment {
+  id           Int         @id @default(autoincrement())
+  content      String
+  commentType  CommentType @default(DEFAULT)
+  approved     Boolean     @default(false)
+  contentId    Int
+  commentedOn  Content     @relation(fields: [contentId], references: [id])
+  parentId     Int?
+  parent       Comment?    @relation("ParentComment", fields: [parentId], references: [id])
+  children     Comment[]   @relation("ParentComment")
+  userId       String
+  user         User        @relation(fields: [userId], references: [id])
+  upvotes      Int         @default(0)
+  downvotes    Int         @default(0)
+  repliesCount Int         @default(0)
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+  votes        Vote[]
+  isPinned     Boolean     @default(false)
+}
+
+model Question {
+  id           Int      @id @default(autoincrement())
+  title        String
+  content      String
+  slug         String   @unique
+  createdAt    DateTime @default(now())
+  author       User     @relation(fields: [authorId], references: [id])
+  authorId     String
+  upvotes      Int      @default(0)
+  downvotes    Int      @default(0)
+  totalanswers Int      @default(0)
+  answers      Answer[]
+  votes        Vote[]
+  tags         String[]
+  updatedAt    DateTime @updatedAt
+
+  @@index([authorId])
+}
+
+model Answer {
+  id           Int      @id @default(autoincrement())
+  content      String
+  createdAt    DateTime @default(now())
+  question     Question @relation(fields: [questionId], references: [id])
+  questionId   Int
+  author       User     @relation(fields: [authorId], references: [id])
+  authorId     String
+  votes        Vote[]
+  upvotes      Int      @default(0)
+  downvotes    Int      @default(0)
+  totalanswers Int      @default(0)
+  parentId     Int?
+  responses    Answer[] @relation("AnswerToAnswer")
+  parent       Answer?  @relation("AnswerToAnswer", fields: [parentId], references: [id])
+  updatedAt    DateTime @updatedAt
+
+  @@index([questionId])
+  @@index([authorId])
+  @@index([parentId])
+}
+
+model Vote {
+  id         Int       @id @default(autoincrement())
+  questionId Int?
+  question   Question? @relation(fields: [questionId], references: [id])
+  answerId   Int?
+  answer     Answer?   @relation(fields: [answerId], references: [id])
+  commentId  Int?
+  comment    Comment?  @relation(fields: [commentId], references: [id])
+  userId     String
+  user       User      @relation(fields: [userId], references: [id])
+  voteType   VoteType
+  createdAt  DateTime  @default(now())
+
+  @@unique([questionId, userId])
+  @@unique([answerId, userId])
+  @@unique([commentId, userId])
+}
