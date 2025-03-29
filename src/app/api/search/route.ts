@@ -3,6 +3,7 @@ import db from '@/db';
 import { CourseContent } from '@prisma/client';
 import Fuse from 'fuse.js';
 import { NextRequest, NextResponse } from 'next/server';
+import { getServerSession } from 'next-auth';
 
 export type TSearchedVideos = {
   id: number;
@@ -35,10 +36,54 @@ export async function GET(request: NextRequest) {
       return NextResponse.json(fuzzySearch(value, searchQuery));
     }
 
+    const session = await getServerSession();
+    const userEmail = session?.user?.email;
+
+    if (!userEmail) {
+      return NextResponse.json({}, { status: 401 }); 
+    }
+
+    const userPurchases = await db.userPurchases.findMany({
+      where: {
+        user: {
+          email: userEmail,
+        },
+      },
+      select: {
+        courseId: true,
+      },
+    });
+
+    const purchasedCourseIds = userPurchases.map((purchase) => purchase.courseId);
+
     const allVideos = await db.content.findMany({
       where: {
         type: 'video',
         hidden: false,
+        OR: [
+          {
+            parent: {
+              courses: {
+                some: {
+                  courseId: {
+                    in: purchasedCourseIds,
+                  },
+                },
+              },
+            },
+          },
+          {
+            parent: {
+              courses: {
+                some: {
+                  course: {
+                    openToEveryone: true,
+                  },
+                },
+              },
+            },
+          }
+        ],
       },
       select: {
         id: true,
