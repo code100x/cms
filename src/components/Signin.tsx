@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation';
 import React, { useRef, useState, useEffect } from 'react';
 import { toast } from 'sonner';
 import { motion } from 'framer-motion';
+import { generateFingerprint } from '@/lib/utils';
 
 const emailDomains = [
   'gmail.com',
@@ -123,9 +124,11 @@ const Signin = () => {
       return;
     }
     setCheckingPassword(true);
+    const fingerprint = await generateFingerprint();
     const res = await signIn('credentials', {
       username: email.current,
       password: password.current,
+      deviceFingerprint: fingerprint,
       redirect: false,
     });
 

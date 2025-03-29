@@ -159,6 +159,7 @@ export const authOptions = {
               },
               data: {
                 token: jwt,
+                deviceFingerprint: credentials?.deviceFingerprint
               },
             });
 
