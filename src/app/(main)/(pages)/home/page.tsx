@@ -1,4 +1,3 @@
-import { Greeting } from '@/components/Greeting';
 import { MyCourses } from '@/components/MyCourses';
 import { Redirect } from '@/components/Redirect';
 import { getServerSession } from 'next-auth';
@@ -11,14 +10,8 @@ export default async function MyCoursesPage() {
   }
 
   return (
-    <main className="flex flex-col gap-4 pb-16 pt-8">
-      <div className="flex flex-col justify-between gap-4 lg:flex-row">
-        <h1 className="text-wrap text-3xl font-extrabold capitalize tracking-tighter md:text-4xl">
-          <Greeting /> {session.user.name}
-        </h1>
-      </div>
-
-      <div className="flex h-full flex-col gap-4 rounded-2xl py-4">
+    <main className="flex flex-col gap-4">
+      <div className="no-scrollbar flex h-full max-h-[calc(100dvh-10rem)] flex-col gap-4 overflow-y-scroll rounded-2xl py-4 pb-24 lg:pb-4">
         <MyCourses />
       </div>
     </main>

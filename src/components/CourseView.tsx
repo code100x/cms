@@ -6,9 +6,16 @@ import { getFolderPercentCompleted } from '@/lib/utils';
 import { QueryParams } from '@/actions/types';
 import BreadCrumbComponent from './BreadCrumbComponent';
 import Comments from './comment/Comments';
-// import { Sidebar } from './Sidebar';
+import { Sidebar } from './Sidebar';
+import { FilterContent } from './FilterContent';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/lib/auth';
+import { getPurchases } from '@/utiles/appx';
+import { redirect } from 'next/navigation';
+import { toast } from 'sonner';
 
-export const CourseView = ({
+export const CourseView = async ({
+  courseId,
   rest,
   course,
   fullCourseContent,
@@ -17,6 +24,7 @@ export const CourseView = ({
   searchParams,
   possiblePath,
 }: {
+  courseId: string;
   fullCourseContent: FullCourseContent[];
   rest: string[];
   course: any;
@@ -34,13 +42,40 @@ export const CourseView = ({
   searchParams: QueryParams;
   possiblePath: string;
 }) => {
+  type CheckAccessReturn = 'yes' | 'no' | 'error';
+
+  const checkAccess = async (courseId: string): Promise<CheckAccessReturn> => {
+    const session = await getServerSession(authOptions);
+
+    if (!session?.user) {
+      return 'no';
+    }
+    const response = await getPurchases(session.user.email);
+    if (response.type === 'error') {
+      return 'error';
+    }
+    const purchases = response.courses;
+    if (purchases.map((p) => p.id).includes(Number(courseId))) {
+      return 'yes';
+    }
+    return 'no';
+  };
   const contentType = courseContent?.folder
     ? 'folder'
     : courseContent?.value.type;
+  const hasAccess = await checkAccess(courseId);
+
+  if (hasAccess === 'no') {
+    redirect('/api/auth/signin');
+  }
+
+  if (hasAccess === 'error') {
+    toast.error('Ratelimited by appx please try again later');
+  }
 
   return (
-    <div className="relative flex w-full flex-col gap-8 pb-16 pt-8 xl:pt-[9px]">
-      <div className="sticky top-[73px] z-10 flex flex-col gap-4 bg-background py-2 xl:pt-2">
+    <div className="relative flex w-full flex-col gap-2 pb-16">
+      <div className="wrapper fixed left-0 right-0 top-[65px] z-20 flex h-auto flex-col-reverse items-start justify-between gap-1 bg-background py-1 sm:flex-row sm:items-center sm:gap-4 xl:pt-2">
         <BreadCrumbComponent
           course={course}
           contentType={contentType}
@@ -48,6 +83,17 @@ export const CourseView = ({
           fullCourseContent={fullCourseContent}
           rest={rest}
         />
+        <div className="flex w-full max-w-screen-sm items-center justify-between sm:w-auto sm:gap-4">
+          <div className="2/3">
+            <Sidebar
+              fullCourseContent={fullCourseContent}
+              courseId={courseId}
+            />
+          </div>
+          <div>
+            <FilterContent />
+          </div>
+        </div>
       </div>
 
       {!courseContent?.folder && courseContent?.value.type === 'notion' ? (
@@ -56,7 +102,8 @@ export const CourseView = ({
           courseId={courseContent.value.id}
         />
       ) : null}
-      {!courseContent?.folder && (contentType === 'video' || contentType === 'appx') ? (
+      {!courseContent?.folder &&
+      (contentType === 'video' || contentType === 'appx') ? (
         <ContentRenderer
           nextContent={nextContent}
           content={{
