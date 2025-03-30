@@ -1,12 +1,7 @@
-import { z } from 'zod';
 import db from '@/db';
 import { NextRequest, NextResponse } from 'next/server';
 import bcrypt from 'bcrypt';
-
-const loginSchema = z.object({
-  email: z.string(),
-  password: z.string(),
-});
+import { loginSchema } from '@/lib/validations/auth';
 
 export async function POST(req: NextRequest) {
   const authKey = req.headers.get('Auth-Key');
@@ -77,6 +72,7 @@ export async function POST(req: NextRequest) {
       { status: 401 },
     );
   } catch (error) {
+    console.log(error);
     return NextResponse.json(
       { message: 'Error fetching user' },
       { status: 500 },
