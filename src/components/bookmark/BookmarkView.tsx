@@ -1,11 +1,14 @@
 import BookmarkList from './BookmarkList';
 import { TBookmarkWithContent } from '@/actions/bookmark/types';
 import NoBookmark from './NoBookmark';
+import { Bookmark } from '@prisma/client';
 
 const BookmarkView = ({
   bookmarkData,
+  initialBookmarks
 }: {
   bookmarkData: TBookmarkWithContent[] | null | { error: string };
+  initialBookmarks: Bookmark[] 
 }) => {
   return (
     <>
@@ -14,7 +17,7 @@ const BookmarkView = ({
       !bookmarkData.length ? (
         <NoBookmark />
       ) : (
-        <BookmarkList bookmarkData={bookmarkData} />
+        <BookmarkList bookmarkData={bookmarkData} initialBookmarks={initialBookmarks}/>
       )}
     </>
   );
