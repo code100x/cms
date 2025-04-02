@@ -1,13 +1,17 @@
 import { Bookmark } from '@prisma/client';
-import { MouseEvent, useState } from 'react';
+import { MouseEvent, useEffect, useState } from 'react';
 import { useAction } from './useAction';
 import { createBookmark, deleteBookmark } from '@/actions/bookmark';
 import { toast } from 'sonner';
 import Link from 'next/link';
+import { bookmarksState } from '@/store/atoms/bookmark';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 
 export const useBookmark = (bookmark: Bookmark | null, contentId: number) => {
-  const [addedBookmark, setAddedBookmark] = useState<Bookmark | null>(bookmark);
+  const bookmarks = useRecoilValue(bookmarksState); 
+  const setBookmarks = useSetRecoilState(bookmarksState);
   const [isDisabled, setIsDisabled] = useState(false);
+  const existingBookmark = bookmarks.find((b) => b.contentId === contentId) || null;
   const { execute: executeCreateBookmark } = useAction(createBookmark, {
     onSuccess: (data: Bookmark) => {
       toast(
@@ -26,7 +30,7 @@ export const useBookmark = (bookmark: Bookmark | null, contentId: number) => {
         </div>,
         { duration: 3000 },
       );
-      setAddedBookmark(data);
+      setBookmarks( (prev)=>[...prev,data])
     },
     onError: (error) => {
       toast.error(error);
@@ -40,6 +44,7 @@ export const useBookmark = (bookmark: Bookmark | null, contentId: number) => {
         </div>,
         { duration: 3000 },
       );
+      setBookmarks((prev) => prev.filter((b: { contentId: number; }) => b.contentId !== contentId)); // Remove from state
     },
     onError: (error) => {
       toast.error(error);
@@ -53,11 +58,11 @@ export const useBookmark = (bookmark: Bookmark | null, contentId: number) => {
 
     try {
       setIsDisabled(true);
-      if (addedBookmark) {
+      if (existingBookmark) {
         await executeDeleteBookmark({
-          id: addedBookmark.id,
+          id: existingBookmark.id,
         });
-        setAddedBookmark(null);
+        setBookmarks((prev) => prev.filter((b: { contentId: number; }) => b.contentId !== contentId)); // Remove from state
       } else {
         await executeCreateBookmark({
           contentId,
@@ -71,5 +76,5 @@ export const useBookmark = (bookmark: Bookmark | null, contentId: number) => {
     return false;
   };
 
-  return { addedBookmark, handleBookmark, isDisabled };
+  return { addedBookmark:existingBookmark, handleBookmark, isDisabled };
 };

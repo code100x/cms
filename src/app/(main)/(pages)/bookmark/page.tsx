@@ -1,6 +1,6 @@
 import { Content, CourseContent, VideoProgress } from '@prisma/client';
 import BookmarkView from '@/components/bookmark/BookmarkView';
-import { getBookmarkDataWithContent } from '@/db/bookmark';
+import { getBookmarkData, getBookmarkDataWithContent } from '@/db/bookmark';
 
 export type TWatchHistory = VideoProgress & {
   content: Content & {
@@ -11,7 +11,7 @@ export type TWatchHistory = VideoProgress & {
 
 export default async function BookmarksPage() {
   const bookmarkData = await getBookmarkDataWithContent();
-
+  const bookmarks= await getBookmarkData();
   return (
     <main className="flex flex-col gap-4 pb-16 pt-8">
       <div className="flex flex-col justify-between gap-2 md:flex-row">
@@ -20,7 +20,7 @@ export default async function BookmarksPage() {
         </h1>
       </div>
       <div className="flex h-full flex-col gap-4 rounded-2xl py-4">
-        <BookmarkView bookmarkData={bookmarkData} />
+        <BookmarkView bookmarkData={bookmarkData} initialBookmarks={bookmarks}/>
       </div>
     </main>
   );

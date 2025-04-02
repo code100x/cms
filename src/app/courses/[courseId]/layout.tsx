@@ -1,6 +1,7 @@
 import { QueryParams } from '@/actions/types';
 import { FilterContent } from '@/components/FilterContent';
 import { Sidebar } from '@/components/Sidebar';
+import { getBookmarkData } from '@/db/bookmark';
 import { getFullCourseContent } from '@/db/course';
 import { authOptions } from '@/lib/auth';
 import { getPurchases } from '@/utiles/appx';
@@ -12,7 +13,6 @@ type CheckAccessReturn = 'yes' | 'no' | 'error';
 
 const checkAccess = async (courseId: string): Promise<CheckAccessReturn> => {
   const session = await getServerSession(authOptions);
-
   if (!session?.user) {
     return 'no';
   }
@@ -37,7 +37,7 @@ const Layout = async ({
 }) => {
   const courseId = params.courseId;
   const hasAccess = await checkAccess(courseId);
-
+  const bookmarks = await getBookmarkData();
   if (hasAccess === 'no') {
     redirect('/api/auth/signin');
   }
@@ -51,7 +51,7 @@ const Layout = async ({
     <div className="relative flex min-h-screen flex-col py-24">
       <div className="flex justify-between items-center">
         <div className="2/3">
-          <Sidebar fullCourseContent={fullCourseContent} courseId={courseId} />
+          <Sidebar fullCourseContent={fullCourseContent} courseId={courseId} initialBookmarks={bookmarks}/>
         </div>
         <div>
           <FilterContent />
