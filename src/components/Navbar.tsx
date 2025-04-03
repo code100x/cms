@@ -113,7 +113,7 @@ export const Navbar = () => {
       {/* Main navbar container */}
       <div 
         ref={navbarRef} 
-        className="fixed inset-x-0 top-4 z-[999] h-auto transition-all duration-300 sm:inset-x-6"
+        className="fixed w-full max-w-full px-4 top-4 z-[999] h-auto transition-all duration-300 sm:px-6"
       >
         {/* Navbar with animations */}
         <motion.nav
@@ -131,7 +131,7 @@ export const Navbar = () => {
           <div className="wrapper flex w-full items-center justify-between p-3">
             {/* Left side - Logo and back button */}
             <motion.div
-              className="flex items-center gap-4"
+              className="flex items-center gap-2 md:gap-4"
               initial="hidden"
               animate="visible"
               variants={navItemAnimations}
@@ -168,7 +168,7 @@ export const Navbar = () => {
 
             {/* Right side - Search, theme, profile */}
             <motion.div
-              className="flex items-center gap-4"
+              className="flex items-center gap-2 md:gap-4"
               initial="hidden"
               animate="visible"
               variants={navItemAnimations}
@@ -187,7 +187,7 @@ export const Navbar = () => {
                       onClick={toggleSearch}
                       variant={'ghost'}
                       size={'icon'}
-                      className="mr-2"
+                      className="mr-1 md:mr-2"
                     >
                       <Search className="size-6" />
                     </Button>
