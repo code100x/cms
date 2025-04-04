@@ -2,17 +2,7 @@ import { QueryParams } from '@/actions/types';
 import { CourseView } from '@/components/CourseView';
 import { getCourse, getFullCourseContent, getNextVideo, getPrevVideo } from '@/db/course';
 import findContentById from '@/lib/find-content-by-id';
-// import { redirect } from 'next/navigation';
-
-// import resetDb from '../../../../tests/helpers/reset-db';
-
-// async function resetDatabase() {
-//   // Reset the database before running the test
-//   console.log('Resetting database...');
-//   await resetDb();
-
-// }
-
+ 
 export default async function Course({
   params,
   searchParams,

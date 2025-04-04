@@ -38,7 +38,7 @@ export const ContentRendererClient = ({
   const [showChapters, setShowChapters] = useState(
     metadata?.segments?.length > 0,
   );
-
+  
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -80,23 +80,26 @@ export const ContentRendererClient = ({
   };
 
   const handleNavigateToContent = (id?: number) => {
-    console.log("id", id);
-    if (!id) {
-      console.error('Content id is undefined or null');
-      return;
+    if (!id) return;
+  
+    const url = new URL(window.location.href);
+    const pathnameParts = url.pathname.split('/');
+    if (!isNaN(Number(pathnameParts[pathnameParts.length - 1]))) {
+      pathnameParts[pathnameParts.length - 1] = id.toString();
+    } else {
+      pathnameParts.push(id.toString());
     }
-    if (typeof id !== 'number') {
-      console.error('Invalid content id:', id);
-      return;
-    }
-    const originalPath = window.location.pathname;
-    const parts = originalPath.split('/');
-    parts.pop();
-    parts.push(id.toString());
-    const newPath = parts.join('/');
+  
+    const newPath = pathnameParts.join('/');
     router.push(newPath);
   };
 
+  const handleGoToFolder = () => {
+    const segments = window.location.pathname.split("/");  
+    const folderPath = segments.slice(0, 4).join("/");     
+    router.push(folderPath);
+  };
+  
   return (
     <div className="flex w-full flex-col gap-2">
       <div className="flex w-full flex-col">
@@ -173,7 +176,14 @@ export const ContentRendererClient = ({
                 ← Previous
               </Button>
             ) : (
-              <div></div>
+              <Button
+              size="lg"
+              variant="outline"
+              className="flex items-center gap-1"
+              onClick={handleGoToFolder}
+            >
+            ← Go to Course Folder 
+            </Button>
             )}
 
             {nextContent ? (
@@ -185,7 +195,14 @@ export const ContentRendererClient = ({
                 Next →
               </Button>
             ) : (
-              <div></div>
+              <Button
+              size="lg"
+              variant="outline"
+              className="flex items-center gap-1"
+              onClick={handleGoToFolder}
+            >
+              Done! Go to  Course Folder →
+            </Button>
             )}
           </div>
         </div>
