@@ -140,6 +140,33 @@ async function seedContent() {
         parentId: folderId,
         commentsCount: 0,
       },
+      {
+        type: 'video',
+        title: 'My test video for week 1',
+        hidden: false,
+        thumbnail:
+          'https://appx-recordings.s3.ap-south-1.amazonaws.com/drm/100x/images/week-1-orientation.jpg',
+        parentId: folderId,
+        commentsCount: 0,
+      },
+      {
+        type: 'video',
+        title: 'My test video for week 1',
+        hidden: false,
+        thumbnail:
+          'https://appx-recordings.s3.ap-south-1.amazonaws.com/drm/100x/images/week-1-orientation.jpg',
+        parentId: folderId,
+        commentsCount: 0,
+      },
+      {
+        type: 'video',
+        title: 'My test video for week 1',
+        hidden: false,
+        thumbnail:
+          'https://appx-recordings.s3.ap-south-1.amazonaws.com/drm/100x/images/week-1-orientation.jpg',
+        parentId: folderId,
+        commentsCount: 0,
+      },
     ];
 
     const createdContent = await db.content.createMany({ data: contentData });

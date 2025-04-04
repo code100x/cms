@@ -11,8 +11,14 @@ export const ContentRendererClient = ({
   metadata,
   content,
   nextContent,
+  prevContent,
 }: {
   nextContent: {
+    id: number;
+    type: string;
+    title: string;
+  } | null;
+  prevContent: {
     id: number;
     type: string;
     title: string;
@@ -32,8 +38,8 @@ export const ContentRendererClient = ({
   const [showChapters, setShowChapters] = useState(
     metadata?.segments?.length > 0,
   );
-  const searchParams = useSearchParams();
 
+  const searchParams = useSearchParams();
   const router = useRouter();
 
   //@ts-ignore
@@ -73,6 +79,24 @@ export const ContentRendererClient = ({
     setShowChapters((prev) => !prev);
   };
 
+  const handleNavigateToContent = (id?: number) => {
+    console.log("id", id);
+    if (!id) {
+      console.error('Content id is undefined or null');
+      return;
+    }
+    if (typeof id !== 'number') {
+      console.error('Invalid content id:', id);
+      return;
+    }
+    const originalPath = window.location.pathname;
+    const parts = originalPath.split('/');
+    parts.pop();
+    parts.push(id.toString());
+    const newPath = parts.join('/');
+    router.push(newPath);
+  };
+
   return (
     <div className="flex w-full flex-col gap-2">
       <div className="flex w-full flex-col">
@@ -93,7 +117,7 @@ export const ContentRendererClient = ({
                 overridenative: true,
               },
             },
-            thumbnail: metadata.thumbnail || false, // data.isComposite ? data.thumbnails[0] : null,
+            thumbnail: metadata.thumbnail || false,
             isComposite: true,
             height: 720,
             width: 1280,
@@ -102,7 +126,7 @@ export const ContentRendererClient = ({
             responsive: true,
             sources: [source],
           }}
-          onVideoEnd={() => { }}
+          onVideoEnd={() => {}}
         />
         <div className="flex flex-col gap-4 rounded-xl bg-primary/5 p-4">
           <div className="flex w-full flex-col justify-between gap-2 md:flex-row">
@@ -119,19 +143,13 @@ export const ContentRendererClient = ({
           {!showChapters && metadata.segments?.length > 0 && (
             <button
               className="flex w-fit items-center gap-2"
-              onClick={() => {
-                toggleShowChapters();
-              }}
+              onClick={toggleShowChapters}
             >
               <p>Chapters</p>
               {showChapters ? (
-                <>
-                  <ChevronUp className="size-5 text-neutral-500" />
-                </>
+                <ChevronUp className="size-5 text-neutral-500" />
               ) : (
-                <>
-                  <ChevronDown className="size-5 text-neutral-500" />
-                </>
+                <ChevronDown className="size-5 text-neutral-500" />
               )}
             </button>
           )}
@@ -142,22 +160,35 @@ export const ContentRendererClient = ({
               onCancel={toggleShowChapters}
             />
           )}
+
+          <div className="flex justify-between items-center mt-6 pt-4 border-t border-primary/10">
+           
+            {prevContent ? (
+              <Button
+                size="lg"
+                variant="outline"
+                className="flex items-center gap-1"
+                onClick={() => handleNavigateToContent(prevContent?.id)}
+              >
+                ← Previous
+              </Button>
+            ) : (
+              <div></div>
+            )}
+
+            {nextContent ? (
+              <Button
+                size="lg"
+                className="flex items-center gap-1"
+                onClick={() => handleNavigateToContent(nextContent?.id)}
+              >
+                Next →
+              </Button>
+            ) : (
+              <div></div>
+            )}
+          </div>
         </div>
-        {nextContent ? (
-          <Button
-            size={'lg'}
-            onClick={() => {
-              const originalPath = window.location.pathname;
-              const parts = originalPath.split('/');
-              parts.pop();
-              parts.push(nextContent.id.toString());
-              const newPath = parts.join('/');
-              router.push(newPath);
-            }}
-          >
-            {nextContent.title}
-          </Button>
-        ) : null}
       </div>
     </div>
   );

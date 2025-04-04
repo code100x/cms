@@ -50,6 +50,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "cmdk": "1.0.0",
+    "cms": "file:",
     "date-fns": "^3.6.0",
     "dayjs": "^1.11.10",
     "discord-oauth2": "^2.11.0",
@@ -61,7 +62,7 @@
     "katex": "^0.16.11",
     "lucide-react": "^0.321.0",
     "moment": "^2.30.1",
-    "next": "14.0.2",
+    "next": "^14.0.3",
     "next-auth": "^4.24.5",
     "next-themes": "^0.2.1",
     "nextjs-toploader": "^1.6.11",
@@ -107,5 +108,6 @@
     "typescript": "^5.4.5",
     "vitest": "^1.6.0",
     "vitest-mock-extended": "^1.3.1"
-  }
+  },
+  "packageManager": "pnpm@9.15.1+sha1.abc117858086cb10ecb54828d180b035cb6c8fdd"
 }

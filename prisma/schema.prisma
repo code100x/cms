@@ -84,7 +84,7 @@ model NotionMetadata {
   @@unique([contentId])
 }
 
-model VideoMetadata {
+model  VideoMetadata {
   id                         Int             @id @default(autoincrement())
   contentId                  Int
   appxVideoId                String?

@@ -166,6 +166,39 @@ export const getNextVideo = async (currentVideoId: number) => {
   return latestContent;
 };
 
+export const getPrevVideo = async (currentVideoId: number) => {
+  if (!currentVideoId) {
+    return null;
+  }
+  const value = await cache.get('getPrevVideo', [currentVideoId.toString()]);
+  if (value) {
+    return value;
+  }
+  const currentContent = await db.content.findFirst({
+    where: {
+      id: currentVideoId,
+    },
+  });
+
+  const latestContent = await db.content.findFirst({
+    orderBy: [
+      {
+        id: 'desc',
+      },
+    ],
+    where: {
+      parentId: {
+        equals: currentContent?.parentId,
+      },
+      id: {
+        lt: currentVideoId,
+      },
+    },
+  });
+  cache.set('getPrevVideo', [currentVideoId.toString()], latestContent);
+  return latestContent;
+};
+
 async function getAllContent(): Promise<
   {
     id: number;
@@ -197,6 +230,8 @@ async function getAllContent(): Promise<
     },
   });
   cache.set('getAllContent', [], allContent);
+
+  //console.log('allContent', allContent);
 
   return allContent;
 }
@@ -286,6 +321,8 @@ export const getFullCourseContent = async (
   const courseContent = await getRootCourseContent(courseId);
   const videoProgress = await getVideoProgressForUser(session?.user?.id);
   const bookmarkData = await getBookmarkData();
+
+  console.log('bookmarkData', bookmarkData);
   const contentMap = new Map<string, FullCourseContent>(
     contents.map((content: any) => [
       content.id,

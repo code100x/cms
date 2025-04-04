@@ -15,14 +15,16 @@ export default async function Course({
   const fullCourseContent = await getFullCourseContent(parseInt(courseId, 10));
 
   const courseContent = findContentById(fullCourseContent, []);
-
-  const nextContent = null;
-
+   console.log(courseContent, 'courseContent');
+  console.log(fullCourseContent, 'fullCourseContent');
+  const nextContent =null;
+  const prevContent=null;
   return (
     <CourseView
       rest={[]}
       course={course}
       nextContent={nextContent}
+      prevContent={prevContent}
       courseContent={courseContent}
       fullCourseContent={fullCourseContent}
       searchParams={searchParams}
