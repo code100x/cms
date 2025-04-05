@@ -85,12 +85,25 @@ export function CommandMenu({
     },
     [open, handleShortcut],
   );
+  useEffect(() => {
+  console.log('Searched Videos Updated:', searchedVideos);
+}, [searchedVideos]);
 
   useEffect(() => {
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [handleKeyDown]);
 
+  // Function to handle video selection
+  const handleVideoSelect = (video: TSearchedVideos) => {
+    if (video.parentId && video.parent?.courses.length) {
+      const courseId = video.parent.courses[0].courseId
+      const videoUrl = `/courses/${courseId}/${video.parentId}/${video.id}`
+      onCardClick(videoUrl)
+      onClose()
+    }
+  }
+  
   return (
     <CommandDialog open={open} onOpenChange={onOpenChange}>
       <CommandInput
@@ -102,27 +115,21 @@ export function CommandMenu({
         <CommandEmpty>No results found.</CommandEmpty>
 
         <CommandGroup heading="Videos">
-          {!loading &&
-            searchedVideos &&
-            searchedVideos.length > 0 &&
+          {loading ? (
+            <CommandItem disabled>Loading videos...</CommandItem>
+          ) : searchedVideos && searchedVideos.length > 0 ? (
             searchedVideos.map((video) => (
               <CommandItem
                 key={video.id}
-                onSelect={() => {
-                  if (video.parentId && video.parent?.courses.length) {
-                    const courseId = video.parent.courses[0].courseId;
-                    const videoUrl = `/courses/${courseId}/${video.parentId}/${video.id}`;
-                    onCardClick(videoUrl);
-                    onClose();
-                  }
-                }}
+                onSelect={() => handleVideoSelect(video)}
+                value={`video-${video.id}-${video.title}`} 
               >
                 <Play className="mr-2 h-4 w-4" />
                 <span className="truncate">{video.title}</span>
               </CommandItem>
-            ))}
-          {!loading && (!searchedVideos || searchedVideos.length === 0) && (
-            <CommandItem>No videos found</CommandItem>
+            ))
+          ) : (
+            <CommandItem disabled>No videos found</CommandItem>
           )}
         </CommandGroup>
 
