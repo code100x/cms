@@ -73,6 +73,10 @@
   body {
     @apply bg-background text-foreground;
   }
+  @font-face {
+    font-family: "font-head";
+    src: url("/fonts/font-head.woff2") format("woff2");
+  }
 }
 
 .vjs-tech {
@@ -426,4 +430,14 @@
    right: 0;
   }
 }
-  
+
+/* CSS styles for the font-head */
+.font-head {
+  font-family: font-head, sanf-serif;
+}
+
+.special-font b {
+  font-family: "font-head";
+  font-feature-settings: "ss01" on;
+}
+
