@@ -561,7 +561,7 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
     };
     const handleKeyUp = (event: any) => {
       if (event.code === 'KeyT') {
-        player.playbackRate(1);
+        player?.playbackRate(1);
       }
     };
     document.addEventListener('keydown', handleKeyPress, { capture: true });
