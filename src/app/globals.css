@@ -73,6 +73,10 @@
   body {
     @apply bg-background text-foreground;
   }
+  @font-face {
+    font-family: "font-head";
+    src: url("/fonts/font-head.woff2") format("woff2");
+  }
 }
 
 .vjs-tech {
@@ -407,3 +411,33 @@
 .vjs-text-track-cue {
   display: none !important;
 }
+
+/* CSS styles for the floating navbar */
+/* Extra shadow for floating effect */
+.floating-nav {
+  position: fixed; 
+  top: 0; 
+  left: 0;
+  right: 0;
+  width: 100%;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+    
+/* Mobile adjustment */
+@media (max-width: 640px) {
+  .floating-nav {
+   left: 0;
+   right: 0;
+  }
+}
+
+/* CSS styles for the font-head */
+.font-head {
+  font-family: font-head, sanf-serif;
+}
+
+.special-font b {
+  font-family: "font-head";
+  font-feature-settings: "ss01" on;
+}
+
