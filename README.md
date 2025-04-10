@@ -22,6 +22,7 @@ cd cms
 
 > [!NOTE]  
 > Your Docker Demon should be online
+> If you face bcrypt errors in node modules, run: npm rebuild bcrypt
 
 1. Running Script for Instant setup
 
