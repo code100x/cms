@@ -23,7 +23,7 @@ export const Courses = ({ courses }: { courses: Course[] }) => {
   };
   const router = useRouter();
   return (
-    <section className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+    <section className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 sm:place-items-center">
       {courses?.map((course) => (
         <CourseCard
           key={course.id}

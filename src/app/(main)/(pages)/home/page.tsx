@@ -12,7 +12,7 @@ export default async function MyCoursesPage() {
 
   return (
     <main className="flex flex-col gap-4 pb-16 pt-8">
-      <div className="flex flex-col justify-between gap-4 lg:flex-row">
+      <div className="flex flex-col justify-between gap-4 lg:flex-row sm:text-center sm:justify-center">
         <h1 className="text-wrap text-3xl font-extrabold capitalize tracking-tighter md:text-4xl">
           <Greeting /> {session.user.name}
         </h1>
