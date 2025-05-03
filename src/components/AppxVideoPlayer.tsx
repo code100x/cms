@@ -45,20 +45,20 @@ export const AppxVideoPlayer = ({
   }, []);
 
   const handleKeyPressIframe = (event: KeyboardEvent) => {
-    if (event.code === 'KeyF') {
-      event.preventDefault();
-      if (!iframeRef.current) {
-        return;
-      }
-      if (iframeRef.current) {
+    switch(event.code) {
+      case 'KeyF':
+        event.preventDefault();
+        if (!iframeRef.current) {
+          return;
+        }
+        if (iframeRef.current) {
         if(!document.fullscreenElement) {
           iframeRef.current.requestFullscreen();
         }
         else if(document.fullscreenElement){
           document.exitFullscreen();
         }
-      }
-      
+      }      
     }
   };
 
