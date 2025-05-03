@@ -13,6 +13,7 @@ export const AppxVideoPlayer = ({
 }) => {
   const [url, setUrl] = useState('');
   const doneRef = useRef(false);
+  const iframeRef = useRef<HTMLIFrameElement | null>(null);
 
   useEffect(() => {
     (async () => {
@@ -33,10 +34,39 @@ export const AppxVideoPlayer = ({
     })();
   }, []);
 
+  useEffect(() => {
+    if(typeof window === 'undefined') {
+      return;
+    }
+    window.addEventListener('keydown', handleKeyPressIframe);
+    return () => {
+      window.removeEventListener('keydown', handleKeyPressIframe);
+    };
+  }, []);
+
+  const handleKeyPressIframe = (event: KeyboardEvent) => {
+    if (event.code === 'KeyF') {
+      event.preventDefault();
+      if (!iframeRef.current) {
+        return;
+      }
+      if (iframeRef.current) {
+        if(!document.fullscreenElement) {
+          iframeRef.current.requestFullscreen();
+        }
+        else if(document.fullscreenElement){
+          document.exitFullscreen();
+        }
+      }
+      
+    }
+  };
+
   if (!url.length) {
     return <p>Loading...</p>;
   }
   return <iframe
+    ref={iframeRef}
     src={url}
     className="w-full rounded-lg aspect-video"
     allowFullScreen
