@@ -258,7 +258,7 @@ export function Sidebar({
                 Course Content
               </h4>
               <FilterContent
-                className="bg-[#171717] text-white mt-1 "
+                className=" flex items-center mt-1 "
                 ref={filterRef}
               />
               <Button
