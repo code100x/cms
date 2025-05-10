@@ -241,11 +241,13 @@ async function getRootCourseContent(courseId: number): Promise<
 export function getVideoProgressForUser(
   userId: string,
   markAsCompleted?: boolean,
+  currentTimestamp?: number
 ) {
   return db.videoProgress.findMany({
     where: {
       userId,
       markAsCompleted,
+      currentTimestamp
     },
   });
 }
