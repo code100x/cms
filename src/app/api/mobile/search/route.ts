@@ -3,6 +3,7 @@ import db from '@/db';
 import { CourseContent } from '@prisma/client';
 import Fuse from 'fuse.js';
 import { NextRequest, NextResponse } from 'next/server';
+import { validateAuthHeader } from '@/lib/validateAuthHeader';
 
 export type TSearchedVideos = {
   id: number;
@@ -25,10 +26,12 @@ export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
     const searchQuery = searchParams.get('q');
-    const user = JSON.parse(request.headers.get('g') || '');
+    
+    // Use the secure validation helper instead of direct parsing
+    const user = validateAuthHeader(request);
 
     if (!user) {
-      return NextResponse.json({ message: 'User Not Found' }, { status: 400 });
+      return NextResponse.json({ message: 'Unauthorized' }, { status: 403 });
     }
 
     if (searchQuery && searchQuery.length > 2) {

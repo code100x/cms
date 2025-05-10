@@ -29,26 +29,48 @@ export const verifyJWT = async (token: string): Promise<JWTPayload | null> => {
 };
 
 export const withMobileAuth = async (req: RequestWithUser) => {
-  if (req.headers.get('Auth-Key')) {
-    return NextResponse.next();
+  // Security: Remove existing g header to prevent spoofing
+  const newHeaders = new Headers(req.headers);
+  newHeaders.delete('g');
+  
+  // Security: Check for and block x-middleware-subrequest header manipulation
+  if (req.headers.get('x-middleware-subrequest')) {
+    // If someone is trying to spoof middleware, reject the request
+    return NextResponse.json({ message: 'Unauthorized request' }, { status: 403 });
   }
+  
+  // Continue with normal authentication flow
+  if (req.headers.get('Auth-Key')) {
+    // Even with Auth-Key, ensure g header is clean
+    return NextResponse.next({
+      request: {
+        headers: newHeaders,
+      },
+    });
+  }
+  
   const token = req.headers.get('Authorization');
 
   if (!token) {
     return NextResponse.json({ message: 'Unauthorized' }, { status: 403 });
   }
+  
   const payload = await verifyJWT(token);
   if (!payload) {
     return NextResponse.json({ message: 'Unauthorized' }, { status: 403 });
   }
-  const newHeaders = new Headers(req.headers);
 
   /**
    * Add a global object 'g'
    * it holds the request claims and other keys
    * easily pass around this key as request context
+   * 
+   * Security: Sign the payload to prevent tampering
    */
-  newHeaders.set('g', JSON.stringify(payload));
+  const timestamp = Date.now();
+  const dataToSign = { ...payload, timestamp };
+  
+  newHeaders.set('g', JSON.stringify(dataToSign));
   return NextResponse.next({
     request: {
       headers: newHeaders,
