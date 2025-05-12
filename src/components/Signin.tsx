@@ -33,7 +33,7 @@ const Signin = () => {
   const dropdownRef = useRef<HTMLUListElement>(null);
 
   function togglePasswordVisibility() {
-    setIsPasswordVisible((prevState: any) => !prevState);
+    setIsPasswordVisible((prevState: boolean) => !prevState);
   }
   const router = useRouter();
   const email = useRef('');
@@ -99,12 +99,12 @@ const Signin = () => {
       handleSuggestionClick(suggestedDomains[focusedIndex]);
     } else if (e.key === 'ArrowDown') {
       e.preventDefault();
-      setFocusedIndex((prevIndex) =>
+      setFocusedIndex((prevIndex: number) =>
         Math.min(prevIndex + 1, suggestedDomains.length - 1),
       );
     } else if (e.key === 'ArrowUp') {
       e.preventDefault();
-      setFocusedIndex((prevIndex) => Math.max(prevIndex - 1, 0));
+      setFocusedIndex((prevIndex: number) => Math.max(prevIndex - 1, 0));
     }
   };
 
@@ -247,14 +247,14 @@ const Signin = () => {
                   id="password"
                   placeholder="••••••••"
                   ref={passwordRef}
-                  onChange={(e) => {
-                    setRequiredError((prevState) => ({
+                  onChange={(e: { target: { value: any; }; }) => {
+                    setRequiredError((prevState: any) => ({
                       ...prevState,
                       passReq: false,
                     }));
                     password.current = e.target.value;
                   }}
-                  onKeyDown={async (e) => {
+                  onKeyDown={async (e: { key: string; }) => {
                     if (e.key === 'Enter') {
                       setIsPasswordVisible(false);
                       handleSubmit();
