@@ -10,6 +10,8 @@ import {
 import { SidebarItems } from './ui/sidebar-items';
 import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
+import { isSideBarCollapsed } from '@/store/atoms/isSideBarCollabsed';
+import { useRecoilState } from 'recoil';
 
 export const menuOptions = [
   { id: 1, name: 'Home', Component: Home, href: '/home' },
@@ -45,6 +47,8 @@ export default useMediaQuery;
 
 export const Appbar = () => {
   const [isCollapsed, setIsCollapsed] = useState(true);
+  const [isSidebarCollapsed,setIsSidebarCollapsed] = useRecoilState(isSideBarCollapsed);
+  setIsSidebarCollapsed(isCollapsed); 
   const [isMounted, setIsMounted] = useState(false);
   const isMediumToXL = useMediaQuery(
     '(min-width: 768px) and (max-width: 1535px)',
@@ -56,6 +60,7 @@ export const Appbar = () => {
     const handleClickOutside = (event: MouseEvent) => {
       if (sidebarRef.current && !sidebarRef.current.contains(event.target as Node)) {
         setIsCollapsed(true);
+        setIsSidebarCollapsed(true);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
@@ -64,7 +69,10 @@ export const Appbar = () => {
     };   
   }, []);
 
-  const toggleCollapse = () => setIsCollapsed(!isCollapsed);
+  const toggleCollapse = () => {
+     setIsCollapsed(!isCollapsed);
+     setIsSidebarCollapsed(!isSidebarCollapsed);
+    };
 
   const sidebarVariants = {
     expanded: { width: '20vw' },
@@ -88,7 +96,7 @@ export const Appbar = () => {
         className="fixed left-0 top-0 z-[999] hidden h-full flex-col border-r border-primary/10 bg-background dark:bg-background lg:flex min-w-16"
       >
         <div className="flex h-full flex-col gap-4">
-          <div className="flex w-full items-center border-b border-primary/10 px-2 py-4">
+          <div className="flex w-full items-center border-b border-primary/10 px-2 py-3">
             <div>
               <motion.button
                 onClick={toggleCollapse}
