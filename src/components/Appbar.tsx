@@ -69,10 +69,10 @@ export const Appbar = () => {
     };   
   }, []);
 
-  const toggleCollapse = () =>{
+  const toggleCollapse = () => {
      setIsCollapsed(!isCollapsed);
      setIsSidebarCollapsed(!isSidebarCollapsed);
-    }
+    };
 
   const sidebarVariants = {
     expanded: { width: '20vw' },

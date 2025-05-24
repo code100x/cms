@@ -8,10 +8,8 @@ interface Props {
   children: React.ReactNode;
 }
 
-export default function Layout({ children }: Props) {
-
+export default function Layout({children}: Props) {
   const isCollapsed=useRecoilValue(isSideBarCollapsed);
-
   return (
     <div className="flex min-h-screen w-full">
       <Appbar />

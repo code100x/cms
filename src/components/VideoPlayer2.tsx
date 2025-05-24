@@ -111,9 +111,7 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
   };
 
   const setupZoomFeatures = (player: any) => {
-
     if (typeof window === 'undefined' || typeof document === 'undefined') return;
-  
     const videoEl = player.el().querySelector('video');
     const container = player.el();
     

@@ -9,9 +9,7 @@ interface Props {
 }
 
 const CourseLayout = (props: Props) => {
-
   const isCollapsed=useRecoilValue(isSideBarCollapsed);
-
   return (
     <div className="flex min-h-screen">
       <Appbar />
