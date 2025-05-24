@@ -6,6 +6,7 @@ import { ChevronDown, ChevronUp } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import { Button } from '../ui/button';
 import Link from 'next/link';
+import { encryptBlob, saveVideoToIndexedDB } from '@/lib/offlineVideo';
 
 export const ContentRendererClient = ({
   metadata,
@@ -73,6 +74,25 @@ export const ContentRendererClient = ({
     setShowChapters((prev) => !prev);
   };
 
+  // Download, encrypt, and store video for offline use
+  const handleDownloadOffline = async () => {
+    try {
+      const videoUrl = metadata?.[quality || '1080'] || '';
+      if (!videoUrl) {
+        alert('No video URL found for this quality.');
+        return;
+      }
+      const response = await fetch(videoUrl);
+      if (!response.ok) throw new Error('Failed to fetch video');
+      const blob = await response.blob();
+      const { data, iv } = await encryptBlob(blob);
+      await saveVideoToIndexedDB(content.id, data, iv);
+      alert('Video saved for offline viewing!');
+    } catch (err) {
+      alert('Failed to save video for offline use.');
+    }
+  };
+
   return (
     <div className="flex w-full flex-col gap-2">
       <div className="flex w-full flex-col">
@@ -109,11 +129,22 @@ export const ContentRendererClient = ({
             <h2 className="line-clamp-2 text-wrap text-2xl font-extrabold capitalize tracking-tight text-primary md:text-3xl">
               {content.title}
             </h2>
-            {metadata.slides ? (
-              <Link href={metadata.slides} target="_blank">
-                <Button className="gap-2">Lecture Slides</Button>
-              </Link>
-            ) : null}
+            <div className="flex gap-2">
+              {metadata.slides ? (
+                <Link href={metadata.slides} target="_blank">
+                  <Button className="gap-2">Lecture Slides</Button>
+                </Link>
+              ) : null}
+              {content.type === 'video' && (
+                <Button
+                  className="gap-2"
+                  variant="secondary"
+                  onClick={handleDownloadOffline}
+                >
+                  Download
+                </Button>
+              )}
+            </div>
           </div>
 
           {!showChapters && metadata.segments?.length > 0 && (
