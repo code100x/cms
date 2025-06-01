@@ -197,7 +197,8 @@ async function getAllContent(): Promise<
     },
   });
   cache.set('getAllContent', [], allContent);
-
+  console.log("allContent ", allContent);
+  
   return allContent;
 }
 
@@ -242,6 +243,7 @@ export function getVideoProgressForUser(
   userId: string,
   markAsCompleted?: boolean,
 ) {
+
   return db.videoProgress.findMany({
     where: {
       userId,
@@ -286,8 +288,26 @@ export const getFullCourseContent = async (
   const courseContent = await getRootCourseContent(courseId);
   const videoProgress = await getVideoProgressForUser(session?.user?.id);
   const bookmarkData = await getBookmarkData();
+  const getVideoMetaData = await db.VideoMetadata.findMany({
+    select:{
+      contentId:true,
+      segments:true,
+      duration:true, 
+    }
+  }) 
+
   const contentMap = new Map<string, FullCourseContent>(
-    contents.map((content: any) => [
+    contents.map((content: any) => {
+      const metadata = getVideoMetaData.find(
+        (metadata:any) => metadata.contentId === content.id
+      );
+      // Get the segments array
+      const segments = metadata?.segments || [];
+      // Get the last end value
+      const lastEnd = segments.length > 0 ? segments[segments.length - 1].end : null;
+   
+
+      return [
       content.id,
       {
         ...content,
@@ -301,11 +321,11 @@ export const getFullCourseContent = async (
               markAsCompleted: videoProgress.find(
                 (x) => x.contentId === content.id,
               )?.markAsCompleted,
-              videoFullDuration: content.VideoMetadata?.duration,
+              videoFullDuration: lastEnd
             }
             : null,
       },
-    ]),
+    ]}),
   );
 
   const rootContents: FullCourseContent[] = [];

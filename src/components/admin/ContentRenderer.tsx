@@ -154,7 +154,6 @@ export const ContentRenderer = async ({
 
   // @ts-ignore
   const appxVideoId: string = metadata?.appxVideoJSON?.[appxCourseId] ?? '';
-
   return (
     <div>
       <ContentRendererClient

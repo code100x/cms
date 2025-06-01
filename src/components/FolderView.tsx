@@ -35,7 +35,6 @@ export const FolderView = ({
     courseContent,
     currentfilter,
   );
-
   if (filteredCourseContent?.length === 0) {
     const filterMessages = {
       watched: "You haven't completed any content in this section yet.",
