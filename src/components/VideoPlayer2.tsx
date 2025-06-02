@@ -594,7 +594,7 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
   
     const startInterval = () => {
       if (interval) return;
-      interval = window.setInterval(sendProgress, 1000);  
+      interval = window.setInterval(sendProgress, 10000);  
     };
   
     const stopInterval = () => {
