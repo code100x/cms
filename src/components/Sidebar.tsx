@@ -42,6 +42,7 @@ export function Sidebar({
   courseId: string;
 }) {
   const pathName = usePathname();
+  const isVideoPlayerPage = pathName.startsWith('/video/');
   const [sidebarOpen, setSidebarOpen] = useRecoilState(sidebarOpenAtom);
   const [currentActiveContentIds, setCurrentActiveContentIds] = useState<
     number[]
@@ -257,10 +258,13 @@ export function Sidebar({
               <h4 className="text-xl font-bold tracking-tighter text-primary lg:text-2xl">
                 Course Content
               </h4>
-              <FilterContent
-                className="bg-gray-400 text-black"
-                ref={filterRef}
-              />
+              {!isVideoPlayerPage && (
+                <FilterContent
+                  className="bg-gray-400 text-black"
+                  ref={filterRef}
+                />
+              )}
+
               <Button
                 variant="ghost"
                 size="icon"
