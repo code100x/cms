@@ -1,6 +1,12 @@
 # Copies .env.example and changes it to .env so that future commands can find the env file
 cp .env.example .env
 
+# If the container is already running or exists, stop and remove it
+if [ "$(docker ps -aq -f name=cms-db)" ]; then
+  echo "Stopping and removing existing cms-db container..."
+  docker stop cms-db
+  docker rm cms-db
+fi
 
 # Start PostgreSQL container
 docker run -d \
