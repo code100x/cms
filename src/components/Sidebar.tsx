@@ -1,6 +1,6 @@
 'use client';
 import React, { useRef } from 'react';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import {
   Accordion,
   AccordionContent,
@@ -255,7 +255,7 @@ export function Sidebar({
             <div className="sticky top-0 z-10 flex items-center justify-between border-b border-primary/10 bg-neutral-50 p-5 dark:bg-neutral-900">
               {' '}
               <h4 className="text-xl font-bold tracking-tighter text-primary lg:text-2xl">
-                Course Content
+                Course Content1
               </h4>
               <FilterContent
                 className="bg-gray-400 text-black"
@@ -287,6 +287,7 @@ function Check({ content }: { content: any }) {
   const [completed, setCompleted] = useState(
     content?.videoProgress?.markAsCompleted || false,
   );
+  const router = useRouter();
 
   const handleCheck = useCallback(
     async (e: React.MouseEvent<HTMLInputElement>) => {
@@ -294,8 +295,9 @@ function Check({ content }: { content: any }) {
       const newState = !completed;
       setCompleted(newState);
       await handleMarkAsCompleted(newState, content.id);
+      router.refresh(); // Soft refresh the page to get new data
     },
-    [completed, content.id],
+    [completed, content.id, router],
   );
 
   return (
