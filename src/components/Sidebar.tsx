@@ -255,7 +255,7 @@ export function Sidebar({
             <div className="sticky top-0 z-10 flex items-center justify-between border-b border-primary/10 bg-neutral-50 p-5 dark:bg-neutral-900">
               {' '}
               <h4 className="text-xl font-bold tracking-tighter text-primary lg:text-2xl">
-                Course Content1
+                Course Content
               </h4>
               <FilterContent
                 className="bg-gray-400 text-black"
