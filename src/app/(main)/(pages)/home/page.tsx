@@ -1,13 +1,13 @@
 import { Greeting } from '@/components/Greeting';
 import { MyCourses } from '@/components/MyCourses';
-import { Redirect } from '@/components/Redirect';
+import { redirect } from 'next/navigation';
 import { getServerSession } from 'next-auth';
 
 export default async function MyCoursesPage() {
   const session = await getServerSession();
 
   if (!session?.user) {
-    return <Redirect to={'/'} />;
+    return redirect('/');
   }
 
   return (
