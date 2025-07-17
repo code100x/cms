@@ -56,7 +56,8 @@ export const CourseView = ({
           courseId={courseContent.value.id}
         />
       ) : null}
-      {!courseContent?.folder && (contentType === 'video' || contentType === 'appx') ? (
+      {!courseContent?.folder &&
+      (contentType === 'video' || contentType === 'appx') ? (
         <ContentRenderer
           nextContent={nextContent}
           content={{

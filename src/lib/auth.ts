@@ -61,12 +61,12 @@ async function validateUser(
 ): Promise<
   | { data: null }
   | {
-    data: {
-      name: string;
-      userid: string;
-      token: string;
-    };
-  }
+      data: {
+        name: string;
+        userid: string;
+        token: string;
+      };
+    }
 > {
   if (process.env.LOCAL_CMS_PROVIDER) {
     if (password === '123456') {

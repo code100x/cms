@@ -39,28 +39,28 @@ export const FolderView = ({
   if (filteredCourseContent?.length === 0) {
     const filterMessages = {
       watched: "You haven't completed any content in this section yet.",
-      watching: "No content currently in progress.",
-      unwatched: "No new content available to watch.",
-      all: "No content available in this section.",
+      watching: 'No content currently in progress.',
+      unwatched: 'No new content available to watch.',
+      all: 'No content available in this section.',
     };
-  
+
     return (
       <div className="mt-56 flex">
-        <div className="m-auto text-center text-gray-500 text-xl">
-          {filterMessages[currentfilter] || "No content found."}
+        <div className="m-auto text-center text-xl text-gray-500">
+          {filterMessages[currentfilter] || 'No content found.'}
         </div>
       </div>
     );
   }
-  
+
   return (
     <div>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
         {filteredCourseContent.map((content) => {
           const videoProgressPercent =
             content.type === 'video' &&
-              content.videoFullDuration &&
-              content.duration
+            content.videoFullDuration &&
+            content.duration
               ? (content.duration / content.videoFullDuration) * 100
               : content.percentComplete || 0;
 

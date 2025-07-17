@@ -38,7 +38,6 @@ const Footer = () => {
                 Follow us
               </h4>
               <div className="flex gap-4">
-
                 {/* X Button */}
                 <Link
                   target="_blank"
@@ -74,7 +73,6 @@ const Footer = () => {
                 >
                   <GitHubLogo />
                 </Link>
-                
               </div>
             </div>
           </div>
