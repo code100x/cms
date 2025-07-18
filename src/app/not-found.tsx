@@ -1,6 +1,5 @@
 import React from 'react';
 import Link from 'next/link';
-import { Button } from '../components/ui/button';
 
 const NotFound = () => {
   return (
@@ -12,9 +11,14 @@ const NotFound = () => {
         <p className="mb-8 text-lg text-muted-foreground md:text-xl">
           Oops! The page you're looking for doesn't exist.
         </p>
-        <Button asChild size="lg">
-          <Link href="/">Go Back Home</Link>
-        </Button>
+        
+        {/* Simplified approach to avoid hydration issues */}
+        <Link 
+          href="/"
+          className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground dark:text-neutral-950 hover:bg-primary/90 h-11 rounded-md px-8"
+        >
+          Go Back Home
+        </Link>
       </main>
     </div>
   );
