@@ -4,6 +4,7 @@ import { ContentCard } from './ContentCard';
 import { courseContent, getFilteredContent } from '@/lib/utils';
 import { useRecoilValue } from 'recoil';
 import { selectFilter } from '@/store/atoms/filterContent';
+import { useEffect, useRef } from 'react';
 
 export const FolderView = ({
   courseContent,
@@ -29,7 +30,7 @@ export const FolderView = ({
   }
   // why? because we have to reset the segments or they will be visible always after a video
 
-  const currentfilter = useRecoilValue(selectFilter);
+  const currentfilter:string = useRecoilValue(selectFilter);
 
   const filteredCourseContent = getFilteredContent(
     courseContent,
@@ -37,7 +38,8 @@ export const FolderView = ({
   );
 
   if (filteredCourseContent?.length === 0) {
-    const filterMessages = {
+    const filterMessages: Record<string, string> = {
+      
       watched: "You haven't completed any content in this section yet.",
       watching: "No content currently in progress.",
       unwatched: "No new content available to watch.",
@@ -52,7 +54,35 @@ export const FolderView = ({
       </div>
     );
   }
-  
+  const lastScrollPosition = useRef(0);
+
+  useEffect(() => {    
+    const savedPosition = sessionStorage.getItem('scrollPosition');
+
+    if (savedPosition) {
+      // Add a small delay to ensure content is rendered
+      setTimeout(() => {
+        window.scrollTo(0, parseInt(savedPosition, 10),);
+      console.log("Restoring scroll position to:", savedPosition);
+      }, 100);
+    }
+    const handleScroll = () => {
+      // const currentPosition = windowRef.current ? windowRef.current.scrollTop : 0;
+      const currentPosition = window.scrollY;
+      lastScrollPosition.current = currentPosition;
+
+      sessionStorage.setItem('scrollPosition', currentPosition.toString());
+
+      if (currentPosition > lastScrollPosition.current) {
+        console.log("Scrolling down");
+      } else {
+        console.log("Scrolling up");
+      }
+    };
+    // if (windowRef.current)
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []); 
   return (
     <div>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -72,7 +102,7 @@ export const FolderView = ({
               title={content.title}
               image={content.image || ''}
               onClick={() => {
-                router.push(`${updatedRoute}/${content.id}`);
+                router.push(`${updatedRoute}/${content.id}`,{scroll: false});
               }}
               markAsCompleted={content.markAsCompleted}
               percentComplete={content.percentComplete}
