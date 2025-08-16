@@ -18,6 +18,7 @@ import { toast } from 'sonner';
 import { createRoot } from 'react-dom/client';
 import { PictureInPicture2 } from 'lucide-react';
 import { AppxVideoPlayer } from './AppxVideoPlayer';
+import HammerInput from 'hammerjs';
 
 // todo correct types
 interface VideoPlayerProps {
@@ -111,7 +112,6 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
   };
 
   const setupZoomFeatures = (player: any) => {
-
     if (typeof window === 'undefined' || typeof document === 'undefined') return;
   
     const videoEl = player.el().querySelector('video');
