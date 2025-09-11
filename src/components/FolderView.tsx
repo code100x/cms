@@ -1,9 +1,10 @@
 'use client';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { ContentCard } from './ContentCard';
 import { courseContent, getFilteredContent } from '@/lib/utils';
 import { useRecoilValue } from 'recoil';
 import { selectFilter } from '@/store/atoms/filterContent';
+import { useEffect } from 'react';
 
 export const FolderView = ({
   courseContent,
@@ -15,6 +16,15 @@ export const FolderView = ({
   courseContent: courseContent[];
 }) => {
   const router = useRouter();
+  const pathname = usePathname();
+
+  // restore scroll when this page mounts
+  useEffect(() => {
+    const saved = sessionStorage.getItem(`scroll-${pathname}`);
+    if (saved) {
+      window.scrollTo(0, Number(saved));
+    }
+  }, [pathname]);
 
   if (!courseContent?.length) {
     return (
@@ -72,6 +82,11 @@ export const FolderView = ({
               title={content.title}
               image={content.image || ''}
               onClick={() => {
+                // save scroll before navigation
+                sessionStorage.setItem(
+                  `scroll-${window.location.pathname}`,
+                  String(window.scrollY)
+                );
                 router.push(`${updatedRoute}/${content.id}`);
               }}
               markAsCompleted={content.markAsCompleted}
