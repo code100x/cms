@@ -16,15 +16,13 @@ export const FolderView = ({
   courseContent: courseContent[];
 }) => {
   const router = useRouter();
-  const pathname = usePathname();
 
-  // restore scroll when this page mounts
   useEffect(() => {
-    const saved = sessionStorage.getItem(`scroll-${pathname}`);
+    const saved = sessionStorage.getItem('scrollPosition');
     if (saved) {
       window.scrollTo(0, Number(saved));
     }
-  }, [pathname]);
+  }, []);
 
   if (!courseContent?.length) {
     return (
@@ -82,11 +80,7 @@ export const FolderView = ({
               title={content.title}
               image={content.image || ''}
               onClick={() => {
-                // save scroll before navigation
-                sessionStorage.setItem(
-                  `scroll-${window.location.pathname}`,
-                  String(window.scrollY)
-                );
+                sessionStorage.setItem('scrollPosition', String(window.scrollY));
                 router.push(`${updatedRoute}/${content.id}`);
               }}
               markAsCompleted={content.markAsCompleted}
