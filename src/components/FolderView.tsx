@@ -1,5 +1,5 @@
 'use client';
-import { usePathname, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { ContentCard } from './ContentCard';
 import { courseContent, getFilteredContent } from '@/lib/utils';
 import { useRecoilValue } from 'recoil';
