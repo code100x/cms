@@ -1,7 +1,7 @@
+"use client";
 import { QueryParams } from '@/actions/types';
-import { getUpdatedUrl } from '@/lib/utils';
-import Link from 'next/link';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import videojs from 'video.js';
 
 type TimeCodeCommentProps = {
   comment: string;
@@ -11,96 +11,76 @@ type TimeCodeCommentProps = {
 };
 
 const TimeCodeComment: React.FC<TimeCodeCommentProps> = ({
-  comment,
-  possiblePath,
-  searchParams,
-  contentId,
-}) => {
-  const timeCodeRegex = /(?:(\d{1,2}):)?(\d{1,2}):(\d{1,2})/g;
-  const urlRegex = /((https)?:\/\/[^\s]+)/g;
+                                                           comment,
+                                                           searchParams,
+                                                         }) => {
+  const [player, setPlayer] = useState<any>(null);
+  const [currentTime, setCurrentTime] = useState(0);
+  const {timestamp} = searchParams;
 
-  const convertToSeconds = (timeCode: string): number => {
-    const parts = timeCode.split(':').reverse().map(Number);
-    return (parts || []).reduce(
-      (acc, part, index) => acc + part * Math.pow(60, index),
-      0,
-    );
+  useEffect(() => {
+    const allPlayers = videojs.getAllPlayers();
+    const activePlayer = allPlayers[0];
+    setPlayer(activePlayer);
+  }, []);
+
+  useEffect(() => {
+    if (player) {
+      const intervalId = setInterval(() => {
+        setCurrentTime(player.currentTime());
+      }, 1000);
+
+      return () => clearInterval(intervalId);
+    }
+  }, [player]);
+
+  const isTimeStamp = (value: string) => {
+    // Matches mm:ss or hh:mm:ss
+    const regex = /^(\d{1,2}:)?\d{1,2}:\d{2}$/;
+    return regex.test(value);
   };
 
-  const processLine = (line: string) => {
-    const elements = [];
-    let lastIndex = 0;
-    let match;
+  const toTimeStamp = (value: string): number => {
+    const parts = value.split(":").map(Number);
 
-    while ((match = timeCodeRegex.exec(line)) !== null) {
-      if (match.index > lastIndex) {
-        elements.push(
-          <span key={`text-${lastIndex}`}>
-            {line.substring(lastIndex, match.index)}
-          </span>,
-        );
-      }
-
-      const timeInSeconds = convertToSeconds(match[0]);
-      elements.push(
-        <Link
-          key={`timecode-${match.index}`}
-          className="text-blue-500 hover:underline"
-          href={getUpdatedUrl(
-            `/courses/${contentId}/${possiblePath}`,
-            searchParams,
-            {
-              timestamp: timeInSeconds,
-            },
-          )}
-        >
-          {match[0]}
-        </Link>,
-      );
-
-      lastIndex = match.index + match[0].length;
+    if (parts.length === 2) {
+      const [m, s] = parts;
+      return m * 60 + s;
+    } else if (parts.length === 3) {
+      const [h, m, s] = parts;
+      return h * 3600 + m * 60 + s;
     }
 
-    while ((match = urlRegex.exec(line)) !== null) {
-      if (match.index > lastIndex) {
-        elements.push(
-          <span key={`text-${lastIndex}`}>
-            {line.substring(lastIndex, match.index)}
-          </span>,
-        );
-      }
+    throw new Error("Invalid timestamp format");
+  };
 
-      elements.push(
-        <Link
-          key={`url-${match.index}`}
-          href={match[0]}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-blue-500 hover:underline"
-        >
-          {match[0]}
-        </Link>,
-      );
-
-      lastIndex = match.index + match[0].length;
+  const handleTimeStampClick = (value : string) => {
+    const time = toTimeStamp(value);
+    if (player) {
+      player.currentTime(time);
+     // player.play();
     }
-
-    if (lastIndex < line.length) {
-      elements.push(
-        <span key={`text-end-${lastIndex}`}>{line.substring(lastIndex)}</span>,
-      );
-    }
-
-    return elements;
   };
 
   return (
     <p className="text-wrap">
-      {comment.split('\n').map((line, index) => (
-        <React.Fragment key={`line-${index}`}>
-          {processLine(line)}
-          <br />
-        </React.Fragment>
+      {comment.split('\n').map((line, lineIndex) => (
+        <span key={`line-${lineIndex}`} className="block">
+      {line.split(' ').map((word, wordIndex) => (
+        <span
+          key={`word-${lineIndex}-${wordIndex}`}
+          className={`mr-1 ${isTimeStamp(word) ? "text-blue-500 cursor-pointer" : ""}`}
+          onClick={() => {
+            if (isTimeStamp(word)) {
+              handleTimeStampClick(word);
+            }
+          }}
+        >
+  {word}
+</span>
+
+      ))}
+    </span>
       ))}
     </p>
   );
