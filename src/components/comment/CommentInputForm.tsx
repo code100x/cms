@@ -7,6 +7,8 @@ import { toast } from 'sonner';
 import { FormErrors } from '../FormError';
 import { usePathname } from 'next/navigation';
 
+const maxCommentLength = 400;
+
 const CommentInputForm = ({
   contentId,
   parentId = undefined,
@@ -108,10 +110,18 @@ const CommentInputForm = ({
         className="w-full resize-none border-b border-primary/25 bg-transparent p-4 focus:outline-none focus:ring-0"
         placeholder={parentId ? 'Add a reply...' : 'Add a comment...'}
         onChange={(e) => {
-          adjustTextareaHeight();
-          setCommentText(e.target.value);
+          const currentText = e.target.value;
+          if(currentText<=maxCommentLength){
+            adjustTextareaHeight();
+            setCommentText(e.target.value);
+          }
+          
         }} // Adjust height on text change
+
       />
+      <p className="text-sm text-gray-400 text-right">
+        {commentText.length}/{maxCommentLength}
+      </p>
       <FormErrors id="content" errors={fieldErrors} />
 
       <Button type="submit" disabled={isButtonDisabled} className="w-fit">
