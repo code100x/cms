@@ -6,6 +6,7 @@ import { getFolderPercentCompleted } from '@/lib/utils';
 import { QueryParams } from '@/actions/types';
 import BreadCrumbComponent from './BreadCrumbComponent';
 import Comments from './comment/Comments';
+import { LastWatchedVideo } from './ui/LastWatchedVideo';
 // import { Sidebar } from './Sidebar';
 
 export const CourseView = ({
@@ -48,6 +49,9 @@ export const CourseView = ({
           fullCourseContent={fullCourseContent}
           rest={rest}
         />
+        {courseContent?.folder && (
+          <LastWatchedVideo courseId={parseInt(course.id, 10)} />
+        )}
       </div>
 
       {!courseContent?.folder && courseContent?.value.type === 'notion' ? (

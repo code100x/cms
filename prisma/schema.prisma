@@ -22,6 +22,7 @@ model Course {
   purchasedBy     UserPurchases[]
   certificate     Certificate[]
   certIssued      Boolean         @default(false)
+  LastWatched     LastWatched[]
 }
 
 model UserPurchases {
@@ -53,6 +54,7 @@ model Content {
   comments         Comment[]
   commentsCount    Int             @default(0)
   bookmark         Bookmark[]
+  LastWatched      LastWatched[]
 }
 
 model CourseContent {
@@ -62,6 +64,18 @@ model CourseContent {
   contentId Int
 
   @@id([courseId, contentId])
+}
+
+model LastWatched {
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  courseId  Int
+  course    Course   @relation(fields: [courseId], references: [id])
+  contentId Int?
+  content   Content? @relation(fields: [contentId], references: [id])
+  updatedAt DateTime @updatedAt
+
+  @@id([userId, courseId])
 }
 
 model Certificate {
@@ -164,6 +178,7 @@ model User {
   solanaAddresses   SolanaAddress[]    @relation("UserSolanaAddresses")
   githubUser        GitHubLink?        @relation("UserGithub")
   bounties          BountySubmission[]
+  LastWatched       LastWatched[]
 }
 
 model GitHubLink {
