@@ -40,7 +40,7 @@ const Signin = () => {
   const password = useRef('');
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
+    const value = e.target.value.trim(); // Trim whitespace
     email.current = value;
 
     setFocusedIndex(0);
@@ -113,6 +113,10 @@ const Signin = () => {
     if (e) {
       e.preventDefault();
     }
+
+    // Trim whitespace before validation
+    email.current = email.current.trim();
+    password.current = password.current.trim();
 
     if (!email.current || !password.current) {
       setRequiredError({
