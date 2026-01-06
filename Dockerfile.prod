@@ -13,8 +13,8 @@ COPY . .
 
 RUN npm install -g pnpm && \
   pnpm install && \
-  pnpm install -g  node-pre-gyp && \
-  cd node_modules/node-pre-gyp && node-pre-gyp install --fallback-to-build  && cd ../.. && \
+  npm install -g node-pre-gyp && \
+  cd node_modules/bcrypt && node-pre-gyp install --fallback-to-build  && cd ../.. && \
   pnpm add sharp && \
   pnpm run build
 
