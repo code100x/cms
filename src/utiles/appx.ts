@@ -13,13 +13,14 @@ import { refreshDbInternal } from '@/actions/refresh-db';
 
 const LOCAL_CMS_PROVIDER = process.env.LOCAL_CMS_PROVIDER;
 const COHORT_3_PARENT_COURSES = [8, 9, 10, 11, 12];
+const COHORT_4_PARENT_COURSES = [25, 26, 27, 28]
 // 8 -> Web + Devops + Web3
 // 9 -> Web + Devops
 // 10 -> Web3
 // 11 -> Web
 // 12 -> Devops
 
-export const APPX_COURSE_IDS = [1, 2, 3, 8, 9, 10, 11, 12];
+export const APPX_COURSE_IDS = [1, 2, 3, 8, 9, 10, 11, 12, 25, 26, 27, 28];
 
 function getExtraCourses(currentCourses: Course[], allCourses: Course[]) {
   const hasCohort2 = currentCourses
@@ -30,57 +31,100 @@ function getExtraCourses(currentCourses: Course[], allCourses: Course[]) {
     COHORT_3_PARENT_COURSES.map((x) => x.toString()).includes(x.id.toString()),
   );
 
+  const hasCohort4 = currentCourses.find((x) => COHORT_4_PARENT_COURSES.map((y) => y.toString()).includes(x.id.toString()));
+
   let initialCourses: Course[] = [];
 
   if (hasCohort2) {
     initialCourses = [...allCourses.filter((x) => x.openToEveryone)];
-  } else if (hasCohort3) {
+  } else if (hasCohort3 || hasCohort4) {
     initialCourses = [...allCourses.filter((x) => x.id === 7 || x.id === 4)];
   }
 
   // We break down parent courses into child courses
   // for eg, (web dev + devops) breaks down to web dev and devops
-  if (!hasCohort3) return initialCourses;
+  if (!hasCohort3 && !hasCohort4) return initialCourses;
+  let userCourses: Course[] = [];
+  userCourses = [...initialCourses];
 
-  const userCourses = [...initialCourses];
+  if (hasCohort3) {
+    let hasWebDev = false;
+    let hasDevOps = false;
+    let hasWeb3 = false;
+    if (currentCourses.find((x) => x.id === 8)) {
+      hasWebDev = true;
+      hasDevOps = true;
+      hasWeb3 = true;
+    }
 
-  let hasWebDev = false;
-  let hasDevOps = false;
-  let hasWeb3 = false;
-  if (currentCourses.find((x) => x.id === 8)) {
-    hasWebDev = true;
-    hasDevOps = true;
-    hasWeb3 = true;
+    if (currentCourses.find((x) => x.id === 9)) {
+      hasWebDev = true;
+      hasDevOps = true;
+    }
+
+    if (currentCourses.find((x) => x.id === 10)) {
+      hasWeb3 = true;
+    }
+
+    if (currentCourses.find((x) => x.id === 11)) {
+      hasWebDev = true;
+    }
+
+    if (currentCourses.find((x) => x.id === 12)) {
+      hasDevOps = true;
+    }
+
+    if (hasWebDev) {
+      userCourses.push(allCourses.find((x) => x.id === 14)!);
+    }
+
+    if (hasDevOps) {
+      userCourses.push(allCourses.find((x) => x.id === 15)!);
+    }
+
+    if (hasWeb3) {
+      userCourses.push(allCourses.find((x) => x.id === 13)!);
+      userCourses.push(allCourses.find((x) => x.id === 20)!);
+    }
   }
 
-  if (currentCourses.find((x) => x.id === 9)) {
-    hasWebDev = true;
-    hasDevOps = true;
-  }
+  if (hasCohort4) {
+    let hasWebDev = false;
+    let hasAi = false;
+    let hasWeb3 = false;
+    if (currentCourses.find((x) => x.id === 24)) {
+      hasWebDev = true;
+      hasAi = true;
+      hasWeb3 = true;
+    }
 
-  if (currentCourses.find((x) => x.id === 10)) {
-    hasWeb3 = true;
-  }
+    if (currentCourses.find((x) => x.id === 25)) {
+      hasWebDev = true;
+    }
 
-  if (currentCourses.find((x) => x.id === 11)) {
-    hasWebDev = true;
-  }
+    if (currentCourses.find((x) => x.id === 27)) {
+      hasAi = true;
+    }
 
-  if (currentCourses.find((x) => x.id === 12)) {
-    hasDevOps = true;
-  }
+    if (currentCourses.find((x) => x.id === 26)) {
+      hasWeb3 = true;
+    }
 
-  if (hasWebDev) {
-    userCourses.push(allCourses.find((x) => x.id === 14)!);
-  }
+    if (hasWebDev) {
+      userCourses.push(allCourses.find((x) => x.id === 21)!);
+    }
 
-  if (hasDevOps) {
-    userCourses.push(allCourses.find((x) => x.id === 15)!);
-  }
+    if (hasAi) {
+      userCourses.push(allCourses.find((x) => x.id === 23)!);
+    }
 
-  if (hasWeb3) {
-    userCourses.push(allCourses.find((x) => x.id === 13)!);
-    userCourses.push(allCourses.find((x) => x.id === 20)!);
+    if (hasWeb3) {
+      userCourses.push(allCourses.find((x) => x.id === 22)!);
+    }
+
+    if (hasWeb3 || hasAi || hasWebDev) {
+      userCourses.push(allCourses.find((x) => x.id === 24)!);
+    }
   }
 
   return userCourses;
@@ -169,7 +213,8 @@ export async function getPurchases(email: string): Promise<CoursesResponse> {
       ...getExtraCourses(coursesFromDb, courses),
     ]
       .filter((x) => x.id)
-      .filter((x) => !COHORT_3_PARENT_COURSES.includes(x.id));
+      .filter((x) => !COHORT_3_PARENT_COURSES.includes(x.id))
+      .filter((x) => !COHORT_4_PARENT_COURSES.includes(x.id));
     cache.set('courses', [email], allCourses, 60 * 60);
     return {
       type: 'success',
@@ -202,6 +247,7 @@ export async function getPurchases(email: string): Promise<CoursesResponse> {
 
     // Remove the parent courses, child courses already added in getExtraCourses
     responses.filter((x) => !COHORT_3_PARENT_COURSES.includes(x.id));
+    responses.filter((x) => !COHORT_4_PARENT_COURSES.includes(x.id));
 
     cache.set('courses', [email], responses, 60 * 60 * 24);
     refreshDbInternal(session?.user.id, session?.user.email);
@@ -239,6 +285,10 @@ export async function getAppxCourseId(courseId: string) {
     13: ['8', '10'],
     14: ['8', '9', '11'],
     15: ['8', '9', '12'],
+    21: ['28', '25'],
+    22: ['26', '25'],
+    23: ['27', '25'],
+    24: ['28', '25', '26', '27'],
   };
 
   let appxCourseId: string | null = null;
