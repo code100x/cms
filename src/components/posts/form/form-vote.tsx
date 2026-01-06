@@ -9,7 +9,6 @@ import { ArrowBigDown, ArrowBigUp } from 'lucide-react';
 import { voteHandlerAction } from '@/actions/commentVote';
 import { VoteType } from '@prisma/client';
 import { usePathname } from 'next/navigation';
-
 interface IVoteFormProps {
   questionId: number | undefined;
   answerId: number | undefined;
@@ -53,7 +52,6 @@ const VoteForm: React.FC<IVoteFormProps> = ({
           }
     );
   };
-  
 
   const userVoted = Boolean(votesArr.length);
   const userVoteVal = votesArr[0];

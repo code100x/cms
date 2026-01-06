@@ -13,7 +13,7 @@ import { refreshDbInternal } from '@/actions/refresh-db';
 
 const LOCAL_CMS_PROVIDER = process.env.LOCAL_CMS_PROVIDER;
 const COHORT_3_PARENT_COURSES = [8, 9, 10, 11, 12];
-const COHORT_4_PARENT_COURSES = [25, 26, 27, 28]
+const COHORT_4_PARENT_COURSES = [25, 26, 27, 28];
 // 8 -> Web + Devops + Web3
 // 9 -> Web + Devops
 // 10 -> Web3

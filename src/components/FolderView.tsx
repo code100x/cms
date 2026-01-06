@@ -47,7 +47,7 @@ export const FolderView = ({
     return (
       <div className="mt-56 flex">
         <div className="m-auto text-center text-gray-500 text-xl">
-          {filterMessages[currentfilter] || "No content found."}
+          {filterMessages[currentfilter as keyof typeof filterMessages] || "No content found."}
         </div>
       </div>
     );
