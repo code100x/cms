@@ -157,6 +157,7 @@ model User {
   appxUserId        String?
   appxUsername      String?
   appxAuthToken     String?
+  lastLoginIp       String?
   questions         Question[]
   answers           Answer[]
   certificate       Certificate[]

@@ -39,13 +39,14 @@ interface user {
   token: string;
 }
 
-const generateJWT = async (payload: JWTPayload) => {
+const generateJWT = async (payload: JWTPayload, userIp: string) => {
   const secret = process.env.JWT_SECRET || 'secret';
 
   const jwk = await importJWK({ k: secret, alg: 'HS256', kty: 'oct' });
 
   const jwt = await new SignJWT({
     ...payload,
+    userIp,
     iat: Math.floor(Date.now() / 1000),
     jti: randomUUID(), // Adding a unique jti to ensure each token is unique. This helps generate a unique jwtToken on every login
   })
@@ -119,8 +120,9 @@ export const authOptions = {
         username: { label: 'email', type: 'text', placeholder: '' },
         password: { label: 'password', type: 'password', placeholder: '' },
       },
-      async authorize(credentials: any) {
+      async authorize(credentials: any, req: any) {
         try {
+          const userIp = req.headers['x-forwarded-for']?.split(',')[0] || req.socket.remoteAddress;
           if (process.env.LOCAL_CMS_PROVIDER) {
             return {
               id: '1',
@@ -128,7 +130,7 @@ export const authOptions = {
               email: 'test@gmail.com',
               token: await generateJWT({
                 id: '1',
-              }),
+              }, userIp),
             };
           }
           const hashedPassword = await bcrypt.hash(credentials.password, 10);
@@ -152,13 +154,14 @@ export const authOptions = {
           ) {
             const jwt = await generateJWT({
               id: userDb.id,
-            });
+            }, userIp);
             await db.user.update({
               where: {
                 id: userDb.id,
               },
               data: {
                 token: jwt,
+                lastLoginIp: userIp
               },
             });
 
@@ -177,7 +180,7 @@ export const authOptions = {
 
           const jwt = await generateJWT({
             id: user.data?.userid,
-          });
+          }, userIp);
 
           if (user.data) {
             try {
