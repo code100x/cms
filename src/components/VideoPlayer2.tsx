@@ -348,7 +348,8 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
   }, [player]);
 
   useEffect(() => {
-    const t = searchParams.get('timestamp');
+    const t = searchParams.get('timestamp'); 
+    
     if (contentId && player && !t) {
       fetch(`/api/course/videoProgress?contentId=${contentId}`).then(
         async (res) => {
@@ -572,51 +573,45 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
   }, [player]);
 
   useEffect(() => {
-    if (!player) {
-      return;
-    }
-    let interval = 0;
-    const handleVideoProgress = () => {
-      if (!player) {
-        return;
-      }
-      interval = window.setInterval(
-        async () => {
-          if (!player) {
-            return;
-          }
-          //@ts-ignore
-          if (player?.paused()) {
-            return;
-          }
-          const currentTime = player.currentTime();
-          if (currentTime <= 20) {
-            return;
-          }
-          await fetch('/api/course/videoProgress', {
-            body: JSON.stringify({
-              currentTimestamp: currentTime,
-              contentId,
-            }),
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          });
+    if (!player) return;
+    let interval: number | null = null;
+  
+    const sendProgress = async () => {
+      if (!player || player.paused()) return;
+      const currentTime = player.currentTime();
+      await fetch('/api/course/videoProgress', {
+        body: JSON.stringify({
+          currentTimestamp: currentTime,
+          contentId,
+        }),
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
         },
-        Math.ceil((100 * 1000) / player.playbackRate()),
-      );
+      });
     };
-    const handleVideoEnded = (interval: number) => {
-      handleMarkAsCompleted(true, contentId);
-      window.clearInterval(interval);
-      onVideoEnd();
+  
+    const startInterval = () => {
+      if (interval) return;
+      interval = window.setInterval(sendProgress, 10000);  
     };
-
-    player.on('play', handleVideoProgress);
-    player.on('ended', () => handleVideoEnded(interval));
+  
+    const stopInterval = () => {
+      if (interval) {
+        clearInterval(interval);
+        interval = null;
+      }
+    };
+  
+    player.on('play', startInterval);
+    player.on('pause', stopInterval);
+    player.on('ended', stopInterval);
+  
     return () => {
-      window.clearInterval(interval);
+      stopInterval();
+      player.off('play', startInterval);
+      player.off('pause', stopInterval);
+      player.off('ended', stopInterval);
     };
   }, [player, contentId]);
 
