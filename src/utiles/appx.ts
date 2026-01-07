@@ -92,7 +92,7 @@ function getExtraCourses(currentCourses: Course[], allCourses: Course[]) {
     let hasWebDev = false;
     let hasAi = false;
     let hasWeb3 = false;
-    if (currentCourses.find((x) => x.id === 24)) {
+    if (currentCourses.find((x) => x.id === 28)) {
       hasWebDev = true;
       hasAi = true;
       hasWeb3 = true;
