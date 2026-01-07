@@ -42,6 +42,7 @@ export const ContentCard = ({
       <Tooltip>
         <TooltipTrigger asChild>
           <motion.div
+            id={`${type}-${contentId}`}
             onClick={onClick}
             tabIndex={0}
             role="button"

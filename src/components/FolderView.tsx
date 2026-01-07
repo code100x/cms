@@ -2,8 +2,11 @@
 import { useRouter } from 'next/navigation';
 import { ContentCard } from './ContentCard';
 import { courseContent, getFilteredContent } from '@/lib/utils';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { selectFilter } from '@/store/atoms/filterContent';
+import { useEffect } from 'react';
+import { currentFolderState } from '@/store/atoms';
+import axios from 'axios';
 
 export const FolderView = ({
   courseContent,
@@ -15,6 +18,19 @@ export const FolderView = ({
   courseContent: courseContent[];
 }) => {
   const router = useRouter();
+
+  const [currentFolderId,setCurrentFolderId]=useRecoilState(currentFolderState);
+  useEffect(()=>{
+    if(!currentFolderId) return;
+    const element=document.getElementById(String(`folder-${currentFolderId}`));
+    if(element){
+      element.scrollIntoView({
+        behavior:'smooth',
+        block:'center'
+      });
+      element.focus();
+    }
+  },[currentFolderId])
 
   if (!courseContent?.length) {
     return (
@@ -29,7 +45,7 @@ export const FolderView = ({
   }
   // why? because we have to reset the segments or they will be visible always after a video
 
-  const currentfilter = useRecoilValue(selectFilter);
+  const currentfilter = useRecoilValue(selectFilter) as 'watched' | 'watching' | 'unwatched' | 'all';;
 
   const filteredCourseContent = getFilteredContent(
     courseContent,
@@ -72,6 +88,15 @@ export const FolderView = ({
               title={content.title}
               image={content.image || ''}
               onClick={() => {
+                if(content.type==="folder"){
+                  setCurrentFolderId(content.id);
+                }else if(content.type==='video'){
+                  axios.post('/api/user/last-watched',
+                    {
+                      contentId:content.id,
+                      courseId
+                    });
+                }
                 router.push(`${updatedRoute}/${content.id}`);
               }}
               markAsCompleted={content.markAsCompleted}

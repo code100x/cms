@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { NotionRenderer as NotionRendererLib } from 'react-notion-x';
 // core styles shared by all of react-notion-x (required)
 import 'react-notion-x/src/styles.css';
@@ -36,6 +36,8 @@ export const NotionRenderer = ({
   const { resolvedTheme } = useTheme();
 
   const [data, setData] = useState(null);
+  const hasMarkedComplete=useRef(false);
+
   async function main() {
     const res = await fetch(`/api/notion?id=${id}`);
     const json = await res.json();
@@ -43,10 +45,22 @@ export const NotionRenderer = ({
   }
 
   useEffect(() => {
-    main();
+    const fetchData=async()=>{
+      const res=await fetch(`/api/notion?id=${id}`);
+      const json=await res.json();
+      setData(json.recordMap);
+    }
+    fetchData();
+
+    const timer=setTimeout(()=>{
+      if(!hasMarkedComplete.current){
+        handleMarkAsCompleted(true,courseId);
+        hasMarkedComplete.current=true;
+      }
+    },2000);
 
     return () => {
-      handleMarkAsCompleted(true, courseId);
+      clearTimeout(timer);
     };
   }, [id]);
 
