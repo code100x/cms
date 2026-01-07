@@ -114,12 +114,15 @@ async function validateUser(
 export const authOptions = {
   providers: [
     CredentialsProvider({
+      id: 'credentials',
       name: 'Credentials',
       credentials: {
         username: { label: 'email', type: 'text', placeholder: '' },
         password: { label: 'password', type: 'password', placeholder: '' },
       },
       async authorize(credentials: any) {
+        console.log("LOCAL_CMS_PROVIDER =", process.env.LOCAL_CMS_PROVIDER);
+
         try {
           if (process.env.LOCAL_CMS_PROVIDER) {
             return {
@@ -131,7 +134,7 @@ export const authOptions = {
               }),
             };
           }
-          const hashedPassword = await bcrypt.hash(credentials.password, 10);
+          // const hashedPassword = await bcrypt.hash(credentials.password, 10);
 
           const userDb = await prisma.user.findFirst({
             where: {
@@ -147,8 +150,7 @@ export const authOptions = {
           if (
             userDb &&
             userDb.password &&
-            (await bcrypt.compare(credentials.password, userDb.password)) &&
-            userDb?.appxAuthToken
+            await bcrypt.compare(credentials.password, userDb.password)
           ) {
             const jwt = await generateJWT({
               id: userDb.id,
@@ -180,6 +182,10 @@ export const authOptions = {
           });
 
           if (user.data) {
+            const hashedPassword = await bcrypt.hash(
+              credentials.password,
+              10,
+            )
             try {
               await db.user.upsert({
                 where: {

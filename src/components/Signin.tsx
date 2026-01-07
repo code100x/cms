@@ -36,12 +36,15 @@ const Signin = () => {
     setIsPasswordVisible((prevState: any) => !prevState);
   }
   const router = useRouter();
-  const email = useRef('');
-  const password = useRef('');
+  // const email = useRef('');
+  // const password = useRef('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    email.current = value;
+    // email.current = value.trim();
+    setEmail(value);
 
     setFocusedIndex(0);
     setRequiredError((prevState) => ({
@@ -86,9 +89,9 @@ const Signin = () => {
   };
 
   const handleSuggestionClick = (domain: string) => {
-    const [username] = email.current.split('@');
+    const [username] = email.split('@');
     const newEmail = `${username}@${domain}`;
-    email.current = newEmail;
+    setEmail(newEmail);
     passwordRef.current?.focus();
     setSuggestedDomains([]);
   };
@@ -114,21 +117,21 @@ const Signin = () => {
       e.preventDefault();
     }
 
-    if (!email.current || !password.current) {
+    if (!email || !password) {
       setRequiredError({
-        emailReq: email.current ? false : true,
-        passReq: password.current ? false : true,
+        emailReq: email ? false : true,
+        passReq: password ? false : true,
       });
       toast.dismiss(loadId);
       return;
     }
     setCheckingPassword(true);
     const res = await signIn('credentials', {
-      username: email.current,
-      password: password.current,
+      username: email.trim(),
+      password: password,
       redirect: false,
     });
-
+   console.log('SignIn Response:', res);
     toast.dismiss(loadId);
     if (!res?.error) {
       router.push('/');
@@ -199,12 +202,12 @@ const Signin = () => {
                 name="email"
                 id="email"
                 placeholder="name@email.com"
-                value={email.current}
+                value={email}
                 onChange={handleEmailChange}
                 onKeyDown={handleKeyDown}
                 onBlur={() => setSuggestedDomains([])} // Hide suggestions on blur
               />
-              {email.current && suggestedDomains.length > 0 && (
+              {email && suggestedDomains.length > 0 && (
                 <ul
                   ref={dropdownRef}
                   className={`absolute top-20 z-50 max-h-96 w-full min-w-[8rem] overflow-auto rounded-md border bg-popover text-popover-foreground shadow-md data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2`}
@@ -226,7 +229,7 @@ const Signin = () => {
                             : ''
                         }`}
                       >
-                        {email.current.split('@')[0]}@{domain}
+                        {email.split('@')[0]}@{domain}
                       </li>
                       {index < suggestedDomains.length - 1 && <Separator />}
                     </>
@@ -252,7 +255,7 @@ const Signin = () => {
                       ...prevState,
                       passReq: false,
                     }));
-                    password.current = e.target.value;
+                    setPassword(e.target.value);
                   }}
                   onKeyDown={async (e) => {
                     if (e.key === 'Enter') {
@@ -311,7 +314,7 @@ const Signin = () => {
           <Button
             size={'lg'}
             variant={'branding'}
-            disabled={!email.current || !password.current || checkingPassword}
+            disabled={!email || !password || checkingPassword}
             onClick={handleSubmit}
           >
             Login
