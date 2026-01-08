@@ -36,8 +36,11 @@ const createBookmarkHandler = async (
     });
     reloadBookmarkPage();
     return { data: addedBookmark };
-  } catch (error: any) {
-    return { error: error.message || 'Failed to create comment.' };
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      return { error: error.message};
+    }
+    return {  error: 'Failed to create comment.' };
   }
 };
 
@@ -58,8 +61,11 @@ const deleteBookmarkHandler = async (
     });
     reloadBookmarkPage();
     return { data: deletedBookmark };
-  } catch (error: any) {
-    return { error: error.message || 'Failed to create comment.' };
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      return { error: error.message};
+    }
+    return {  error: 'Failed to create comment.' };
   }
 };
 
