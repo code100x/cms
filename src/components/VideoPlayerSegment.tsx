@@ -40,8 +40,34 @@ export const VideoPlayerSegment: FunctionComponent<VideoProps> = ({
   appxCourseId
 }) => {
   const playerRef = useRef<Player | null>(null);
-
   const thumbnailPreviewRef = useRef<HTMLDivElement>(null);
+
+  const generateThumbnail = (time: number) => {
+    if (!playerRef.current) return;
+    const video = playerRef.current.tech().el() as HTMLVideoElement;
+    
+    // Create an offscreen video element to extract frames
+    const offscreenVideo = document.createElement("video");
+    offscreenVideo.src = video.src;
+    offscreenVideo.currentTime = time;
+    offscreenVideo.muted = true;
+    
+    offscreenVideo.addEventListener("seeked", () => {
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d");
+
+      if (!ctx) return;
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      
+      ctx.drawImage(offscreenVideo, 0, 0, canvas.width, canvas.height);
+
+      if (thumbnailPreviewRef.current) {
+        thumbnailPreviewRef.current.style.backgroundImage = `url(${canvas.toDataURL()})`;
+        thumbnailPreviewRef.current.style.display = "block";
+      }
+    }, { once: true });
+  };
 
   const overrideUpdateTime = (player: Player) => {
     const seekBar = player
@@ -62,29 +88,28 @@ export const VideoPlayerSegment: FunctionComponent<VideoProps> = ({
             const segmentName = getCurrentSegmentName(time, segments);
             this.write(`${time} - ${segmentName}`);
 
-            // Delay the execution to ensure the tooltip width is calculated after the content update
+            generateThumbnail(parseFloat(time));
+
             setTimeout(() => {
               const tooltipWidth = this.el().offsetWidth;
-              // Calculate the offset from the right side
-              const rightOffset = tooltipWidth / 2;
-              this.el().style.right = `-${rightOffset}px`;
-
-              // Adjust the left style to 'auto' to avoid conflict with the right property
+              this.el().style.right = `-${tooltipWidth / 2}px`;
               this.el().style.left = 'auto';
-              this.el().style.width = '200px';
+              this.el().style.width = '220px';
               this.el().style.fontSize = '14px';
             }, 0);
           };
-        } else {
-          console.error('TimeTooltip component not found.');
-        }
-      } else {
-        console.error('MouseTimeDisplay component not found.');
+        } 
+
+        // Hide preview when mouse leaves seek bar
+        seekBar.on('mouseout', () => {
+          if (thumbnailPreviewRef.current) {
+            thumbnailPreviewRef.current.style.display = 'none';
+          }
+        });
       }
-    } else {
-      console.error('SeekBar component not found.');
     }
   };
+
   const handlePlayerReady = async (player: Player) => {
     playerRef.current = player;
 
@@ -98,7 +123,7 @@ export const VideoPlayerSegment: FunctionComponent<VideoProps> = ({
         <div
           id="thumbnail-preview"
           ref={thumbnailPreviewRef}
-          className="pointer-events-none absolute z-10 hidden h-full w-full bg-cover bg-no-repeat"
+          className="pointer-events-none absolute z-10 hidden h-24 w-40 bg-cover bg-no-repeat rounded shadow-lg"
         />
         <VideoPlayer
           setQuality={setQuality}
