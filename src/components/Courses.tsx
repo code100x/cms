@@ -2,15 +2,29 @@
 
 import { Course } from '@/store/atoms';
 import { CourseCard } from './CourseCard';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Button } from './ui/button';
 import { refreshDb } from '@/actions/refresh-db';
 import { useSession } from 'next-auth/react';
 import { toast } from 'sonner';
 import Link from 'next/link';
+import { useEffect } from 'react';
 
 export const Courses = ({ courses }: { courses: Course[] }) => {
   const session = useSession();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    const url = `${pathname}${searchParams.size > 0 ? `?${searchParams.toString()}` : ""}`;
+
+    const scrollPosition = sessionStorage.getItem(`scrollPos:${url}`);
+      
+    if (scrollPosition) {
+      window.scrollTo(0, parseInt(scrollPosition, 10));
+      sessionStorage.removeItem(`scrollPos:${url}`); // Optional: Clear after restore
+    }
+  }, []);
 
   const handleClick = async () => {
     // @ts-ignore
@@ -21,23 +35,34 @@ export const Courses = ({ courses }: { courses: Course[] }) => {
       toast.info(res.message);
     }
   };
+
   const router = useRouter();
+
+  const handleCardClick = (course: Course) => {
+    saveScrollPosition();
+    if (
+      course.title.includes('Machine Learning') ||
+      course.title.includes('Harnoor')
+    ) {
+      router.push('https://harkirat.classx.co.in/');
+    } else {
+      router.push(`/courses/${course.id}`);
+    }
+  };
+
+  const saveScrollPosition = () => {
+      const currentPath = `${pathname}${searchParams.size > 0 ? `?${searchParams.toString()}` : ""}`;
+      const scrollPosition = window.scrollY;
+      sessionStorage.setItem(`scrollPos:${currentPath}`, scrollPosition.toString());
+  };
+
   return (
     <section className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
       {courses?.map((course) => (
         <CourseCard
           key={course.id}
           course={course}
-          onClick={() => {
-            if (
-              course.title.includes('Machine Learning') ||
-              course.title.includes('Harnoor')
-            ) {
-              router.push('https://harkirat.classx.co.in/');
-            } else {
-              router.push(`/courses/${course.id}`);
-            }
-          }}
+          onClick={() => handleCardClick(course)}
         />
       ))}
       <div
