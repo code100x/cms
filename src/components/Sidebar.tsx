@@ -34,6 +34,24 @@ const sidebarVariants = {
   },
 };
 
+const ConditionalFilterContent = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLProps<HTMLDivElement>
+>(({ className }, ref) => {
+  const pathName = usePathname();
+  const isVideoPlayerPage = pathName.startsWith('/video/');
+
+  if (isVideoPlayerPage) return null;
+
+  return (
+    <FilterContent
+      className={className}
+      ref={ref as React.RefObject<HTMLDivElement>}
+    />
+  );
+});
+ConditionalFilterContent.displayName = 'ConditionalFilterContent';
+
 export function Sidebar({
   courseId,
   fullCourseContent,
@@ -42,6 +60,7 @@ export function Sidebar({
   courseId: string;
 }) {
   const pathName = usePathname();
+  const isVideoPlayerPage = pathName.startsWith('/video/');
   const [sidebarOpen, setSidebarOpen] = useRecoilState(sidebarOpenAtom);
   const [currentActiveContentIds, setCurrentActiveContentIds] = useState<
     number[]
@@ -257,10 +276,11 @@ export function Sidebar({
               <h4 className="text-xl font-bold tracking-tighter text-primary lg:text-2xl">
                 Course Content
               </h4>
-              <FilterContent
+              <ConditionalFilterContent
                 className="bg-gray-400 text-black"
                 ref={filterRef}
               />
+
               <Button
                 variant="ghost"
                 size="icon"
