@@ -102,7 +102,20 @@ async function validateUser(
     }
 
     const data = await response.json();
-    return data as any; // Or process data as needed
+    
+    // Validate response structure
+   if (!data?.data?.userid || !data?.data?.name) {
+    console.error('Invalid API response:', data);
+   return { data: null };
+  }
+
+  return {
+   data: {
+     name: data.data.name,
+     userid: data.data.userid,
+     token: data.data.token || '',
+    }
+  };
   } catch (error) {
     console.error('Error validating user:', error);
   }
