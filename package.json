@@ -46,7 +46,7 @@
     "@uiw/react-md-editor": "^4.0.4",
     "autoprefixer": "^10.4.20",
     "axios": "^1.6.2",
-    "bcrypt": "^5.1.1",
+    "bcryptjs": "^3.0.3",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "cmdk": "1.0.0",
@@ -93,6 +93,7 @@
   "devDependencies": {
     "@testing-library/jest-dom": "^6.4.5",
     "@testing-library/react": "^15.0.7",
+    "@types/bcryptjs": "^3.0.0",
     "@types/hammerjs": "^2.0.46",
     "@types/node": "^20",
     "@types/react": "^18",
