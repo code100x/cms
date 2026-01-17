@@ -18,6 +18,7 @@ import { toast } from 'sonner';
 import { createRoot } from 'react-dom/client';
 import { PictureInPicture2 } from 'lucide-react';
 import { AppxVideoPlayer } from './AppxVideoPlayer';
+import { getVideoFromIndexedDB, decryptBlob } from '@/lib/offlineVideo';
 
 // todo correct types
 interface VideoPlayerProps {
@@ -59,8 +60,9 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
   const videoRef = useRef<HTMLDivElement>(null);
   const playerRef = useRef<Player | null>(null);
   const [player, setPlayer] = useState<any>(null);
+  const [offlineUrl, setOfflineUrl] = useState<string | null>(null);
   const searchParams = useSearchParams();
-  const vidUrl = options.sources[0].src;
+  const vidUrl = offlineUrl || options.sources[0].src;
 
   const togglePictureInPicture = async () => {
     try {
@@ -590,125 +592,40 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
             return;
           }
           const currentTime = player.currentTime();
-          if (currentTime <= 20) {
-            return;
+          if (contentId) {
+            await fetch('/api/course/videoProgress', {
+              method: 'POST',
+              body: JSON.stringify({
+                contentId,
+                progress: currentTime,
+              }),
+              headers: {
+                'Content-Type': 'application/json',
+              },
+            });
           }
-          await fetch('/api/course/videoProgress', {
-            body: JSON.stringify({
-              currentTimestamp: currentTime,
-              contentId,
-            }),
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          });
         },
-        Math.ceil((100 * 1000) / player.playbackRate()),
+        1000,
       );
     };
-    const handleVideoEnded = (interval: number) => {
-      handleMarkAsCompleted(true, contentId);
-      window.clearInterval(interval);
-      onVideoEnd();
-    };
-
-    player.on('play', handleVideoProgress);
-    player.on('ended', () => handleVideoEnded(interval));
+    handleVideoProgress();
     return () => {
-      window.clearInterval(interval);
+      if (interval) {
+        clearInterval(interval);
+      }
     };
   }, [player, contentId]);
 
   useEffect(() => {
-    if (!playerRef.current && videoRef.current) {
-      const videoElement = document.createElement('video-js');
-      videoElement.classList.add('vjs-big-play-centered');
-      videoRef.current.appendChild(videoElement);
-      const player: any = (playerRef.current = videojs(
-        videoElement,
-        {
-          ...options,
-          playbackRates: [0.5, 1, 1.25, 1.5, 1.75, 2],
-        },
-        () => {
-          player.mobileUi(); // mobile ui #https://github.com/mister-ben/videojs-mobile-ui
-          player.eme(); // Initialize EME
-          setupZoomFeatures(player);
-          player.seekButtons({
-            forward: 15,
-            back: 15,
-          });
-
-          player.qualitySelector = setQuality;
-          const qualitySelector = player.controlBar.addChild(
-            'QualitySelectorControllBar',
-          );
-          const controlBar = player.getChild('controlBar');
-          const fullscreenToggle = controlBar.getChild('fullscreenToggle');
-
-          controlBar
-            .el()
-            .insertBefore(qualitySelector.el(), fullscreenToggle.el());
-
-          const pipButton = createPipButton(player);
-          controlBar.el().insertBefore(pipButton.el(), fullscreenToggle.el());
-
-          setPlayer(player);
-          if (options.isComposite) {
-            player.spriteThumbnails({
-              interval: options.delta,
-              url: options.thumbnail.secure_url,
-              width: options.width,
-              height: options.height,
-            });
-          }
-          player.on('loadedmetadata', () => {
-            if (onReady) {
-              onReady(player);
-            }
-          });
-          // Focus the video player when toggling fullscreen
-          player.on('fullscreenchange', () => {
-            videoElement.focus();
-          });
-        },
-      ));
-
-      if (
-        options.sources &&
-        options.sources[0].type.includes('application/dash+xml')
-      ) {
-        player.src(options.sources[0]);
+    (async () => {
+      const offline = await getVideoFromIndexedDB(contentId);
+      if (offline) {
+        const blob = await decryptBlob(offline.encrypted, offline.iv);
+        const url = URL.createObjectURL(blob);
+        setOfflineUrl(url);
       }
-    }
-  }, [options, onReady]);
-
-  useEffect(() => {
-    if (player) {
-      const currentTime = player.currentTime();
-      player.src(options.sources[0]);
-      player.currentTime(currentTime);
-    }
-  }, [options.sources[0]]);
-
-  useEffect(() => {
-    const player = playerRef.current;
-    return () => {
-      if (player && !player.isDisposed()) {
-        player.dispose();
-        playerRef.current = null;
-      }
-    };
-  }, []);
-
-  useEffect(() => {
-    const t = searchParams.get('timestamp');
-
-    if (player && t) {
-      player.currentTime(parseInt(t, 10));
-    }
-  }, [searchParams, player]);
+    })();
+  }, [contentId]);
 
   const isYoutubeUrl = (url: string) => {
     const regex = /^https:\/\/www\.youtube\.com\/embed\/[a-zA-Z0-9_-]+/;
@@ -729,5 +646,3 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
     </div>
   );
 };
-
-export default VideoPlayer;
