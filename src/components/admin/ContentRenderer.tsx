@@ -88,6 +88,7 @@ export const getMetadata = async (contentId: number) => {
     segments: metadata['segments'],
     thumbnails: metadata['thumbnail_mosiac_url'],
     appxVideoJSON: metadata['appxVideoJSON'],
+    slidesType: metadata['slidesType'],
   };
 
   if (user?.bunnyProxyEnabled) {
@@ -106,6 +107,7 @@ export const getMetadata = async (contentId: number) => {
     segments: metadata['segments'],
     thumbnails: metadata['thumbnail_mosiac_url'],
     appxVideoJSON: metadata['appxVideoJSON'],
+    slidesType: metadata['slidesType'],
   };
 
   const isHighestQualityUrlAccessible = await isUrlAccessible(mainUrls['1080']);

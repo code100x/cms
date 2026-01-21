@@ -12,6 +12,7 @@ import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { Label } from '../ui/label';
 import { toast } from 'sonner';
+import { RadioGroup, RadioGroupItem } from '../ui/radio-group';
 
 export const UpdateVideoClient = ({
   content,
@@ -28,6 +29,7 @@ export const UpdateVideoClient = ({
   const [link1080, setLink1080] = useState('');
   const [link720, setLink720] = useState('');
   const [link360, setLink360] = useState('');
+  const [slidesType, setSlidesType] = useState('NOTION');
 
   const [link1080_mp4, setLink1080_mp4] = useState('');
   const [link720_mp4, setLink720_mp4] = useState('');
@@ -183,7 +185,20 @@ export const UpdateVideoClient = ({
                   type="text"
                   placeholder="Admin password"
                   onChange={(e) => setAdminPassword(e.target.value)}
-                />
+                  />
+              <span className='gap-2 my-2 text-xl'>Slides Type</span>
+
+              <RadioGroup defaultValue="NOTION"  className='grid-cols-4' onValueChange={(value) => setSlidesType(value)}>
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="NOTION" id="notion" />
+                  <Label htmlFor="notion">Notion</Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="NOT_NOTION" id="other" />
+                  <Label htmlFor="other">Other Type</Label>
+                </div>
+              </RadioGroup>
+
                 <Button
                   className="my-4 w-full rounded p-2 font-bold text-white lg:w-[20%]"
                   onClick={async () => {
@@ -192,6 +207,7 @@ export const UpdateVideoClient = ({
                       contentId: content.id,
                       updates: {
                         slides: pdfLink,
+                        slidesType,
                       },
                     });
                   }}

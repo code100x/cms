@@ -1,6 +1,8 @@
 import { atom } from 'recoil';
 
-export const selectFilter = atom({
+export type FilterType = 'watched' | 'watching' | 'unwatched' | 'all';
+
+export const selectFilter = atom<FilterType>({
   key: 'selectFilter',
-  default: '',
+  default: 'all',
 });

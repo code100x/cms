@@ -133,7 +133,25 @@ async function seedContent() {
       },
       {
         type: 'video',
-        title: 'test video for week 1',
+        title: 'test video for week 1 - notion slides',
+        hidden: false,
+        thumbnail:
+          'https://appx-recordings.s3.ap-south-1.amazonaws.com/drm/100x/images/week-1-orientation.jpg',
+        parentId: folderId,
+        commentsCount: 0,
+      },
+      {
+        type: 'video',
+        title: 'test video 2 for week 1 - pdf slides',
+        hidden: false,
+        thumbnail:
+          'https://appx-recordings.s3.ap-south-1.amazonaws.com/drm/100x/images/week-1-orientation.jpg',
+        parentId: folderId,
+        commentsCount: 0,
+      },
+      {
+        type: 'video',
+        title: 'test video 2 for week 1 - projects.100xdevs.com slides',
         hidden: false,
         thumbnail:
           'https://appx-recordings.s3.ap-south-1.amazonaws.com/drm/100x/images/week-1-orientation.jpg',
@@ -179,12 +197,22 @@ async function seedNotionMetadata() {
   }
 }
 
-async function seedVideoMetadata() {
+async function seedVideoMetadata({
+  slides,
+  slidesType,
+  id,
+  contentId,
+}: {
+  slides: string;
+  slidesType: 'NOTION' | 'NOT_NOTION';
+  contentId: number;
+  id: number;
+}) {
   try {
     await db.videoMetadata.create({
       data: {
-        id: 1,
-        contentId: 3,
+        id,
+        contentId,
         video_1080p_mp4_1: 'https://www.w3schools.com/html/mov_bbb.mp4',
         video_1080p_mp4_2: 'https://www.w3schools.com/html/mov_bbb.mp4',
         video_1080p_mp4_3: 'https://www.w3schools.com/html/mov_bbb.mp4',
@@ -209,13 +237,13 @@ async function seedVideoMetadata() {
         video_360p_2: 'https://www.w3schools.com/html/mov_bbb.mp4',
         video_360p_3: 'https://www.w3schools.com/html/mov_bbb.mp4',
         video_360p_4: 'https://www.w3schools.com/html/mov_bbb.mp4',
-        slides:
-          'https://appx-recordings.s3.ap-south-1.amazonaws.com/drm/100x/slides/Loops%2C+callbacks.pdf',
-          segments: [
-            { title: "Introduction", start: 0, end: 3 },
-            { title: "Chapter 1", start: 3, end: 7 },
-            { title: "Conclusion", start: 7, end: 10 }
-          ]
+        slides,
+        segments: [
+          { title: 'Introduction', start: 0, end: 3 },
+          { title: 'Chapter 1', start: 3, end: 7 },
+          { title: 'Conclusion', start: 7, end: 10 },
+        ],
+        slidesType,
       },
     });
   } catch (error) {
@@ -294,7 +322,25 @@ async function seedDatabase() {
     await seedContent();
     await seedCourseContent();
     await seedNotionMetadata();
-    await seedVideoMetadata();
+    await seedVideoMetadata({
+      id: 1,
+      contentId: 3,
+      slides: '39298af78c0f4c4ea780fd448551bad3',
+      slidesType: 'NOTION',
+    });
+    await seedVideoMetadata({
+      id: 2,
+      contentId: 4,
+      slides:
+        'https://media.geeksforgeeks.org/wp-content/cdn-uploads/20210101201653/PDF.pdf',
+      slidesType: 'NOT_NOTION',
+    });
+    await seedVideoMetadata({
+      id: 3,
+      contentId: 5,
+      slides: 'https://projects.100xdevs.com',
+      slidesType: 'NOT_NOTION',
+    });
     await seedPurchases();
     await addClassesFromAugustToMay();
   } catch (error) {

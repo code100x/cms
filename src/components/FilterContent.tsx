@@ -4,7 +4,7 @@ import { Check, ChevronsUpDown } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { useRecoilState } from 'recoil';
-import { selectFilter } from '@/store/atoms/filterContent';
+import { FilterType, selectFilter } from '@/store/atoms/filterContent';
 import {
   Command,
   CommandGroup,
@@ -59,7 +59,7 @@ export const FilterContent = forwardRef<HTMLDivElement, FilterContentProps>(
                     value={filters.value}
                     className={`px-4 ${props.className || ''}`}
                     onSelect={(currentValue) => {
-                      setValue(currentValue === value ? '' : currentValue);
+                      setValue(currentValue === value ? 'all' as FilterType : currentValue as FilterType);
                       setOpen(false);
                     }}
                   >
