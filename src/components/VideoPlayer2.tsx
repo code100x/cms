@@ -67,7 +67,7 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
       if (document.pictureInPictureElement) {
         await document.exitPictureInPicture();
       } else if (document.pictureInPictureEnabled && playerRef.current) {
-        playerRef.current.requestPictureInPicture();
+        await playerRef.current.requestPictureInPicture()
       }
     } catch (error) {
       // Ignore specific errors that might occur during normal operation
@@ -326,7 +326,6 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
         }
       }
     }
-
     const handleTrackChange = () => {
       for (let i = 0; i < tracks.length; i++) {
         const track = tracks[i];
@@ -502,7 +501,9 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
           event.stopPropagation();
           break;
         case 'KeyP': // 'P' key to toggle picture-in-picture(pip) mode
-          togglePictureInPicture();
+          if(!navigator.brave) {
+            togglePictureInPicture();
+          }
           event.stopPropagation();
           break;
         case 'KeyC':
@@ -651,8 +652,10 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
             .el()
             .insertBefore(qualitySelector.el(), fullscreenToggle.el());
 
-          const pipButton = createPipButton(player);
-          controlBar.el().insertBefore(pipButton.el(), fullscreenToggle.el());
+            if(!navigator.brave) {
+              const pipButton = createPipButton(player);
+              controlBar.el().insertBefore(pipButton.el(), fullscreenToggle.el());
+            }
 
           setPlayer(player);
           if (options.isComposite) {
