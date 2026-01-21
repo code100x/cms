@@ -37,8 +37,8 @@ export const CourseCard = ({
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
         <div className="absolute bottom-4 right-4 flex justify-between items-end">
           <div className="bg-white rounded-full p-1 shadow-md">
-            <div className="relative w-12 h-12">
-              <svg className="w-12 h-12 transform -rotate-90" viewBox="0 0 100 100">
+            <div className="relative w-16 h-16">
+              <svg className="w-16 h-16 transform -rotate-90" viewBox="0 0 100 100">
                 <circle className="stroke-current text-gray-300" strokeWidth="10" fill="gray" r="40" cx="50" cy="50" />
                 <motion.circle
                   className="stroke-current text-black"
@@ -54,7 +54,7 @@ export const CourseCard = ({
                 />
               </svg>
               <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center">
-                <span className="text-xs font-bold text-black dark:text-black flex justify-center">{percentage}%</span>
+                <span className="text-xs font-bold text-black dark:text-black flex justify-center ">{percentage}%</span>
               </div>
             </div>
           </div>
