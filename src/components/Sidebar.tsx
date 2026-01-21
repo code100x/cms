@@ -250,7 +250,7 @@ export function Sidebar({
             ref={sidebarRef}
             exit="closed"
             variants={sidebarVariants}
-            className="fixed right-0 top-[64px] z-[99999] flex h-screen w-full flex-col gap-4 overflow-y-auto rounded-r-lg border-l border-primary/10 bg-neutral-50 dark:bg-neutral-900 md:max-w-[30vw]"
+            className="fixed right-0 top-[64px] z-[99999] flex h-screen w-full flex-col gap-4 overflow-y-auto rounded-r-lg border-l border-primary/10 bg-neutral-50  pb-24 dark:bg-neutral-900 md:max-w-[30vw]"
           >
             <div className="sticky top-0 z-10 flex items-center justify-between border-b border-primary/10 bg-neutral-50 p-5 dark:bg-neutral-900">
               {' '}
