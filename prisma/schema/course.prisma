@@ -1,0 +1,36 @@
+model Course {
+  id              Int             @id @default(autoincrement())
+  appxCourseId    String
+  discordRoleId   String
+  title           String
+  imageUrl        String
+  description     String
+  openToEveryone  Boolean         @default(false)
+  slug            String
+  discordOauthUrl String          @default("")
+  content         CourseContent[]
+  purchasedBy     UserPurchases[]
+  certificate     Certificate[]
+  certIssued      Boolean         @default(false)
+}
+
+model UserPurchases {
+  user       User     @relation(fields: [userId], references: [id])
+  userId     String
+  course     Course   @relation(fields: [courseId], references: [id])
+  courseId   Int
+  assignedAt DateTime @default(now())
+
+  @@id([userId, courseId])
+}
+
+model Certificate {
+  id       String @id @default(cuid())
+  slug     String @default("certId")
+  user     User   @relation(fields: [userId], references: [id])
+  userId   String
+  course   Course @relation(fields: [courseId], references: [id])
+  courseId Int
+
+  @@unique([userId, courseId])
+}

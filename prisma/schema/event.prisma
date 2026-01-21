@@ -1,0 +1,10 @@
+model Event {
+  id        Int      @id @default(autoincrement())
+  title     String
+  start     DateTime
+  end       DateTime
+  videoLink String?
+  notes     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
