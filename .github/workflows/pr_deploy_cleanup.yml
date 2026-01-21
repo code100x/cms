@@ -1,0 +1,43 @@
+name: Cleanup PR Deployment
+
+on:
+  pull_request:
+    types:
+     - closed
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Install pnpm
+      uses: pnpm/action-setup@v4
+      with:
+            version: 10
+
+    - name: Install dependencies and build
+      run: |
+              pnpm i -g vercel
+
+    - name: Download Deployment URL
+      uses: actions/download-artifact@v4
+
+
+    - name: Read Deployment URL
+      run: |
+
+          ls -a | grep deployment
+          if [[ -f "deployment-url.txt" ]]; then
+            echo "DEPLOYMENT_URL=$(cat deployment-url.txt)" >> $GITHUB_ENV
+          else
+            echo "No deployment URL found, skipping cleanup."
+            exit 0
+          fi
+
+    - name: Remove Deployment
+      if: env.DEPLOYMENT_URL != ''
+      run: |
+          echo "Removing deployment: $DEPLOYMENT_URL"
+          echo y| vercel project rm pr-${{ github.event.pull_request.number }}-cms --token ${{ secrets.VERCEL_TOKEN }}
