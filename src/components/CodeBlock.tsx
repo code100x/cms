@@ -22,13 +22,12 @@ const CodeBlock: React.FC<CodeBlockProps> = ({ block }) => {
   return (
     <div className="w-full overflow-auto py-2">
       <pre
-        onClick={handleCopy}
         className="group relative flex cursor-pointer justify-between rounded-lg border border-primary/5 bg-neutral-50 p-6 dark:bg-neutral-900"
       >
         <code className="overflow-auto font-mono text-primary">{code}</code>
-        <div className="absolute right-4 top-4 flex flex-col text-primary/50 transition-all duration-300 group-hover:opacity-100 lg:opacity-25">
+        <button onClick={handleCopy} className="absolute right-4 top-4 flex flex-col text-primary/50 transition-all duration-300 group-hover:opacity-100 lg:opacity-25">
           <Copy className="size-4 text-primary/50" />
-        </div>
+        </button>
       </pre>
     </div>
   );
