@@ -51,13 +51,13 @@ export default async function UpdateCourseContent({
       />
       <AdminCourseContent
         rest={rest}
-        // @ts-ignore
-        courseContent={courseContent?.value.map((x: any) => ({
+
+        courseContent={Array.isArray(courseContent?.value) ? courseContent?.value.map((x: any) => ({
           title: x?.title || '',
           image: x?.thumbnail || '',
           id: x?.id || 0,
           createdAt: x?.createdAt,
-        }))}
+        })) : []}
         courseId={parseInt(courseId, 10)}
       />
     </main>
