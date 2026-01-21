@@ -29,7 +29,14 @@ export const FolderView = ({
   }
   // why? because we have to reset the segments or they will be visible always after a video
 
-  const currentfilter = useRecoilValue(selectFilter);
+  const filterMessages = {
+    watched: "You haven't completed any content in this section yet.",
+    watching: "No content currently in progress.",
+    unwatched: "No new content available to watch.",
+    all: "No content available in this section.",
+  };
+
+  const currentfilter = useRecoilValue(selectFilter) as keyof typeof filterMessages;
 
   const filteredCourseContent = getFilteredContent(
     courseContent,
@@ -37,13 +44,6 @@ export const FolderView = ({
   );
 
   if (filteredCourseContent?.length === 0) {
-    const filterMessages = {
-      watched: "You haven't completed any content in this section yet.",
-      watching: "No content currently in progress.",
-      unwatched: "No new content available to watch.",
-      all: "No content available in this section.",
-    };
-  
     return (
       <div className="mt-56 flex">
         <div className="m-auto text-center text-gray-500 text-xl">
