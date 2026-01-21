@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation';
 import React, { useRef, useState, useEffect } from 'react';
 import { toast } from 'sonner';
 import { motion } from 'framer-motion';
+import { loginSchema } from '@/lib/validations/auth';
 
 const emailDomains = [
   'gmail.com',
@@ -24,6 +25,7 @@ const Signin = () => {
   const [requiredError, setRequiredError] = useState({
     emailReq: false,
     passReq: false,
+    passLength: false,
   });
   const [suggestedDomains, setSuggestedDomains] =
     useState<string[]>(emailDomains);
@@ -109,20 +111,29 @@ const Signin = () => {
   };
 
   const handleSubmit = async (e?: React.FormEvent<HTMLButtonElement>) => {
-    const loadId = toast.loading('Signing in...');
     if (e) {
       e.preventDefault();
     }
 
-    if (!email.current || !password.current) {
+    // Validate credentials using Zod schema
+    const validationResult = loginSchema.safeParse({
+      email: email.current,
+      password: password.current,
+    });
+
+    if (!validationResult.success) {
+      const errors = validationResult.error.errors;
       setRequiredError({
-        emailReq: email.current ? false : true,
-        passReq: password.current ? false : true,
+        emailReq: errors.some((err) => err.path[0] === 'email'),
+        passReq: errors.some((err) => err.path[0] === 'password'),
+        passLength: errors.some((err) => err.path[0] === 'password' && err.message.includes('6 characters')),
       });
-      toast.dismiss(loadId);
       return;
     }
+
+    const loadId = toast.loading('Signing in...');
     setCheckingPassword(true);
+    
     const res = await signIn('credentials', {
       username: email.current,
       password: password.current,
@@ -239,7 +250,7 @@ const Signin = () => {
             </div>
             <div className="relative flex flex-col gap-2">
               <Label>Password</Label>
-              <div className="flex">
+              <div className="relative flex">
                 <Input
                   className="focus:ring-none border-none bg-primary/5 focus:outline-none"
                   name="password"
@@ -251,6 +262,7 @@ const Signin = () => {
                     setRequiredError((prevState) => ({
                       ...prevState,
                       passReq: false,
+                      passLength: false,
                     }));
                     password.current = e.target.value;
                   }}
@@ -262,7 +274,8 @@ const Signin = () => {
                   }}
                 />
                 <button
-                  className="absolute bottom-0 right-0 flex h-10 items-center px-4 text-neutral-500"
+                  type="button"
+                  className="absolute right-0 flex h-full items-center px-3 text-neutral-500"
                   onClick={togglePasswordVisibility}
                 >
                   {isPasswordVisible ? (
@@ -303,8 +316,14 @@ const Signin = () => {
                   )}
                 </button>
               </div>
-              {requiredError.passReq && (
-                <span className="text-red-500">Password is required</span>
+              {password.current ? (
+                requiredError.passLength && (
+                  <span className="text-red-500">Password must be at least 6 characters</span>
+                )
+              ) : (
+                requiredError.passReq && (
+                  <span className="text-red-500">Password is required</span>
+                )
               )}
             </div>
           </div>

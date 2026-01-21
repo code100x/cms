@@ -1,13 +1,8 @@
 import db from '@/db';
 import { NextRequest, NextResponse } from 'next/server';
 import bcrypt from 'bcrypt';
-import { z } from 'zod';
 import { importJWK, JWTPayload, SignJWT } from 'jose';
-
-const requestBodySchema = z.object({
-  email: z.string().email(),
-  password: z.string(),
-});
+import { loginSchema } from '@/lib/validations/auth';
 
 const generateJWT = async (payload: JWTPayload) => {
   const secret = process.env.JWT_SECRET || '';
@@ -31,7 +26,7 @@ export async function POST(req: NextRequest) {
 
   try {
     const body = await req.json();
-    const parseResult = requestBodySchema.safeParse(body);
+    const parseResult = loginSchema.safeParse(body);
 
     if (!parseResult.success) {
       return NextResponse.json(
