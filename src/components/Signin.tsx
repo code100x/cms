@@ -5,9 +5,10 @@ import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useCallback } from 'react';
 import { toast } from 'sonner';
 import { motion } from 'framer-motion';
+import { z } from 'zod';
 
 const emailDomains = [
   'gmail.com',
@@ -18,90 +19,67 @@ const emailDomains = [
   'rediffmail.com',
 ];
 
+const emailSchema = z.string().email('Invalid email format');
+const passwordSchema = z.string().min(6, 'Password must be at least 6 characters long');
+
 const Signin = () => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-  const [checkingPassword, setCheckingPassword] = useState(false);
-  const [requiredError, setRequiredError] = useState({
-    emailReq: false,
-    passReq: false,
-  });
-  const [suggestedDomains, setSuggestedDomains] =
-    useState<string[]>(emailDomains);
+  const [suggestedDomains, setSuggestedDomains] = useState<string[]>(emailDomains);
   const [focusedIndex, setFocusedIndex] = useState(-1);
-  const passwordRef = useRef<HTMLInputElement>(null);
-  const suggestionRefs = useRef<HTMLLIElement[]>([]);
+  const [emailValue, setEmailValue] = useState('');
+  const [passwordValue, setPasswordValue] = useState('');
   const dropdownRef = useRef<HTMLUListElement>(null);
 
-  function togglePasswordVisibility() {
-    setIsPasswordVisible((prevState: any) => !prevState);
-  }
   const router = useRouter();
-  const email = useRef('');
-  const password = useRef('');
 
-  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const togglePasswordVisibility = () => {
+    setIsPasswordVisible((prev) => !prev);
+  };
+
+  const handleEmailChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    email.current = value;
-
+    setEmailValue(value);
     setFocusedIndex(0);
-    setRequiredError((prevState) => ({
-      ...prevState,
-      emailReq: false,
-    }));
-
-    // Check if the input is a phone number
-    const phoneNumberRegex = /^[0-9]{10}$/;
-    if (phoneNumberRegex.test(value)) {
-      setSuggestedDomains([]); // Clear suggestions for phone numbers
-      return;
-    }
 
     if (!value.includes('@')) {
-      setSuggestedDomains(emailDomains);
+      if (suggestedDomains !== emailDomains) {
+        setSuggestedDomains(emailDomains);
+      }
       return;
     }
 
     const [, currentDomain] = value.split('@');
 
-    // Clear suggestions if domain doesn't match
-    if (
-      !currentDomain ||
-      !emailDomains.some((domain) => domain.startsWith(currentDomain))
-    ) {
-      setSuggestedDomains([]); // Hide suggestions for mismatched domains
+    if (!currentDomain || !emailDomains.some(domain => domain.startsWith(currentDomain))) {
+      if (suggestedDomains.length > 0) {
+        setSuggestedDomains([]);
+      }
       return;
     }
 
-    // Check for exact matches and filter for partial matches
-    const exactMatch = emailDomains.find((domain) => domain === currentDomain);
-    if (exactMatch) {
-      setSuggestedDomains([]);
-      return;
-    }
-
-    const matchingDomains = emailDomains.filter((domain) =>
-      domain.startsWith(currentDomain),
+    const matchingDomains = emailDomains.filter(domain =>
+      domain.startsWith(currentDomain)
     );
-    setSuggestedDomains(matchingDomains);
-  };
+
+    if (matchingDomains.length !== suggestedDomains.length) {
+      setSuggestedDomains(matchingDomains);
+    }
+  }, [emailDomains, suggestedDomains]);
 
   const handleSuggestionClick = (domain: string) => {
-    const [username] = email.current.split('@');
-    const newEmail = `${username}@${domain}`;
-    email.current = newEmail;
-    passwordRef.current?.focus();
+    const [username] = emailValue.split('@');
+    setEmailValue(`${username}@${domain}`);
     setSuggestedDomains([]);
   };
 
-  // Handle keyboard events for navigating and selecting suggestions
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter' && focusedIndex >= 0 && suggestedDomains.length > 0) {
+    if (suggestedDomains.length === 0) return;
+
+    if (e.key === 'Enter' && focusedIndex >= 0) {
       handleSuggestionClick(suggestedDomains[focusedIndex]);
     } else if (e.key === 'ArrowDown') {
       e.preventDefault();
-      setFocusedIndex((prevIndex) =>
-        Math.min(prevIndex + 1, suggestedDomains.length - 1),
-      );
+      setFocusedIndex((prevIndex) => Math.min(prevIndex + 1, suggestedDomains.length - 1));
     } else if (e.key === 'ArrowUp') {
       e.preventDefault();
       setFocusedIndex((prevIndex) => Math.max(prevIndex - 1, 0));
@@ -109,61 +87,63 @@ const Signin = () => {
   };
 
   const handleSubmit = async (e?: React.FormEvent<HTMLButtonElement>) => {
-    const loadId = toast.loading('Signing in...');
-    if (e) {
-      e.preventDefault();
-    }
+    e?.preventDefault();
 
-    if (!email.current || !password.current) {
-      setRequiredError({
-        emailReq: email.current ? false : true,
-        passReq: password.current ? false : true,
-      });
+    const loadId = toast.loading('Signing in...');
+
+    const emailValidation = emailSchema.safeParse(emailValue);
+    const passwordValidation = passwordSchema.safeParse(passwordValue);
+
+    if (!emailValidation.success || !passwordValidation.success) {
       toast.dismiss(loadId);
+      const errors: string[] = [];
+
+      if (emailValidation.error) {
+        errors.push(...emailValidation.error.format()._errors);
+      }
+
+      if (passwordValidation.error) {
+        errors.push(...passwordValidation.error.format()._errors);
+      }
+
+      toast.error(errors.join(', '));
       return;
     }
-    setCheckingPassword(true);
-    const res = await signIn('credentials', {
-      username: email.current,
-      password: password.current,
+
+    const response = await signIn('credentials', {
+      username: emailValue,
+      password: passwordValue,
       redirect: false,
     });
 
     toast.dismiss(loadId);
-    if (!res?.error) {
-      router.push('/');
-      toast.success('Signed In');
-    } else {
-      if (res.status === 401) {
-        toast.error('Invalid Credentials, try again!');
-      } else if (res.status === 400) {
-        toast.error('Missing Credentials!');
-      } else if (res.status === 404) {
-        toast.error('Account not found!');
-      } else if (res.status === 403) {
-        toast.error('Forbidden!');
-      } else {
-        toast.error('oops something went wrong..!');
-      }
-      setCheckingPassword(false);
+
+    if (response?.error) {
+      const errorMessages: Record<number, string> = {
+        401: 'Invalid Credentials, try again!',
+        400: 'Missing Credentials!',
+        404: 'Account not found!',
+        403: 'Forbidden!',
+      };
+
+      const errorMessage = errorMessages[response.status] || 'Oops! Something went wrong...';
+      toast.error(errorMessage);
+      return;
     }
+
+    router.push('/');
+    toast.success('Signed In Successfully!');
   };
 
-  // Handle clicks outside the dropdown
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
-        setSuggestedDomains([]);
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setFocusedIndex(-1);
       }
     };
 
     document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
   return (
@@ -199,12 +179,12 @@ const Signin = () => {
                 name="email"
                 id="email"
                 placeholder="name@email.com"
-                value={email.current}
+                value={emailValue}
                 onChange={handleEmailChange}
                 onKeyDown={handleKeyDown}
                 onBlur={() => setSuggestedDomains([])} // Hide suggestions on blur
               />
-              {email.current && suggestedDomains.length > 0 && (
+              {emailValue && suggestedDomains.length > 0 && (
                 <ul
                   ref={dropdownRef}
                   className={`absolute top-20 z-50 max-h-96 w-full min-w-[8rem] overflow-auto rounded-md border bg-popover text-popover-foreground shadow-md data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2`}
@@ -214,27 +194,19 @@ const Signin = () => {
                       <li
                         key={domain}
                         value={domain}
-                        //@ts-ignore
-                        ref={(listItem) =>
-                          (suggestionRefs.current[index] = listItem!)
-                        }
                         onMouseDown={() => handleSuggestionClick(domain)}
                         onClick={() => handleSuggestionClick(domain)}
-                        className={`relative flex w-full cursor-default select-none items-center rounded-sm p-2 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 ${
-                          focusedIndex === index
-                            ? 'bg-primary-foreground font-medium'
-                            : ''
-                        }`}
+                        className={`relative flex w-full cursor-default select-none items-center rounded-sm p-2 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 ${focusedIndex === index
+                          ? 'bg-primary-foreground font-medium'
+                          : ''
+                          }`}
                       >
-                        {email.current.split('@')[0]}@{domain}
+                        {emailValue.split('@')[0]}@{domain}
                       </li>
                       {index < suggestedDomains.length - 1 && <Separator />}
                     </>
                   ))}
                 </ul>
-              )}
-              {requiredError.emailReq && (
-                <span className="text-red-500">Email is required</span>
               )}
             </div>
             <div className="relative flex flex-col gap-2">
@@ -246,14 +218,7 @@ const Signin = () => {
                   type={isPasswordVisible ? 'text' : 'password'}
                   id="password"
                   placeholder="••••••••"
-                  ref={passwordRef}
-                  onChange={(e) => {
-                    setRequiredError((prevState) => ({
-                      ...prevState,
-                      passReq: false,
-                    }));
-                    password.current = e.target.value;
-                  }}
+                  onChange={(e) => setPasswordValue(e.target.value)}
                   onKeyDown={async (e) => {
                     if (e.key === 'Enter') {
                       setIsPasswordVisible(false);
@@ -303,15 +268,12 @@ const Signin = () => {
                   )}
                 </button>
               </div>
-              {requiredError.passReq && (
-                <span className="text-red-500">Password is required</span>
-              )}
             </div>
           </div>
           <Button
             size={'lg'}
             variant={'branding'}
-            disabled={!email.current || !password.current || checkingPassword}
+            disabled={!emailValue || !passwordValue}
             onClick={handleSubmit}
           >
             Login

@@ -7,7 +7,6 @@ import { Button } from './ui/button';
 import { refreshDb } from '@/actions/refresh-db';
 import { useSession } from 'next-auth/react';
 import { toast } from 'sonner';
-import Link from 'next/link';
 
 export const Courses = ({ courses }: { courses: Course[] }) => {
   const session = useSession();
@@ -50,13 +49,12 @@ export const Courses = ({ courses }: { courses: Course[] }) => {
             </h3>
             <p className="text-primary/80">
               Try refreshing the database. If you are still facing issues?{' '}
-              <Link
-                href="mailto:100xdevs@gmail.com"
-                target="_blank"
-                className="text-primary underline underline-offset-4"
+              <span
+                onClick={() => router.push('/contact')}
+                className="text-primary underline underline-offset-4 cursor-pointer"
               >
                 Contact us
-              </Link>
+              </span>
             </p>
           </div>
           <Button size={'lg'} onClick={handleClick}>
