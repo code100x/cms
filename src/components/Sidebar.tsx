@@ -1,6 +1,6 @@
 'use client';
 import React, { useRef } from 'react';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import {
   Accordion,
   AccordionContent,
@@ -287,6 +287,7 @@ function Check({ content }: { content: any }) {
   const [completed, setCompleted] = useState(
     content?.videoProgress?.markAsCompleted || false,
   );
+  const router = useRouter();
 
   const handleCheck = useCallback(
     async (e: React.MouseEvent<HTMLInputElement>) => {
@@ -294,8 +295,9 @@ function Check({ content }: { content: any }) {
       const newState = !completed;
       setCompleted(newState);
       await handleMarkAsCompleted(newState, content.id);
+      router.refresh(); // Soft refresh the page to get new data
     },
-    [completed, content.id],
+    [completed, content.id, router],
   );
 
   return (
