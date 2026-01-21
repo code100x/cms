@@ -26,24 +26,35 @@ export const GitHubLinkButton = () => {
   }, [searchParams]);
 
   const getGithubData = async () => {
-    const response = await fetch('/api/github/details');
-    const resp = await response.json();
-    setGithubData(resp.data[0]);
+    try {
+      const response = await fetch('/api/github/details');
+      const resp = await response.json();
+      setGithubData(resp.data && resp.data.length > 0 ? resp.data[0] : null);
+    } catch (error) {
+      console.error('Error fetching GitHub data:', error);
+    }
   };
 
   const handleUnlinkAccount = async () => {
     setIsProcessing(true);
-    const response = await fetch('/api/github/details', {
-      method: 'DELETE',
-    });
-    setIsProcessing(false);
-    const resp = await response.json();
-    console.log(resp);
-    if (resp.success) {
-      toast.success(resp.message);
-      getGithubData();
-    } else {
-      toast.error(resp.message);
+    try {
+      const response = await fetch('/api/github/details', {
+        method: 'DELETE',
+      });
+      const resp = await response.json();
+      console.log(resp);
+      if (resp.success) {
+        toast.success(resp.message);
+        setGithubData(null); // Clear the GitHub data immediately
+        getGithubData(); // Refresh the data
+      } else {
+        toast.error(resp.message || 'Failed to unlink GitHub account');
+      }
+    } catch (error) {
+      console.error('Error unlinking GitHub account:', error);
+      toast.error('Failed to unlink GitHub account');
+    } finally {
+      setIsProcessing(false);
     }
   };
 
@@ -52,9 +63,19 @@ export const GitHubLinkButton = () => {
     getGithubData();
   }, [searchParams]);
 
-  const handleLinkGitHub = async () => {
+  const handleLinkGitHub = () => {
+    if (isProcessing) return; // Prevent multiple clicks
+    
     setIsProcessing(true);
-    window.location.href = '/api/github/link';
+    try {
+      console.log('Redirecting to GitHub OAuth...');
+      // Navigate directly to the GitHub OAuth endpoint
+      window.location.href = '/api/github/link';
+    } catch (error) {
+      console.error('Error linking to GitHub:', error);
+      setIsProcessing(false);
+      toast.error('Failed to redirect to GitHub login');
+    }
   };
 
   return (
@@ -72,26 +93,23 @@ export const GitHubLinkButton = () => {
         <div className="my-6 flex items-center gap-2">
           {githubData ? (
             <div className="flex items-center gap-2">
-              {/* {githubData?.avatarUrl} */}
               <Button
                 onClick={handleUnlinkAccount}
-                color="white"
-                variant={'destructive'}
-                className="font-semi-bold h-[2rem] w-[5rem] text-white"
+                variant="destructive"
+                className="h-[2rem] w-[5rem]"
               >
                 {isProcessing ? 'Unlinking...' : 'Unlink'}
               </Button>
               <Dialog>
                 <DialogTrigger asChild>
                   <Button
-                    color="white"
-                    variant={'outline'}
-                    className="font-semi-bold h-[2rem] w-fit text-white"
+                    variant="outline"
+                    className="h-[2rem] w-fit"
                   >
                     <div className="flex h-full w-full items-center gap-2">
                       <Image
                         src={githubData?.avatarUrl || ''}
-                        alt="Landscape"
+                        alt="GitHub Profile"
                         width={400}
                         height={400}
                         className="h-[1rem] w-[1rem] rounded-full object-cover"
@@ -120,7 +138,6 @@ export const GitHubLinkButton = () => {
                       >
                         {githubData?.profileUrl}
                       </Link>
-                      {/* <p className="text-sm text-muted-foreground">@oliviadavis</p> */}
                     </div>
                   </div>
                 </DialogContent>
@@ -130,8 +147,8 @@ export const GitHubLinkButton = () => {
             <Button
               onClick={handleLinkGitHub}
               disabled={isProcessing}
-              color="white"
-              className="font-semi-bold h-[2rem] w-[5rem] text-white"
+              variant="default"
+              className="h-[2rem] w-[5rem]"
             >
               {isProcessing ? 'Linking...' : 'Link'}
             </Button>
@@ -141,7 +158,7 @@ export const GitHubLinkButton = () => {
         <div className="h-full w-full">
           <Image
             src={GITHUB}
-            alt="Landscape"
+            alt="GitHub"
             width={400}
             height={400}
             className="absolute bottom-[-50px] right-0 h-[10rem] w-[10rem] object-cover opacity-40 transition-all duration-300 ease-in-out group-hover:bottom-[-20px] group-hover:opacity-100 dark:invert"

@@ -1,6 +1,6 @@
 import db from '@/db';
 import { NextRequest, NextResponse } from 'next/server';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import { z } from 'zod';
 import { importJWK, JWTPayload, SignJWT } from 'jose';
 
