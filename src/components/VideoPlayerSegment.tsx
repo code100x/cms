@@ -60,7 +60,7 @@ export const VideoPlayerSegment: FunctionComponent<VideoProps> = ({
             time: string,
           ) {
             const segmentName = getCurrentSegmentName(time, segments);
-            this.write(`${time} - ${segmentName}`);
+            this.write(segmentName? `${time} - ${segmentName}`:`${time}`);
 
             // Delay the execution to ensure the tooltip width is calculated after the content update
             setTimeout(() => {
