@@ -2,6 +2,7 @@ import { QueryParams } from '@/actions/types';
 import { CourseView } from '@/components/CourseView';
 import { getCourse, getFullCourseContent } from '@/db/course';
 import findContentById from '@/lib/find-content-by-id';
+import { ScrollToTopButton } from '@/components/ScrollToTopButton';
 
 export default async function Course({
   params,
@@ -19,14 +20,17 @@ export default async function Course({
   const nextContent = null;
 
   return (
-    <CourseView
-      rest={[]}
-      course={course}
-      nextContent={nextContent}
-      courseContent={courseContent}
-      fullCourseContent={fullCourseContent}
-      searchParams={searchParams}
-      possiblePath=""
-    />
+    <div>
+      <CourseView
+        rest={[]}
+        course={course}
+        nextContent={nextContent}
+        courseContent={courseContent}
+        fullCourseContent={fullCourseContent}
+        searchParams={searchParams}
+        possiblePath=""
+      />
+      <ScrollToTopButton />
+    </div>
   );
 }
