@@ -3,12 +3,22 @@
 import { TBookmarkWithContent } from '@/actions/bookmark/types';
 import { useRouter } from 'next/navigation';
 import { ContentCard } from '../ContentCard';
+import { useEffect } from 'react';
+import { bookmarksState } from '@/store/atoms/bookmark';
+import { useSetRecoilState } from 'recoil';
+import { Bookmark } from '@prisma/client';
 
 const BookmarkList = ({
   bookmarkData,
+  initialBookmarks
 }: {
   bookmarkData: TBookmarkWithContent[] | { error: string };
+  initialBookmarks: Bookmark[]
 }) => {
+  const setBookmarks = useSetRecoilState(bookmarksState);
+  useEffect(() => {
+    setBookmarks(initialBookmarks); 
+  }, [initialBookmarks, setBookmarks]);
   const router = useRouter();
   if ('error' in bookmarkData) {
     return (

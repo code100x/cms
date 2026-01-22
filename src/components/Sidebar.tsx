@@ -9,7 +9,7 @@ import {
 } from '@/components/ui/accordion';
 import { Play, File, X, Menu } from 'lucide-react';
 import { FullCourseContent } from '@/db/course';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { sidebarOpen as sidebarOpenAtom } from '@/store/atoms/sidebar';
 import { useEffect, useState, useCallback, useMemo } from 'react';
 import { handleMarkAsCompleted } from '@/lib/utils';
@@ -19,6 +19,8 @@ import { Button } from './ui/button';
 import { AnimatePresence, motion } from 'framer-motion';
 import { FilterContent } from './FilterContent';
 import { selectFilter } from '@/store/atoms/filterContent';
+import { Bookmark } from '@prisma/client';
+import { bookmarksState } from '@/store/atoms/bookmark';
 const sidebarVariants = {
   open: {
     width: '100%',
@@ -37,9 +39,11 @@ const sidebarVariants = {
 export function Sidebar({
   courseId,
   fullCourseContent,
+  initialBookmarks
 }: {
   fullCourseContent: FullCourseContent[];
   courseId: string;
+  initialBookmarks:Bookmark[]
 }) {
   const pathName = usePathname();
   const [sidebarOpen, setSidebarOpen] = useRecoilState(sidebarOpenAtom);
@@ -51,6 +55,12 @@ export function Sidebar({
   const filterRef = useRef<HTMLDivElement | null>(null);
   const closeSidebar = () => setSidebarOpen(false);
   const currentfilter = useRecoilValue(selectFilter);
+
+  const setBookmarks = useSetRecoilState(bookmarksState);
+
+  useEffect(() => {
+    setBookmarks(initialBookmarks); 
+  }, [initialBookmarks, setBookmarks]);
 
   const findPathToContent = useCallback(
     (
