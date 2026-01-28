@@ -8,14 +8,40 @@ services:
     container_name: cms-docker
     environment:
       - DATABASE_URL=postgresql://postgres:postgres@db:5432/cms?schema=public
-      - NEXT_WEBPACK_USEPOLLING=1
     ports:
       - '3000:3000'
-      - '5555:5555'
     volumes:
-      # - .:/usr/src/app
       - /usr/src/app/.next
       - /usr/src/app/node_modules
+    develop:
+      watch:
+        - path: ./
+          action: sync
+          target: /usr/src/app
+          ignore:
+            - node_modules/
+            - .next/
+            - .git/
+        - path: package.json
+          action: rebuild
+        - path: pnpm-lock.yaml
+          action: rebuild
+    depends_on:
+      db:
+        condition: service_healthy
+
+  prisma-studio:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: prisma-studio
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/cms?schema=public
+    ports:
+      - "5555:5555"
+    volumes:
+      - /usr/src/app/node_modules
+    command: npx prisma studio --port 5555 --hostname 0.0.0.0
     depends_on:
       db:
         condition: service_healthy

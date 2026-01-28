@@ -5,6 +5,11 @@
   "prisma": {
     "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
   },
+  "pnpm" : {
+    "onlyBuiltDependencies": [
+      "bcrypt"
+    ]
+  },
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "postinstall": "prisma generate",
@@ -15,8 +20,8 @@
     "lint:fix": "eslint --max-warnings 0 --config .eslintrc . --fix",
     "format:fix": "prettier --write \"**/*.{ts,tsx,json}\"",
     "format:check": "prettier --check \"**/*.{ts,tsx,json}\"",
-    "prisma:docker": "npm run prisma:migrate && npm run db:seed && npm run studio",
-    "dev:docker": "npm run prisma:docker & next dev",
+    "prisma:docker": "npm run prisma:migrate && npm run db:seed",
+    "dev:docker": "npm run prisma:docker && next dev",
     "prisma:migrate": "prisma migrate deploy",
     "db:seed": "prisma db seed",
     "db:reset": "prisma migrate reset",
