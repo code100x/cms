@@ -269,7 +269,7 @@ export async function getAppxCourseId(courseId: string) {
   const parentCourses = await prisma.userPurchases.findMany({
     where: {
       courseId: {
-        in: COHORT_3_PARENT_COURSES,
+        in: [...COHORT_3_PARENT_COURSES, ...COHORT_4_PARENT_COURSES],
       },
       userId: session?.user?.id,
     },
