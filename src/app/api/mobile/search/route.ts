@@ -41,6 +41,10 @@ export async function GET(request: NextRequest) {
         return NextResponse.json(fuzzySearch(value, searchQuery));
       }
 
+      const validityYearsAgo = new Date();
+      const validityYears = parseInt(process.env.CourseValidityPeriodInYears || "3");
+      validityYearsAgo.setFullYear(validityYearsAgo.getFullYear() - validityYears);
+
       const allVideos = await db.content.findMany({
         where: {
           type: 'video',
@@ -52,6 +56,9 @@ export async function GET(request: NextRequest) {
                   purchasedBy: {
                     some: {
                       userId: user.id,
+                      assignedAt: {
+                        gte: validityYearsAgo,
+                      },
                     },
                   },
                 },

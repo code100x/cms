@@ -194,13 +194,19 @@ export async function getPurchases(email: string): Promise<CoursesResponse> {
     return { type: 'success', courses };
   }
 
-  // Check if the user exists in the db
+  const validityYearsAgo = new Date();
+  const validityYears = parseInt(process.env.CourseValidityPeriodInYears || "3");
+  validityYearsAgo.setFullYear(validityYearsAgo.getFullYear() - validityYears);
+
   const coursesFromDb = await prisma.course.findMany({
     where: {
       purchasedBy: {
         some: {
           user: {
             email,
+          },
+          assignedAt: {
+            gte: validityYearsAgo,
           },
         },
       },

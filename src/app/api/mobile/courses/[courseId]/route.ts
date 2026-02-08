@@ -2,11 +2,18 @@ import db from '@/db';
 import { NextResponse, NextRequest } from 'next/server';
 
 async function checkUserCourseAccess(userId: string, courseId: string) {
+  const validityYearsAgo = new Date();
+  const validityYears = parseInt(process.env.CourseValidityPeriodInYears || "3");
+  validityYearsAgo.setFullYear(validityYearsAgo.getFullYear() - validityYears);
+
   const userCourse = await db.course.findFirst({
     where: {
       purchasedBy: {
         some: {
           userId,
+          assignedAt: {
+            gte: validityYearsAgo,
+          },
         },
       },
       id: parseInt(courseId, 10),

@@ -2,6 +2,10 @@ import db from '@/db';
 import { NextRequest, NextResponse } from 'next/server';
 
 async function checkUserCollectionAccess(userId: string, collectionId: string) {
+  const validityYearsAgo = new Date();
+  const validityYears = parseInt(process.env.CourseValidityPeriodInYears || "3");
+  validityYearsAgo.setFullYear(validityYearsAgo.getFullYear() - validityYears);
+
   const userCollection = await db.content.findFirst({
     where: {
       id: parseInt(collectionId, 10),
@@ -11,6 +15,9 @@ async function checkUserCollectionAccess(userId: string, collectionId: string) {
             purchasedBy: {
               some: {
                 userId,
+                assignedAt: {
+                  gte: validityYearsAgo,
+                },
               },
             },
           },
