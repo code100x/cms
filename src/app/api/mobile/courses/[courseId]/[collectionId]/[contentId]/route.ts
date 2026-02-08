@@ -2,6 +2,10 @@ import db from '@/db';
 import { NextRequest, NextResponse } from 'next/server';
 
 async function checkUserContentAccess(userId: string, contentId: string) {
+  const validityYearsAgo = new Date();
+  const validityYears = parseInt(process.env.CourseValidityPeriodInYears || "3");
+  validityYearsAgo.setFullYear(validityYearsAgo.getFullYear() - validityYears);
+
   const userContent = await db.content.findFirst({
     where: {
       id: parseInt(contentId, 10),
@@ -11,6 +15,9 @@ async function checkUserContentAccess(userId: string, contentId: string) {
             purchasedBy: {
               some: {
                 userId,
+                assignedAt: {
+                  gte: validityYearsAgo,
+                },
               },
             },
           },
