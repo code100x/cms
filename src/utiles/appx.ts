@@ -12,6 +12,7 @@ import { checkUserEmailForPurchase } from './appx-check-mail';
 import { refreshDbInternal } from '@/actions/refresh-db';
 
 const LOCAL_CMS_PROVIDER = process.env.LOCAL_CMS_PROVIDER;
+const COHORT_2_PARENT_COURSES = [1, 2, 3];
 const COHORT_3_PARENT_COURSES = [8, 9, 10, 11, 12];
 const COHORT_4_PARENT_COURSES = [25, 26, 27, 28];
 // 8 -> Web + Devops + Web3
@@ -269,7 +270,7 @@ export async function getAppxCourseId(courseId: string) {
   const parentCourses = await prisma.userPurchases.findMany({
     where: {
       courseId: {
-        in: [...COHORT_3_PARENT_COURSES, ...COHORT_4_PARENT_COURSES],
+        in: [...COHORT_2_PARENT_COURSES, ...COHORT_3_PARENT_COURSES, ...COHORT_4_PARENT_COURSES],
       },
       userId: session?.user?.id,
     },
@@ -289,6 +290,9 @@ export async function getAppxCourseId(courseId: string) {
     22: ['26', '28'],
     23: ['27', '28'],
     24: ['28', '25', '26', '27'],
+    1: ['1'],
+    2: ['2'],
+    3: ['3']
   };
 
   let appxCourseId: string | null = null;
