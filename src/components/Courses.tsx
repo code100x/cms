@@ -31,7 +31,8 @@ export const Courses = ({ courses }: { courses: Course[] }) => {
           onClick={() => {
             if (
               course.title.includes('Machine Learning') ||
-              course.title.includes('Harnoor')
+              course.title.includes('Harnoor') ||
+              [4, 7, 20].includes(course.id)
             ) {
               router.push('https://harkirat.classx.co.in/');
             } else {
