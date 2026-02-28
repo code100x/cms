@@ -147,20 +147,38 @@ export const authOptions = {
           if (
             userDb &&
             userDb.password &&
-            (await bcrypt.compare(credentials.password, userDb.password)) &&
-            userDb?.appxAuthToken
+            (await bcrypt.compare(credentials.password, userDb.password))
           ) {
             const jwt = await generateJWT({
               id: userDb.id,
             });
-            await db.user.update({
-              where: {
-                id: userDb.id,
-              },
-              data: {
-                token: jwt,
-              },
-            });
+
+            // Always refresh appxAuthToken from Appx API on login
+            try {
+              const freshUser: AppxSigninResponse = await validateUser(
+                credentials.username,
+                credentials.password,
+              );
+              await db.user.update({
+                where: {
+                  id: userDb.id,
+                },
+                data: {
+                  token: jwt,
+                  appxAuthToken: freshUser.data?.token ?? userDb.appxAuthToken,
+                },
+              });
+            } catch (e) {
+              console.log('Failed to refresh appxAuthToken:', e);
+              await db.user.update({
+                where: {
+                  id: userDb.id,
+                },
+                data: {
+                  token: jwt,
+                },
+              });
+            }
 
             return {
               id: userDb.id,
