@@ -3,6 +3,19 @@ import { NotionAPI } from 'notion-client';
 import db from '@/db';
 const notion = new NotionAPI();
 
+function normalizeRecordMap(recordMap: any) {
+  if (!recordMap?.block) return recordMap;
+  const normalizedBlock: any = {};
+  for (const [key, block] of Object.entries(recordMap.block) as any) {
+    if (block?.value?.value) {
+      normalizedBlock[key] = { ...block, value: block.value.value };
+    } else if (block?.value?.type) {
+      normalizedBlock[key] = block;
+    }
+  }
+  return { ...recordMap, block: normalizedBlock };
+}
+
 export async function GET(req: NextRequest) {
   const url = new URL(req.url);
   const searchParams = new URLSearchParams(url.search);
@@ -15,7 +28,8 @@ export async function GET(req: NextRequest) {
   });
 
   if (notionMetadata?.notionId) {
-    const recordMap = await notion.getPage(notionMetadata?.notionId);
+    const rawRecordMap = await notion.getPage(notionMetadata?.notionId);
+    const recordMap = normalizeRecordMap(rawRecordMap);
     return NextResponse.json({
       recordMap,
     });
