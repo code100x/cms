@@ -7,9 +7,14 @@ function normalizeRecordMap(recordMap: any) {
   if (!recordMap?.block) return recordMap;
   const normalizedBlock: any = {};
   for (const [key, block] of Object.entries(recordMap.block) as any) {
-    if (block?.value?.value) {
+    if (!block?.value) {
+      // Skip role-only entries (no block data) that crash react-notion-x
+      continue;
+    }
+    if (block.value.value?.type) {
+      // Notion API wraps some blocks in nested value.value — unwrap
       normalizedBlock[key] = { ...block, value: block.value.value };
-    } else if (block?.value?.type) {
+    } else {
       normalizedBlock[key] = block;
     }
   }
