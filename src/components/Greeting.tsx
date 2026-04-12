@@ -1,20 +1,21 @@
 'use client';
 
-export const Greeting = () => {
-  // Get the current hour
-  const currentHour = new Date().getHours();
+import { useEffect, useState } from 'react';
 
-  // Determine the appropriate greeting based on the time of day
-  let greeting;
-  if (currentHour >= 4 && currentHour < 12) {
-    greeting = 'Good Morning';
-  } else if (currentHour >= 12 && currentHour < 17) {
-    greeting = 'Good Afternoon';
-  } else if (currentHour >= 17 && currentHour <= 20) {
-    greeting = 'Good Evening';
-  } else {
-    greeting = 'Happy to see you back!';
-  }
+const getGreeting = () => {
+  const currentHour = new Date().getHours();
+  if (currentHour >= 4 && currentHour < 12) return 'Good Morning';
+  if (currentHour >= 12 && currentHour < 17) return 'Good Afternoon';
+  if (currentHour >= 17 && currentHour <= 20) return 'Good Evening';
+  return 'Happy to see you back!';
+};
+
+export const Greeting = () => {
+  const [greeting, setGreeting] = useState('');
+
+  useEffect(() => {
+    setGreeting(getGreeting());
+  }, []);
 
   return greeting;
 };

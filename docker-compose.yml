@@ -9,6 +9,12 @@ services:
     environment:
       - DATABASE_URL=postgresql://postgres:postgres@db:5432/cms?schema=public
       - NEXT_WEBPACK_USEPOLLING=1
+      - NEXT_PUBLIC_BASE_URL_LOCAL=http://localhost:3000
+      - NEXTAUTH_URL=http://localhost:3000
+      - NEXTAUTH_SECRET=NEXTAUTH_SECRET
+      - JWT_SECRET=JWT_SECRET
+      - ADMIN_SECRET=ADMIN_SECRET
+      - LOCAL_CMS_PROVIDER=true
     ports:
       - '3000:3000'
       - '5555:5555'
