@@ -1,16 +1,11 @@
-FROM node:20-alpine
-
+FROM node:20-bullseye-slim
 WORKDIR /usr/src/app
-
+RUN apt-get update && apt-get install -y openssl python3 make g++ && rm -rf /var/lib/apt/lists/*
 COPY package.json pnpm-lock.yaml ./
 COPY prisma ./prisma
-
 RUN npm i pnpm -g
-
-RUN pnpm install
-
+RUN pnpm install --ignore-scripts=false
+RUN cd node_modules/.pnpm/bcrypt@5.1.1/node_modules/bcrypt && npm rebuild
 COPY . .
-
 EXPOSE 3000
-
 CMD ["pnpm", "dev:docker"]
