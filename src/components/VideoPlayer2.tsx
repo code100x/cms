@@ -364,6 +364,9 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
       return;
     }
     let volumeSetTimeout: ReturnType<typeof setInterval> | null = null;
+    let isSpaceHeld = false;
+    let previousPlaybackRate = 1;
+
     const handleKeyPress = (event: KeyboardEvent) => {
       const isShiftPressed = event.shiftKey;
       const isModifierPressed = event.metaKey || event.ctrlKey || event.altKey;
@@ -440,15 +443,18 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
       }
 
       switch (event.code) {
-        case 'Space': // Space bar for play/pause
-          if (player.paused()) {
-            player.play();
-            event.stopPropagation();
-          } else {
-            player.pause();
-            event.stopPropagation();
-          }
+        case 'Space': // Space bar for 2x speed hold
           event.preventDefault();
+          if (event.repeat) {
+            if (!isSpaceHeld) {
+              isSpaceHeld = true;
+              previousPlaybackRate = player.playbackRate();
+              player.playbackRate(2);
+              if (player.paused()) {
+                player.play();
+              }
+            }
+          }
           break;
         case 'ArrowRight': // Right arrow for seeking forward 5 seconds
           player.currentTime(player.currentTime() + 5);
@@ -558,16 +564,26 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
           break;
       }
     };
-    const handleKeyUp = (event: any) => {
+    const handleKeyUp = (event: KeyboardEvent) => {
       if (event.code === 'KeyT') {
         player.playbackRate(1);
+      }
+      if (event.code === 'Space') {
+        event.preventDefault();
+        if (isSpaceHeld) {
+          isSpaceHeld = false;
+          player.playbackRate(previousPlaybackRate);
+          return;
+        } 
+        player.paused() ? player.play(): player.pause() 
       }
     };
     document.addEventListener('keydown', handleKeyPress, { capture: true });
     document.addEventListener('keyup', handleKeyUp);
     // Cleanup function
     return () => {
-      document.removeEventListener('keydown', handleKeyPress);
+      document.removeEventListener('keydown', handleKeyPress,  { capture: true });
+      document.removeEventListener('keyup', handleKeyUp);
     };
   }, [player]);
 
