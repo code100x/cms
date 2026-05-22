@@ -29,8 +29,17 @@ export const verifyJWT = async (token: string): Promise<JWTPayload | null> => {
 };
 
 export const withMobileAuth = async (req: RequestWithUser) => {
-  if (req.headers.get('Auth-Key')) {
-    return NextResponse.next();
+
+  const authKey=req.headers.get('Auth-Key');
+   
+  if (authKey && authKey===process.env.APPX_AUTH_KEY) {
+      const newHeaders = new Headers(req.headers);
+      newHeaders.delete('g');
+      return NextResponse.next({
+      request: {
+        headers: newHeaders,
+      },
+    });
   }
   const token = req.headers.get('Authorization');
 
