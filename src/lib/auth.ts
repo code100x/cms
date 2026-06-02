@@ -110,6 +110,10 @@ async function validateUser(
     data: null,
   };
 }
+// check if the secret exists if not throw a new error
+if (!process.env.NEXTAUTH_SECRET) {
+  throw new Error("NEXTAUTH_SECRET is not defined");
+}
 
 export const authOptions = {
   providers: [
@@ -223,7 +227,7 @@ export const authOptions = {
       },
     }),
   ],
-  secret: process.env.NEXTAUTH_SECRET || 'secr3t',
+  secret: process.env.NEXTAUTH_SECRET, // we have already checked for the secret so does not need to or some string
   callbacks: {
     session: async ({ session, token }) => {
       const newSession: session = session as session;
