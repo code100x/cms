@@ -2,6 +2,7 @@ import {
   getAllCoursesAndContentHierarchy,
   getAllVideos,
   getVideoProgressForUser,
+  getAllContent,
 } from '@/db/course';
 import { authOptions } from '@/lib/auth';
 import { Course } from '@/store/atoms';
@@ -153,7 +154,7 @@ export async function getPurchases(email: string): Promise<CoursesResponse> {
     session?.user?.id || '',
     true,
   );
-  const allVideos = await getAllVideos();
+  const allContents = await getAllContent();
 
   const completedVideosLookup: { [key: string]: boolean } =
     userVideoProgress?.reduce((acc: any, progress) => {
@@ -161,18 +162,34 @@ export async function getPurchases(email: string): Promise<CoursesResponse> {
       return acc;
     }, {});
 
+  const childrenMap = new Map<number, number[]>();
+  allContents.forEach(c => {
+    if (c.parentId) {
+      if (!childrenMap.has(c.parentId)) childrenMap.set(c.parentId, []);
+      childrenMap.get(c.parentId)!.push(c.id);
+    }
+  });
+
   const courses = _courses.map((course) => {
     let totalVideos = 0;
     let totalVideosWatched = 0;
+    
     course.content.forEach(({ contentId }) => {
-      allVideos.forEach(({ parentId, id }) => {
-        if (parentId === contentId) {
-          totalVideos++;
-          if (completedVideosLookup[id]) {
-            totalVideosWatched++;
-          }
+      const queue: number[] = [contentId];
+      while(queue.length > 0) {
+        const currentId = queue.shift()!;
+        const content = allContents.find(c => c.id === currentId);
+        
+        if (content?.type === 'video') {
+           totalVideos++;
+           if (completedVideosLookup[currentId]) {
+              totalVideosWatched++;
+           }
         }
-      });
+        
+        const children = childrenMap.get(currentId) || [];
+        queue.push(...children);
+      }
     });
 
     return {

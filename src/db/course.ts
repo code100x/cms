@@ -166,7 +166,7 @@ export const getNextVideo = async (currentVideoId: number) => {
   return latestContent;
 };
 
-async function getAllContent(): Promise<
+export async function getAllContent(): Promise<
   {
     id: number;
     type: string;
