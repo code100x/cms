@@ -34,7 +34,7 @@ export const Courses = ({ courses }: { courses: Course[] }) => {
               course.title.includes('Harnoor') ||
               [4, 7, 20].includes(course.id)
             ) {
-              router.push('https://harkirat.classx.co.in/');
+              router.push('https://100xdevs.com/');
             } else {
               router.push(`/courses/${course.id}`);
             }

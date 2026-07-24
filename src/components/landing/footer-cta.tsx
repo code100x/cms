@@ -59,7 +59,7 @@ const FooterCTA = () => {
               </Button>
             </Link>
             <Link
-              href={'https://harkirat.classx.co.in/new-courses'}
+              href={'https://100xdevs.com/new-courses'}
               target="_blank"
             >
               <Button

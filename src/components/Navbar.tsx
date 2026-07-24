@@ -130,7 +130,7 @@ export const Navbar = () => {
                   <AppbarAuth />
                   <Button variant={'branding'}>
                     <Link
-                      href={'https://harkirat.classx.co.in/new-courses'}
+                      href={'https://100xdevs.com/new-courses'}
                       target="_blank"
                     >
                       Join now
@@ -160,7 +160,7 @@ export const Navbar = () => {
                 <AppbarAuth />
                   <Button variant={'branding'} className="w-full">
                   <Link
-                      href={'https://harkirat.classx.co.in/new-courses'}
+                      href={'https://100xdevs.com/new-courses'}
                     target="_blank"
                   >
                     Join now

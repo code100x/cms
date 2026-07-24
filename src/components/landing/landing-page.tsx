@@ -73,7 +73,7 @@ export default function LandingPage() {
         >
           <Button size={'lg'} asChild variant={'branding'}>
             <Link
-              href={'https://harkirat.classx.co.in/new-courses'}
+              href={'https://100xdevs.com/new-courses'}
               target="_blank"
             >
               Explore Courses
