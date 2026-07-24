@@ -50,11 +50,11 @@ jobs:
         env:
           PAT: ${{ secrets.PAT }}
         run: |
-          git clone https://github.com/codes30/production-ops.git
+          git clone https://x-access-token:${PAT}@github.com/codes30/production-ops.git
           cd production-ops
           sed -i 's|image: 100xdevs/cms:.*|image: 100xdevs/cms:${{ github.sha }}|' 100xdevs/prod/cms/deployment.yml
           git config user.name "GitHub Actions Bot"
           git config user.email "actions@github.com"
-          git add prod/cms/deployment.yml
+          git add 100xdevs/prod/cms/deployment.yml
           git commit -m "Update cms image to ${{ github.sha }}"
-          git push https://${PAT}@github.com/codes30/production-ops.git main
+          git push https://x-access-token:${PAT}@github.com/codes30/production-ops.git main
